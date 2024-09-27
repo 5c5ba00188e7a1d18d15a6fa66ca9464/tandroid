@@ -111,7 +111,7 @@ public final class MediaCodecInfo {
             upper = bitrateRange.getUpper();
             i = ((Integer) upper).intValue();
         }
-        int i2 = i >= 180000000 ? 1024 : i >= 120000000 ? LiteMode.FLAG_CALLS_ANIMATIONS : i >= 60000000 ? 256 : i >= 30000000 ? 128 : i >= 18000000 ? 64 : i >= 12000000 ? 32 : i >= 7200000 ? 16 : i >= 3600000 ? 8 : i >= 1800000 ? 4 : i >= 800000 ? 2 : 1;
+        int i2 = i >= 180000000 ? 1024 : i >= 120000000 ? 512 : i >= 60000000 ? 256 : i >= 30000000 ? 128 : i >= 18000000 ? 64 : i >= 12000000 ? 32 : i >= 7200000 ? 16 : i >= 3600000 ? 8 : i >= 1800000 ? 4 : i >= 800000 ? 2 : 1;
         MediaCodecInfo.CodecProfileLevel codecProfileLevel = new MediaCodecInfo.CodecProfileLevel();
         codecProfileLevel.profile = 1;
         codecProfileLevel.level = i2;
@@ -243,7 +243,7 @@ public final class MediaCodecInfo {
                 i |= 1024;
             }
             if (!this.adaptive && (format.width != format2.width || format.height != format2.height)) {
-                i |= LiteMode.FLAG_CALLS_ANIMATIONS;
+                i |= 512;
             }
             if (!Util.areEqual(format.colorInfo, format2.colorInfo)) {
                 i |= 2048;

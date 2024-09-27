@@ -14,8 +14,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarDrawable;
@@ -115,7 +114,7 @@ public class AccountSelectCell extends FrameLayout {
 
     public void setAccount(int i, boolean z) {
         this.accountNumber = i;
-        TLRPC$User currentUser = UserConfig.getInstance(i).getCurrentUser();
+        TLRPC.User currentUser = UserConfig.getInstance(i).getCurrentUser();
         this.avatarDrawable.setInfo(i, currentUser);
         this.textView.setText(ContactsController.formatName(currentUser.first_name, currentUser.last_name));
         this.imageView.getImageReceiver().setCurrentAccount(i);
@@ -127,26 +126,26 @@ public class AccountSelectCell extends FrameLayout {
     public void setObject(TLObject tLObject) {
         TextView textView;
         String str;
-        TLRPC$User tLRPC$User;
-        if (tLObject instanceof TLRPC$User) {
-            TLRPC$User tLRPC$User2 = (TLRPC$User) tLObject;
-            this.avatarDrawable.setInfo(tLRPC$User2);
+        TLRPC.User user;
+        if (tLObject instanceof TLRPC.User) {
+            TLRPC.User user2 = (TLRPC.User) tLObject;
+            this.avatarDrawable.setInfo(user2);
             textView = this.infoTextView;
-            str = ContactsController.formatName(tLRPC$User2.first_name, tLRPC$User2.last_name);
-            tLRPC$User = tLRPC$User2;
+            str = ContactsController.formatName(user2.first_name, user2.last_name);
+            user = user2;
         } else {
-            TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) tLObject;
-            this.avatarDrawable.setInfo(tLRPC$Chat);
+            TLRPC.Chat chat = (TLRPC.Chat) tLObject;
+            this.avatarDrawable.setInfo(chat);
             textView = this.infoTextView;
-            if (tLRPC$Chat == null) {
+            if (chat == null) {
                 str = "";
-                tLRPC$User = tLRPC$Chat;
+                user = chat;
             } else {
-                str = tLRPC$Chat.title;
-                tLRPC$User = tLRPC$Chat;
+                str = chat.title;
+                user = chat;
             }
         }
         textView.setText(str);
-        this.imageView.setForUserOrChat(tLRPC$User, this.avatarDrawable);
+        this.imageView.setForUserOrChat(user, this.avatarDrawable);
     }
 }

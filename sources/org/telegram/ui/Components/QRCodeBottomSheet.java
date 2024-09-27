@@ -189,7 +189,7 @@ public class QRCodeBottomSheet extends BottomSheet {
         TextView textView2 = this.button2TextView;
         if (textView2 != null) {
             textView2.setTextColor(Theme.getColor(i));
-            this.button2TextView.setBackground(Theme.createSelectorDrawable(ColorUtils.setAlphaComponent(Theme.getColor(i), Math.min((int) NotificationCenter.didClearDatabase, Color.alpha(Theme.getColor(Theme.key_listSelector)) * 2)), 7));
+            this.button2TextView.setBackground(Theme.createSelectorDrawable(ColorUtils.setAlphaComponent(Theme.getColor(i), Math.min((int) NotificationCenter.messagePlayingSpeedChanged, Color.alpha(Theme.getColor(Theme.key_listSelector)) * 2)), 7));
         }
         TextView textView3 = this.help;
         int i2 = Theme.key_windowBackgroundWhiteGrayText;

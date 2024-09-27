@@ -24,16 +24,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$ChatPhoto;
-import org.telegram.tgnet.TLRPC$EmojiStatus;
-import org.telegram.tgnet.TLRPC$EncryptedChat;
-import org.telegram.tgnet.TLRPC$FileLocation;
-import org.telegram.tgnet.TLRPC$TL_emojiStatus;
-import org.telegram.tgnet.TLRPC$TL_emojiStatusUntil;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$UserProfilePhoto;
-import org.telegram.tgnet.TLRPC$UserStatus;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
@@ -68,9 +59,9 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     private CharSequence currentStatus;
     protected long dialogId;
     private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable emojiStatus;
-    private TLRPC$EncryptedChat encryptedChat;
+    private TLRPC.EncryptedChat encryptedChat;
     private ImageView imageView;
-    private TLRPC$FileLocation lastAvatar;
+    private TLRPC.FileLocation lastAvatar;
     private String lastName;
     private int lastStatus;
     protected SimpleTextView nameTextView;
@@ -504,7 +495,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         setData(obj, null, charSequence, charSequence2, i, z);
     }
 
-    public void setData(Object obj, TLRPC$EncryptedChat tLRPC$EncryptedChat, CharSequence charSequence, CharSequence charSequence2, int i, boolean z) {
+    public void setData(Object obj, TLRPC.EncryptedChat encryptedChat, CharSequence charSequence, CharSequence charSequence2, int i, boolean z) {
         if (obj == null && charSequence == null && charSequence2 == null) {
             this.currentStatus = null;
             this.currentName = null;
@@ -515,7 +506,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             this.avatarImageView.setImageDrawable(null);
             return;
         }
-        this.encryptedChat = tLRPC$EncryptedChat;
+        this.encryptedChat = encryptedChat;
         this.currentStatus = charSequence2;
         if (charSequence != null) {
             try {
@@ -547,8 +538,8 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         int i;
         String str;
         Object chat;
-        TLRPC$User tLRPC$User;
-        TLRPC$EncryptedChat tLRPC$EncryptedChat;
+        TLRPC.User user;
+        TLRPC.EncryptedChat encryptedChat;
         int i2;
         UserCell userCell;
         CharSequence charSequence2;
@@ -592,8 +583,8 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         }
         String str2 = str;
         if (DialogObject.isEncryptedDialog(notificationException.did)) {
-            tLRPC$EncryptedChat = MessagesController.getInstance(this.currentAccount).getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(notificationException.did)));
-            if (tLRPC$EncryptedChat == null || (tLRPC$User = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tLRPC$EncryptedChat.user_id))) == null) {
+            encryptedChat = MessagesController.getInstance(this.currentAccount).getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(notificationException.did)));
+            if (encryptedChat == null || (user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(encryptedChat.user_id))) == null) {
                 return;
             }
             i2 = 0;
@@ -612,14 +603,14 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                     return;
                 }
             }
-            tLRPC$User = chat;
-            tLRPC$EncryptedChat = null;
+            user = chat;
+            encryptedChat = null;
             i2 = 0;
             userCell = this;
             charSequence2 = charSequence;
             z2 = z;
         }
-        userCell.setData(tLRPC$User, tLRPC$EncryptedChat, charSequence2, str2, i2, z2);
+        userCell.setData(user, encryptedChat, charSequence2, str2, i2, z2);
     }
 
     public void setFromUItem(int i, UItem uItem, boolean z) {
@@ -627,8 +618,8 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         int i3;
         String str;
         String formatPluralStringComma;
-        TLRPC$Chat tLRPC$Chat;
-        TLRPC$Chat tLRPC$Chat2;
+        TLRPC.Chat chat;
+        TLRPC.Chat chat2;
         String str2 = uItem.chatType;
         if (str2 != null) {
             setData(str2, uItem.text, null, 0, z);
@@ -638,55 +629,55 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         int i4 = (j > 0L ? 1 : (j == 0L ? 0 : -1));
         MessagesController messagesController = MessagesController.getInstance(i);
         if (i4 > 0) {
-            TLRPC$User user = messagesController.getUser(Long.valueOf(j));
+            TLRPC.User user = messagesController.getUser(Long.valueOf(j));
             if (user == null) {
                 return;
             }
             if (user.bot) {
                 i2 = R.string.Bot;
-                tLRPC$Chat2 = user;
+                chat2 = user;
             } else if (user.contact) {
                 i2 = R.string.FilterContact;
-                tLRPC$Chat2 = user;
+                chat2 = user;
             } else {
                 i2 = R.string.FilterNonContact;
-                tLRPC$Chat2 = user;
+                chat2 = user;
             }
         } else {
-            TLRPC$Chat chat = messagesController.getChat(Long.valueOf(-j));
-            if (chat == null) {
+            TLRPC.Chat chat3 = messagesController.getChat(Long.valueOf(-j));
+            if (chat3 == null) {
                 return;
             }
-            if (chat.participants_count != 0) {
-                if (ChatObject.isChannelAndNotMegaGroup(chat)) {
-                    i3 = chat.participants_count;
+            if (chat3.participants_count != 0) {
+                if (ChatObject.isChannelAndNotMegaGroup(chat3)) {
+                    i3 = chat3.participants_count;
                     str = "Subscribers";
                 } else {
-                    i3 = chat.participants_count;
+                    i3 = chat3.participants_count;
                     str = "Members";
                 }
                 formatPluralStringComma = LocaleController.formatPluralStringComma(str, i3);
-                tLRPC$Chat = chat;
-                setData(tLRPC$Chat, null, formatPluralStringComma, 0, z);
-            } else if (ChatObject.isPublic(chat)) {
-                if (!ChatObject.isChannel(chat) || chat.megagroup) {
+                chat = chat3;
+                setData(chat, null, formatPluralStringComma, 0, z);
+            } else if (ChatObject.isPublic(chat3)) {
+                if (!ChatObject.isChannel(chat3) || chat3.megagroup) {
                     i2 = R.string.MegaPublic;
-                    tLRPC$Chat2 = chat;
+                    chat2 = chat3;
                 } else {
                     i2 = R.string.ChannelPublic;
-                    tLRPC$Chat2 = chat;
+                    chat2 = chat3;
                 }
-            } else if (!ChatObject.isChannel(chat) || chat.megagroup) {
+            } else if (!ChatObject.isChannel(chat3) || chat3.megagroup) {
                 i2 = R.string.MegaPrivate;
-                tLRPC$Chat2 = chat;
+                chat2 = chat3;
             } else {
                 i2 = R.string.ChannelPrivate;
-                tLRPC$Chat2 = chat;
+                chat2 = chat3;
             }
         }
         formatPluralStringComma = LocaleController.getString(i2);
-        tLRPC$Chat = tLRPC$Chat2;
-        setData(tLRPC$Chat, null, formatPluralStringComma, 0, z);
+        chat = chat2;
+        setData(chat, null, formatPluralStringComma, 0, z);
     }
 
     public void setNameTypeface(Typeface typeface) {
@@ -717,68 +708,68 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         this.selfAsSavedMessages = z;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:214:0x03bc  */
-    /* JADX WARN: Removed duplicated region for block: B:215:0x03bf  */
-    /* JADX WARN: Removed duplicated region for block: B:219:0x03ce  */
-    /* JADX WARN: Removed duplicated region for block: B:220:0x03d6  */
-    /* JADX WARN: Removed duplicated region for block: B:226:0x03e7  */
-    /* JADX WARN: Removed duplicated region for block: B:232:0x040a  */
-    /* JADX WARN: Removed duplicated region for block: B:235:0x0240 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:237:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:216:0x03c8  */
+    /* JADX WARN: Removed duplicated region for block: B:217:0x03cb  */
+    /* JADX WARN: Removed duplicated region for block: B:221:0x03da  */
+    /* JADX WARN: Removed duplicated region for block: B:222:0x03e2  */
+    /* JADX WARN: Removed duplicated region for block: B:228:0x03f3  */
+    /* JADX WARN: Removed duplicated region for block: B:234:0x0416  */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x0240 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:239:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void update(int i) {
-        TLRPC$User tLRPC$User;
-        TLRPC$Chat tLRPC$Chat;
-        TLRPC$FileLocation tLRPC$FileLocation;
+        TLRPC.User user;
+        TLRPC.Chat chat;
+        TLRPC.FileLocation fileLocation;
         String str;
         CharSequence charSequence;
         SimpleTextView simpleTextView;
         int i2;
-        TLRPC$UserStatus tLRPC$UserStatus;
+        TLRPC.UserStatus userStatus;
         CharSequence formatUserStatus;
         TextView textView;
         TextView textView2;
         SimpleTextView simpleTextView2;
         Drawable drawable;
         AvatarDrawable avatarDrawable;
-        TLRPC$FileLocation tLRPC$FileLocation2;
+        TLRPC.FileLocation fileLocation2;
         this.dialogId = 0L;
         Object obj = this.currentObject;
-        if (obj instanceof TLRPC$User) {
-            tLRPC$User = (TLRPC$User) obj;
-            TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto = tLRPC$User.photo;
-            TLRPC$FileLocation tLRPC$FileLocation3 = tLRPC$UserProfilePhoto != null ? tLRPC$UserProfilePhoto.photo_small : null;
-            this.dialogId = tLRPC$User.id;
-            tLRPC$FileLocation = tLRPC$FileLocation3;
-            tLRPC$Chat = null;
-        } else if (obj instanceof TLRPC$Chat) {
-            TLRPC$Chat tLRPC$Chat2 = (TLRPC$Chat) obj;
-            TLRPC$ChatPhoto tLRPC$ChatPhoto = tLRPC$Chat2.photo;
-            TLRPC$FileLocation tLRPC$FileLocation4 = tLRPC$ChatPhoto != null ? tLRPC$ChatPhoto.photo_small : null;
-            this.dialogId = tLRPC$Chat2.id;
-            tLRPC$FileLocation = tLRPC$FileLocation4;
-            tLRPC$Chat = tLRPC$Chat2;
-            tLRPC$User = null;
+        if (obj instanceof TLRPC.User) {
+            user = (TLRPC.User) obj;
+            TLRPC.UserProfilePhoto userProfilePhoto = user.photo;
+            TLRPC.FileLocation fileLocation3 = userProfilePhoto != null ? userProfilePhoto.photo_small : null;
+            this.dialogId = user.id;
+            fileLocation = fileLocation3;
+            chat = null;
+        } else if (obj instanceof TLRPC.Chat) {
+            TLRPC.Chat chat2 = (TLRPC.Chat) obj;
+            TLRPC.ChatPhoto chatPhoto = chat2.photo;
+            TLRPC.FileLocation fileLocation4 = chatPhoto != null ? chatPhoto.photo_small : null;
+            this.dialogId = chat2.id;
+            fileLocation = fileLocation4;
+            chat = chat2;
+            user = null;
         } else {
-            tLRPC$User = null;
-            tLRPC$Chat = null;
-            tLRPC$FileLocation = null;
+            user = null;
+            chat = null;
+            fileLocation = null;
         }
         String str2 = "";
         if (i != 0) {
-            boolean z = (i & MessagesController.UPDATE_MASK_AVATAR) != 0 && (((tLRPC$FileLocation2 = this.lastAvatar) != null && tLRPC$FileLocation == null) || ((tLRPC$FileLocation2 == null && tLRPC$FileLocation != null) || !(tLRPC$FileLocation2 == null || (tLRPC$FileLocation2.volume_id == tLRPC$FileLocation.volume_id && tLRPC$FileLocation2.local_id == tLRPC$FileLocation.local_id))));
-            if (tLRPC$User != null && !z && (i & MessagesController.UPDATE_MASK_STATUS) != 0) {
-                TLRPC$UserStatus tLRPC$UserStatus2 = tLRPC$User.status;
-                if ((tLRPC$UserStatus2 != null ? tLRPC$UserStatus2.expires : 0) != this.lastStatus) {
+            boolean z = (i & MessagesController.UPDATE_MASK_AVATAR) != 0 && (((fileLocation2 = this.lastAvatar) != null && fileLocation == null) || ((fileLocation2 == null && fileLocation != null) || !(fileLocation2 == null || (fileLocation2.volume_id == fileLocation.volume_id && fileLocation2.local_id == fileLocation.local_id))));
+            if (user != null && !z && (i & MessagesController.UPDATE_MASK_STATUS) != 0) {
+                TLRPC.UserStatus userStatus2 = user.status;
+                if ((userStatus2 != null ? userStatus2.expires : 0) != this.lastStatus) {
                     z = true;
                 }
             }
             if (z || this.currentName != null || this.lastName == null || (i & MessagesController.UPDATE_MASK_NAME) == 0) {
                 str = null;
             } else {
-                str = AndroidUtilities.removeDiacritics(tLRPC$User != null ? UserObject.getUserName(tLRPC$User) : tLRPC$Chat == null ? "" : tLRPC$Chat.title);
+                str = AndroidUtilities.removeDiacritics(user != null ? UserObject.getUserName(user) : chat == null ? "" : chat.title);
                 if (!str.equals(this.lastName)) {
                     z = true;
                 }
@@ -902,20 +893,20 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             this.currentStatus = "";
         } else {
             ((FrameLayout.LayoutParams) this.nameTextView.getLayoutParams()).topMargin = AndroidUtilities.dp(10.0f);
-            if (tLRPC$User != null) {
-                if (this.selfAsSavedMessages && UserObject.isUserSelf(tLRPC$User)) {
+            if (user != null) {
+                if (this.selfAsSavedMessages && UserObject.isUserSelf(user)) {
                     this.nameTextView.setText(LocaleController.getString(R.string.SavedMessages), true);
                     this.statusTextView.setText(null);
                     this.avatarDrawable.setAvatarType(1);
-                    this.avatarImageView.setImage((ImageLocation) null, "50_50", this.avatarDrawable, tLRPC$User);
+                    this.avatarImageView.setImage((ImageLocation) null, "50_50", this.avatarDrawable, user);
                     ((FrameLayout.LayoutParams) this.nameTextView.getLayoutParams()).topMargin = AndroidUtilities.dp(19.0f);
                     return;
                 }
-                this.avatarDrawable.setInfo(this.currentAccount, tLRPC$User);
-                TLRPC$UserStatus tLRPC$UserStatus3 = tLRPC$User.status;
-                this.lastStatus = tLRPC$UserStatus3 != null ? tLRPC$UserStatus3.expires : 0;
-            } else if (tLRPC$Chat != null) {
-                this.avatarDrawable.setInfo(this.currentAccount, tLRPC$Chat);
+                this.avatarDrawable.setInfo(this.currentAccount, user);
+                TLRPC.UserStatus userStatus3 = user.status;
+                this.lastStatus = userStatus3 != null ? userStatus3.expires : 0;
+            } else if (chat != null) {
+                this.avatarDrawable.setInfo(this.currentAccount, chat);
             } else {
                 CharSequence charSequence2 = this.currentName;
                 if (charSequence2 != null) {
@@ -930,10 +921,10 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             this.lastName = null;
             this.nameTextView.setText(charSequence3);
         } else {
-            if (tLRPC$User == null) {
-                if (tLRPC$Chat != null) {
+            if (user == null) {
+                if (chat != null) {
                     if (str == null) {
-                        str = tLRPC$Chat.title;
+                        str = chat.title;
                     }
                 }
                 this.lastName = str2;
@@ -946,7 +937,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                 }
                 this.nameTextView.setText(charSequence);
             } else if (str == null) {
-                str = UserObject.getUserName(tLRPC$User);
+                str = UserObject.getUserName(user);
             }
             str2 = AndroidUtilities.removeDiacritics(str);
             this.lastName = str2;
@@ -955,15 +946,15 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             }
             this.nameTextView.setText(charSequence);
         }
-        if (tLRPC$User == null || !MessagesController.getInstance(this.currentAccount).isPremiumUser(tLRPC$User)) {
+        if (user == null || !MessagesController.getInstance(this.currentAccount).isPremiumUser(user) || MessagesController.getInstance(this.currentAccount).premiumFeaturesBlocked()) {
             this.nameTextView.setRightDrawable((Drawable) null);
             this.nameTextView.setRightDrawableTopPadding(0);
         } else {
-            TLRPC$EmojiStatus tLRPC$EmojiStatus = tLRPC$User.emoji_status;
-            if (!(tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil) || ((TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus).until <= ((int) (System.currentTimeMillis() / 1000))) {
-                TLRPC$EmojiStatus tLRPC$EmojiStatus2 = tLRPC$User.emoji_status;
-                if (tLRPC$EmojiStatus2 instanceof TLRPC$TL_emojiStatus) {
-                    this.emojiStatus.set(((TLRPC$TL_emojiStatus) tLRPC$EmojiStatus2).document_id, false);
+            TLRPC.EmojiStatus emojiStatus = user.emoji_status;
+            if (!(emojiStatus instanceof TLRPC.TL_emojiStatusUntil) || ((TLRPC.TL_emojiStatusUntil) emojiStatus).until <= ((int) (System.currentTimeMillis() / 1000))) {
+                TLRPC.EmojiStatus emojiStatus2 = user.emoji_status;
+                if (emojiStatus2 instanceof TLRPC.TL_emojiStatus) {
+                    this.emojiStatus.set(((TLRPC.TL_emojiStatus) emojiStatus2).document_id, false);
                 } else {
                     if (this.premiumDrawable == null) {
                         this.premiumDrawable = getContext().getResources().getDrawable(R.drawable.msg_premium_liststar).mutate();
@@ -985,7 +976,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                     this.nameTextView.setRightDrawableTopPadding(-AndroidUtilities.dp(0.5f));
                 }
             } else {
-                this.emojiStatus.set(((TLRPC$TL_emojiStatusUntil) tLRPC$User.emoji_status).document_id, false);
+                this.emojiStatus.set(((TLRPC.TL_emojiStatusUntil) user.emoji_status).document_id, false);
             }
             this.emojiStatus.setColor(Integer.valueOf(Theme.getColor(Theme.key_chats_verifiedBackground, this.resourcesProvider)));
             simpleTextView2 = this.nameTextView;
@@ -994,24 +985,24 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             this.nameTextView.setRightDrawableTopPadding(-AndroidUtilities.dp(0.5f));
         }
         if (this.currentStatus == null) {
-            if (tLRPC$User != null) {
-                if (tLRPC$User.bot) {
+            if (user != null) {
+                if (user.bot) {
                     this.statusTextView.setTextColor(this.statusColor);
-                    if (tLRPC$User.bot_chat_history || ((textView = this.adminTextView) != null && textView.getVisibility() == 0)) {
+                    if (user.bot_chat_history || ((textView = this.adminTextView) != null && textView.getVisibility() == 0)) {
                         simpleTextView = this.statusTextView;
                         i2 = R.string.BotStatusRead;
                     } else {
                         simpleTextView = this.statusTextView;
                         i2 = R.string.BotStatusCantRead;
                     }
-                } else if (tLRPC$User.id == UserConfig.getInstance(this.currentAccount).getClientUserId() || (((tLRPC$UserStatus = tLRPC$User.status) != null && tLRPC$UserStatus.expires > ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) || MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(tLRPC$User.id)))) {
+                } else if (user.id == UserConfig.getInstance(this.currentAccount).getClientUserId() || (((userStatus = user.status) != null && userStatus.expires > ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) || MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(user.id)))) {
                     this.statusTextView.setTextColor(this.statusOnlineColor);
                     simpleTextView = this.statusTextView;
                     i2 = R.string.Online;
                 } else {
                     this.statusTextView.setTextColor(this.statusColor);
                     simpleTextView = this.statusTextView;
-                    formatUserStatus = LocaleController.formatUserStatus(this.currentAccount, tLRPC$User);
+                    formatUserStatus = LocaleController.formatUserStatus(this.currentAccount, user);
                 }
                 formatUserStatus = LocaleController.getString(i2);
             }
@@ -1019,19 +1010,19 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                 this.imageView.setVisibility(this.currentDrawable == 0 ? 8 : 0);
                 this.imageView.setImageResource(this.currentDrawable);
             }
-            this.lastAvatar = tLRPC$FileLocation;
-            if (tLRPC$User != null) {
-                this.avatarImageView.setForUserOrChat(tLRPC$User, this.avatarDrawable);
+            this.lastAvatar = fileLocation;
+            if (user != null) {
+                this.avatarImageView.setForUserOrChat(user, this.avatarDrawable);
             } else {
                 BackupImageView backupImageView = this.avatarImageView;
                 AvatarDrawable avatarDrawable2 = this.avatarDrawable;
-                if (tLRPC$Chat != null) {
-                    backupImageView.setForUserOrChat(tLRPC$Chat, avatarDrawable2);
+                if (chat != null) {
+                    backupImageView.setForUserOrChat(chat, avatarDrawable2);
                 } else {
                     backupImageView.setImageDrawable(avatarDrawable2);
                 }
             }
-            this.avatarImageView.setRoundRadius((tLRPC$Chat == null && tLRPC$Chat.forum) ? AndroidUtilities.dp(14.0f) : AndroidUtilities.dp(24.0f));
+            this.avatarImageView.setRoundRadius((chat == null && chat.forum) ? AndroidUtilities.dp(14.0f) : AndroidUtilities.dp(24.0f));
             this.nameTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, this.resourcesProvider));
             textView2 = this.adminTextView;
             if (textView2 != null) {
@@ -1047,10 +1038,10 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         if (this.imageView.getVisibility() == 0) {
             this.imageView.setVisibility(this.currentDrawable == 0 ? 8 : 0);
             this.imageView.setImageResource(this.currentDrawable);
-            this.lastAvatar = tLRPC$FileLocation;
-            if (tLRPC$User != null) {
+            this.lastAvatar = fileLocation;
+            if (user != null) {
             }
-            this.avatarImageView.setRoundRadius((tLRPC$Chat == null && tLRPC$Chat.forum) ? AndroidUtilities.dp(14.0f) : AndroidUtilities.dp(24.0f));
+            this.avatarImageView.setRoundRadius((chat == null && chat.forum) ? AndroidUtilities.dp(14.0f) : AndroidUtilities.dp(24.0f));
             this.nameTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, this.resourcesProvider));
             textView2 = this.adminTextView;
             if (textView2 != null) {
@@ -1058,10 +1049,10 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         }
         this.imageView.setVisibility(this.currentDrawable == 0 ? 8 : 0);
         this.imageView.setImageResource(this.currentDrawable);
-        this.lastAvatar = tLRPC$FileLocation;
-        if (tLRPC$User != null) {
+        this.lastAvatar = fileLocation;
+        if (user != null) {
         }
-        this.avatarImageView.setRoundRadius((tLRPC$Chat == null && tLRPC$Chat.forum) ? AndroidUtilities.dp(14.0f) : AndroidUtilities.dp(24.0f));
+        this.avatarImageView.setRoundRadius((chat == null && chat.forum) ? AndroidUtilities.dp(14.0f) : AndroidUtilities.dp(24.0f));
         this.nameTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, this.resourcesProvider));
         textView2 = this.adminTextView;
         if (textView2 != null) {

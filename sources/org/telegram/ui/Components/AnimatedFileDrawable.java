@@ -28,7 +28,7 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.utils.BitmapsCache;
-import org.telegram.tgnet.TLRPC$Document;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.AnimatedFileDrawable;
 /* loaded from: classes3.dex */
 public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, BitmapsCache.Cacheable {
@@ -54,7 +54,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     private boolean decoderCreated;
     private int decoderTryCount;
     private boolean destroyWhenDone;
-    private final TLRPC$Document document;
+    private final TLRPC.Document document;
     private final RectF dstRect;
     private final RectF[] dstRectBackground;
     private float endTime;
@@ -186,8 +186,8 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         }
     }
 
-    public AnimatedFileDrawable(File file, boolean z, long j, int i, TLRPC$Document tLRPC$Document, ImageLocation imageLocation, Object obj, long j2, int i2, boolean z2, int i3, int i4, BitmapsCache.CacheOptions cacheOptions) {
-        this(file, z, j, i, tLRPC$Document, imageLocation, obj, j2, i2, z2, i3, i4, cacheOptions, tLRPC$Document != null ? 1 : 0);
+    public AnimatedFileDrawable(File file, boolean z, long j, int i, TLRPC.Document document, ImageLocation imageLocation, Object obj, long j2, int i2, boolean z2, int i3, int i4, BitmapsCache.CacheOptions cacheOptions) {
+        this(file, z, j, i, document, imageLocation, obj, j2, i2, z2, i3, i4, cacheOptions, document != null ? 1 : 0);
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:36:0x0150, code lost:
@@ -196,7 +196,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public AnimatedFileDrawable(File file, boolean z, long j, int i, TLRPC$Document tLRPC$Document, ImageLocation imageLocation, Object obj, long j2, int i2, boolean z2, int i3, int i4, BitmapsCache.CacheOptions cacheOptions, int i5) {
+    public AnimatedFileDrawable(File file, boolean z, long j, int i, TLRPC.Document document, ImageLocation imageLocation, Object obj, long j2, int i2, boolean z2, int i3, int i4, BitmapsCache.CacheOptions cacheOptions, int i5) {
         long j3;
         boolean z3;
         this.USE_BITMAP_SHADER = Build.VERSION.SDK_INT < 29;
@@ -475,13 +475,13 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         this.renderingHeight = i4;
         this.renderingWidth = i3;
         this.precache = cacheOptions != null && i3 > 0 && i4 > 0;
-        this.document = tLRPC$Document;
+        this.document = document;
         getPaint().setFlags(3);
-        if (j == 0 || (tLRPC$Document == null && imageLocation == null)) {
+        if (j == 0 || (document == null && imageLocation == null)) {
             j3 = 0;
         } else {
             j3 = 0;
-            this.stream = new AnimatedFileDrawableStream(tLRPC$Document, imageLocation, obj, i2, z2, i, i5);
+            this.stream = new AnimatedFileDrawableStream(document, imageLocation, obj, i2, z2, i, i5);
         }
         if (z && !this.precache) {
             this.nativePtr = createDecoder(file.getAbsolutePath(), iArr, this.currentAccount, this.streamFileSize, this.stream, z2);
@@ -515,8 +515,8 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         }
     }
 
-    public AnimatedFileDrawable(File file, boolean z, long j, int i, TLRPC$Document tLRPC$Document, ImageLocation imageLocation, Object obj, long j2, int i2, boolean z2, BitmapsCache.CacheOptions cacheOptions) {
-        this(file, z, j, i, tLRPC$Document, imageLocation, obj, j2, i2, z2, 0, 0, cacheOptions);
+    public AnimatedFileDrawable(File file, boolean z, long j, int i, TLRPC.Document document, ImageLocation imageLocation, Object obj, long j2, int i2, boolean z2, BitmapsCache.CacheOptions cacheOptions) {
+        this(file, z, j, i, document, imageLocation, obj, j2, i2, z2, 0, 0, cacheOptions);
     }
 
     static /* synthetic */ int access$1010(AnimatedFileDrawable animatedFileDrawable) {
@@ -1185,7 +1185,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
             File file = this.path;
             long j = this.streamFileSize;
             int i = this.streamLoadingPriority;
-            TLRPC$Document document = animatedFileDrawableStream.getDocument();
+            TLRPC.Document document = animatedFileDrawableStream.getDocument();
             ImageLocation location = this.stream.getLocation();
             Object parentObject = this.stream.getParentObject();
             long j2 = this.pendingSeekToUI;
@@ -1196,11 +1196,11 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
             File file2 = this.path;
             long j3 = this.streamFileSize;
             int i3 = this.streamLoadingPriority;
-            TLRPC$Document tLRPC$Document = this.document;
+            TLRPC.Document document2 = this.document;
             long j4 = this.pendingSeekToUI;
             int i4 = this.currentAccount;
             AnimatedFileDrawableStream animatedFileDrawableStream3 = this.stream;
-            animatedFileDrawable = new AnimatedFileDrawable(file2, false, j3, i3, tLRPC$Document, null, null, j4, i4, animatedFileDrawableStream3 != null && animatedFileDrawableStream3.isPreview(), null);
+            animatedFileDrawable = new AnimatedFileDrawable(file2, false, j3, i3, document2, null, null, j4, i4, animatedFileDrawableStream3 != null && animatedFileDrawableStream3.isPreview(), null);
         }
         int[] iArr = animatedFileDrawable.metaData;
         int[] iArr2 = this.metaData;

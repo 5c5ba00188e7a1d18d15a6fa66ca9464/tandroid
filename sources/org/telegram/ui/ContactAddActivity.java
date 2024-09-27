@@ -39,21 +39,7 @@ import org.telegram.messenger.UserObject;
 import org.telegram.messenger.utils.PhotoUtilities;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$FileLocation;
-import org.telegram.tgnet.TLRPC$InputFile;
-import org.telegram.tgnet.TLRPC$Photo;
-import org.telegram.tgnet.TLRPC$PhotoSize;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_messageActionSuggestProfilePhoto;
-import org.telegram.tgnet.TLRPC$TL_messageService;
-import org.telegram.tgnet.TLRPC$TL_peerUser;
-import org.telegram.tgnet.TLRPC$TL_photo;
-import org.telegram.tgnet.TLRPC$TL_photos_photo;
-import org.telegram.tgnet.TLRPC$TL_photos_uploadContactProfilePhoto;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$UserFull;
-import org.telegram.tgnet.TLRPC$UserProfilePhoto;
-import org.telegram.tgnet.TLRPC$VideoSize;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -73,7 +59,7 @@ import org.telegram.ui.LNavigation.NavigationExt;
 /* loaded from: classes4.dex */
 public class ContactAddActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, ImageUpdater.ImageUpdaterDelegate {
     private boolean addContact;
-    private TLRPC$FileLocation avatar;
+    private TLRPC.FileLocation avatar;
     private AnimatorSet avatarAnimation;
     private AvatarDrawable avatarDrawable;
     private BackupImageView avatarImage;
@@ -99,7 +85,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
     private String phone;
     private int photoSelectedType;
     private int photoSelectedTypeFinal;
-    private TLRPC$Photo prevAvatar;
+    private TLRPC.Photo prevAvatar;
     private Theme.ResourcesProvider resourcesProvider;
     MessageObject suggestPhotoMessageFinal;
     private long user_id;
@@ -120,42 +106,42 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         this.imageUpdater = new ImageUpdater(true, 0, true);
     }
 
-    private void createServiceMessageLocal(TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$PhotoSize tLRPC$PhotoSize2, boolean z) {
-        TLRPC$TL_messageService tLRPC$TL_messageService = new TLRPC$TL_messageService();
-        tLRPC$TL_messageService.random_id = SendMessagesHelper.getInstance(this.currentAccount).getNextRandomId();
-        tLRPC$TL_messageService.dialog_id = this.user_id;
-        tLRPC$TL_messageService.unread = true;
-        tLRPC$TL_messageService.out = true;
+    private void createServiceMessageLocal(TLRPC.PhotoSize photoSize, TLRPC.PhotoSize photoSize2, boolean z) {
+        TLRPC.TL_messageService tL_messageService = new TLRPC.TL_messageService();
+        tL_messageService.random_id = SendMessagesHelper.getInstance(this.currentAccount).getNextRandomId();
+        tL_messageService.dialog_id = this.user_id;
+        tL_messageService.unread = true;
+        tL_messageService.out = true;
         int newMessageId = getUserConfig().getNewMessageId();
-        tLRPC$TL_messageService.id = newMessageId;
-        tLRPC$TL_messageService.local_id = newMessageId;
-        TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
-        tLRPC$TL_messageService.from_id = tLRPC$TL_peerUser;
-        tLRPC$TL_peerUser.user_id = getUserConfig().getClientUserId();
-        tLRPC$TL_messageService.flags |= 256;
-        TLRPC$TL_peerUser tLRPC$TL_peerUser2 = new TLRPC$TL_peerUser();
-        tLRPC$TL_messageService.peer_id = tLRPC$TL_peerUser2;
-        tLRPC$TL_peerUser2.user_id = this.user_id;
-        tLRPC$TL_messageService.date = getConnectionsManager().getCurrentTime();
-        TLRPC$TL_messageActionSuggestProfilePhoto tLRPC$TL_messageActionSuggestProfilePhoto = new TLRPC$TL_messageActionSuggestProfilePhoto();
-        tLRPC$TL_messageService.action = tLRPC$TL_messageActionSuggestProfilePhoto;
-        TLRPC$TL_photo tLRPC$TL_photo = new TLRPC$TL_photo();
-        tLRPC$TL_messageActionSuggestProfilePhoto.photo = tLRPC$TL_photo;
-        tLRPC$TL_photo.sizes.add(tLRPC$PhotoSize);
-        tLRPC$TL_messageActionSuggestProfilePhoto.photo.sizes.add(tLRPC$PhotoSize2);
-        tLRPC$TL_messageActionSuggestProfilePhoto.video = z;
-        tLRPC$TL_messageActionSuggestProfilePhoto.photo.file_reference = new byte[0];
+        tL_messageService.id = newMessageId;
+        tL_messageService.local_id = newMessageId;
+        TLRPC.TL_peerUser tL_peerUser = new TLRPC.TL_peerUser();
+        tL_messageService.from_id = tL_peerUser;
+        tL_peerUser.user_id = getUserConfig().getClientUserId();
+        tL_messageService.flags |= 256;
+        TLRPC.TL_peerUser tL_peerUser2 = new TLRPC.TL_peerUser();
+        tL_messageService.peer_id = tL_peerUser2;
+        tL_peerUser2.user_id = this.user_id;
+        tL_messageService.date = getConnectionsManager().getCurrentTime();
+        TLRPC.TL_messageActionSuggestProfilePhoto tL_messageActionSuggestProfilePhoto = new TLRPC.TL_messageActionSuggestProfilePhoto();
+        tL_messageService.action = tL_messageActionSuggestProfilePhoto;
+        TLRPC.TL_photo tL_photo = new TLRPC.TL_photo();
+        tL_messageActionSuggestProfilePhoto.photo = tL_photo;
+        tL_photo.sizes.add(photoSize);
+        tL_messageActionSuggestProfilePhoto.photo.sizes.add(photoSize2);
+        tL_messageActionSuggestProfilePhoto.video = z;
+        tL_messageActionSuggestProfilePhoto.photo.file_reference = new byte[0];
         ArrayList<MessageObject> arrayList = new ArrayList<>();
-        MessageObject messageObject = new MessageObject(this.currentAccount, tLRPC$TL_messageService, false, false);
+        MessageObject messageObject = new MessageObject(this.currentAccount, tL_messageService, false, false);
         this.suggestPhotoMessageFinal = messageObject;
         arrayList.add(messageObject);
-        new ArrayList().add(tLRPC$TL_messageService);
+        new ArrayList().add(tL_messageService);
         MessagesController.getInstance(this.currentAccount).updateInterfaceWithMessages(this.user_id, arrayList, 0);
-        getMessagesController().photoSuggestion.put(tLRPC$TL_messageService.local_id, this.imageUpdater);
+        getMessagesController().photoSuggestion.put(tL_messageService.local_id, this.imageUpdater);
     }
 
     private String getPhone() {
-        TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.user_id));
+        TLRPC.User user = getMessagesController().getUser(Long.valueOf(this.user_id));
         return (user == null || TextUtils.isEmpty(user.phone)) ? this.phone : user.phone;
     }
 
@@ -176,35 +162,35 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$10(TLRPC$User tLRPC$User) {
+    public /* synthetic */ void lambda$createView$10(TLRPC.User user) {
         this.avatar = null;
         sendPhotoChangedRequest(null, null, null, null, null, 0.0d, 2);
-        TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.user_id));
-        user.photo.personal = false;
-        TLRPC$UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(this.user_id);
+        TLRPC.User user2 = getMessagesController().getUser(Long.valueOf(this.user_id));
+        user2.photo.personal = false;
+        TLRPC.UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(this.user_id);
         if (userFull != null) {
             userFull.personal_photo = null;
             userFull.flags &= -2097153;
             getMessagesStorage().updateUserInfo(userFull, true);
         }
-        TLRPC$Photo tLRPC$Photo = this.prevAvatar;
-        if (tLRPC$Photo != null) {
-            user.photo.photo_id = tLRPC$Photo.id;
-            ArrayList arrayList = tLRPC$Photo.sizes;
-            TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList, 100);
-            TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(arrayList, 1000);
+        TLRPC.Photo photo = this.prevAvatar;
+        if (photo != null) {
+            user2.photo.photo_id = photo.id;
+            ArrayList<TLRPC.PhotoSize> arrayList = photo.sizes;
+            TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList, 100);
+            TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(arrayList, 1000);
             if (closestPhotoSizeWithSize != null) {
-                user.photo.photo_small = closestPhotoSizeWithSize.location;
+                user2.photo.photo_small = closestPhotoSizeWithSize.location;
             }
             if (closestPhotoSizeWithSize2 != null) {
-                user.photo.photo_big = closestPhotoSizeWithSize2.location;
+                user2.photo.photo_big = closestPhotoSizeWithSize2.location;
             }
         } else {
-            user.photo = null;
-            user.flags &= -33;
+            user2.photo = null;
+            user2.flags &= -33;
         }
         ArrayList arrayList2 = new ArrayList();
-        arrayList2.add(tLRPC$User);
+        arrayList2.add(user);
         getMessagesStorage().putUsersAndChats(arrayList2, null, false, true);
         updateCustomPhotoInfo();
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.reloadDialogPhotos, new Object[0]);
@@ -212,11 +198,11 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$11(Context context, final TLRPC$User tLRPC$User, View view) {
-        AlertsCreator.createSimpleAlert(context, LocaleController.getString(R.string.ResetToOriginalPhotoTitle), LocaleController.formatString("ResetToOriginalPhotoMessage", R.string.ResetToOriginalPhotoMessage, tLRPC$User.first_name), LocaleController.getString(R.string.Reset), new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda12
+    public /* synthetic */ void lambda$createView$11(Context context, final TLRPC.User user, View view) {
+        AlertsCreator.createSimpleAlert(context, LocaleController.getString(R.string.ResetToOriginalPhotoTitle), LocaleController.formatString("ResetToOriginalPhotoMessage", R.string.ResetToOriginalPhotoMessage, user.first_name), LocaleController.getString(R.string.Reset), new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
-                ContactAddActivity.this.lambda$createView$10(tLRPC$User);
+                ContactAddActivity.this.lambda$createView$10(user);
             }
         }, this.resourcesProvider).show();
     }
@@ -251,11 +237,11 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$6(TLRPC$User tLRPC$User, final RLottieDrawable rLottieDrawable, final TextCell textCell, View view) {
-        TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto;
+    public /* synthetic */ void lambda$createView$6(TLRPC.User user, final RLottieDrawable rLottieDrawable, final TextCell textCell, View view) {
+        TLRPC.UserProfilePhoto userProfilePhoto;
         this.photoSelectedType = 1;
-        this.imageUpdater.setUser(tLRPC$User);
-        this.imageUpdater.openMenu(((tLRPC$User == null || (tLRPC$UserProfilePhoto = tLRPC$User.photo) == null) ? null : tLRPC$UserProfilePhoto.photo_small) != null, new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda14
+        this.imageUpdater.setUser(user);
+        this.imageUpdater.openMenu(((user == null || (userProfilePhoto = user.photo) == null) ? null : userProfilePhoto.photo_small) != null, new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
                 ContactAddActivity.lambda$createView$4();
@@ -286,11 +272,11 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$9(TLRPC$User tLRPC$User, final RLottieDrawable rLottieDrawable, final TextCell textCell, View view) {
-        TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto;
+    public /* synthetic */ void lambda$createView$9(TLRPC.User user, final RLottieDrawable rLottieDrawable, final TextCell textCell, View view) {
+        TLRPC.UserProfilePhoto userProfilePhoto;
         this.photoSelectedType = 2;
-        this.imageUpdater.setUser(tLRPC$User);
-        this.imageUpdater.openMenu(((tLRPC$User == null || (tLRPC$UserProfilePhoto = tLRPC$User.photo) == null) ? null : tLRPC$UserProfilePhoto.photo_small) != null, new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda10
+        this.imageUpdater.setUser(user);
+        this.imageUpdater.openMenu(((user == null || (userProfilePhoto = user.photo) == null) ? null : userProfilePhoto.photo_small) != null, new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 ContactAddActivity.lambda$createView$7();
@@ -329,13 +315,13 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didUploadPhoto$13(TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, TLRPC$PhotoSize tLRPC$PhotoSize2, TLRPC$VideoSize tLRPC$VideoSize, double d, boolean z) {
+    public /* synthetic */ void lambda$didUploadPhoto$13(TLRPC.PhotoSize photoSize, TLRPC.InputFile inputFile, TLRPC.InputFile inputFile2, TLRPC.PhotoSize photoSize2, TLRPC.VideoSize videoSize, double d, boolean z) {
         if (this.imageUpdater.isCanceled()) {
             return;
         }
         int i = this.photoSelectedTypeFinal;
         if (i == 2) {
-            this.avatar = tLRPC$PhotoSize.location;
+            this.avatar = photoSize.location;
         } else if (i == 1) {
             NavigationExt.backToFragment(this, new NavigationExt.FragmentConsumer() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda13
                 @Override // org.telegram.ui.LNavigation.NavigationExt.FragmentConsumer
@@ -346,24 +332,24 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
                 }
             });
         }
-        if (tLRPC$InputFile == null && tLRPC$InputFile2 == null) {
+        if (inputFile == null && inputFile2 == null) {
             this.avatarImage.setImage(ImageLocation.getForLocal(this.avatar), "50_50", this.avatarDrawable, getMessagesController().getUser(Long.valueOf(this.user_id)));
             if (this.photoSelectedTypeFinal == 2) {
                 showAvatarProgress(true, false);
             } else {
-                createServiceMessageLocal(tLRPC$PhotoSize, tLRPC$PhotoSize2, z);
+                createServiceMessageLocal(photoSize, photoSize2, z);
             }
         } else {
-            TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.user_id));
+            TLRPC.User user = getMessagesController().getUser(Long.valueOf(this.user_id));
             if (this.suggestPhotoMessageFinal == null && user != null) {
-                PhotoUtilities.applyPhotoToUser(tLRPC$PhotoSize, tLRPC$PhotoSize2, tLRPC$InputFile2 != null, user, true);
+                PhotoUtilities.applyPhotoToUser(photoSize, photoSize2, inputFile2 != null, user, true);
                 ArrayList arrayList = new ArrayList();
                 arrayList.add(user);
                 getMessagesStorage().putUsersAndChats(arrayList, null, false, true);
                 getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.reloadDialogPhotos, new Object[0]);
                 getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_AVATAR));
             }
-            sendPhotoChangedRequest(this.avatar, tLRPC$PhotoSize2.location, tLRPC$InputFile, tLRPC$InputFile2, tLRPC$VideoSize, d, this.photoSelectedTypeFinal);
+            sendPhotoChangedRequest(this.avatar, photoSize2.location, inputFile, inputFile2, videoSize, d, this.photoSelectedTypeFinal);
             showAvatarProgress(false, true);
         }
         updateCustomPhotoInfo();
@@ -371,7 +357,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getThemeDescriptions$17() {
-        TLRPC$User user;
+        TLRPC.User user;
         if (this.avatarImage == null || (user = getMessagesController().getUser(Long.valueOf(this.user_id))) == null) {
             return;
         }
@@ -380,39 +366,39 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$sendPhotoChangedRequest$15(TLRPC$FileLocation tLRPC$FileLocation, TLRPC$InputFile tLRPC$InputFile, TLObject tLObject, TLRPC$FileLocation tLRPC$FileLocation2, int i) {
+    public /* synthetic */ void lambda$sendPhotoChangedRequest$15(TLRPC.FileLocation fileLocation, TLRPC.InputFile inputFile, TLObject tLObject, TLRPC.FileLocation fileLocation2, int i) {
         BulletinFactory of;
         String formatString;
         if (this.suggestPhotoMessageFinal != null) {
             return;
         }
-        if ((tLRPC$FileLocation == null && tLRPC$InputFile == null) || tLObject == null) {
+        if ((fileLocation == null && inputFile == null) || tLObject == null) {
             return;
         }
-        TLRPC$TL_photos_photo tLRPC$TL_photos_photo = (TLRPC$TL_photos_photo) tLObject;
-        ArrayList arrayList = tLRPC$TL_photos_photo.photo.sizes;
-        TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.user_id));
-        TLRPC$UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(this.user_id);
+        TLRPC.TL_photos_photo tL_photos_photo = (TLRPC.TL_photos_photo) tLObject;
+        ArrayList<TLRPC.PhotoSize> arrayList = tL_photos_photo.photo.sizes;
+        TLRPC.User user = getMessagesController().getUser(Long.valueOf(this.user_id));
+        TLRPC.UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(this.user_id);
         if (userFull != null) {
-            userFull.personal_photo = tLRPC$TL_photos_photo.photo;
+            userFull.personal_photo = tL_photos_photo.photo;
             userFull.flags |= 2097152;
             getMessagesStorage().updateUserInfo(userFull, true);
         }
         if (user != null) {
-            TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList, 100);
-            TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(arrayList, 1000);
-            if (closestPhotoSizeWithSize != null && tLRPC$FileLocation != null) {
-                FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$FileLocation, true).renameTo(FileLoader.getInstance(this.currentAccount).getPathToAttach(closestPhotoSizeWithSize, true));
-                ImageLoader.getInstance().replaceImageInCache(tLRPC$FileLocation.volume_id + "_" + tLRPC$FileLocation.local_id + "@50_50", closestPhotoSizeWithSize.location.volume_id + "_" + closestPhotoSizeWithSize.location.local_id + "@50_50", ImageLocation.getForUser(user, 1), false);
+            TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList, 100);
+            TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(arrayList, 1000);
+            if (closestPhotoSizeWithSize != null && fileLocation != null) {
+                FileLoader.getInstance(this.currentAccount).getPathToAttach(fileLocation, true).renameTo(FileLoader.getInstance(this.currentAccount).getPathToAttach(closestPhotoSizeWithSize, true));
+                ImageLoader.getInstance().replaceImageInCache(fileLocation.volume_id + "_" + fileLocation.local_id + "@50_50", closestPhotoSizeWithSize.location.volume_id + "_" + closestPhotoSizeWithSize.location.local_id + "@50_50", ImageLocation.getForUser(user, 1), false);
             }
-            if (closestPhotoSizeWithSize2 != null && tLRPC$FileLocation2 != null) {
-                FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$FileLocation2, true).renameTo(FileLoader.getInstance(this.currentAccount).getPathToAttach(closestPhotoSizeWithSize2, true));
+            if (closestPhotoSizeWithSize2 != null && fileLocation2 != null) {
+                FileLoader.getInstance(this.currentAccount).getPathToAttach(fileLocation2, true).renameTo(FileLoader.getInstance(this.currentAccount).getPathToAttach(closestPhotoSizeWithSize2, true));
             }
-            PhotoUtilities.applyPhotoToUser(tLRPC$TL_photos_photo.photo, user, true);
+            PhotoUtilities.applyPhotoToUser(tL_photos_photo.photo, user, true);
             ArrayList arrayList2 = new ArrayList();
             arrayList2.add(user);
             getMessagesStorage().putUsersAndChats(arrayList2, null, false, true);
-            getMessagesController().getDialogPhotos(this.user_id).addPhotoAtStart(tLRPC$TL_photos_photo.photo);
+            getMessagesController().getDialogPhotos(this.user_id).addPhotoAtStart(tL_photos_photo.photo);
             getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.reloadDialogPhotos, new Object[0]);
             getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_AVATAR));
             if (getParentActivity() != null) {
@@ -431,45 +417,45 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$sendPhotoChangedRequest$16(final TLRPC$FileLocation tLRPC$FileLocation, final TLRPC$InputFile tLRPC$InputFile, final TLRPC$FileLocation tLRPC$FileLocation2, final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$sendPhotoChangedRequest$16(final TLRPC.FileLocation fileLocation, final TLRPC.InputFile inputFile, final TLRPC.FileLocation fileLocation2, final int i, final TLObject tLObject, TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda17
             @Override // java.lang.Runnable
             public final void run() {
-                ContactAddActivity.this.lambda$sendPhotoChangedRequest$15(tLRPC$FileLocation, tLRPC$InputFile, tLObject, tLRPC$FileLocation2, i);
+                ContactAddActivity.this.lambda$sendPhotoChangedRequest$15(fileLocation, inputFile, tLObject, fileLocation2, i);
             }
         });
     }
 
-    private void sendPhotoChangedRequest(final TLRPC$FileLocation tLRPC$FileLocation, final TLRPC$FileLocation tLRPC$FileLocation2, TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, TLRPC$VideoSize tLRPC$VideoSize, double d, final int i) {
+    private void sendPhotoChangedRequest(final TLRPC.FileLocation fileLocation, final TLRPC.FileLocation fileLocation2, TLRPC.InputFile inputFile, final TLRPC.InputFile inputFile2, TLRPC.VideoSize videoSize, double d, final int i) {
         int i2;
-        TLRPC$TL_photos_uploadContactProfilePhoto tLRPC$TL_photos_uploadContactProfilePhoto = new TLRPC$TL_photos_uploadContactProfilePhoto();
-        tLRPC$TL_photos_uploadContactProfilePhoto.user_id = getMessagesController().getInputUser(this.user_id);
-        if (tLRPC$InputFile != null) {
-            tLRPC$TL_photos_uploadContactProfilePhoto.file = tLRPC$InputFile;
-            tLRPC$TL_photos_uploadContactProfilePhoto.flags |= 1;
+        TLRPC.TL_photos_uploadContactProfilePhoto tL_photos_uploadContactProfilePhoto = new TLRPC.TL_photos_uploadContactProfilePhoto();
+        tL_photos_uploadContactProfilePhoto.user_id = getMessagesController().getInputUser(this.user_id);
+        if (inputFile != null) {
+            tL_photos_uploadContactProfilePhoto.file = inputFile;
+            tL_photos_uploadContactProfilePhoto.flags |= 1;
         }
-        if (tLRPC$InputFile2 != null) {
-            tLRPC$TL_photos_uploadContactProfilePhoto.video = tLRPC$InputFile2;
-            int i3 = tLRPC$TL_photos_uploadContactProfilePhoto.flags;
-            tLRPC$TL_photos_uploadContactProfilePhoto.video_start_ts = d;
-            tLRPC$TL_photos_uploadContactProfilePhoto.flags = i3 | 6;
+        if (inputFile2 != null) {
+            tL_photos_uploadContactProfilePhoto.video = inputFile2;
+            int i3 = tL_photos_uploadContactProfilePhoto.flags;
+            tL_photos_uploadContactProfilePhoto.video_start_ts = d;
+            tL_photos_uploadContactProfilePhoto.flags = i3 | 6;
         }
-        if (tLRPC$VideoSize != null) {
-            tLRPC$TL_photos_uploadContactProfilePhoto.flags |= 32;
-            tLRPC$TL_photos_uploadContactProfilePhoto.video_emoji_markup = tLRPC$VideoSize;
+        if (videoSize != null) {
+            tL_photos_uploadContactProfilePhoto.flags |= 32;
+            tL_photos_uploadContactProfilePhoto.video_emoji_markup = videoSize;
         }
         if (i == 1) {
-            tLRPC$TL_photos_uploadContactProfilePhoto.suggest = true;
-            i2 = tLRPC$TL_photos_uploadContactProfilePhoto.flags | 8;
+            tL_photos_uploadContactProfilePhoto.suggest = true;
+            i2 = tL_photos_uploadContactProfilePhoto.flags | 8;
         } else {
-            tLRPC$TL_photos_uploadContactProfilePhoto.save = true;
-            i2 = tLRPC$TL_photos_uploadContactProfilePhoto.flags | 16;
+            tL_photos_uploadContactProfilePhoto.save = true;
+            i2 = tL_photos_uploadContactProfilePhoto.flags | 16;
         }
-        tLRPC$TL_photos_uploadContactProfilePhoto.flags = i2;
-        getConnectionsManager().sendRequest(tLRPC$TL_photos_uploadContactProfilePhoto, new RequestDelegate() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda16
+        tL_photos_uploadContactProfilePhoto.flags = i2;
+        getConnectionsManager().sendRequest(tL_photos_uploadContactProfilePhoto, new RequestDelegate() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda16
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ContactAddActivity.this.lambda$sendPhotoChangedRequest$16(tLRPC$FileLocation, tLRPC$InputFile2, tLRPC$FileLocation2, i, tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                ContactAddActivity.this.lambda$sendPhotoChangedRequest$16(fileLocation, inputFile2, fileLocation2, i, tLObject, tL_error);
             }
         });
     }
@@ -539,7 +525,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void updateAvatarLayout() {
-        TLRPC$User user;
+        TLRPC.User user;
         TextView textView;
         SpannableStringBuilder replaceTags;
         if (this.nameTextView == null || (user = getMessagesController().getUser(Long.valueOf(this.user_id))) == null) {
@@ -577,28 +563,28 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         if (this.addContact) {
             return;
         }
-        TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.user_id));
+        TLRPC.User user = getMessagesController().getUser(Long.valueOf(this.user_id));
         if (this.fragmentBeginToShow) {
             TransitionManager.beginDelayedTransition(this.linearLayout);
         }
-        TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto = user.photo;
-        if (tLRPC$UserProfilePhoto == null || !tLRPC$UserProfilePhoto.personal) {
+        TLRPC.UserProfilePhoto userProfilePhoto = user.photo;
+        if (userProfilePhoto == null || !userProfilePhoto.personal) {
             this.oldPhotoCell.setVisibility(8);
         } else {
             this.oldPhotoCell.setVisibility(0);
-            TLRPC$Photo tLRPC$Photo = this.prevAvatar;
-            if (tLRPC$Photo != null) {
-                this.oldAvatarView.setImage(ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, 1000), this.prevAvatar), "50_50", this.avatarDrawable, (Object) null);
+            TLRPC.Photo photo = this.prevAvatar;
+            if (photo != null) {
+                this.oldAvatarView.setImage(ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(photo.sizes, 1000), this.prevAvatar), "50_50", this.avatarDrawable, (Object) null);
             }
         }
         if (this.avatarDrawable == null) {
             this.avatarDrawable = new AvatarDrawable(user);
         }
-        TLRPC$FileLocation tLRPC$FileLocation = this.avatar;
-        if (tLRPC$FileLocation == null) {
+        TLRPC.FileLocation fileLocation = this.avatar;
+        if (fileLocation == null) {
             this.avatarImage.setForUserOrChat(user, this.avatarDrawable);
         } else {
-            this.avatarImage.setImage(ImageLocation.getForLocal(tLRPC$FileLocation), "50_50", this.avatarDrawable, getMessagesController().getUser(Long.valueOf(this.user_id)));
+            this.avatarImage.setImage(ImageLocation.getForLocal(fileLocation), "50_50", this.avatarDrawable, getMessagesController().getUser(Long.valueOf(this.user_id)));
         }
     }
 
@@ -631,7 +617,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
                     ContactAddActivity.this.finishFragment();
                 } else if (i2 != 1 || ContactAddActivity.this.firstNameField.getText().length() == 0) {
                 } else {
-                    TLRPC$User user = ContactAddActivity.this.getMessagesController().getUser(Long.valueOf(ContactAddActivity.this.user_id));
+                    TLRPC.User user = ContactAddActivity.this.getMessagesController().getUser(Long.valueOf(ContactAddActivity.this.user_id));
                     user.first_name = ContactAddActivity.this.firstNameField.getText().toString();
                     user.last_name = ContactAddActivity.this.lastNameField.getText().toString();
                     user.contact = true;
@@ -802,7 +788,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             }
         });
         this.lastNameField.setText(this.lastNameFromCard);
-        final TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.user_id));
+        final TLRPC.User user = getMessagesController().getUser(Long.valueOf(this.user_id));
         if (user != null && this.firstNameFromCard == null && this.lastNameFromCard == null) {
             if (user.phone == null && (str = this.phone) != null) {
                 user.phone = PhoneFormat.stripExceptNumbers(str);
@@ -905,11 +891,11 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
                 }
             });
             this.linearLayout.addView(this.oldPhotoCell, LayoutHelper.createLinear(-1, -2, 0, 0, 0, 0, 0));
-            TLRPC$UserFull userFull = getMessagesController().getUserFull(this.user_id);
+            TLRPC.UserFull userFull = getMessagesController().getUserFull(this.user_id);
             if (userFull != null) {
-                TLRPC$Photo tLRPC$Photo = userFull.profile_photo;
-                this.prevAvatar = tLRPC$Photo;
-                if (tLRPC$Photo == null) {
+                TLRPC.Photo photo = userFull.profile_photo;
+                this.prevAvatar = photo;
+                if (photo == null) {
                     this.prevAvatar = userFull.fallback_photo;
                 }
             }
@@ -938,7 +924,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
                 i3++;
             }
             if (arrayList.size() > 0) {
-                this.prevAvatar = (TLRPC$Photo) arrayList.get(0);
+                this.prevAvatar = (TLRPC.Photo) arrayList.get(0);
                 updateCustomPhotoInfo();
             }
         }
@@ -965,11 +951,11 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
     }
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
-    public void didUploadPhoto(final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, final boolean z, final TLRPC$VideoSize tLRPC$VideoSize) {
+    public void didUploadPhoto(final TLRPC.InputFile inputFile, final TLRPC.InputFile inputFile2, final double d, String str, final TLRPC.PhotoSize photoSize, final TLRPC.PhotoSize photoSize2, final boolean z, final TLRPC.VideoSize videoSize) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
-                ContactAddActivity.this.lambda$didUploadPhoto$13(tLRPC$PhotoSize2, tLRPC$InputFile, tLRPC$InputFile2, tLRPC$PhotoSize, tLRPC$VideoSize, d, z);
+                ContactAddActivity.this.lambda$didUploadPhoto$13(photoSize2, inputFile, inputFile2, photoSize, videoSize, d, z);
             }
         });
     }
@@ -1048,7 +1034,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         this.addContact = getArguments().getBoolean("addContact", false);
         SharedPreferences notificationsSettings = MessagesController.getNotificationsSettings(this.currentAccount);
         this.needAddException = notificationsSettings.getBoolean("dialog_bar_exception" + this.user_id, false);
-        TLRPC$User user = this.user_id != 0 ? getMessagesController().getUser(Long.valueOf(this.user_id)) : null;
+        TLRPC.User user = this.user_id != 0 ? getMessagesController().getUser(Long.valueOf(this.user_id)) : null;
         ImageUpdater imageUpdater = this.imageUpdater;
         if (imageUpdater != null) {
             imageUpdater.parentFragment = this;

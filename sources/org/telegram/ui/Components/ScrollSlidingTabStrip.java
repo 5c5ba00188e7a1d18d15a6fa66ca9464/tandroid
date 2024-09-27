@@ -38,11 +38,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$PhotoSize;
-import org.telegram.tgnet.TLRPC$StickerSet;
-import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.ScrollSlidingTabStrip;
 /* loaded from: classes3.dex */
@@ -409,7 +405,7 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
         AndroidUtilities.cancelRunOnUIThread(this.scrollRunnable);
     }
 
-    public View addEmojiTab(int i, Emoji.EmojiDrawable emojiDrawable, TLRPC$Document tLRPC$Document) {
+    public View addEmojiTab(int i, Emoji.EmojiDrawable emojiDrawable, TLRPC.Document document) {
         String str = "tab" + i;
         int i2 = this.tabCount;
         this.tabCount = i2 + 1;
@@ -432,7 +428,7 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
         stickerTabView.isChatSticker = false;
         stickerTabView.setTag(R.id.index_tag, Integer.valueOf(i2));
         stickerTabView.setTag(R.id.parent_tag, emojiDrawable);
-        stickerTabView.setTag(R.id.object_tag, tLRPC$Document);
+        stickerTabView.setTag(R.id.object_tag, document);
         stickerTabView.setSelected(i2 == this.currentPosition);
         this.tabTypes.put(str, stickerTabView);
         return stickerTabView;
@@ -494,10 +490,10 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
         return stickerTabView;
     }
 
-    public View addStickerTab(TLObject tLObject, TLRPC$Document tLRPC$Document, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet) {
+    public View addStickerTab(TLObject tLObject, TLRPC.Document document, TLRPC.TL_messages_stickerSet tL_messages_stickerSet) {
         StringBuilder sb = new StringBuilder();
         sb.append("set");
-        sb.append(tLRPC$TL_messages_stickerSet == null ? tLRPC$Document.id : tLRPC$TL_messages_stickerSet.set.id);
+        sb.append(tL_messages_stickerSet == null ? document.id : tL_messages_stickerSet.set.id);
         String sb2 = sb.toString();
         int i = this.tabCount;
         this.tabCount = i + 1;
@@ -521,15 +517,15 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
         stickerTabView.isChatSticker = false;
         stickerTabView.setTag(tLObject);
         stickerTabView.setTag(R.id.index_tag, Integer.valueOf(i));
-        stickerTabView.setTag(R.id.parent_tag, tLRPC$TL_messages_stickerSet);
-        stickerTabView.setTag(R.id.object_tag, tLRPC$Document);
+        stickerTabView.setTag(R.id.parent_tag, tL_messages_stickerSet);
+        stickerTabView.setTag(R.id.object_tag, document);
         stickerTabView.setSelected(i == this.currentPosition);
         this.tabTypes.put(sb2, stickerTabView);
         return stickerTabView;
     }
 
-    public void addStickerTab(TLRPC$Chat tLRPC$Chat) {
-        String str = "chat" + tLRPC$Chat.id;
+    public void addStickerTab(TLRPC.Chat chat) {
+        String str = "chat" + chat.id;
         int i = this.tabCount;
         this.tabCount = i + 1;
         StickerTabView stickerTabView = (StickerTabView) this.prevTypes.get(str);
@@ -548,14 +544,14 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
             stickerTabView.setRoundImage();
             AvatarDrawable avatarDrawable = new AvatarDrawable();
             avatarDrawable.setTextSize(AndroidUtilities.dp(14.0f));
-            avatarDrawable.setInfo(UserConfig.selectedAccount, tLRPC$Chat);
+            avatarDrawable.setInfo(UserConfig.selectedAccount, chat);
             BackupImageView backupImageView = stickerTabView.imageView;
             backupImageView.setLayerNum(this.imageReceiversPlayingNum);
-            backupImageView.setForUserOrChat(tLRPC$Chat, avatarDrawable);
+            backupImageView.setForUserOrChat(chat, avatarDrawable);
             backupImageView.setAspectFit(true);
             stickerTabView.setExpanded(this.expanded);
             stickerTabView.updateExpandProgress(this.expandProgress);
-            stickerTabView.textView.setText(tLRPC$Chat.title);
+            stickerTabView.textView.setText(chat.title);
         }
         stickerTabView.isChatSticker = true;
         stickerTabView.setTag(R.id.index_tag, Integer.valueOf(i));
@@ -1001,7 +997,7 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
         String str4;
         SvgHelper.SvgDrawable svgDrawable;
         int i4;
-        ArrayList<TLRPC$PhotoSize> arrayList;
+        ArrayList<TLRPC.PhotoSize> arrayList;
         float f = this.expandProgress;
         int scrollX = (int) (((getScrollX() - (this.animateToExpanded ? this.expandOffset * (1.0f - f) : 0.0f)) - this.tabsContainer.getPaddingLeft()) / (AndroidUtilities.dp(33.0f) + (AndroidUtilities.dp(EXPANDED_WIDTH - 33.0f) * f)));
         int min = Math.min(this.tabsContainer.getChildCount(), ((int) Math.ceil(getMeasuredWidth() / dp)) + scrollX + 1);
@@ -1031,38 +1027,38 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
                     Object tag = stickerTabView.getTag(R.id.parent_tag);
                     Object tag2 = stickerTabView.getTag(R.id.object_tag);
                     Drawable drawable = tag instanceof Drawable ? (Drawable) tag : null;
-                    if (tag2 instanceof TLRPC$Document) {
-                        stickerTabView.imageView.setImage(ImageLocation.getForDocument((TLRPC$Document) tag2), !LiteMode.isEnabled(1) ? "36_36_firstframe" : "36_36_nolimit", (Drawable) null, (Object) null);
+                    if (tag2 instanceof TLRPC.Document) {
+                        stickerTabView.imageView.setImage(ImageLocation.getForDocument((TLRPC.Document) tag2), !LiteMode.isEnabled(1) ? "36_36_firstframe" : "36_36_nolimit", (Drawable) null, (Object) null);
                     } else {
                         stickerTabView.imageView.setImageDrawable(drawable);
                     }
                 } else {
                     Object tag3 = childAt.getTag();
                     Object tag4 = childAt.getTag(R.id.parent_tag);
-                    TLRPC$Document tLRPC$Document = (TLRPC$Document) childAt.getTag(R.id.object_tag);
-                    if (tag3 instanceof TLRPC$Document) {
+                    TLRPC.Document document = (TLRPC.Document) childAt.getTag(R.id.object_tag);
+                    if (tag3 instanceof TLRPC.Document) {
                         if (!stickerTabView.inited) {
-                            stickerTabView.svgThumb = DocumentObject.getSvgThumb((TLRPC$Document) tag3, Theme.key_emptyListPlaceholder, 0.2f);
+                            stickerTabView.svgThumb = DocumentObject.getSvgThumb((TLRPC.Document) tag3, Theme.key_emptyListPlaceholder, 0.2f);
                         }
-                        forSticker = ImageLocation.getForDocument(tLRPC$Document);
+                        forSticker = ImageLocation.getForDocument(document);
                         str = null;
-                    } else if (tag3 instanceof TLRPC$PhotoSize) {
-                        TLRPC$PhotoSize tLRPC$PhotoSize = (TLRPC$PhotoSize) tag3;
-                        if (tag4 instanceof TLRPC$TL_messages_stickerSet) {
-                            TLRPC$StickerSet tLRPC$StickerSet = ((TLRPC$TL_messages_stickerSet) tag4).set;
-                            i = tLRPC$StickerSet.thumb_version;
+                    } else if (tag3 instanceof TLRPC.PhotoSize) {
+                        TLRPC.PhotoSize photoSize = (TLRPC.PhotoSize) tag3;
+                        if (tag4 instanceof TLRPC.TL_messages_stickerSet) {
+                            TLRPC.StickerSet stickerSet = ((TLRPC.TL_messages_stickerSet) tag4).set;
+                            i = stickerSet.thumb_version;
                             if (!stickerTabView.inited) {
-                                ArrayList arrayList2 = tLRPC$StickerSet.thumbs;
+                                ArrayList<TLRPC.PhotoSize> arrayList2 = stickerSet.thumbs;
                                 stickerTabView.svgThumb = DocumentObject.getSvgThumb(arrayList2, Theme.key_emptyListPlaceholder, 0.2f, DocumentObject.containsPhotoSizeType(arrayList2, "v"));
                             }
                         } else {
                             i = 0;
                         }
-                        str = tLRPC$PhotoSize.type;
-                        forSticker = ImageLocation.getForSticker(tLRPC$PhotoSize, tLRPC$Document, i);
+                        str = photoSize.type;
+                        forSticker = ImageLocation.getForSticker(photoSize, document, i);
                     }
-                    if (!stickerTabView.inited && stickerTabView.svgThumb == null && tLRPC$Document != null) {
-                        stickerTabView.svgThumb = DocumentObject.getSvgThumb(tLRPC$Document, Theme.key_emptyListPlaceholder, 0.2f);
+                    if (!stickerTabView.inited && stickerTabView.svgThumb == null && document != null) {
+                        stickerTabView.svgThumb = DocumentObject.getSvgThumb(document, Theme.key_emptyListPlaceholder, 0.2f);
                     }
                     if (forSticker != null) {
                         stickerTabView.inited = true;
@@ -1070,10 +1066,10 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
                         BackupImageView backupImageView3 = stickerTabView.imageView;
                         boolean z = !LiteMode.isEnabled(1);
                         String str5 = z ? "40_40_firstframe" : "40_40";
-                        if ((str != null || !MessageObject.isVideoSticker(tLRPC$Document) || (arrayList = tLRPC$Document.thumbs) == null || arrayList.size() <= 0) && (str == null || !str.equalsIgnoreCase("v"))) {
-                            if (!(str == null && MessageObject.isAnimatedStickerDocument(tLRPC$Document, true)) && (str == null || !str.equalsIgnoreCase("a"))) {
+                        if ((str != null || !MessageObject.isVideoSticker(document) || (arrayList = document.thumbs) == null || arrayList.size() <= 0) && (str == null || !str.equalsIgnoreCase("v"))) {
+                            if (!(str == null && MessageObject.isAnimatedStickerDocument(document, true)) && (str == null || !str.equalsIgnoreCase("a"))) {
                                 backupImageView3.setImage(forSticker, str5, forSticker.imageType == 1 ? "tgs" : "webp", svgDrawable2, tag4);
-                                stickerTabView.textView.setText(tag4 instanceof TLRPC$TL_messages_stickerSet ? ((TLRPC$TL_messages_stickerSet) tag4).set.title : null);
+                                stickerTabView.textView.setText(tag4 instanceof TLRPC.TL_messages_stickerSet ? ((TLRPC.TL_messages_stickerSet) tag4).set.title : null);
                             } else {
                                 if (svgDrawable2 == null) {
                                     str2 = null;
@@ -1083,7 +1079,7 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
                                     str3 = str5;
                                     imageLocation2 = forSticker;
                                     backupImageView.setImage(imageLocation, str3, imageLocation2, str2, i2, tag4);
-                                    stickerTabView.textView.setText(tag4 instanceof TLRPC$TL_messages_stickerSet ? ((TLRPC$TL_messages_stickerSet) tag4).set.title : null);
+                                    stickerTabView.textView.setText(tag4 instanceof TLRPC.TL_messages_stickerSet ? ((TLRPC.TL_messages_stickerSet) tag4).set.title : null);
                                 }
                                 i3 = 0;
                                 backupImageView2 = backupImageView3;
@@ -1092,7 +1088,7 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
                                 svgDrawable = svgDrawable2;
                                 i4 = i3;
                                 backupImageView2.setImage(imageLocation, str4, svgDrawable, i4, tag4);
-                                stickerTabView.textView.setText(tag4 instanceof TLRPC$TL_messages_stickerSet ? ((TLRPC$TL_messages_stickerSet) tag4).set.title : null);
+                                stickerTabView.textView.setText(tag4 instanceof TLRPC.TL_messages_stickerSet ? ((TLRPC.TL_messages_stickerSet) tag4).set.title : null);
                             }
                         } else if (str != null) {
                             if (svgDrawable2 == null) {
@@ -1103,7 +1099,7 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
                                 imageLocation = forSticker;
                                 str3 = str5;
                                 backupImageView.setImage(imageLocation, str3, imageLocation2, str2, i2, tag4);
-                                stickerTabView.textView.setText(tag4 instanceof TLRPC$TL_messages_stickerSet ? ((TLRPC$TL_messages_stickerSet) tag4).set.title : null);
+                                stickerTabView.textView.setText(tag4 instanceof TLRPC.TL_messages_stickerSet ? ((TLRPC.TL_messages_stickerSet) tag4).set.title : null);
                             }
                             i3 = 0;
                             backupImageView2 = backupImageView3;
@@ -1112,17 +1108,17 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
                             svgDrawable = svgDrawable2;
                             i4 = i3;
                             backupImageView2.setImage(imageLocation, str4, svgDrawable, i4, tag4);
-                            stickerTabView.textView.setText(tag4 instanceof TLRPC$TL_messages_stickerSet ? ((TLRPC$TL_messages_stickerSet) tag4).set.title : null);
+                            stickerTabView.textView.setText(tag4 instanceof TLRPC.TL_messages_stickerSet ? ((TLRPC.TL_messages_stickerSet) tag4).set.title : null);
                         } else if (z) {
-                            imageLocation = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document);
+                            imageLocation = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 90), document);
                             backupImageView2 = backupImageView3;
                             str4 = "40_40";
                             svgDrawable = svgDrawable2;
                             i4 = 0;
                             backupImageView2.setImage(imageLocation, str4, svgDrawable, i4, tag4);
-                            stickerTabView.textView.setText(tag4 instanceof TLRPC$TL_messages_stickerSet ? ((TLRPC$TL_messages_stickerSet) tag4).set.title : null);
+                            stickerTabView.textView.setText(tag4 instanceof TLRPC.TL_messages_stickerSet ? ((TLRPC.TL_messages_stickerSet) tag4).set.title : null);
                         } else {
-                            imageLocation = ImageLocation.getForDocument(tLRPC$Document);
+                            imageLocation = ImageLocation.getForDocument(document);
                             if (svgDrawable2 != null) {
                                 i3 = 0;
                                 backupImageView2 = backupImageView3;
@@ -1130,7 +1126,7 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
                                 svgDrawable = svgDrawable2;
                                 i4 = i3;
                                 backupImageView2.setImage(imageLocation, str4, svgDrawable, i4, tag4);
-                                stickerTabView.textView.setText(tag4 instanceof TLRPC$TL_messages_stickerSet ? ((TLRPC$TL_messages_stickerSet) tag4).set.title : null);
+                                stickerTabView.textView.setText(tag4 instanceof TLRPC.TL_messages_stickerSet ? ((TLRPC.TL_messages_stickerSet) tag4).set.title : null);
                             } else {
                                 str2 = null;
                                 i2 = 0;
@@ -1138,7 +1134,7 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
                                 str3 = str5;
                                 imageLocation2 = forSticker;
                                 backupImageView.setImage(imageLocation, str3, imageLocation2, str2, i2, tag4);
-                                stickerTabView.textView.setText(tag4 instanceof TLRPC$TL_messages_stickerSet ? ((TLRPC$TL_messages_stickerSet) tag4).set.title : null);
+                                stickerTabView.textView.setText(tag4 instanceof TLRPC.TL_messages_stickerSet ? ((TLRPC.TL_messages_stickerSet) tag4).set.title : null);
                             }
                         }
                     }

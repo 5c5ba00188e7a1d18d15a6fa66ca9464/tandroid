@@ -1,7 +1,6 @@
 package org.telegram.messenger.voip;
 
-import org.telegram.tgnet.TLRPC$PhoneCall;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 /* loaded from: classes3.dex */
 public interface VoIPServiceState {
 
@@ -20,9 +19,9 @@ public interface VoIPServiceState {
 
     int getCallState();
 
-    TLRPC$PhoneCall getPrivateCall();
+    TLRPC.PhoneCall getPrivateCall();
 
-    TLRPC$User getUser();
+    TLRPC.User getUser();
 
     boolean isOutgoing();
 

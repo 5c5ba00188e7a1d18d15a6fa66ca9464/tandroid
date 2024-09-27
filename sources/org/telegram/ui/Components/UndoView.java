@@ -46,14 +46,7 @@ import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$Message;
-import org.telegram.tgnet.TLRPC$PaymentReceipt;
-import org.telegram.tgnet.TLRPC$TL_authorization;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_forumTopic;
-import org.telegram.tgnet.TLRPC$TL_payments_getPaymentReceipt;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LinkSpanDrawable;
@@ -280,13 +273,13 @@ public class UndoView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showWithAction$4(TLObject tLObject) {
-        if (tLObject instanceof TLRPC$PaymentReceipt) {
-            this.parentFragment.presentFragment(new PaymentFormActivity((TLRPC$PaymentReceipt) tLObject));
+        if (tLObject instanceof TLRPC.PaymentReceipt) {
+            this.parentFragment.presentFragment(new PaymentFormActivity((TLRPC.PaymentReceipt) tLObject));
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showWithAction$5(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$showWithAction$5(final TLObject tLObject, TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.UndoView$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
@@ -296,15 +289,15 @@ public class UndoView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showWithAction$6(TLRPC$Message tLRPC$Message, View view) {
+    public /* synthetic */ void lambda$showWithAction$6(TLRPC.Message message, View view) {
         hide(true, 1);
-        TLRPC$TL_payments_getPaymentReceipt tLRPC$TL_payments_getPaymentReceipt = new TLRPC$TL_payments_getPaymentReceipt();
-        tLRPC$TL_payments_getPaymentReceipt.msg_id = tLRPC$Message.id;
-        tLRPC$TL_payments_getPaymentReceipt.peer = this.parentFragment.getMessagesController().getInputPeer(tLRPC$Message.peer_id);
-        this.parentFragment.getConnectionsManager().sendRequest(tLRPC$TL_payments_getPaymentReceipt, new RequestDelegate() { // from class: org.telegram.ui.Components.UndoView$$ExternalSyntheticLambda6
+        TLRPC.TL_payments_getPaymentReceipt tL_payments_getPaymentReceipt = new TLRPC.TL_payments_getPaymentReceipt();
+        tL_payments_getPaymentReceipt.msg_id = message.id;
+        tL_payments_getPaymentReceipt.peer = this.parentFragment.getMessagesController().getInputPeer(message.peer_id);
+        this.parentFragment.getConnectionsManager().sendRequest(tL_payments_getPaymentReceipt, new RequestDelegate() { // from class: org.telegram.ui.Components.UndoView$$ExternalSyntheticLambda6
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                UndoView.this.lambda$showWithAction$5(tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                UndoView.this.lambda$showWithAction$5(tLObject, tL_error);
             }
         }, 2);
     }
@@ -728,23 +721,23 @@ public class UndoView extends FrameLayout {
                     intValue = 4000;
                 } else {
                     if (i == 34) {
-                        TLRPC$User tLRPC$User = (TLRPC$User) obj;
-                        CharSequence replaceTags3 = AndroidUtilities.replaceTags(ChatObject.isChannelOrGiga((TLRPC$Chat) obj2) ? LocaleController.formatString("VoipChannelInvitedUser", R.string.VoipChannelInvitedUser, UserObject.getFirstName(tLRPC$User)) : LocaleController.formatString("VoipGroupInvitedUser", R.string.VoipGroupInvitedUser, UserObject.getFirstName(tLRPC$User)));
+                        TLRPC.User user = (TLRPC.User) obj;
+                        CharSequence replaceTags3 = AndroidUtilities.replaceTags(ChatObject.isChannelOrGiga((TLRPC.Chat) obj2) ? LocaleController.formatString("VoipChannelInvitedUser", R.string.VoipChannelInvitedUser, UserObject.getFirstName(user)) : LocaleController.formatString("VoipGroupInvitedUser", R.string.VoipGroupInvitedUser, UserObject.getFirstName(user)));
                         AvatarDrawable avatarDrawable = new AvatarDrawable();
                         avatarDrawable.setTextSize(AndroidUtilities.dp(12.0f));
-                        avatarDrawable.setInfo(this.currentAccount, tLRPC$User);
-                        this.avatarImageView.setForUserOrChat(tLRPC$User, avatarDrawable);
+                        avatarDrawable.setInfo(this.currentAccount, user);
+                        this.avatarImageView.setForUserOrChat(user, avatarDrawable);
                         this.avatarImageView.setVisibility(0);
                         this.timeLeft = 3000L;
                         replaceTags2 = replaceTags3;
                     } else if (i == 44) {
-                        TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) obj2;
-                        if (obj instanceof TLRPC$User) {
-                            TLRPC$User tLRPC$User2 = (TLRPC$User) obj;
-                            formatString9 = ChatObject.isChannelOrGiga(tLRPC$Chat) ? LocaleController.formatString("VoipChannelUserJoined", R.string.VoipChannelUserJoined, UserObject.getFirstName(tLRPC$User2)) : LocaleController.formatString("VoipChatUserJoined", R.string.VoipChatUserJoined, UserObject.getFirstName(tLRPC$User2));
+                        TLRPC.Chat chat = (TLRPC.Chat) obj2;
+                        if (obj instanceof TLRPC.User) {
+                            TLRPC.User user2 = (TLRPC.User) obj;
+                            formatString9 = ChatObject.isChannelOrGiga(chat) ? LocaleController.formatString("VoipChannelUserJoined", R.string.VoipChannelUserJoined, UserObject.getFirstName(user2)) : LocaleController.formatString("VoipChatUserJoined", R.string.VoipChatUserJoined, UserObject.getFirstName(user2));
                         } else {
-                            TLRPC$Chat tLRPC$Chat2 = (TLRPC$Chat) obj;
-                            formatString9 = ChatObject.isChannelOrGiga(tLRPC$Chat) ? LocaleController.formatString("VoipChannelChatJoined", R.string.VoipChannelChatJoined, tLRPC$Chat2.title) : LocaleController.formatString("VoipChatChatJoined", R.string.VoipChatChatJoined, tLRPC$Chat2.title);
+                            TLRPC.Chat chat2 = (TLRPC.Chat) obj;
+                            formatString9 = ChatObject.isChannelOrGiga(chat) ? LocaleController.formatString("VoipChannelChatJoined", R.string.VoipChannelChatJoined, chat2.title) : LocaleController.formatString("VoipChatChatJoined", R.string.VoipChatChatJoined, chat2.title);
                         }
                         replaceTags2 = AndroidUtilities.replaceTags(formatString9);
                         AvatarDrawable avatarDrawable2 = new AvatarDrawable();
@@ -757,18 +750,18 @@ public class UndoView extends FrameLayout {
                     } else if (i == 37) {
                         AvatarDrawable avatarDrawable3 = new AvatarDrawable();
                         avatarDrawable3.setTextSize(AndroidUtilities.dp(12.0f));
-                        if (obj instanceof TLRPC$User) {
-                            TLRPC$User tLRPC$User3 = (TLRPC$User) obj;
-                            avatarDrawable3.setInfo(this.currentAccount, tLRPC$User3);
-                            this.avatarImageView.setForUserOrChat(tLRPC$User3, avatarDrawable3);
-                            str3 = ContactsController.formatName(tLRPC$User3.first_name, tLRPC$User3.last_name);
+                        if (obj instanceof TLRPC.User) {
+                            TLRPC.User user3 = (TLRPC.User) obj;
+                            avatarDrawable3.setInfo(this.currentAccount, user3);
+                            this.avatarImageView.setForUserOrChat(user3, avatarDrawable3);
+                            str3 = ContactsController.formatName(user3.first_name, user3.last_name);
                         } else {
-                            TLRPC$Chat tLRPC$Chat3 = (TLRPC$Chat) obj;
-                            avatarDrawable3.setInfo(this.currentAccount, tLRPC$Chat3);
-                            this.avatarImageView.setForUserOrChat(tLRPC$Chat3, avatarDrawable3);
-                            str3 = tLRPC$Chat3.title;
+                            TLRPC.Chat chat3 = (TLRPC.Chat) obj;
+                            avatarDrawable3.setInfo(this.currentAccount, chat3);
+                            this.avatarImageView.setForUserOrChat(chat3, avatarDrawable3);
+                            str3 = chat3.title;
                         }
-                        if (ChatObject.isChannelOrGiga((TLRPC$Chat) obj2)) {
+                        if (ChatObject.isChannelOrGiga((TLRPC.Chat) obj2)) {
                             i19 = 0;
                             formatString8 = LocaleController.formatString("VoipChannelUserChanged", R.string.VoipChannelUserChanged, str3);
                         } else {
@@ -787,34 +780,34 @@ public class UndoView extends FrameLayout {
                             replaceTags2 = (CharSequence) obj;
                             i13 = R.raw.payment_success;
                             this.timeLeft = 5000L;
-                            if (this.parentFragment != null && (obj2 instanceof TLRPC$Message)) {
-                                final TLRPC$Message tLRPC$Message = (TLRPC$Message) obj2;
+                            if (this.parentFragment != null && (obj2 instanceof TLRPC.Message)) {
+                                final TLRPC.Message message = (TLRPC.Message) obj2;
                                 setOnTouchListener(null);
                                 this.infoTextView.setMovementMethod(null);
                                 setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.UndoView$$ExternalSyntheticLambda4
                                     @Override // android.view.View.OnClickListener
                                     public final void onClick(View view) {
-                                        UndoView.this.lambda$showWithAction$6(tLRPC$Message, view);
+                                        UndoView.this.lambda$showWithAction$6(message, view);
                                     }
                                 });
                             }
                         } else {
                             if (i == 30) {
-                                formatString7 = LocaleController.formatString("VoipGroupUserCantNowSpeak", R.string.VoipGroupUserCantNowSpeak, obj instanceof TLRPC$User ? UserObject.getFirstName((TLRPC$User) obj) : ((TLRPC$Chat) obj).title);
+                                formatString7 = LocaleController.formatString("VoipGroupUserCantNowSpeak", R.string.VoipGroupUserCantNowSpeak, obj instanceof TLRPC.User ? UserObject.getFirstName((TLRPC.User) obj) : ((TLRPC.Chat) obj).title);
                             } else if (i == 35) {
-                                formatString7 = LocaleController.formatString("VoipGroupUserCantNowSpeakForYou", R.string.VoipGroupUserCantNowSpeakForYou, obj instanceof TLRPC$User ? UserObject.getFirstName((TLRPC$User) obj) : obj instanceof TLRPC$Chat ? ((TLRPC$Chat) obj).title : "");
+                                formatString7 = LocaleController.formatString("VoipGroupUserCantNowSpeakForYou", R.string.VoipGroupUserCantNowSpeakForYou, obj instanceof TLRPC.User ? UserObject.getFirstName((TLRPC.User) obj) : obj instanceof TLRPC.Chat ? ((TLRPC.Chat) obj).title : "");
                             } else {
                                 if (i == 31) {
-                                    formatString6 = LocaleController.formatString("VoipGroupUserCanNowSpeak", R.string.VoipGroupUserCanNowSpeak, obj instanceof TLRPC$User ? UserObject.getFirstName((TLRPC$User) obj) : ((TLRPC$Chat) obj).title);
+                                    formatString6 = LocaleController.formatString("VoipGroupUserCanNowSpeak", R.string.VoipGroupUserCanNowSpeak, obj instanceof TLRPC.User ? UserObject.getFirstName((TLRPC.User) obj) : ((TLRPC.Chat) obj).title);
                                 } else {
                                     if (i == 38) {
-                                        replaceTags2 = AndroidUtilities.replaceTags(obj instanceof TLRPC$Chat ? LocaleController.formatString("VoipGroupYouCanNowSpeakIn", R.string.VoipGroupYouCanNowSpeakIn, ((TLRPC$Chat) obj).title) : LocaleController.getString(R.string.VoipGroupYouCanNowSpeak));
+                                        replaceTags2 = AndroidUtilities.replaceTags(obj instanceof TLRPC.Chat ? LocaleController.formatString("VoipGroupYouCanNowSpeakIn", R.string.VoipGroupYouCanNowSpeakIn, ((TLRPC.Chat) obj).title) : LocaleController.getString(R.string.VoipGroupYouCanNowSpeak));
                                         i13 = R.raw.voip_allow_talk;
                                     } else if (i == 42) {
-                                        replaceTags2 = AndroidUtilities.replaceTags(LocaleController.getString(ChatObject.isChannelOrGiga((TLRPC$Chat) obj) ? R.string.VoipChannelSoundMuted : R.string.VoipGroupSoundMuted));
+                                        replaceTags2 = AndroidUtilities.replaceTags(LocaleController.getString(ChatObject.isChannelOrGiga((TLRPC.Chat) obj) ? R.string.VoipChannelSoundMuted : R.string.VoipGroupSoundMuted));
                                         i13 = R.raw.ic_mute;
                                     } else if (i == 43) {
-                                        replaceTags2 = AndroidUtilities.replaceTags(LocaleController.getString(ChatObject.isChannelOrGiga((TLRPC$Chat) obj) ? R.string.VoipChannelSoundUnmuted : R.string.VoipGroupSoundUnmuted));
+                                        replaceTags2 = AndroidUtilities.replaceTags(LocaleController.getString(ChatObject.isChannelOrGiga((TLRPC.Chat) obj) ? R.string.VoipChannelSoundUnmuted : R.string.VoipGroupSoundUnmuted));
                                         i13 = R.raw.ic_unmute;
                                     } else {
                                         int i21 = this.currentAction;
@@ -840,16 +833,16 @@ public class UndoView extends FrameLayout {
                                             }
                                             replaceTags2 = spannableStringBuilder;
                                         } else if (i == 36) {
-                                            formatString6 = LocaleController.formatString("VoipGroupUserCanNowSpeakForYou", R.string.VoipGroupUserCanNowSpeakForYou, obj instanceof TLRPC$User ? UserObject.getFirstName((TLRPC$User) obj) : ((TLRPC$Chat) obj).title);
+                                            formatString6 = LocaleController.formatString("VoipGroupUserCanNowSpeakForYou", R.string.VoipGroupUserCanNowSpeakForYou, obj instanceof TLRPC.User ? UserObject.getFirstName((TLRPC.User) obj) : ((TLRPC.Chat) obj).title);
                                         } else if (i == 32) {
-                                            replaceTags2 = AndroidUtilities.replaceTags(LocaleController.formatString("VoipGroupRemovedFromGroup", R.string.VoipGroupRemovedFromGroup, obj instanceof TLRPC$User ? UserObject.getFirstName((TLRPC$User) obj) : ((TLRPC$Chat) obj).title));
+                                            replaceTags2 = AndroidUtilities.replaceTags(LocaleController.formatString("VoipGroupRemovedFromGroup", R.string.VoipGroupRemovedFromGroup, obj instanceof TLRPC.User ? UserObject.getFirstName((TLRPC.User) obj) : ((TLRPC.Chat) obj).title));
                                             i13 = R.raw.voip_group_removed;
                                         } else {
                                             if (i == 9 || i == 10) {
-                                                TLRPC$User tLRPC$User4 = (TLRPC$User) obj;
-                                                replaceTags2 = AndroidUtilities.replaceTags(i == 9 ? LocaleController.formatString("EditAdminTransferChannelToast", R.string.EditAdminTransferChannelToast, UserObject.getFirstName(tLRPC$User4)) : LocaleController.formatString("EditAdminTransferGroupToast", R.string.EditAdminTransferGroupToast, UserObject.getFirstName(tLRPC$User4)));
+                                                TLRPC.User user4 = (TLRPC.User) obj;
+                                                replaceTags2 = AndroidUtilities.replaceTags(i == 9 ? LocaleController.formatString("EditAdminTransferChannelToast", R.string.EditAdminTransferChannelToast, UserObject.getFirstName(user4)) : LocaleController.formatString("EditAdminTransferGroupToast", R.string.EditAdminTransferGroupToast, UserObject.getFirstName(user4)));
                                             } else if (i == 8) {
-                                                replaceTags2 = LocaleController.formatString("NowInContacts", R.string.NowInContacts, UserObject.getFirstName((TLRPC$User) obj));
+                                                replaceTags2 = LocaleController.formatString("NowInContacts", R.string.NowInContacts, UserObject.getFirstName((TLRPC.User) obj));
                                                 str2 = null;
                                                 i15 = R.raw.contact_check;
                                             } else if (i == 87) {
@@ -859,8 +852,8 @@ public class UndoView extends FrameLayout {
                                                     if (DialogObject.isUserDialog(longValue)) {
                                                         i18 = obj == null ? R.string.MainProfilePhotoSetHint : R.string.MainProfileVideoSetHint;
                                                     } else {
-                                                        TLRPC$Chat chat = MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(-longValue));
-                                                        i18 = (!ChatObject.isChannel(chat) || chat.megagroup) ? obj == null ? R.string.MainGroupProfilePhotoSetHint : R.string.MainGroupProfileVideoSetHint : obj == null ? R.string.MainChannelProfilePhotoSetHint : R.string.MainChannelProfileVideoSetHint;
+                                                        TLRPC.Chat chat4 = MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(-longValue));
+                                                        i18 = (!ChatObject.isChannel(chat4) || chat4.megagroup) ? obj == null ? R.string.MainGroupProfilePhotoSetHint : R.string.MainGroupProfileVideoSetHint : obj == null ? R.string.MainChannelProfilePhotoSetHint : R.string.MainChannelProfileVideoSetHint;
                                                     }
                                                 } else if (i == 23) {
                                                     i18 = R.string.ChatWasMovedToMainList;
@@ -894,12 +887,12 @@ public class UndoView extends FrameLayout {
                                                                     longValue = MessagesController.getInstance(this.currentAccount).getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(longValue))).user_id;
                                                                 }
                                                                 if (DialogObject.isUserDialog(longValue)) {
-                                                                    TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(longValue));
-                                                                    String firstName = UserObject.getFirstName(user);
-                                                                    if (UserObject.isUserSelf(user)) {
+                                                                    TLRPC.User user5 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(longValue));
+                                                                    String firstName = UserObject.getFirstName(user5);
+                                                                    if (UserObject.isUserSelf(user5)) {
                                                                         i16 = R.string.SavedMessages;
                                                                     } else {
-                                                                        if (UserObject.isReplyUser(user)) {
+                                                                        if (UserObject.isReplyUser(user5)) {
                                                                             i16 = R.string.RepliesTitle;
                                                                         }
                                                                         formatString5 = i != 20 ? LocaleController.formatString("FilterUserAddedToExisting", R.string.FilterUserAddedToExisting, firstName, dialogFilter.name) : LocaleController.formatString("FilterUserRemovedFrom", R.string.FilterUserRemovedFrom, firstName, dialogFilter.name);
@@ -908,8 +901,8 @@ public class UndoView extends FrameLayout {
                                                                     if (i != 20) {
                                                                     }
                                                                 } else {
-                                                                    TLRPC$Chat chat2 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue));
-                                                                    formatString5 = i == 20 ? LocaleController.formatString("FilterChatAddedToExisting", R.string.FilterChatAddedToExisting, chat2.title, dialogFilter.name) : LocaleController.formatString("FilterChatRemovedFrom", R.string.FilterChatRemovedFrom, chat2.title, dialogFilter.name);
+                                                                    TLRPC.Chat chat5 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue));
+                                                                    formatString5 = i == 20 ? LocaleController.formatString("FilterChatAddedToExisting", R.string.FilterChatAddedToExisting, chat5.title, dialogFilter.name) : LocaleController.formatString("FilterChatRemovedFrom", R.string.FilterChatRemovedFrom, chat5.title, dialogFilter.name);
                                                                 }
                                                             } else {
                                                                 formatString5 = i == 20 ? LocaleController.formatString("FilterChatsAddedToExisting", R.string.FilterChatsAddedToExisting, LocaleController.formatPluralString("ChatsSelected", ((Integer) obj).intValue(), new Object[0]), dialogFilter.name) : LocaleController.formatString("FilterChatsRemovedFrom", R.string.FilterChatsRemovedFrom, LocaleController.formatPluralString("ChatsSelected", ((Integer) obj).intValue(), new Object[0]), dialogFilter.name);
@@ -1026,7 +1019,7 @@ public class UndoView extends FrameLayout {
                     i6 = R.raw.chats_infotip;
                 } else {
                     if (i == 70) {
-                        TLRPC$User tLRPC$User5 = (TLRPC$User) obj;
+                        TLRPC.User user6 = (TLRPC.User) obj;
                         int intValue3 = ((Integer) obj2).intValue();
                         this.subinfoTextView.setSingleLine(false);
                         this.infoTextView.setText(LocaleController.formatString("AutoDeleteHintOnText", R.string.AutoDeleteHintOnText, LocaleController.formatTTLString(intValue3)));
@@ -1077,13 +1070,13 @@ public class UndoView extends FrameLayout {
                                                 this.leftImageView.setAnimation(R.raw.contact_check, 36, 36);
                                                 j = 3000;
                                             } else if (DialogObject.isChatDialog(longValue)) {
-                                                TLRPC$Chat chat3 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue));
+                                                TLRPC.Chat chat6 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue));
                                                 linksTextView5 = this.infoTextView;
-                                                formatString3 = LocaleController.formatString("InvLinkToGroup", R.string.InvLinkToGroup, chat3.title);
+                                                formatString3 = LocaleController.formatString("InvLinkToGroup", R.string.InvLinkToGroup, chat6.title);
                                             } else {
-                                                TLRPC$User user2 = MessagesController.getInstance(this.currentAccount).getUser(l);
+                                                TLRPC.User user7 = MessagesController.getInstance(this.currentAccount).getUser(l);
                                                 linksTextView5 = this.infoTextView;
-                                                formatString3 = LocaleController.formatString("InvLinkToUser", R.string.InvLinkToUser, UserObject.getFirstName(user2));
+                                                formatString3 = LocaleController.formatString("InvLinkToUser", R.string.InvLinkToUser, UserObject.getFirstName(user7));
                                             }
                                             linksTextView5.setText(AndroidUtilities.replaceTags(formatString3));
                                             this.leftImageView.setAnimation(R.raw.contact_check, 36, 36);
@@ -1091,7 +1084,7 @@ public class UndoView extends FrameLayout {
                                         } else {
                                             if (i23 == 53) {
                                                 Integer num = (Integer) obj;
-                                                if (obj2 != null && !(obj2 instanceof TLRPC$TL_forumTopic)) {
+                                                if (obj2 != null && !(obj2 instanceof TLRPC.TL_forumTopic)) {
                                                     int intValue5 = ((Integer) obj2).intValue();
                                                     if (num.intValue() == 1) {
                                                         linksTextView4 = this.infoTextView;
@@ -1112,23 +1105,23 @@ public class UndoView extends FrameLayout {
                                                     }
                                                     replaceTags = AndroidUtilities.replaceSingleTag(string, bulletinFactory$$ExternalSyntheticLambda0);
                                                 } else if (DialogObject.isChatDialog(longValue)) {
-                                                    TLRPC$Chat chat4 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue));
-                                                    TLRPC$TL_forumTopic tLRPC$TL_forumTopic = (TLRPC$TL_forumTopic) obj2;
+                                                    TLRPC.Chat chat7 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue));
+                                                    TLRPC.TL_forumTopic tL_forumTopic = (TLRPC.TL_forumTopic) obj2;
                                                     if (num.intValue() == 1) {
                                                         linksTextView4 = this.infoTextView;
-                                                        formatString2 = LocaleController.formatString("FwdMessageToGroup", R.string.FwdMessageToGroup, tLRPC$TL_forumTopic != null ? tLRPC$TL_forumTopic.title : chat4.title);
+                                                        formatString2 = LocaleController.formatString("FwdMessageToGroup", R.string.FwdMessageToGroup, tL_forumTopic != null ? tL_forumTopic.title : chat7.title);
                                                     } else {
                                                         linksTextView4 = this.infoTextView;
-                                                        formatString2 = LocaleController.formatString("FwdMessagesToGroup", R.string.FwdMessagesToGroup, tLRPC$TL_forumTopic != null ? tLRPC$TL_forumTopic.title : chat4.title);
+                                                        formatString2 = LocaleController.formatString("FwdMessagesToGroup", R.string.FwdMessagesToGroup, tL_forumTopic != null ? tL_forumTopic.title : chat7.title);
                                                     }
                                                 } else {
-                                                    TLRPC$User user3 = MessagesController.getInstance(this.currentAccount).getUser(l);
+                                                    TLRPC.User user8 = MessagesController.getInstance(this.currentAccount).getUser(l);
                                                     if (num.intValue() == 1) {
                                                         linksTextView4 = this.infoTextView;
-                                                        formatString2 = LocaleController.formatString("FwdMessageToUser", R.string.FwdMessageToUser, UserObject.getFirstName(user3));
+                                                        formatString2 = LocaleController.formatString("FwdMessageToUser", R.string.FwdMessageToUser, UserObject.getFirstName(user8));
                                                     } else {
                                                         linksTextView4 = this.infoTextView;
-                                                        formatString2 = LocaleController.formatString("FwdMessagesToUser", R.string.FwdMessagesToUser, UserObject.getFirstName(user3));
+                                                        formatString2 = LocaleController.formatString("FwdMessagesToUser", R.string.FwdMessagesToUser, UserObject.getFirstName(user8));
                                                     }
                                                 }
                                                 linksTextView4.setText(AndroidUtilities.replaceTags(formatString2));
@@ -1145,13 +1138,13 @@ public class UndoView extends FrameLayout {
                                                     linksTextView3 = this.infoTextView;
                                                     replaceTags = AndroidUtilities.replaceTags(LocaleController.getString(R.string.BackgroundToSavedMessages));
                                                 } else if (DialogObject.isChatDialog(longValue)) {
-                                                    TLRPC$Chat chat5 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue));
+                                                    TLRPC.Chat chat8 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue));
                                                     linksTextView2 = this.infoTextView;
-                                                    formatString = LocaleController.formatString("BackgroundToGroup", R.string.BackgroundToGroup, chat5.title);
+                                                    formatString = LocaleController.formatString("BackgroundToGroup", R.string.BackgroundToGroup, chat8.title);
                                                 } else {
-                                                    TLRPC$User user4 = MessagesController.getInstance(this.currentAccount).getUser(l);
+                                                    TLRPC.User user9 = MessagesController.getInstance(this.currentAccount).getUser(l);
                                                     linksTextView2 = this.infoTextView;
-                                                    formatString = LocaleController.formatString("BackgroundToUser", R.string.BackgroundToUser, UserObject.getFirstName(user4));
+                                                    formatString = LocaleController.formatString("BackgroundToUser", R.string.BackgroundToUser, UserObject.getFirstName(user9));
                                                 }
                                                 linksTextView2.setText(AndroidUtilities.replaceTags(formatString));
                                                 rLottieImageView = this.leftImageView;
@@ -1313,7 +1306,7 @@ public class UndoView extends FrameLayout {
             } else {
                 if (i22 == 24 || i22 == 25) {
                     int intValue7 = ((Integer) obj).intValue();
-                    TLRPC$User tLRPC$User6 = (TLRPC$User) obj2;
+                    TLRPC.User user10 = (TLRPC.User) obj2;
                     this.undoImageView.setVisibility(8);
                     this.leftImageView.setVisibility(0);
                     if (intValue7 != 0) {
@@ -1331,9 +1324,9 @@ public class UndoView extends FrameLayout {
                         this.subinfoTextView.setVisibility(0);
                         this.subinfoTextView.setSingleLine(false);
                         this.subinfoTextView.setMaxLines(3);
-                        if (tLRPC$User6 != null) {
+                        if (user10 != null) {
                             textView = this.subinfoTextView;
-                            formatString4 = LocaleController.formatString("ProximityAlertSetInfoUser", R.string.ProximityAlertSetInfoUser, UserObject.getFirstName(tLRPC$User6), LocaleController.formatDistance(intValue7, 2));
+                            formatString4 = LocaleController.formatString("ProximityAlertSetInfoUser", R.string.ProximityAlertSetInfoUser, UserObject.getFirstName(user10), LocaleController.formatDistance(intValue7, 2));
                         } else {
                             textView = this.subinfoTextView;
                             formatString4 = LocaleController.formatString("ProximityAlertSetInfoGroup2", R.string.ProximityAlertSetInfoGroup2, LocaleController.formatDistance(intValue7, 2));
@@ -1366,7 +1359,7 @@ public class UndoView extends FrameLayout {
                         this.leftImageView.setAnimation(R.raw.contact_check, 36, 36);
                         layoutParams.leftMargin = AndroidUtilities.dp(58.0f);
                         layoutParams.topMargin = AndroidUtilities.dp(6.0f);
-                        this.subinfoTextView.setText(((TLRPC$TL_authorization) obj).app_name);
+                        this.subinfoTextView.setText(((TLRPC.TL_authorization) obj).app_name);
                         this.subinfoTextView.setVisibility(0);
                         this.infoTextView.setTextSize(1, 14.0f);
                         this.infoTextView.setTypeface(AndroidUtilities.bold());
@@ -1724,8 +1717,8 @@ public class UndoView extends FrameLayout {
                                         textView2 = this.infoTextView;
                                         i9 = R.string.ChatsDeletedUndo;
                                     } else if (DialogObject.isChatDialog(longValue)) {
-                                        TLRPC$Chat chat6 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue));
-                                        if (!ChatObject.isChannel(chat6) || chat6.megagroup) {
+                                        TLRPC.Chat chat9 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue));
+                                        if (!ChatObject.isChannel(chat9) || chat9.megagroup) {
                                             textView2 = this.infoTextView;
                                             i9 = R.string.GroupDeletedUndo;
                                         } else {

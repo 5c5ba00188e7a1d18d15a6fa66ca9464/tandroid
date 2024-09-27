@@ -18,12 +18,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$ChatPhoto;
-import org.telegram.tgnet.TLRPC$FileLocation;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$UserProfilePhoto;
-import org.telegram.tgnet.TLRPC$UserStatus;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarDrawable;
@@ -44,7 +39,7 @@ public class UserCell2 extends FrameLayout {
     private TLObject currentObject;
     private CharSequence currentStatus;
     private ImageView imageView;
-    private TLRPC$FileLocation lastAvatar;
+    private TLRPC.FileLocation lastAvatar;
     private String lastName;
     private int lastStatus;
     private SimpleTextView nameTextView;
@@ -194,9 +189,9 @@ public class UserCell2 extends FrameLayout {
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void update(int i) {
-        TLRPC$User tLRPC$User;
-        TLRPC$Chat tLRPC$Chat;
-        TLRPC$FileLocation tLRPC$FileLocation;
+        TLRPC.User user;
+        TLRPC.Chat chat;
+        TLRPC.FileLocation fileLocation;
         String str;
         SimpleTextView simpleTextView;
         int i2;
@@ -204,51 +199,51 @@ public class UserCell2 extends FrameLayout {
         String formatPluralString;
         SimpleTextView simpleTextView3;
         int i3;
-        TLRPC$UserStatus tLRPC$UserStatus;
+        TLRPC.UserStatus userStatus;
         String formatUserStatus;
         BackupImageView backupImageView;
-        TLRPC$FileLocation tLRPC$FileLocation2;
+        TLRPC.FileLocation fileLocation2;
         TLObject tLObject = this.currentObject;
-        if (tLObject instanceof TLRPC$User) {
-            tLRPC$User = (TLRPC$User) tLObject;
-            TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto = tLRPC$User.photo;
-            if (tLRPC$UserProfilePhoto != null) {
-                tLRPC$FileLocation = tLRPC$UserProfilePhoto.photo_small;
-                tLRPC$Chat = null;
+        if (tLObject instanceof TLRPC.User) {
+            user = (TLRPC.User) tLObject;
+            TLRPC.UserProfilePhoto userProfilePhoto = user.photo;
+            if (userProfilePhoto != null) {
+                fileLocation = userProfilePhoto.photo_small;
+                chat = null;
             } else {
-                tLRPC$Chat = null;
-                tLRPC$FileLocation = tLRPC$Chat;
+                chat = null;
+                fileLocation = chat;
             }
-        } else if (tLObject instanceof TLRPC$Chat) {
-            TLRPC$Chat tLRPC$Chat2 = (TLRPC$Chat) tLObject;
-            TLRPC$ChatPhoto tLRPC$ChatPhoto = tLRPC$Chat2.photo;
-            if (tLRPC$ChatPhoto != null) {
-                tLRPC$FileLocation = tLRPC$ChatPhoto.photo_small;
-                tLRPC$Chat = tLRPC$Chat2;
-                tLRPC$User = null;
+        } else if (tLObject instanceof TLRPC.Chat) {
+            TLRPC.Chat chat2 = (TLRPC.Chat) tLObject;
+            TLRPC.ChatPhoto chatPhoto = chat2.photo;
+            if (chatPhoto != null) {
+                fileLocation = chatPhoto.photo_small;
+                chat = chat2;
+                user = null;
             } else {
-                tLRPC$Chat = tLRPC$Chat2;
-                tLRPC$User = null;
-                tLRPC$FileLocation = null;
+                chat = chat2;
+                user = null;
+                fileLocation = null;
             }
         } else {
-            tLRPC$User = null;
-            tLRPC$Chat = null;
-            tLRPC$FileLocation = tLRPC$Chat;
+            user = null;
+            chat = null;
+            fileLocation = chat;
         }
         if (i != 0) {
             boolean z = true;
-            boolean z2 = (MessagesController.UPDATE_MASK_AVATAR & i) != 0 && (((tLRPC$FileLocation2 = this.lastAvatar) != null && tLRPC$FileLocation == null) || ((tLRPC$FileLocation2 == null && tLRPC$FileLocation != null) || !(tLRPC$FileLocation2 == null || tLRPC$FileLocation == null || (tLRPC$FileLocation2.volume_id == tLRPC$FileLocation.volume_id && tLRPC$FileLocation2.local_id == tLRPC$FileLocation.local_id))));
-            if (tLRPC$User != null && !z2 && (MessagesController.UPDATE_MASK_STATUS & i) != 0) {
-                TLRPC$UserStatus tLRPC$UserStatus2 = tLRPC$User.status;
-                if ((tLRPC$UserStatus2 != null ? tLRPC$UserStatus2.expires : 0) != this.lastStatus) {
+            boolean z2 = (MessagesController.UPDATE_MASK_AVATAR & i) != 0 && (((fileLocation2 = this.lastAvatar) != null && fileLocation == null) || ((fileLocation2 == null && fileLocation != null) || !(fileLocation2 == null || fileLocation == null || (fileLocation2.volume_id == fileLocation.volume_id && fileLocation2.local_id == fileLocation.local_id))));
+            if (user != null && !z2 && (MessagesController.UPDATE_MASK_STATUS & i) != 0) {
+                TLRPC.UserStatus userStatus2 = user.status;
+                if ((userStatus2 != null ? userStatus2.expires : 0) != this.lastStatus) {
                     z2 = true;
                 }
             }
             if (z2 || this.currentName != null || this.lastName == null || (i & MessagesController.UPDATE_MASK_NAME) == 0) {
                 str = null;
             } else {
-                str = tLRPC$User != null ? UserObject.getUserName(tLRPC$User) : tLRPC$Chat.title;
+                str = user != null ? UserObject.getUserName(user) : chat.title;
             }
             z = z2;
             if (!z) {
@@ -257,17 +252,17 @@ public class UserCell2 extends FrameLayout {
         } else {
             str = null;
         }
-        this.lastAvatar = tLRPC$FileLocation;
-        if (tLRPC$User != null) {
-            this.avatarDrawable.setInfo(this.currentAccount, tLRPC$User);
-            TLRPC$UserStatus tLRPC$UserStatus3 = tLRPC$User.status;
-            if (tLRPC$UserStatus3 != null) {
-                this.lastStatus = tLRPC$UserStatus3.expires;
+        this.lastAvatar = fileLocation;
+        if (user != null) {
+            this.avatarDrawable.setInfo(this.currentAccount, user);
+            TLRPC.UserStatus userStatus3 = user.status;
+            if (userStatus3 != null) {
+                this.lastStatus = userStatus3.expires;
             } else {
                 this.lastStatus = 0;
             }
-        } else if (tLRPC$Chat != null) {
-            this.avatarDrawable.setInfo(this.currentAccount, tLRPC$Chat);
+        } else if (chat != null) {
+            this.avatarDrawable.setInfo(this.currentAccount, chat);
         } else {
             CharSequence charSequence = this.currentName;
             if (charSequence != null) {
@@ -281,31 +276,31 @@ public class UserCell2 extends FrameLayout {
             this.lastName = null;
             this.nameTextView.setText(charSequence2);
         } else {
-            if (tLRPC$User != null) {
+            if (user != null) {
                 if (str == null) {
-                    str = UserObject.getUserName(tLRPC$User);
+                    str = UserObject.getUserName(user);
                 }
             } else if (str == null) {
-                str = tLRPC$Chat.title;
+                str = chat.title;
             }
             this.lastName = str;
             this.nameTextView.setText(str);
         }
         if (this.currentStatus == null) {
-            if (tLRPC$User == null) {
-                if (tLRPC$Chat != null) {
+            if (user == null) {
+                if (chat != null) {
                     this.statusTextView.setTextColor(this.statusColor);
-                    if (!ChatObject.isChannel(tLRPC$Chat) || tLRPC$Chat.megagroup) {
-                        int i4 = tLRPC$Chat.participants_count;
+                    if (!ChatObject.isChannel(chat) || chat.megagroup) {
+                        int i4 = chat.participants_count;
                         if (i4 != 0) {
                             simpleTextView2 = this.statusTextView;
                             formatPluralString = LocaleController.formatPluralString("Members", i4, new Object[0]);
                             simpleTextView2.setText(formatPluralString);
                         } else {
-                            if (tLRPC$Chat.has_geo) {
+                            if (chat.has_geo) {
                                 simpleTextView = this.statusTextView;
                                 i2 = R.string.MegaLocation;
-                            } else if (ChatObject.isPublic(tLRPC$Chat)) {
+                            } else if (ChatObject.isPublic(chat)) {
                                 simpleTextView = this.statusTextView;
                                 i2 = R.string.MegaPublic;
                             } else {
@@ -315,13 +310,13 @@ public class UserCell2 extends FrameLayout {
                             simpleTextView.setText(LocaleController.getString(i2));
                         }
                     } else {
-                        int i5 = tLRPC$Chat.participants_count;
+                        int i5 = chat.participants_count;
                         if (i5 != 0) {
                             simpleTextView2 = this.statusTextView;
                             formatPluralString = LocaleController.formatPluralString("Subscribers", i5, new Object[0]);
                             simpleTextView2.setText(formatPluralString);
                         } else {
-                            if (ChatObject.isPublic(tLRPC$Chat)) {
+                            if (ChatObject.isPublic(chat)) {
                                 simpleTextView = this.statusTextView;
                                 i2 = R.string.ChannelPublic;
                             } else {
@@ -331,32 +326,32 @@ public class UserCell2 extends FrameLayout {
                             simpleTextView.setText(LocaleController.getString(i2));
                         }
                     }
-                    this.avatarImageView.setForUserOrChat(tLRPC$Chat, this.avatarDrawable);
+                    this.avatarImageView.setForUserOrChat(chat, this.avatarDrawable);
                 } else {
                     this.avatarImageView.setImageDrawable(this.avatarDrawable);
                 }
-                this.avatarImageView.setRoundRadius(AndroidUtilities.dp((tLRPC$Chat == null && tLRPC$Chat.forum) ? 14.0f : 24.0f));
+                this.avatarImageView.setRoundRadius(AndroidUtilities.dp((chat == null && chat.forum) ? 14.0f : 24.0f));
                 if (this.imageView.getVisibility() == 0) {
                 }
                 return;
             }
-            if (tLRPC$User.bot) {
+            if (user.bot) {
                 this.statusTextView.setTextColor(this.statusColor);
-                if (tLRPC$User.bot_chat_history) {
+                if (user.bot_chat_history) {
                     simpleTextView3 = this.statusTextView;
                     i3 = R.string.BotStatusRead;
                 } else {
                     simpleTextView3 = this.statusTextView;
                     i3 = R.string.BotStatusCantRead;
                 }
-            } else if (tLRPC$User.id != UserConfig.getInstance(this.currentAccount).getClientUserId() && (((tLRPC$UserStatus = tLRPC$User.status) == null || tLRPC$UserStatus.expires <= ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) && !MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(tLRPC$User.id)))) {
+            } else if (user.id != UserConfig.getInstance(this.currentAccount).getClientUserId() && (((userStatus = user.status) == null || userStatus.expires <= ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) && !MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(user.id)))) {
                 this.statusTextView.setTextColor(this.statusColor);
                 simpleTextView3 = this.statusTextView;
-                formatUserStatus = LocaleController.formatUserStatus(this.currentAccount, tLRPC$User);
+                formatUserStatus = LocaleController.formatUserStatus(this.currentAccount, user);
                 simpleTextView3.setText(formatUserStatus);
                 backupImageView = this.avatarImageView;
-                backupImageView.setForUserOrChat(tLRPC$User, this.avatarDrawable);
-                this.avatarImageView.setRoundRadius(AndroidUtilities.dp((tLRPC$Chat == null && tLRPC$Chat.forum) ? 14.0f : 24.0f));
+                backupImageView.setForUserOrChat(user, this.avatarDrawable);
+                this.avatarImageView.setRoundRadius(AndroidUtilities.dp((chat == null && chat.forum) ? 14.0f : 24.0f));
                 if ((this.imageView.getVisibility() == 0 || this.currentDrawable != 0) && (this.imageView.getVisibility() != 8 || this.currentDrawable == 0)) {
                     return;
                 }
@@ -371,8 +366,8 @@ public class UserCell2 extends FrameLayout {
             formatUserStatus = LocaleController.getString(i3);
             simpleTextView3.setText(formatUserStatus);
             backupImageView = this.avatarImageView;
-            backupImageView.setForUserOrChat(tLRPC$User, this.avatarDrawable);
-            this.avatarImageView.setRoundRadius(AndroidUtilities.dp((tLRPC$Chat == null && tLRPC$Chat.forum) ? 14.0f : 24.0f));
+            backupImageView.setForUserOrChat(user, this.avatarDrawable);
+            this.avatarImageView.setRoundRadius(AndroidUtilities.dp((chat == null && chat.forum) ? 14.0f : 24.0f));
             if (this.imageView.getVisibility() == 0) {
             }
             return;

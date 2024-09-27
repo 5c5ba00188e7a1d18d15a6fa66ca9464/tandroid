@@ -27,32 +27,8 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$GeoPoint;
-import org.telegram.tgnet.TLRPC$InputGeoPoint;
-import org.telegram.tgnet.TLRPC$InputMedia;
-import org.telegram.tgnet.TLRPC$Message;
-import org.telegram.tgnet.TLRPC$MessageMedia;
-import org.telegram.tgnet.TLRPC$TL_channels_readMessageContents;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_geoPoint;
-import org.telegram.tgnet.TLRPC$TL_inputGeoPoint;
-import org.telegram.tgnet.TLRPC$TL_inputGeoPointEmpty;
-import org.telegram.tgnet.TLRPC$TL_inputMediaGeoLive;
-import org.telegram.tgnet.TLRPC$TL_messageActionGeoProximityReached;
-import org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive;
-import org.telegram.tgnet.TLRPC$TL_messageMediaVenue;
-import org.telegram.tgnet.TLRPC$TL_messages_affectedMessages;
-import org.telegram.tgnet.TLRPC$TL_messages_editMessage;
-import org.telegram.tgnet.TLRPC$TL_messages_getRecentLocations;
-import org.telegram.tgnet.TLRPC$TL_messages_readMessageContents;
-import org.telegram.tgnet.TLRPC$TL_updateEditChannelMessage;
-import org.telegram.tgnet.TLRPC$TL_updateEditMessage;
-import org.telegram.tgnet.TLRPC$Update;
-import org.telegram.tgnet.TLRPC$Updates;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$messages_Messages;
-import org.telegram.tgnet.tl.TL_stories$TL_geoPointAddress;
+import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.Components.PermissionRequest;
 /* loaded from: classes3.dex */
 public class LocationController extends BaseController implements NotificationCenter.NotificationCenterDelegate, ILocationServiceProvider.IAPIConnectionCallbacks, ILocationServiceProvider.IAPIOnConnectionFailedListener {
@@ -144,7 +120,7 @@ public class LocationController extends BaseController implements NotificationCe
 
     /* loaded from: classes3.dex */
     public interface LocationFetchCallback {
-        void onLocationAddressAvailable(String str, String str2, TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue, TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue2, Location location);
+        void onLocationAddressAvailable(String str, String str2, TLRPC.TL_messageMediaVenue tL_messageMediaVenue, TLRPC.TL_messageMediaVenue tL_messageMediaVenue2, Location location);
     }
 
     /* loaded from: classes3.dex */
@@ -192,7 +168,7 @@ public class LocationController extends BaseController implements NotificationCe
 
     private void broadcastLastKnownLocation(boolean z) {
         int i;
-        TLRPC$GeoPoint tLRPC$GeoPoint;
+        TLRPC.GeoPoint geoPoint;
         if (this.lastKnownLocation == null) {
             return;
         }
@@ -209,46 +185,46 @@ public class LocationController extends BaseController implements NotificationCe
             float[] fArr = new float[1];
             while (i < this.sharingLocations.size()) {
                 final SharingLocationInfo sharingLocationInfo = this.sharingLocations.get(i);
-                TLRPC$Message tLRPC$Message = sharingLocationInfo.messageObject.messageOwner;
-                TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message.media;
-                if (tLRPC$MessageMedia != null && (tLRPC$GeoPoint = tLRPC$MessageMedia.geo) != null && sharingLocationInfo.lastSentProximityMeters == sharingLocationInfo.proximityMeters) {
-                    int i3 = tLRPC$Message.edit_date;
+                TLRPC.Message message = sharingLocationInfo.messageObject.messageOwner;
+                TLRPC.MessageMedia messageMedia = message.media;
+                if (messageMedia != null && (geoPoint = messageMedia.geo) != null && sharingLocationInfo.lastSentProximityMeters == sharingLocationInfo.proximityMeters) {
+                    int i3 = message.edit_date;
                     if (i3 == 0) {
-                        i3 = tLRPC$Message.date;
+                        i3 = message.date;
                     }
                     if (Math.abs(currentTime - i3) < 10) {
-                        Location.distanceBetween(tLRPC$GeoPoint.lat, tLRPC$GeoPoint._long, this.lastKnownLocation.getLatitude(), this.lastKnownLocation.getLongitude(), fArr);
+                        Location.distanceBetween(geoPoint.lat, geoPoint._long, this.lastKnownLocation.getLatitude(), this.lastKnownLocation.getLongitude(), fArr);
                         i = fArr[0] < 1.0f ? i + 1 : 0;
                     }
                 }
-                final TLRPC$TL_messages_editMessage tLRPC$TL_messages_editMessage = new TLRPC$TL_messages_editMessage();
-                tLRPC$TL_messages_editMessage.peer = getMessagesController().getInputPeer(sharingLocationInfo.did);
-                tLRPC$TL_messages_editMessage.id = sharingLocationInfo.mid;
-                tLRPC$TL_messages_editMessage.flags |= LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
-                TLRPC$TL_inputMediaGeoLive tLRPC$TL_inputMediaGeoLive = new TLRPC$TL_inputMediaGeoLive();
-                tLRPC$TL_messages_editMessage.media = tLRPC$TL_inputMediaGeoLive;
-                tLRPC$TL_inputMediaGeoLive.stopped = false;
-                tLRPC$TL_inputMediaGeoLive.geo_point = new TLRPC$TL_inputGeoPoint();
-                tLRPC$TL_messages_editMessage.media.geo_point.lat = AndroidUtilities.fixLocationCoord(this.lastKnownLocation.getLatitude());
-                tLRPC$TL_messages_editMessage.media.geo_point._long = AndroidUtilities.fixLocationCoord(this.lastKnownLocation.getLongitude());
-                tLRPC$TL_messages_editMessage.media.geo_point.accuracy_radius = (int) this.lastKnownLocation.getAccuracy();
-                TLRPC$InputMedia tLRPC$InputMedia = tLRPC$TL_messages_editMessage.media;
-                TLRPC$InputGeoPoint tLRPC$InputGeoPoint = tLRPC$InputMedia.geo_point;
-                if (tLRPC$InputGeoPoint.accuracy_radius != 0) {
-                    tLRPC$InputGeoPoint.flags |= 1;
+                final TLRPC.TL_messages_editMessage tL_messages_editMessage = new TLRPC.TL_messages_editMessage();
+                tL_messages_editMessage.peer = getMessagesController().getInputPeer(sharingLocationInfo.did);
+                tL_messages_editMessage.id = sharingLocationInfo.mid;
+                tL_messages_editMessage.flags |= LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
+                TLRPC.TL_inputMediaGeoLive tL_inputMediaGeoLive = new TLRPC.TL_inputMediaGeoLive();
+                tL_messages_editMessage.media = tL_inputMediaGeoLive;
+                tL_inputMediaGeoLive.stopped = false;
+                tL_inputMediaGeoLive.geo_point = new TLRPC.TL_inputGeoPoint();
+                tL_messages_editMessage.media.geo_point.lat = AndroidUtilities.fixLocationCoord(this.lastKnownLocation.getLatitude());
+                tL_messages_editMessage.media.geo_point._long = AndroidUtilities.fixLocationCoord(this.lastKnownLocation.getLongitude());
+                tL_messages_editMessage.media.geo_point.accuracy_radius = (int) this.lastKnownLocation.getAccuracy();
+                TLRPC.InputMedia inputMedia = tL_messages_editMessage.media;
+                TLRPC.InputGeoPoint inputGeoPoint = inputMedia.geo_point;
+                if (inputGeoPoint.accuracy_radius != 0) {
+                    inputGeoPoint.flags |= 1;
                 }
                 int i4 = sharingLocationInfo.lastSentProximityMeters;
                 int i5 = sharingLocationInfo.proximityMeters;
                 if (i4 != i5) {
-                    tLRPC$InputMedia.proximity_notification_radius = i5;
-                    tLRPC$InputMedia.flags |= 8;
+                    inputMedia.proximity_notification_radius = i5;
+                    inputMedia.flags |= 8;
                 }
-                tLRPC$InputMedia.heading = getHeading(this.lastKnownLocation);
-                tLRPC$TL_messages_editMessage.media.flags |= 4;
-                int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_messages_editMessage, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda22
+                inputMedia.heading = getHeading(this.lastKnownLocation);
+                tL_messages_editMessage.media.flags |= 4;
+                int sendRequest = getConnectionsManager().sendRequest(tL_messages_editMessage, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda22
                     @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        LocationController.this.lambda$broadcastLastKnownLocation$7(sharingLocationInfo, r3, tLRPC$TL_messages_editMessage, tLObject, tLRPC$TL_error);
+                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                        LocationController.this.lambda$broadcastLastKnownLocation$7(sharingLocationInfo, r3, tL_messages_editMessage, tLObject, tL_error);
                     }
                 });
                 final int[] iArr = {sendRequest};
@@ -396,11 +372,11 @@ public class LocationController extends BaseController implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$broadcastLastKnownLocation$7(final SharingLocationInfo sharingLocationInfo, int[] iArr, TLRPC$TL_messages_editMessage tLRPC$TL_messages_editMessage, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$broadcastLastKnownLocation$7(final SharingLocationInfo sharingLocationInfo, int[] iArr, TLRPC.TL_messages_editMessage tL_messages_editMessage, TLObject tLObject, TLRPC.TL_error tL_error) {
         MessageObject messageObject;
-        TLRPC$Message tLRPC$Message;
-        if (tLRPC$TL_error != null) {
-            if (tLRPC$TL_error.text.equals("MESSAGE_ID_INVALID")) {
+        TLRPC.Message message;
+        if (tL_error != null) {
+            if (tL_error.text.equals("MESSAGE_ID_INVALID")) {
                 this.sharingLocations.remove(sharingLocationInfo);
                 this.sharingLocationsMap.remove(sharingLocationInfo.did);
                 saveSharingLocation(sharingLocationInfo, 1);
@@ -415,27 +391,27 @@ public class LocationController extends BaseController implements NotificationCe
             }
             return;
         }
-        if ((tLRPC$TL_messages_editMessage.flags & 8) != 0) {
-            sharingLocationInfo.lastSentProximityMeters = tLRPC$TL_messages_editMessage.media.proximity_notification_radius;
+        if ((tL_messages_editMessage.flags & 8) != 0) {
+            sharingLocationInfo.lastSentProximityMeters = tL_messages_editMessage.media.proximity_notification_radius;
         }
-        TLRPC$Updates tLRPC$Updates = (TLRPC$Updates) tLObject;
+        TLRPC.Updates updates = (TLRPC.Updates) tLObject;
         boolean z = false;
-        for (int i = 0; i < tLRPC$Updates.updates.size(); i++) {
-            TLRPC$Update tLRPC$Update = tLRPC$Updates.updates.get(i);
-            if (tLRPC$Update instanceof TLRPC$TL_updateEditMessage) {
+        for (int i = 0; i < updates.updates.size(); i++) {
+            TLRPC.Update update = updates.updates.get(i);
+            if (update instanceof TLRPC.TL_updateEditMessage) {
                 messageObject = sharingLocationInfo.messageObject;
-                tLRPC$Message = ((TLRPC$TL_updateEditMessage) tLRPC$Update).message;
-            } else if (tLRPC$Update instanceof TLRPC$TL_updateEditChannelMessage) {
+                message = ((TLRPC.TL_updateEditMessage) update).message;
+            } else if (update instanceof TLRPC.TL_updateEditChannelMessage) {
                 messageObject = sharingLocationInfo.messageObject;
-                tLRPC$Message = ((TLRPC$TL_updateEditChannelMessage) tLRPC$Update).message;
+                message = ((TLRPC.TL_updateEditChannelMessage) update).message;
             }
-            messageObject.messageOwner = tLRPC$Message;
+            messageObject.messageOwner = message;
             z = true;
         }
         if (z) {
             saveSharingLocation(sharingLocationInfo, 0);
         }
-        getMessagesController().processUpdates(tLRPC$Updates, false);
+        getMessagesController().processUpdates(updates, false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -449,9 +425,9 @@ public class LocationController extends BaseController implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$fetchLocationAddress$28(LocationFetchCallback locationFetchCallback, String str, String str2, TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue, TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue2, Location location) {
+    public static /* synthetic */ void lambda$fetchLocationAddress$28(LocationFetchCallback locationFetchCallback, String str, String str2, TLRPC.TL_messageMediaVenue tL_messageMediaVenue, TLRPC.TL_messageMediaVenue tL_messageMediaVenue2, Location location) {
         callbacks.remove(locationFetchCallback);
-        locationFetchCallback.onLocationAddressAvailable(str, str2, tLRPC$TL_messageMediaVenue, tLRPC$TL_messageMediaVenue2, location);
+        locationFetchCallback.onLocationAddressAvailable(str, str2, tL_messageMediaVenue, tL_messageMediaVenue2, location);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -482,15 +458,15 @@ public class LocationController extends BaseController implements NotificationCe
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static /* synthetic */ void lambda$fetchLocationAddress$29(Locale locale, final Location location, int i, Locale locale2, final LocationFetchCallback locationFetchCallback) {
-        TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue;
-        TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue2;
-        TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue3;
-        TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue4;
+        TLRPC.TL_messageMediaVenue tL_messageMediaVenue;
+        TLRPC.TL_messageMediaVenue tL_messageMediaVenue2;
+        TLRPC.TL_messageMediaVenue tL_messageMediaVenue3;
+        TLRPC.TL_messageMediaVenue tL_messageMediaVenue4;
         final String str;
         final String str2;
-        final TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue5;
-        final TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue6;
-        TL_stories$TL_geoPointAddress tL_stories$TL_geoPointAddress;
+        final TLRPC.TL_messageMediaVenue tL_messageMediaVenue5;
+        final TLRPC.TL_messageMediaVenue tL_messageMediaVenue6;
+        TL_stories.TL_geoPointAddress tL_geoPointAddress;
         String format;
         String str3;
         String str4;
@@ -523,8 +499,8 @@ public class LocationController extends BaseController implements NotificationCe
         String str19;
         String str20;
         StringBuilder sb2 = new StringBuilder();
-        TL_stories$TL_geoPointAddress tL_stories$TL_geoPointAddress2 = new TL_stories$TL_geoPointAddress();
-        TL_stories$TL_geoPointAddress tL_stories$TL_geoPointAddress3 = new TL_stories$TL_geoPointAddress();
+        TL_stories.TL_geoPointAddress tL_geoPointAddress2 = new TL_stories.TL_geoPointAddress();
+        TL_stories.TL_geoPointAddress tL_geoPointAddress3 = new TL_stories.TL_geoPointAddress();
         String str21 = null;
         try {
             List<Address> fromLocation = new Geocoder(ApplicationLoader.applicationContext, locale).getFromLocation(location.getLatitude(), location.getLongitude(), 1);
@@ -583,7 +559,7 @@ public class LocationController extends BaseController implements NotificationCe
                     }
                     format = arrayList.isEmpty() ? null : TextUtils.join(", ", arrayList);
                     str3 = format;
-                    tL_stories$TL_geoPointAddress = tL_stories$TL_geoPointAddress3;
+                    tL_geoPointAddress = tL_geoPointAddress3;
                     str4 = null;
                     str5 = null;
                     str7 = null;
@@ -754,7 +730,7 @@ public class LocationController extends BaseController implements NotificationCe
                                         str14 = countryCode;
                                         str15 = str8;
                                         sb = sb2;
-                                        tL_stories$TL_geoPointAddress = tL_stories$TL_geoPointAddress3;
+                                        tL_geoPointAddress = tL_geoPointAddress3;
                                     } else {
                                         if (sb3.length() > 0) {
                                             sb3.append(", ");
@@ -765,9 +741,9 @@ public class LocationController extends BaseController implements NotificationCe
                                         str15 = str8;
                                         sb = sb2;
                                         if ("US".equals(address.getCountryCode())) {
-                                            tL_stories$TL_geoPointAddress = tL_stories$TL_geoPointAddress3;
+                                            tL_geoPointAddress = tL_geoPointAddress3;
                                         } else {
-                                            tL_stories$TL_geoPointAddress = tL_stories$TL_geoPointAddress3;
+                                            tL_geoPointAddress = tL_geoPointAddress3;
                                             if ("AE".equals(address.getCountryCode())) {
                                             }
                                             if ("GB".equals(address.getCountryCode()) && "en".equals(language)) {
@@ -938,7 +914,7 @@ public class LocationController extends BaseController implements NotificationCe
                 z = z4;
                 str6 = str9;
             } else {
-                tL_stories$TL_geoPointAddress = tL_stories$TL_geoPointAddress3;
+                tL_geoPointAddress = tL_geoPointAddress3;
                 format = i == 1 ? null : String.format(Locale.US, "Unknown address (%f,%f)", Double.valueOf(location.getLatitude()), Double.valueOf(location.getLongitude()));
                 str3 = format;
                 str4 = null;
@@ -949,172 +925,172 @@ public class LocationController extends BaseController implements NotificationCe
                 str21 = null;
             }
             if (TextUtils.isEmpty(str4)) {
-                tLRPC$TL_messageMediaVenue3 = null;
+                tL_messageMediaVenue3 = null;
             } else {
-                tLRPC$TL_messageMediaVenue3 = new TLRPC$TL_messageMediaVenue();
+                tL_messageMediaVenue3 = new TLRPC.TL_messageMediaVenue();
                 try {
-                    TLRPC$TL_geoPoint tLRPC$TL_geoPoint = new TLRPC$TL_geoPoint();
-                    tLRPC$TL_messageMediaVenue3.geo = tLRPC$TL_geoPoint;
-                    tLRPC$TL_geoPoint.lat = location.getLatitude();
-                    tLRPC$TL_messageMediaVenue3.geo._long = location.getLongitude();
-                    tLRPC$TL_messageMediaVenue3.query_id = -1L;
-                    tLRPC$TL_messageMediaVenue3.title = str4;
-                    tLRPC$TL_messageMediaVenue3.icon = z ? "https://ss3.4sqi.net/img/categories_v2/building/government_capitolbuilding_64.png" : "https://ss3.4sqi.net/img/categories_v2/travel/hotel_64.png";
-                    tLRPC$TL_messageMediaVenue3.emoji = countryCodeToEmoji(str5);
-                    tLRPC$TL_messageMediaVenue3.address = LocaleController.getString(z ? R.string.Country : R.string.PassportCity);
-                    tLRPC$TL_messageMediaVenue3.geoAddress = tL_stories$TL_geoPointAddress2;
-                    tL_stories$TL_geoPointAddress2.country_iso2 = str5;
+                    TLRPC.TL_geoPoint tL_geoPoint = new TLRPC.TL_geoPoint();
+                    tL_messageMediaVenue3.geo = tL_geoPoint;
+                    tL_geoPoint.lat = location.getLatitude();
+                    tL_messageMediaVenue3.geo._long = location.getLongitude();
+                    tL_messageMediaVenue3.query_id = -1L;
+                    tL_messageMediaVenue3.title = str4;
+                    tL_messageMediaVenue3.icon = z ? "https://ss3.4sqi.net/img/categories_v2/building/government_capitolbuilding_64.png" : "https://ss3.4sqi.net/img/categories_v2/travel/hotel_64.png";
+                    tL_messageMediaVenue3.emoji = countryCodeToEmoji(str5);
+                    tL_messageMediaVenue3.address = LocaleController.getString(z ? R.string.Country : R.string.PassportCity);
+                    tL_messageMediaVenue3.geoAddress = tL_geoPointAddress2;
+                    tL_geoPointAddress2.country_iso2 = str5;
                     if (!z) {
                         if (!TextUtils.isEmpty(str7)) {
-                            tL_stories$TL_geoPointAddress2.flags |= 1;
-                            tL_stories$TL_geoPointAddress2.state = str7;
+                            tL_geoPointAddress2.flags |= 1;
+                            tL_geoPointAddress2.state = str7;
                         }
                         if (!TextUtils.isEmpty(str6)) {
-                            tL_stories$TL_geoPointAddress2.flags |= 2;
-                            tL_stories$TL_geoPointAddress2.city = str6;
+                            tL_geoPointAddress2.flags |= 2;
+                            tL_geoPointAddress2.city = str6;
                         }
                     }
                 } catch (Exception unused6) {
-                    tLRPC$TL_messageMediaVenue4 = null;
+                    tL_messageMediaVenue4 = null;
                     str2 = String.format(Locale.US, "Unknown address (%f,%f)", Double.valueOf(location.getLatitude()), Double.valueOf(location.getLongitude()));
                     str = str2;
-                    tLRPC$TL_messageMediaVenue5 = tLRPC$TL_messageMediaVenue3;
-                    tLRPC$TL_messageMediaVenue6 = tLRPC$TL_messageMediaVenue4;
+                    tL_messageMediaVenue5 = tL_messageMediaVenue3;
+                    tL_messageMediaVenue6 = tL_messageMediaVenue4;
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda10
                         @Override // java.lang.Runnable
                         public final void run() {
-                            LocationController.lambda$fetchLocationAddress$28(LocationController.LocationFetchCallback.this, str2, str, tLRPC$TL_messageMediaVenue5, tLRPC$TL_messageMediaVenue6, location);
+                            LocationController.lambda$fetchLocationAddress$28(LocationController.LocationFetchCallback.this, str2, str, tL_messageMediaVenue5, tL_messageMediaVenue6, location);
                         }
                     });
                 }
             }
             try {
                 if (TextUtils.isEmpty(str21)) {
-                    tLRPC$TL_messageMediaVenue4 = null;
+                    tL_messageMediaVenue4 = null;
                 } else {
-                    TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue7 = new TLRPC$TL_messageMediaVenue();
+                    TLRPC.TL_messageMediaVenue tL_messageMediaVenue7 = new TLRPC.TL_messageMediaVenue();
                     try {
-                        TLRPC$TL_geoPoint tLRPC$TL_geoPoint2 = new TLRPC$TL_geoPoint();
-                        tLRPC$TL_messageMediaVenue7.geo = tLRPC$TL_geoPoint2;
-                        tLRPC$TL_geoPoint2.lat = location.getLatitude();
-                        tLRPC$TL_messageMediaVenue7.geo._long = location.getLongitude();
-                        tLRPC$TL_messageMediaVenue7.query_id = -1L;
-                        tLRPC$TL_messageMediaVenue7.title = str21;
-                        tLRPC$TL_messageMediaVenue7.icon = "pin";
-                        tLRPC$TL_messageMediaVenue7.address = LocaleController.getString(R.string.PassportStreet1);
-                        TL_stories$TL_geoPointAddress tL_stories$TL_geoPointAddress4 = tL_stories$TL_geoPointAddress;
-                        tLRPC$TL_messageMediaVenue7.geoAddress = tL_stories$TL_geoPointAddress4;
-                        tL_stories$TL_geoPointAddress4.country_iso2 = str5;
+                        TLRPC.TL_geoPoint tL_geoPoint2 = new TLRPC.TL_geoPoint();
+                        tL_messageMediaVenue7.geo = tL_geoPoint2;
+                        tL_geoPoint2.lat = location.getLatitude();
+                        tL_messageMediaVenue7.geo._long = location.getLongitude();
+                        tL_messageMediaVenue7.query_id = -1L;
+                        tL_messageMediaVenue7.title = str21;
+                        tL_messageMediaVenue7.icon = "pin";
+                        tL_messageMediaVenue7.address = LocaleController.getString(R.string.PassportStreet1);
+                        TL_stories.TL_geoPointAddress tL_geoPointAddress4 = tL_geoPointAddress;
+                        tL_messageMediaVenue7.geoAddress = tL_geoPointAddress4;
+                        tL_geoPointAddress4.country_iso2 = str5;
                         if (!TextUtils.isEmpty(str7)) {
-                            tL_stories$TL_geoPointAddress4.flags |= 1;
-                            tL_stories$TL_geoPointAddress4.state = str7;
+                            tL_geoPointAddress4.flags |= 1;
+                            tL_geoPointAddress4.state = str7;
                         }
                         if (!TextUtils.isEmpty(str6)) {
-                            tL_stories$TL_geoPointAddress4.flags |= 2;
-                            tL_stories$TL_geoPointAddress4.city = str6;
+                            tL_geoPointAddress4.flags |= 2;
+                            tL_geoPointAddress4.city = str6;
                         }
                         if (!TextUtils.isEmpty(sb2)) {
-                            tL_stories$TL_geoPointAddress4.flags |= 4;
-                            tL_stories$TL_geoPointAddress4.street = sb2.toString();
+                            tL_geoPointAddress4.flags |= 4;
+                            tL_geoPointAddress4.street = sb2.toString();
                         }
-                        tLRPC$TL_messageMediaVenue4 = tLRPC$TL_messageMediaVenue7;
+                        tL_messageMediaVenue4 = tL_messageMediaVenue7;
                     } catch (Exception unused7) {
-                        tLRPC$TL_messageMediaVenue4 = tLRPC$TL_messageMediaVenue7;
+                        tL_messageMediaVenue4 = tL_messageMediaVenue7;
                         str2 = String.format(Locale.US, "Unknown address (%f,%f)", Double.valueOf(location.getLatitude()), Double.valueOf(location.getLongitude()));
                         str = str2;
-                        tLRPC$TL_messageMediaVenue5 = tLRPC$TL_messageMediaVenue3;
-                        tLRPC$TL_messageMediaVenue6 = tLRPC$TL_messageMediaVenue4;
+                        tL_messageMediaVenue5 = tL_messageMediaVenue3;
+                        tL_messageMediaVenue6 = tL_messageMediaVenue4;
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda10
                             @Override // java.lang.Runnable
                             public final void run() {
-                                LocationController.lambda$fetchLocationAddress$28(LocationController.LocationFetchCallback.this, str2, str, tLRPC$TL_messageMediaVenue5, tLRPC$TL_messageMediaVenue6, location);
+                                LocationController.lambda$fetchLocationAddress$28(LocationController.LocationFetchCallback.this, str2, str, tL_messageMediaVenue5, tL_messageMediaVenue6, location);
                             }
                         });
                     }
                 }
             } catch (Exception unused8) {
-                tLRPC$TL_messageMediaVenue = tLRPC$TL_messageMediaVenue3;
-                tLRPC$TL_messageMediaVenue2 = null;
-                tLRPC$TL_messageMediaVenue3 = tLRPC$TL_messageMediaVenue;
-                tLRPC$TL_messageMediaVenue4 = tLRPC$TL_messageMediaVenue2;
+                tL_messageMediaVenue = tL_messageMediaVenue3;
+                tL_messageMediaVenue2 = null;
+                tL_messageMediaVenue3 = tL_messageMediaVenue;
+                tL_messageMediaVenue4 = tL_messageMediaVenue2;
                 str2 = String.format(Locale.US, "Unknown address (%f,%f)", Double.valueOf(location.getLatitude()), Double.valueOf(location.getLongitude()));
                 str = str2;
-                tLRPC$TL_messageMediaVenue5 = tLRPC$TL_messageMediaVenue3;
-                tLRPC$TL_messageMediaVenue6 = tLRPC$TL_messageMediaVenue4;
+                tL_messageMediaVenue5 = tL_messageMediaVenue3;
+                tL_messageMediaVenue6 = tL_messageMediaVenue4;
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda10
                     @Override // java.lang.Runnable
                     public final void run() {
-                        LocationController.lambda$fetchLocationAddress$28(LocationController.LocationFetchCallback.this, str2, str, tLRPC$TL_messageMediaVenue5, tLRPC$TL_messageMediaVenue6, location);
+                        LocationController.lambda$fetchLocationAddress$28(LocationController.LocationFetchCallback.this, str2, str, tL_messageMediaVenue5, tL_messageMediaVenue6, location);
                     }
                 });
             }
         } catch (Exception unused9) {
-            tLRPC$TL_messageMediaVenue = null;
+            tL_messageMediaVenue = null;
         }
-        if (tLRPC$TL_messageMediaVenue3 == null && tLRPC$TL_messageMediaVenue4 == null) {
+        if (tL_messageMediaVenue3 == null && tL_messageMediaVenue4 == null) {
             try {
                 detectOcean = detectOcean(location.getLongitude(), location.getLatitude());
             } catch (Exception unused10) {
-                tLRPC$TL_messageMediaVenue2 = tLRPC$TL_messageMediaVenue4;
-                tLRPC$TL_messageMediaVenue = tLRPC$TL_messageMediaVenue3;
-                tLRPC$TL_messageMediaVenue3 = tLRPC$TL_messageMediaVenue;
-                tLRPC$TL_messageMediaVenue4 = tLRPC$TL_messageMediaVenue2;
+                tL_messageMediaVenue2 = tL_messageMediaVenue4;
+                tL_messageMediaVenue = tL_messageMediaVenue3;
+                tL_messageMediaVenue3 = tL_messageMediaVenue;
+                tL_messageMediaVenue4 = tL_messageMediaVenue2;
                 str2 = String.format(Locale.US, "Unknown address (%f,%f)", Double.valueOf(location.getLatitude()), Double.valueOf(location.getLongitude()));
                 str = str2;
-                tLRPC$TL_messageMediaVenue5 = tLRPC$TL_messageMediaVenue3;
-                tLRPC$TL_messageMediaVenue6 = tLRPC$TL_messageMediaVenue4;
+                tL_messageMediaVenue5 = tL_messageMediaVenue3;
+                tL_messageMediaVenue6 = tL_messageMediaVenue4;
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda10
                     @Override // java.lang.Runnable
                     public final void run() {
-                        LocationController.lambda$fetchLocationAddress$28(LocationController.LocationFetchCallback.this, str2, str, tLRPC$TL_messageMediaVenue5, tLRPC$TL_messageMediaVenue6, location);
+                        LocationController.lambda$fetchLocationAddress$28(LocationController.LocationFetchCallback.this, str2, str, tL_messageMediaVenue5, tL_messageMediaVenue6, location);
                     }
                 });
             }
             if (detectOcean != null) {
-                TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue8 = new TLRPC$TL_messageMediaVenue();
+                TLRPC.TL_messageMediaVenue tL_messageMediaVenue8 = new TLRPC.TL_messageMediaVenue();
                 try {
-                    TLRPC$TL_geoPoint tLRPC$TL_geoPoint3 = new TLRPC$TL_geoPoint();
-                    tLRPC$TL_messageMediaVenue8.geo = tLRPC$TL_geoPoint3;
-                    tLRPC$TL_geoPoint3.lat = location.getLatitude();
-                    tLRPC$TL_messageMediaVenue8.geo._long = location.getLongitude();
-                    tLRPC$TL_messageMediaVenue8.query_id = -1L;
-                    tLRPC$TL_messageMediaVenue8.title = detectOcean;
-                    tLRPC$TL_messageMediaVenue8.icon = "pin";
-                    tLRPC$TL_messageMediaVenue8.emoji = "🌊";
-                    tLRPC$TL_messageMediaVenue8.address = "Ocean";
+                    TLRPC.TL_geoPoint tL_geoPoint3 = new TLRPC.TL_geoPoint();
+                    tL_messageMediaVenue8.geo = tL_geoPoint3;
+                    tL_geoPoint3.lat = location.getLatitude();
+                    tL_messageMediaVenue8.geo._long = location.getLongitude();
+                    tL_messageMediaVenue8.query_id = -1L;
+                    tL_messageMediaVenue8.title = detectOcean;
+                    tL_messageMediaVenue8.icon = "pin";
+                    tL_messageMediaVenue8.emoji = "🌊";
+                    tL_messageMediaVenue8.address = "Ocean";
                     str = str3;
-                    tLRPC$TL_messageMediaVenue5 = tLRPC$TL_messageMediaVenue8;
-                    tLRPC$TL_messageMediaVenue6 = tLRPC$TL_messageMediaVenue4;
+                    tL_messageMediaVenue5 = tL_messageMediaVenue8;
+                    tL_messageMediaVenue6 = tL_messageMediaVenue4;
                     str2 = format;
                 } catch (Exception unused11) {
-                    tLRPC$TL_messageMediaVenue3 = tLRPC$TL_messageMediaVenue8;
+                    tL_messageMediaVenue3 = tL_messageMediaVenue8;
                     str2 = String.format(Locale.US, "Unknown address (%f,%f)", Double.valueOf(location.getLatitude()), Double.valueOf(location.getLongitude()));
                     str = str2;
-                    tLRPC$TL_messageMediaVenue5 = tLRPC$TL_messageMediaVenue3;
-                    tLRPC$TL_messageMediaVenue6 = tLRPC$TL_messageMediaVenue4;
+                    tL_messageMediaVenue5 = tL_messageMediaVenue3;
+                    tL_messageMediaVenue6 = tL_messageMediaVenue4;
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda10
                         @Override // java.lang.Runnable
                         public final void run() {
-                            LocationController.lambda$fetchLocationAddress$28(LocationController.LocationFetchCallback.this, str2, str, tLRPC$TL_messageMediaVenue5, tLRPC$TL_messageMediaVenue6, location);
+                            LocationController.lambda$fetchLocationAddress$28(LocationController.LocationFetchCallback.this, str2, str, tL_messageMediaVenue5, tL_messageMediaVenue6, location);
                         }
                     });
                 }
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda10
                     @Override // java.lang.Runnable
                     public final void run() {
-                        LocationController.lambda$fetchLocationAddress$28(LocationController.LocationFetchCallback.this, str2, str, tLRPC$TL_messageMediaVenue5, tLRPC$TL_messageMediaVenue6, location);
+                        LocationController.lambda$fetchLocationAddress$28(LocationController.LocationFetchCallback.this, str2, str, tL_messageMediaVenue5, tL_messageMediaVenue6, location);
                     }
                 });
             }
         }
         str2 = format;
         str = str3;
-        tLRPC$TL_messageMediaVenue5 = tLRPC$TL_messageMediaVenue3;
-        tLRPC$TL_messageMediaVenue6 = tLRPC$TL_messageMediaVenue4;
+        tL_messageMediaVenue5 = tL_messageMediaVenue3;
+        tL_messageMediaVenue6 = tL_messageMediaVenue4;
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
-                LocationController.lambda$fetchLocationAddress$28(LocationController.LocationFetchCallback.this, str2, str, tLRPC$TL_messageMediaVenue5, tLRPC$TL_messageMediaVenue6, location);
+                LocationController.lambda$fetchLocationAddress$28(LocationController.LocationFetchCallback.this, str2, str, tL_messageMediaVenue5, tL_messageMediaVenue6, location);
             }
         });
     }
@@ -1122,25 +1098,25 @@ public class LocationController extends BaseController implements NotificationCe
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadLiveLocations$25(long j, TLObject tLObject) {
         this.cacheRequests.delete(j);
-        TLRPC$messages_Messages tLRPC$messages_Messages = (TLRPC$messages_Messages) tLObject;
+        TLRPC.messages_Messages messages_messages = (TLRPC.messages_Messages) tLObject;
         int i = 0;
-        while (i < tLRPC$messages_Messages.messages.size()) {
-            if (!(((TLRPC$Message) tLRPC$messages_Messages.messages.get(i)).media instanceof TLRPC$TL_messageMediaGeoLive)) {
-                tLRPC$messages_Messages.messages.remove(i);
+        while (i < messages_messages.messages.size()) {
+            if (!(messages_messages.messages.get(i).media instanceof TLRPC.TL_messageMediaGeoLive)) {
+                messages_messages.messages.remove(i);
                 i--;
             }
             i++;
         }
-        getMessagesStorage().putUsersAndChats(tLRPC$messages_Messages.users, tLRPC$messages_Messages.chats, true, true);
-        getMessagesController().putUsers(tLRPC$messages_Messages.users, false);
-        getMessagesController().putChats(tLRPC$messages_Messages.chats, false);
-        this.locationsCache.put(j, tLRPC$messages_Messages.messages);
+        getMessagesStorage().putUsersAndChats(messages_messages.users, messages_messages.chats, true, true);
+        getMessagesController().putUsers(messages_messages.users, false);
+        getMessagesController().putChats(messages_messages.chats, false);
+        this.locationsCache.put(j, messages_messages.messages);
         NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.liveLocationsCacheChanged, Long.valueOf(j), Integer.valueOf(this.currentAccount));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadLiveLocations$26(final long j, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        if (tLRPC$TL_error != null) {
+    public /* synthetic */ void lambda$loadLiveLocations$26(final long j, final TLObject tLObject, TLRPC.TL_error tL_error) {
+        if (tL_error != null) {
             return;
         }
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda26
@@ -1194,8 +1170,8 @@ public class LocationController extends BaseController implements NotificationCe
         Long valueOf;
         ArrayList<Long> arrayList;
         final ArrayList arrayList2 = new ArrayList();
-        final ArrayList<TLRPC$User> arrayList3 = new ArrayList<>();
-        final ArrayList<TLRPC$Chat> arrayList4 = new ArrayList<>();
+        final ArrayList<TLRPC.User> arrayList3 = new ArrayList<>();
+        final ArrayList<TLRPC.Chat> arrayList4 = new ArrayList<>();
         try {
             ArrayList<Long> arrayList5 = new ArrayList<>();
             ArrayList<Long> arrayList6 = new ArrayList<>();
@@ -1210,7 +1186,7 @@ public class LocationController extends BaseController implements NotificationCe
                 sharingLocationInfo.account = this.currentAccount;
                 NativeByteBuffer byteBufferValue = queryFinalized.byteBufferValue(4);
                 if (byteBufferValue != null) {
-                    MessageObject messageObject = new MessageObject(this.currentAccount, TLRPC$Message.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false), false, false);
+                    MessageObject messageObject = new MessageObject(this.currentAccount, TLRPC.Message.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false), false, false);
                     sharingLocationInfo.messageObject = messageObject;
                     MessagesStorage.addUsersAndChatsFromMessage(messageObject.messageOwner, arrayList5, arrayList6, null);
                     byteBufferValue.reuse();
@@ -1248,10 +1224,10 @@ public class LocationController extends BaseController implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$markLiveLoactionsAsRead$27(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        if (tLObject instanceof TLRPC$TL_messages_affectedMessages) {
-            TLRPC$TL_messages_affectedMessages tLRPC$TL_messages_affectedMessages = (TLRPC$TL_messages_affectedMessages) tLObject;
-            getMessagesController().processNewDifferenceParams(-1, tLRPC$TL_messages_affectedMessages.pts, -1, tLRPC$TL_messages_affectedMessages.pts_count);
+    public /* synthetic */ void lambda$markLiveLoactionsAsRead$27(TLObject tLObject, TLRPC.TL_error tL_error) {
+        if (tLObject instanceof TLRPC.TL_messages_affectedMessages) {
+            TLRPC.TL_messages_affectedMessages tL_messages_affectedMessages = (TLRPC.TL_messages_affectedMessages) tLObject;
+            getMessagesController().processNewDifferenceParams(-1, tL_messages_affectedMessages.pts, -1, tL_messages_affectedMessages.pts_count);
         }
     }
 
@@ -1315,11 +1291,11 @@ public class LocationController extends BaseController implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$removeAllLocationSharings$22(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        if (tLRPC$TL_error != null) {
+    public /* synthetic */ void lambda$removeAllLocationSharings$22(TLObject tLObject, TLRPC.TL_error tL_error) {
+        if (tL_error != null) {
             return;
         }
-        getMessagesController().processUpdates((TLRPC$Updates) tLObject, false);
+        getMessagesController().processUpdates((TLRPC.Updates) tLObject, false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1334,18 +1310,18 @@ public class LocationController extends BaseController implements NotificationCe
     public /* synthetic */ void lambda$removeAllLocationSharings$24() {
         for (int i = 0; i < this.sharingLocations.size(); i++) {
             SharingLocationInfo sharingLocationInfo = this.sharingLocations.get(i);
-            TLRPC$TL_messages_editMessage tLRPC$TL_messages_editMessage = new TLRPC$TL_messages_editMessage();
-            tLRPC$TL_messages_editMessage.peer = getMessagesController().getInputPeer(sharingLocationInfo.did);
-            tLRPC$TL_messages_editMessage.id = sharingLocationInfo.mid;
-            tLRPC$TL_messages_editMessage.flags |= LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
-            TLRPC$TL_inputMediaGeoLive tLRPC$TL_inputMediaGeoLive = new TLRPC$TL_inputMediaGeoLive();
-            tLRPC$TL_messages_editMessage.media = tLRPC$TL_inputMediaGeoLive;
-            tLRPC$TL_inputMediaGeoLive.stopped = true;
-            tLRPC$TL_inputMediaGeoLive.geo_point = new TLRPC$TL_inputGeoPointEmpty();
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_editMessage, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda24
+            TLRPC.TL_messages_editMessage tL_messages_editMessage = new TLRPC.TL_messages_editMessage();
+            tL_messages_editMessage.peer = getMessagesController().getInputPeer(sharingLocationInfo.did);
+            tL_messages_editMessage.id = sharingLocationInfo.mid;
+            tL_messages_editMessage.flags |= LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
+            TLRPC.TL_inputMediaGeoLive tL_inputMediaGeoLive = new TLRPC.TL_inputMediaGeoLive();
+            tL_messages_editMessage.media = tL_inputMediaGeoLive;
+            tL_inputMediaGeoLive.stopped = true;
+            tL_inputMediaGeoLive.geo_point = new TLRPC.TL_inputGeoPointEmpty();
+            getConnectionsManager().sendRequest(tL_messages_editMessage, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda24
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    LocationController.this.lambda$removeAllLocationSharings$22(tLObject, tLRPC$TL_error);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    LocationController.this.lambda$removeAllLocationSharings$22(tLObject, tL_error);
                 }
             });
         }
@@ -1362,11 +1338,11 @@ public class LocationController extends BaseController implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$removeSharingLocation$19(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        if (tLRPC$TL_error != null) {
+    public /* synthetic */ void lambda$removeSharingLocation$19(TLObject tLObject, TLRPC.TL_error tL_error) {
+        if (tL_error != null) {
             return;
         }
-        getMessagesController().processUpdates((TLRPC$Updates) tLObject, false);
+        getMessagesController().processUpdates((TLRPC.Updates) tLObject, false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1384,18 +1360,18 @@ public class LocationController extends BaseController implements NotificationCe
         final SharingLocationInfo sharingLocationInfo = (SharingLocationInfo) this.sharingLocationsMap.get(j);
         this.sharingLocationsMap.remove(j);
         if (sharingLocationInfo != null) {
-            TLRPC$TL_messages_editMessage tLRPC$TL_messages_editMessage = new TLRPC$TL_messages_editMessage();
-            tLRPC$TL_messages_editMessage.peer = getMessagesController().getInputPeer(sharingLocationInfo.did);
-            tLRPC$TL_messages_editMessage.id = sharingLocationInfo.mid;
-            tLRPC$TL_messages_editMessage.flags |= LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
-            TLRPC$TL_inputMediaGeoLive tLRPC$TL_inputMediaGeoLive = new TLRPC$TL_inputMediaGeoLive();
-            tLRPC$TL_messages_editMessage.media = tLRPC$TL_inputMediaGeoLive;
-            tLRPC$TL_inputMediaGeoLive.stopped = true;
-            tLRPC$TL_inputMediaGeoLive.geo_point = new TLRPC$TL_inputGeoPointEmpty();
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_editMessage, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda15
+            TLRPC.TL_messages_editMessage tL_messages_editMessage = new TLRPC.TL_messages_editMessage();
+            tL_messages_editMessage.peer = getMessagesController().getInputPeer(sharingLocationInfo.did);
+            tL_messages_editMessage.id = sharingLocationInfo.mid;
+            tL_messages_editMessage.flags |= LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
+            TLRPC.TL_inputMediaGeoLive tL_inputMediaGeoLive = new TLRPC.TL_inputMediaGeoLive();
+            tL_messages_editMessage.media = tL_inputMediaGeoLive;
+            tL_inputMediaGeoLive.stopped = true;
+            tL_inputMediaGeoLive.geo_point = new TLRPC.TL_inputGeoPointEmpty();
+            getConnectionsManager().sendRequest(tL_messages_editMessage, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda15
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    LocationController.this.lambda$removeSharingLocation$19(tLObject, tLRPC$TL_error);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    LocationController.this.lambda$removeSharingLocation$19(tLObject, tL_error);
                 }
             });
             this.sharingLocations.remove(sharingLocationInfo);
@@ -1622,17 +1598,17 @@ public class LocationController extends BaseController implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public void addSharingLocation(TLRPC$Message tLRPC$Message) {
+    public void addSharingLocation(TLRPC.Message message) {
         final SharingLocationInfo sharingLocationInfo = new SharingLocationInfo();
-        sharingLocationInfo.did = tLRPC$Message.dialog_id;
-        sharingLocationInfo.mid = tLRPC$Message.id;
-        TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message.media;
-        sharingLocationInfo.period = tLRPC$MessageMedia.period;
-        int i = tLRPC$MessageMedia.proximity_notification_radius;
+        sharingLocationInfo.did = message.dialog_id;
+        sharingLocationInfo.mid = message.id;
+        TLRPC.MessageMedia messageMedia = message.media;
+        sharingLocationInfo.period = messageMedia.period;
+        int i = messageMedia.proximity_notification_radius;
         sharingLocationInfo.proximityMeters = i;
         sharingLocationInfo.lastSentProximityMeters = i;
         sharingLocationInfo.account = this.currentAccount;
-        sharingLocationInfo.messageObject = new MessageObject(this.currentAccount, tLRPC$Message, false, false);
+        sharingLocationInfo.messageObject = new MessageObject(this.currentAccount, message, false, false);
         if (sharingLocationInfo.period == Integer.MAX_VALUE) {
             sharingLocationInfo.stopTime = ConnectionsManager.DEFAULT_DATACENTER_ID;
         } else {
@@ -1690,7 +1666,7 @@ public class LocationController extends BaseController implements NotificationCe
                             if (i4 >= arrayList2.size()) {
                                 arrayList2.add(messageObject.messageOwner);
                                 break;
-                            } else if (MessageObject.getFromChatId((TLRPC$Message) arrayList2.get(i4)) == messageObject.getFromChatId()) {
+                            } else if (MessageObject.getFromChatId((TLRPC.Message) arrayList2.get(i4)) == messageObject.getFromChatId()) {
                                 arrayList2.set(i4, messageObject.messageOwner);
                                 break;
                             } else {
@@ -1698,7 +1674,7 @@ public class LocationController extends BaseController implements NotificationCe
                             }
                         }
                         z = true;
-                    } else if (messageObject.messageOwner.action instanceof TLRPC$TL_messageActionGeoProximityReached) {
+                    } else if (messageObject.messageOwner.action instanceof TLRPC.TL_messageActionGeoProximityReached) {
                         long dialogId = messageObject.getDialogId();
                         if (DialogObject.isUserDialog(dialogId)) {
                             setProximityLocation(dialogId, 0, false);
@@ -1743,7 +1719,7 @@ public class LocationController extends BaseController implements NotificationCe
                     while (true) {
                         if (i8 >= arrayList.size()) {
                             break;
-                        } else if (MessageObject.getFromChatId((TLRPC$Message) arrayList.get(i8)) == messageObject3.getFromChatId()) {
+                        } else if (MessageObject.getFromChatId((TLRPC.Message) arrayList.get(i8)) == messageObject3.getFromChatId()) {
                             if (messageObject3.isLiveLocation()) {
                                 arrayList.set(i8, messageObject3.messageOwner);
                             } else {
@@ -1779,13 +1755,13 @@ public class LocationController extends BaseController implements NotificationCe
             return;
         }
         this.cacheRequests.put(j, Boolean.TRUE);
-        TLRPC$TL_messages_getRecentLocations tLRPC$TL_messages_getRecentLocations = new TLRPC$TL_messages_getRecentLocations();
-        tLRPC$TL_messages_getRecentLocations.peer = getMessagesController().getInputPeer(j);
-        tLRPC$TL_messages_getRecentLocations.limit = 100;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_getRecentLocations, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda23
+        TLRPC.TL_messages_getRecentLocations tL_messages_getRecentLocations = new TLRPC.TL_messages_getRecentLocations();
+        tL_messages_getRecentLocations.peer = getMessagesController().getInputPeer(j);
+        tL_messages_getRecentLocations.limit = 100;
+        getConnectionsManager().sendRequest(tL_messages_getRecentLocations, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda23
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                LocationController.this.lambda$loadLiveLocations$26(j, tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                LocationController.this.lambda$loadLiveLocations$26(j, tLObject, tL_error);
             }
         });
     }
@@ -1796,7 +1772,7 @@ public class LocationController extends BaseController implements NotificationCe
     /* JADX WARN: Type inference failed for: r1v7, types: [org.telegram.tgnet.TLObject] */
     public void markLiveLoactionsAsRead(long j) {
         ArrayList arrayList;
-        ?? tLRPC$TL_messages_readMessageContents;
+        ?? tL_messages_readMessageContents;
         if (DialogObject.isEncryptedDialog(j) || (arrayList = (ArrayList) this.locationsCache.get(j)) == null || arrayList.isEmpty()) {
             return;
         }
@@ -1808,31 +1784,31 @@ public class LocationController extends BaseController implements NotificationCe
             if (DialogObject.isChatDialog(j)) {
                 long j2 = -j;
                 if (ChatObject.isChannel(j2, this.currentAccount)) {
-                    tLRPC$TL_messages_readMessageContents = new TLRPC$TL_channels_readMessageContents();
+                    tL_messages_readMessageContents = new TLRPC.TL_channels_readMessageContents();
                     int size = arrayList.size();
                     while (i < size) {
-                        tLRPC$TL_messages_readMessageContents.id.add(Integer.valueOf(((TLRPC$Message) arrayList.get(i)).id));
+                        tL_messages_readMessageContents.id.add(Integer.valueOf(((TLRPC.Message) arrayList.get(i)).id));
                         i++;
                     }
-                    tLRPC$TL_messages_readMessageContents.channel = getMessagesController().getInputChannel(j2);
-                    getConnectionsManager().sendRequest(tLRPC$TL_messages_readMessageContents, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda29
+                    tL_messages_readMessageContents.channel = getMessagesController().getInputChannel(j2);
+                    getConnectionsManager().sendRequest(tL_messages_readMessageContents, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda29
                         @Override // org.telegram.tgnet.RequestDelegate
-                        public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                            LocationController.this.lambda$markLiveLoactionsAsRead$27(tLObject, tLRPC$TL_error);
+                        public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                            LocationController.this.lambda$markLiveLoactionsAsRead$27(tLObject, tL_error);
                         }
                     });
                 }
             }
-            tLRPC$TL_messages_readMessageContents = new TLRPC$TL_messages_readMessageContents();
+            tL_messages_readMessageContents = new TLRPC.TL_messages_readMessageContents();
             int size2 = arrayList.size();
             while (i < size2) {
-                tLRPC$TL_messages_readMessageContents.id.add(Integer.valueOf(((TLRPC$Message) arrayList.get(i)).id));
+                tL_messages_readMessageContents.id.add(Integer.valueOf(((TLRPC.Message) arrayList.get(i)).id));
                 i++;
             }
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_readMessageContents, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda29
+            getConnectionsManager().sendRequest(tL_messages_readMessageContents, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda29
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    LocationController.this.lambda$markLiveLoactionsAsRead$27(tLObject, tLRPC$TL_error);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    LocationController.this.lambda$markLiveLoactionsAsRead$27(tLObject, tL_error);
                 }
             });
         }

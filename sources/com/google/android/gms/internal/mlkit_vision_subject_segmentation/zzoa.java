@@ -37,7 +37,7 @@ public enum zzoa implements zzcb {
     zzF(NotificationCenter.timezonesUpdated),
     zzG(NotificationCenter.customStickerCreated),
     zzH(NotificationCenter.premiumFloodWaitReceived),
-    zzI(301),
+    zzI(NotificationCenter.nearEarEvent),
     zzJ(302),
     zzK(303),
     zzL(304),

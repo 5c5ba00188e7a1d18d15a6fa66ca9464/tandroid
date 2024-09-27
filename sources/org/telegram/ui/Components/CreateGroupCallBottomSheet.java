@@ -19,26 +19,123 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$InputPeer;
-import org.telegram.tgnet.TLRPC$Peer;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.GroupCreateUserCell;
 import org.telegram.ui.Cells.HeaderCell;
-import org.telegram.ui.Cells.ShadowSectionCell;
+import org.telegram.ui.Cells.TextInfoPrivacyCell;
+import org.telegram.ui.Components.CreateGroupCallBottomSheet;
 import org.telegram.ui.Components.JoinCallAlert;
 import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes3.dex */
 public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView {
     private final List chats;
+    private final long dialogId;
+    private final BaseFragment fragment;
     private final boolean isChannelOrGiga;
     private boolean isScheduleSelected;
     private final JoinCallAlert.JoinCallAlertDelegate joinCallDelegate;
     private final boolean needSelector;
-    private TLRPC$InputPeer selectAfterDismiss;
-    private TLRPC$Peer selectedPeer;
+    private TLRPC.InputPeer selectAfterDismiss;
+    private TLRPC.Peer selectedPeer;
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes3.dex */
+    public class 2 extends RecyclerListView.SelectionAdapter {
+        2() {
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onBindViewHolder$0() {
+            CreateRtmpStreamBottomSheet.show(CreateGroupCallBottomSheet.this.selectedPeer, CreateGroupCallBottomSheet.this.fragment, CreateGroupCallBottomSheet.this.dialogId, CreateGroupCallBottomSheet.this.chats.size() > 1, CreateGroupCallBottomSheet.this.joinCallDelegate);
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public int getItemCount() {
+            if (CreateGroupCallBottomSheet.this.needSelector) {
+                return CreateGroupCallBottomSheet.this.chats.size() + 3;
+            }
+            return 1;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public int getItemViewType(int i) {
+            if (i != 0) {
+                int i2 = 1;
+                if (i != 1) {
+                    i2 = 2;
+                    if (i != 2) {
+                        return 3;
+                    }
+                }
+                return i2;
+            }
+            return 0;
+        }
+
+        @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
+        public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
+            return viewHolder.getItemViewType() == 3;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+            TLObject chat;
+            String str;
+            if (viewHolder.getItemViewType() != 3) {
+                if (viewHolder.getItemViewType() != 2) {
+                    if (viewHolder.getItemViewType() == 1) {
+                        ((TextInfoPrivacyCell) viewHolder.itemView).setText(AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.VoipChatStreamWithAnotherApp), Theme.key_windowBackgroundWhiteBlueHeader, 0, new Runnable() { // from class: org.telegram.ui.Components.CreateGroupCallBottomSheet$2$$ExternalSyntheticLambda0
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                CreateGroupCallBottomSheet.2.this.lambda$onBindViewHolder$0();
+                            }
+                        }), true, AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f)));
+                        return;
+                    }
+                    return;
+                }
+                HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
+                headerCell.setTextSize(15.0f);
+                headerCell.setPadding(0, 0, 0, AndroidUtilities.dp(2.0f));
+                headerCell.setText(LocaleController.getString(R.string.VoipChatDisplayedAs).replace(":", ""));
+                return;
+            }
+            TLRPC.Peer peer = (TLRPC.Peer) CreateGroupCallBottomSheet.this.chats.get(i - 3);
+            long peerId = MessageObject.getPeerId(peer);
+            int i2 = (peerId > 0L ? 1 : (peerId == 0L ? 0 : -1));
+            CreateGroupCallBottomSheet createGroupCallBottomSheet = CreateGroupCallBottomSheet.this;
+            if (i2 > 0) {
+                chat = MessagesController.getInstance(((BottomSheet) createGroupCallBottomSheet).currentAccount).getUser(Long.valueOf(peerId));
+                str = LocaleController.getString(R.string.VoipGroupPersonalAccount);
+            } else {
+                chat = MessagesController.getInstance(((BottomSheet) createGroupCallBottomSheet).currentAccount).getChat(Long.valueOf(-peerId));
+                str = null;
+            }
+            GroupCreateUserCell groupCreateUserCell = (GroupCreateUserCell) viewHolder.itemView;
+            groupCreateUserCell.setObject(chat, null, str, i != getItemCount() - 1);
+            groupCreateUserCell.setChecked(peer == CreateGroupCallBottomSheet.this.selectedPeer, false);
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View view;
+            Context context = viewGroup.getContext();
+            if (i != 1) {
+                view = i != 2 ? i != 3 ? new TopCell(context, CreateGroupCallBottomSheet.this.isChannelOrGiga) : new GroupCreateUserCell(context, 1, 0, false) : new HeaderCell(context, 22);
+            } else {
+                TextInfoPrivacyCell textInfoPrivacyCell = new TextInfoPrivacyCell(context);
+                textInfoPrivacyCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray, ((BottomSheet) CreateGroupCallBottomSheet.this).resourcesProvider));
+                textInfoPrivacyCell.setTopPadding(17);
+                textInfoPrivacyCell.setBottomPadding(17);
+                view = textInfoPrivacyCell;
+            }
+            view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+            return new RecyclerListView.Holder(view);
+        }
+    }
 
     /* loaded from: classes3.dex */
     private static class TopCell extends LinearLayout {
@@ -68,14 +165,16 @@ public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView 
 
     public CreateGroupCallBottomSheet(BaseFragment baseFragment, ArrayList arrayList, long j, JoinCallAlert.JoinCallAlertDelegate joinCallAlertDelegate) {
         super(baseFragment, false, false);
-        TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j));
+        TLRPC.Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j));
+        this.fragment = baseFragment;
+        this.dialogId = j;
         this.topPadding = 0.26f;
         ArrayList arrayList2 = new ArrayList(arrayList);
         this.chats = arrayList2;
         this.joinCallDelegate = joinCallAlertDelegate;
         boolean isChannelOrGiga = ChatObject.isChannelOrGiga(chat);
         this.isChannelOrGiga = isChannelOrGiga;
-        this.selectedPeer = (TLRPC$Peer) arrayList2.get(0);
+        this.selectedPeer = (TLRPC.Peer) arrayList2.get(0);
         this.needSelector = arrayList2.size() > 1;
         Context context = this.containerView.getContext();
         this.containerView.addView(new View(context) { // from class: org.telegram.ui.Components.CreateGroupCallBottomSheet.1
@@ -155,7 +254,7 @@ public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView 
         if (i <= 3) {
             return;
         }
-        this.selectedPeer = (TLRPC$Peer) this.chats.get(i - 4);
+        this.selectedPeer = (TLRPC.Peer) this.chats.get(i - 4);
         if (view instanceof GroupCreateUserCell) {
             ((GroupCreateUserCell) view).setChecked(true, true);
         }
@@ -181,81 +280,15 @@ public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView 
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     public RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView) {
-        return new RecyclerListView.SelectionAdapter() { // from class: org.telegram.ui.Components.CreateGroupCallBottomSheet.2
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public int getItemCount() {
-                if (CreateGroupCallBottomSheet.this.needSelector) {
-                    return CreateGroupCallBottomSheet.this.chats.size() + 3;
-                }
-                return 1;
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public int getItemViewType(int i) {
-                if (i != 0) {
-                    int i2 = 1;
-                    if (i != 1) {
-                        i2 = 2;
-                        if (i != 2) {
-                            return 3;
-                        }
-                    }
-                    return i2;
-                }
-                return 0;
-            }
-
-            @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
-            public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
-                return viewHolder.getItemViewType() == 3;
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-                TLObject chat;
-                String str;
-                if (viewHolder.getItemViewType() != 3) {
-                    if (viewHolder.getItemViewType() == 2) {
-                        HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
-                        headerCell.setTextSize(15.0f);
-                        headerCell.setPadding(0, 0, 0, AndroidUtilities.dp(2.0f));
-                        headerCell.setText(LocaleController.getString(R.string.VoipChatDisplayedAs).replace(":", ""));
-                        return;
-                    }
-                    return;
-                }
-                TLRPC$Peer tLRPC$Peer = (TLRPC$Peer) CreateGroupCallBottomSheet.this.chats.get(i - 3);
-                long peerId = MessageObject.getPeerId(tLRPC$Peer);
-                int i2 = (peerId > 0L ? 1 : (peerId == 0L ? 0 : -1));
-                CreateGroupCallBottomSheet createGroupCallBottomSheet = CreateGroupCallBottomSheet.this;
-                if (i2 > 0) {
-                    chat = MessagesController.getInstance(((BottomSheet) createGroupCallBottomSheet).currentAccount).getUser(Long.valueOf(peerId));
-                    str = LocaleController.getString(R.string.VoipGroupPersonalAccount);
-                } else {
-                    chat = MessagesController.getInstance(((BottomSheet) createGroupCallBottomSheet).currentAccount).getChat(Long.valueOf(-peerId));
-                    str = null;
-                }
-                GroupCreateUserCell groupCreateUserCell = (GroupCreateUserCell) viewHolder.itemView;
-                groupCreateUserCell.setObject(chat, null, str, i != getItemCount() - 1);
-                groupCreateUserCell.setChecked(tLRPC$Peer == CreateGroupCallBottomSheet.this.selectedPeer, false);
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-                Context context = viewGroup.getContext();
-                View topCell = i != 1 ? i != 2 ? i != 3 ? new TopCell(context, CreateGroupCallBottomSheet.this.isChannelOrGiga) : new GroupCreateUserCell(context, 1, 0, false) : new HeaderCell(context, 22) : new ShadowSectionCell(context, 12, Theme.getColor(Theme.key_windowBackgroundGray));
-                topCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-                return new RecyclerListView.Holder(topCell);
-            }
-        };
+        return new 2();
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet
     public void dismissInternal() {
         super.dismissInternal();
-        TLRPC$InputPeer tLRPC$InputPeer = this.selectAfterDismiss;
-        if (tLRPC$InputPeer != null) {
-            this.joinCallDelegate.didSelectChat(tLRPC$InputPeer, this.chats.size() > 1, this.isScheduleSelected);
+        TLRPC.InputPeer inputPeer = this.selectAfterDismiss;
+        if (inputPeer != null) {
+            this.joinCallDelegate.didSelectChat(inputPeer, this.chats.size() > 1, this.isScheduleSelected, false);
         }
     }
 

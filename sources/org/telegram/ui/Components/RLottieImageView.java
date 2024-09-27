@@ -13,10 +13,8 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
-import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.SvgHelper;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$PhotoSize;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class RLottieImageView extends ImageView {
@@ -146,7 +144,7 @@ public class RLottieImageView extends ImageView {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void setAnimation(TLRPC$Document tLRPC$Document, final int i, final int i2) {
+    public void setAnimation(TLRPC.Document document, final int i, final int i2) {
         ImageLocation imageLocation;
         String str;
         SvgHelper.SvgDrawable svgThumb;
@@ -158,13 +156,13 @@ public class RLottieImageView extends ImageView {
         ImageLocation imageLocation2;
         String str3;
         long j;
-        TLRPC$Document tLRPC$Document2;
+        TLRPC.Document document2;
         ImageReceiver imageReceiver2 = this.imageReceiver;
         if (imageReceiver2 != null) {
             imageReceiver2.onDetachedFromWindow();
             this.imageReceiver = null;
         }
-        if (tLRPC$Document == null) {
+        if (document == null) {
             return;
         }
         ImageReceiver imageReceiver3 = new ImageReceiver() { // from class: org.telegram.ui.Components.RLottieImageView.1
@@ -179,7 +177,7 @@ public class RLottieImageView extends ImageView {
         };
         this.imageReceiver = imageReceiver3;
         imageReceiver3.setAllowLoadingOnAttachedOnly(true);
-        String str4 = tLRPC$Document.localThumbPath;
+        String str4 = document.localThumbPath;
         if (str4 != null) {
             imageLocation = ImageLocation.getForPath(str4);
             str = i + "_" + i2;
@@ -189,20 +187,20 @@ public class RLottieImageView extends ImageView {
         }
         if (this.onlyLastFrame) {
             imageReceiver = this.imageReceiver;
-            imageLocation2 = ImageLocation.getForDocument(tLRPC$Document);
+            imageLocation2 = ImageLocation.getForDocument(document);
             sb = i + "_" + i2 + "_lastframe";
             str2 = null;
             forDocument = null;
             str3 = null;
             svgThumb = null;
             j = 0;
-            tLRPC$Document2 = tLRPC$Document;
+            document2 = document;
             i3 = 1;
         } else {
-            if ("video/webm".equals(tLRPC$Document.mime_type)) {
-                TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
+            if ("video/webm".equals(document.mime_type)) {
+                TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 90);
                 ImageReceiver imageReceiver4 = this.imageReceiver;
-                ImageLocation forDocument2 = ImageLocation.getForDocument(tLRPC$Document);
+                ImageLocation forDocument2 = ImageLocation.getForDocument(document);
                 StringBuilder sb2 = new StringBuilder();
                 sb2.append(i);
                 sb2.append("_");
@@ -210,7 +208,7 @@ public class RLottieImageView extends ImageView {
                 sb2.append(this.cached ? "_pcache" : "");
                 sb2.append("_");
                 sb2.append(ImageLoader.AUTOPLAY_FILTER);
-                imageReceiver4.setImage(forDocument2, sb2.toString(), imageLocation != null ? imageLocation : ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), str, null, tLRPC$Document.size, null, tLRPC$Document, 1);
+                imageReceiver4.setImage(forDocument2, sb2.toString(), imageLocation != null ? imageLocation : ImageLocation.getForDocument(closestPhotoSizeWithSize, document), str, null, document.size, null, document, 1);
                 this.imageReceiver.setAspectFit(true);
                 this.imageReceiver.setParentView(this);
                 if (this.autoRepeat) {
@@ -254,29 +252,29 @@ public class RLottieImageView extends ImageView {
                 this.imageReceiver.onAttachedToWindow();
                 return;
             }
-            svgThumb = DocumentObject.getSvgThumb(tLRPC$Document.thumbs, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f);
+            svgThumb = DocumentObject.getSvgThumb(document.thumbs, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f);
             if (svgThumb != null) {
-                svgThumb.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
+                svgThumb.overrideWidthAndHeight(512, 512);
             }
-            TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
+            TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 90);
             ImageReceiver imageReceiver6 = this.imageReceiver;
-            ImageLocation forDocument3 = ImageLocation.getForDocument(tLRPC$Document);
+            ImageLocation forDocument3 = ImageLocation.getForDocument(document);
             StringBuilder sb3 = new StringBuilder();
             sb3.append(i);
             sb3.append("_");
             sb3.append(i2);
             sb3.append(this.cached ? "_pcache" : "");
             sb = sb3.toString();
-            forDocument = ImageLocation.getForDocument(closestPhotoSizeWithSize2, tLRPC$Document);
+            forDocument = ImageLocation.getForDocument(closestPhotoSizeWithSize2, document);
             str2 = null;
             i3 = 1;
             imageReceiver = imageReceiver6;
             imageLocation2 = forDocument3;
             str3 = null;
             j = 0;
-            tLRPC$Document2 = tLRPC$Document;
+            document2 = document;
         }
-        imageReceiver.setImage(imageLocation2, sb, forDocument, str3, imageLocation, str, svgThumb, j, str2, tLRPC$Document2, i3);
+        imageReceiver.setImage(imageLocation2, sb, forDocument, str3, imageLocation, str, svgThumb, j, str2, document2, i3);
         this.imageReceiver.setAspectFit(true);
         this.imageReceiver.setParentView(this);
         if (this.autoRepeat) {

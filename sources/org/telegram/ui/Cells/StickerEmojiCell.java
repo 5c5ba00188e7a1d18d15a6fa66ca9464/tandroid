@@ -27,10 +27,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$DocumentAttribute;
-import org.telegram.tgnet.TLRPC$PhotoSize;
-import org.telegram.tgnet.TLRPC$TL_documentAttributeSticker;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
@@ -59,7 +56,7 @@ public abstract class StickerEmojiCell extends FrameLayout implements Notificati
     private float scale;
     private boolean scaled;
     private boolean showPremiumLock;
-    private TLRPC$Document sticker;
+    private TLRPC.Document sticker;
     private SendMessagesHelper.ImportingSticker stickerPath;
     private long time;
 
@@ -273,7 +270,7 @@ public abstract class StickerEmojiCell extends FrameLayout implements Notificati
         return null;
     }
 
-    public TLRPC$Document getSticker() {
+    public TLRPC.Document getSticker() {
         return this.sticker;
     }
 
@@ -332,13 +329,13 @@ public abstract class StickerEmojiCell extends FrameLayout implements Notificati
                 if (i >= this.sticker.attributes.size()) {
                     break;
                 }
-                TLRPC$DocumentAttribute tLRPC$DocumentAttribute = this.sticker.attributes.get(i);
-                if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeSticker) {
-                    String str = tLRPC$DocumentAttribute.alt;
+                TLRPC.DocumentAttribute documentAttribute = this.sticker.attributes.get(i);
+                if (documentAttribute instanceof TLRPC.TL_documentAttributeSticker) {
+                    String str = documentAttribute.alt;
                     if (str != null && str.length() > 0) {
                         TextView textView = this.emojiTextView;
-                        textView.setText(Emoji.replaceEmoji((CharSequence) tLRPC$DocumentAttribute.alt, textView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(16.0f), false));
-                        string = tLRPC$DocumentAttribute.alt + " " + string;
+                        textView.setText(Emoji.replaceEmoji((CharSequence) documentAttribute.alt, textView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(16.0f), false));
+                        string = documentAttribute.alt + " " + string;
                     }
                 } else {
                     i++;
@@ -371,12 +368,12 @@ public abstract class StickerEmojiCell extends FrameLayout implements Notificati
         setSticker(null, importingSticker, null, str, str != null, false);
     }
 
-    public void setSticker(TLRPC$Document tLRPC$Document, Object obj, boolean z) {
-        setSticker(tLRPC$Document, null, obj, null, z, false);
+    public void setSticker(TLRPC.Document document, Object obj, boolean z) {
+        setSticker(document, null, obj, null, z, false);
     }
 
-    public void setSticker(TLRPC$Document tLRPC$Document, SendMessagesHelper.ImportingSticker importingSticker, Object obj, String str, boolean z) {
-        setSticker(tLRPC$Document, importingSticker, obj, str, z, false);
+    public void setSticker(TLRPC.Document document, SendMessagesHelper.ImportingSticker importingSticker, Object obj, String str, boolean z) {
+        setSticker(document, importingSticker, obj, str, z, false);
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:24:0x009d, code lost:
@@ -386,7 +383,7 @@ public abstract class StickerEmojiCell extends FrameLayout implements Notificati
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void setSticker(TLRPC$Document tLRPC$Document, SendMessagesHelper.ImportingSticker importingSticker, Object obj, String str, boolean z, boolean z2) {
+    public void setSticker(TLRPC.Document document, SendMessagesHelper.ImportingSticker importingSticker, Object obj, String str, boolean z, boolean z2) {
         ImageReceiver imageReceiver;
         ImageLocation forDocument;
         Object obj2;
@@ -404,7 +401,7 @@ public abstract class StickerEmojiCell extends FrameLayout implements Notificati
         SvgHelper.SvgDrawable svgDrawable;
         ImageLocation imageLocation2;
         this.currentEmoji = str;
-        this.isPremiumSticker = MessageObject.isPremiumSticker(tLRPC$Document);
+        this.isPremiumSticker = MessageObject.isPremiumSticker(document);
         this.drawInParentView = false;
         ImageLocation imageLocation3 = null;
         this.imageView.setColorFilter(null);
@@ -456,27 +453,27 @@ public abstract class StickerEmojiCell extends FrameLayout implements Notificati
                 }
             }
             imageReceiver3.setImage(imageLocation2, str3, null, null, svgDrawable, 0L, str4, 0, 1);
-        } else if (tLRPC$Document != null) {
-            this.sticker = tLRPC$Document;
+        } else if (document != null) {
+            this.sticker = document;
             this.parentObject = obj;
-            TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
+            TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 90);
             boolean z3 = this.fromEmojiPanel;
-            SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document, z3 ? Theme.key_emptyListPlaceholder : Theme.key_windowBackgroundGray, z3 ? 0.2f : 1.0f, 1.0f, this.resourceProvider);
+            SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(document, z3 ? Theme.key_emptyListPlaceholder : Theme.key_windowBackgroundGray, z3 ? 0.2f : 1.0f, 1.0f, this.resourceProvider);
             String str5 = this.fromEmojiPanel ? "66_66_pcache_compress" : "66_66";
-            if (MessageObject.isTextColorEmoji(tLRPC$Document)) {
+            if (MessageObject.isTextColorEmoji(document)) {
                 this.imageView.setColorFilter(Theme.getAnimatedEmojiColorFilter(this.resourceProvider));
             }
-            if (MessageObject.canAutoplayAnimatedSticker(tLRPC$Document)) {
+            if (MessageObject.canAutoplayAnimatedSticker(document)) {
                 if (this.fromEmojiPanel) {
                     this.drawInParentView = true;
                 }
                 if (svgThumb != null) {
-                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str5, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), null, null, null, svgThumb, 0L, null, this.parentObject, 1);
+                    this.imageView.setImage(ImageLocation.getForDocument(document), str5, ImageLocation.getForDocument(closestPhotoSizeWithSize, document), null, null, null, svgThumb, 0L, null, this.parentObject, 1);
                 } else {
                     imageReceiver = this.imageView;
-                    forDocument = ImageLocation.getForDocument(tLRPC$Document);
+                    forDocument = ImageLocation.getForDocument(document);
                     if (closestPhotoSizeWithSize != null) {
-                        imageReceiver.setImage(forDocument, str5, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), (String) null, (String) null, this.parentObject, 1);
+                        imageReceiver.setImage(forDocument, str5, ImageLocation.getForDocument(closestPhotoSizeWithSize, document), (String) null, (String) null, this.parentObject, 1);
                     } else {
                         obj2 = this.parentObject;
                         str2 = null;
@@ -487,15 +484,15 @@ public abstract class StickerEmojiCell extends FrameLayout implements Notificati
                     if (z) {
                         int i = 0;
                         while (true) {
-                            if (i >= tLRPC$Document.attributes.size()) {
+                            if (i >= document.attributes.size()) {
                                 break;
                             }
-                            TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$Document.attributes.get(i);
-                            if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeSticker) {
-                                String str6 = tLRPC$DocumentAttribute.alt;
+                            TLRPC.DocumentAttribute documentAttribute = document.attributes.get(i);
+                            if (documentAttribute instanceof TLRPC.TL_documentAttributeSticker) {
+                                String str6 = documentAttribute.alt;
                                 if (str6 != null && str6.length() > 0) {
                                     textView = this.emojiTextView;
-                                    emojiForSticker = tLRPC$DocumentAttribute.alt;
+                                    emojiForSticker = documentAttribute.alt;
                                     paint = textView.getPaint();
                                 }
                             } else {
@@ -516,7 +513,7 @@ public abstract class StickerEmojiCell extends FrameLayout implements Notificati
                 textView.setText(replaceEmoji);
                 this.emojiTextView.setVisibility(0);
             } else if (svgThumb != null) {
-                this.imageView.setImage(closestPhotoSizeWithSize != null ? ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document) : ImageLocation.getForDocument(tLRPC$Document), str5, svgThumb, "webp", this.parentObject, 1);
+                this.imageView.setImage(closestPhotoSizeWithSize != null ? ImageLocation.getForDocument(closestPhotoSizeWithSize, document) : ImageLocation.getForDocument(document), str5, svgThumb, "webp", this.parentObject, 1);
                 if (str == null) {
                 }
                 textView = this.emojiTextView;
@@ -525,7 +522,7 @@ public abstract class StickerEmojiCell extends FrameLayout implements Notificati
                 this.emojiTextView.setVisibility(0);
             } else {
                 imageReceiver = this.imageView;
-                forDocument = closestPhotoSizeWithSize != null ? ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document) : ImageLocation.getForDocument(tLRPC$Document);
+                forDocument = closestPhotoSizeWithSize != null ? ImageLocation.getForDocument(closestPhotoSizeWithSize, document) : ImageLocation.getForDocument(document);
                 obj2 = this.parentObject;
                 str2 = "webp";
                 imageReceiver.setImage(forDocument, str5, null, str2, obj2, 1);

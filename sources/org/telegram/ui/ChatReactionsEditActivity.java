@@ -18,14 +18,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$ChatFull;
-import org.telegram.tgnet.TLRPC$ChatReactions;
-import org.telegram.tgnet.TLRPC$TL_availableReaction;
-import org.telegram.tgnet.TLRPC$TL_chatReactionsAll;
-import org.telegram.tgnet.TLRPC$TL_chatReactionsNone;
-import org.telegram.tgnet.TLRPC$TL_chatReactionsSome;
-import org.telegram.tgnet.TLRPC$TL_reactionEmoji;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -46,10 +39,10 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
     private List chatReactions;
     private LinearLayout contentView;
     LinearLayout contorlsLayout;
-    private TLRPC$Chat currentChat;
+    private TLRPC.Chat currentChat;
     private RadioCell disableReactions;
     private TextCheckCell enableReactionsCell;
-    private TLRPC$ChatFull info;
+    private TLRPC.ChatFull info;
     boolean isChannel;
     private RecyclerView.Adapter listAdapter;
     private RecyclerListView listView;
@@ -124,12 +117,12 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
             return;
         }
         AvailableReactionCell availableReactionCell = (AvailableReactionCell) view;
-        TLRPC$TL_availableReaction tLRPC$TL_availableReaction = (TLRPC$TL_availableReaction) this.availableReactions.get(i - (z ? 2 : 3));
-        boolean z2 = !this.chatReactions.contains(tLRPC$TL_availableReaction.reaction);
+        TLRPC.TL_availableReaction tL_availableReaction = (TLRPC.TL_availableReaction) this.availableReactions.get(i - (z ? 2 : 3));
+        boolean z2 = !this.chatReactions.contains(tL_availableReaction.reaction);
         if (z2) {
-            this.chatReactions.add(tLRPC$TL_availableReaction.reaction);
+            this.chatReactions.add(tL_availableReaction.reaction);
         } else {
-            this.chatReactions.remove(tLRPC$TL_availableReaction.reaction);
+            this.chatReactions.remove(tL_availableReaction.reaction);
             if (this.chatReactions.isEmpty()) {
                 RecyclerView.Adapter adapter = this.listAdapter;
                 if (adapter != null) {
@@ -168,14 +161,14 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
                 this.chatReactions.clear();
                 Iterator it = this.availableReactions.iterator();
                 while (it.hasNext()) {
-                    TLRPC$TL_availableReaction tLRPC$TL_availableReaction = (TLRPC$TL_availableReaction) it.next();
-                    if (tLRPC$TL_availableReaction.reaction.equals("👍") || tLRPC$TL_availableReaction.reaction.equals("👎")) {
-                        this.chatReactions.add(tLRPC$TL_availableReaction.reaction);
+                    TLRPC.TL_availableReaction tL_availableReaction = (TLRPC.TL_availableReaction) it.next();
+                    if (tL_availableReaction.reaction.equals("👍") || tL_availableReaction.reaction.equals("👎")) {
+                        this.chatReactions.add(tL_availableReaction.reaction);
                     }
                 }
                 if (this.chatReactions.isEmpty() && this.availableReactions.size() >= 2) {
-                    this.chatReactions.add(((TLRPC$TL_availableReaction) this.availableReactions.get(0)).reaction);
-                    this.chatReactions.add(((TLRPC$TL_availableReaction) this.availableReactions.get(1)).reaction);
+                    this.chatReactions.add(((TLRPC.TL_availableReaction) this.availableReactions.get(0)).reaction);
+                    this.chatReactions.add(((TLRPC.TL_availableReaction) this.availableReactions.get(1)).reaction);
                 }
             }
             RecyclerView.Adapter adapter2 = this.listAdapter;
@@ -338,8 +331,8 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
                         return;
                     } else {
                         AvailableReactionCell availableReactionCell = (AvailableReactionCell) viewHolder.itemView;
-                        TLRPC$TL_availableReaction tLRPC$TL_availableReaction = (TLRPC$TL_availableReaction) ChatReactionsEditActivity.this.availableReactions.get(i3 - (ChatReactionsEditActivity.this.isChannel ? 2 : 3));
-                        availableReactionCell.bind(tLRPC$TL_availableReaction, ChatReactionsEditActivity.this.chatReactions.contains(tLRPC$TL_availableReaction.reaction), ((BaseFragment) ChatReactionsEditActivity.this).currentAccount);
+                        TLRPC.TL_availableReaction tL_availableReaction = (TLRPC.TL_availableReaction) ChatReactionsEditActivity.this.availableReactions.get(i3 - (ChatReactionsEditActivity.this.isChannel ? 2 : 3));
+                        availableReactionCell.bind(tL_availableReaction, ChatReactionsEditActivity.this.chatReactions.contains(tL_availableReaction.reaction), ((BaseFragment) ChatReactionsEditActivity.this).currentAccount);
                         return;
                     }
                 }
@@ -431,15 +424,15 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public boolean onFragmentCreate() {
-        TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(this.chatId));
+        TLRPC.Chat chat = getMessagesController().getChat(Long.valueOf(this.chatId));
         this.currentChat = chat;
         if (chat == null) {
-            TLRPC$Chat chatSync = MessagesStorage.getInstance(this.currentAccount).getChatSync(this.chatId);
+            TLRPC.Chat chatSync = MessagesStorage.getInstance(this.currentAccount).getChatSync(this.chatId);
             this.currentChat = chatSync;
             if (chatSync != null) {
                 getMessagesController().putChat(this.currentChat, true);
                 if (this.info == null) {
-                    TLRPC$ChatFull loadChatInfo = MessagesStorage.getInstance(this.currentAccount).loadChatInfo(this.chatId, ChatObject.isChannel(this.currentChat), new CountDownLatch(1), false, false);
+                    TLRPC.ChatFull loadChatInfo = MessagesStorage.getInstance(this.currentAccount).loadChatInfo(this.chatId, ChatObject.isChannel(this.currentChat), new CountDownLatch(1), false, false);
                     this.info = loadChatInfo;
                 }
             }
@@ -456,28 +449,28 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
         getNotificationCenter().removeObserver(this, NotificationCenter.reactionsDidLoad);
     }
 
-    public void setInfo(TLRPC$ChatFull tLRPC$ChatFull) {
+    public void setInfo(TLRPC.ChatFull chatFull) {
         int i;
-        this.info = tLRPC$ChatFull;
-        if (tLRPC$ChatFull != null) {
+        this.info = chatFull;
+        if (chatFull != null) {
             if (this.currentChat == null) {
                 this.currentChat = getMessagesController().getChat(Long.valueOf(this.chatId));
             }
             this.chatReactions = new ArrayList();
-            TLRPC$ChatReactions tLRPC$ChatReactions = tLRPC$ChatFull.available_reactions;
-            if (tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsAll) {
+            TLRPC.ChatReactions chatReactions = chatFull.available_reactions;
+            if (chatReactions instanceof TLRPC.TL_chatReactionsAll) {
                 this.startFromType = 0;
                 return;
             }
-            if (tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsNone) {
+            if (chatReactions instanceof TLRPC.TL_chatReactionsNone) {
                 i = 2;
-            } else if (!(tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsSome)) {
+            } else if (!(chatReactions instanceof TLRPC.TL_chatReactionsSome)) {
                 return;
             } else {
-                TLRPC$TL_chatReactionsSome tLRPC$TL_chatReactionsSome = (TLRPC$TL_chatReactionsSome) tLRPC$ChatReactions;
-                for (int i2 = 0; i2 < tLRPC$TL_chatReactionsSome.reactions.size(); i2++) {
-                    if (tLRPC$TL_chatReactionsSome.reactions.get(i2) instanceof TLRPC$TL_reactionEmoji) {
-                        this.chatReactions.add(((TLRPC$TL_reactionEmoji) tLRPC$TL_chatReactionsSome.reactions.get(i2)).emoticon);
+                TLRPC.TL_chatReactionsSome tL_chatReactionsSome = (TLRPC.TL_chatReactionsSome) chatReactions;
+                for (int i2 = 0; i2 < tL_chatReactionsSome.reactions.size(); i2++) {
+                    if (tL_chatReactionsSome.reactions.get(i2) instanceof TLRPC.TL_reactionEmoji) {
+                        this.chatReactions.add(((TLRPC.TL_reactionEmoji) tL_chatReactionsSome.reactions.get(i2)).emoticon);
                     }
                 }
                 i = 1;

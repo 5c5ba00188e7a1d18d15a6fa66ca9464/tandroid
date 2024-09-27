@@ -5,6 +5,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.NoSuchElementException;
 /* loaded from: classes.dex */
 public abstract class Iterators {
@@ -42,6 +43,11 @@ public abstract class Iterators {
 
     public static boolean any(Iterator it, Predicate predicate) {
         return indexOf(it, predicate) != -1;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static ListIterator cast(Iterator it) {
+        return (ListIterator) it;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

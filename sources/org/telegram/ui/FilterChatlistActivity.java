@@ -49,15 +49,8 @@ import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$Dialog;
-import org.telegram.tgnet.TLRPC$Peer;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.tl.TL_chatlists$TL_chatlists_deleteExportedInvite;
-import org.telegram.tgnet.tl.TL_chatlists$TL_chatlists_editExportedInvite;
-import org.telegram.tgnet.tl.TL_chatlists$TL_exportedChatlistInvite;
-import org.telegram.tgnet.tl.TL_chatlists$TL_inputChatlistDialogFilter;
+import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_chatlists;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -93,7 +86,7 @@ public class FilterChatlistActivity extends BaseFragment {
     MessagesController.DialogFilter filter;
     private FolderBottomSheet.HeaderCell headerCountCell;
     private HintInnerCell hintCountCell;
-    TL_chatlists$TL_exportedChatlistInvite invite;
+    TL_chatlists.TL_exportedChatlistInvite invite;
     private long lastClicked;
     private long lastClickedDialogId;
     private RecyclerListView listView;
@@ -714,7 +707,7 @@ public class FilterChatlistActivity extends BaseFragment {
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$deleteLink$3(final AlertDialog alertDialog, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+            public /* synthetic */ void lambda$deleteLink$3(final AlertDialog alertDialog, TLObject tLObject, TLRPC.TL_error tL_error) {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterChatlistActivity$ListAdapter$1$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
@@ -758,26 +751,26 @@ public class FilterChatlistActivity extends BaseFragment {
 
             @Override // org.telegram.ui.FilterChatlistActivity.InviteLinkCell
             protected void deleteLink() {
-                TL_chatlists$TL_chatlists_deleteExportedInvite tL_chatlists$TL_chatlists_deleteExportedInvite = new TL_chatlists$TL_chatlists_deleteExportedInvite();
-                TL_chatlists$TL_inputChatlistDialogFilter tL_chatlists$TL_inputChatlistDialogFilter = new TL_chatlists$TL_inputChatlistDialogFilter();
-                tL_chatlists$TL_chatlists_deleteExportedInvite.chatlist = tL_chatlists$TL_inputChatlistDialogFilter;
+                TL_chatlists.TL_chatlists_deleteExportedInvite tL_chatlists_deleteExportedInvite = new TL_chatlists.TL_chatlists_deleteExportedInvite();
+                TL_chatlists.TL_inputChatlistDialogFilter tL_inputChatlistDialogFilter = new TL_chatlists.TL_inputChatlistDialogFilter();
+                tL_chatlists_deleteExportedInvite.chatlist = tL_inputChatlistDialogFilter;
                 FilterChatlistActivity filterChatlistActivity = FilterChatlistActivity.this;
-                tL_chatlists$TL_inputChatlistDialogFilter.filter_id = filterChatlistActivity.filter.id;
-                tL_chatlists$TL_chatlists_deleteExportedInvite.slug = filterChatlistActivity.getSlug();
+                tL_inputChatlistDialogFilter.filter_id = filterChatlistActivity.filter.id;
+                tL_chatlists_deleteExportedInvite.slug = filterChatlistActivity.getSlug();
                 final AlertDialog alertDialog = new AlertDialog(getContext(), 3);
                 alertDialog.showDelayed(180L);
-                FilterChatlistActivity.this.getConnectionsManager().sendRequest(tL_chatlists$TL_chatlists_deleteExportedInvite, new RequestDelegate() { // from class: org.telegram.ui.FilterChatlistActivity$ListAdapter$1$$ExternalSyntheticLambda7
+                FilterChatlistActivity.this.getConnectionsManager().sendRequest(tL_chatlists_deleteExportedInvite, new RequestDelegate() { // from class: org.telegram.ui.FilterChatlistActivity$ListAdapter$1$$ExternalSyntheticLambda7
                     @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        FilterChatlistActivity.ListAdapter.1.this.lambda$deleteLink$3(alertDialog, tLObject, tLRPC$TL_error);
+                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                        FilterChatlistActivity.ListAdapter.1.this.lambda$deleteLink$3(alertDialog, tLObject, tL_error);
                     }
                 });
             }
 
             @Override // org.telegram.ui.FilterChatlistActivity.InviteLinkCell
             public void editname() {
-                TL_chatlists$TL_exportedChatlistInvite tL_chatlists$TL_exportedChatlistInvite = FilterChatlistActivity.this.invite;
-                if (tL_chatlists$TL_exportedChatlistInvite == null || tL_chatlists$TL_exportedChatlistInvite.url == null) {
+                TL_chatlists.TL_exportedChatlistInvite tL_exportedChatlistInvite = FilterChatlistActivity.this.invite;
+                if (tL_exportedChatlistInvite == null || tL_exportedChatlistInvite.url == null) {
                     return;
                 }
                 final EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(getContext());
@@ -905,8 +898,8 @@ public class FilterChatlistActivity extends BaseFragment {
             String string;
             int i3;
             String str;
-            TLRPC$User tLRPC$User;
-            TLRPC$User tLRPC$User2;
+            TLRPC.User user;
+            TLRPC.User user2;
             int i4;
             int itemViewType = viewHolder.getItemViewType();
             if (itemViewType == 0) {
@@ -925,8 +918,8 @@ public class FilterChatlistActivity extends BaseFragment {
             } else {
                 if (itemViewType == 3) {
                     InviteLinkCell inviteLinkCell = (InviteLinkCell) viewHolder.itemView;
-                    TL_chatlists$TL_exportedChatlistInvite tL_chatlists$TL_exportedChatlistInvite = FilterChatlistActivity.this.invite;
-                    inviteLinkCell.setLink(tL_chatlists$TL_exportedChatlistInvite != null ? tL_chatlists$TL_exportedChatlistInvite.url : null, false);
+                    TL_chatlists.TL_exportedChatlistInvite tL_exportedChatlistInvite = FilterChatlistActivity.this.invite;
+                    inviteLinkCell.setLink(tL_exportedChatlistInvite != null ? tL_exportedChatlistInvite.url : null, false);
                 } else if (itemViewType != 4) {
                     if (itemViewType == 5) {
                         FolderBottomSheet.HeaderCell headerCell = (FolderBottomSheet.HeaderCell) viewHolder.itemView;
@@ -952,18 +945,18 @@ public class FilterChatlistActivity extends BaseFragment {
                     Long l = (Long) FilterChatlistActivity.this.peers.get(i - FilterChatlistActivity.this.chatsStartRow);
                     long longValue = l.longValue();
                     if (longValue >= 0) {
-                        TLRPC$User user = FilterChatlistActivity.this.getMessagesController().getUser(l);
-                        tLRPC$User = user;
-                        if (user != null) {
-                            r3 = UserObject.getUserName(user);
+                        TLRPC.User user3 = FilterChatlistActivity.this.getMessagesController().getUser(l);
+                        user = user3;
+                        if (user3 != null) {
+                            r3 = UserObject.getUserName(user3);
                             string = null;
-                            tLRPC$User2 = user;
+                            user2 = user3;
                         }
                         string = null;
-                        tLRPC$User2 = tLRPC$User;
+                        user2 = user;
                     } else {
-                        TLRPC$Chat chat = FilterChatlistActivity.this.getMessagesController().getChat(Long.valueOf(-longValue));
-                        tLRPC$User = chat;
+                        TLRPC.Chat chat = FilterChatlistActivity.this.getMessagesController().getChat(Long.valueOf(-longValue));
+                        user = chat;
                         if (chat != null) {
                             r3 = chat.title;
                             if (chat.participants_count != 0) {
@@ -975,14 +968,14 @@ public class FilterChatlistActivity extends BaseFragment {
                                     str = "Members";
                                 }
                                 string = LocaleController.formatPluralStringComma(str, i3);
-                                tLRPC$User2 = chat;
+                                user2 = chat;
                             } else {
                                 string = LocaleController.getString(ChatObject.isChannelAndNotMegaGroup(chat) ? "ChannelPublic" : "MegaPublic");
-                                tLRPC$User2 = chat;
+                                user2 = chat;
                             }
                         }
                         string = null;
-                        tLRPC$User2 = tLRPC$User;
+                        user2 = user;
                     }
                     if (FilterChatlistActivity.this.allowedPeers.contains(l)) {
                         groupCreateUserCell.setForbiddenCheck(false);
@@ -990,15 +983,15 @@ public class FilterChatlistActivity extends BaseFragment {
                     } else {
                         groupCreateUserCell.setForbiddenCheck(true);
                         groupCreateUserCell.setChecked(false, false);
-                        if (tLRPC$User2 instanceof TLRPC$User) {
-                            i4 = ((TLRPC$User) tLRPC$User2).bot ? R.string.FilterInviteBot : R.string.FilterInviteUser;
-                        } else if (tLRPC$User2 instanceof TLRPC$Chat) {
-                            i4 = ChatObject.isChannelAndNotMegaGroup(tLRPC$User2) ? R.string.FilterInviteChannel : R.string.FilterInviteGroup;
+                        if (user2 instanceof TLRPC.User) {
+                            i4 = ((TLRPC.User) user2).bot ? R.string.FilterInviteBot : R.string.FilterInviteUser;
+                        } else if (user2 instanceof TLRPC.Chat) {
+                            i4 = ChatObject.isChannelAndNotMegaGroup(user2) ? R.string.FilterInviteChannel : R.string.FilterInviteGroup;
                         }
                         string = LocaleController.getString(i4);
                     }
                     groupCreateUserCell.setTag(l);
-                    groupCreateUserCell.setObject(tLRPC$User2, r3, string);
+                    groupCreateUserCell.setObject(user2, r3, string);
                 }
             }
         }
@@ -1027,9 +1020,9 @@ public class FilterChatlistActivity extends BaseFragment {
         }
     }
 
-    public FilterChatlistActivity(MessagesController.DialogFilter dialogFilter, TL_chatlists$TL_exportedChatlistInvite tL_chatlists$TL_exportedChatlistInvite) {
+    public FilterChatlistActivity(MessagesController.DialogFilter dialogFilter, TL_chatlists.TL_exportedChatlistInvite tL_exportedChatlistInvite) {
         this.filter = dialogFilter;
-        this.invite = tL_chatlists$TL_exportedChatlistInvite;
+        this.invite = tL_exportedChatlistInvite;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1067,15 +1060,15 @@ public class FilterChatlistActivity extends BaseFragment {
     }
 
     private void checkPeersChanged() {
-        TL_chatlists$TL_exportedChatlistInvite tL_chatlists$TL_exportedChatlistInvite = this.invite;
-        if (tL_chatlists$TL_exportedChatlistInvite == null || tL_chatlists$TL_exportedChatlistInvite.url == null || !this.peersChanged) {
+        TL_chatlists.TL_exportedChatlistInvite tL_exportedChatlistInvite = this.invite;
+        if (tL_exportedChatlistInvite == null || tL_exportedChatlistInvite.url == null || !this.peersChanged) {
             return;
         }
         boolean z = true;
         boolean z2 = this.selectedPeers.size() != this.invite.peers.size();
         if (!z2) {
             for (int i = 0; i < this.invite.peers.size(); i++) {
-                if (!this.selectedPeers.contains(Long.valueOf(DialogObject.getPeerDialogId((TLRPC$Peer) this.invite.peers.get(i))))) {
+                if (!this.selectedPeers.contains(Long.valueOf(DialogObject.getPeerDialogId(this.invite.peers.get(i))))) {
                     break;
                 }
             }
@@ -1125,8 +1118,8 @@ public class FilterChatlistActivity extends BaseFragment {
     /* JADX INFO: Access modifiers changed from: private */
     public String getSlug() {
         String str;
-        TL_chatlists$TL_exportedChatlistInvite tL_chatlists$TL_exportedChatlistInvite = this.invite;
-        if (tL_chatlists$TL_exportedChatlistInvite == null || (str = tL_chatlists$TL_exportedChatlistInvite.url) == null) {
+        TL_chatlists.TL_exportedChatlistInvite tL_exportedChatlistInvite = this.invite;
+        if (tL_exportedChatlistInvite == null || (str = tL_exportedChatlistInvite.url) == null) {
             return null;
         }
         return str.substring(str.lastIndexOf(47) + 1);
@@ -1161,10 +1154,10 @@ public class FilterChatlistActivity extends BaseFragment {
                 ArrayList arrayList = new ArrayList();
                 if (longValue >= 0) {
                     arrayList.add(getMessagesController().getUser(l));
-                    TLRPC$User user = getMessagesController().getUser(l);
+                    TLRPC.User user = getMessagesController().getUser(l);
                     str = LocaleController.getString((user == null || !user.bot) ? R.string.FilterInviteUserToast : R.string.FilterInviteBotToast);
                 } else {
-                    TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-longValue));
+                    TLRPC.Chat chat = getMessagesController().getChat(Long.valueOf(-longValue));
                     String string = LocaleController.getString(ChatObject.isChannelAndNotMegaGroup(chat) ? ChatObject.isPublic(chat) ? R.string.FilterInviteChannelToast : R.string.FilterInvitePrivateChannelToast : ChatObject.isPublic(chat) ? R.string.FilterInviteGroupToast : R.string.FilterInvitePrivateGroupToast);
                     arrayList.add(chat);
                     str = string;
@@ -1202,15 +1195,15 @@ public class FilterChatlistActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$save$1(TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$save$1(TLRPC.TL_error tL_error) {
         LimitReachedBottomSheet limitReachedBottomSheet;
         updateDoneProgress(false);
         this.saving = false;
-        if (tLRPC$TL_error != null && "INVITES_TOO_MUCH".equals(tLRPC$TL_error.text)) {
+        if (tL_error != null && "INVITES_TOO_MUCH".equals(tL_error.text)) {
             limitReachedBottomSheet = new LimitReachedBottomSheet(this, getContext(), 12, this.currentAccount, null);
-        } else if (tLRPC$TL_error != null && "INVITE_PEERS_TOO_MUCH".equals(tLRPC$TL_error.text)) {
+        } else if (tL_error != null && "INVITE_PEERS_TOO_MUCH".equals(tL_error.text)) {
             limitReachedBottomSheet = new LimitReachedBottomSheet(this, getContext(), 4, this.currentAccount, null);
-        } else if (tLRPC$TL_error == null || !"CHATLISTS_TOO_MUCH".equals(tLRPC$TL_error.text)) {
+        } else if (tL_error == null || !"CHATLISTS_TOO_MUCH".equals(tL_error.text)) {
             finishFragment();
             return;
         } else {
@@ -1220,29 +1213,29 @@ public class FilterChatlistActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$save$2(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$save$2(TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
-                FilterChatlistActivity.this.lambda$save$1(tLRPC$TL_error);
+                FilterChatlistActivity.this.lambda$save$1(tL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$saveTitle$3(TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$saveTitle$3(TLRPC.TL_error tL_error) {
         this.savingTitleReqId = 0;
-        if (tLRPC$TL_error == null) {
+        if (tL_error == null) {
             BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, LocaleController.getString(R.string.FilterInviteNameEdited)).show();
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$saveTitle$4(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$saveTitle$4(TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
-                FilterChatlistActivity.this.lambda$saveTitle$3(tLRPC$TL_error);
+                FilterChatlistActivity.this.lambda$saveTitle$3(tL_error);
             }
         });
     }
@@ -1269,20 +1262,20 @@ public class FilterChatlistActivity extends BaseFragment {
         for (int i = 0; i < this.selectedPeers.size(); i++) {
             this.invite.peers.add(getMessagesController().getPeer(((Long) this.selectedPeers.get(i)).longValue()));
         }
-        TL_chatlists$TL_chatlists_editExportedInvite tL_chatlists$TL_chatlists_editExportedInvite = new TL_chatlists$TL_chatlists_editExportedInvite();
-        TL_chatlists$TL_inputChatlistDialogFilter tL_chatlists$TL_inputChatlistDialogFilter = new TL_chatlists$TL_inputChatlistDialogFilter();
-        tL_chatlists$TL_chatlists_editExportedInvite.chatlist = tL_chatlists$TL_inputChatlistDialogFilter;
-        tL_chatlists$TL_inputChatlistDialogFilter.filter_id = this.filter.id;
-        tL_chatlists$TL_chatlists_editExportedInvite.slug = getSlug();
-        tL_chatlists$TL_chatlists_editExportedInvite.revoked = this.invite.revoked;
-        tL_chatlists$TL_chatlists_editExportedInvite.flags |= 4;
+        TL_chatlists.TL_chatlists_editExportedInvite tL_chatlists_editExportedInvite = new TL_chatlists.TL_chatlists_editExportedInvite();
+        TL_chatlists.TL_inputChatlistDialogFilter tL_inputChatlistDialogFilter = new TL_chatlists.TL_inputChatlistDialogFilter();
+        tL_chatlists_editExportedInvite.chatlist = tL_inputChatlistDialogFilter;
+        tL_inputChatlistDialogFilter.filter_id = this.filter.id;
+        tL_chatlists_editExportedInvite.slug = getSlug();
+        tL_chatlists_editExportedInvite.revoked = this.invite.revoked;
+        tL_chatlists_editExportedInvite.flags |= 4;
         for (int i2 = 0; i2 < this.selectedPeers.size(); i2++) {
-            tL_chatlists$TL_chatlists_editExportedInvite.peers.add(getMessagesController().getInputPeer(((Long) this.selectedPeers.get(i2)).longValue()));
+            tL_chatlists_editExportedInvite.peers.add(getMessagesController().getInputPeer(((Long) this.selectedPeers.get(i2)).longValue()));
         }
-        getConnectionsManager().sendRequest(tL_chatlists$TL_chatlists_editExportedInvite, new RequestDelegate() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda8
+        getConnectionsManager().sendRequest(tL_chatlists_editExportedInvite, new RequestDelegate() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda8
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                FilterChatlistActivity.this.lambda$save$2(tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                FilterChatlistActivity.this.lambda$save$2(tLObject, tL_error);
             }
         });
         Utilities.Callback callback = this.onEdit;
@@ -1297,19 +1290,19 @@ public class FilterChatlistActivity extends BaseFragment {
             getConnectionsManager().cancelRequest(this.savingTitleReqId, true);
             this.savingTitleReqId = 0;
         }
-        TL_chatlists$TL_chatlists_editExportedInvite tL_chatlists$TL_chatlists_editExportedInvite = new TL_chatlists$TL_chatlists_editExportedInvite();
-        TL_chatlists$TL_inputChatlistDialogFilter tL_chatlists$TL_inputChatlistDialogFilter = new TL_chatlists$TL_inputChatlistDialogFilter();
-        tL_chatlists$TL_chatlists_editExportedInvite.chatlist = tL_chatlists$TL_inputChatlistDialogFilter;
-        tL_chatlists$TL_inputChatlistDialogFilter.filter_id = this.filter.id;
-        tL_chatlists$TL_chatlists_editExportedInvite.slug = getSlug();
-        TL_chatlists$TL_exportedChatlistInvite tL_chatlists$TL_exportedChatlistInvite = this.invite;
-        tL_chatlists$TL_chatlists_editExportedInvite.revoked = tL_chatlists$TL_exportedChatlistInvite.revoked;
-        tL_chatlists$TL_chatlists_editExportedInvite.flags |= 2;
-        tL_chatlists$TL_chatlists_editExportedInvite.title = tL_chatlists$TL_exportedChatlistInvite.title;
-        this.savingTitleReqId = getConnectionsManager().sendRequest(tL_chatlists$TL_chatlists_editExportedInvite, new RequestDelegate() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda0
+        TL_chatlists.TL_chatlists_editExportedInvite tL_chatlists_editExportedInvite = new TL_chatlists.TL_chatlists_editExportedInvite();
+        TL_chatlists.TL_inputChatlistDialogFilter tL_inputChatlistDialogFilter = new TL_chatlists.TL_inputChatlistDialogFilter();
+        tL_chatlists_editExportedInvite.chatlist = tL_inputChatlistDialogFilter;
+        tL_inputChatlistDialogFilter.filter_id = this.filter.id;
+        tL_chatlists_editExportedInvite.slug = getSlug();
+        TL_chatlists.TL_exportedChatlistInvite tL_exportedChatlistInvite = this.invite;
+        tL_chatlists_editExportedInvite.revoked = tL_exportedChatlistInvite.revoked;
+        tL_chatlists_editExportedInvite.flags |= 2;
+        tL_chatlists_editExportedInvite.title = tL_exportedChatlistInvite.title;
+        this.savingTitleReqId = getConnectionsManager().sendRequest(tL_chatlists_editExportedInvite, new RequestDelegate() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                FilterChatlistActivity.this.lambda$saveTitle$4(tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                FilterChatlistActivity.this.lambda$saveTitle$4(tLObject, tL_error);
             }
         });
         Utilities.Callback callback = this.onEdit;
@@ -1333,8 +1326,8 @@ public class FilterChatlistActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void updateActionBarTitle(boolean z) {
-        TL_chatlists$TL_exportedChatlistInvite tL_chatlists$TL_exportedChatlistInvite = this.invite;
-        String string = TextUtils.isEmpty(tL_chatlists$TL_exportedChatlistInvite == null ? null : tL_chatlists$TL_exportedChatlistInvite.title) ? LocaleController.getString(R.string.FilterShare) : this.invite.title;
+        TL_chatlists.TL_exportedChatlistInvite tL_exportedChatlistInvite = this.invite;
+        String string = TextUtils.isEmpty(tL_exportedChatlistInvite == null ? null : tL_exportedChatlistInvite.title) ? LocaleController.getString(R.string.FilterShare) : this.invite.title;
         if (z) {
             this.actionBar.setTitleAnimated(string, false, 220L);
         } else {
@@ -1458,30 +1451,30 @@ public class FilterChatlistActivity extends BaseFragment {
         this.peers.clear();
         if (this.invite != null) {
             for (int i2 = 0; i2 < this.invite.peers.size(); i2++) {
-                long peerDialogId = DialogObject.getPeerDialogId((TLRPC$Peer) this.invite.peers.get(i2));
+                long peerDialogId = DialogObject.getPeerDialogId(this.invite.peers.get(i2));
                 this.peers.add(Long.valueOf(peerDialogId));
                 this.selectedPeers.add(Long.valueOf(peerDialogId));
                 this.allowedPeers.add(Long.valueOf(peerDialogId));
             }
         }
         for (int i3 = 0; i3 < this.filter.dialogs.size(); i3++) {
-            TLRPC$Dialog tLRPC$Dialog = this.filter.dialogs.get(i3);
-            if (tLRPC$Dialog != null && !DialogObject.isEncryptedDialog(tLRPC$Dialog.id) && !this.peers.contains(Long.valueOf(tLRPC$Dialog.id))) {
-                long j = tLRPC$Dialog.id;
+            TLRPC.Dialog dialog = this.filter.dialogs.get(i3);
+            if (dialog != null && !DialogObject.isEncryptedDialog(dialog.id) && !this.peers.contains(Long.valueOf(dialog.id))) {
+                long j = dialog.id;
                 boolean z = j < 0;
                 if (j < 0) {
-                    z = FilterCreateActivity.canAddToFolder(getMessagesController().getChat(Long.valueOf(-tLRPC$Dialog.id)));
+                    z = FilterCreateActivity.canAddToFolder(getMessagesController().getChat(Long.valueOf(-dialog.id)));
                 }
                 if (z) {
-                    this.peers.add(Long.valueOf(tLRPC$Dialog.id));
-                    this.allowedPeers.add(Long.valueOf(tLRPC$Dialog.id));
+                    this.peers.add(Long.valueOf(dialog.id));
+                    this.allowedPeers.add(Long.valueOf(dialog.id));
                 }
             }
         }
         for (int i4 = 0; i4 < this.filter.dialogs.size(); i4++) {
-            TLRPC$Dialog tLRPC$Dialog2 = this.filter.dialogs.get(i4);
-            if (tLRPC$Dialog2 != null && !DialogObject.isEncryptedDialog(tLRPC$Dialog2.id) && !this.peers.contains(Long.valueOf(tLRPC$Dialog2.id)) && !this.allowedPeers.contains(Long.valueOf(tLRPC$Dialog2.id))) {
-                this.peers.add(Long.valueOf(tLRPC$Dialog2.id));
+            TLRPC.Dialog dialog2 = this.filter.dialogs.get(i4);
+            if (dialog2 != null && !DialogObject.isEncryptedDialog(dialog2.id) && !this.peers.contains(Long.valueOf(dialog2.id)) && !this.allowedPeers.contains(Long.valueOf(dialog2.id))) {
+                this.peers.add(Long.valueOf(dialog2.id));
             }
         }
         updateRows();
@@ -1518,8 +1511,8 @@ public class FilterChatlistActivity extends BaseFragment {
     public void updateRows() {
         this.rowsCount = 1;
         this.hintRow = 0;
-        TL_chatlists$TL_exportedChatlistInvite tL_chatlists$TL_exportedChatlistInvite = this.invite;
-        if (tL_chatlists$TL_exportedChatlistInvite != null) {
+        TL_chatlists.TL_exportedChatlistInvite tL_exportedChatlistInvite = this.invite;
+        if (tL_exportedChatlistInvite != null) {
             this.linkHeaderRow = 1;
             this.linkRow = 2;
             this.rowsCount = 4;
@@ -1529,7 +1522,7 @@ public class FilterChatlistActivity extends BaseFragment {
             this.linkRow = -1;
             this.linkSectionRow = -1;
         }
-        if (tL_chatlists$TL_exportedChatlistInvite == null && this.peers.isEmpty()) {
+        if (tL_exportedChatlistInvite == null && this.peers.isEmpty()) {
             this.chatsHeaderRow = -1;
             this.chatsStartRow = -1;
             this.chatsEndRow = -1;

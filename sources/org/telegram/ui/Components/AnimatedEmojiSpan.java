@@ -28,7 +28,7 @@ import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.UserConfig;
-import org.telegram.tgnet.TLRPC$Document;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 /* loaded from: classes3.dex */
@@ -36,7 +36,7 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
     private static boolean lockPositionChanging;
     private boolean animateChanges;
     public int cacheType;
-    public TLRPC$Document document;
+    public TLRPC.Document document;
     public String documentAbsolutePath;
     public long documentId;
     public String emoji;
@@ -457,14 +457,14 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
         this(j, 1.2f, fontMetricsInt);
     }
 
-    public AnimatedEmojiSpan(TLRPC$Document tLRPC$Document, float f, Paint.FontMetricsInt fontMetricsInt) {
-        this(tLRPC$Document.id, f, fontMetricsInt);
-        this.document = tLRPC$Document;
+    public AnimatedEmojiSpan(TLRPC.Document document, float f, Paint.FontMetricsInt fontMetricsInt) {
+        this(document.id, f, fontMetricsInt);
+        this.document = document;
     }
 
-    public AnimatedEmojiSpan(TLRPC$Document tLRPC$Document, Paint.FontMetricsInt fontMetricsInt) {
-        this(tLRPC$Document.id, 1.2f, fontMetricsInt);
-        this.document = tLRPC$Document;
+    public AnimatedEmojiSpan(TLRPC.Document document, Paint.FontMetricsInt fontMetricsInt) {
+        this(document.id, 1.2f, fontMetricsInt);
+        this.document = document;
     }
 
     private boolean animateChanges(final float f, final float f2) {
@@ -510,9 +510,9 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
 
     public static AnimatedEmojiSpan cloneSpan(AnimatedEmojiSpan animatedEmojiSpan, Paint.FontMetricsInt fontMetricsInt) {
         AnimatedEmojiSpan animatedEmojiSpan2;
-        TLRPC$Document tLRPC$Document = animatedEmojiSpan.document;
-        if (tLRPC$Document != null) {
-            animatedEmojiSpan2 = new AnimatedEmojiSpan(tLRPC$Document, fontMetricsInt != null ? fontMetricsInt : animatedEmojiSpan.fontMetrics);
+        TLRPC.Document document = animatedEmojiSpan.document;
+        if (document != null) {
+            animatedEmojiSpan2 = new AnimatedEmojiSpan(document, fontMetricsInt != null ? fontMetricsInt : animatedEmojiSpan.fontMetrics);
         } else {
             animatedEmojiSpan2 = new AnimatedEmojiSpan(animatedEmojiSpan.documentId, animatedEmojiSpan.scale, fontMetricsInt != null ? fontMetricsInt : animatedEmojiSpan.fontMetrics);
         }
@@ -737,8 +737,8 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
                         i2 = i;
                     }
                 }
-                TLRPC$Document tLRPC$Document = animatedEmojiSpan2.document;
-                AnimatedEmojiDrawable make = tLRPC$Document != null ? AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i2, tLRPC$Document) : AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i2, animatedEmojiSpan2.documentId);
+                TLRPC.Document document = animatedEmojiSpan2.document;
+                AnimatedEmojiDrawable make = document != null ? AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i2, document) : AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i2, animatedEmojiSpan2.documentId);
                 make.addView(view);
                 longSparseArray.put(animatedEmojiSpan2.getDocumentId(), make);
             }
@@ -857,9 +857,9 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
                                 make = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i4, animatedEmojiSpan.getDocumentId(), animatedEmojiSpan.documentAbsolutePath);
                             } else {
                                 i3 = i7;
-                                TLRPC$Document tLRPC$Document = animatedEmojiSpan.document;
-                                if (tLRPC$Document != null) {
-                                    make = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i4, tLRPC$Document);
+                                TLRPC.Document document = animatedEmojiSpan.document;
+                                if (document != null) {
+                                    make = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i4, document);
                                 } else {
                                     long j = animatedEmojiSpan.documentId;
                                     if (j != 0) {
@@ -995,8 +995,8 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
     }
 
     public long getDocumentId() {
-        TLRPC$Document tLRPC$Document = this.document;
-        return tLRPC$Document != null ? tLRPC$Document.id : this.documentId;
+        TLRPC.Document document = this.document;
+        return document != null ? document.id : this.documentId;
     }
 
     public float getExtraScale() {

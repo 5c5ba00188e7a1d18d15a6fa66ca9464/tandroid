@@ -59,12 +59,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$GeoPoint;
-import org.telegram.tgnet.TLRPC$MessageMedia;
-import org.telegram.tgnet.TLRPC$TL_geoPoint;
-import org.telegram.tgnet.TLRPC$TL_messageMediaGeo;
-import org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive;
-import org.telegram.tgnet.TLRPC$TL_messageMediaVenue;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -153,7 +148,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
 
     /* loaded from: classes3.dex */
     public interface LocationActivityDelegate {
-        void didSelectLocation(TLRPC$MessageMedia tLRPC$MessageMedia, int i, boolean z, int i2);
+        void didSelectLocation(TLRPC.MessageMedia messageMedia, int i, boolean z, int i2);
     }
 
     /* loaded from: classes3.dex */
@@ -263,7 +258,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
             ofFloat.setDuration(360L);
             ofFloat.start();
             this.views.put(iMarker, frameLayout);
-            ChatAttachAlertLocationLayout.this.map.animateCamera(ApplicationLoader.getMapsProvider().newCameraUpdateLatLng(iMarker.getPosition()), 300, null);
+            ChatAttachAlertLocationLayout.this.map.animateCamera(ApplicationLoader.getMapsProvider().newCameraUpdateLatLng(iMarker.getPosition()), NotificationCenter.storiesReadUpdated, null);
         }
 
         public void removeInfoView(IMapsProvider.IMarker iMarker) {
@@ -323,7 +318,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
     public static class VenueLocation {
         public IMapsProvider.IMarker marker;
         public int num;
-        public TLRPC$TL_messageMediaVenue venue;
+        public TLRPC.TL_messageMediaVenue venue;
     }
 
     /* JADX WARN: Removed duplicated region for block: B:40:0x0197  */
@@ -1478,14 +1473,14 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$16(TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue, boolean z, int i) {
-        this.delegate.didSelectLocation(tLRPC$TL_messageMediaVenue, this.locationType, z, i);
+    public /* synthetic */ void lambda$new$16(TLRPC.TL_messageMediaVenue tL_messageMediaVenue, boolean z, int i) {
+        this.delegate.didSelectLocation(tL_messageMediaVenue, this.locationType, z, i);
         this.parentAlert.dismiss(true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$17(ChatActivity chatActivity, Theme.ResourcesProvider resourcesProvider, View view, int i) {
-        final TLRPC$TL_messageMediaVenue item = this.searchAdapter.getItem(i);
+        final TLRPC.TL_messageMediaVenue item = this.searchAdapter.getItem(i);
         if (item == null || this.delegate == null) {
             return;
         }
@@ -1561,24 +1556,24 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$5(TLRPC$TL_messageMediaGeo tLRPC$TL_messageMediaGeo, boolean z, int i) {
-        this.delegate.didSelectLocation(tLRPC$TL_messageMediaGeo, this.locationType, z, i);
+    public /* synthetic */ void lambda$new$5(TLRPC.TL_messageMediaGeo tL_messageMediaGeo, boolean z, int i) {
+        this.delegate.didSelectLocation(tL_messageMediaGeo, this.locationType, z, i);
         this.parentAlert.dismiss(true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$6(Object obj, boolean z, int i) {
-        this.delegate.didSelectLocation((TLRPC$TL_messageMediaVenue) obj, this.locationType, z, i);
+        this.delegate.didSelectLocation((TLRPC.TL_messageMediaVenue) obj, this.locationType, z, i);
         this.parentAlert.dismiss(true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$7(ChatActivity chatActivity, Theme.ResourcesProvider resourcesProvider, View view, int i) {
-        TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue;
+        TLRPC.TL_messageMediaVenue tL_messageMediaVenue;
         int i2 = this.locationType;
         if (i2 == 7) {
-            if ((i == 1 && (tLRPC$TL_messageMediaVenue = this.adapter.city) != null) || (i == 2 && (tLRPC$TL_messageMediaVenue = this.adapter.street) != null)) {
-                this.delegate.didSelectLocation(tLRPC$TL_messageMediaVenue, i2, true, 0);
+            if ((i == 1 && (tL_messageMediaVenue = this.adapter.city) != null) || (i == 2 && (tL_messageMediaVenue = this.adapter.street) != null)) {
+                this.delegate.didSelectLocation(tL_messageMediaVenue, i2, true, 0);
                 this.parentAlert.dismiss(true);
                 return;
             }
@@ -1595,21 +1590,21 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
                 frameLayout.callOnClick();
                 return;
             }
-            final TLRPC$TL_messageMediaGeo tLRPC$TL_messageMediaGeo = new TLRPC$TL_messageMediaGeo();
-            TLRPC$TL_geoPoint tLRPC$TL_geoPoint = new TLRPC$TL_geoPoint();
-            tLRPC$TL_messageMediaGeo.geo = tLRPC$TL_geoPoint;
-            tLRPC$TL_geoPoint.lat = AndroidUtilities.fixLocationCoord(this.userLocation.getLatitude());
-            tLRPC$TL_messageMediaGeo.geo._long = AndroidUtilities.fixLocationCoord(this.userLocation.getLongitude());
+            final TLRPC.TL_messageMediaGeo tL_messageMediaGeo = new TLRPC.TL_messageMediaGeo();
+            TLRPC.TL_geoPoint tL_geoPoint = new TLRPC.TL_geoPoint();
+            tL_messageMediaGeo.geo = tL_geoPoint;
+            tL_geoPoint.lat = AndroidUtilities.fixLocationCoord(this.userLocation.getLatitude());
+            tL_messageMediaGeo.geo._long = AndroidUtilities.fixLocationCoord(this.userLocation.getLongitude());
             if (chatActivity.isInScheduleMode()) {
                 AlertsCreator.createScheduleDatePickerDialog(getParentActivity(), chatActivity.getDialogId(), new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlertLocationLayout$$ExternalSyntheticLambda25
                     @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
                     public final void didSelectDate(boolean z, int i3) {
-                        ChatAttachAlertLocationLayout.this.lambda$new$5(tLRPC$TL_messageMediaGeo, z, i3);
+                        ChatAttachAlertLocationLayout.this.lambda$new$5(tL_messageMediaGeo, z, i3);
                     }
                 }, resourcesProvider);
                 return;
             }
-            this.delegate.didSelectLocation(tLRPC$TL_messageMediaGeo, this.locationType, true, 0);
+            this.delegate.didSelectLocation(tL_messageMediaGeo, this.locationType, true, 0);
             this.parentAlert.dismiss(true);
             return;
         } else if (i == 2 && i2 == 1) {
@@ -1626,7 +1621,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
             }
         }
         final Object item = this.adapter.getItem(i);
-        if (item instanceof TLRPC$TL_messageMediaVenue) {
+        if (item instanceof TLRPC.TL_messageMediaVenue) {
             if (chatActivity.isInScheduleMode()) {
                 AlertsCreator.createScheduleDatePickerDialog(getParentActivity(), chatActivity.getDialogId(), new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlertLocationLayout$$ExternalSyntheticLambda26
                     @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
@@ -1636,7 +1631,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
                 }, resourcesProvider);
                 return;
             }
-            this.delegate.didSelectLocation((TLRPC$TL_messageMediaVenue) item, this.locationType, true, 0);
+            this.delegate.didSelectLocation((TLRPC.TL_messageMediaVenue) item, this.locationType, true, 0);
             this.parentAlert.dismiss(true);
         }
     }
@@ -1844,13 +1839,13 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openShareLiveLocation$18(int i) {
-        TLRPC$TL_messageMediaGeoLive tLRPC$TL_messageMediaGeoLive = new TLRPC$TL_messageMediaGeoLive();
-        TLRPC$TL_geoPoint tLRPC$TL_geoPoint = new TLRPC$TL_geoPoint();
-        tLRPC$TL_messageMediaGeoLive.geo = tLRPC$TL_geoPoint;
-        tLRPC$TL_geoPoint.lat = AndroidUtilities.fixLocationCoord(this.myLocation.getLatitude());
-        tLRPC$TL_messageMediaGeoLive.geo._long = AndroidUtilities.fixLocationCoord(this.myLocation.getLongitude());
-        tLRPC$TL_messageMediaGeoLive.period = i;
-        this.delegate.didSelectLocation(tLRPC$TL_messageMediaGeoLive, this.locationType, true, 0);
+        TLRPC.TL_messageMediaGeoLive tL_messageMediaGeoLive = new TLRPC.TL_messageMediaGeoLive();
+        TLRPC.TL_geoPoint tL_geoPoint = new TLRPC.TL_geoPoint();
+        tL_messageMediaGeoLive.geo = tL_geoPoint;
+        tL_geoPoint.lat = AndroidUtilities.fixLocationCoord(this.myLocation.getLatitude());
+        tL_messageMediaGeoLive.geo._long = AndroidUtilities.fixLocationCoord(this.myLocation.getLongitude());
+        tL_messageMediaGeoLive.period = i;
+        this.delegate.didSelectLocation(tL_messageMediaGeoLive, this.locationType, true, 0);
         this.parentAlert.dismiss(true);
     }
 
@@ -2272,20 +2267,20 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         this.placeMarkers.clear();
         int size2 = arrayList.size();
         for (int i2 = 0; i2 < size2; i2++) {
-            TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue = (TLRPC$TL_messageMediaVenue) arrayList.get(i2);
+            TLRPC.TL_messageMediaVenue tL_messageMediaVenue = (TLRPC.TL_messageMediaVenue) arrayList.get(i2);
             try {
                 IMapsProvider.IMarkerOptions onCreateMarkerOptions = ApplicationLoader.getMapsProvider().onCreateMarkerOptions();
-                TLRPC$GeoPoint tLRPC$GeoPoint = tLRPC$TL_messageMediaVenue.geo;
-                IMapsProvider.IMarkerOptions position = onCreateMarkerOptions.position(new IMapsProvider.LatLng(tLRPC$GeoPoint.lat, tLRPC$GeoPoint._long));
+                TLRPC.GeoPoint geoPoint = tL_messageMediaVenue.geo;
+                IMapsProvider.IMarkerOptions position = onCreateMarkerOptions.position(new IMapsProvider.LatLng(geoPoint.lat, geoPoint._long));
                 position.icon(createPlaceBitmap(i2));
                 position.anchor(0.5f, 0.5f);
-                position.title(tLRPC$TL_messageMediaVenue.title);
-                position.snippet(tLRPC$TL_messageMediaVenue.address);
+                position.title(tL_messageMediaVenue.title);
+                position.snippet(tL_messageMediaVenue.address);
                 VenueLocation venueLocation = new VenueLocation();
                 venueLocation.num = i2;
                 IMapsProvider.IMarker addMarker = this.map.addMarker(position);
                 venueLocation.marker = addMarker;
-                venueLocation.venue = tLRPC$TL_messageMediaVenue;
+                venueLocation.venue = tL_messageMediaVenue;
                 addMarker.setTag(venueLocation);
                 this.placeMarkers.add(venueLocation);
             } catch (Exception e) {

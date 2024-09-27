@@ -29,8 +29,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
@@ -140,7 +139,7 @@ public class HeaderCell extends FrameLayout {
         linksTextView.setImportantForAccessibility(2);
         linearLayout.addView(linksTextView, LayoutHelper.createFrame(-1, -2.0f, 17, 24.0f, 8.0f, 24.0f, 18.0f));
         setClipChildren(false);
-        addView(starParticlesView, LayoutHelper.createFrame(-1, (int) NotificationCenter.themeAccentListUpdated, 48));
+        addView(starParticlesView, LayoutHelper.createFrame(-1, (int) NotificationCenter.themeListUpdated, 48));
         addView(linearLayout);
         setWillNotDraw(false);
     }
@@ -200,7 +199,7 @@ public class HeaderCell extends FrameLayout {
         starParticlesView.setTranslationY(top - (starParticlesView.getMeasuredHeight() / 2.0f));
     }
 
-    public void setBoostViaGifsText(TLRPC$Chat tLRPC$Chat) {
+    public void setBoostViaGifsText(TLRPC.Chat chat) {
         if (Build.VERSION.SDK_INT >= 21) {
             setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.Premium.boosts.cells.HeaderCell.3
                 @Override // android.view.ViewOutlineProvider
@@ -216,7 +215,7 @@ public class HeaderCell extends FrameLayout {
         setLayoutParams(marginLayoutParams);
         setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray, this.resourcesProvider));
         this.titleView.setText(LocaleController.formatString("BoostingBoostsViaGifts", R.string.BoostingBoostsViaGifts, new Object[0]));
-        this.subtitleView.setText(LocaleController.formatString(ChatObject.isChannelAndNotMegaGroup(tLRPC$Chat) ? R.string.BoostingGetMoreBoost2 : R.string.BoostingGetMoreBoostGroup, new Object[0]));
+        this.subtitleView.setText(LocaleController.formatString(ChatObject.isChannelAndNotMegaGroup(chat) ? R.string.BoostingGetMoreBoost2 : R.string.BoostingGetMoreBoostGroup, new Object[0]));
         this.subtitleView.setTextColor(Theme.getColor(Theme.key_dialogTextGray3, this.resourcesProvider));
     }
 
@@ -228,7 +227,7 @@ public class HeaderCell extends FrameLayout {
     public void setGiftLinkToUserText(long j, final Utilities.Callback callback) {
         this.titleView.setText(LocaleController.formatString("BoostingGiftLink", R.string.BoostingGiftLink, new Object[0]));
         SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(LocaleController.getString(R.string.BoostingLinkAllowsToUser));
-        final TLRPC$User user = MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(j));
+        final TLRPC.User user = MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(j));
         this.subtitleView.setText(AndroidUtilities.replaceCharSequence("%1$s", replaceTags, AndroidUtilities.replaceSingleTag("**" + UserObject.getUserName(user) + "**", Theme.key_chat_messageLinkIn, 2, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.cells.HeaderCell$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {

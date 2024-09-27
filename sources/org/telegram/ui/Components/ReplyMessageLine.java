@@ -15,14 +15,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$Message;
-import org.telegram.tgnet.TLRPC$MessageFwdHeader;
-import org.telegram.tgnet.TLRPC$MessageReplyHeader;
-import org.telegram.tgnet.TLRPC$Peer;
-import org.telegram.tgnet.TLRPC$TL_messageMediaContact;
-import org.telegram.tgnet.TLRPC$TL_peerColor;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
@@ -264,34 +257,34 @@ public class ReplyMessageLine {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public int check(MessageObject messageObject, TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat, Theme.ResourcesProvider resourcesProvider, int i) {
+    public int check(MessageObject messageObject, TLRPC.User user, TLRPC.Chat chat, Theme.ResourcesProvider resourcesProvider, int i) {
         int color;
-        TLRPC$Chat chat;
+        TLRPC.Chat chat2;
         int colorId;
-        TLRPC$User user;
-        TLRPC$Message tLRPC$Message;
-        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader;
-        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader;
+        TLRPC.User user2;
+        TLRPC.Message message;
+        TLRPC.MessageReplyHeader messageReplyHeader;
+        TLRPC.MessageFwdHeader messageFwdHeader;
         MessageObject messageObject2;
-        TLRPC$Message tLRPC$Message2;
+        TLRPC.Message message2;
         long emojiId;
-        TLRPC$User user2;
+        TLRPC.User user3;
         int colorId2;
-        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader2;
-        TLRPC$Peer tLRPC$Peer;
+        TLRPC.MessageFwdHeader messageFwdHeader2;
+        TLRPC.Peer peer;
         long emojiId2;
-        TLRPC$TL_peerColor tLRPC$TL_peerColor;
+        TLRPC.TL_peerColor tL_peerColor;
         int i2;
-        TLRPC$Message tLRPC$Message3;
-        TLRPC$TL_peerColor tLRPC$TL_peerColor2;
-        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader3;
+        TLRPC.Message message3;
+        TLRPC.TL_peerColor tL_peerColor2;
+        TLRPC.MessageFwdHeader messageFwdHeader3;
         int i3;
         long j;
         AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable;
         AnimatedColor animatedColor;
         int i4;
         View view;
-        TLRPC$Message tLRPC$Message4;
+        TLRPC.Message message4;
         int i5;
         boolean isDark = resourcesProvider != null ? resourcesProvider.isDark() : Theme.isCurrentThemeDark();
         this.reversedOut = false;
@@ -309,59 +302,59 @@ public class ReplyMessageLine {
             i4 = Theme.getColor(Theme.key_chat_inReplyNameText, resourcesProvider);
             this.nameColor = i4;
         } else {
-            if (i == 4 && (tLRPC$Message4 = messageObject.messageOwner) != null && MessageObject.getMedia(tLRPC$Message4) != null && (MessageObject.getMedia(messageObject.messageOwner) instanceof TLRPC$TL_messageMediaContact)) {
+            if (i == 4 && (message4 = messageObject.messageOwner) != null && MessageObject.getMedia(message4) != null && (MessageObject.getMedia(messageObject.messageOwner) instanceof TLRPC.TL_messageMediaContact)) {
                 long j2 = MessageObject.getMedia(messageObject.messageOwner).user_id;
-                TLRPC$User user3 = j2 != 0 ? MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(j2)) : null;
-                if (user3 != null) {
-                    i5 = UserObject.getColorId(user3);
-                    this.emojiDocumentId = UserObject.getEmojiId(user3);
+                TLRPC.User user4 = j2 != 0 ? MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(j2)) : null;
+                if (user4 != null) {
+                    i5 = UserObject.getColorId(user4);
+                    this.emojiDocumentId = UserObject.getEmojiId(user4);
                 } else {
                     i5 = 0;
                 }
                 resolveColor(messageObject, i5, resourcesProvider);
-            } else if (i != 0 && (messageObject.overrideLinkColor >= 0 || (messageObject.messageOwner != null && (((messageObject.isFromUser() || DialogObject.isEncryptedDialog(messageObject.getDialogId())) && tLRPC$User != null) || ((messageObject.isFromChannel() && tLRPC$Chat != null) || (((tLRPC$Message3 = messageObject.messageOwner) != null && (tLRPC$MessageFwdHeader3 = tLRPC$Message3.fwd_from) != null && tLRPC$MessageFwdHeader3.from_id != null) || (messageObject.isSponsored() && (tLRPC$TL_peerColor2 = messageObject.sponsoredColor) != null && tLRPC$TL_peerColor2.color != -1))))))) {
+            } else if (i != 0 && (messageObject.overrideLinkColor >= 0 || (messageObject.messageOwner != null && (((messageObject.isFromUser() || DialogObject.isEncryptedDialog(messageObject.getDialogId())) && user != null) || ((messageObject.isFromChannel() && chat != null) || (((message3 = messageObject.messageOwner) != null && (messageFwdHeader3 = message3.fwd_from) != null && messageFwdHeader3.from_id != null) || (messageObject.isSponsored() && (tL_peerColor2 = messageObject.sponsoredColor) != null && tL_peerColor2.color != -1))))))) {
                 int i6 = messageObject.overrideLinkColor;
                 if (i6 < 0) {
-                    if (!messageObject.isSponsored() || (tLRPC$TL_peerColor = messageObject.sponsoredColor) == null || (i2 = tLRPC$TL_peerColor.color) == -1) {
-                        TLRPC$Message tLRPC$Message5 = messageObject.messageOwner;
-                        if (tLRPC$Message5 == null || (tLRPC$MessageFwdHeader2 = tLRPC$Message5.fwd_from) == null || (tLRPC$Peer = tLRPC$MessageFwdHeader2.from_id) == null) {
-                            if (!DialogObject.isEncryptedDialog(messageObject.getDialogId()) || tLRPC$User == null) {
-                                if (messageObject.isFromUser() && tLRPC$User != null) {
-                                    colorId2 = UserObject.getColorId(tLRPC$User);
+                    if (!messageObject.isSponsored() || (tL_peerColor = messageObject.sponsoredColor) == null || (i2 = tL_peerColor.color) == -1) {
+                        TLRPC.Message message5 = messageObject.messageOwner;
+                        if (message5 == null || (messageFwdHeader2 = message5.fwd_from) == null || (peer = messageFwdHeader2.from_id) == null) {
+                            if (!DialogObject.isEncryptedDialog(messageObject.getDialogId()) || user == null) {
+                                if (messageObject.isFromUser() && user != null) {
+                                    colorId2 = UserObject.getColorId(user);
                                     if (i == 3) {
                                         i6 = colorId2;
-                                        user2 = tLRPC$User;
+                                        user3 = user;
                                     }
-                                } else if (!messageObject.isFromChannel() || tLRPC$Chat == null) {
+                                } else if (!messageObject.isFromChannel() || chat == null) {
                                     i6 = 0;
-                                } else if (tLRPC$Chat.signature_profiles) {
+                                } else if (chat.signature_profiles) {
                                     long fromChatId = messageObject.getFromChatId();
                                     if (fromChatId >= 0) {
-                                        user2 = MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(fromChatId));
-                                        i6 = UserObject.getColorId(user2);
+                                        user3 = MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(fromChatId));
+                                        i6 = UserObject.getColorId(user3);
                                     } else {
-                                        TLRPC$Chat chat2 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(-fromChatId));
-                                        i6 = ChatObject.getColorId(chat2);
+                                        TLRPC.Chat chat3 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(-fromChatId));
+                                        i6 = ChatObject.getColorId(chat3);
                                         if (i == 3) {
-                                            emojiId = ChatObject.getEmojiId(chat2);
+                                            emojiId = ChatObject.getEmojiId(chat3);
                                             this.emojiDocumentId = emojiId;
                                         }
                                     }
                                 } else {
-                                    i6 = ChatObject.getColorId(tLRPC$Chat);
+                                    i6 = ChatObject.getColorId(chat);
                                     if (i == 3) {
-                                        emojiId = ChatObject.getEmojiId(tLRPC$Chat);
+                                        emojiId = ChatObject.getEmojiId(chat);
                                         this.emojiDocumentId = emojiId;
                                     }
                                 }
-                                emojiId = UserObject.getEmojiId(user2);
+                                emojiId = UserObject.getEmojiId(user3);
                                 this.emojiDocumentId = emojiId;
                             } else {
-                                user2 = messageObject.isOutOwner() ? UserConfig.getInstance(messageObject.currentAccount).getCurrentUser() : tLRPC$User;
-                                if (user2 == null) {
-                                    user2 = tLRPC$User;
+                                user3 = messageObject.isOutOwner() ? UserConfig.getInstance(messageObject.currentAccount).getCurrentUser() : user;
+                                if (user3 == null) {
+                                    user3 = user;
                                 }
-                                i6 = UserObject.getColorId(user2);
+                                i6 = UserObject.getColorId(user3);
                             }
                             this.nameColor = color;
                             if (messageObject.shouldDrawWithoutBackground()) {
@@ -380,21 +373,21 @@ public class ReplyMessageLine {
                             animatedColor = this.nameColorAnimated;
                             i4 = this.nameColor;
                         } else {
-                            long peerDialogId = DialogObject.getPeerDialogId(tLRPC$Peer);
+                            long peerDialogId = DialogObject.getPeerDialogId(peer);
                             int i7 = (peerDialogId > 0L ? 1 : (peerDialogId == 0L ? 0 : -1));
                             MessagesController messagesController = MessagesController.getInstance(messageObject.currentAccount);
                             if (i7 < 0) {
-                                TLRPC$Chat chat3 = messagesController.getChat(Long.valueOf(-peerDialogId));
-                                colorId2 = chat3 != null ? ChatObject.getColorId(chat3) : 5;
+                                TLRPC.Chat chat4 = messagesController.getChat(Long.valueOf(-peerDialogId));
+                                colorId2 = chat4 != null ? ChatObject.getColorId(chat4) : 5;
                                 if (i == 3) {
-                                    emojiId2 = ChatObject.getEmojiId(chat3);
+                                    emojiId2 = ChatObject.getEmojiId(chat4);
                                     this.emojiDocumentId = emojiId2;
                                 }
                             } else {
-                                TLRPC$User user4 = messagesController.getUser(Long.valueOf(peerDialogId));
-                                colorId2 = user4 != null ? UserObject.getColorId(user4) : 5;
+                                TLRPC.User user5 = messagesController.getUser(Long.valueOf(peerDialogId));
+                                colorId2 = user5 != null ? UserObject.getColorId(user5) : 5;
                                 if (i == 3) {
-                                    emojiId2 = UserObject.getEmojiId(user4);
+                                    emojiId2 = UserObject.getEmojiId(user5);
                                     this.emojiDocumentId = emojiId2;
                                 }
                             }
@@ -402,13 +395,13 @@ public class ReplyMessageLine {
                         i6 = colorId2;
                     } else {
                         if (i == 3) {
-                            this.emojiDocumentId = tLRPC$TL_peerColor.background_emoji_id;
+                            this.emojiDocumentId = tL_peerColor.background_emoji_id;
                         }
                         i6 = i2;
                     }
                 }
                 resolveColor(messageObject, i6, resourcesProvider);
-            } else if (i != 0 || (messageObject.overrideLinkColor < 0 && ((tLRPC$Message = messageObject.messageOwner) == null || messageObject.replyMessageObject == null || (tLRPC$MessageReplyHeader = tLRPC$Message.reply_to) == null || (!((tLRPC$MessageFwdHeader = tLRPC$MessageReplyHeader.reply_from) == null || TextUtils.isEmpty(tLRPC$MessageFwdHeader.from_name)) || (tLRPC$Message2 = (messageObject2 = messageObject.replyMessageObject).messageOwner) == null || tLRPC$Message2.from_id == null || !(messageObject2.isFromUser() || DialogObject.isEncryptedDialog(messageObject.getDialogId()) || messageObject.replyMessageObject.isFromChannel()))))) {
+            } else if (i != 0 || (messageObject.overrideLinkColor < 0 && ((message = messageObject.messageOwner) == null || messageObject.replyMessageObject == null || (messageReplyHeader = message.reply_to) == null || (!((messageFwdHeader = messageReplyHeader.reply_from) == null || TextUtils.isEmpty(messageFwdHeader.from_name)) || (message2 = (messageObject2 = messageObject.replyMessageObject).messageOwner) == null || message2.from_id == null || !(messageObject2.isFromUser() || DialogObject.isEncryptedDialog(messageObject.getDialogId()) || messageObject.replyMessageObject.isFromChannel()))))) {
                 this.hasColor2 = false;
                 this.hasColor3 = false;
                 int color3 = Theme.getColor(Theme.key_chat_inReplyLine, resourcesProvider);
@@ -489,13 +482,13 @@ public class ReplyMessageLine {
                 if (i8 >= 0) {
                     colorId = i8;
                 } else if (DialogObject.isEncryptedDialog(messageObject.replyMessageObject.getDialogId())) {
-                    user = messageObject.replyMessageObject.isOutOwner() ? UserConfig.getInstance(messageObject.replyMessageObject.currentAccount).getCurrentUser() : tLRPC$User;
+                    user2 = messageObject.replyMessageObject.isOutOwner() ? UserConfig.getInstance(messageObject.replyMessageObject.currentAccount).getCurrentUser() : user;
                 } else {
                     if (messageObject.replyMessageObject.isFromUser()) {
-                        user = MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(messageObject.replyMessageObject.messageOwner.from_id.user_id));
-                    } else if (messageObject.replyMessageObject.isFromChannel() && (chat = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(messageObject.replyMessageObject.messageOwner.from_id.channel_id))) != null) {
-                        colorId = ChatObject.getColorId(chat);
-                        long emojiId3 = ChatObject.getEmojiId(chat);
+                        user2 = MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(messageObject.replyMessageObject.messageOwner.from_id.user_id));
+                    } else if (messageObject.replyMessageObject.isFromChannel() && (chat2 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(messageObject.replyMessageObject.messageOwner.from_id.channel_id))) != null) {
+                        colorId = ChatObject.getColorId(chat2);
+                        long emojiId3 = ChatObject.getEmojiId(chat2);
                         this.emojiDocumentId = emojiId3;
                     }
                     colorId = 0;

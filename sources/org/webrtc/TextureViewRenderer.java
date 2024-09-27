@@ -230,7 +230,7 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
             if (i4 == 1) {
                 i = z ? 90 : -90;
             } else if (i4 == 3) {
-                i = z ? NotificationCenter.onActivityResultReceived : -270;
+                i = z ? NotificationCenter.onDatabaseOpened : -270;
             }
             i3 += i;
         }
@@ -522,7 +522,7 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
     }
 
     public void setBackgroundRenderer(TextureView textureView) {
-        if (LiteMode.isEnabled(LiteMode.FLAG_CALLS_ANIMATIONS)) {
+        if (LiteMode.isEnabled(512)) {
             this.backgroundRenderer = textureView;
             if (textureView != null) {
                 textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() { // from class: org.webrtc.TextureViewRenderer.1

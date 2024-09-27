@@ -3,6 +3,7 @@ package org.telegram.messenger;
 import android.content.SharedPreferences;
 import android.os.Build;
 import com.android.billingclient.api.ProductDetails;
+import java.lang.Thread;
 import java.util.Objects;
 /* loaded from: classes.dex */
 public class BuildVars {
@@ -42,6 +43,14 @@ public class BuildVars {
                 z = false;
             }
             LOGS_ENABLED = z;
+            if (z) {
+                Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() { // from class: org.telegram.messenger.BuildVars$$ExternalSyntheticLambda0
+                    @Override // java.lang.Thread.UncaughtExceptionHandler
+                    public final void uncaughtException(Thread thread, Throwable th) {
+                        FileLog.fatal(th, true);
+                    }
+                });
+            }
         }
     }
 

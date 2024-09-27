@@ -60,7 +60,6 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
-import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MrzRecognizer;
 import org.telegram.messenger.R;
@@ -701,7 +700,7 @@ public class CameraScanActivity extends BaseFragment {
         AndroidUtilities.setLightNavigationBar(r1.getWindow(), false);
         AndroidUtilities.setNavigationBarColor(r1.getWindow(), -16777216, false);
         r1.setUseLightStatusBar(false);
-        r1.getWindow().addFlags(LiteMode.FLAG_CALLS_ANIMATIONS);
+        r1.getWindow().addFlags(512);
         r1.show();
         return r1;
     }

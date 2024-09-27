@@ -16,9 +16,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$TL_account_disablePeerConnectedBot;
-import org.telegram.tgnet.TLRPC$TL_account_toggleConnectedBotPaused;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AnimatedTextView;
@@ -49,7 +47,7 @@ public abstract class BusinessBotButton extends FrameLayout {
         this.paused = false;
         BackupImageView backupImageView = new BackupImageView(context);
         this.avatarView = backupImageView;
-        TLRPC$User user = chatActivity.getMessagesController().getUser(Long.valueOf(this.botId));
+        TLRPC.User user = chatActivity.getMessagesController().getUser(Long.valueOf(this.botId));
         AvatarDrawable avatarDrawable = new AvatarDrawable();
         this.avatarDrawable = avatarDrawable;
         avatarDrawable.setInfo(user);
@@ -129,10 +127,10 @@ public abstract class BusinessBotButton extends FrameLayout {
         this.subtitleView.setText(LocaleController.getString(this.paused ? R.string.BizBotStatusStopped : R.string.BizBotStatusManages), true);
         this.flags = this.paused ? this.flags | 1 : this.flags & (-2);
         MessagesController.getNotificationsSettings(this.currentAccount).edit().putInt("dialog_botflags" + this.dialogId, this.flags).apply();
-        TLRPC$TL_account_toggleConnectedBotPaused tLRPC$TL_account_toggleConnectedBotPaused = new TLRPC$TL_account_toggleConnectedBotPaused();
-        tLRPC$TL_account_toggleConnectedBotPaused.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
-        tLRPC$TL_account_toggleConnectedBotPaused.paused = this.paused;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_toggleConnectedBotPaused, null);
+        TLRPC.TL_account_toggleConnectedBotPaused tL_account_toggleConnectedBotPaused = new TLRPC.TL_account_toggleConnectedBotPaused();
+        tL_account_toggleConnectedBotPaused.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
+        tL_account_toggleConnectedBotPaused.paused = this.paused;
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_toggleConnectedBotPaused, null);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -144,9 +142,9 @@ public abstract class BusinessBotButton extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2() {
-        TLRPC$TL_account_disablePeerConnectedBot tLRPC$TL_account_disablePeerConnectedBot = new TLRPC$TL_account_disablePeerConnectedBot();
-        tLRPC$TL_account_disablePeerConnectedBot.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_disablePeerConnectedBot, null);
+        TLRPC.TL_account_disablePeerConnectedBot tL_account_disablePeerConnectedBot = new TLRPC.TL_account_disablePeerConnectedBot();
+        tL_account_disablePeerConnectedBot.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_disablePeerConnectedBot, null);
         SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(this.currentAccount).edit();
         SharedPreferences.Editor remove = edit.remove("dialog_botid" + this.dialogId);
         SharedPreferences.Editor remove2 = remove.remove("dialog_boturl" + this.dialogId);
@@ -188,7 +186,7 @@ public abstract class BusinessBotButton extends FrameLayout {
         this.manageUrl = str;
         this.flags = i;
         this.paused = (i & 1) != 0;
-        TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j2));
+        TLRPC.User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j2));
         this.avatarDrawable.setInfo(user);
         this.avatarView.setForUserOrChat(user, this.avatarDrawable);
         this.titleView.setText(UserObject.getUserName(user));

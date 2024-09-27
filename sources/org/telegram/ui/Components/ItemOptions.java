@@ -27,8 +27,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -440,9 +439,9 @@ public class ItemOptions {
         textView.setTextSize(1, 16.0f);
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setSingleLine(true);
-        if (!(tLObject instanceof TLRPC$User)) {
-            if (tLObject instanceof TLRPC$Chat) {
-                str = ((TLRPC$Chat) tLObject).title;
+        if (!(tLObject instanceof TLRPC.User)) {
+            if (tLObject instanceof TLRPC.Chat) {
+                str = ((TLRPC.Chat) tLObject).title;
             }
             frameLayout.addView(textView, LayoutHelper.createFrame(-2, -2.0f, 55, 59.0f, 6.0f, 16.0f, 0.0f));
             TextView textView2 = new TextView(this.context);
@@ -459,7 +458,7 @@ public class ItemOptions {
             addView(frameLayout, LayoutHelper.createLinear(-1, 52));
             return this;
         }
-        str = UserObject.getUserName((TLRPC$User) tLObject);
+        str = UserObject.getUserName((TLRPC.User) tLObject);
         textView.setText(str);
         frameLayout.addView(textView, LayoutHelper.createFrame(-2, -2.0f, 55, 59.0f, 6.0f, 16.0f, 0.0f));
         TextView textView22 = new TextView(this.context);
@@ -776,6 +775,12 @@ public class ItemOptions {
 
     public ItemOptions setGravity(int i) {
         this.gravity = i;
+        if (i == 5 && this.swipeback) {
+            ViewGroup viewGroup = this.layout;
+            if (viewGroup instanceof ActionBarPopupWindow.ActionBarPopupWindowLayout) {
+                ((ActionBarPopupWindow.ActionBarPopupWindowLayout) viewGroup).swipeBackGravityRight = true;
+            }
+        }
         return this;
     }
 

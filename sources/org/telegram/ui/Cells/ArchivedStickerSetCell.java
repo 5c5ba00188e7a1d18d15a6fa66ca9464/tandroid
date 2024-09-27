@@ -25,11 +25,7 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$PhotoSize;
-import org.telegram.tgnet.TLRPC$StickerSet;
-import org.telegram.tgnet.TLRPC$StickerSetCovered;
-import org.telegram.tgnet.TLRPC$TL_stickerSetFullCovered;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
@@ -46,7 +42,7 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
     private final BackupImageView imageView;
     private boolean needDivider;
     private OnCheckedChangeListener onCheckedChangeListener;
-    private TLRPC$StickerSetCovered stickersSet;
+    private TLRPC.StickerSetCovered stickersSet;
     private final TextView textView;
     private final TextView valueTextView;
 
@@ -175,7 +171,7 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
         }
     }
 
-    public TLRPC$StickerSetCovered getStickersSet() {
+    public TLRPC.StickerSetCovered getStickersSet() {
         return this.stickersSet;
     }
 
@@ -245,10 +241,10 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void setStickersSet(TLRPC$StickerSetCovered tLRPC$StickerSetCovered, boolean z) {
+    public void setStickersSet(TLRPC.StickerSetCovered stickerSetCovered, boolean z) {
         TextView textView;
         String formatPluralString;
-        ArrayList arrayList;
+        ArrayList<TLRPC.Document> arrayList;
         BackupImageView backupImageView;
         String str;
         SvgHelper.SvgDrawable svgDrawable;
@@ -256,42 +252,42 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
         String str2;
         String str3;
         this.needDivider = z;
-        this.stickersSet = tLRPC$StickerSetCovered;
+        this.stickersSet = stickerSetCovered;
         setWillNotDraw(!z);
         this.textView.setText(this.stickersSet.set.title);
-        TLRPC$StickerSet tLRPC$StickerSet = tLRPC$StickerSetCovered.set;
-        if (tLRPC$StickerSet.emojis) {
+        TLRPC.StickerSet stickerSet = stickerSetCovered.set;
+        if (stickerSet.emojis) {
             textView = this.valueTextView;
-            formatPluralString = LocaleController.formatPluralString("EmojiCount", tLRPC$StickerSet.count, new Object[0]);
+            formatPluralString = LocaleController.formatPluralString("EmojiCount", stickerSet.count, new Object[0]);
         } else {
             textView = this.valueTextView;
-            formatPluralString = LocaleController.formatPluralString("Stickers", tLRPC$StickerSet.count, new Object[0]);
+            formatPluralString = LocaleController.formatPluralString("Stickers", stickerSet.count, new Object[0]);
         }
         textView.setText(formatPluralString);
-        TLRPC$Document tLRPC$Document = null;
-        if (!(tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetFullCovered)) {
-            TLRPC$Document tLRPC$Document2 = tLRPC$StickerSetCovered.cover;
-            if (tLRPC$Document2 != null) {
-                tLRPC$Document = tLRPC$Document2;
-            } else if (!tLRPC$StickerSetCovered.covers.isEmpty()) {
-                arrayList = tLRPC$StickerSetCovered.covers;
-                tLRPC$Document = (TLRPC$Document) arrayList.get(0);
+        TLRPC.Document document = null;
+        if (!(stickerSetCovered instanceof TLRPC.TL_stickerSetFullCovered)) {
+            TLRPC.Document document2 = stickerSetCovered.cover;
+            if (document2 != null) {
+                document = document2;
+            } else if (!stickerSetCovered.covers.isEmpty()) {
+                arrayList = stickerSetCovered.covers;
+                document = arrayList.get(0);
             }
-            if (tLRPC$Document == null) {
+            if (document == null) {
             }
-            backupImageView.setImage(imageLocation, str2, str, svgDrawable, tLRPC$StickerSetCovered);
+            backupImageView.setImage(imageLocation, str2, str, svgDrawable, stickerSetCovered);
         }
-        arrayList = ((TLRPC$TL_stickerSetFullCovered) tLRPC$StickerSetCovered).documents;
+        arrayList = ((TLRPC.TL_stickerSetFullCovered) stickerSetCovered).documents;
         if (arrayList == null) {
             return;
         }
-        long j = tLRPC$StickerSetCovered.set.thumb_document_id;
+        long j = stickerSetCovered.set.thumb_document_id;
         int i = 0;
         while (true) {
             if (i < arrayList.size()) {
-                TLRPC$Document tLRPC$Document3 = (TLRPC$Document) arrayList.get(i);
-                if (tLRPC$Document3 != null && tLRPC$Document3.id == j) {
-                    tLRPC$Document = tLRPC$Document3;
+                TLRPC.Document document3 = arrayList.get(i);
+                if (document3 != null && document3.id == j) {
+                    document = document3;
                     break;
                 }
                 i++;
@@ -299,24 +295,24 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
                 break;
             }
         }
-        if (tLRPC$Document == null) {
+        if (document == null) {
         }
-        if (tLRPC$Document == null) {
-            TLObject closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$StickerSetCovered.set.thumbs, 90);
+        if (document == null) {
+            TLObject closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(stickerSetCovered.set.thumbs, 90);
             if (closestPhotoSizeWithSize == null) {
-                closestPhotoSizeWithSize = tLRPC$Document;
+                closestPhotoSizeWithSize = document;
             }
-            svgDrawable = DocumentObject.getSvgThumb(tLRPC$StickerSetCovered.set.thumbs, Theme.key_windowBackgroundGray, 1.0f);
-            boolean z2 = closestPhotoSizeWithSize instanceof TLRPC$Document;
-            ImageLocation forDocument = z2 ? ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document) : ImageLocation.getForSticker((TLRPC$PhotoSize) closestPhotoSizeWithSize, tLRPC$Document, tLRPC$StickerSetCovered.set.thumb_version);
-            if (z2 && (MessageObject.isAnimatedStickerDocument(tLRPC$Document, true) || MessageObject.isVideoSticker(tLRPC$Document))) {
+            svgDrawable = DocumentObject.getSvgThumb(stickerSetCovered.set.thumbs, Theme.key_windowBackgroundGray, 1.0f);
+            boolean z2 = closestPhotoSizeWithSize instanceof TLRPC.Document;
+            ImageLocation forDocument = z2 ? ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 90), document) : ImageLocation.getForSticker((TLRPC.PhotoSize) closestPhotoSizeWithSize, document, stickerSetCovered.set.thumb_version);
+            if (z2 && (MessageObject.isAnimatedStickerDocument(document, true) || MessageObject.isVideoSticker(document))) {
                 BackupImageView backupImageView2 = this.imageView;
-                ImageLocation forDocument2 = ImageLocation.getForDocument(tLRPC$Document);
+                ImageLocation forDocument2 = ImageLocation.getForDocument(document);
                 if (svgDrawable != null) {
-                    backupImageView2.setImage(forDocument2, "50_50", svgDrawable, 0, tLRPC$StickerSetCovered);
+                    backupImageView2.setImage(forDocument2, "50_50", svgDrawable, 0, stickerSetCovered);
                     return;
                 } else {
-                    backupImageView2.setImage(forDocument2, "50_50", forDocument, (String) null, 0, tLRPC$StickerSetCovered);
+                    backupImageView2.setImage(forDocument2, "50_50", forDocument, (String) null, 0, stickerSetCovered);
                     return;
                 }
             }
@@ -338,7 +334,7 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
             imageLocation = null;
             str2 = null;
         }
-        backupImageView.setImage(imageLocation, str2, str, svgDrawable, tLRPC$StickerSetCovered);
+        backupImageView.setImage(imageLocation, str2, str, svgDrawable, stickerSetCovered);
     }
 
     @Override // android.widget.Checkable

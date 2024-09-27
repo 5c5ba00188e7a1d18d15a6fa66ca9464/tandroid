@@ -29,9 +29,9 @@ public final class MaskingMediaPeriod implements MediaPeriod, MediaPeriod.Callba
     }
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
-    public boolean continueLoading(long j) {
+    public boolean continueLoading(LoadingInfo loadingInfo) {
         MediaPeriod mediaPeriod = this.mediaPeriod;
-        return mediaPeriod != null && mediaPeriod.continueLoading(j);
+        return mediaPeriod != null && mediaPeriod.continueLoading(loadingInfo);
     }
 
     public void createPeriod(MediaSource.MediaPeriodId mediaPeriodId) {
@@ -141,15 +141,10 @@ public final class MaskingMediaPeriod implements MediaPeriod, MediaPeriod.Callba
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     public long selectTracks(ExoTrackSelection[] exoTrackSelectionArr, boolean[] zArr, SampleStream[] sampleStreamArr, boolean[] zArr2, long j) {
-        long j2;
-        long j3 = this.preparePositionOverrideUs;
-        if (j3 == -9223372036854775807L || j != this.preparePositionUs) {
-            j2 = j;
-        } else {
-            this.preparePositionOverrideUs = -9223372036854775807L;
-            j2 = j3;
-        }
-        return ((MediaPeriod) Util.castNonNull(this.mediaPeriod)).selectTracks(exoTrackSelectionArr, zArr, sampleStreamArr, zArr2, j2);
+        long j2 = this.preparePositionOverrideUs;
+        long j3 = (j2 == -9223372036854775807L || j != this.preparePositionUs) ? j : j2;
+        this.preparePositionOverrideUs = -9223372036854775807L;
+        return ((MediaPeriod) Util.castNonNull(this.mediaPeriod)).selectTracks(exoTrackSelectionArr, zArr, sampleStreamArr, zArr2, j3);
     }
 
     public void setMediaSource(MediaSource mediaSource) {

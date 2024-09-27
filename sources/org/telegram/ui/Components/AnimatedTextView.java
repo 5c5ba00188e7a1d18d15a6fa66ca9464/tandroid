@@ -281,7 +281,7 @@ public class AnimatedTextView extends View {
             this.animateInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
             this.moveAmplitude = 0.3f;
             this.scaleAmplitude = 0.0f;
-            this.alpha = NotificationCenter.didClearDatabase;
+            this.alpha = NotificationCenter.messagePlayingSpeedChanged;
             this.bounds = new android.graphics.Rect();
             this.includeFontPadding = true;
             this.shadowed = false;
@@ -563,7 +563,7 @@ public class AnimatedTextView extends View {
                 RectF rectF = AndroidUtilities.rectTmp;
                 rectF.set(this.bounds);
                 rectF.right -= this.rightPadding;
-                canvas.saveLayerAlpha(rectF, NotificationCenter.didClearDatabase, 31);
+                canvas.saveLayerAlpha(rectF, NotificationCenter.messagePlayingSpeedChanged, 31);
             }
             canvas.save();
             android.graphics.Rect rect = this.bounds;

@@ -99,7 +99,7 @@ public class NumberTextView extends View {
                         canvas.translate(0.0f, this.progress * dp);
                     }
                 }
-                this.textPaint.setAlpha(NotificationCenter.didClearDatabase);
+                this.textPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
             } else if (f4 < 0.0f) {
                 if (staticLayout != null) {
                     this.textPaint.setAlpha((int) ((-f4) * 255.0f));
@@ -115,7 +115,7 @@ public class NumberTextView extends View {
                         textPaint.setAlpha((int) (f3 * 255.0f));
                         canvas.translate(0.0f, this.progress * dp);
                     }
-                    this.textPaint.setAlpha(NotificationCenter.didClearDatabase);
+                    this.textPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                 }
             }
             if (staticLayout2 != null) {

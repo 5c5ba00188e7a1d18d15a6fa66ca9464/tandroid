@@ -22,20 +22,8 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$BotInlineMessage;
-import org.telegram.tgnet.TLRPC$BotInlineResult;
-import org.telegram.tgnet.TLRPC$TL_botInlineMessageMediaVenue;
-import org.telegram.tgnet.TLRPC$TL_contacts_resolveUsername;
-import org.telegram.tgnet.TLRPC$TL_contacts_resolvedPeer;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_geoPoint;
-import org.telegram.tgnet.TLRPC$TL_inputGeoPoint;
-import org.telegram.tgnet.TLRPC$TL_inputPeerEmpty;
-import org.telegram.tgnet.TLRPC$TL_messageMediaVenue;
-import org.telegram.tgnet.TLRPC$TL_messages_getInlineBotResults;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$messages_BotResults;
-import org.telegram.tgnet.tl.TL_stories$TL_geoPointAddress;
+import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.Components.ListView.AdapterWithDiffUtils;
 /* loaded from: classes4.dex */
 public abstract class BaseLocationAdapter extends AdapterWithDiffUtils {
@@ -69,17 +57,17 @@ public abstract class BaseLocationAdapter extends AdapterWithDiffUtils {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchBotUser$2(TLObject tLObject) {
-        TLRPC$TL_contacts_resolvedPeer tLRPC$TL_contacts_resolvedPeer = (TLRPC$TL_contacts_resolvedPeer) tLObject;
-        MessagesController.getInstance(this.currentAccount).putUsers(tLRPC$TL_contacts_resolvedPeer.users, false);
-        MessagesController.getInstance(this.currentAccount).putChats(tLRPC$TL_contacts_resolvedPeer.chats, false);
-        MessagesStorage.getInstance(this.currentAccount).putUsersAndChats(tLRPC$TL_contacts_resolvedPeer.users, tLRPC$TL_contacts_resolvedPeer.chats, true, true);
+        TLRPC.TL_contacts_resolvedPeer tL_contacts_resolvedPeer = (TLRPC.TL_contacts_resolvedPeer) tLObject;
+        MessagesController.getInstance(this.currentAccount).putUsers(tL_contacts_resolvedPeer.users, false);
+        MessagesController.getInstance(this.currentAccount).putChats(tL_contacts_resolvedPeer.chats, false);
+        MessagesStorage.getInstance(this.currentAccount).putUsersAndChats(tL_contacts_resolvedPeer.users, tL_contacts_resolvedPeer.chats, true, true);
         Location location = this.lastSearchLocation;
         this.lastSearchLocation = null;
         searchPlacesWithQuery(this.lastSearchQuery, location, false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$searchBotUser$3(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$searchBotUser$3(final TLObject tLObject, TLRPC.TL_error tL_error) {
         if (tLObject != null) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
@@ -276,35 +264,35 @@ public abstract class BaseLocationAdapter extends AdapterWithDiffUtils {
                                 } catch (Exception unused) {
                                 }
                                 if (sb4.length() > 0) {
-                                    TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue = new TLRPC$TL_messageMediaVenue();
-                                    TLRPC$TL_geoPoint tLRPC$TL_geoPoint = new TLRPC$TL_geoPoint();
-                                    tLRPC$TL_messageMediaVenue.geo = tLRPC$TL_geoPoint;
-                                    tLRPC$TL_geoPoint.lat = latitude;
-                                    tLRPC$TL_geoPoint._long = longitude;
-                                    tLRPC$TL_messageMediaVenue.query_id = -1L;
-                                    tLRPC$TL_messageMediaVenue.title = sb4.toString();
-                                    tLRPC$TL_messageMediaVenue.icon = "pin";
-                                    tLRPC$TL_messageMediaVenue.address = LocaleController.getString(R.string.PassportAddress);
-                                    arrayList.add(tLRPC$TL_messageMediaVenue);
+                                    TLRPC.TL_messageMediaVenue tL_messageMediaVenue = new TLRPC.TL_messageMediaVenue();
+                                    TLRPC.TL_geoPoint tL_geoPoint = new TLRPC.TL_geoPoint();
+                                    tL_messageMediaVenue.geo = tL_geoPoint;
+                                    tL_geoPoint.lat = latitude;
+                                    tL_geoPoint._long = longitude;
+                                    tL_messageMediaVenue.query_id = -1L;
+                                    tL_messageMediaVenue.title = sb4.toString();
+                                    tL_messageMediaVenue.icon = "pin";
+                                    tL_messageMediaVenue.address = LocaleController.getString(R.string.PassportAddress);
+                                    arrayList.add(tL_messageMediaVenue);
                                 }
                                 hashSet = hashSet3;
                                 hashSet2 = hashSet6;
                                 i3 = i2;
                             } else {
                                 if (sb3 != null && sb3.length() > 0) {
-                                    TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue2 = new TLRPC$TL_messageMediaVenue();
-                                    TLRPC$TL_geoPoint tLRPC$TL_geoPoint2 = new TLRPC$TL_geoPoint();
-                                    tLRPC$TL_messageMediaVenue2.geo = tLRPC$TL_geoPoint2;
-                                    tLRPC$TL_geoPoint2.lat = latitude;
-                                    tLRPC$TL_geoPoint2._long = longitude;
-                                    tLRPC$TL_messageMediaVenue2.query_id = -1L;
-                                    tLRPC$TL_messageMediaVenue2.title = sb3.toString();
-                                    tLRPC$TL_messageMediaVenue2.icon = "pin";
-                                    tLRPC$TL_messageMediaVenue2.address = LocaleController.getString(z3 ? R.string.PassportCity : R.string.PassportStreet1);
+                                    TLRPC.TL_messageMediaVenue tL_messageMediaVenue2 = new TLRPC.TL_messageMediaVenue();
+                                    TLRPC.TL_geoPoint tL_geoPoint2 = new TLRPC.TL_geoPoint();
+                                    tL_messageMediaVenue2.geo = tL_geoPoint2;
+                                    tL_geoPoint2.lat = latitude;
+                                    tL_geoPoint2._long = longitude;
+                                    tL_messageMediaVenue2.query_id = -1L;
+                                    tL_messageMediaVenue2.title = sb3.toString();
+                                    tL_messageMediaVenue2.icon = "pin";
+                                    tL_messageMediaVenue2.address = LocaleController.getString(z3 ? R.string.PassportCity : R.string.PassportStreet1);
                                     if (address != null) {
-                                        TL_stories$TL_geoPointAddress tL_stories$TL_geoPointAddress = new TL_stories$TL_geoPointAddress();
-                                        tLRPC$TL_messageMediaVenue2.geoAddress = tL_stories$TL_geoPointAddress;
-                                        tL_stories$TL_geoPointAddress.country_iso2 = address.getCountryCode();
+                                        TL_stories.TL_geoPointAddress tL_geoPointAddress = new TL_stories.TL_geoPointAddress();
+                                        tL_messageMediaVenue2.geoAddress = tL_geoPointAddress;
+                                        tL_geoPointAddress.country_iso2 = address.getCountryCode();
                                         String locality2 = TextUtils.isEmpty(null) ? address.getLocality() : null;
                                         if (TextUtils.isEmpty(locality2)) {
                                             locality2 = address.getAdminArea();
@@ -315,14 +303,14 @@ public abstract class BaseLocationAdapter extends AdapterWithDiffUtils {
                                         String adminArea = address.getAdminArea();
                                         StringBuilder sb5 = new StringBuilder();
                                         if (!TextUtils.isEmpty(adminArea)) {
-                                            TL_stories$TL_geoPointAddress tL_stories$TL_geoPointAddress2 = tLRPC$TL_messageMediaVenue2.geoAddress;
-                                            tL_stories$TL_geoPointAddress2.state = adminArea;
-                                            tL_stories$TL_geoPointAddress2.flags |= 1;
+                                            TL_stories.TL_geoPointAddress tL_geoPointAddress2 = tL_messageMediaVenue2.geoAddress;
+                                            tL_geoPointAddress2.state = adminArea;
+                                            tL_geoPointAddress2.flags |= 1;
                                         }
                                         if (!TextUtils.isEmpty(locality2)) {
-                                            TL_stories$TL_geoPointAddress tL_stories$TL_geoPointAddress3 = tLRPC$TL_messageMediaVenue2.geoAddress;
-                                            tL_stories$TL_geoPointAddress3.city = locality2;
-                                            tL_stories$TL_geoPointAddress3.flags |= 2;
+                                            TL_stories.TL_geoPointAddress tL_geoPointAddress3 = tL_messageMediaVenue2.geoAddress;
+                                            tL_geoPointAddress3.city = locality2;
+                                            tL_geoPointAddress3.flags |= 2;
                                         }
                                         if (!z3) {
                                             if (TextUtils.isEmpty(null)) {
@@ -359,12 +347,12 @@ public abstract class BaseLocationAdapter extends AdapterWithDiffUtils {
                                                     }
                                                     z4 = false;
                                                     if (!TextUtils.isEmpty(sb5)) {
-                                                        TL_stories$TL_geoPointAddress tL_stories$TL_geoPointAddress4 = tLRPC$TL_messageMediaVenue2.geoAddress;
-                                                        tL_stories$TL_geoPointAddress4.flags |= 4;
-                                                        tL_stories$TL_geoPointAddress4.street = sb5.toString();
+                                                        TL_stories.TL_geoPointAddress tL_geoPointAddress4 = tL_messageMediaVenue2.geoAddress;
+                                                        tL_geoPointAddress4.flags |= 4;
+                                                        tL_geoPointAddress4.street = sb5.toString();
                                                     }
                                                     if (!z4) {
-                                                        arrayList.add(tLRPC$TL_messageMediaVenue2);
+                                                        arrayList.add(tL_messageMediaVenue2);
                                                         i3 = i2;
                                                         if (arrayList.size() >= i3) {
                                                             break;
@@ -373,21 +361,21 @@ public abstract class BaseLocationAdapter extends AdapterWithDiffUtils {
                                                             String sb6 = sb2.toString();
                                                             hashSet = hashSet3;
                                                             if (!hashSet.contains(sb6)) {
-                                                                TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue3 = new TLRPC$TL_messageMediaVenue();
-                                                                TLRPC$TL_geoPoint tLRPC$TL_geoPoint3 = new TLRPC$TL_geoPoint();
-                                                                tLRPC$TL_messageMediaVenue3.geo = tLRPC$TL_geoPoint3;
-                                                                tLRPC$TL_geoPoint3.lat = latitude;
-                                                                tLRPC$TL_geoPoint3._long = longitude;
-                                                                tLRPC$TL_messageMediaVenue3.query_id = -1L;
-                                                                tLRPC$TL_messageMediaVenue3.title = sb2.toString();
-                                                                tLRPC$TL_messageMediaVenue3.icon = "https://ss3.4sqi.net/img/categories_v2/travel/hotel_64.png";
-                                                                tLRPC$TL_messageMediaVenue3.emoji = LocationController.countryCodeToEmoji(address2.getCountryCode());
-                                                                hashSet.add(tLRPC$TL_messageMediaVenue3.title);
-                                                                tLRPC$TL_messageMediaVenue3.address = LocaleController.getString(R.string.PassportCity);
+                                                                TLRPC.TL_messageMediaVenue tL_messageMediaVenue3 = new TLRPC.TL_messageMediaVenue();
+                                                                TLRPC.TL_geoPoint tL_geoPoint3 = new TLRPC.TL_geoPoint();
+                                                                tL_messageMediaVenue3.geo = tL_geoPoint3;
+                                                                tL_geoPoint3.lat = latitude;
+                                                                tL_geoPoint3._long = longitude;
+                                                                tL_messageMediaVenue3.query_id = -1L;
+                                                                tL_messageMediaVenue3.title = sb2.toString();
+                                                                tL_messageMediaVenue3.icon = "https://ss3.4sqi.net/img/categories_v2/travel/hotel_64.png";
+                                                                tL_messageMediaVenue3.emoji = LocationController.countryCodeToEmoji(address2.getCountryCode());
+                                                                hashSet.add(tL_messageMediaVenue3.title);
+                                                                tL_messageMediaVenue3.address = LocaleController.getString(R.string.PassportCity);
                                                                 if (address != null) {
-                                                                    TL_stories$TL_geoPointAddress tL_stories$TL_geoPointAddress5 = new TL_stories$TL_geoPointAddress();
-                                                                    tLRPC$TL_messageMediaVenue3.geoAddress = tL_stories$TL_geoPointAddress5;
-                                                                    tL_stories$TL_geoPointAddress5.country_iso2 = address.getCountryCode();
+                                                                    TL_stories.TL_geoPointAddress tL_geoPointAddress5 = new TL_stories.TL_geoPointAddress();
+                                                                    tL_messageMediaVenue3.geoAddress = tL_geoPointAddress5;
+                                                                    tL_geoPointAddress5.country_iso2 = address.getCountryCode();
                                                                     String locality3 = TextUtils.isEmpty(null) ? address.getLocality() : null;
                                                                     if (TextUtils.isEmpty(locality3)) {
                                                                         locality3 = address.getAdminArea();
@@ -397,40 +385,40 @@ public abstract class BaseLocationAdapter extends AdapterWithDiffUtils {
                                                                     }
                                                                     String adminArea2 = address.getAdminArea();
                                                                     if (!TextUtils.isEmpty(adminArea2)) {
-                                                                        TL_stories$TL_geoPointAddress tL_stories$TL_geoPointAddress6 = tLRPC$TL_messageMediaVenue3.geoAddress;
-                                                                        tL_stories$TL_geoPointAddress6.state = adminArea2;
-                                                                        tL_stories$TL_geoPointAddress6.flags |= 1;
+                                                                        TL_stories.TL_geoPointAddress tL_geoPointAddress6 = tL_messageMediaVenue3.geoAddress;
+                                                                        tL_geoPointAddress6.state = adminArea2;
+                                                                        tL_geoPointAddress6.flags |= 1;
                                                                     }
                                                                     if (!TextUtils.isEmpty(locality3)) {
-                                                                        TL_stories$TL_geoPointAddress tL_stories$TL_geoPointAddress7 = tLRPC$TL_messageMediaVenue3.geoAddress;
-                                                                        tL_stories$TL_geoPointAddress7.city = locality3;
-                                                                        tL_stories$TL_geoPointAddress7.flags |= 2;
+                                                                        TL_stories.TL_geoPointAddress tL_geoPointAddress7 = tL_messageMediaVenue3.geoAddress;
+                                                                        tL_geoPointAddress7.city = locality3;
+                                                                        tL_geoPointAddress7.flags |= 2;
                                                                     }
                                                                 }
-                                                                arrayList.add(tLRPC$TL_messageMediaVenue3);
+                                                                arrayList.add(tL_messageMediaVenue3);
                                                                 if (arrayList.size() >= i3) {
                                                                     break;
                                                                 }
                                                                 if (sb.length() > 0) {
                                                                     hashSet2 = hashSet6;
                                                                     if (!hashSet2.contains(sb.toString())) {
-                                                                        TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue4 = new TLRPC$TL_messageMediaVenue();
-                                                                        TLRPC$TL_geoPoint tLRPC$TL_geoPoint4 = new TLRPC$TL_geoPoint();
-                                                                        tLRPC$TL_messageMediaVenue4.geo = tLRPC$TL_geoPoint4;
-                                                                        tLRPC$TL_geoPoint4.lat = latitude;
-                                                                        tLRPC$TL_geoPoint4._long = longitude;
-                                                                        tLRPC$TL_messageMediaVenue4.query_id = -1L;
-                                                                        tLRPC$TL_messageMediaVenue4.title = sb.toString();
-                                                                        tLRPC$TL_messageMediaVenue4.icon = "https://ss3.4sqi.net/img/categories_v2/building/government_capitolbuilding_64.png";
-                                                                        tLRPC$TL_messageMediaVenue4.emoji = LocationController.countryCodeToEmoji(address2.getCountryCode());
-                                                                        hashSet2.add(tLRPC$TL_messageMediaVenue4.title);
-                                                                        tLRPC$TL_messageMediaVenue4.address = LocaleController.getString(R.string.Country);
+                                                                        TLRPC.TL_messageMediaVenue tL_messageMediaVenue4 = new TLRPC.TL_messageMediaVenue();
+                                                                        TLRPC.TL_geoPoint tL_geoPoint4 = new TLRPC.TL_geoPoint();
+                                                                        tL_messageMediaVenue4.geo = tL_geoPoint4;
+                                                                        tL_geoPoint4.lat = latitude;
+                                                                        tL_geoPoint4._long = longitude;
+                                                                        tL_messageMediaVenue4.query_id = -1L;
+                                                                        tL_messageMediaVenue4.title = sb.toString();
+                                                                        tL_messageMediaVenue4.icon = "https://ss3.4sqi.net/img/categories_v2/building/government_capitolbuilding_64.png";
+                                                                        tL_messageMediaVenue4.emoji = LocationController.countryCodeToEmoji(address2.getCountryCode());
+                                                                        hashSet2.add(tL_messageMediaVenue4.title);
+                                                                        tL_messageMediaVenue4.address = LocaleController.getString(R.string.Country);
                                                                         if (address != null) {
-                                                                            TL_stories$TL_geoPointAddress tL_stories$TL_geoPointAddress8 = new TL_stories$TL_geoPointAddress();
-                                                                            tLRPC$TL_messageMediaVenue4.geoAddress = tL_stories$TL_geoPointAddress8;
-                                                                            tL_stories$TL_geoPointAddress8.country_iso2 = address.getCountryCode();
+                                                                            TL_stories.TL_geoPointAddress tL_geoPointAddress8 = new TL_stories.TL_geoPointAddress();
+                                                                            tL_messageMediaVenue4.geoAddress = tL_geoPointAddress8;
+                                                                            tL_geoPointAddress8.country_iso2 = address.getCountryCode();
                                                                         }
-                                                                        arrayList.add(tLRPC$TL_messageMediaVenue4);
+                                                                        arrayList.add(tL_messageMediaVenue4);
                                                                         if (arrayList.size() >= i3) {
                                                                             break;
                                                                         }
@@ -549,32 +537,32 @@ public abstract class BaseLocationAdapter extends AdapterWithDiffUtils {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$searchPlacesWithQuery$6(TLRPC$TL_error tLRPC$TL_error, String str, TLObject tLObject) {
-        if (tLRPC$TL_error == null) {
+    public /* synthetic */ void lambda$searchPlacesWithQuery$6(TLRPC.TL_error tL_error, String str, TLObject tLObject) {
+        if (tL_error == null) {
             this.currentRequestNum = 0;
             this.searching = false;
             this.places.clear();
             this.searchInProgress = false;
             this.lastFoundQuery = str;
-            TLRPC$messages_BotResults tLRPC$messages_BotResults = (TLRPC$messages_BotResults) tLObject;
-            int size = tLRPC$messages_BotResults.results.size();
+            TLRPC.messages_BotResults messages_botresults = (TLRPC.messages_BotResults) tLObject;
+            int size = messages_botresults.results.size();
             for (int i = 0; i < size; i++) {
-                TLRPC$BotInlineResult tLRPC$BotInlineResult = (TLRPC$BotInlineResult) tLRPC$messages_BotResults.results.get(i);
-                if ("venue".equals(tLRPC$BotInlineResult.type)) {
-                    TLRPC$BotInlineMessage tLRPC$BotInlineMessage = tLRPC$BotInlineResult.send_message;
-                    if (tLRPC$BotInlineMessage instanceof TLRPC$TL_botInlineMessageMediaVenue) {
-                        TLRPC$TL_botInlineMessageMediaVenue tLRPC$TL_botInlineMessageMediaVenue = (TLRPC$TL_botInlineMessageMediaVenue) tLRPC$BotInlineMessage;
-                        TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue = new TLRPC$TL_messageMediaVenue();
-                        tLRPC$TL_messageMediaVenue.geo = tLRPC$TL_botInlineMessageMediaVenue.geo;
-                        tLRPC$TL_messageMediaVenue.address = tLRPC$TL_botInlineMessageMediaVenue.address;
-                        tLRPC$TL_messageMediaVenue.title = tLRPC$TL_botInlineMessageMediaVenue.title;
-                        tLRPC$TL_messageMediaVenue.icon = "https://ss3.4sqi.net/img/categories_v2/" + tLRPC$TL_botInlineMessageMediaVenue.venue_type + "_64.png";
-                        tLRPC$TL_messageMediaVenue.venue_type = tLRPC$TL_botInlineMessageMediaVenue.venue_type;
-                        tLRPC$TL_messageMediaVenue.venue_id = tLRPC$TL_botInlineMessageMediaVenue.venue_id;
-                        tLRPC$TL_messageMediaVenue.provider = tLRPC$TL_botInlineMessageMediaVenue.provider;
-                        tLRPC$TL_messageMediaVenue.query_id = tLRPC$messages_BotResults.query_id;
-                        tLRPC$TL_messageMediaVenue.result_id = tLRPC$BotInlineResult.id;
-                        this.places.add(tLRPC$TL_messageMediaVenue);
+                TLRPC.BotInlineResult botInlineResult = messages_botresults.results.get(i);
+                if ("venue".equals(botInlineResult.type)) {
+                    TLRPC.BotInlineMessage botInlineMessage = botInlineResult.send_message;
+                    if (botInlineMessage instanceof TLRPC.TL_botInlineMessageMediaVenue) {
+                        TLRPC.TL_botInlineMessageMediaVenue tL_botInlineMessageMediaVenue = (TLRPC.TL_botInlineMessageMediaVenue) botInlineMessage;
+                        TLRPC.TL_messageMediaVenue tL_messageMediaVenue = new TLRPC.TL_messageMediaVenue();
+                        tL_messageMediaVenue.geo = tL_botInlineMessageMediaVenue.geo;
+                        tL_messageMediaVenue.address = tL_botInlineMessageMediaVenue.address;
+                        tL_messageMediaVenue.title = tL_botInlineMessageMediaVenue.title;
+                        tL_messageMediaVenue.icon = "https://ss3.4sqi.net/img/categories_v2/" + tL_botInlineMessageMediaVenue.venue_type + "_64.png";
+                        tL_messageMediaVenue.venue_type = tL_botInlineMessageMediaVenue.venue_type;
+                        tL_messageMediaVenue.venue_id = tL_botInlineMessageMediaVenue.venue_id;
+                        tL_messageMediaVenue.provider = tL_botInlineMessageMediaVenue.provider;
+                        tL_messageMediaVenue.query_id = messages_botresults.query_id;
+                        tL_messageMediaVenue.result_id = botInlineResult.id;
+                        this.places.add(tL_messageMediaVenue);
                     }
                 }
             }
@@ -587,11 +575,11 @@ public abstract class BaseLocationAdapter extends AdapterWithDiffUtils {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$searchPlacesWithQuery$7(final String str, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$searchPlacesWithQuery$7(final String str, final TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
-                BaseLocationAdapter.this.lambda$searchPlacesWithQuery$6(tLRPC$TL_error, str, tLObject);
+                BaseLocationAdapter.this.lambda$searchPlacesWithQuery$6(tL_error, str, tLObject);
             }
         });
     }
@@ -601,12 +589,12 @@ public abstract class BaseLocationAdapter extends AdapterWithDiffUtils {
             return;
         }
         this.searchingUser = true;
-        TLRPC$TL_contacts_resolveUsername tLRPC$TL_contacts_resolveUsername = new TLRPC$TL_contacts_resolveUsername();
-        tLRPC$TL_contacts_resolveUsername.username = this.stories ? MessagesController.getInstance(this.currentAccount).storyVenueSearchBot : MessagesController.getInstance(this.currentAccount).venueSearchBot;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda3
+        TLRPC.TL_contacts_resolveUsername tL_contacts_resolveUsername = new TLRPC.TL_contacts_resolveUsername();
+        tL_contacts_resolveUsername.username = this.stories ? MessagesController.getInstance(this.currentAccount).storyVenueSearchBot : MessagesController.getInstance(this.currentAccount).venueSearchBot;
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda3
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                BaseLocationAdapter.this.lambda$searchBotUser$3(tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                BaseLocationAdapter.this.lambda$searchBotUser$3(tLObject, tL_error);
             }
         });
     }
@@ -673,26 +661,26 @@ public abstract class BaseLocationAdapter extends AdapterWithDiffUtils {
                 this.searching = true;
                 this.searched = true;
                 TLObject userOrChat = MessagesController.getInstance(this.currentAccount).getUserOrChat(this.stories ? MessagesController.getInstance(this.currentAccount).storyVenueSearchBot : MessagesController.getInstance(this.currentAccount).venueSearchBot);
-                if (!(userOrChat instanceof TLRPC$User)) {
+                if (!(userOrChat instanceof TLRPC.User)) {
                     if (z) {
                         searchBotUser();
                         return;
                     }
                     return;
                 }
-                TLRPC$User tLRPC$User = (TLRPC$User) userOrChat;
-                TLRPC$TL_messages_getInlineBotResults tLRPC$TL_messages_getInlineBotResults = new TLRPC$TL_messages_getInlineBotResults();
-                tLRPC$TL_messages_getInlineBotResults.query = str == null ? "" : str;
-                tLRPC$TL_messages_getInlineBotResults.bot = MessagesController.getInstance(this.currentAccount).getInputUser(tLRPC$User);
-                tLRPC$TL_messages_getInlineBotResults.offset = "";
+                TLRPC.User user = (TLRPC.User) userOrChat;
+                TLRPC.TL_messages_getInlineBotResults tL_messages_getInlineBotResults = new TLRPC.TL_messages_getInlineBotResults();
+                tL_messages_getInlineBotResults.query = str == null ? "" : str;
+                tL_messages_getInlineBotResults.bot = MessagesController.getInstance(this.currentAccount).getInputUser(user);
+                tL_messages_getInlineBotResults.offset = "";
                 if (location != null) {
-                    TLRPC$TL_inputGeoPoint tLRPC$TL_inputGeoPoint = new TLRPC$TL_inputGeoPoint();
-                    tLRPC$TL_messages_getInlineBotResults.geo_point = tLRPC$TL_inputGeoPoint;
-                    tLRPC$TL_inputGeoPoint.lat = AndroidUtilities.fixLocationCoord(location.getLatitude());
-                    tLRPC$TL_messages_getInlineBotResults.geo_point._long = AndroidUtilities.fixLocationCoord(location.getLongitude());
-                    tLRPC$TL_messages_getInlineBotResults.flags |= 1;
+                    TLRPC.TL_inputGeoPoint tL_inputGeoPoint = new TLRPC.TL_inputGeoPoint();
+                    tL_messages_getInlineBotResults.geo_point = tL_inputGeoPoint;
+                    tL_inputGeoPoint.lat = AndroidUtilities.fixLocationCoord(location.getLatitude());
+                    tL_messages_getInlineBotResults.geo_point._long = AndroidUtilities.fixLocationCoord(location.getLongitude());
+                    tL_messages_getInlineBotResults.flags |= 1;
                 }
-                tLRPC$TL_messages_getInlineBotResults.peer = DialogObject.isEncryptedDialog(this.dialogId) ? new TLRPC$TL_inputPeerEmpty() : MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
+                tL_messages_getInlineBotResults.peer = DialogObject.isEncryptedDialog(this.dialogId) ? new TLRPC.TL_inputPeerEmpty() : MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
                 if (TextUtils.isEmpty(str) || !(this.stories || this.biz)) {
                     this.searchingLocations = false;
                 } else {
@@ -722,10 +710,10 @@ public abstract class BaseLocationAdapter extends AdapterWithDiffUtils {
                 if (location == null) {
                     return;
                 }
-                this.currentRequestNum = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getInlineBotResults, new RequestDelegate() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda2
+                this.currentRequestNum = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_messages_getInlineBotResults, new RequestDelegate() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda2
                     @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        BaseLocationAdapter.this.lambda$searchPlacesWithQuery$7(str, tLObject, tLRPC$TL_error);
+                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                        BaseLocationAdapter.this.lambda$searchPlacesWithQuery$7(str, tLObject, tL_error);
                     }
                 });
                 update(true);

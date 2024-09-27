@@ -38,15 +38,7 @@ import org.telegram.messenger.NotificationsController;
 import org.telegram.messenger.NotificationsSettingsFacade;
 import org.telegram.messenger.R;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$Dialog;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$Peer;
-import org.telegram.tgnet.TLRPC$TL_forumTopic;
-import org.telegram.tgnet.TLRPC$TL_peerNotifySettings;
-import org.telegram.tgnet.TLRPC$TL_peerUser;
-import org.telegram.tgnet.TLRPC$TL_topPeer;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -234,7 +226,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
                         String string5 = notificationsSettings.getString("sound_" + sharedPrefKey, LocaleController.getString(i9));
                         long j = notificationsSettings.getLong("sound_document_id_" + sharedPrefKey, 0L);
                         if (j != 0) {
-                            TLRPC$Document document = ProfileNotificationsActivity.this.getMediaDataController().ringtoneDataStore.getDocument(j);
+                            TLRPC.Document document = ProfileNotificationsActivity.this.getMediaDataController().ringtoneDataStore.getDocument(j);
                             if (document != null) {
                                 string5 = NotificationsSoundActivity.trimTitle(document, document.file_name_fixed);
                                 textSettingsCell.setTextAndValue(LocaleController.getString(R.string.Sound), string5, true);
@@ -829,13 +821,13 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
                     SharedPreferences notificationsSettings = MessagesController.getNotificationsSettings(((BaseFragment) ProfileNotificationsActivity.this).currentAccount);
                     SharedPreferences.Editor edit2 = notificationsSettings.edit();
                     edit2.putBoolean(NotificationsSettingsFacade.PROPERTY_CUSTOM + sharedPrefKey, true);
-                    TLRPC$Dialog tLRPC$Dialog = (TLRPC$Dialog) MessagesController.getInstance(((BaseFragment) ProfileNotificationsActivity.this).currentAccount).dialogs_dict.get(ProfileNotificationsActivity.this.dialogId);
+                    TLRPC.Dialog dialog = (TLRPC.Dialog) MessagesController.getInstance(((BaseFragment) ProfileNotificationsActivity.this).currentAccount).dialogs_dict.get(ProfileNotificationsActivity.this.dialogId);
                     if (ProfileNotificationsActivity.this.notificationsEnabled) {
                         edit2.putInt(NotificationsSettingsFacade.PROPERTY_NOTIFY + sharedPrefKey, 0);
                         if (ProfileNotificationsActivity.this.topicId == 0) {
                             MessagesStorage.getInstance(((BaseFragment) ProfileNotificationsActivity.this).currentAccount).setDialogFlags(ProfileNotificationsActivity.this.dialogId, 0L);
-                            if (tLRPC$Dialog != null) {
-                                tLRPC$Dialog.notify_settings = new TLRPC$TL_peerNotifySettings();
+                            if (dialog != null) {
+                                dialog.notify_settings = new TLRPC.TL_peerNotifySettings();
                             }
                         }
                     } else {
@@ -843,10 +835,10 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
                         if (ProfileNotificationsActivity.this.topicId == 0) {
                             NotificationsController.getInstance(((BaseFragment) ProfileNotificationsActivity.this).currentAccount).removeNotificationsForDialog(ProfileNotificationsActivity.this.dialogId);
                             MessagesStorage.getInstance(((BaseFragment) ProfileNotificationsActivity.this).currentAccount).setDialogFlags(ProfileNotificationsActivity.this.dialogId, 1L);
-                            if (tLRPC$Dialog != null) {
-                                TLRPC$TL_peerNotifySettings tLRPC$TL_peerNotifySettings = new TLRPC$TL_peerNotifySettings();
-                                tLRPC$Dialog.notify_settings = tLRPC$TL_peerNotifySettings;
-                                tLRPC$TL_peerNotifySettings.mute_until = ConnectionsManager.DEFAULT_DATACENTER_ID;
+                            if (dialog != null) {
+                                TLRPC.TL_peerNotifySettings tL_peerNotifySettings = new TLRPC.TL_peerNotifySettings();
+                                dialog.notify_settings = tL_peerNotifySettings;
+                                tL_peerNotifySettings.mute_until = ConnectionsManager.DEFAULT_DATACENTER_ID;
                             }
                         }
                     }
@@ -873,7 +865,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         this.actionBar.addView(this.avatarContainer, 0, LayoutHelper.createFrame(-2, -1.0f, 51, !this.inPreviewMode ? 56.0f : 0.0f, 0.0f, 40.0f, 0.0f));
         this.actionBar.setAllowOverlayTitle(false);
         if (this.dialogId >= 0) {
-            TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.dialogId));
+            TLRPC.User user = getMessagesController().getUser(Long.valueOf(this.dialogId));
             if (user != null) {
                 this.avatarContainer.setUserAvatar(user);
                 chatAvatarContainer = this.avatarContainer;
@@ -911,12 +903,12 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
             });
             return this.fragmentView;
         } else if (this.topicId != 0) {
-            TLRPC$TL_forumTopic findTopic = getMessagesController().getTopicsController().findTopic(-this.dialogId, this.topicId);
+            TLRPC.TL_forumTopic findTopic = getMessagesController().getTopicsController().findTopic(-this.dialogId, this.topicId);
             ForumUtilities.setTopicIcon(this.avatarContainer.getAvatarImageView(), findTopic, false, true, this.resourcesProvider);
             chatAvatarContainer = this.avatarContainer;
             formatName = findTopic.title;
         } else {
-            TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-this.dialogId));
+            TLRPC.Chat chat = getMessagesController().getChat(Long.valueOf(-this.dialogId));
             this.avatarContainer.setChatAvatar(chat);
             chatAvatarContainer = this.avatarContainer;
             formatName = chat.title;
@@ -1090,14 +1082,14 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         boolean z;
         boolean isGlobalNotificationsEnabled;
         if (DialogObject.isUserDialog(this.dialogId)) {
-            ArrayList<TLRPC$TL_topPeer> arrayList = getMediaDataController().hints;
+            ArrayList<TLRPC.TL_topPeer> arrayList = getMediaDataController().hints;
             int i = 0;
             while (true) {
                 if (i >= arrayList.size()) {
                     break;
                 }
-                TLRPC$Peer tLRPC$Peer = arrayList.get(i).peer;
-                if ((tLRPC$Peer instanceof TLRPC$TL_peerUser) && tLRPC$Peer.user_id == this.dialogId) {
+                TLRPC.Peer peer = arrayList.get(i).peer;
+                if ((peer instanceof TLRPC.TL_peerUser) && peer.user_id == this.dialogId) {
                     this.isInTop5Peers = i < 5;
                 } else {
                     i++;
@@ -1160,7 +1152,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         this.rowCount = i10 + 1;
         this.priorityInfoRow = i10;
         if (DialogObject.isChatDialog(this.dialogId)) {
-            TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-this.dialogId));
+            TLRPC.Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-this.dialogId));
             if (ChatObject.isChannel(chat) && !chat.megagroup) {
                 z = true;
                 if (!DialogObject.isEncryptedDialog(this.dialogId) || z) {

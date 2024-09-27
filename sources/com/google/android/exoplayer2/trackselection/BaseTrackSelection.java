@@ -62,23 +62,6 @@ public abstract class BaseTrackSelection implements ExoTrackSelection {
     }
 
     @Override // com.google.android.exoplayer2.trackselection.ExoTrackSelection
-    public boolean blacklist(int i, long j) {
-        long elapsedRealtime = SystemClock.elapsedRealtime();
-        boolean isBlacklisted = isBlacklisted(i, elapsedRealtime);
-        int i2 = 0;
-        while (i2 < this.length && !isBlacklisted) {
-            isBlacklisted = (i2 == i || isBlacklisted(i2, elapsedRealtime)) ? false : true;
-            i2++;
-        }
-        if (isBlacklisted) {
-            long[] jArr = this.excludeUntilTimes;
-            jArr[i] = Math.max(jArr[i], Util.addWithOverflowDefault(elapsedRealtime, j, Long.MAX_VALUE));
-            return true;
-        }
-        return false;
-    }
-
-    @Override // com.google.android.exoplayer2.trackselection.ExoTrackSelection
     public void disable() {
     }
 
@@ -100,6 +83,23 @@ public abstract class BaseTrackSelection implements ExoTrackSelection {
     @Override // com.google.android.exoplayer2.trackselection.ExoTrackSelection
     public int evaluateQueueSize(long j, List list) {
         return list.size();
+    }
+
+    @Override // com.google.android.exoplayer2.trackselection.ExoTrackSelection
+    public boolean excludeTrack(int i, long j) {
+        long elapsedRealtime = SystemClock.elapsedRealtime();
+        boolean isTrackExcluded = isTrackExcluded(i, elapsedRealtime);
+        int i2 = 0;
+        while (i2 < this.length && !isTrackExcluded) {
+            isTrackExcluded = (i2 == i || isTrackExcluded(i2, elapsedRealtime)) ? false : true;
+            i2++;
+        }
+        if (isTrackExcluded) {
+            long[] jArr = this.excludeUntilTimes;
+            jArr[i] = Math.max(jArr[i], Util.addWithOverflowDefault(elapsedRealtime, j, Long.MAX_VALUE));
+            return true;
+        }
+        return false;
     }
 
     @Override // com.google.android.exoplayer2.trackselection.TrackSelection
@@ -155,7 +155,7 @@ public abstract class BaseTrackSelection implements ExoTrackSelection {
     }
 
     @Override // com.google.android.exoplayer2.trackselection.ExoTrackSelection
-    public boolean isBlacklisted(int i, long j) {
+    public boolean isTrackExcluded(int i, long j) {
         return this.excludeUntilTimes[i] > j;
     }
 

@@ -51,10 +51,8 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.support.LongSparseIntArray;
 import org.telegram.messenger.video.VideoPlayerHolderBase;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$MessageMedia;
-import org.telegram.tgnet.tl.TL_stories$PeerStories;
-import org.telegram.tgnet.tl.TL_stories$StoryItem;
+import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.AdjustPanLayoutHelper;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -80,7 +78,7 @@ import org.webrtc.MediaStreamTrack;
 public class StoryViewer implements NotificationCenter.NotificationCenterDelegate, BaseFragment.AttachedSheet {
     public static boolean animationInProgress;
     private static boolean isInSilentMode;
-    private static TL_stories$StoryItem lastStoryItem;
+    private static TL_stories.StoryItem lastStoryItem;
     private static boolean runOpenAnimationAfterLayout;
     boolean allowIntercept;
     boolean allowSelfStoriesView;
@@ -143,7 +141,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     ValueAnimator openCloseAnimator;
     boolean openedFromLightNavigationBar;
     private boolean opening;
-    TL_stories$PeerStories overrideUserStories;
+    TL_stories.PeerStories overrideUserStories;
     LaunchActivity parentActivity;
     private boolean paused;
     public PlaceProvider placeProvider;
@@ -156,7 +154,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     float selfStoriesViewsOffset;
     SelfStoryViewsView selfStoryViewsView;
     private boolean showViewsAfterOpening;
-    TL_stories$StoryItem singleStory;
+    TL_stories.StoryItem singleStory;
     private StoriesIntro storiesIntro;
     StoriesController.StoriesList storiesList;
     public StoriesViewPager storiesViewPager;
@@ -418,6 +416,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             StoryViewer.this.updateProgressToDismiss();
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         /* JADX WARN: Removed duplicated region for block: B:123:0x0587 A[LOOP:1: B:111:0x0553->B:123:0x0587, LOOP_END] */
         /* JADX WARN: Removed duplicated region for block: B:184:0x07e0  */
         /* JADX WARN: Removed duplicated region for block: B:190:0x058f A[EDGE_INSN: B:190:0x058f->B:124:0x058f ?: BREAK  , SYNTHETIC] */
@@ -426,7 +425,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        protected void dispatchDraw(Canvas canvas) {
+        public void dispatchDraw(Canvas canvas) {
             PeerStoriesView.PeerHeaderView peerHeaderView;
             float f;
             StoryViewer storyViewer;
@@ -879,8 +878,9 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             return super.drawChild(canvas, view, j);
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-        protected void onAttachedToWindow() {
+        public void onAttachedToWindow() {
             super.onAttachedToWindow();
             if (StoryViewer.this.ATTACH_TO_FRAGMENT) {
                 AndroidUtilities.requestAdjustResize(this.val$fragment.getParentActivity(), this.val$fragment.getClassGuid());
@@ -939,8 +939,9 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             NotificationCenter.getInstance(StoryViewer.this.currentAccount).addObserver(StoryViewer.this, NotificationCenter.openArticle);
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-        protected void onDetachedFromWindow() {
+        public void onDetachedFromWindow() {
             super.onDetachedFromWindow();
             Bulletin.removeDelegate(this);
             NotificationCenter.getInstance(StoryViewer.this.currentAccount).removeObserver(StoryViewer.this, NotificationCenter.storiesListUpdated);
@@ -962,9 +963,9 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             PeerStoriesView.VideoPlayerSharedScope videoPlayerSharedScope;
             PeerStoriesView currentPeerView;
             PeerStoriesView.StoryItemHolder storyItemHolder;
-            TL_stories$StoryItem tL_stories$StoryItem;
-            TLRPC$MessageMedia tLRPC$MessageMedia;
-            TLRPC$Document tLRPC$Document;
+            TL_stories.StoryItem storyItem;
+            TLRPC.MessageMedia messageMedia;
+            TLRPC.Document document;
             boolean z;
             StoryViewer storyViewer;
             boolean z2;
@@ -1049,8 +1050,8 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                     StoryViewer storyViewer9 = StoryViewer.this;
                     if (!storyViewer9.inSwipeToDissmissMode && (videoPlayerSharedScope = storyViewer9.currentPlayerScope) != null && videoPlayerSharedScope.player != null && (currentPeerView = storyViewer9.storiesViewPager.getCurrentPeerView()) != null && (storyItemHolder = currentPeerView.currentStory) != null && storyItemHolder.uploadingStory == null && storyItemHolder.isVideo()) {
                         long j = currentPeerView.videoDuration;
-                        if (j <= 0 && (tL_stories$StoryItem = currentPeerView.currentStory.storyItem) != null && (tLRPC$MessageMedia = tL_stories$StoryItem.media) != null && (tLRPC$Document = tLRPC$MessageMedia.document) != null) {
-                            j = (long) (MessageObject.getDocumentDuration(tLRPC$Document) * 1000.0d);
+                        if (j <= 0 && (storyItem = currentPeerView.currentStory.storyItem) != null && (messageMedia = storyItem.media) != null && (document = messageMedia.document) != null) {
+                            j = (long) (MessageObject.getDocumentDuration(document) * 1000.0d);
                         }
                         if (j > 0) {
                             float x2 = motionEvent.getX();
@@ -1261,9 +1262,9 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         }
                     });
                     videoPlayerHolder.uri = uri;
-                    TLRPC$Document tLRPC$Document = (TLRPC$Document) arrayList.get(i3);
-                    videoPlayerHolder.document = tLRPC$Document;
-                    FileStreamLoadOperation.setPriorityForDocument(tLRPC$Document, 0);
+                    TLRPC.Document document = (TLRPC.Document) arrayList.get(i3);
+                    videoPlayerHolder.document = document;
+                    FileStreamLoadOperation.setPriorityForDocument(document, 0);
                     videoPlayerHolder.preparePlayer(uri, StoryViewer.isInSilentMode, StoryViewer.currentSpeed);
                     StoryViewer.this.preparedPlayers.add(videoPlayerHolder);
                     if (StoryViewer.this.preparedPlayers.size() > 2) {
@@ -1294,7 +1295,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public void requestPlayer(TLRPC$Document tLRPC$Document, Uri uri, long j, PeerStoriesView.VideoPlayerSharedScope videoPlayerSharedScope) {
+        public void requestPlayer(TLRPC.Document document, Uri uri, long j, PeerStoriesView.VideoPlayerSharedScope videoPlayerSharedScope) {
             String str;
             long j2;
             StoryViewer storyViewer;
@@ -1370,7 +1371,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                     StoryViewer storyViewer8 = StoryViewer.this;
                     if (storyViewer8.playerHolder == null) {
                         storyViewer8.playerHolder = new VideoPlayerHolder(storyViewer8.surfaceView, StoryViewer.this.textureView);
-                        StoryViewer.this.playerHolder.document = tLRPC$Document;
+                        StoryViewer.this.playerHolder.document = document;
                     }
                     VideoPlayerHolder videoPlayerHolder3 = StoryViewer.this.playerHolder;
                     videoPlayerHolder3.uri = uri;
@@ -1765,8 +1766,8 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
-    private long draftHash(long j, TL_stories$StoryItem tL_stories$StoryItem) {
-        return j + (j >> 16) + (tL_stories$StoryItem.id << 16);
+    private long draftHash(long j, TL_stories.StoryItem storyItem) {
+        return j + (j >> 16) + (storyItem.id << 16);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2154,22 +2155,22 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             }
             PeerStoriesView currentPeerView = this.storiesViewPager.getCurrentPeerView();
             int selectedPosition = currentPeerView == null ? 0 : currentPeerView.getSelectedPosition();
-            int i = (currentPeerView == null || selectedPosition < 0 || selectedPosition >= currentPeerView.storyItems.size()) ? 0 : ((TL_stories$StoryItem) currentPeerView.storyItems.get(selectedPosition)).id;
-            TL_stories$StoryItem tL_stories$StoryItem = (currentPeerView == null || selectedPosition < 0 || selectedPosition >= currentPeerView.storyItems.size()) ? null : (TL_stories$StoryItem) currentPeerView.storyItems.get(selectedPosition);
-            if (tL_stories$StoryItem == null && this.isSingleStory) {
-                tL_stories$StoryItem = this.singleStory;
+            int i = (currentPeerView == null || selectedPosition < 0 || selectedPosition >= currentPeerView.storyItems.size()) ? 0 : ((TL_stories.StoryItem) currentPeerView.storyItems.get(selectedPosition)).id;
+            TL_stories.StoryItem storyItem = (currentPeerView == null || selectedPosition < 0 || selectedPosition >= currentPeerView.storyItems.size()) ? null : (TL_stories.StoryItem) currentPeerView.storyItems.get(selectedPosition);
+            if (storyItem == null && this.isSingleStory) {
+                storyItem = this.singleStory;
             }
             long currentDialogId = this.storiesViewPager.getCurrentDialogId();
             StoriesController.StoriesList storiesList = this.storiesList;
-            if ((storiesList instanceof StoriesController.SearchStoriesList) && tL_stories$StoryItem != null) {
-                currentDialogId = tL_stories$StoryItem.dialogId;
-                i = tL_stories$StoryItem.messageId;
+            if ((storiesList instanceof StoriesController.SearchStoriesList) && storyItem != null) {
+                currentDialogId = storyItem.dialogId;
+                i = storyItem.messageId;
             } else if (storiesList != null) {
                 i = this.dayStoryId;
             }
             long j = currentDialogId;
             this.transitionViewHolder.clear();
-            if (this.placeProvider.findView(j, this.messageId, i, tL_stories$StoryItem == null ? -1 : tL_stories$StoryItem.messageType, this.transitionViewHolder)) {
+            if (this.placeProvider.findView(j, this.messageId, i, storyItem == null ? -1 : storyItem.messageType, this.transitionViewHolder)) {
                 TransitionViewHolder transitionViewHolder = this.transitionViewHolder;
                 transitionViewHolder.storyId = i;
                 View view = transitionViewHolder.view;
@@ -2400,11 +2401,11 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
-    public void clearDraft(long j, TL_stories$StoryItem tL_stories$StoryItem) {
-        if (j == 0 || tL_stories$StoryItem == null) {
+    public void clearDraft(long j, TL_stories.StoryItem storyItem) {
+        if (j == 0 || storyItem == null) {
             return;
         }
-        replyDrafts.remove(draftHash(j, tL_stories$StoryItem));
+        replyDrafts.remove(draftHash(j, storyItem));
     }
 
     public void close(boolean z) {
@@ -2438,7 +2439,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                 storiesViewPager.setDays(storiesList.dialogId, storiesList.getDays(), this.currentAccount);
                 SelfStoryViewsView selfStoryViewsView = this.selfStoryViewsView;
                 if (selfStoryViewsView != null) {
-                    TL_stories$StoryItem selectedStory = selfStoryViewsView.getSelectedStory();
+                    TL_stories.StoryItem selectedStory = selfStoryViewsView.getSelectedStory();
                     ArrayList arrayList = new ArrayList();
                     int i4 = 0;
                     while (i3 < this.storiesList.messageObjects.size()) {
@@ -2483,7 +2484,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                 ArrayList<Long> dialogIds = this.storiesViewPager.getDialogIds();
                 boolean z = false;
                 while (i3 < hiddenList.size()) {
-                    long peerDialogId = DialogObject.getPeerDialogId(((TL_stories$PeerStories) hiddenList.get(i3)).peer);
+                    long peerDialogId = DialogObject.getPeerDialogId(((TL_stories.PeerStories) hiddenList.get(i3)).peer);
                     if ((!storiesListPlaceProvider.onlyUnreadStories || storiesController.hasUnreadStories(peerDialogId)) && !dialogIds.contains(Long.valueOf(peerDialogId))) {
                         dialogIds.add(Long.valueOf(peerDialogId));
                         z = true;
@@ -2562,8 +2563,8 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         return storiesViewPager.getCurrentPeerView();
     }
 
-    public CharSequence getDraft(long j, TL_stories$StoryItem tL_stories$StoryItem) {
-        return (j == 0 || tL_stories$StoryItem == null) ? "" : (CharSequence) replyDrafts.get(draftHash(j, tL_stories$StoryItem), "");
+    public CharSequence getDraft(long j, TL_stories.StoryItem storyItem) {
+        return (j == 0 || storyItem == null) ? "" : (CharSequence) replyDrafts.get(draftHash(j, storyItem), "");
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
@@ -2744,27 +2745,27 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         open(context, null, arrayList, 0, null, null, placeProvider, false);
     }
 
-    public void open(Context context, TL_stories$PeerStories tL_stories$PeerStories, PlaceProvider placeProvider) {
-        ArrayList arrayList;
-        if (tL_stories$PeerStories == null || (arrayList = tL_stories$PeerStories.stories) == null || arrayList.isEmpty()) {
+    public void open(Context context, TL_stories.PeerStories peerStories, PlaceProvider placeProvider) {
+        ArrayList<TL_stories.StoryItem> arrayList;
+        if (peerStories == null || (arrayList = peerStories.stories) == null || arrayList.isEmpty()) {
             this.doOnAnimationReadyRunnables.clear();
             return;
         }
         this.currentAccount = UserConfig.selectedAccount;
         ArrayList arrayList2 = new ArrayList();
-        arrayList2.add(Long.valueOf(DialogObject.getPeerDialogId(tL_stories$PeerStories.peer)));
-        open(context, (TL_stories$StoryItem) tL_stories$PeerStories.stories.get(0), arrayList2, 0, null, tL_stories$PeerStories, placeProvider, false);
+        arrayList2.add(Long.valueOf(DialogObject.getPeerDialogId(peerStories.peer)));
+        open(context, peerStories.stories.get(0), arrayList2, 0, null, peerStories, placeProvider, false);
     }
 
-    public void open(Context context, TL_stories$StoryItem tL_stories$StoryItem, int i, StoriesController.StoriesList storiesList, boolean z, PlaceProvider placeProvider) {
+    public void open(Context context, TL_stories.StoryItem storyItem, int i, StoriesController.StoriesList storiesList, boolean z, PlaceProvider placeProvider) {
         this.currentAccount = UserConfig.selectedAccount;
         ArrayList arrayList = new ArrayList();
         arrayList.add(Long.valueOf(storiesList.dialogId));
         this.dayStoryId = i;
-        open(context, tL_stories$StoryItem, arrayList, 0, storiesList, null, placeProvider, z);
+        open(context, storyItem, arrayList, 0, storiesList, null, placeProvider, z);
     }
 
-    public void open(Context context, TL_stories$StoryItem tL_stories$StoryItem, ArrayList arrayList, int i, StoriesController.StoriesList storiesList, TL_stories$PeerStories tL_stories$PeerStories, PlaceProvider placeProvider, boolean z) {
+    public void open(Context context, TL_stories.StoryItem storyItem, ArrayList arrayList, int i, StoriesController.StoriesList storiesList, TL_stories.PeerStories peerStories, PlaceProvider placeProvider, boolean z) {
         if (context == null) {
             this.doOnAnimationReadyRunnables.clear();
             return;
@@ -2782,14 +2783,14 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         boolean z2 = (AndroidUtilities.isTablet() || this.fromBottomSheet) ? false : true;
         this.ATTACH_TO_FRAGMENT = z2;
         this.USE_SURFACE_VIEW = SharedConfig.useSurfaceInStories && z2;
-        this.messageId = tL_stories$StoryItem == null ? 0 : tL_stories$StoryItem.messageId;
-        this.isSingleStory = tL_stories$StoryItem != null && storiesList == null && tL_stories$PeerStories == null;
-        if (tL_stories$StoryItem != null) {
-            this.singleStory = tL_stories$StoryItem;
-            lastStoryItem = tL_stories$StoryItem;
+        this.messageId = storyItem == null ? 0 : storyItem.messageId;
+        this.isSingleStory = storyItem != null && storiesList == null && peerStories == null;
+        if (storyItem != null) {
+            this.singleStory = storyItem;
+            lastStoryItem = storyItem;
         }
         this.storiesList = storiesList;
-        this.overrideUserStories = tL_stories$PeerStories;
+        this.overrideUserStories = peerStories;
         this.placeProvider = placeProvider;
         this.reversed = z;
         this.currentAccount = UserConfig.selectedAccount;
@@ -3149,17 +3150,17 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         AndroidUtilities.hideKeyboard(lastFragment.getFragmentView());
     }
 
-    public void open(Context context, TL_stories$StoryItem tL_stories$StoryItem, PlaceProvider placeProvider) {
-        if (tL_stories$StoryItem == null) {
+    public void open(Context context, TL_stories.StoryItem storyItem, PlaceProvider placeProvider) {
+        if (storyItem == null) {
             return;
         }
         int i = UserConfig.selectedAccount;
         this.currentAccount = i;
-        if (tL_stories$StoryItem.dialogId <= 0 || MessagesController.getInstance(i).getUser(Long.valueOf(tL_stories$StoryItem.dialogId)) != null) {
-            if (tL_stories$StoryItem.dialogId >= 0 || MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-tL_stories$StoryItem.dialogId)) != null) {
+        if (storyItem.dialogId <= 0 || MessagesController.getInstance(i).getUser(Long.valueOf(storyItem.dialogId)) != null) {
+            if (storyItem.dialogId >= 0 || MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-storyItem.dialogId)) != null) {
                 ArrayList arrayList = new ArrayList();
-                arrayList.add(Long.valueOf(tL_stories$StoryItem.dialogId));
-                open(context, tL_stories$StoryItem, arrayList, 0, null, null, placeProvider, false);
+                arrayList.add(Long.valueOf(storyItem.dialogId));
+                open(context, storyItem, arrayList, 0, null, null, placeProvider, false);
             }
         }
     }
@@ -3169,10 +3170,10 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         if (baseFragment == null || baseFragment.getContext() == null || messageObject.type != 24) {
             return;
         }
-        TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
-        TL_stories$StoryItem tL_stories$StoryItem = tLRPC$MessageMedia.storyItem;
-        tL_stories$StoryItem.dialogId = DialogObject.getPeerDialogId(tLRPC$MessageMedia.peer);
-        tL_stories$StoryItem.messageId = messageObject.getId();
+        TLRPC.MessageMedia messageMedia = messageObject.messageOwner.media;
+        TL_stories.StoryItem storyItem = messageMedia.storyItem;
+        storyItem.dialogId = DialogObject.getPeerDialogId(messageMedia.peer);
+        storyItem.messageId = messageObject.getId();
         open(baseFragment.getContext(), messageObject.messageOwner.media.storyItem, StoriesListPlaceProvider.of(recyclerListView));
     }
 
@@ -3226,11 +3227,11 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         lastStoryItem = null;
     }
 
-    public void saveDraft(long j, TL_stories$StoryItem tL_stories$StoryItem, CharSequence charSequence) {
-        if (j == 0 || tL_stories$StoryItem == null) {
+    public void saveDraft(long j, TL_stories.StoryItem storyItem, CharSequence charSequence) {
+        if (j == 0 || storyItem == null) {
             return;
         }
-        replyDrafts.put(draftHash(j, tL_stories$StoryItem), charSequence);
+        replyDrafts.put(draftHash(j, storyItem), charSequence);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet

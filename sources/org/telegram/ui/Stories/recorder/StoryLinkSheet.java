@@ -29,11 +29,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_messageMediaWebPage;
-import org.telegram.tgnet.TLRPC$TL_messages_getWebPagePreview;
-import org.telegram.tgnet.TLRPC$TL_webPagePending;
-import org.telegram.tgnet.TLRPC$WebPage;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.EditTextCell;
@@ -42,7 +38,7 @@ import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.BottomSheetWithRecyclerListView;
 import org.telegram.ui.Components.CircularProgressDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
-import org.telegram.ui.Components.EditTextBoldCursor;
+import org.telegram.ui.Components.EditTextCaption;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LoadingSpan;
 import org.telegram.ui.Components.Paint.Views.LinkPreview;
@@ -69,7 +65,7 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
     private final Runnable requestPreview;
     private EditTextCell urlEditText;
     private Pattern urlPattern;
-    private TLRPC$WebPage webpage;
+    private TLRPC.WebPage webpage;
     private long webpageId;
     private Utilities.Callback whenDone;
 
@@ -90,9 +86,9 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
                 UItem.UItemFactory.setup(new Factory());
             }
 
-            public static UItem item(TLRPC$WebPage tLRPC$WebPage, View.OnClickListener onClickListener) {
+            public static UItem item(TLRPC.WebPage webPage, View.OnClickListener onClickListener) {
                 UItem ofFactory = UItem.ofFactory(Factory.class);
-                ofFactory.object = tLRPC$WebPage;
+                ofFactory.object = webPage;
                 ofFactory.clickCallback = onClickListener;
                 return ofFactory;
             }
@@ -101,7 +97,7 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
             public void bindView(View view, UItem uItem, boolean z) {
                 WebpagePreviewView webpagePreviewView = (WebpagePreviewView) view;
                 Object obj = uItem.object;
-                webpagePreviewView.set(obj instanceof TLRPC$WebPage ? (TLRPC$WebPage) obj : null, uItem.clickCallback, false);
+                webpagePreviewView.set(obj instanceof TLRPC.WebPage ? (TLRPC.WebPage) obj : null, uItem.clickCallback, false);
             }
 
             @Override // org.telegram.ui.Components.UItem.UItemFactory
@@ -187,8 +183,8 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
             super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(48.0f), 1073741824));
         }
 
-        public void set(TLRPC$WebPage tLRPC$WebPage, View.OnClickListener onClickListener, boolean z) {
-            boolean z2 = (tLRPC$WebPage == null || (tLRPC$WebPage instanceof TLRPC$TL_webPagePending)) ? false : true;
+        public void set(TLRPC.WebPage webPage, View.OnClickListener onClickListener, boolean z) {
+            boolean z2 = (webPage == null || (webPage instanceof TLRPC.TL_webPagePending)) ? false : true;
             ImageView imageView = this.imageView;
             if (z) {
                 ViewPropertyAnimator duration = imageView.animate().alpha(z2 ? 1.0f : 0.0f).scaleX(z2 ? 1.0f : 0.4f).scaleY(z2 ? 1.0f : 0.4f).setDuration(320L);
@@ -204,8 +200,8 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
                 this.loadingView.setScaleY(z2 ? 0.4f : 1.0f);
             }
             if (z2) {
-                this.titleView.setText(TextUtils.isEmpty(tLRPC$WebPage.site_name) ? tLRPC$WebPage.title : tLRPC$WebPage.site_name, z);
-                this.messageView.setText(tLRPC$WebPage.description, z);
+                this.titleView.setText(TextUtils.isEmpty(webPage.site_name) ? webPage.title : webPage.site_name, z);
+                this.messageView.setText(webPage.description, z);
             } else {
                 this.titleView.setText(this.titleLoading, z);
                 this.messageView.setText(this.messageLoading, z);
@@ -227,7 +223,7 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
         setSlidingActionBar();
         this.headerPaddingTop = AndroidUtilities.dp(4.0f);
         this.headerPaddingBottom = AndroidUtilities.dp(-15.0f);
-        EditTextCell editTextCell = new EditTextCell(context, LocaleController.getString(R.string.StoryLinkURLPlaceholder), true, -1, resourcesProvider);
+        EditTextCell editTextCell = new EditTextCell(context, LocaleController.getString(R.string.StoryLinkURLPlaceholder), true, false, -1, resourcesProvider);
         this.urlEditText = editTextCell;
         editTextCell.whenHitEnter(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryLinkSheet$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
@@ -301,7 +297,7 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
                 storyLinkSheet.needRemoveDefPrefix = z;
             }
         });
-        EditTextCell editTextCell2 = new EditTextCell(context, LocaleController.getString(R.string.StoryLinkNamePlaceholder), true, -1, resourcesProvider);
+        EditTextCell editTextCell2 = new EditTextCell(context, LocaleController.getString(R.string.StoryLinkNamePlaceholder), true, false, -1, resourcesProvider);
         this.nameEditText = editTextCell2;
         editTextCell2.whenHitEnter(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryLinkSheet$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
@@ -411,8 +407,8 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
         return this.urlPattern.matcher(str).find();
     }
 
-    public static boolean isPreviewEmpty(TLRPC$WebPage tLRPC$WebPage) {
-        return (tLRPC$WebPage instanceof TLRPC$TL_webPagePending) || (TextUtils.isEmpty(tLRPC$WebPage.title) && TextUtils.isEmpty(tLRPC$WebPage.description));
+    public static boolean isPreviewEmpty(TLRPC.WebPage webPage) {
+        return (webPage instanceof TLRPC.TL_webPagePending) || (TextUtils.isEmpty(webPage.title) && TextUtils.isEmpty(webPage.description));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -433,8 +429,8 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
         }
         if (charSequence != null) {
             this.urlEditText.editText.setText(charSequence.toString());
-            EditTextBoldCursor editTextBoldCursor = this.urlEditText.editText;
-            editTextBoldCursor.setSelection(0, editTextBoldCursor.getText().length());
+            EditTextCaption editTextCaption = this.urlEditText.editText;
+            editTextCaption.setSelection(0, editTextCaption.getText().length());
         }
         runnable.run();
     }
@@ -456,12 +452,12 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(Context context, PreviewView previewView, View view, int i) {
-        TLRPC$WebPage tLRPC$WebPage;
+        TLRPC.WebPage webPage;
         UItem item = this.adapter.getItem(i - 1);
         if (item == null) {
             return;
         }
-        if (!item.instanceOf(WebpagePreviewView.Factory.class) || (tLRPC$WebPage = this.webpage) == null || isPreviewEmpty(tLRPC$WebPage)) {
+        if (!item.instanceOf(WebpagePreviewView.Factory.class) || (webPage = this.webpage) == null || isPreviewEmpty(webPage)) {
             if (item.id == 2 && (view instanceof TextCheckCell)) {
                 boolean z = !this.nameOpen;
                 this.nameOpen = z;
@@ -499,12 +495,12 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
     */
     public /* synthetic */ void lambda$new$5(TLObject tLObject) {
         UniversalAdapter universalAdapter;
-        if (tLObject instanceof TLRPC$TL_messageMediaWebPage) {
-            TLRPC$WebPage tLRPC$WebPage = ((TLRPC$TL_messageMediaWebPage) tLObject).webpage;
-            this.webpage = tLRPC$WebPage;
-            if (isPreviewEmpty(tLRPC$WebPage)) {
-                TLRPC$WebPage tLRPC$WebPage2 = this.webpage;
-                this.webpageId = tLRPC$WebPage2 == null ? 0L : tLRPC$WebPage2.id;
+        if (tLObject instanceof TLRPC.TL_messageMediaWebPage) {
+            TLRPC.WebPage webPage = ((TLRPC.TL_messageMediaWebPage) tLObject).webpage;
+            this.webpage = webPage;
+            if (isPreviewEmpty(webPage)) {
+                TLRPC.WebPage webPage2 = this.webpage;
+                this.webpageId = webPage2 == null ? 0L : webPage2.id;
                 this.webpage = null;
                 this.loading = this.webpageId == 0;
                 universalAdapter = this.adapter;
@@ -525,7 +521,7 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$6(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$new$6(final TLObject tLObject, TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryLinkSheet$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
@@ -536,12 +532,12 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$7() {
-        TLRPC$TL_messages_getWebPagePreview tLRPC$TL_messages_getWebPagePreview = new TLRPC$TL_messages_getWebPagePreview();
-        tLRPC$TL_messages_getWebPagePreview.message = this.urlEditText.editText.getText().toString();
-        this.reqId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getWebPagePreview, new RequestDelegate() { // from class: org.telegram.ui.Stories.recorder.StoryLinkSheet$$ExternalSyntheticLambda10
+        TLRPC.TL_messages_getWebPagePreview tL_messages_getWebPagePreview = new TLRPC.TL_messages_getWebPagePreview();
+        tL_messages_getWebPagePreview.message = this.urlEditText.editText.getText().toString();
+        this.reqId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_messages_getWebPagePreview, new RequestDelegate() { // from class: org.telegram.ui.Stories.recorder.StoryLinkSheet$$ExternalSyntheticLambda10
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                StoryLinkSheet.this.lambda$new$6(tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                StoryLinkSheet.this.lambda$new$6(tLObject, tL_error);
             }
         });
     }
@@ -599,12 +595,12 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
         }
         LongSparseArray longSparseArray = (LongSparseArray) objArr[0];
         for (int i3 = 0; i3 < longSparseArray.size(); i3++) {
-            TLRPC$WebPage tLRPC$WebPage = (TLRPC$WebPage) longSparseArray.valueAt(i3);
-            if (tLRPC$WebPage != null && this.webpageId == tLRPC$WebPage.id) {
-                if (isPreviewEmpty(tLRPC$WebPage)) {
-                    tLRPC$WebPage = null;
+            TLRPC.WebPage webPage = (TLRPC.WebPage) longSparseArray.valueAt(i3);
+            if (webPage != null && this.webpageId == webPage.id) {
+                if (isPreviewEmpty(webPage)) {
+                    webPage = null;
                 }
-                this.webpage = tLRPC$WebPage;
+                this.webpage = webPage;
                 this.loading = false;
                 this.webpageId = 0L;
                 UniversalAdapter universalAdapter = this.adapter;

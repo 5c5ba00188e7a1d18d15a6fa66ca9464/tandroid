@@ -130,6 +130,10 @@ public abstract class MappingTrackSelector extends TrackSelector {
         return iArr;
     }
 
+    public final MappedTrackInfo getCurrentMappedTrackInfo() {
+        return this.currentMappedTrackInfo;
+    }
+
     @Override // com.google.android.exoplayer2.trackselection.TrackSelector
     public final void onSelectionActivated(Object obj) {
         this.currentMappedTrackInfo = (MappedTrackInfo) obj;

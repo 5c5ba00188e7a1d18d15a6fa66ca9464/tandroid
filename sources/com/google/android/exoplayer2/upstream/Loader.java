@@ -166,7 +166,6 @@ public final class Loader implements LoaderErrorThrower {
         @Override // java.lang.Runnable
         public void run() {
             Object unexpectedLoaderException;
-            Message obtainMessage;
             boolean z;
             try {
                 synchronized (this) {
@@ -175,13 +174,8 @@ public final class Loader implements LoaderErrorThrower {
                 }
                 if (z) {
                     TraceUtil.beginSection("load:" + this.loadable.getClass().getSimpleName());
-                    try {
-                        this.loadable.load();
-                        TraceUtil.endSection();
-                    } catch (Throwable th) {
-                        TraceUtil.endSection();
-                        throw th;
-                    }
+                    this.loadable.load();
+                    TraceUtil.endSection();
                 }
                 synchronized (this) {
                     this.executorThread = null;
@@ -191,34 +185,26 @@ public final class Loader implements LoaderErrorThrower {
                     return;
                 }
                 sendEmptyMessage(1);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 if (this.released) {
                     return;
                 }
-                obtainMessage = obtainMessage(2, e);
-                obtainMessage.sendToTarget();
-            } catch (Error e2) {
+                Log.e("LoadTask", "Unexpected exception loading stream", e);
+                unexpectedLoaderException = new UnexpectedLoaderException(e);
+                obtainMessage(2, unexpectedLoaderException).sendToTarget();
+            } catch (OutOfMemoryError e2) {
+                if (this.released) {
+                    return;
+                }
+                Log.e("LoadTask", "OutOfMemory error loading stream", e2);
+                unexpectedLoaderException = new UnexpectedLoaderException(e2);
+                obtainMessage(2, unexpectedLoaderException).sendToTarget();
+            } catch (Error e3) {
                 if (!this.released) {
-                    Log.e("LoadTask", "Unexpected error loading stream", e2);
-                    obtainMessage(3, e2).sendToTarget();
+                    Log.e("LoadTask", "Unexpected error loading stream", e3);
+                    obtainMessage(3, e3).sendToTarget();
                 }
-                throw e2;
-            } catch (Exception e3) {
-                if (this.released) {
-                    return;
-                }
-                Log.e("LoadTask", "Unexpected exception loading stream", e3);
-                unexpectedLoaderException = new UnexpectedLoaderException(e3);
-                obtainMessage = obtainMessage(2, unexpectedLoaderException);
-                obtainMessage.sendToTarget();
-            } catch (OutOfMemoryError e4) {
-                if (this.released) {
-                    return;
-                }
-                Log.e("LoadTask", "OutOfMemory error loading stream", e4);
-                unexpectedLoaderException = new UnexpectedLoaderException(e4);
-                obtainMessage = obtainMessage(2, unexpectedLoaderException);
-                obtainMessage.sendToTarget();
+                throw e3;
             }
         }
 

@@ -31,8 +31,7 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$StickerSet;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.EmojiTabsStrip;
 import org.telegram.ui.Components.EmojiView;
@@ -78,7 +77,7 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
     /* loaded from: classes3.dex */
     public class EmojiTabButton extends ViewGroup {
         AnimatedEmojiDrawable animatedEmoji;
-        TLRPC$Document animatedEmojiDocument;
+        TLRPC.Document animatedEmojiDocument;
         boolean attached;
         private boolean forceSelector;
         public Long id;
@@ -155,7 +154,7 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
             addView(this.imageView);
         }
 
-        public EmojiTabButton(Context context, TLRPC$Document tLRPC$Document, boolean z, boolean z2, boolean z3) {
+        public EmojiTabButton(Context context, TLRPC.Document document, boolean z, boolean z2, boolean z3) {
             super(context);
             Drawable createRadSelectorDrawable;
             this.shown = true;
@@ -170,7 +169,7 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                         Drawable drawable = getDrawable();
                         if (drawable != null) {
                             drawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                            drawable.setAlpha(NotificationCenter.didClearDatabase);
+                            drawable.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                             drawable.draw(canvas);
                         }
                     }
@@ -202,7 +201,7 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                     }
                 };
                 this.imageView = imageView;
-                this.animatedEmojiDocument = tLRPC$Document;
+                this.animatedEmojiDocument = document;
                 this.isAnimatedEmoji = true;
                 imageView.setColorFilter(EmojiTabsStrip.this.getEmojiColorFilter());
                 addView(this.imageView);
@@ -239,7 +238,7 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                     Drawable drawable = getDrawable();
                     if (drawable != null) {
                         drawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                        drawable.setAlpha(NotificationCenter.didClearDatabase);
+                        drawable.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                         drawable.draw(canvas);
                     }
                 }
@@ -271,7 +270,7 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                 }
             };
             this.imageView = imageView2;
-            this.animatedEmojiDocument = tLRPC$Document;
+            this.animatedEmojiDocument = document;
             this.isAnimatedEmoji = true;
             imageView2.setColorFilter(EmojiTabsStrip.this.getEmojiColorFilter());
             addView(this.imageView);
@@ -469,9 +468,9 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
             if (l != null) {
                 return l;
             }
-            TLRPC$Document tLRPC$Document = this.animatedEmojiDocument;
-            if (tLRPC$Document != null) {
-                return Long.valueOf(tLRPC$Document.id);
+            TLRPC.Document document = this.animatedEmojiDocument;
+            if (document != null) {
+                return Long.valueOf(document.id);
             }
             return null;
         }
@@ -548,16 +547,16 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
             return super.performClick();
         }
 
-        public void setAnimatedEmojiDocument(TLRPC$Document tLRPC$Document) {
-            TLRPC$Document tLRPC$Document2 = this.animatedEmojiDocument;
-            if (tLRPC$Document2 == null || tLRPC$Document == null || tLRPC$Document2.id != tLRPC$Document.id) {
+        public void setAnimatedEmojiDocument(TLRPC.Document document) {
+            TLRPC.Document document2 = this.animatedEmojiDocument;
+            if (document2 == null || document == null || document2.id != document.id) {
                 AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmoji;
                 if (animatedEmojiDrawable != null) {
                     animatedEmojiDrawable.removeView(this.imageView);
                     this.animatedEmoji = null;
                     this.imageView.setImageDrawable(null);
                 }
-                this.animatedEmojiDocument = tLRPC$Document;
+                this.animatedEmojiDocument = document;
                 updateAttachState();
             }
         }
@@ -1110,22 +1109,22 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         updateClickListeners();
     }
 
-    private TLRPC$Document getThumbDocument(TLRPC$StickerSet tLRPC$StickerSet, ArrayList arrayList) {
-        if (tLRPC$StickerSet == null) {
+    private TLRPC.Document getThumbDocument(TLRPC.StickerSet stickerSet, ArrayList arrayList) {
+        if (stickerSet == null) {
             return null;
         }
         if (arrayList != null) {
             for (int i = 0; i < arrayList.size(); i++) {
-                TLRPC$Document tLRPC$Document = (TLRPC$Document) arrayList.get(i);
-                if (tLRPC$Document.id == tLRPC$StickerSet.thumb_document_id) {
-                    return tLRPC$Document;
+                TLRPC.Document document = (TLRPC.Document) arrayList.get(i);
+                if (document.id == stickerSet.thumb_document_id) {
+                    return document;
                 }
             }
         }
         if (arrayList == null || arrayList.size() < 1) {
             return null;
         }
-        return (TLRPC$Document) arrayList.get(0);
+        return (TLRPC.Document) arrayList.get(0);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1423,7 +1422,7 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                         }
                     } else if (emojiPack2.resId == 0) {
                         boolean z4 = emojiPack2.free;
-                        TLRPC$Document thumbDocument = getThumbDocument(emojiPack2.set, emojiPack2.documents);
+                        TLRPC.Document thumbDocument = getThumbDocument(emojiPack2.set, emojiPack2.documents);
                         if (emojiTabButton == null) {
                             emojiPack = emojiPack2;
                             i = i2;

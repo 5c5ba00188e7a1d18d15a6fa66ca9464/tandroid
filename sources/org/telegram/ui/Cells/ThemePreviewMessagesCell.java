@@ -28,24 +28,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.browser.Browser;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$KeyboardButton;
-import org.telegram.tgnet.TLRPC$Message;
-import org.telegram.tgnet.TLRPC$MessageExtendedMedia;
-import org.telegram.tgnet.TLRPC$ReactionCount;
-import org.telegram.tgnet.TLRPC$TL_message;
-import org.telegram.tgnet.TLRPC$TL_messageEntityCustomEmoji;
-import org.telegram.tgnet.TLRPC$TL_messageEntityTextUrl;
-import org.telegram.tgnet.TLRPC$TL_messageMediaEmpty;
-import org.telegram.tgnet.TLRPC$TL_messageMediaWebPage;
-import org.telegram.tgnet.TLRPC$TL_messageReplyHeader;
-import org.telegram.tgnet.TLRPC$TL_peerChannel;
-import org.telegram.tgnet.TLRPC$TL_peerUser;
-import org.telegram.tgnet.TLRPC$TL_user;
-import org.telegram.tgnet.TLRPC$TL_webPage;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$WebPage;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
@@ -128,92 +111,92 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         int currentTimeMillis = (int) (System.currentTimeMillis() / 1000);
         if (i == 3) {
             boolean z = j < 0;
-            TLRPC$TL_message tLRPC$TL_message = new TLRPC$TL_message();
-            tLRPC$TL_message.message = LocaleController.getString(z ? R.string.ChannelColorPreview : R.string.UserColorPreview);
-            TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader = new TLRPC$TL_messageReplyHeader();
-            tLRPC$TL_message.reply_to = tLRPC$TL_messageReplyHeader;
-            tLRPC$TL_messageReplyHeader.flags |= 1;
+            TLRPC.TL_message tL_message = new TLRPC.TL_message();
+            tL_message.message = LocaleController.getString(z ? R.string.ChannelColorPreview : R.string.UserColorPreview);
+            TLRPC.TL_messageReplyHeader tL_messageReplyHeader = new TLRPC.TL_messageReplyHeader();
+            tL_message.reply_to = tL_messageReplyHeader;
+            tL_messageReplyHeader.flags |= 1;
             if (j == 0) {
-                tLRPC$TL_messageReplyHeader.reply_to_peer_id = new TLRPC$TL_peerUser();
-                tLRPC$TL_message.reply_to.reply_to_peer_id.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
+                tL_messageReplyHeader.reply_to_peer_id = new TLRPC.TL_peerUser();
+                tL_message.reply_to.reply_to_peer_id.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
             } else {
-                tLRPC$TL_messageReplyHeader.reply_to_peer_id = new TLRPC$TL_peerChannel();
-                tLRPC$TL_message.reply_to.reply_to_peer_id.channel_id = -j;
+                tL_messageReplyHeader.reply_to_peer_id = new TLRPC.TL_peerChannel();
+                tL_message.reply_to.reply_to_peer_id.channel_id = -j;
             }
-            TLRPC$Message tLRPC$Message = new TLRPC$Message();
-            tLRPC$TL_message.replyMessage = tLRPC$Message;
-            tLRPC$Message.media = new TLRPC$TL_messageMediaEmpty();
+            TLRPC.Message message = new TLRPC.Message();
+            tL_message.replyMessage = message;
+            message.media = new TLRPC.TL_messageMediaEmpty();
             if (j == 0) {
-                tLRPC$TL_message.replyMessage.from_id = new TLRPC$TL_peerUser();
-                tLRPC$TL_message.replyMessage.from_id.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
-                tLRPC$TL_message.replyMessage.peer_id = new TLRPC$TL_peerUser();
-                tLRPC$TL_message.replyMessage.peer_id.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
+                tL_message.replyMessage.from_id = new TLRPC.TL_peerUser();
+                tL_message.replyMessage.from_id.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
+                tL_message.replyMessage.peer_id = new TLRPC.TL_peerUser();
+                tL_message.replyMessage.peer_id.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
             } else {
-                tLRPC$TL_message.replyMessage.from_id = new TLRPC$TL_peerChannel();
-                TLRPC$Message tLRPC$Message2 = tLRPC$TL_message.replyMessage;
+                tL_message.replyMessage.from_id = new TLRPC.TL_peerChannel();
+                TLRPC.Message message2 = tL_message.replyMessage;
                 long j2 = -j;
-                tLRPC$Message2.from_id.channel_id = j2;
-                tLRPC$Message2.peer_id = new TLRPC$TL_peerChannel();
-                tLRPC$TL_message.replyMessage.peer_id.channel_id = j2;
+                message2.from_id.channel_id = j2;
+                message2.peer_id = new TLRPC.TL_peerChannel();
+                tL_message.replyMessage.peer_id.channel_id = j2;
             }
-            tLRPC$TL_message.replyMessage.message = LocaleController.getString(z ? R.string.ChannelColorPreviewReply : R.string.UserColorPreviewReply);
-            TLRPC$TL_messageMediaWebPage tLRPC$TL_messageMediaWebPage = new TLRPC$TL_messageMediaWebPage();
-            tLRPC$TL_message.media = tLRPC$TL_messageMediaWebPage;
-            tLRPC$TL_messageMediaWebPage.webpage = new TLRPC$TL_webPage();
-            TLRPC$WebPage tLRPC$WebPage = tLRPC$TL_message.media.webpage;
-            tLRPC$WebPage.embed_url = "https://telegram.org/";
-            tLRPC$WebPage.flags |= 2;
-            tLRPC$WebPage.site_name = LocaleController.getString(R.string.AppName);
-            TLRPC$WebPage tLRPC$WebPage2 = tLRPC$TL_message.media.webpage;
-            tLRPC$WebPage2.flags |= 4;
-            tLRPC$WebPage2.title = LocaleController.getString(z ? R.string.ChannelColorPreviewLinkTitle : R.string.UserColorPreviewLinkTitle);
-            TLRPC$WebPage tLRPC$WebPage3 = tLRPC$TL_message.media.webpage;
-            tLRPC$WebPage3.flags |= 8;
-            tLRPC$WebPage3.description = LocaleController.getString(z ? R.string.ChannelColorPreviewLinkDescription : R.string.UserColorPreviewLinkDescription);
-            tLRPC$TL_message.date = currentTimeMillis - 3540;
-            tLRPC$TL_message.dialog_id = 1L;
-            tLRPC$TL_message.flags = NotificationCenter.showBulletin;
+            tL_message.replyMessage.message = LocaleController.getString(z ? R.string.ChannelColorPreviewReply : R.string.UserColorPreviewReply);
+            TLRPC.TL_messageMediaWebPage tL_messageMediaWebPage = new TLRPC.TL_messageMediaWebPage();
+            tL_message.media = tL_messageMediaWebPage;
+            tL_messageMediaWebPage.webpage = new TLRPC.TL_webPage();
+            TLRPC.WebPage webPage = tL_message.media.webpage;
+            webPage.embed_url = "https://telegram.org/";
+            webPage.flags |= 2;
+            webPage.site_name = LocaleController.getString(R.string.AppName);
+            TLRPC.WebPage webPage2 = tL_message.media.webpage;
+            webPage2.flags |= 4;
+            webPage2.title = LocaleController.getString(z ? R.string.ChannelColorPreviewLinkTitle : R.string.UserColorPreviewLinkTitle);
+            TLRPC.WebPage webPage3 = tL_message.media.webpage;
+            webPage3.flags |= 8;
+            webPage3.description = LocaleController.getString(z ? R.string.ChannelColorPreviewLinkDescription : R.string.UserColorPreviewLinkDescription);
+            tL_message.date = currentTimeMillis - 3540;
+            tL_message.dialog_id = 1L;
+            tL_message.flags = NotificationCenter.webRtcMicAmplitudeEvent;
             if (j == 0) {
-                TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
-                tLRPC$TL_message.from_id = tLRPC$TL_peerUser;
-                tLRPC$TL_peerUser.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
+                TLRPC.TL_peerUser tL_peerUser = new TLRPC.TL_peerUser();
+                tL_message.from_id = tL_peerUser;
+                tL_peerUser.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
             } else {
-                TLRPC$TL_peerChannel tLRPC$TL_peerChannel = new TLRPC$TL_peerChannel();
-                tLRPC$TL_message.from_id = tLRPC$TL_peerChannel;
-                tLRPC$TL_peerChannel.channel_id = -j;
+                TLRPC.TL_peerChannel tL_peerChannel = new TLRPC.TL_peerChannel();
+                tL_message.from_id = tL_peerChannel;
+                tL_peerChannel.channel_id = -j;
             }
-            tLRPC$TL_message.id = 1;
-            tLRPC$TL_message.out = false;
+            tL_message.id = 1;
+            tL_message.out = false;
             if (j == 0) {
-                TLRPC$TL_peerUser tLRPC$TL_peerUser2 = new TLRPC$TL_peerUser();
-                tLRPC$TL_message.peer_id = tLRPC$TL_peerUser2;
-                tLRPC$TL_peerUser2.user_id = 0L;
+                TLRPC.TL_peerUser tL_peerUser2 = new TLRPC.TL_peerUser();
+                tL_message.peer_id = tL_peerUser2;
+                tL_peerUser2.user_id = 0L;
             } else {
-                TLRPC$TL_peerChannel tLRPC$TL_peerChannel2 = new TLRPC$TL_peerChannel();
-                tLRPC$TL_message.peer_id = tLRPC$TL_peerChannel2;
-                tLRPC$TL_peerChannel2.channel_id = -j;
+                TLRPC.TL_peerChannel tL_peerChannel2 = new TLRPC.TL_peerChannel();
+                tL_message.peer_id = tL_peerChannel2;
+                tL_peerChannel2.channel_id = -j;
             }
-            MessageObject messageObject3 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message, true, false);
+            MessageObject messageObject3 = new MessageObject(UserConfig.selectedAccount, tL_message, true, false);
             messageObject3.forceAvatar = true;
             messageObject3.resetLayout();
             messageObject3.eventId = 1L;
             messageObject = messageObject3;
         } else if (i == 2) {
-            TLRPC$TL_message tLRPC$TL_message2 = new TLRPC$TL_message();
-            tLRPC$TL_message2.message = LocaleController.getString(R.string.DoubleTapPreviewMessage);
-            tLRPC$TL_message2.date = currentTimeMillis - 3540;
-            tLRPC$TL_message2.dialog_id = 1L;
-            tLRPC$TL_message2.flags = NotificationCenter.showBulletin;
-            TLRPC$TL_peerUser tLRPC$TL_peerUser3 = new TLRPC$TL_peerUser();
-            tLRPC$TL_message2.from_id = tLRPC$TL_peerUser3;
-            tLRPC$TL_peerUser3.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
-            tLRPC$TL_message2.id = 1;
-            tLRPC$TL_message2.media = new TLRPC$TL_messageMediaEmpty();
-            tLRPC$TL_message2.out = false;
-            TLRPC$TL_peerUser tLRPC$TL_peerUser4 = new TLRPC$TL_peerUser();
-            tLRPC$TL_message2.peer_id = tLRPC$TL_peerUser4;
-            tLRPC$TL_peerUser4.user_id = 0L;
-            MessageObject messageObject4 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message2, true, false);
+            TLRPC.TL_message tL_message2 = new TLRPC.TL_message();
+            tL_message2.message = LocaleController.getString(R.string.DoubleTapPreviewMessage);
+            tL_message2.date = currentTimeMillis - 3540;
+            tL_message2.dialog_id = 1L;
+            tL_message2.flags = NotificationCenter.webRtcMicAmplitudeEvent;
+            TLRPC.TL_peerUser tL_peerUser3 = new TLRPC.TL_peerUser();
+            tL_message2.from_id = tL_peerUser3;
+            tL_peerUser3.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
+            tL_message2.id = 1;
+            tL_message2.media = new TLRPC.TL_messageMediaEmpty();
+            tL_message2.out = false;
+            TLRPC.TL_peerUser tL_peerUser4 = new TLRPC.TL_peerUser();
+            tL_message2.peer_id = tL_peerUser4;
+            tL_peerUser4.user_id = 0L;
+            MessageObject messageObject4 = new MessageObject(UserConfig.selectedAccount, tL_message2, true, false);
             messageObject4.resetLayout();
             messageObject4.eventId = 1L;
             messageObject4.customName = LocaleController.getString(R.string.DoubleTapPreviewSenderName);
@@ -222,31 +205,31 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             messageObject4.overrideLinkEmoji = 0L;
             messageObject = messageObject4;
         } else {
-            TLRPC$TL_message tLRPC$TL_message3 = new TLRPC$TL_message();
-            tLRPC$TL_message3.message = LocaleController.getString(i == 0 ? R.string.FontSizePreviewReply : R.string.NewThemePreviewReply);
-            int indexOf = tLRPC$TL_message3.message.indexOf("👋");
+            TLRPC.TL_message tL_message3 = new TLRPC.TL_message();
+            tL_message3.message = LocaleController.getString(i == 0 ? R.string.FontSizePreviewReply : R.string.NewThemePreviewReply);
+            int indexOf = tL_message3.message.indexOf("👋");
             if (indexOf >= 0) {
-                TLRPC$TL_messageEntityCustomEmoji tLRPC$TL_messageEntityCustomEmoji = new TLRPC$TL_messageEntityCustomEmoji();
-                tLRPC$TL_messageEntityCustomEmoji.offset = indexOf;
-                tLRPC$TL_messageEntityCustomEmoji.length = 2;
-                tLRPC$TL_messageEntityCustomEmoji.document_id = 5386654653003864312L;
-                tLRPC$TL_message3.entities.add(tLRPC$TL_messageEntityCustomEmoji);
+                TLRPC.TL_messageEntityCustomEmoji tL_messageEntityCustomEmoji = new TLRPC.TL_messageEntityCustomEmoji();
+                tL_messageEntityCustomEmoji.offset = indexOf;
+                tL_messageEntityCustomEmoji.length = 2;
+                tL_messageEntityCustomEmoji.document_id = 5386654653003864312L;
+                tL_message3.entities.add(tL_messageEntityCustomEmoji);
             }
             int i4 = currentTimeMillis - 3540;
-            tLRPC$TL_message3.date = i4;
-            tLRPC$TL_message3.dialog_id = 1L;
-            tLRPC$TL_message3.flags = NotificationCenter.showBulletin;
-            TLRPC$TL_peerUser tLRPC$TL_peerUser5 = new TLRPC$TL_peerUser();
-            tLRPC$TL_message3.from_id = tLRPC$TL_peerUser5;
-            tLRPC$TL_peerUser5.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
-            tLRPC$TL_message3.id = 1;
-            tLRPC$TL_message3.media = new TLRPC$TL_messageMediaEmpty();
-            tLRPC$TL_message3.out = true;
-            TLRPC$TL_peerUser tLRPC$TL_peerUser6 = new TLRPC$TL_peerUser();
-            tLRPC$TL_message3.peer_id = tLRPC$TL_peerUser6;
-            tLRPC$TL_peerUser6.user_id = 0L;
-            MessageObject messageObject5 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message3, true, false);
-            TLRPC$TL_message tLRPC$TL_message4 = new TLRPC$TL_message();
+            tL_message3.date = i4;
+            tL_message3.dialog_id = 1L;
+            tL_message3.flags = NotificationCenter.webRtcMicAmplitudeEvent;
+            TLRPC.TL_peerUser tL_peerUser5 = new TLRPC.TL_peerUser();
+            tL_message3.from_id = tL_peerUser5;
+            tL_peerUser5.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
+            tL_message3.id = 1;
+            tL_message3.media = new TLRPC.TL_messageMediaEmpty();
+            tL_message3.out = true;
+            TLRPC.TL_peerUser tL_peerUser6 = new TLRPC.TL_peerUser();
+            tL_message3.peer_id = tL_peerUser6;
+            tL_peerUser6.user_id = 0L;
+            MessageObject messageObject5 = new MessageObject(UserConfig.selectedAccount, tL_message3, true, false);
+            TLRPC.TL_message tL_message4 = new TLRPC.TL_message();
             if (i == 0) {
                 sb = LocaleController.getString(R.string.FontSizePreviewLine2);
             } else {
@@ -257,57 +240,57 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                 if (indexOf2 != -1 && lastIndexOf != -1) {
                     sb2.replace(lastIndexOf, lastIndexOf + 1, "");
                     sb2.replace(indexOf2, indexOf2 + 1, "");
-                    TLRPC$TL_messageEntityTextUrl tLRPC$TL_messageEntityTextUrl = new TLRPC$TL_messageEntityTextUrl();
-                    tLRPC$TL_messageEntityTextUrl.offset = indexOf2;
-                    tLRPC$TL_messageEntityTextUrl.length = (lastIndexOf - indexOf2) - 1;
-                    tLRPC$TL_messageEntityTextUrl.url = "https://telegram.org";
-                    tLRPC$TL_message4.entities.add(tLRPC$TL_messageEntityTextUrl);
+                    TLRPC.TL_messageEntityTextUrl tL_messageEntityTextUrl = new TLRPC.TL_messageEntityTextUrl();
+                    tL_messageEntityTextUrl.offset = indexOf2;
+                    tL_messageEntityTextUrl.length = (lastIndexOf - indexOf2) - 1;
+                    tL_messageEntityTextUrl.url = "https://telegram.org";
+                    tL_message4.entities.add(tL_messageEntityTextUrl);
                 }
                 sb = sb2.toString();
             }
-            tLRPC$TL_message4.message = sb;
-            int indexOf3 = tLRPC$TL_message4.message.indexOf("😎");
+            tL_message4.message = sb;
+            int indexOf3 = tL_message4.message.indexOf("😎");
             if (indexOf3 >= 0) {
-                TLRPC$TL_messageEntityCustomEmoji tLRPC$TL_messageEntityCustomEmoji2 = new TLRPC$TL_messageEntityCustomEmoji();
-                tLRPC$TL_messageEntityCustomEmoji2.offset = indexOf3;
-                tLRPC$TL_messageEntityCustomEmoji2.length = 2;
-                tLRPC$TL_messageEntityCustomEmoji2.document_id = 5373141891321699086L;
-                tLRPC$TL_message4.entities.add(tLRPC$TL_messageEntityCustomEmoji2);
+                TLRPC.TL_messageEntityCustomEmoji tL_messageEntityCustomEmoji2 = new TLRPC.TL_messageEntityCustomEmoji();
+                tL_messageEntityCustomEmoji2.offset = indexOf3;
+                tL_messageEntityCustomEmoji2.length = 2;
+                tL_messageEntityCustomEmoji2.document_id = 5373141891321699086L;
+                tL_message4.entities.add(tL_messageEntityCustomEmoji2);
             }
-            tLRPC$TL_message4.date = currentTimeMillis - 2640;
-            tLRPC$TL_message4.dialog_id = 1L;
-            tLRPC$TL_message4.flags = NotificationCenter.showBulletin;
-            TLRPC$TL_peerUser tLRPC$TL_peerUser7 = new TLRPC$TL_peerUser();
-            tLRPC$TL_message4.from_id = tLRPC$TL_peerUser7;
-            tLRPC$TL_peerUser7.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
-            tLRPC$TL_message4.id = 1;
-            tLRPC$TL_message4.media = new TLRPC$TL_messageMediaEmpty();
-            tLRPC$TL_message4.out = true;
-            TLRPC$TL_peerUser tLRPC$TL_peerUser8 = new TLRPC$TL_peerUser();
-            tLRPC$TL_message4.peer_id = tLRPC$TL_peerUser8;
-            tLRPC$TL_peerUser8.user_id = 0L;
-            MessageObject messageObject6 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message4, true, false);
+            tL_message4.date = currentTimeMillis - 2640;
+            tL_message4.dialog_id = 1L;
+            tL_message4.flags = NotificationCenter.webRtcMicAmplitudeEvent;
+            TLRPC.TL_peerUser tL_peerUser7 = new TLRPC.TL_peerUser();
+            tL_message4.from_id = tL_peerUser7;
+            tL_peerUser7.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
+            tL_message4.id = 1;
+            tL_message4.media = new TLRPC.TL_messageMediaEmpty();
+            tL_message4.out = true;
+            TLRPC.TL_peerUser tL_peerUser8 = new TLRPC.TL_peerUser();
+            tL_message4.peer_id = tL_peerUser8;
+            tL_peerUser8.user_id = 0L;
+            MessageObject messageObject6 = new MessageObject(UserConfig.selectedAccount, tL_message4, true, false);
             messageObject6.resetLayout();
             messageObject6.overrideLinkColor = 5;
             messageObject6.overrideLinkEmoji = 0L;
             messageObject6.eventId = 1L;
-            TLRPC$TL_message tLRPC$TL_message5 = new TLRPC$TL_message();
-            tLRPC$TL_message5.message = LocaleController.getString(i == 0 ? R.string.FontSizePreviewLine1 : R.string.NewThemePreviewLine1);
-            tLRPC$TL_message5.date = i4;
-            tLRPC$TL_message5.dialog_id = 1L;
-            tLRPC$TL_message5.flags = NotificationCenter.attachMenuBotsDidLoad;
-            tLRPC$TL_message5.from_id = new TLRPC$TL_peerUser();
-            tLRPC$TL_message5.id = 1;
-            TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader2 = new TLRPC$TL_messageReplyHeader();
-            tLRPC$TL_message5.reply_to = tLRPC$TL_messageReplyHeader2;
-            tLRPC$TL_messageReplyHeader2.flags |= 16;
-            tLRPC$TL_messageReplyHeader2.reply_to_msg_id = 5;
-            tLRPC$TL_message5.media = new TLRPC$TL_messageMediaEmpty();
-            tLRPC$TL_message5.out = false;
-            TLRPC$TL_peerUser tLRPC$TL_peerUser9 = new TLRPC$TL_peerUser();
-            tLRPC$TL_message5.peer_id = tLRPC$TL_peerUser9;
-            tLRPC$TL_peerUser9.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
-            MessageObject messageObject7 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message5, true, false);
+            TLRPC.TL_message tL_message5 = new TLRPC.TL_message();
+            tL_message5.message = LocaleController.getString(i == 0 ? R.string.FontSizePreviewLine1 : R.string.NewThemePreviewLine1);
+            tL_message5.date = i4;
+            tL_message5.dialog_id = 1L;
+            tL_message5.flags = NotificationCenter.emojiPreviewThemesChanged;
+            tL_message5.from_id = new TLRPC.TL_peerUser();
+            tL_message5.id = 1;
+            TLRPC.TL_messageReplyHeader tL_messageReplyHeader2 = new TLRPC.TL_messageReplyHeader();
+            tL_message5.reply_to = tL_messageReplyHeader2;
+            tL_messageReplyHeader2.flags |= 16;
+            tL_messageReplyHeader2.reply_to_msg_id = 5;
+            tL_message5.media = new TLRPC.TL_messageMediaEmpty();
+            tL_message5.out = false;
+            TLRPC.TL_peerUser tL_peerUser9 = new TLRPC.TL_peerUser();
+            tL_message5.peer_id = tL_peerUser9;
+            tL_peerUser9.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
+            MessageObject messageObject7 = new MessageObject(UserConfig.selectedAccount, tL_message5, true, false);
             if (i != 0) {
                 messageObject7.customReplyName = LocaleController.getString(R.string.NewThemePreviewName);
             }
@@ -315,11 +298,11 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             messageObject7.resetLayout();
             messageObject7.replyMessageObject = messageObject5;
             if (i == 4) {
-                TLRPC$TL_user tLRPC$TL_user = new TLRPC$TL_user();
+                TLRPC.TL_user tL_user = new TLRPC.TL_user();
                 String string2 = LocaleController.getString(R.string.GroupThemePreviewSenderName);
-                tLRPC$TL_user.first_name = string2;
+                tL_user.first_name = string2;
                 messageObject7.customName = string2;
-                messageObject7.customAvatarDrawable = new AvatarDrawable((TLRPC$User) tLRPC$TL_user, false);
+                messageObject7.customAvatarDrawable = new AvatarDrawable((TLRPC.User) tL_user, false);
             }
             messageObject = messageObject6;
             messageObject2 = messageObject7;
@@ -478,18 +461,18 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didLongPressBotButton(ChatMessageCell chatMessageCell, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressBotButton(this, chatMessageCell, tLRPC$KeyboardButton);
+                    public /* synthetic */ void didLongPressBotButton(ChatMessageCell chatMessageCell, TLRPC.KeyboardButton keyboardButton) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressBotButton(this, chatMessageCell, keyboardButton);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ boolean didLongPressChannelAvatar(ChatMessageCell chatMessageCell, TLRPC$Chat tLRPC$Chat, int i5, float f, float f2) {
-                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressChannelAvatar(this, chatMessageCell, tLRPC$Chat, i5, f, f2);
+                    public /* synthetic */ boolean didLongPressChannelAvatar(ChatMessageCell chatMessageCell, TLRPC.Chat chat, int i5, float f, float f2) {
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressChannelAvatar(this, chatMessageCell, chat, i5, f, f2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ boolean didLongPressUserAvatar(ChatMessageCell chatMessageCell, TLRPC$User tLRPC$User, float f, float f2) {
-                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressUserAvatar(this, chatMessageCell, tLRPC$User, f, f2);
+                    public /* synthetic */ boolean didLongPressUserAvatar(ChatMessageCell chatMessageCell, TLRPC.User user, float f, float f2) {
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressUserAvatar(this, chatMessageCell, user, f, f2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -508,8 +491,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didPressBotButton(ChatMessageCell chatMessageCell, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressBotButton(this, chatMessageCell, tLRPC$KeyboardButton);
+                    public /* synthetic */ void didPressBotButton(ChatMessageCell chatMessageCell, TLRPC.KeyboardButton keyboardButton) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressBotButton(this, chatMessageCell, keyboardButton);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -518,13 +501,13 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didPressChannelAvatar(ChatMessageCell chatMessageCell, TLRPC$Chat tLRPC$Chat, int i5, float f, float f2, boolean z2) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressChannelAvatar(this, chatMessageCell, tLRPC$Chat, i5, f, f2, z2);
+                    public /* synthetic */ void didPressChannelAvatar(ChatMessageCell chatMessageCell, TLRPC.Chat chat, int i5, float f, float f2, boolean z2) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressChannelAvatar(this, chatMessageCell, chat, i5, f, f2, z2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didPressChannelRecommendation(ChatMessageCell chatMessageCell, TLRPC$Chat tLRPC$Chat, boolean z2) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressChannelRecommendation(this, chatMessageCell, tLRPC$Chat, z2);
+                    public /* synthetic */ void didPressChannelRecommendation(ChatMessageCell chatMessageCell, TLRPC.Chat chat, boolean z2) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressChannelRecommendation(this, chatMessageCell, chat, z2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -553,8 +536,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didPressExtendedMediaPreview(ChatMessageCell chatMessageCell, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressExtendedMediaPreview(this, chatMessageCell, tLRPC$KeyboardButton);
+                    public /* synthetic */ void didPressExtendedMediaPreview(ChatMessageCell chatMessageCell, TLRPC.KeyboardButton keyboardButton) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressExtendedMediaPreview(this, chatMessageCell, keyboardButton);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -573,8 +556,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didPressGroupImage(ChatMessageCell chatMessageCell, ImageReceiver imageReceiver, TLRPC$MessageExtendedMedia tLRPC$MessageExtendedMedia, float f, float f2) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressGroupImage(this, chatMessageCell, imageReceiver, tLRPC$MessageExtendedMedia, f, f2);
+                    public /* synthetic */ void didPressGroupImage(ChatMessageCell chatMessageCell, ImageReceiver imageReceiver, TLRPC.MessageExtendedMedia messageExtendedMedia, float f, float f2) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressGroupImage(this, chatMessageCell, imageReceiver, messageExtendedMedia, f, f2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -613,8 +596,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didPressReaction(ChatMessageCell chatMessageCell, TLRPC$ReactionCount tLRPC$ReactionCount, boolean z2, float f, float f2) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressReaction(this, chatMessageCell, tLRPC$ReactionCount, z2, f, f2);
+                    public /* synthetic */ void didPressReaction(ChatMessageCell chatMessageCell, TLRPC.ReactionCount reactionCount, boolean z2, float f, float f2) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressReaction(this, chatMessageCell, reactionCount, z2, f, f2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -663,13 +646,13 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didPressUserAvatar(ChatMessageCell chatMessageCell, TLRPC$User tLRPC$User, float f, float f2, boolean z2) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressUserAvatar(this, chatMessageCell, tLRPC$User, f, f2, z2);
+                    public /* synthetic */ void didPressUserAvatar(ChatMessageCell chatMessageCell, TLRPC.User user, float f, float f2, boolean z2) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressUserAvatar(this, chatMessageCell, user, f, f2, z2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didPressUserStatus(ChatMessageCell chatMessageCell, TLRPC$User tLRPC$User, TLRPC$Document tLRPC$Document) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressUserStatus(this, chatMessageCell, tLRPC$User, tLRPC$Document);
+                    public /* synthetic */ void didPressUserStatus(ChatMessageCell chatMessageCell, TLRPC.User user, TLRPC.Document document) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressUserStatus(this, chatMessageCell, user, document);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -688,7 +671,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didPressWebPage(ChatMessageCell chatMessageCell, TLRPC$WebPage tLRPC$WebPage4, String str, boolean z2) {
+                    public /* synthetic */ void didPressWebPage(ChatMessageCell chatMessageCell, TLRPC.WebPage webPage4, String str, boolean z2) {
                         Browser.openUrl(chatMessageCell.getContext(), str);
                     }
 
@@ -956,7 +939,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         while (i < 2) {
             Drawable drawable2 = i == 0 ? this.oldBackgroundDrawable : this.backgroundDrawable;
             if (drawable2 != null) {
-                int i2 = (i != 1 || this.oldBackgroundDrawable == null || (this.parentLayout == null && !this.customAnimation)) ? NotificationCenter.didClearDatabase : (int) (255.0f * themeAnimationValue);
+                int i2 = (i != 1 || this.oldBackgroundDrawable == null || (this.parentLayout == null && !this.customAnimation)) ? NotificationCenter.messagePlayingSpeedChanged : (int) (255.0f * themeAnimationValue);
                 if (i2 > 0) {
                     drawable2.setAlpha(i2);
                     if ((drawable2 instanceof ColorDrawable) || (drawable2 instanceof GradientDrawable) || (drawable2 instanceof MotionBackgroundDrawable)) {

@@ -75,7 +75,7 @@ public class CrossOutDrawable extends Drawable {
                     return;
                 }
                 this.rectF.set(this.iconDrawable.getBounds());
-                canvas.saveLayerAlpha(this.rectF, NotificationCenter.didClearDatabase, 31);
+                canvas.saveLayerAlpha(this.rectF, NotificationCenter.messagePlayingSpeedChanged, 31);
                 this.iconDrawable.draw(canvas);
                 float dpf2 = this.rectF.left + AndroidUtilities.dpf2(4.5f) + this.xOffset + this.lenOffsetTop;
                 float dpf22 = ((this.rectF.top + AndroidUtilities.dpf2(4.5f)) - AndroidUtilities.dp(1.0f)) + this.lenOffsetTop;

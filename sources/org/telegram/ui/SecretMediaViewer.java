@@ -77,14 +77,7 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$DocumentAttribute;
-import org.telegram.tgnet.TLRPC$Message;
-import org.telegram.tgnet.TLRPC$MessageMedia;
-import org.telegram.tgnet.TLRPC$PhotoSize;
-import org.telegram.tgnet.TLRPC$TL_documentAttributeVideo;
-import org.telegram.tgnet.TLRPC$TL_documentEmpty;
-import org.telegram.tgnet.TLRPC$TL_photoEmpty;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
@@ -912,7 +905,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     }
 
     private void animateTo(float f, float f2, float f3, boolean z) {
-        animateTo(f, f2, f3, z, NotificationCenter.notificationsCountUpdated);
+        animateTo(f, f2, f3, z, NotificationCenter.newLocationAvailable);
     }
 
     private void animateTo(float f, float f2, float f3, boolean z, int i) {
@@ -1080,8 +1073,8 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     public /* synthetic */ void lambda$openMedia$3(View view) {
         MessageObject messageObject = this.currentMessageObject;
         if (messageObject != null) {
-            TLRPC$Message tLRPC$Message = messageObject.messageOwner;
-            if (tLRPC$Message.destroyTime != 0 || tLRPC$Message.ttl == Integer.MAX_VALUE) {
+            TLRPC.Message message = messageObject.messageOwner;
+            if (message.destroyTime != 0 || message.ttl == Integer.MAX_VALUE) {
                 if (this.secretHint.shown()) {
                     this.secretHint.hide();
                 } else {
@@ -1105,8 +1098,8 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         frameLayoutDrawer.setLayerType(0, null);
         this.containerView.invalidate();
         SecretDeleteTimer secretDeleteTimer = this.secretDeleteTimer;
-        TLRPC$Message tLRPC$Message = messageObject.messageOwner;
-        secretDeleteTimer.setDestroyTime(tLRPC$Message.destroyTimeMillis, tLRPC$Message.ttl, false);
+        TLRPC.Message message = messageObject.messageOwner;
+        secretDeleteTimer.setDestroyTime(message.destroyTimeMillis, message.ttl, false);
         if (this.closeAfterAnimation) {
             closePhoto(true, true);
         } else if (!this.ignoreDelete || MessagesController.getGlobalMainSettings().getInt("viewoncehint", 0) >= 3) {
@@ -1285,7 +1278,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             }
             if (this.photoAnimationInProgress != 3) {
                 if (this.scale != 1.0f || f9 == -1.0f || this.zoomAnimation) {
-                    this.photoBackgroundDrawable.setAlpha(NotificationCenter.didClearDatabase);
+                    this.photoBackgroundDrawable.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                 } else {
                     float containerViewHeight = getContainerViewHeight() / 4.0f;
                     this.photoBackgroundDrawable.setAlpha((int) Math.max(127.0f, (1.0f - (Math.min(Math.abs(f9), containerViewHeight) / containerViewHeight)) * 255.0f));
@@ -1728,7 +1721,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
 
     private void setCurrentCaption(MessageObject messageObject, CharSequence charSequence, boolean z, boolean z2) {
         boolean z3;
-        TLRPC$Message tLRPC$Message;
+        TLRPC.Message message;
         CharSequence cloneSpans = AnimatedEmojiSpan.cloneSpans(charSequence, 3);
         boolean z4 = false;
         if (this.captionScrollView == null) {
@@ -1814,7 +1807,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             this.captionTextViewSwitcher.setTag(null);
         } else {
             Theme.createChatResources(null, true);
-            if (messageObject == null || (tLRPC$Message = messageObject.messageOwner) == null || tLRPC$Message.translatedText == null || !TextUtils.equals(tLRPC$Message.translatedToLanguage, TranslateAlert2.getToLanguage())) {
+            if (messageObject == null || (message = messageObject.messageOwner) == null || message.translatedText == null || !TextUtils.equals(message.translatedToLanguage, TranslateAlert2.getToLanguage())) {
                 if (messageObject == null || messageObject.messageOwner.entities.isEmpty()) {
                     cloneSpans = Emoji.replaceEmoji((CharSequence) new SpannableStringBuilder(cloneSpans), nextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
                 } else {
@@ -2014,8 +2007,8 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         PhotoViewer.PhotoViewerProvider photoViewerProvider = this.currentProvider;
         if (photoViewerProvider != null) {
             MessageObject messageObject = this.currentMessageObject;
-            TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
-            if (!(tLRPC$MessageMedia.photo instanceof TLRPC$TL_photoEmpty) && !(tLRPC$MessageMedia.document instanceof TLRPC$TL_documentEmpty)) {
+            TLRPC.MessageMedia messageMedia = messageObject.messageOwner.media;
+            if (!(messageMedia.photo instanceof TLRPC.TL_photoEmpty) && !(messageMedia.document instanceof TLRPC.TL_documentEmpty)) {
                 placeProviderObject = photoViewerProvider.getPlaceForPhoto(messageObject, null, 0, true);
                 videoPlayer = this.videoPlayer;
                 if (videoPlayer != null) {
@@ -2202,7 +2195,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                 this.closeVideoAfterWatch = true;
             }
         } else if (i != NotificationCenter.didCreatedNewDeleteTask) {
-            if (i == NotificationCenter.updateMessageMedia && this.currentMessageObject.getId() == ((TLRPC$Message) objArr[0]).id) {
+            if (i == NotificationCenter.updateMessageMedia && this.currentMessageObject.getId() == ((TLRPC.Message) objArr[0]).id) {
                 if (!this.isVideo || this.videoWatchedOneTime) {
                     if (closePhoto(true, true)) {
                         return;
@@ -2477,7 +2470,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.didCreatedNewDeleteTask);
         this.currentDialogId = MessageObject.getPeerId(messageObject.messageOwner.peer_id);
         this.currentMessageObject = messageObject;
-        TLRPC$Document document = messageObject.getDocument();
+        TLRPC.Document document = messageObject.getDocument();
         ImageReceiver.BitmapHolder bitmapHolder = this.currentThumb;
         if (bitmapHolder != null) {
             bitmapHolder.release();
@@ -2491,11 +2484,11 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                 if (i8 >= document.attributes.size()) {
                     break;
                 }
-                TLRPC$DocumentAttribute tLRPC$DocumentAttribute = document.attributes.get(i8);
-                if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeVideo) {
-                    TLRPC$TL_documentAttributeVideo tLRPC$TL_documentAttributeVideo = (TLRPC$TL_documentAttributeVideo) tLRPC$DocumentAttribute;
-                    this.videoWidth = tLRPC$TL_documentAttributeVideo.w;
-                    this.videoHeight = tLRPC$TL_documentAttributeVideo.h;
+                TLRPC.DocumentAttribute documentAttribute = document.attributes.get(i8);
+                if (documentAttribute instanceof TLRPC.TL_documentAttributeVideo) {
+                    TLRPC.TL_documentAttributeVideo tL_documentAttributeVideo = (TLRPC.TL_documentAttributeVideo) documentAttribute;
+                    this.videoWidth = tL_documentAttributeVideo.w;
+                    this.videoHeight = tL_documentAttributeVideo.h;
                     break;
                 }
                 i8++;
@@ -2555,7 +2548,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             i2 = 1;
             f = 1.0f;
             this.actionBar.setTitle(LocaleController.getString(R.string.DisappearingPhoto));
-            TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, AndroidUtilities.getPhotoSize());
+            TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, AndroidUtilities.getPhotoSize());
             this.centerImage.setImage(ImageLocation.getForObject(closestPhotoSizeWithSize, messageObject.photoThumbsObject), (String) null, this.currentThumb != null ? new BitmapDrawable(this.currentThumb.bitmap) : null, -1L, (String) null, messageObject, 2);
             r15 = obj2;
             if (closestPhotoSizeWithSize != null) {
@@ -2612,7 +2605,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         ObjectAnimator ofFloat = ObjectAnimator.ofFloat(actionBar, property, 0.0f, 1.0f);
         ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(this.captionScrollView, property, 0.0f, 1.0f);
         ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(this.secretHint, property, 0.0f, 1.0f);
-        ObjectAnimator ofInt = ObjectAnimator.ofInt(this.photoBackgroundDrawable, AnimationProperties.COLOR_DRAWABLE_ALPHA, 0, NotificationCenter.didClearDatabase);
+        ObjectAnimator ofInt = ObjectAnimator.ofInt(this.photoBackgroundDrawable, AnimationProperties.COLOR_DRAWABLE_ALPHA, 0, NotificationCenter.messagePlayingSpeedChanged);
         ObjectAnimator ofFloat4 = ObjectAnimator.ofFloat(this, "animationValue", 0.0f, 1.0f);
         VideoPlayerControlFrameLayout videoPlayerControlFrameLayout = this.seekbarContainer;
         Property property2 = videoPlayerControlFrameLayout.SEEKBAR_ALPHA;

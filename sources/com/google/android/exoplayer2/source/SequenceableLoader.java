@@ -7,7 +7,7 @@ public interface SequenceableLoader {
         void onContinueLoadingRequested(SequenceableLoader sequenceableLoader);
     }
 
-    boolean continueLoading(long j);
+    boolean continueLoading(LoadingInfo loadingInfo);
 
     long getBufferedPositionUs();
 

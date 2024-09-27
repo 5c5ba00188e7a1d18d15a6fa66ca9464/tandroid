@@ -221,7 +221,7 @@ public abstract class MediaCodecUtil {
             case 8:
                 return 256;
             case 9:
-                return LiteMode.FLAG_CALLS_ANIMATIONS;
+                return 512;
             case 10:
                 return 1024;
             case 11:
@@ -233,7 +233,7 @@ public abstract class MediaCodecUtil {
             case 14:
                 return LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
             case 15:
-                return LiteMode.FLAG_CHAT_SCALE;
+                return 32768;
             case 16:
                 return 65536;
             case 17:
@@ -278,7 +278,7 @@ public abstract class MediaCodecUtil {
                             case 30:
                                 return 256;
                             case 31:
-                                return LiteMode.FLAG_CALLS_ANIMATIONS;
+                                return 512;
                             case 32:
                                 return 1024;
                             default:
@@ -294,7 +294,7 @@ public abstract class MediaCodecUtil {
                                             case 50:
                                                 return LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
                                             case 51:
-                                                return LiteMode.FLAG_CHAT_SCALE;
+                                                return 32768;
                                             case 52:
                                                 return 65536;
                                             default:
@@ -320,7 +320,7 @@ public abstract class MediaCodecUtil {
             case 128:
             case 256:
                 return 414720;
-            case LiteMode.FLAG_CALLS_ANIMATIONS /* 512 */:
+            case 512:
                 return 921600;
             case 1024:
                 return 1310720;
@@ -331,7 +331,7 @@ public abstract class MediaCodecUtil {
                 return 2228224;
             case LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM /* 16384 */:
                 return 5652480;
-            case LiteMode.FLAG_CHAT_SCALE /* 32768 */:
+            case 32768:
             case 65536:
                 return 9437184;
             case 131072:
@@ -476,7 +476,7 @@ public abstract class MediaCodecUtil {
                 i = 256;
                 break;
             case '\t':
-                i = LiteMode.FLAG_CALLS_ANIMATIONS;
+                i = 512;
                 break;
             case '\n':
                 i = 1024;
@@ -586,7 +586,7 @@ public abstract class MediaCodecUtil {
                 i = 256;
                 break;
             case '\t':
-                i = LiteMode.FLAG_CALLS_ANIMATIONS;
+                i = 512;
                 break;
             default:
                 return null;
@@ -1319,7 +1319,7 @@ public abstract class MediaCodecUtil {
                 i = 128;
                 break;
             case 4:
-                i = LiteMode.FLAG_CALLS_ANIMATIONS;
+                i = 512;
                 break;
             case 5:
                 i = 1;
@@ -1342,7 +1342,7 @@ public abstract class MediaCodecUtil {
                 i = LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
                 break;
             case '\f':
-                i = LiteMode.FLAG_CHAT_SCALE;
+                i = 32768;
                 break;
             case '\r':
                 i = 131072;
@@ -1607,7 +1607,7 @@ public abstract class MediaCodecUtil {
                                                         return -1;
                                                 }
                                             }
-                                            return LiteMode.FLAG_CALLS_ANIMATIONS;
+                                            return 512;
                                         }
                                         return 256;
                                     }

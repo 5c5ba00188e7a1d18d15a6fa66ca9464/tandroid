@@ -55,30 +55,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Dialog;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$EmojiStatus;
-import org.telegram.tgnet.TLRPC$InputStickerSet;
-import org.telegram.tgnet.TLRPC$Photo;
-import org.telegram.tgnet.TLRPC$StickerSet;
-import org.telegram.tgnet.TLRPC$StickerSetCovered;
-import org.telegram.tgnet.TLRPC$TL_emojiStatus;
-import org.telegram.tgnet.TLRPC$TL_emojiStatusEmpty;
-import org.telegram.tgnet.TLRPC$TL_emojiStatusUntil;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_forumTopic;
-import org.telegram.tgnet.TLRPC$TL_inputDocument;
-import org.telegram.tgnet.TLRPC$TL_inputPhoto;
-import org.telegram.tgnet.TLRPC$TL_inputStickerSetID;
-import org.telegram.tgnet.TLRPC$TL_inputStickeredMediaDocument;
-import org.telegram.tgnet.TLRPC$TL_inputStickeredMediaPhoto;
-import org.telegram.tgnet.TLRPC$TL_messages_getAttachedStickers;
-import org.telegram.tgnet.TLRPC$TL_messages_installStickerSet;
-import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
-import org.telegram.tgnet.TLRPC$TL_messages_stickerSetInstallResultArchive;
-import org.telegram.tgnet.TLRPC$TL_stickerPack;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$Vector;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
@@ -141,8 +118,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$setAsEmojiStatus$0(TLRPC$EmojiStatus tLRPC$EmojiStatus) {
-            MessagesController.getInstance(((BottomSheet) EmojiPacksAlert.this).currentAccount).updateEmojiStatus(tLRPC$EmojiStatus);
+        public /* synthetic */ void lambda$setAsEmojiStatus$0(TLRPC.EmojiStatus emojiStatus) {
+            MessagesController.getInstance(((BottomSheet) EmojiPacksAlert.this).currentAccount).updateEmojiStatus(emojiStatus);
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -156,8 +133,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
-        public /* synthetic */ boolean canDeleteSticker(TLRPC$Document tLRPC$Document) {
-            return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$canDeleteSticker(this, tLRPC$Document);
+        public /* synthetic */ boolean canDeleteSticker(TLRPC.Document document) {
+            return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$canDeleteSticker(this, document);
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -171,32 +148,32 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
-        public Boolean canSetAsStatus(TLRPC$Document tLRPC$Document) {
-            TLRPC$User currentUser;
-            if (UserConfig.getInstance(UserConfig.selectedAccount).isPremium() && MessageObject.isAnimatedEmoji(tLRPC$Document) && (currentUser = UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser()) != null) {
+        public Boolean canSetAsStatus(TLRPC.Document document) {
+            TLRPC.User currentUser;
+            if (UserConfig.getInstance(UserConfig.selectedAccount).isPremium() && MessageObject.isAnimatedEmoji(document) && (currentUser = UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser()) != null) {
                 Long emojiStatusDocumentId = UserObject.getEmojiStatusDocumentId(currentUser);
-                return Boolean.valueOf(tLRPC$Document != null && (emojiStatusDocumentId == null || emojiStatusDocumentId.longValue() != tLRPC$Document.id));
+                return Boolean.valueOf(document != null && (emojiStatusDocumentId == null || emojiStatusDocumentId.longValue() != document.id));
             }
             return null;
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
-        public void copyEmoji(TLRPC$Document tLRPC$Document) {
-            SpannableStringBuilder valueOf = SpannableStringBuilder.valueOf(MessageObject.findAnimatedEmojiEmoticon(tLRPC$Document));
-            valueOf.setSpan(new AnimatedEmojiSpan(tLRPC$Document, (Paint.FontMetricsInt) null), 0, valueOf.length(), 33);
+        public void copyEmoji(TLRPC.Document document) {
+            SpannableStringBuilder valueOf = SpannableStringBuilder.valueOf(MessageObject.findAnimatedEmojiEmoticon(document));
+            valueOf.setSpan(new AnimatedEmojiSpan(document, (Paint.FontMetricsInt) null), 0, valueOf.length(), 33);
             if (AndroidUtilities.addToClipboard(valueOf)) {
                 BulletinFactory.of((FrameLayout) ((BottomSheet) EmojiPacksAlert.this).containerView, ((BottomSheet) EmojiPacksAlert.this).resourcesProvider).createCopyBulletin(LocaleController.getString(R.string.EmojiCopied)).show();
             }
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
-        public /* synthetic */ void deleteSticker(TLRPC$Document tLRPC$Document) {
-            ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$deleteSticker(this, tLRPC$Document);
+        public /* synthetic */ void deleteSticker(TLRPC.Document document) {
+            ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$deleteSticker(this, document);
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
-        public /* synthetic */ void editSticker(TLRPC$Document tLRPC$Document) {
-            ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$editSticker(this, tLRPC$Document);
+        public /* synthetic */ void editSticker(TLRPC.Document document) {
+            ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$editSticker(this, document);
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -243,8 +220,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
-        public boolean needCopy(TLRPC$Document tLRPC$Document) {
-            return UserConfig.getInstance(UserConfig.selectedAccount).isPremium() && MessageObject.isAnimatedEmoji(tLRPC$Document);
+        public boolean needCopy(TLRPC.Document document) {
+            return UserConfig.getInstance(UserConfig.selectedAccount).isPremium() && MessageObject.isAnimatedEmoji(document);
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -263,8 +240,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
-        public /* synthetic */ boolean needRemoveFromRecent(TLRPC$Document tLRPC$Document) {
-            return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$needRemoveFromRecent(this, tLRPC$Document);
+        public /* synthetic */ boolean needRemoveFromRecent(TLRPC.Document document) {
+            return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$needRemoveFromRecent(this, document);
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -278,7 +255,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
-        public void openSet(TLRPC$InputStickerSet tLRPC$InputStickerSet, boolean z) {
+        public void openSet(TLRPC.InputStickerSet inputStickerSet, boolean z) {
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -287,8 +264,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
-        public /* synthetic */ void removeFromRecent(TLRPC$Document tLRPC$Document) {
-            ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$removeFromRecent(this, tLRPC$Document);
+        public /* synthetic */ void removeFromRecent(TLRPC.Document document) {
+            ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$removeFromRecent(this, document);
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -297,9 +274,9 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
-        public void sendEmoji(TLRPC$Document tLRPC$Document) {
+        public void sendEmoji(TLRPC.Document document) {
             if (EmojiPacksAlert.this.fragment instanceof ChatActivity) {
-                ((ChatActivity) EmojiPacksAlert.this.fragment).sendAnimatedEmoji(tLRPC$Document, true, 0);
+                ((ChatActivity) EmojiPacksAlert.this.fragment).sendAnimatedEmoji(document, true, 0);
             }
             EmojiPacksAlert.this.onCloseByLink();
             EmojiPacksAlert.this.dismiss();
@@ -316,36 +293,36 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
-        public /* synthetic */ void sendSticker(TLRPC$Document tLRPC$Document, String str, Object obj, boolean z, int i) {
-            ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$sendSticker(this, tLRPC$Document, str, obj, z, i);
+        public /* synthetic */ void sendSticker(TLRPC.Document document, String str, Object obj, boolean z, int i) {
+            ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$sendSticker(this, document, str, obj, z, i);
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
-        public void setAsEmojiStatus(TLRPC$Document tLRPC$Document, Integer num) {
-            TLRPC$TL_emojiStatusUntil tLRPC$TL_emojiStatusUntil;
+        public void setAsEmojiStatus(TLRPC.Document document, Integer num) {
+            TLRPC.TL_emojiStatusUntil tL_emojiStatusUntil;
             Bulletin createEmojiBulletin;
-            if (tLRPC$Document == null) {
-                tLRPC$TL_emojiStatusUntil = new TLRPC$TL_emojiStatusEmpty();
+            if (document == null) {
+                tL_emojiStatusUntil = new TLRPC.TL_emojiStatusEmpty();
             } else if (num != null) {
-                TLRPC$TL_emojiStatusUntil tLRPC$TL_emojiStatusUntil2 = new TLRPC$TL_emojiStatusUntil();
-                tLRPC$TL_emojiStatusUntil2.document_id = tLRPC$Document.id;
-                tLRPC$TL_emojiStatusUntil2.until = num.intValue();
-                tLRPC$TL_emojiStatusUntil = tLRPC$TL_emojiStatusUntil2;
+                TLRPC.TL_emojiStatusUntil tL_emojiStatusUntil2 = new TLRPC.TL_emojiStatusUntil();
+                tL_emojiStatusUntil2.document_id = document.id;
+                tL_emojiStatusUntil2.until = num.intValue();
+                tL_emojiStatusUntil = tL_emojiStatusUntil2;
             } else {
-                TLRPC$TL_emojiStatus tLRPC$TL_emojiStatus = new TLRPC$TL_emojiStatus();
-                tLRPC$TL_emojiStatus.document_id = tLRPC$Document.id;
-                tLRPC$TL_emojiStatusUntil = tLRPC$TL_emojiStatus;
+                TLRPC.TL_emojiStatus tL_emojiStatus = new TLRPC.TL_emojiStatus();
+                tL_emojiStatus.document_id = document.id;
+                tL_emojiStatusUntil = tL_emojiStatus;
             }
-            TLRPC$User currentUser = UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser();
-            final TLRPC$EmojiStatus tLRPC$TL_emojiStatusEmpty = currentUser == null ? new TLRPC$TL_emojiStatusEmpty() : currentUser.emoji_status;
-            MessagesController.getInstance(((BottomSheet) EmojiPacksAlert.this).currentAccount).updateEmojiStatus(tLRPC$TL_emojiStatusUntil);
+            TLRPC.User currentUser = UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser();
+            final TLRPC.EmojiStatus tL_emojiStatusEmpty = currentUser == null ? new TLRPC.TL_emojiStatusEmpty() : currentUser.emoji_status;
+            MessagesController.getInstance(((BottomSheet) EmojiPacksAlert.this).currentAccount).updateEmojiStatus(tL_emojiStatusUntil);
             Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.EmojiPacksAlert$1$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    EmojiPacksAlert.1.this.lambda$setAsEmojiStatus$0(tLRPC$TL_emojiStatusEmpty);
+                    EmojiPacksAlert.1.this.lambda$setAsEmojiStatus$0(tL_emojiStatusEmpty);
                 }
             };
-            if (tLRPC$Document == null) {
+            if (document == null) {
                 Bulletin.SimpleLayout simpleLayout = new Bulletin.SimpleLayout(EmojiPacksAlert.this.getContext(), ((BottomSheet) EmojiPacksAlert.this).resourcesProvider);
                 simpleLayout.textView.setText(LocaleController.getString(R.string.RemoveStatusInfo));
                 simpleLayout.imageView.setImageResource(R.drawable.msg_settings_premium);
@@ -354,7 +331,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 simpleLayout.setButton(undoButton);
                 createEmojiBulletin = Bulletin.make((FrameLayout) ((BottomSheet) EmojiPacksAlert.this).containerView, simpleLayout, 1500);
             } else {
-                createEmojiBulletin = BulletinFactory.of((FrameLayout) ((BottomSheet) EmojiPacksAlert.this).containerView, ((BottomSheet) EmojiPacksAlert.this).resourcesProvider).createEmojiBulletin(tLRPC$Document, LocaleController.getString(R.string.SetAsEmojiStatusInfo), LocaleController.getString(R.string.Undo), runnable);
+                createEmojiBulletin = BulletinFactory.of((FrameLayout) ((BottomSheet) EmojiPacksAlert.this).containerView, ((BottomSheet) EmojiPacksAlert.this).resourcesProvider).createEmojiBulletin(document, LocaleController.getString(R.string.SetAsEmojiStatusInfo), LocaleController.getString(R.string.Undo), runnable);
             }
             createEmojiBulletin.show();
         }
@@ -365,8 +342,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
-        public /* synthetic */ void stickerSetSelected(TLRPC$StickerSet tLRPC$StickerSet, String str) {
-            ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$stickerSetSelected(this, tLRPC$StickerSet, str);
+        public /* synthetic */ void stickerSetSelected(TLRPC.StickerSet stickerSet, String str) {
+            ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$stickerSetSelected(this, stickerSet, str);
         }
     }
 
@@ -382,7 +359,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             UndoView undoView = EmojiPacksAlert.this.fragment instanceof ChatActivity ? ((ChatActivity) EmojiPacksAlert.this.fragment).getUndoView() : EmojiPacksAlert.this.fragment instanceof ProfileActivity ? ((ProfileActivity) EmojiPacksAlert.this.fragment).getUndoView() : null;
             if (undoView != null) {
                 if (longSparseArray.size() == 1) {
-                    undoView.showWithAction(((TLRPC$Dialog) longSparseArray.valueAt(0)).id, 53, Integer.valueOf(i));
+                    undoView.showWithAction(((TLRPC.Dialog) longSparseArray.valueAt(0)).id, 53, Integer.valueOf(i));
                 } else {
                     undoView.showWithAction(0L, 53, Integer.valueOf(i), Integer.valueOf(longSparseArray.size()), (Runnable) null, (Runnable) null);
                 }
@@ -391,7 +368,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
 
         /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.ShareAlert
-        public void onSend(final androidx.collection.LongSparseArray longSparseArray, final int i, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
+        public void onSend(final androidx.collection.LongSparseArray longSparseArray, final int i, TLRPC.TL_forumTopic tL_forumTopic) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EmojiPacksAlert$8$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -425,7 +402,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemCount() {
             EmojiPacksAlert emojiPacksAlert = EmojiPacksAlert.this;
-            emojiPacksAlert.hasDescription = !UserConfig.getInstance(((BottomSheet) emojiPacksAlert).currentAccount).isPremium() && EmojiPacksAlert.this.customEmojiPacks.stickerSets != null && EmojiPacksAlert.this.customEmojiPacks.stickerSets.size() == 1 && MessageObject.isPremiumEmojiPack((TLRPC$TL_messages_stickerSet) EmojiPacksAlert.this.customEmojiPacks.stickerSets.get(0));
+            emojiPacksAlert.hasDescription = !UserConfig.getInstance(((BottomSheet) emojiPacksAlert).currentAccount).isPremium() && EmojiPacksAlert.this.customEmojiPacks.stickerSets != null && EmojiPacksAlert.this.customEmojiPacks.stickerSets.size() == 1 && MessageObject.isPremiumEmojiPack((TLRPC.TL_messages_stickerSet) EmojiPacksAlert.this.customEmojiPacks.stickerSets.get(0));
             return (EmojiPacksAlert.this.hasDescription ? 1 : 0) + 1 + EmojiPacksAlert.this.customEmojiPacks.getItemsCount() + Math.max(0, EmojiPacksAlert.this.customEmojiPacks.data.length - 1);
         }
 
@@ -496,10 +473,10 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             EmojiView.CustomEmoji customEmoji;
-            ArrayList arrayList;
+            ArrayList<TLRPC.Document> arrayList;
             int i2 = i - 1;
             int itemViewType = viewHolder.getItemViewType();
-            TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = null;
+            TLRPC.TL_messages_stickerSet tL_messages_stickerSet = null;
             int i3 = 0;
             boolean z = true;
             if (itemViewType == 1) {
@@ -533,12 +510,12 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                     emojiImageView.span = null;
                     return;
                 }
-                TLRPC$TL_inputStickerSetID tLRPC$TL_inputStickerSetID = new TLRPC$TL_inputStickerSetID();
-                TLRPC$StickerSet tLRPC$StickerSet = customEmoji.stickerSet.set;
-                tLRPC$TL_inputStickerSetID.id = tLRPC$StickerSet.id;
-                tLRPC$TL_inputStickerSetID.short_name = tLRPC$StickerSet.short_name;
-                tLRPC$TL_inputStickerSetID.access_hash = tLRPC$StickerSet.access_hash;
-                TLRPC$Document document = customEmoji.getDocument();
+                TLRPC.TL_inputStickerSetID tL_inputStickerSetID = new TLRPC.TL_inputStickerSetID();
+                TLRPC.StickerSet stickerSet = customEmoji.stickerSet.set;
+                tL_inputStickerSetID.id = stickerSet.id;
+                tL_inputStickerSetID.short_name = stickerSet.short_name;
+                tL_inputStickerSetID.access_hash = stickerSet.access_hash;
+                TLRPC.Document document = customEmoji.getDocument();
                 if (document != null) {
                     emojiImageView.span = new AnimatedEmojiSpan(document, (Paint.FontMetricsInt) null);
                 } else {
@@ -571,11 +548,11 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                     i5++;
                 }
                 if (EmojiPacksAlert.this.customEmojiPacks.stickerSets != null && i5 < EmojiPacksAlert.this.customEmojiPacks.stickerSets.size()) {
-                    tLRPC$TL_messages_stickerSet = (TLRPC$TL_messages_stickerSet) EmojiPacksAlert.this.customEmojiPacks.stickerSets.get(i5);
+                    tL_messages_stickerSet = (TLRPC.TL_messages_stickerSet) EmojiPacksAlert.this.customEmojiPacks.stickerSets.get(i5);
                 }
-                if (tLRPC$TL_messages_stickerSet != null && tLRPC$TL_messages_stickerSet.documents != null) {
-                    for (int i7 = 0; i7 < tLRPC$TL_messages_stickerSet.documents.size(); i7++) {
-                        if (!MessageObject.isFreeEmoji((TLRPC$Document) tLRPC$TL_messages_stickerSet.documents.get(i7))) {
+                if (tL_messages_stickerSet != null && tL_messages_stickerSet.documents != null) {
+                    for (int i7 = 0; i7 < tL_messages_stickerSet.documents.size(); i7++) {
+                        if (!MessageObject.isFreeEmoji(tL_messages_stickerSet.documents.get(i7))) {
                             break;
                         }
                     }
@@ -583,10 +560,10 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 z = false;
                 if (i5 < EmojiPacksAlert.this.customEmojiPacks.data.length) {
                     EmojiPackHeader emojiPackHeader = (EmojiPackHeader) viewHolder.itemView;
-                    if (tLRPC$TL_messages_stickerSet != null && (arrayList = tLRPC$TL_messages_stickerSet.documents) != null) {
+                    if (tL_messages_stickerSet != null && (arrayList = tL_messages_stickerSet.documents) != null) {
                         i3 = arrayList.size();
                     }
-                    emojiPackHeader.set(tLRPC$TL_messages_stickerSet, i3, z);
+                    emojiPackHeader.set(tL_messages_stickerSet, i3, z);
                 }
             }
         }
@@ -721,7 +698,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                         int i3 = this.threadIndex;
                         backgroundThreadDrawHolderArr[i2] = imageReceiver.setDrawInBackgroundThread(backgroundThreadDrawHolderArr2[i3], i3);
                         emojiImageView.backgroundThreadDrawHolder[this.threadIndex].time = j;
-                        animatedEmojiDrawable.setAlpha(NotificationCenter.didClearDatabase);
+                        animatedEmojiDrawable.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                         android.graphics.Rect rect = AndroidUtilities.rectTmp2;
                         rect.set(emojiImageView.getLeft() + emojiImageView.getPaddingLeft(), emojiImageView.getPaddingTop(), emojiImageView.getRight() - emojiImageView.getPaddingRight(), emojiImageView.getMeasuredHeight() - emojiImageView.getPaddingBottom());
                         emojiImageView.backgroundThreadDrawHolder[this.threadIndex].setBounds(rect);
@@ -956,14 +933,14 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             }
         }
 
-        public TLRPC$Document getDocument() {
+        public TLRPC.Document getDocument() {
             AnimatedEmojiSpan animatedEmojiSpan = this.span;
             if (animatedEmojiSpan != null) {
-                TLRPC$Document tLRPC$Document = animatedEmojiSpan.document;
-                if (tLRPC$Document == null) {
+                TLRPC.Document document = animatedEmojiSpan.document;
+                if (document == null) {
                     return AnimatedEmojiDrawable.findDocument(UserConfig.selectedAccount, animatedEmojiSpan.getDocumentId());
                 }
-                return tLRPC$Document;
+                return document;
             }
             return null;
         }
@@ -1030,7 +1007,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         public BaseFragment dummyFragment;
         public ActionBarMenuItem optionsButton;
         public TextView removeButtonView;
-        private TLRPC$TL_messages_stickerSet set;
+        private TLRPC.TL_messages_stickerSet set;
         private boolean single;
         public TextView subtitleView;
         public LinkSpanDrawable.LinksTextView titleView;
@@ -1311,24 +1288,24 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public void set(TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, int i, boolean z) {
+        public void set(TLRPC.TL_messages_stickerSet tL_messages_stickerSet, int i, boolean z) {
             TextView textView;
             PremiumButtonView premiumButtonView;
             TextView textView2;
             TextView textView3;
-            TLRPC$StickerSet tLRPC$StickerSet;
+            TLRPC.StickerSet stickerSet;
             SpannableStringBuilder spannableStringBuilder;
             Exception e;
-            this.set = tLRPC$TL_messages_stickerSet;
+            this.set = tL_messages_stickerSet;
             Object obj = null;
-            if (tLRPC$TL_messages_stickerSet == null || tLRPC$TL_messages_stickerSet.set == null) {
+            if (tL_messages_stickerSet == null || tL_messages_stickerSet.set == null) {
                 this.titleView.setText((CharSequence) null);
             } else {
                 try {
                     if (EmojiPacksAlert.urlPattern == null) {
                         Pattern unused = EmojiPacksAlert.urlPattern = Pattern.compile("@[a-zA-Z\\d_]{1,32}");
                     }
-                    Matcher matcher = EmojiPacksAlert.urlPattern.matcher(tLRPC$TL_messages_stickerSet.set.title);
+                    Matcher matcher = EmojiPacksAlert.urlPattern.matcher(tL_messages_stickerSet.set.title);
                     spannableStringBuilder = null;
                     while (true) {
                         try {
@@ -1337,7 +1314,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                                 break;
                             }
                             if (spannableStringBuilder == null) {
-                                SpannableStringBuilder spannableStringBuilder3 = new SpannableStringBuilder(tLRPC$TL_messages_stickerSet.set.title);
+                                SpannableStringBuilder spannableStringBuilder3 = new SpannableStringBuilder(tL_messages_stickerSet.set.title);
                                 try {
                                     this.titleView.setMovementMethod(new LinkMovementMethodMy(null));
                                     spannableStringBuilder2 = spannableStringBuilder3;
@@ -1364,15 +1341,15 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                                     textView3 = this.removeButtonView;
                                     if (textView3 != null) {
                                     }
-                                    toggle(tLRPC$TL_messages_stickerSet == null && MediaDataController.getInstance(((BottomSheet) EmojiPacksAlert.this).currentAccount).isStickerPackInstalled(tLRPC$TL_messages_stickerSet.set.id), false);
+                                    toggle(tL_messages_stickerSet == null && MediaDataController.getInstance(((BottomSheet) EmojiPacksAlert.this).currentAccount).isStickerPackInstalled(tL_messages_stickerSet.set.id), false);
                                 }
                             }
                             int start = matcher.start();
                             int end = matcher.end();
-                            if (tLRPC$TL_messages_stickerSet.set.title.charAt(start) != '@') {
+                            if (tL_messages_stickerSet.set.title.charAt(start) != '@') {
                                 start++;
                             }
-                            spannableStringBuilder2.setSpan(new URLSpanNoUnderline(tLRPC$TL_messages_stickerSet.set.title.subSequence(start + 1, end).toString()) { // from class: org.telegram.ui.Components.EmojiPacksAlert.EmojiPackHeader.2
+                            spannableStringBuilder2.setSpan(new URLSpanNoUnderline(tL_messages_stickerSet.set.title.subSequence(start + 1, end).toString()) { // from class: org.telegram.ui.Components.EmojiPacksAlert.EmojiPackHeader.2
                                 @Override // org.telegram.ui.Components.URLSpanNoUnderline, android.text.style.URLSpan, android.text.style.ClickableSpan
                                 public void onClick(View view) {
                                     MessagesController.getInstance(((BottomSheet) EmojiPacksAlert.this).currentAccount).openByUserName(getURL(), EmojiPacksAlert.this.fragment, 1);
@@ -1406,7 +1383,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                             textView3 = this.removeButtonView;
                             if (textView3 != null) {
                             }
-                            toggle(tLRPC$TL_messages_stickerSet == null && MediaDataController.getInstance(((BottomSheet) EmojiPacksAlert.this).currentAccount).isStickerPackInstalled(tLRPC$TL_messages_stickerSet.set.id), false);
+                            toggle(tL_messages_stickerSet == null && MediaDataController.getInstance(((BottomSheet) EmojiPacksAlert.this).currentAccount).isStickerPackInstalled(tL_messages_stickerSet.set.id), false);
                         }
                     }
                 } catch (Exception e4) {
@@ -1415,13 +1392,13 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 ?? r022 = this.titleView;
                 String str22 = spannableStringBuilder;
                 if (spannableStringBuilder == null) {
-                    str22 = tLRPC$TL_messages_stickerSet.set.title;
+                    str22 = tL_messages_stickerSet.set.title;
                 }
                 r022.setText(str22);
             }
             textView = this.subtitleView;
             if (textView != null) {
-                textView.setText((tLRPC$TL_messages_stickerSet == null || (tLRPC$StickerSet = tLRPC$TL_messages_stickerSet.set) == null || tLRPC$StickerSet.emojis) ? LocaleController.formatPluralString("EmojiCount", i, new Object[0]) : LocaleController.formatPluralString("Stickers", i, new Object[0]));
+                textView.setText((tL_messages_stickerSet == null || (stickerSet = tL_messages_stickerSet.set) == null || stickerSet.emojis) ? LocaleController.formatPluralString("EmojiCount", i, new Object[0]) : LocaleController.formatPluralString("Stickers", i, new Object[0]));
             }
             if (!z && this.unlockButtonView != null && !UserConfig.getInstance(((BottomSheet) EmojiPacksAlert.this).currentAccount).isPremium()) {
                 this.unlockButtonView.setVisibility(0);
@@ -1448,7 +1425,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             if (textView3 != null) {
                 textView3.setVisibility(0);
             }
-            toggle(tLRPC$TL_messages_stickerSet == null && MediaDataController.getInstance(((BottomSheet) EmojiPacksAlert.this).currentAccount).isStickerPackInstalled(tLRPC$TL_messages_stickerSet.set.id), false);
+            toggle(tL_messages_stickerSet == null && MediaDataController.getInstance(((BottomSheet) EmojiPacksAlert.this).currentAccount).isStickerPackInstalled(tL_messages_stickerSet.set.id), false);
         }
     }
 
@@ -1473,9 +1450,9 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$init$0(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
-            TLRPC$StickerSet tLRPC$StickerSet;
-            if (tLRPC$TL_error != null || !(tLObject instanceof TLRPC$Vector)) {
+        public /* synthetic */ void lambda$init$0(TLRPC.TL_error tL_error, TLObject tLObject) {
+            TLRPC.StickerSet stickerSet;
+            if (tL_error != null || !(tLObject instanceof TLRPC.Vector)) {
                 EmojiPacksAlert.this.dismiss();
                 if (EmojiPacksAlert.this.fragment == null || EmojiPacksAlert.this.fragment.getParentActivity() == null) {
                     return;
@@ -1483,14 +1460,14 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 BulletinFactory.of(EmojiPacksAlert.this.fragment).createErrorBulletin(LocaleController.getString(R.string.UnknownError)).show();
                 return;
             }
-            TLRPC$Vector tLRPC$Vector = (TLRPC$Vector) tLObject;
+            TLRPC.Vector vector = (TLRPC.Vector) tLObject;
             if (this.inputStickerSets == null) {
                 this.inputStickerSets = new ArrayList();
             }
-            for (int i = 0; i < tLRPC$Vector.objects.size(); i++) {
-                Object obj = tLRPC$Vector.objects.get(i);
-                if ((obj instanceof TLRPC$StickerSetCovered) && (tLRPC$StickerSet = ((TLRPC$StickerSetCovered) obj).set) != null) {
-                    this.inputStickerSets.add(MediaDataController.getInputStickerSet(tLRPC$StickerSet));
+            for (int i = 0; i < vector.objects.size(); i++) {
+                Object obj = vector.objects.get(i);
+                if ((obj instanceof TLRPC.StickerSetCovered) && (stickerSet = ((TLRPC.StickerSetCovered) obj).set) != null) {
+                    this.inputStickerSets.add(MediaDataController.getInputStickerSet(stickerSet));
                 }
             }
             this.parentObject = null;
@@ -1498,11 +1475,11 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$init$1(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        public /* synthetic */ void lambda$init$1(final TLObject tLObject, final TLRPC.TL_error tL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
-                    EmojiPacksAlert.EmojiPacksLoader.this.lambda$init$0(tLRPC$TL_error, tLObject);
+                    EmojiPacksAlert.EmojiPacksLoader.this.lambda$init$0(tL_error, tLObject);
                 }
             });
         }
@@ -1517,8 +1494,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$init$3(boolean[] zArr, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet) {
-            if (tLRPC$TL_messages_stickerSet != null || zArr[0]) {
+        public /* synthetic */ void lambda$init$3(boolean[] zArr, TLRPC.TL_messages_stickerSet tL_messages_stickerSet) {
+            if (tL_messages_stickerSet != null || zArr[0]) {
                 return;
             }
             zArr[0] = true;
@@ -1535,14 +1512,14 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             EmojiPacksAlert.this.dismiss();
         }
 
-        private void putStickerSet(int i, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet) {
+        private void putStickerSet(int i, TLRPC.TL_messages_stickerSet tL_messages_stickerSet) {
             if (i >= 0) {
                 ArrayList[] arrayListArr = this.data;
                 if (i >= arrayListArr.length) {
                     return;
                 }
                 int i2 = 0;
-                if (tLRPC$TL_messages_stickerSet == null || tLRPC$TL_messages_stickerSet.documents == null) {
+                if (tL_messages_stickerSet == null || tL_messages_stickerSet.documents == null) {
                     arrayListArr[i] = new ArrayList(12);
                     while (i2 < 12) {
                         this.data[i].add(null);
@@ -1551,19 +1528,19 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                     return;
                 }
                 arrayListArr[i] = new ArrayList();
-                while (i2 < tLRPC$TL_messages_stickerSet.documents.size()) {
-                    TLRPC$Document tLRPC$Document = (TLRPC$Document) tLRPC$TL_messages_stickerSet.documents.get(i2);
-                    if (tLRPC$Document == null) {
+                while (i2 < tL_messages_stickerSet.documents.size()) {
+                    TLRPC.Document document = tL_messages_stickerSet.documents.get(i2);
+                    if (document == null) {
                         this.data[i].add(null);
                     } else {
                         EmojiView.CustomEmoji customEmoji = new EmojiView.CustomEmoji();
-                        customEmoji.emoticon = findEmoticon(tLRPC$TL_messages_stickerSet, tLRPC$Document.id);
-                        customEmoji.stickerSet = tLRPC$TL_messages_stickerSet;
-                        customEmoji.documentId = tLRPC$Document.id;
+                        customEmoji.emoticon = findEmoticon(tL_messages_stickerSet, document.id);
+                        customEmoji.stickerSet = tL_messages_stickerSet;
+                        customEmoji.documentId = document.id;
                         this.data[i].add(customEmoji);
                         if (EmojiPacksAlert.this.limitCount) {
-                            TLRPC$StickerSet tLRPC$StickerSet = tLRPC$TL_messages_stickerSet.set;
-                            if (this.data[i].size() >= ((tLRPC$StickerSet == null || tLRPC$StickerSet.emojis) ? 16 : 10)) {
+                            TLRPC.StickerSet stickerSet = tL_messages_stickerSet.set;
+                            if (this.data[i].size() >= ((stickerSet == null || stickerSet.emojis) ? 16 : 10)) {
                                 return;
                             }
                         } else {
@@ -1577,19 +1554,19 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
 
         @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
         public void didReceivedNotification(int i, int i2, Object... objArr) {
-            TLRPC$StickerSet tLRPC$StickerSet;
+            TLRPC.StickerSet stickerSet;
             if (i == NotificationCenter.groupStickersDidLoad) {
                 for (int i3 = 0; i3 < this.stickerSets.size(); i3++) {
                     if (this.stickerSets.get(i3) == null) {
-                        TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(this.currentAccount).getStickerSet((TLRPC$InputStickerSet) this.inputStickerSets.get(i3), true);
-                        if (this.stickerSets.size() == 1 && stickerSet != null && (tLRPC$StickerSet = stickerSet.set) != null && !tLRPC$StickerSet.emojis) {
+                        TLRPC.TL_messages_stickerSet stickerSet2 = MediaDataController.getInstance(this.currentAccount).getStickerSet((TLRPC.InputStickerSet) this.inputStickerSets.get(i3), true);
+                        if (this.stickerSets.size() == 1 && stickerSet2 != null && (stickerSet = stickerSet2.set) != null && !stickerSet.emojis) {
                             EmojiPacksAlert.this.dismiss();
-                            new StickersAlert(EmojiPacksAlert.this.getContext(), EmojiPacksAlert.this.fragment, (TLRPC$InputStickerSet) this.inputStickerSets.get(i3), null, EmojiPacksAlert.this.fragment instanceof ChatActivity ? ((ChatActivity) EmojiPacksAlert.this.fragment).getChatActivityEnterView() : null, ((BottomSheet) EmojiPacksAlert.this).resourcesProvider).show();
+                            new StickersAlert(EmojiPacksAlert.this.getContext(), EmojiPacksAlert.this.fragment, (TLRPC.InputStickerSet) this.inputStickerSets.get(i3), null, EmojiPacksAlert.this.fragment instanceof ChatActivity ? ((ChatActivity) EmojiPacksAlert.this.fragment).getChatActivityEnterView() : null, ((BottomSheet) EmojiPacksAlert.this).resourcesProvider).show();
                             return;
                         }
-                        this.stickerSets.set(i3, stickerSet);
-                        if (stickerSet != null) {
-                            putStickerSet(i3, stickerSet);
+                        this.stickerSets.set(i3, stickerSet2);
+                        if (stickerSet2 != null) {
+                            putStickerSet(i3, stickerSet2);
                         }
                     }
                 }
@@ -1597,15 +1574,15 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             }
         }
 
-        public String findEmoticon(TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, long j) {
-            if (tLRPC$TL_messages_stickerSet == null) {
+        public String findEmoticon(TLRPC.TL_messages_stickerSet tL_messages_stickerSet, long j) {
+            if (tL_messages_stickerSet == null) {
                 return null;
             }
-            for (int i = 0; i < tLRPC$TL_messages_stickerSet.packs.size(); i++) {
-                TLRPC$TL_stickerPack tLRPC$TL_stickerPack = (TLRPC$TL_stickerPack) tLRPC$TL_messages_stickerSet.packs.get(i);
-                ArrayList arrayList = tLRPC$TL_stickerPack.documents;
+            for (int i = 0; i < tL_messages_stickerSet.packs.size(); i++) {
+                TLRPC.TL_stickerPack tL_stickerPack = tL_messages_stickerSet.packs.get(i);
+                ArrayList<Long> arrayList = tL_stickerPack.documents;
                 if (arrayList != null && arrayList.contains(Long.valueOf(j))) {
-                    return tLRPC$TL_stickerPack.emoticon;
+                    return tL_stickerPack.emoticon;
                 }
             }
             return null;
@@ -1633,33 +1610,33 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         /* JADX WARN: Multi-variable type inference failed */
         public void init() {
             ArrayList arrayList;
-            TLRPC$TL_inputStickeredMediaDocument tLRPC$TL_inputStickeredMediaDocument;
-            TLRPC$StickerSet tLRPC$StickerSet;
+            TLRPC.TL_inputStickeredMediaDocument tL_inputStickeredMediaDocument;
+            TLRPC.StickerSet stickerSet;
             TLObject tLObject = this.parentObject;
-            if ((!(tLObject instanceof TLRPC$Photo) && !(tLObject instanceof TLRPC$Document)) || ((arrayList = this.inputStickerSets) != null && !arrayList.isEmpty())) {
+            if ((!(tLObject instanceof TLRPC.Photo) && !(tLObject instanceof TLRPC.Document)) || ((arrayList = this.inputStickerSets) != null && !arrayList.isEmpty())) {
                 this.stickerSets = new ArrayList(this.inputStickerSets.size());
                 this.data = new ArrayList[this.inputStickerSets.size()];
                 NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.groupStickersDidLoad);
                 final boolean[] zArr = new boolean[1];
                 for (int i = 0; i < this.data.length; i++) {
-                    TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(this.currentAccount).getStickerSet((TLRPC$InputStickerSet) this.inputStickerSets.get(i), null, false, new Utilities.Callback() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda0
+                    TLRPC.TL_messages_stickerSet stickerSet2 = MediaDataController.getInstance(this.currentAccount).getStickerSet((TLRPC.InputStickerSet) this.inputStickerSets.get(i), null, false, new Utilities.Callback() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda0
                         @Override // org.telegram.messenger.Utilities.Callback
                         public final void run(Object obj) {
-                            EmojiPacksAlert.EmojiPacksLoader.this.lambda$init$3(zArr, (TLRPC$TL_messages_stickerSet) obj);
+                            EmojiPacksAlert.EmojiPacksLoader.this.lambda$init$3(zArr, (TLRPC.TL_messages_stickerSet) obj);
                         }
                     });
-                    if (this.data.length == 1 && stickerSet != null && (tLRPC$StickerSet = stickerSet.set) != null && !tLRPC$StickerSet.emojis) {
+                    if (this.data.length == 1 && stickerSet2 != null && (stickerSet = stickerSet2.set) != null && !stickerSet.emojis) {
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda1
                             @Override // java.lang.Runnable
                             public final void run() {
                                 EmojiPacksAlert.EmojiPacksLoader.this.lambda$init$4();
                             }
                         });
-                        new StickersAlert(EmojiPacksAlert.this.getContext(), EmojiPacksAlert.this.fragment, (TLRPC$InputStickerSet) this.inputStickerSets.get(i), null, EmojiPacksAlert.this.fragment instanceof ChatActivity ? ((ChatActivity) EmojiPacksAlert.this.fragment).getChatActivityEnterView() : null, ((BottomSheet) EmojiPacksAlert.this).resourcesProvider).show();
+                        new StickersAlert(EmojiPacksAlert.this.getContext(), EmojiPacksAlert.this.fragment, (TLRPC.InputStickerSet) this.inputStickerSets.get(i), null, EmojiPacksAlert.this.fragment instanceof ChatActivity ? ((ChatActivity) EmojiPacksAlert.this.fragment).getChatActivityEnterView() : null, ((BottomSheet) EmojiPacksAlert.this).resourcesProvider).show();
                         return;
                     }
-                    this.stickerSets.add(stickerSet);
-                    putStickerSet(i, stickerSet);
+                    this.stickerSets.add(stickerSet2);
+                    putStickerSet(i, stickerSet2);
                 }
                 onUpdate();
                 return;
@@ -1667,49 +1644,49 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             this.data = new ArrayList[2];
             putStickerSet(0, null);
             putStickerSet(1, null);
-            TLRPC$TL_messages_getAttachedStickers tLRPC$TL_messages_getAttachedStickers = new TLRPC$TL_messages_getAttachedStickers();
+            TLRPC.TL_messages_getAttachedStickers tL_messages_getAttachedStickers = new TLRPC.TL_messages_getAttachedStickers();
             TLObject tLObject2 = this.parentObject;
-            if (!(tLObject2 instanceof TLRPC$Photo)) {
-                if (tLObject2 instanceof TLRPC$Document) {
-                    TLRPC$Document tLRPC$Document = (TLRPC$Document) tLObject2;
-                    TLRPC$TL_inputStickeredMediaDocument tLRPC$TL_inputStickeredMediaDocument2 = new TLRPC$TL_inputStickeredMediaDocument();
-                    TLRPC$TL_inputDocument tLRPC$TL_inputDocument = new TLRPC$TL_inputDocument();
-                    tLRPC$TL_inputStickeredMediaDocument2.id = tLRPC$TL_inputDocument;
-                    tLRPC$TL_inputDocument.id = tLRPC$Document.id;
-                    tLRPC$TL_inputDocument.access_hash = tLRPC$Document.access_hash;
-                    byte[] bArr = tLRPC$Document.file_reference;
-                    tLRPC$TL_inputDocument.file_reference = bArr;
-                    tLRPC$TL_inputStickeredMediaDocument = tLRPC$TL_inputStickeredMediaDocument2;
+            if (!(tLObject2 instanceof TLRPC.Photo)) {
+                if (tLObject2 instanceof TLRPC.Document) {
+                    TLRPC.Document document = (TLRPC.Document) tLObject2;
+                    TLRPC.TL_inputStickeredMediaDocument tL_inputStickeredMediaDocument2 = new TLRPC.TL_inputStickeredMediaDocument();
+                    TLRPC.TL_inputDocument tL_inputDocument = new TLRPC.TL_inputDocument();
+                    tL_inputStickeredMediaDocument2.id = tL_inputDocument;
+                    tL_inputDocument.id = document.id;
+                    tL_inputDocument.access_hash = document.access_hash;
+                    byte[] bArr = document.file_reference;
+                    tL_inputDocument.file_reference = bArr;
+                    tL_inputStickeredMediaDocument = tL_inputStickeredMediaDocument2;
                     if (bArr == null) {
-                        tLRPC$TL_inputDocument.file_reference = new byte[0];
-                        tLRPC$TL_inputStickeredMediaDocument = tLRPC$TL_inputStickeredMediaDocument2;
+                        tL_inputDocument.file_reference = new byte[0];
+                        tL_inputStickeredMediaDocument = tL_inputStickeredMediaDocument2;
                     }
                 }
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getAttachedStickers, new RequestDelegate() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda2
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_messages_getAttachedStickers, new RequestDelegate() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda2
                     @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject3, TLRPC$TL_error tLRPC$TL_error) {
-                        EmojiPacksAlert.EmojiPacksLoader.this.lambda$init$1(tLObject3, tLRPC$TL_error);
+                    public final void run(TLObject tLObject3, TLRPC.TL_error tL_error) {
+                        EmojiPacksAlert.EmojiPacksLoader.this.lambda$init$1(tLObject3, tL_error);
                     }
                 });
             }
-            TLRPC$Photo tLRPC$Photo = (TLRPC$Photo) tLObject2;
-            TLRPC$TL_inputStickeredMediaPhoto tLRPC$TL_inputStickeredMediaPhoto = new TLRPC$TL_inputStickeredMediaPhoto();
-            TLRPC$TL_inputPhoto tLRPC$TL_inputPhoto = new TLRPC$TL_inputPhoto();
-            tLRPC$TL_inputStickeredMediaPhoto.id = tLRPC$TL_inputPhoto;
-            tLRPC$TL_inputPhoto.id = tLRPC$Photo.id;
-            tLRPC$TL_inputPhoto.access_hash = tLRPC$Photo.access_hash;
-            byte[] bArr2 = tLRPC$Photo.file_reference;
-            tLRPC$TL_inputPhoto.file_reference = bArr2;
-            tLRPC$TL_inputStickeredMediaDocument = tLRPC$TL_inputStickeredMediaPhoto;
+            TLRPC.Photo photo = (TLRPC.Photo) tLObject2;
+            TLRPC.TL_inputStickeredMediaPhoto tL_inputStickeredMediaPhoto = new TLRPC.TL_inputStickeredMediaPhoto();
+            TLRPC.TL_inputPhoto tL_inputPhoto = new TLRPC.TL_inputPhoto();
+            tL_inputStickeredMediaPhoto.id = tL_inputPhoto;
+            tL_inputPhoto.id = photo.id;
+            tL_inputPhoto.access_hash = photo.access_hash;
+            byte[] bArr2 = photo.file_reference;
+            tL_inputPhoto.file_reference = bArr2;
+            tL_inputStickeredMediaDocument = tL_inputStickeredMediaPhoto;
             if (bArr2 == null) {
-                tLRPC$TL_inputPhoto.file_reference = new byte[0];
-                tLRPC$TL_inputStickeredMediaDocument = tLRPC$TL_inputStickeredMediaPhoto;
+                tL_inputPhoto.file_reference = new byte[0];
+                tL_inputStickeredMediaDocument = tL_inputStickeredMediaPhoto;
             }
-            tLRPC$TL_messages_getAttachedStickers.media = tLRPC$TL_inputStickeredMediaDocument;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getAttachedStickers, new RequestDelegate() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda2
+            tL_messages_getAttachedStickers.media = tL_inputStickeredMediaDocument;
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_messages_getAttachedStickers, new RequestDelegate() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda2
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject3, TLRPC$TL_error tLRPC$TL_error) {
-                    EmojiPacksAlert.EmojiPacksLoader.this.lambda$init$1(tLObject3, tLRPC$TL_error);
+                public final void run(TLObject tLObject3, TLRPC.TL_error tL_error) {
+                    EmojiPacksAlert.EmojiPacksLoader.this.lambda$init$1(tLObject3, tL_error);
                 }
             });
         }
@@ -1944,7 +1921,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         this.gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.Components.EmojiPacksAlert.7
             @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
             public int getSpanSize(int i3) {
-                TLRPC$StickerSet tLRPC$StickerSet;
+                TLRPC.StickerSet stickerSet;
                 if (EmojiPacksAlert.this.listView.getAdapter() == null || EmojiPacksAlert.this.listView.getAdapter().getItemViewType(i3) != 1) {
                     return EmojiPacksAlert.this.gridLayoutManager.getSpanCount();
                 }
@@ -1961,8 +1938,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                     }
                     i4++;
                 }
-                TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = (EmojiPacksAlert.this.customEmojiPacks.stickerSets == null || i4 >= EmojiPacksAlert.this.customEmojiPacks.stickerSets.size()) ? null : (TLRPC$TL_messages_stickerSet) EmojiPacksAlert.this.customEmojiPacks.stickerSets.get(i4);
-                return (tLRPC$TL_messages_stickerSet == null || (tLRPC$StickerSet = tLRPC$TL_messages_stickerSet.set) == null || tLRPC$StickerSet.emojis) ? 5 : 8;
+                TLRPC.TL_messages_stickerSet tL_messages_stickerSet = (EmojiPacksAlert.this.customEmojiPacks.stickerSets == null || i4 >= EmojiPacksAlert.this.customEmojiPacks.stickerSets.size()) ? null : (TLRPC.TL_messages_stickerSet) EmojiPacksAlert.this.customEmojiPacks.stickerSets.get(i4);
+                return (tL_messages_stickerSet == null || (stickerSet = tL_messages_stickerSet.set) == null || stickerSet.emojis) ? 5 : 8;
             }
         });
         this.scrollHelper = new RecyclerAnimationScrollHelper(this.listView, this.gridLayoutManager);
@@ -2046,45 +2023,45 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static void installSet(final BaseFragment baseFragment, TLObject tLObject, final boolean z, final Utilities.Callback callback, final Runnable runnable) {
-        final TLRPC$StickerSet tLRPC$StickerSet;
-        TLRPC$StickerSet tLRPC$StickerSet2;
+        final TLRPC.StickerSet stickerSet;
+        TLRPC.StickerSet stickerSet2;
         final int currentAccount = baseFragment == null ? UserConfig.selectedAccount : baseFragment.getCurrentAccount();
         final View fragmentView = baseFragment == null ? null : baseFragment.getFragmentView();
         if (tLObject == null) {
             return;
         }
-        final TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = tLObject instanceof TLRPC$TL_messages_stickerSet ? (TLRPC$TL_messages_stickerSet) tLObject : null;
-        if (tLRPC$TL_messages_stickerSet != null) {
-            tLRPC$StickerSet2 = tLRPC$TL_messages_stickerSet.set;
-        } else if (!(tLObject instanceof TLRPC$StickerSet)) {
-            tLRPC$StickerSet = null;
-            if (tLRPC$StickerSet != null) {
+        final TLRPC.TL_messages_stickerSet tL_messages_stickerSet = tLObject instanceof TLRPC.TL_messages_stickerSet ? (TLRPC.TL_messages_stickerSet) tLObject : null;
+        if (tL_messages_stickerSet != null) {
+            stickerSet2 = tL_messages_stickerSet.set;
+        } else if (!(tLObject instanceof TLRPC.StickerSet)) {
+            stickerSet = null;
+            if (stickerSet != null) {
                 return;
             }
-            if (MediaDataController.getInstance(currentAccount).cancelRemovingStickerSet(tLRPC$StickerSet.id)) {
+            if (MediaDataController.getInstance(currentAccount).cancelRemovingStickerSet(stickerSet.id)) {
                 if (callback != null) {
                     callback.run(Boolean.TRUE);
                     return;
                 }
                 return;
             }
-            TLRPC$TL_messages_installStickerSet tLRPC$TL_messages_installStickerSet = new TLRPC$TL_messages_installStickerSet();
-            TLRPC$TL_inputStickerSetID tLRPC$TL_inputStickerSetID = new TLRPC$TL_inputStickerSetID();
-            tLRPC$TL_messages_installStickerSet.stickerset = tLRPC$TL_inputStickerSetID;
-            tLRPC$TL_inputStickerSetID.id = tLRPC$StickerSet.id;
-            tLRPC$TL_inputStickerSetID.access_hash = tLRPC$StickerSet.access_hash;
-            ConnectionsManager.getInstance(currentAccount).sendRequest(tLRPC$TL_messages_installStickerSet, new RequestDelegate() { // from class: org.telegram.ui.Components.EmojiPacksAlert$$ExternalSyntheticLambda9
+            TLRPC.TL_messages_installStickerSet tL_messages_installStickerSet = new TLRPC.TL_messages_installStickerSet();
+            TLRPC.TL_inputStickerSetID tL_inputStickerSetID = new TLRPC.TL_inputStickerSetID();
+            tL_messages_installStickerSet.stickerset = tL_inputStickerSetID;
+            tL_inputStickerSetID.id = stickerSet.id;
+            tL_inputStickerSetID.access_hash = stickerSet.access_hash;
+            ConnectionsManager.getInstance(currentAccount).sendRequest(tL_messages_installStickerSet, new RequestDelegate() { // from class: org.telegram.ui.Components.EmojiPacksAlert$$ExternalSyntheticLambda9
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
-                    EmojiPacksAlert.lambda$installSet$7(TLRPC$StickerSet.this, z, fragmentView, baseFragment, tLRPC$TL_messages_stickerSet, currentAccount, callback, runnable, tLObject2, tLRPC$TL_error);
+                public final void run(TLObject tLObject2, TLRPC.TL_error tL_error) {
+                    EmojiPacksAlert.lambda$installSet$7(TLRPC.StickerSet.this, z, fragmentView, baseFragment, tL_messages_stickerSet, currentAccount, callback, runnable, tLObject2, tL_error);
                 }
             });
             return;
         } else {
-            tLRPC$StickerSet2 = (TLRPC$StickerSet) tLObject;
+            stickerSet2 = (TLRPC.StickerSet) tLObject;
         }
-        tLRPC$StickerSet = tLRPC$StickerSet2;
-        if (tLRPC$StickerSet != null) {
+        stickerSet = stickerSet2;
+        if (stickerSet != null) {
         }
     }
 
@@ -2103,19 +2080,19 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static /* synthetic */ void lambda$installSet$6(TLRPC$StickerSet tLRPC$StickerSet, TLRPC$TL_error tLRPC$TL_error, boolean z, View view, BaseFragment baseFragment, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, TLObject tLObject, int i, Utilities.Callback callback, final Runnable runnable) {
+    public static /* synthetic */ void lambda$installSet$6(TLRPC.StickerSet stickerSet, TLRPC.TL_error tL_error, boolean z, View view, BaseFragment baseFragment, TLRPC.TL_messages_stickerSet tL_messages_stickerSet, TLObject tLObject, int i, Utilities.Callback callback, final Runnable runnable) {
         Boolean bool;
-        int i2 = tLRPC$StickerSet.masks ? 1 : tLRPC$StickerSet.emojis ? 5 : 0;
+        int i2 = stickerSet.masks ? 1 : stickerSet.emojis ? 5 : 0;
         try {
         } catch (Exception e) {
             FileLog.e(e);
         }
-        if (tLRPC$TL_error == null) {
+        if (tL_error == null) {
             if (z && view != null) {
-                Bulletin.make(baseFragment, new StickerSetBulletinLayout(baseFragment.getFragmentView().getContext(), tLRPC$TL_messages_stickerSet == 0 ? tLRPC$StickerSet : tLRPC$TL_messages_stickerSet, 2, null, baseFragment.getResourceProvider()), 1500).show();
+                Bulletin.make(baseFragment, new StickerSetBulletinLayout(baseFragment.getFragmentView().getContext(), tL_messages_stickerSet == 0 ? stickerSet : tL_messages_stickerSet, 2, null, baseFragment.getResourceProvider()), 1500).show();
             }
-            if (tLObject instanceof TLRPC$TL_messages_stickerSetInstallResultArchive) {
-                MediaDataController.getInstance(i).processStickerSetInstallResultArchive(baseFragment, true, i2, (TLRPC$TL_messages_stickerSetInstallResultArchive) tLObject);
+            if (tLObject instanceof TLRPC.TL_messages_stickerSetInstallResultArchive) {
+                MediaDataController.getInstance(i).processStickerSetInstallResultArchive(baseFragment, true, i2, (TLRPC.TL_messages_stickerSetInstallResultArchive) tLObject);
             }
             if (callback != null) {
                 bool = Boolean.TRUE;
@@ -2149,11 +2126,11 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$installSet$7(final TLRPC$StickerSet tLRPC$StickerSet, final boolean z, final View view, final BaseFragment baseFragment, final TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, final int i, final Utilities.Callback callback, final Runnable runnable, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$installSet$7(final TLRPC.StickerSet stickerSet, final boolean z, final View view, final BaseFragment baseFragment, final TLRPC.TL_messages_stickerSet tL_messages_stickerSet, final int i, final Utilities.Callback callback, final Runnable runnable, final TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EmojiPacksAlert$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
-                EmojiPacksAlert.lambda$installSet$6(TLRPC$StickerSet.this, tLRPC$TL_error, z, view, baseFragment, tLRPC$TL_messages_stickerSet, tLObject, i, callback, runnable);
+                EmojiPacksAlert.lambda$installSet$6(TLRPC.StickerSet.this, tL_error, z, view, baseFragment, tL_messages_stickerSet, tLObject, i, callback, runnable);
             }
         });
     }
@@ -2170,7 +2147,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(ArrayList arrayList, BaseFragment baseFragment, Theme.ResourcesProvider resourcesProvider, View view, int i) {
-        TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = null;
+        TLRPC.TL_messages_stickerSet tL_messages_stickerSet = null;
         int i2 = 0;
         if (arrayList == null || arrayList.size() <= 1) {
             ActionBarPopupWindow actionBarPopupWindow = this.popupWindow;
@@ -2180,11 +2157,11 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             } else if ((baseFragment instanceof ChatActivity) && ((ChatActivity) baseFragment).getChatActivityEnterView().getVisibility() == 0 && (view instanceof EmojiImageView)) {
                 AnimatedEmojiSpan animatedEmojiSpan = ((EmojiImageView) view).span;
                 try {
-                    TLRPC$Document tLRPC$Document = animatedEmojiSpan.document;
-                    if (tLRPC$Document == null) {
-                        tLRPC$Document = AnimatedEmojiDrawable.findDocument(this.currentAccount, animatedEmojiSpan.getDocumentId());
+                    TLRPC.Document document = animatedEmojiSpan.document;
+                    if (document == null) {
+                        document = AnimatedEmojiDrawable.findDocument(this.currentAccount, animatedEmojiSpan.getDocumentId());
                     }
-                    SpannableString spannableString = new SpannableString(MessageObject.findAnimatedEmojiEmoticon(tLRPC$Document));
+                    SpannableString spannableString = new SpannableString(MessageObject.findAnimatedEmojiEmoticon(document));
                     spannableString.setSpan(animatedEmojiSpan, 0, spannableString.length(), 33);
                     ((ChatActivity) baseFragment).getChatActivityEnterView().messageEditText.getText().append((CharSequence) spannableString);
                     onCloseByLink();
@@ -2216,17 +2193,17 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             }
             ArrayList arrayList2 = this.customEmojiPacks.stickerSets;
             if (arrayList2 != null && i2 < arrayList2.size()) {
-                tLRPC$TL_messages_stickerSet = (TLRPC$TL_messages_stickerSet) this.customEmojiPacks.stickerSets.get(i2);
+                tL_messages_stickerSet = (TLRPC.TL_messages_stickerSet) this.customEmojiPacks.stickerSets.get(i2);
             }
-            if (tLRPC$TL_messages_stickerSet == null || tLRPC$TL_messages_stickerSet.set == null) {
+            if (tL_messages_stickerSet == null || tL_messages_stickerSet.set == null) {
                 return;
             }
             ArrayList arrayList3 = new ArrayList();
-            TLRPC$TL_inputStickerSetID tLRPC$TL_inputStickerSetID = new TLRPC$TL_inputStickerSetID();
-            TLRPC$StickerSet tLRPC$StickerSet = tLRPC$TL_messages_stickerSet.set;
-            tLRPC$TL_inputStickerSetID.id = tLRPC$StickerSet.id;
-            tLRPC$TL_inputStickerSetID.access_hash = tLRPC$StickerSet.access_hash;
-            arrayList3.add(tLRPC$TL_inputStickerSetID);
+            TLRPC.TL_inputStickerSetID tL_inputStickerSetID = new TLRPC.TL_inputStickerSetID();
+            TLRPC.StickerSet stickerSet = tL_messages_stickerSet.set;
+            tL_inputStickerSetID.id = stickerSet.id;
+            tL_inputStickerSetID.access_hash = stickerSet.access_hash;
+            arrayList3.add(tL_inputStickerSetID);
             new EmojiPacksAlert(baseFragment, getContext(), resourcesProvider, arrayList3) { // from class: org.telegram.ui.Components.EmojiPacksAlert.6
                 @Override // org.telegram.ui.Components.EmojiPacksAlert
                 protected void onCloseByLink() {
@@ -2329,7 +2306,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         } else {
             int i = 0;
             while (i < arrayList.size()) {
-                uninstallSet(getContext(), (TLRPC$TL_messages_stickerSet) arrayList.get(i), i == 0, null);
+                uninstallSet(getContext(), (TLRPC.TL_messages_stickerSet) arrayList.get(i), i == 0, null);
                 i++;
             }
         }
@@ -2375,9 +2352,9 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         if (emojiPacksLoader == null || (arrayList = emojiPacksLoader.stickerSets) == null || arrayList.isEmpty()) {
             return;
         }
-        TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = (TLRPC$TL_messages_stickerSet) this.customEmojiPacks.stickerSets.get(0);
-        TLRPC$StickerSet tLRPC$StickerSet = tLRPC$TL_messages_stickerSet.set;
-        if (tLRPC$StickerSet == null || !tLRPC$StickerSet.emojis) {
+        TLRPC.TL_messages_stickerSet tL_messages_stickerSet = (TLRPC.TL_messages_stickerSet) this.customEmojiPacks.stickerSets.get(0);
+        TLRPC.StickerSet stickerSet = tL_messages_stickerSet.set;
+        if (stickerSet == null || !stickerSet.emojis) {
             sb = new StringBuilder();
             sb.append("https://");
             sb.append(MessagesController.getInstance(this.currentAccount).linkPrefix);
@@ -2389,7 +2366,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             str = "/addemoji/";
         }
         sb.append(str);
-        sb.append(tLRPC$TL_messages_stickerSet.set.short_name);
+        sb.append(tL_messages_stickerSet.set.short_name);
         String sb2 = sb.toString();
         if (i != 1) {
             if (i == 2) {
@@ -2418,18 +2395,18 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    public static void uninstallSet(Context context, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, boolean z, Runnable runnable) {
-        if (tLRPC$TL_messages_stickerSet == null) {
+    public static void uninstallSet(Context context, TLRPC.TL_messages_stickerSet tL_messages_stickerSet, boolean z, Runnable runnable) {
+        if (tL_messages_stickerSet == null) {
             return;
         }
-        MediaDataController.getInstance(UserConfig.selectedAccount).toggleStickerSet(context, tLRPC$TL_messages_stickerSet, 0, null, true, z, runnable, true);
+        MediaDataController.getInstance(UserConfig.selectedAccount).toggleStickerSet(context, tL_messages_stickerSet, 0, null, true, z, runnable, true);
     }
 
-    public static void uninstallSet(BaseFragment baseFragment, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, boolean z, Runnable runnable, boolean z2) {
-        if (baseFragment == null || tLRPC$TL_messages_stickerSet == null || baseFragment.getFragmentView() == null) {
+    public static void uninstallSet(BaseFragment baseFragment, TLRPC.TL_messages_stickerSet tL_messages_stickerSet, boolean z, Runnable runnable, boolean z2) {
+        if (baseFragment == null || tL_messages_stickerSet == null || baseFragment.getFragmentView() == null) {
             return;
         }
-        MediaDataController.getInstance(baseFragment.getCurrentAccount()).toggleStickerSet(baseFragment.getFragmentView().getContext(), tLRPC$TL_messages_stickerSet, 0, baseFragment, true, z, runnable, z2);
+        MediaDataController.getInstance(baseFragment.getCurrentAccount()).toggleStickerSet(baseFragment.getFragmentView().getContext(), tL_messages_stickerSet, 0, baseFragment, true, z, runnable, z2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2440,7 +2417,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         View.OnClickListener onClickListener;
         TextView textView3;
         String formatPluralString2;
-        TLRPC$StickerSet tLRPC$StickerSet;
+        TLRPC.StickerSet stickerSet;
         if (this.buttonsView == null) {
             return;
         }
@@ -2457,12 +2434,12 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         final ArrayList arrayList2 = new ArrayList();
         ArrayList arrayList3 = new ArrayList();
         for (int i2 = 0; i2 < arrayList.size(); i2++) {
-            TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = (TLRPC$TL_messages_stickerSet) arrayList.get(i2);
-            if (tLRPC$TL_messages_stickerSet != null && (tLRPC$StickerSet = tLRPC$TL_messages_stickerSet.set) != null) {
-                if (mediaDataController.isStickerPackInstalled(tLRPC$StickerSet.id)) {
-                    arrayList2.add(tLRPC$TL_messages_stickerSet);
+            TLRPC.TL_messages_stickerSet tL_messages_stickerSet = (TLRPC.TL_messages_stickerSet) arrayList.get(i2);
+            if (tL_messages_stickerSet != null && (stickerSet = tL_messages_stickerSet.set) != null) {
+                if (mediaDataController.isStickerPackInstalled(stickerSet.id)) {
+                    arrayList2.add(tL_messages_stickerSet);
                 } else {
-                    arrayList3.add(tLRPC$TL_messages_stickerSet);
+                    arrayList3.add(tL_messages_stickerSet);
                 }
             }
         }
@@ -2496,7 +2473,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 this.removeButtonView.setVisibility(8);
                 if (arrayList4.size() == 1) {
                     textView3 = this.addButtonView;
-                    formatPluralString2 = LocaleController.formatPluralString("AddManyEmojiCount", ((TLRPC$TL_messages_stickerSet) arrayList4.get(0)).documents.size(), new Object[0]);
+                    formatPluralString2 = LocaleController.formatPluralString("AddManyEmojiCount", ((TLRPC.TL_messages_stickerSet) arrayList4.get(0)).documents.size(), new Object[0]);
                 } else {
                     textView3 = this.addButtonView;
                     formatPluralString2 = LocaleController.formatPluralString("AddManyEmojiPacksCount", arrayList4.size(), new Object[0]);
@@ -2514,7 +2491,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 this.removeButtonView.setVisibility(0);
                 if (arrayList2.size() == 1) {
                     textView = this.removeButtonView;
-                    formatPluralString = LocaleController.formatPluralString("RemoveManyEmojiCount", ((TLRPC$TL_messages_stickerSet) arrayList2.get(0)).documents.size(), new Object[0]);
+                    formatPluralString = LocaleController.formatPluralString("RemoveManyEmojiCount", ((TLRPC.TL_messages_stickerSet) arrayList2.get(0)).documents.size(), new Object[0]);
                 } else {
                     textView = this.removeButtonView;
                     formatPluralString = LocaleController.formatPluralString("RemoveManyEmojiPacksCount", arrayList2.size(), new Object[0]);
@@ -2657,7 +2634,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         if (baseFragment != null) {
             new PremiumFeatureBottomSheet(baseFragment, 11, false).show();
         } else if (getContext() instanceof LaunchActivity) {
-            ((LaunchActivity) getContext()).lambda$runLinkRequest$91(new PremiumPreviewFragment(null));
+            ((LaunchActivity) getContext()).lambda$runLinkRequest$93(new PremiumPreviewFragment(null));
         }
     }
 

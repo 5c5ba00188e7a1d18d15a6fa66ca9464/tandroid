@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import com.google.android.gms.internal.mlkit_language_id.zzeo;
-import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class zzy$zzbh extends zzeo implements zzgb {
     private static final zzy$zzbh zzo;
@@ -150,7 +149,7 @@ public final class zzy$zzbh extends zzeo implements zzgb {
 
     /* JADX INFO: Access modifiers changed from: private */
     public final void zzb(boolean z) {
-        this.zzc |= LiteMode.FLAG_CALLS_ANIMATIONS;
+        this.zzc |= 512;
         this.zzn = true;
     }
 

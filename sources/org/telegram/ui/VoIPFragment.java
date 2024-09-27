@@ -71,9 +71,7 @@ import org.telegram.messenger.voip.VideoCapturerDevice;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.messenger.voip.VoIPServiceState;
 import org.telegram.messenger.voip.VoipAudioManager;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$PhoneCall;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.DarkAlertDialog;
@@ -129,7 +127,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     private VoIpSwitchLayout bottomSpeakerBtn;
     private VoIpSwitchLayout bottomVideoBtn;
     private VoIPButtonsLayout buttonsLayout;
-    TLRPC$User callingUser;
+    TLRPC.User callingUser;
     boolean callingUserIsVideo;
     private VoIPFloatingLayout callingUserMiniFloatingLayout;
     private TextureViewRenderer callingUserMiniTextureRenderer;
@@ -143,7 +141,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     private boolean canZoomGesture;
     private final int currentAccount;
     private int currentState;
-    TLRPC$User currentUser;
+    TLRPC.User currentUser;
     private VoIPFloatingLayout currentUserCameraFloatingLayout;
     private boolean currentUserCameraIsFullscreen;
     boolean currentUserIsVideo;
@@ -880,7 +878,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setVideoAction$36(final VoIPService voIPService, View view) {
-        TLRPC$PhoneCall tLRPC$PhoneCall;
+        TLRPC.PhoneCall phoneCall;
         int checkSelfPermission;
         AndroidUtilities.cancelRunOnUIThread(this.hideUIRunnable);
         this.hideUiRunnableWaiting = false;
@@ -892,7 +890,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                 return;
             }
         }
-        if (i >= 21 || (tLRPC$PhoneCall = voIPService.privateCall) == null || tLRPC$PhoneCall.video || this.callingUserIsVideo || voIPService.sharedUIParams.cameraAlertWasShowed) {
+        if (i >= 21 || (phoneCall = voIPService.privateCall) == null || phoneCall.video || this.callingUserIsVideo || voIPService.sharedUIParams.cameraAlertWasShowed) {
             toggleCameraInput();
             return;
         }
@@ -1874,8 +1872,8 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         }
         int i2 = 0;
         if (i == 15 || i == 17) {
-            TLRPC$PhoneCall tLRPC$PhoneCall = sharedInstance.privateCall;
-            if (tLRPC$PhoneCall != null && tLRPC$PhoneCall.video && i == 15) {
+            TLRPC.PhoneCall phoneCall = sharedInstance.privateCall;
+            if (phoneCall != null && phoneCall.video && i == 15) {
                 if (sharedInstance.isScreencast() || !(this.currentUserIsVideo || this.callingUserIsVideo)) {
                     setSpeakerPhoneAction(this.bottomSpeakerBtn, sharedInstance, z);
                     alpha = this.speakerPhoneIcon.animate().alpha(0.0f);
@@ -1979,7 +1977,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                 int[] iArr = new int[1];
                 TextPaint textPaint = new TextPaint(1);
                 textPaint.setTextSize(AndroidUtilities.dp(28.0f));
-                TLRPC$Document replaceEmojiToLottieFrame = replaceEmojiToLottieFrame(Emoji.replaceEmoji((CharSequence) emojifyForCall[i2], textPaint.getFontMetricsInt(), false, iArr), iArr);
+                TLRPC.Document replaceEmojiToLottieFrame = replaceEmojiToLottieFrame(Emoji.replaceEmoji((CharSequence) emojifyForCall[i2], textPaint.getFontMetricsInt(), false, iArr), iArr);
                 arrayList2.add(emojiDrawable);
                 if (replaceEmojiToLottieFrame != null) {
                     arrayList.add(replaceEmojiToLottieFrame);
@@ -1990,7 +1988,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         }
         if (arrayList.size() == 4) {
             while (i < arrayList.size()) {
-                this.emojiViews[i].setAnimatedEmojiDrawable(new AnimatedEmojiDrawable(17, this.currentAccount, (TLRPC$Document) arrayList.get(i)));
+                this.emojiViews[i].setAnimatedEmojiDrawable(new AnimatedEmojiDrawable(17, this.currentAccount, (TLRPC.Document) arrayList.get(i)));
                 this.emojiViews[i].getImageReceiver().clearImage();
                 i++;
             }
@@ -2066,7 +2064,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     /* JADX WARN: Removed duplicated region for block: B:425:0x0a4f  */
     /* JADX WARN: Removed duplicated region for block: B:429:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r9v21 */
-    /* JADX WARN: Type inference failed for: r9v23, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r9v23, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r9v39 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2088,7 +2086,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         View view;
         int i3;
         int i4;
-        TLRPC$PhoneCall tLRPC$PhoneCall;
+        TLRPC.PhoneCall phoneCall;
         VoIPService.SharedUIParams sharedUIParams;
         long j;
         Layout layout;
@@ -2129,8 +2127,8 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                         };
                     } else {
                         if (TextUtils.equals(lastError, Instance.ERROR_INCOMPATIBLE)) {
-                            TLRPC$User tLRPC$User = this.callingUser;
-                            formatString = LocaleController.formatString("VoipPeerIncompatible", R.string.VoipPeerIncompatible, ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name));
+                            TLRPC.User user = this.callingUser;
+                            formatString = LocaleController.formatString("VoipPeerIncompatible", R.string.VoipPeerIncompatible, ContactsController.formatName(user.first_name, user.last_name));
                         } else {
                             if (TextUtils.equals(lastError, Instance.ERROR_PEER_OUTDATED)) {
                                 if (this.isVideoCall) {
@@ -2157,8 +2155,8 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                                     formatString = LocaleController.formatString("VoipPeerOutdated", R.string.VoipPeerOutdated, UserObject.getFirstName(this.callingUser));
                                 }
                             } else if (TextUtils.equals(lastError, Instance.ERROR_PRIVACY)) {
-                                TLRPC$User tLRPC$User2 = this.callingUser;
-                                formatString = LocaleController.formatString("CallNotAvailable", R.string.CallNotAvailable, ContactsController.formatName(tLRPC$User2.first_name, tLRPC$User2.last_name));
+                                TLRPC.User user2 = this.callingUser;
+                                formatString = LocaleController.formatString("CallNotAvailable", R.string.CallNotAvailable, ContactsController.formatName(user2.first_name, user2.last_name));
                             } else {
                                 if (TextUtils.equals(lastError, Instance.ERROR_AUDIO_IO)) {
                                     string = "Error initializing audio hardware";
@@ -2485,7 +2483,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                                     if (sharedInstance.getRemoteVideoState() == 0) {
                                         VoIPNotificationsLayout voIPNotificationsLayout2 = this.notificationsLayout;
                                         voIPNotificationsLayout2.addNotification(R.drawable.calls_camera_mini, LocaleController.formatString("VoipUserCameraIsOff", R.string.VoipUserCameraIsOff, voIPNotificationsLayout2.ellipsize(UserObject.getFirstName(this.callingUser))), MediaStreamTrack.VIDEO_TRACK_KIND, z11);
-                                        if (this.notificationsLayout.getChildCount() == 0 && this.callingUserIsVideo && (tLRPC$PhoneCall = sharedInstance.privateCall) != null && !tLRPC$PhoneCall.video) {
+                                        if (this.notificationsLayout.getChildCount() == 0 && this.callingUserIsVideo && (phoneCall = sharedInstance.privateCall) != null && !phoneCall.video) {
                                             sharedUIParams = sharedInstance.sharedUIParams;
                                             if (!sharedUIParams.tapToVideoTooltipWasShowed) {
                                                 sharedUIParams.tapToVideoTooltipWasShowed = true;
@@ -3218,8 +3216,8 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         TextView textView3 = new TextView(context);
         this.callingUserTitle = textView3;
         textView3.setTextSize(1, 28.0f);
-        TLRPC$User tLRPC$User = this.callingUser;
-        this.callingUserTitle.setText(Emoji.replaceEmoji((CharSequence) ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name), this.callingUserTitle.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false));
+        TLRPC.User user = this.callingUser;
+        this.callingUserTitle.setText(Emoji.replaceEmoji((CharSequence) ContactsController.formatName(user.first_name, user.last_name), this.callingUserTitle.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false));
         this.callingUserTitle.setMaxLines(2);
         this.callingUserTitle.setEllipsize(TextUtils.TruncateAt.END);
         this.callingUserTitle.setTextColor(-1);
@@ -3352,8 +3350,8 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         VoIPService sharedInstance = VoIPService.getSharedInstance();
         if (sharedInstance != null) {
             if (!this.isVideoCall) {
-                TLRPC$PhoneCall tLRPC$PhoneCall = sharedInstance.privateCall;
-                this.isVideoCall = tLRPC$PhoneCall != null && tLRPC$PhoneCall.video;
+                TLRPC.PhoneCall phoneCall = sharedInstance.privateCall;
+                this.isVideoCall = phoneCall != null && phoneCall.video;
             }
             initRenderers();
         }
@@ -3505,7 +3503,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         updateViewState();
     }
 
-    public TLRPC$Document replaceEmojiToLottieFrame(CharSequence charSequence, int[] iArr) {
+    public TLRPC.Document replaceEmojiToLottieFrame(CharSequence charSequence, int[] iArr) {
         if (charSequence instanceof Spannable) {
             Spannable spannable = (Spannable) charSequence;
             Emoji.EmojiSpan[] emojiSpanArr = (Emoji.EmojiSpan[]) spannable.getSpans(0, spannable.length(), Emoji.EmojiSpan.class);

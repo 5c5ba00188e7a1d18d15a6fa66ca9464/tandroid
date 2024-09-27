@@ -16,15 +16,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$ChatFull;
-import org.telegram.tgnet.TLRPC$InputPeer;
-import org.telegram.tgnet.TLRPC$TL_help_country;
-import org.telegram.tgnet.TLRPC$TL_inputPeerChannel;
-import org.telegram.tgnet.TLRPC$TL_inputPeerChat;
-import org.telegram.tgnet.TLRPC$TL_inputPeerSelf;
-import org.telegram.tgnet.TLRPC$TL_inputPeerUser;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.GraySectionCell;
 import org.telegram.ui.Cells.TextCell;
@@ -51,18 +43,18 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
     /* loaded from: classes3.dex */
     public static class Item extends AdapterWithDiffUtils.Item {
         public View.OnClickListener callback;
-        public TLRPC$Chat chat;
+        public TLRPC.Chat chat;
         public boolean checked;
-        public TLRPC$TL_help_country country;
+        public TLRPC.TL_help_country country;
         public int id;
         public View.OnClickListener options;
         public int padHeight;
-        public TLRPC$InputPeer peer;
+        public TLRPC.InputPeer peer;
         public int resId;
         public CharSequence subtext;
         public CharSequence text;
         public int type;
-        public TLRPC$User user;
+        public TLRPC.User user;
         public View view;
 
         private Item(int i, boolean z) {
@@ -78,9 +70,9 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
             return item;
         }
 
-        public static Item asCountry(TLRPC$TL_help_country tLRPC$TL_help_country, boolean z) {
+        public static Item asCountry(TLRPC.TL_help_country tL_help_country, boolean z) {
             Item item = new Item(6, true);
-            item.country = tLRPC$TL_help_country;
+            item.country = tL_help_country;
             item.checked = z;
             return item;
         }
@@ -107,9 +99,9 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
             return item;
         }
 
-        public static Item asPeer(TLRPC$InputPeer tLRPC$InputPeer, boolean z) {
+        public static Item asPeer(TLRPC.InputPeer inputPeer, boolean z) {
             Item item = new Item(3, true);
-            item.peer = tLRPC$InputPeer;
+            item.peer = inputPeer;
             item.user = null;
             item.chat = null;
             item.checked = z;
@@ -122,9 +114,9 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
             return item;
         }
 
-        public static Item asUser(TLRPC$User tLRPC$User, boolean z) {
+        public static Item asUser(TLRPC.User user, boolean z) {
             Item item = new Item(3, true);
-            item.user = tLRPC$User;
+            item.user = user;
             item.peer = null;
             item.chat = null;
             item.checked = z;
@@ -190,17 +182,17 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
         }
 
         public long getDialogId() {
-            TLRPC$User tLRPC$User = this.user;
-            if (tLRPC$User != null) {
-                return tLRPC$User.id;
+            TLRPC.User user = this.user;
+            if (user != null) {
+                return user.id;
             }
-            TLRPC$Chat tLRPC$Chat = this.chat;
-            if (tLRPC$Chat != null) {
-                return -tLRPC$Chat.id;
+            TLRPC.Chat chat = this.chat;
+            if (chat != null) {
+                return -chat.id;
             }
-            TLRPC$InputPeer tLRPC$InputPeer = this.peer;
-            if (tLRPC$InputPeer != null) {
-                return DialogObject.getPeerDialogId(tLRPC$InputPeer);
+            TLRPC.InputPeer inputPeer = this.peer;
+            if (inputPeer != null) {
+                return DialogObject.getPeerDialogId(inputPeer);
             }
             return 0L;
         }
@@ -253,11 +245,11 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
         return ((Item) list.get(i)).viewType;
     }
 
-    public int getParticipantsCount(TLRPC$Chat tLRPC$Chat) {
+    public int getParticipantsCount(TLRPC.Chat chat) {
         Integer num;
         int i;
-        TLRPC$ChatFull chatFull = MessagesController.getInstance(UserConfig.selectedAccount).getChatFull(tLRPC$Chat.id);
-        return (chatFull == null || (i = chatFull.participants_count) <= 0) ? (this.chatsParticipantsCount.isEmpty() || (num = (Integer) this.chatsParticipantsCount.get(Long.valueOf(tLRPC$Chat.id))) == null) ? tLRPC$Chat.participants_count : num.intValue() : i;
+        TLRPC.ChatFull chatFull = MessagesController.getInstance(UserConfig.selectedAccount).getChatFull(chat.id);
+        return (chatFull == null || (i = chatFull.participants_count) <= 0) ? (this.chatsParticipantsCount.isEmpty() || (num = (Integer) this.chatsParticipantsCount.get(Long.valueOf(chat.id))) == null) ? chat.participants_count : num.intValue() : i;
     }
 
     @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
@@ -348,25 +340,25 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
             }
         }
         SelectorUserCell selectorUserCell = (SelectorUserCell) viewHolder.itemView;
-        TLRPC$User tLRPC$User = item.user;
-        if (tLRPC$User == null) {
-            TLRPC$Chat tLRPC$Chat = item.chat;
-            if (tLRPC$Chat == null) {
-                TLRPC$InputPeer tLRPC$InputPeer = item.peer;
-                if (tLRPC$InputPeer != null) {
-                    if (tLRPC$InputPeer instanceof TLRPC$TL_inputPeerSelf) {
-                        tLRPC$User = UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser();
-                    } else if (tLRPC$InputPeer instanceof TLRPC$TL_inputPeerUser) {
-                        tLRPC$User = MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(tLRPC$InputPeer.user_id));
+        TLRPC.User user = item.user;
+        if (user == null) {
+            TLRPC.Chat chat = item.chat;
+            if (chat == null) {
+                TLRPC.InputPeer inputPeer = item.peer;
+                if (inputPeer != null) {
+                    if (inputPeer instanceof TLRPC.TL_inputPeerSelf) {
+                        user = UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser();
+                    } else if (inputPeer instanceof TLRPC.TL_inputPeerUser) {
+                        user = MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(inputPeer.user_id));
                     } else {
-                        if (tLRPC$InputPeer instanceof TLRPC$TL_inputPeerChat) {
+                        if (inputPeer instanceof TLRPC.TL_inputPeerChat) {
                             messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
-                            j = tLRPC$InputPeer.chat_id;
-                        } else if (tLRPC$InputPeer instanceof TLRPC$TL_inputPeerChannel) {
+                            j = inputPeer.chat_id;
+                        } else if (inputPeer instanceof TLRPC.TL_inputPeerChannel) {
                             messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
-                            j = tLRPC$InputPeer.channel_id;
+                            j = inputPeer.channel_id;
                         }
-                        tLRPC$Chat = messagesController.getChat(Long.valueOf(j));
+                        chat = messagesController.getChat(Long.valueOf(j));
                     }
                 }
                 selectorUserCell.setChecked(item.checked, false);
@@ -381,7 +373,7 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
                 }
                 selectorUserCell.setOptions(item.options);
             }
-            selectorUserCell.setChat(tLRPC$Chat, getParticipantsCount(tLRPC$Chat));
+            selectorUserCell.setChat(chat, getParticipantsCount(chat));
             selectorUserCell.setChecked(item.checked, false);
             selectorUserCell.setCheckboxAlpha(1.0f, false);
             i3 = i + 1;
@@ -394,7 +386,7 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
             }
             selectorUserCell.setOptions(item.options);
         }
-        selectorUserCell.setUser(tLRPC$User);
+        selectorUserCell.setUser(user);
         selectorUserCell.setChecked(item.checked, false);
         selectorUserCell.setCheckboxAlpha(1.0f, false);
         i3 = i + 1;

@@ -22,10 +22,7 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$InputStickerSet;
-import org.telegram.tgnet.TLRPC$StickerSet;
-import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class MessageContainsEmojiButton extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
@@ -34,7 +31,7 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
     private AnimatedEmojiDrawable emojiDrawable;
     private android.graphics.Rect emojiDrawableBounds;
     private CharSequence endText;
-    private TLRPC$InputStickerSet inputStickerSet;
+    private TLRPC.InputStickerSet inputStickerSet;
     private int lastLineHeight;
     private int lastLineMargin;
     private int lastLineTop;
@@ -74,10 +71,10 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
     public MessageContainsEmojiButton(int i, Context context, Theme.ResourcesProvider resourcesProvider, ArrayList arrayList, int i2) {
         super(context);
         String str;
-        TLRPC$Document tLRPC$Document;
-        TLRPC$TL_messages_stickerSet stickerSet;
-        TLRPC$StickerSet tLRPC$StickerSet;
-        ArrayList arrayList2;
+        TLRPC.Document document;
+        TLRPC.TL_messages_stickerSet stickerSet;
+        TLRPC.StickerSet stickerSet2;
+        ArrayList<TLRPC.Document> arrayList2;
         this.emojiDrawableBounds = new android.graphics.Rect();
         this.loadingDrawableBoundsSet = false;
         this.lastWidth = -1;
@@ -113,31 +110,31 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
                 this.mainText = string;
                 return;
             }
-            TLRPC$InputStickerSet tLRPC$InputStickerSet = (TLRPC$InputStickerSet) arrayList.get(0);
-            this.inputStickerSet = tLRPC$InputStickerSet;
-            if (tLRPC$InputStickerSet == null || (stickerSet = MediaDataController.getInstance(i).getStickerSet(this.inputStickerSet, false)) == null || (tLRPC$StickerSet = stickerSet.set) == null) {
+            TLRPC.InputStickerSet inputStickerSet = (TLRPC.InputStickerSet) arrayList.get(0);
+            this.inputStickerSet = inputStickerSet;
+            if (inputStickerSet == null || (stickerSet = MediaDataController.getInstance(i).getStickerSet(this.inputStickerSet, false)) == null || (stickerSet2 = stickerSet.set) == null) {
                 str = null;
-                tLRPC$Document = null;
+                document = null;
             } else {
-                str = tLRPC$StickerSet.title;
+                str = stickerSet2.title;
                 int i4 = 0;
                 while (true) {
-                    ArrayList arrayList3 = stickerSet.documents;
+                    ArrayList<TLRPC.Document> arrayList3 = stickerSet.documents;
                     if (arrayList3 == null || i4 >= arrayList3.size()) {
                         break;
-                    } else if (((TLRPC$Document) stickerSet.documents.get(i4)).id == stickerSet.set.thumb_document_id) {
-                        tLRPC$Document = (TLRPC$Document) stickerSet.documents.get(i4);
+                    } else if (stickerSet.documents.get(i4).id == stickerSet.set.thumb_document_id) {
+                        document = stickerSet.documents.get(i4);
                         break;
                     } else {
                         i4++;
                     }
                 }
-                tLRPC$Document = null;
-                if (tLRPC$Document == null && (arrayList2 = stickerSet.documents) != null && arrayList2.size() > 0) {
-                    tLRPC$Document = (TLRPC$Document) stickerSet.documents.get(0);
+                document = null;
+                if (document == null && (arrayList2 = stickerSet.documents) != null && arrayList2.size() > 0) {
+                    document = stickerSet.documents.get(0);
                 }
             }
-            if (str == null || tLRPC$Document == null) {
+            if (str == null || document == null) {
                 this.mainText = split[0];
                 this.endText = split[1];
                 LoadingDrawable loadingDrawable = new LoadingDrawable(resourcesProvider);
@@ -147,8 +144,8 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
                 loadingDrawable.setRadiiDp(4.0f);
                 return;
             }
-            SpannableString spannableString = new SpannableString(MessageObject.findAnimatedEmojiEmoticon(tLRPC$Document));
-            spannableString.setSpan(new AnimatedEmojiSpan(tLRPC$Document, this.textPaint.getFontMetricsInt()) { // from class: org.telegram.ui.Components.MessageContainsEmojiButton.1
+            SpannableString spannableString = new SpannableString(MessageObject.findAnimatedEmojiEmoticon(document));
+            spannableString.setSpan(new AnimatedEmojiSpan(document, this.textPaint.getFontMetricsInt()) { // from class: org.telegram.ui.Components.MessageContainsEmojiButton.1
                 @Override // org.telegram.ui.Components.AnimatedEmojiSpan, android.text.style.ReplacementSpan
                 public void draw(Canvas canvas, CharSequence charSequence, int i5, int i6, float f, int i7, int i8, int i9, Paint paint) {
                     int i10 = i9 + i7;
@@ -156,7 +153,7 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
                     MessageContainsEmojiButton.this.emojiDrawableBounds.set((int) f, (i10 - i11) / 2, (int) (f + i11), (i10 + i11) / 2);
                 }
             }, 0, spannableString.length(), 33);
-            AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(i, 0, tLRPC$Document);
+            AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(i, 0, document);
             this.emojiDrawable = make;
             make.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText, resourcesProvider), PorterDuff.Mode.SRC_IN));
             this.emojiDrawable.addView(this);
@@ -240,39 +237,39 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void didReceivedNotification(int i, int i2, Object... objArr) {
-        TLRPC$TL_messages_stickerSet stickerSet;
+        TLRPC.TL_messages_stickerSet stickerSet;
         String str;
-        TLRPC$Document tLRPC$Document;
-        ArrayList arrayList;
+        TLRPC.Document document;
+        ArrayList<TLRPC.Document> arrayList;
         if (i != NotificationCenter.groupStickersDidLoad || this.inputStickerSet == null || (stickerSet = MediaDataController.getInstance(this.currentAccount).getStickerSet(this.inputStickerSet, false)) == null) {
             return;
         }
-        TLRPC$StickerSet tLRPC$StickerSet = stickerSet.set;
-        if (tLRPC$StickerSet != null) {
-            str = tLRPC$StickerSet.title;
+        TLRPC.StickerSet stickerSet2 = stickerSet.set;
+        if (stickerSet2 != null) {
+            str = stickerSet2.title;
             int i3 = 0;
             while (true) {
-                ArrayList arrayList2 = stickerSet.documents;
+                ArrayList<TLRPC.Document> arrayList2 = stickerSet.documents;
                 if (arrayList2 == null || i3 >= arrayList2.size()) {
                     break;
-                } else if (((TLRPC$Document) stickerSet.documents.get(i3)).id == stickerSet.set.thumb_document_id) {
-                    tLRPC$Document = (TLRPC$Document) stickerSet.documents.get(i3);
+                } else if (stickerSet.documents.get(i3).id == stickerSet.set.thumb_document_id) {
+                    document = stickerSet.documents.get(i3);
                     break;
                 } else {
                     i3++;
                 }
             }
-            if (tLRPC$Document == null && (arrayList = stickerSet.documents) != null && arrayList.size() > 0) {
-                tLRPC$Document = (TLRPC$Document) stickerSet.documents.get(0);
+            if (document == null && (arrayList = stickerSet.documents) != null && arrayList.size() > 0) {
+                document = stickerSet.documents.get(0);
             }
         } else {
             str = null;
-            tLRPC$Document = null;
+            document = null;
         }
-        if (str == null || tLRPC$Document == null) {
+        if (str == null || document == null) {
             return;
         }
-        AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(this.currentAccount, 0, tLRPC$Document);
+        AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(this.currentAccount, 0, document);
         this.emojiDrawable = make;
         make.addView(this);
         invalidate();
@@ -287,8 +284,8 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
                 return MessageContainsEmojiButton.this.lastLineMargin;
             }
         }, 0, 1, 33);
-        SpannableString spannableString2 = new SpannableString(MessageObject.findAnimatedEmojiEmoticon(tLRPC$Document));
-        spannableString2.setSpan(new AnimatedEmojiSpan(tLRPC$Document, this.textPaint.getFontMetricsInt()) { // from class: org.telegram.ui.Components.MessageContainsEmojiButton.3
+        SpannableString spannableString2 = new SpannableString(MessageObject.findAnimatedEmojiEmoticon(document));
+        spannableString2.setSpan(new AnimatedEmojiSpan(document, this.textPaint.getFontMetricsInt()) { // from class: org.telegram.ui.Components.MessageContainsEmojiButton.3
             @Override // org.telegram.ui.Components.AnimatedEmojiSpan, android.text.style.ReplacementSpan
             public void draw(Canvas canvas, CharSequence charSequence, int i4, int i5, float f, int i6, int i7, int i8, Paint paint) {
                 int i9 = MessageContainsEmojiButton.this.lastLineTop;
@@ -359,7 +356,7 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         if (this.mainTextLayout != null) {
             canvas.save();
             canvas.translate(getPaddingLeft(), getPaddingTop());
-            this.textPaint.setAlpha(NotificationCenter.didClearDatabase);
+            this.textPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
             this.mainTextLayout.draw(canvas);
             LoadingDrawable loadingDrawable = this.loadingDrawable;
             if (loadingDrawable != null && this.loadingDrawableBoundsSet) {

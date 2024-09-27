@@ -24,15 +24,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$InputDocument;
-import org.telegram.tgnet.TLRPC$TL_account_updateBusinessIntro;
-import org.telegram.tgnet.TLRPC$TL_boolFalse;
-import org.telegram.tgnet.TLRPC$TL_businessIntro;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_inputBusinessIntro;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$UserFull;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.AlertDialog;
@@ -66,7 +58,7 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
     private CrossfadeDrawable doneButtonDrawable;
     private ChatGreetingsView greetingsView;
     private Drawable greetingsViewBackground;
-    private TLRPC$InputDocument inputSticker;
+    private TLRPC.InputDocument inputSticker;
     private String inputStickerPath;
     private boolean keyboardVisible;
     private EditTextCell messageEdit;
@@ -80,7 +72,7 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
         }
     };
     private boolean stickerRandom = true;
-    private TLRPC$Document sticker = getMediaDataController().getGreetingsSticker();
+    private TLRPC.Document sticker = getMediaDataController().getGreetingsSticker();
     private boolean clearVisible = isEmpty();
     private int shiftDp = -4;
 
@@ -138,8 +130,8 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
             }
 
             @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
-            public /* synthetic */ void didSelectBot(TLRPC$User tLRPC$User) {
-                ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$didSelectBot(this, tLRPC$User);
+            public /* synthetic */ void didSelectBot(TLRPC.User user) {
+                ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$didSelectBot(this, user);
             }
 
             @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
@@ -203,23 +195,23 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ Boolean lambda$onClick$2(View view, Object obj, TLRPC$Document tLRPC$Document, Boolean bool) {
+    public /* synthetic */ Boolean lambda$onClick$2(View view, Object obj, TLRPC.Document document, Boolean bool) {
         this.stickerRandom = false;
         AndroidUtilities.cancelRunOnUIThread(this.updateRandomStickerRunnable);
         ChatGreetingsView chatGreetingsView = this.greetingsView;
-        this.sticker = tLRPC$Document;
-        chatGreetingsView.setSticker(tLRPC$Document);
-        ((TextCell) view).setValueSticker(tLRPC$Document);
+        this.sticker = document;
+        chatGreetingsView.setSticker(document);
+        ((TextCell) view).setValueSticker(document);
         checkDone(true, false);
         return Boolean.TRUE;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processDone$3(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
-        if (tLRPC$TL_error != null) {
+    public /* synthetic */ void lambda$processDone$3(TLRPC.TL_error tL_error, TLObject tLObject) {
+        if (tL_error != null) {
             this.doneButtonDrawable.animateToProgress(0.0f);
-            BulletinFactory.showError(tLRPC$TL_error);
-        } else if (tLObject instanceof TLRPC$TL_boolFalse) {
+            BulletinFactory.showError(tL_error);
+        } else if (tLObject instanceof TLRPC.TL_boolFalse) {
             this.doneButtonDrawable.animateToProgress(0.0f);
             BulletinFactory.of(this).createErrorBulletin(LocaleController.getString(R.string.UnknownError)).show();
         } else {
@@ -231,11 +223,11 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processDone$4(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$processDone$4(final TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.BusinessIntroActivity$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
-                BusinessIntroActivity.this.lambda$processDone$3(tLRPC$TL_error, tLObject);
+                BusinessIntroActivity.this.lambda$processDone$3(tL_error, tLObject);
             }
         });
     }
@@ -259,7 +251,7 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
         this.chatAttachAlert.enableStickerMode(new Utilities.Callback2() { // from class: org.telegram.ui.Business.BusinessIntroActivity$$ExternalSyntheticLambda9
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
-                BusinessIntroActivity.this.setCustomSticker((String) obj, (TLRPC$InputDocument) obj2);
+                BusinessIntroActivity.this.setCustomSticker((String) obj, (TLRPC.InputDocument) obj2);
             }
         });
         this.chatAttachAlert.init();
@@ -274,59 +266,59 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
 
     /* JADX INFO: Access modifiers changed from: private */
     public void processDone() {
-        TLRPC$Document tLRPC$Document;
+        TLRPC.Document document;
         if (this.doneButtonDrawable.getProgress() > 0.0f) {
             return;
         }
         this.doneButtonDrawable.animateToProgress(1.0f);
-        TLRPC$UserFull userFull = getMessagesController().getUserFull(getUserConfig().getClientUserId());
-        TLRPC$TL_account_updateBusinessIntro tLRPC$TL_account_updateBusinessIntro = new TLRPC$TL_account_updateBusinessIntro();
+        TLRPC.UserFull userFull = getMessagesController().getUserFull(getUserConfig().getClientUserId());
+        TLRPC.TL_account_updateBusinessIntro tL_account_updateBusinessIntro = new TLRPC.TL_account_updateBusinessIntro();
         if (!isEmpty()) {
-            tLRPC$TL_account_updateBusinessIntro.flags |= 1;
-            TLRPC$TL_inputBusinessIntro tLRPC$TL_inputBusinessIntro = new TLRPC$TL_inputBusinessIntro();
-            tLRPC$TL_account_updateBusinessIntro.intro = tLRPC$TL_inputBusinessIntro;
-            tLRPC$TL_inputBusinessIntro.title = this.titleEdit.getText().toString();
-            tLRPC$TL_account_updateBusinessIntro.intro.description = this.messageEdit.getText().toString();
+            tL_account_updateBusinessIntro.flags |= 1;
+            TLRPC.TL_inputBusinessIntro tL_inputBusinessIntro = new TLRPC.TL_inputBusinessIntro();
+            tL_account_updateBusinessIntro.intro = tL_inputBusinessIntro;
+            tL_inputBusinessIntro.title = this.titleEdit.getText().toString();
+            tL_account_updateBusinessIntro.intro.description = this.messageEdit.getText().toString();
             if (!this.stickerRandom && (this.sticker != null || this.inputSticker != null)) {
-                TLRPC$TL_inputBusinessIntro tLRPC$TL_inputBusinessIntro2 = tLRPC$TL_account_updateBusinessIntro.intro;
-                tLRPC$TL_inputBusinessIntro2.flags |= 1;
-                TLRPC$InputDocument tLRPC$InputDocument = this.inputSticker;
-                if (tLRPC$InputDocument == null) {
-                    tLRPC$InputDocument = getMessagesController().getInputDocument(this.sticker);
+                TLRPC.TL_inputBusinessIntro tL_inputBusinessIntro2 = tL_account_updateBusinessIntro.intro;
+                tL_inputBusinessIntro2.flags |= 1;
+                TLRPC.InputDocument inputDocument = this.inputSticker;
+                if (inputDocument == null) {
+                    inputDocument = getMessagesController().getInputDocument(this.sticker);
                 }
-                tLRPC$TL_inputBusinessIntro2.sticker = tLRPC$InputDocument;
+                tL_inputBusinessIntro2.sticker = inputDocument;
             }
             if (userFull != null) {
                 userFull.flags2 |= 16;
-                TLRPC$TL_businessIntro tLRPC$TL_businessIntro = new TLRPC$TL_businessIntro();
-                userFull.business_intro = tLRPC$TL_businessIntro;
-                TLRPC$TL_inputBusinessIntro tLRPC$TL_inputBusinessIntro3 = tLRPC$TL_account_updateBusinessIntro.intro;
-                tLRPC$TL_businessIntro.title = tLRPC$TL_inputBusinessIntro3.title;
-                tLRPC$TL_businessIntro.description = tLRPC$TL_inputBusinessIntro3.description;
-                if (!this.stickerRandom && (tLRPC$Document = this.sticker) != null) {
-                    tLRPC$TL_businessIntro.flags |= 1;
-                    tLRPC$TL_businessIntro.sticker = tLRPC$Document;
+                TLRPC.TL_businessIntro tL_businessIntro = new TLRPC.TL_businessIntro();
+                userFull.business_intro = tL_businessIntro;
+                TLRPC.TL_inputBusinessIntro tL_inputBusinessIntro3 = tL_account_updateBusinessIntro.intro;
+                tL_businessIntro.title = tL_inputBusinessIntro3.title;
+                tL_businessIntro.description = tL_inputBusinessIntro3.description;
+                if (!this.stickerRandom && (document = this.sticker) != null) {
+                    tL_businessIntro.flags |= 1;
+                    tL_businessIntro.sticker = document;
                 }
             }
         } else if (userFull != null) {
             userFull.flags2 &= -17;
             userFull.business_intro = null;
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_account_updateBusinessIntro, new RequestDelegate() { // from class: org.telegram.ui.Business.BusinessIntroActivity$$ExternalSyntheticLambda6
+        getConnectionsManager().sendRequest(tL_account_updateBusinessIntro, new RequestDelegate() { // from class: org.telegram.ui.Business.BusinessIntroActivity$$ExternalSyntheticLambda6
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                BusinessIntroActivity.this.lambda$processDone$4(tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                BusinessIntroActivity.this.lambda$processDone$4(tLObject, tL_error);
             }
         });
         getMessagesStorage().updateUserInfo(userFull, false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public void setCustomSticker(String str, TLRPC$InputDocument tLRPC$InputDocument) {
+    public void setCustomSticker(String str, TLRPC.InputDocument inputDocument) {
         UniversalAdapter universalAdapter;
         this.chatAttachAlert.dismiss();
         this.inputStickerPath = str;
-        this.inputSticker = tLRPC$InputDocument;
+        this.inputSticker = inputDocument;
         this.stickerRandom = false;
         AndroidUtilities.cancelRunOnUIThread(this.updateRandomStickerRunnable);
         this.greetingsView.setSticker(this.inputStickerPath);
@@ -339,27 +331,27 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
     }
 
     private void setValue() {
-        TLRPC$Document tLRPC$Document;
+        TLRPC.Document document;
         UniversalAdapter universalAdapter;
         if (this.valueSet) {
             return;
         }
-        TLRPC$UserFull userFull = getMessagesController().getUserFull(getUserConfig().getClientUserId());
+        TLRPC.UserFull userFull = getMessagesController().getUserFull(getUserConfig().getClientUserId());
         if (userFull == null) {
             getMessagesController().loadUserInfo(getUserConfig().getCurrentUser(), true, getClassGuid());
             return;
         }
-        TLRPC$TL_businessIntro tLRPC$TL_businessIntro = userFull.business_intro;
-        if (tLRPC$TL_businessIntro != null) {
+        TLRPC.TL_businessIntro tL_businessIntro = userFull.business_intro;
+        if (tL_businessIntro != null) {
             EditTextCell editTextCell = this.titleEdit;
-            String str = tLRPC$TL_businessIntro.title;
+            String str = tL_businessIntro.title;
             this.currentTitle = str;
             editTextCell.setText(str);
             EditTextCell editTextCell2 = this.messageEdit;
             String str2 = userFull.business_intro.description;
             this.currentMessage = str2;
             editTextCell2.setText(str2);
-            tLRPC$Document = userFull.business_intro.sticker;
+            document = userFull.business_intro.sticker;
         } else {
             EditTextCell editTextCell3 = this.titleEdit;
             this.currentTitle = "";
@@ -367,22 +359,22 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
             EditTextCell editTextCell4 = this.messageEdit;
             this.currentMessage = "";
             editTextCell4.setText("");
-            tLRPC$Document = null;
+            document = null;
             this.inputSticker = null;
         }
-        this.sticker = tLRPC$Document;
-        TLRPC$Document tLRPC$Document2 = this.sticker;
-        this.currentSticker = tLRPC$Document2 == null ? 0L : tLRPC$Document2.id;
-        this.stickerRandom = tLRPC$Document2 == null;
+        this.sticker = document;
+        TLRPC.Document document2 = this.sticker;
+        this.currentSticker = document2 == null ? 0L : document2.id;
+        this.stickerRandom = document2 == null;
         ChatGreetingsView chatGreetingsView = this.greetingsView;
         if (chatGreetingsView != null) {
             chatGreetingsView.setPreview(this.titleEdit.getText().toString(), this.messageEdit.getText().toString());
             ChatGreetingsView chatGreetingsView2 = this.greetingsView;
-            TLRPC$Document tLRPC$Document3 = this.sticker;
-            if (tLRPC$Document3 == null || this.stickerRandom) {
-                tLRPC$Document3 = MediaDataController.getInstance(this.currentAccount).getGreetingsSticker();
+            TLRPC.Document document3 = this.sticker;
+            if (document3 == null || this.stickerRandom) {
+                document3 = MediaDataController.getInstance(this.currentAccount).getGreetingsSticker();
             }
-            chatGreetingsView2.setSticker(tLRPC$Document3);
+            chatGreetingsView2.setSticker(document3);
         }
         if (this.stickerRandom) {
             AndroidUtilities.cancelRunOnUIThread(this.updateRandomStickerRunnable);
@@ -488,7 +480,7 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
         imageView.setImageDrawable(PreviewView.getBackgroundDrawable((Drawable) null, this.currentAccount, getUserConfig().getClientUserId(), Theme.isCurrentThemeDark()));
         this.previewContainer.addView(imageView, LayoutHelper.createFrame(-1, -1, 119));
         this.previewContainer.addView(this.greetingsView, LayoutHelper.createFrame(-2, -2.0f, 17, 42.0f, 18.0f, 42.0f, 18.0f));
-        EditTextCell editTextCell = new EditTextCell(context, LocaleController.getString(R.string.BusinessIntroTitleHint), false, getMessagesController().introTitleLengthLimit, this.resourceProvider) { // from class: org.telegram.ui.Business.BusinessIntroActivity.4
+        EditTextCell editTextCell = new EditTextCell(context, LocaleController.getString(R.string.BusinessIntroTitleHint), false, false, getMessagesController().introTitleLengthLimit, this.resourceProvider) { // from class: org.telegram.ui.Business.BusinessIntroActivity.4
             @Override // org.telegram.ui.Cells.EditTextCell
             protected void onFocusChanged(boolean z) {
                 UniversalRecyclerView universalRecyclerView;
@@ -513,7 +505,7 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
         editTextCell2.setBackgroundColor(getThemedColor(i));
         this.titleEdit.setDivider(true);
         this.titleEdit.hideKeyboardOnEnter();
-        EditTextCell editTextCell3 = new EditTextCell(context, LocaleController.getString(R.string.BusinessIntroMessageHint), true, getMessagesController().introDescriptionLengthLimit, this.resourceProvider) { // from class: org.telegram.ui.Business.BusinessIntroActivity.5
+        EditTextCell editTextCell3 = new EditTextCell(context, LocaleController.getString(R.string.BusinessIntroMessageHint), true, false, getMessagesController().introDescriptionLengthLimit, this.resourceProvider) { // from class: org.telegram.ui.Business.BusinessIntroActivity.5
             @Override // org.telegram.ui.Cells.EditTextCell
             protected void onFocusChanged(boolean z) {
                 UniversalRecyclerView universalRecyclerView;
@@ -590,9 +582,8 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.UniversalFragment
-    public void fillItems(ArrayList arrayList, UniversalAdapter universalAdapter) {
+    protected void fillItems(ArrayList arrayList, UniversalAdapter universalAdapter) {
         arrayList.add(UItem.asCustom(this.previewContainer));
         arrayList.add(UItem.asHeader(LocaleController.getString(R.string.BusinessIntroHeader)));
         arrayList.add(UItem.asCustom(this.titleEdit));
@@ -614,7 +605,7 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
     }
 
     public boolean hasChanges() {
-        TLRPC$Document tLRPC$Document;
+        TLRPC.Document document;
         String charSequence = this.titleEdit.getText().toString();
         String str = this.currentTitle;
         if (str == null) {
@@ -625,7 +616,7 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
             String str2 = this.currentMessage;
             if (TextUtils.equals(charSequence2, str2 != null ? str2 : "")) {
                 boolean z = this.stickerRandom;
-                if (((z || (tLRPC$Document = this.sticker) == null) ? 0L : tLRPC$Document.id) == this.currentSticker && (z || this.inputSticker == null)) {
+                if (((z || (document = this.sticker) == null) ? 0L : document.id) == this.currentSticker && (z || this.inputSticker == null)) {
                     return false;
                 }
             }
@@ -665,9 +656,8 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
         return super.onBackPressed();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.UniversalFragment
-    public void onClick(UItem uItem, final View view, int i, float f, float f2) {
+    protected void onClick(UItem uItem, final View view, int i, float f, float f2) {
         int i2 = uItem.id;
         if (i2 == 1) {
             EmojiBottomSheet emojiBottomSheet = new EmojiBottomSheet(getContext(), true, getResourceProvider(), true);
@@ -675,7 +665,7 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
                 @Override // org.telegram.messenger.Utilities.Callback3Return
                 public final Object run(Object obj, Object obj2, Object obj3) {
                     Boolean lambda$onClick$2;
-                    lambda$onClick$2 = BusinessIntroActivity.this.lambda$onClick$2(view, obj, (TLRPC$Document) obj2, (Boolean) obj3);
+                    lambda$onClick$2 = BusinessIntroActivity.this.lambda$onClick$2(view, obj, (TLRPC.Document) obj2, (Boolean) obj3);
                     return lambda$onClick$2;
                 }
             });
@@ -694,7 +684,7 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
             this.stickerRandom = true;
             this.greetingsView.setPreview("", "");
             ChatGreetingsView chatGreetingsView = this.greetingsView;
-            TLRPC$Document greetingsSticker = MediaDataController.getInstance(this.currentAccount).getGreetingsSticker();
+            TLRPC.Document greetingsSticker = MediaDataController.getInstance(this.currentAccount).getGreetingsSticker();
             this.sticker = greetingsSticker;
             chatGreetingsView.setSticker(greetingsSticker);
             AndroidUtilities.cancelRunOnUIThread(this.updateRandomStickerRunnable);
@@ -718,9 +708,8 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
         super.onFragmentDestroy();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.UniversalFragment
-    public boolean onLongClick(UItem uItem, View view, int i, float f, float f2) {
+    protected boolean onLongClick(UItem uItem, View view, int i, float f, float f2) {
         return false;
     }
 }

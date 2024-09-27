@@ -17,9 +17,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$TL_account_updateProfile;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -72,13 +70,13 @@ public class ChangeNameActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$saveName$3(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$saveName$3(TLObject tLObject, TLRPC.TL_error tL_error) {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public void saveName() {
         String str;
-        TLRPC$User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
+        TLRPC.User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
         if (currentUser == null || this.lastNameField.getText() == null || this.firstNameField.getText() == null) {
             return;
         }
@@ -86,24 +84,24 @@ public class ChangeNameActivity extends BaseFragment {
         String obj2 = this.lastNameField.getText().toString();
         String str2 = currentUser.first_name;
         if (str2 == null || !str2.equals(obj) || (str = currentUser.last_name) == null || !str.equals(obj2)) {
-            TLRPC$TL_account_updateProfile tLRPC$TL_account_updateProfile = new TLRPC$TL_account_updateProfile();
-            tLRPC$TL_account_updateProfile.flags = 3;
-            tLRPC$TL_account_updateProfile.first_name = obj;
+            TLRPC.TL_account_updateProfile tL_account_updateProfile = new TLRPC.TL_account_updateProfile();
+            tL_account_updateProfile.flags = 3;
+            tL_account_updateProfile.first_name = obj;
             currentUser.first_name = obj;
-            tLRPC$TL_account_updateProfile.last_name = obj2;
+            tL_account_updateProfile.last_name = obj2;
             currentUser.last_name = obj2;
-            TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(UserConfig.getInstance(this.currentAccount).getClientUserId()));
+            TLRPC.User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(UserConfig.getInstance(this.currentAccount).getClientUserId()));
             if (user != null) {
-                user.first_name = tLRPC$TL_account_updateProfile.first_name;
-                user.last_name = tLRPC$TL_account_updateProfile.last_name;
+                user.first_name = tL_account_updateProfile.first_name;
+                user.last_name = tL_account_updateProfile.last_name;
             }
             UserConfig.getInstance(this.currentAccount).saveConfig(true);
             NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.mainUserInfoChanged, new Object[0]);
             NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_NAME));
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_updateProfile, new RequestDelegate() { // from class: org.telegram.ui.ChangeNameActivity$$ExternalSyntheticLambda4
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_updateProfile, new RequestDelegate() { // from class: org.telegram.ui.ChangeNameActivity$$ExternalSyntheticLambda4
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ChangeNameActivity.lambda$saveName$3(tLObject, tLRPC$TL_error);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    ChangeNameActivity.lambda$saveName$3(tLObject, tL_error);
                 }
             });
         }
@@ -129,7 +127,7 @@ public class ChangeNameActivity extends BaseFragment {
             }
         });
         this.doneButton = this.actionBar.createMenu().addItemWithWidth(1, R.drawable.ic_ab_done, AndroidUtilities.dp(56.0f), LocaleController.getString(R.string.Done));
-        TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(UserConfig.getInstance(this.currentAccount).getClientUserId()));
+        TLRPC.User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(UserConfig.getInstance(this.currentAccount).getClientUserId()));
         if (user == null) {
             user = UserConfig.getInstance(this.currentAccount).getCurrentUser();
         }

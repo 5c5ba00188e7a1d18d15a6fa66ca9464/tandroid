@@ -46,15 +46,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ResultCallback;
-import org.telegram.tgnet.TLRPC$ChatFull;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$DocumentAttribute;
-import org.telegram.tgnet.TLRPC$Message;
-import org.telegram.tgnet.TLRPC$TL_documentAttributeAudio;
-import org.telegram.tgnet.TLRPC$TL_documentAttributeFilename;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$UserFull;
-import org.telegram.tgnet.TLRPC$WallPaper;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.EmojiThemes;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatBackgroundDrawable;
@@ -401,24 +393,24 @@ public abstract class PreviewView extends FrameLayout {
     }
 
     public static Drawable getBackgroundDrawable(Drawable drawable, int i, long j, boolean z) {
-        TLRPC$WallPaper tLRPC$WallPaper = null;
+        TLRPC.WallPaper wallPaper = null;
         if (j == Long.MIN_VALUE) {
             return null;
         }
         int i2 = (j > 0L ? 1 : (j == 0L ? 0 : -1));
         MessagesController messagesController = MessagesController.getInstance(i);
         if (i2 >= 0) {
-            TLRPC$UserFull userFull = messagesController.getUserFull(j);
+            TLRPC.UserFull userFull = messagesController.getUserFull(j);
             if (userFull != null) {
-                tLRPC$WallPaper = userFull.wallpaper;
+                wallPaper = userFull.wallpaper;
             }
         } else {
-            TLRPC$ChatFull chatFull = messagesController.getChatFull(-j);
+            TLRPC.ChatFull chatFull = messagesController.getChatFull(-j);
             if (chatFull != null) {
-                tLRPC$WallPaper = chatFull.wallpaper;
+                wallPaper = chatFull.wallpaper;
             }
         }
-        return getBackgroundDrawable(drawable, i, tLRPC$WallPaper, z);
+        return getBackgroundDrawable(drawable, i, wallPaper, z);
     }
 
     /* JADX WARN: Removed duplicated region for block: B:108:0x008f  */
@@ -433,13 +425,13 @@ public abstract class PreviewView extends FrameLayout {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static Drawable getBackgroundDrawable(Drawable drawable, int i, TLRPC$WallPaper tLRPC$WallPaper, boolean z) {
+    public static Drawable getBackgroundDrawable(Drawable drawable, int i, TLRPC.WallPaper wallPaper, boolean z) {
         int[] defaultColors;
         Theme.ThemeAccent accent;
-        if (tLRPC$WallPaper != null && TextUtils.isEmpty(ChatThemeController.getWallpaperEmoticon(tLRPC$WallPaper))) {
-            return ChatBackgroundDrawable.getOrCreate(drawable, tLRPC$WallPaper, z);
+        if (wallPaper != null && TextUtils.isEmpty(ChatThemeController.getWallpaperEmoticon(wallPaper))) {
+            return ChatBackgroundDrawable.getOrCreate(drawable, wallPaper, z);
         }
-        EmojiThemes theme = (tLRPC$WallPaper == null || tLRPC$WallPaper.settings == null) ? null : ChatThemeController.getInstance(i).getTheme(tLRPC$WallPaper.settings.emoticon);
+        EmojiThemes theme = (wallPaper == null || wallPaper.settings == null) ? null : ChatThemeController.getInstance(i).getTheme(wallPaper.settings.emoticon);
         if (theme != null) {
             return getBackgroundDrawableFromTheme(i, theme, 0, z);
         }
@@ -543,8 +535,8 @@ public abstract class PreviewView extends FrameLayout {
             }
 
             @Override // org.telegram.tgnet.ResultCallback
-            public /* synthetic */ void onError(TLRPC$TL_error tLRPC$TL_error) {
-                ResultCallback.-CC.$default$onError(this, tLRPC$TL_error);
+            public /* synthetic */ void onError(TLRPC.TL_error tL_error) {
+                ResultCallback.-CC.$default$onError(this, tL_error);
             }
         });
         return motionBackgroundDrawable;
@@ -1246,7 +1238,7 @@ public abstract class PreviewView extends FrameLayout {
                 this.matrix.set(this.entry.matrix);
                 this.matrix.preScale(this.entry.width / this.thumbBitmap.getWidth(), this.entry.height / this.thumbBitmap.getHeight());
                 this.matrix.postScale(getWidth() / this.entry.resultWidth, getHeight() / this.entry.resultHeight);
-                this.bitmapPaint.setAlpha(NotificationCenter.didClearDatabase);
+                this.bitmapPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                 canvas.drawBitmap(this.thumbBitmap, this.matrix, this.bitmapPaint);
             }
             if (this.bitmap != null) {
@@ -1715,11 +1707,11 @@ public abstract class PreviewView extends FrameLayout {
     }
 
     public void setupAudio(MessageObject messageObject, boolean z) {
-        TLRPC$Message tLRPC$Message;
+        TLRPC.Message message;
         StoryEntry storyEntry = this.entry;
         if (storyEntry != null) {
             storyEntry.editedMedia = true;
-            if (messageObject == null || (tLRPC$Message = messageObject.messageOwner) == null) {
+            if (messageObject == null || (message = messageObject.messageOwner) == null) {
                 storyEntry.audioPath = null;
                 storyEntry.audioAuthor = null;
                 storyEntry.audioTitle = null;
@@ -1728,24 +1720,24 @@ public abstract class PreviewView extends FrameLayout {
                 storyEntry.audioLeft = 0.0f;
                 storyEntry.audioRight = 1.0f;
             } else {
-                storyEntry.audioPath = tLRPC$Message.attachPath;
+                storyEntry.audioPath = message.attachPath;
                 storyEntry.audioAuthor = null;
                 storyEntry.audioTitle = null;
-                TLRPC$Document document = messageObject.getDocument();
+                TLRPC.Document document = messageObject.getDocument();
                 if (document != null) {
-                    Iterator<TLRPC$DocumentAttribute> it = document.attributes.iterator();
+                    Iterator<TLRPC.DocumentAttribute> it = document.attributes.iterator();
                     while (true) {
                         if (!it.hasNext()) {
                             break;
                         }
-                        TLRPC$DocumentAttribute next = it.next();
-                        if (next instanceof TLRPC$TL_documentAttributeAudio) {
+                        TLRPC.DocumentAttribute next = it.next();
+                        if (next instanceof TLRPC.TL_documentAttributeAudio) {
                             this.entry.audioAuthor = next.performer;
                             if (!TextUtils.isEmpty(next.title)) {
                                 this.entry.audioTitle = next.title;
                             }
                             this.entry.audioDuration = (long) (next.duration * 1000.0d);
-                        } else if (next instanceof TLRPC$TL_documentAttributeFilename) {
+                        } else if (next instanceof TLRPC.TL_documentAttributeFilename) {
                             this.entry.audioTitle = next.file_name;
                         }
                     }

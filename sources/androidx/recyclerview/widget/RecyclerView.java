@@ -3331,7 +3331,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         }
 
         boolean isAdapterPositionUnknown() {
-            return (this.mFlags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0 || isInvalid();
+            return (this.mFlags & 512) != 0 || isInvalid();
         }
 
         boolean isAttachedToTransitionOverlay() {

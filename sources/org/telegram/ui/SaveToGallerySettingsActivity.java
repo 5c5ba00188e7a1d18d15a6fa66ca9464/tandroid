@@ -24,8 +24,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.SaveToGallerySettingsHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
@@ -122,11 +121,11 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
                     UserCell userCell = (UserCell) viewHolder.itemView;
                     SaveToGallerySettingsHelper.DialogException dialogException = ((Item) SaveToGallerySettingsActivity.this.items.get(i)).exception;
                     TLObject userOrChat = SaveToGallerySettingsActivity.this.getMessagesController().getUserOrChat(dialogException.dialogId);
-                    if (userOrChat instanceof TLRPC$User) {
-                        TLRPC$User tLRPC$User = (TLRPC$User) userOrChat;
-                        str = tLRPC$User.self ? LocaleController.getString(R.string.SavedMessages) : ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
+                    if (userOrChat instanceof TLRPC.User) {
+                        TLRPC.User user = (TLRPC.User) userOrChat;
+                        str = user.self ? LocaleController.getString(R.string.SavedMessages) : ContactsController.formatName(user.first_name, user.last_name);
                     } else {
-                        str = userOrChat instanceof TLRPC$Chat ? ((TLRPC$Chat) userOrChat).title : null;
+                        str = userOrChat instanceof TLRPC.Chat ? ((TLRPC.Chat) userOrChat).title : null;
                     }
                     String str3 = str;
                     userCell.setSelfAsSavedMessages(true);

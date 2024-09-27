@@ -24,10 +24,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$TL_contact;
-import org.telegram.tgnet.TLRPC$TL_username;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Adapters.SearchAdapterHelper;
 import org.telegram.ui.Cells.GraySectionCell;
@@ -142,10 +139,10 @@ public abstract class SearchAdapter extends RecyclerListView.SelectionAdapter {
         ArrayList arrayList4 = new ArrayList();
         int i5 = 0;
         while (i5 < arrayList.size()) {
-            TLRPC$TL_contact tLRPC$TL_contact = (TLRPC$TL_contact) arrayList.get(i5);
+            TLRPC.TL_contact tL_contact = (TLRPC.TL_contact) arrayList.get(i5);
             int i6 = i4;
-            TLRPC$User user = MessagesController.getInstance(i2).getUser(Long.valueOf(tLRPC$TL_contact.user_id));
-            if ((this.allowSelf || !user.self) && ((!this.onlyMutual || user.mutual_contact) && ((longSparseArray = this.ignoreUsers) == null || longSparseArray.indexOfKey(tLRPC$TL_contact.user_id) < 0))) {
+            TLRPC.User user = MessagesController.getInstance(i2).getUser(Long.valueOf(tL_contact.user_id));
+            if ((this.allowSelf || !user.self) && ((!this.onlyMutual || user.mutual_contact) && ((longSparseArray = this.ignoreUsers) == null || longSparseArray.indexOfKey(tL_contact.user_id) < 0))) {
                 String[] strArr4 = new String[3];
                 strArr4[0] = ContactsController.formatName(user.first_name, user.last_name).toLowerCase();
                 String translitString2 = LocaleController.getInstance().getTranslitString(strArr4[0]);
@@ -415,25 +412,25 @@ public abstract class SearchAdapter extends RecyclerListView.SelectionAdapter {
             return;
         }
         String str3 = null;
-        if (tLObject instanceof TLRPC$User) {
-            TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
-            str = UserObject.getPublicUsername(tLRPC$User);
-            if (str != null && this.lastQuery != null && !str.toLowerCase().contains(this.lastQuery.toLowerCase()) && tLRPC$User.usernames != null) {
-                for (int i2 = 0; i2 < tLRPC$User.usernames.size(); i2++) {
-                    TLRPC$TL_username tLRPC$TL_username = (TLRPC$TL_username) tLRPC$User.usernames.get(i2);
-                    if (tLRPC$TL_username != null && tLRPC$TL_username.active && tLRPC$TL_username.username.toLowerCase().contains(this.lastQuery.toLowerCase())) {
-                        str = tLRPC$TL_username.username;
+        if (tLObject instanceof TLRPC.User) {
+            TLRPC.User user = (TLRPC.User) tLObject;
+            str = UserObject.getPublicUsername(user);
+            if (str != null && this.lastQuery != null && !str.toLowerCase().contains(this.lastQuery.toLowerCase()) && user.usernames != null) {
+                for (int i2 = 0; i2 < user.usernames.size(); i2++) {
+                    TLRPC.TL_username tL_username = user.usernames.get(i2);
+                    if (tL_username != null && tL_username.active && tL_username.username.toLowerCase().contains(this.lastQuery.toLowerCase())) {
+                        str = tL_username.username;
                     }
                 }
             }
-            long j3 = tLRPC$User.id;
-            z = tLRPC$User.self;
+            long j3 = user.id;
+            z = user.self;
             j2 = j3;
         } else {
-            if (tLObject instanceof TLRPC$Chat) {
-                TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) tLObject;
-                str = ChatObject.getPublicUsername(tLRPC$Chat);
-                j = tLRPC$Chat.id;
+            if (tLObject instanceof TLRPC.Chat) {
+                TLRPC.Chat chat = (TLRPC.Chat) tLObject;
+                str = ChatObject.getPublicUsername(chat);
+                j = chat.id;
             } else {
                 j = 0;
                 str = null;

@@ -45,11 +45,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$Message;
-import org.telegram.tgnet.TLRPC$MessageMedia;
-import org.telegram.tgnet.TLRPC$Photo;
-import org.telegram.tgnet.TLRPC$TL_messageMediaWebPage;
-import org.telegram.tgnet.TLRPC$WebPage;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BottomSheetTabs;
 import org.telegram.ui.ActionBar.Theme;
@@ -379,13 +375,13 @@ public class AddressBarList extends FrameLayout {
             String[] split;
             TextView textView;
             String str2;
-            TLRPC$Photo tLRPC$Photo;
+            TLRPC.Photo photo;
             Bitmap bitmap;
             updateColors();
-            TLRPC$WebPage tLRPC$WebPage = MessageObject.getMedia(messageObject) != null ? MessageObject.getMedia(messageObject).webpage : null;
-            String link = tLRPC$WebPage != null ? tLRPC$WebPage.url : AddressBarList.getLink(messageObject);
+            TLRPC.WebPage webPage = MessageObject.getMedia(messageObject) != null ? MessageObject.getMedia(messageObject).webpage : null;
+            String link = webPage != null ? webPage.url : AddressBarList.getLink(messageObject);
             WebMetadataCache.WebMetadata webMetadata = WebMetadataCache.getInstance().get(AndroidUtilities.getHostAuthority(link, true));
-            if ((tLRPC$WebPage != null && (str2 = tLRPC$WebPage.title) != null) || (tLRPC$WebPage != null && (str2 = tLRPC$WebPage.site_name) != null)) {
+            if ((webPage != null && (str2 = webPage.title) != null) || (webPage != null && (str2 = webPage.site_name) != null)) {
                 textView = this.textView;
             } else if (webMetadata != null && !TextUtils.isEmpty(webMetadata.title)) {
                 textView = this.textView;
@@ -400,7 +396,7 @@ public class AddressBarList extends FrameLayout {
                 this.iconView.clearImage();
                 if (webMetadata == null && (bitmap = webMetadata.favicon) != null) {
                     this.iconView.setImageBitmap(bitmap);
-                } else if (tLRPC$WebPage != null || (tLRPC$Photo = tLRPC$WebPage.photo) == null) {
+                } else if (webPage != null || (photo = webPage.photo) == null) {
                     String charSequence = this.textView.getText() != null ? "" : this.textView.getText().toString();
                     BreakIterator characterInstance = BreakIterator.getCharacterInstance();
                     characterInstance.setText(charSequence);
@@ -434,11 +430,11 @@ public class AddressBarList extends FrameLayout {
                     combinedDrawable.setCustomSize(AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f));
                     this.iconView.setImageDrawable(combinedDrawable);
                 } else {
-                    this.iconView.setImage(ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, AndroidUtilities.dp(32.0f), true, null, true), tLRPC$WebPage.photo), AndroidUtilities.dp(32.0f) + "_" + AndroidUtilities.dp(32.0f), ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(tLRPC$WebPage.photo.sizes, AndroidUtilities.dp(32.0f), true, null, false), tLRPC$WebPage.photo), AndroidUtilities.dp(32.0f) + "_" + AndroidUtilities.dp(32.0f), 0, messageObject);
+                    this.iconView.setImage(ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(photo.sizes, AndroidUtilities.dp(32.0f), true, null, true), webPage.photo), AndroidUtilities.dp(32.0f) + "_" + AndroidUtilities.dp(32.0f), ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(webPage.photo.sizes, AndroidUtilities.dp(32.0f), true, null, false), webPage.photo), AndroidUtilities.dp(32.0f) + "_" + AndroidUtilities.dp(32.0f), 0, messageObject);
                 }
                 this.timeView.setVisibility(8);
                 this.insertView.setVisibility(z ? 0 : 8);
-                String link2 = tLRPC$WebPage == null ? tLRPC$WebPage.url : AddressBarList.getLink(messageObject);
+                String link2 = webPage == null ? webPage.url : AddressBarList.getLink(messageObject);
                 Uri parse = Uri.parse(link2);
                 link2 = Browser.replaceHostname(parse, Browser.IDN_toUnicode(parse.getHost()), null);
                 link2 = URLDecoder.decode(link2.replaceAll("\\+", "%2b"), "UTF-8");
@@ -467,7 +463,7 @@ public class AddressBarList extends FrameLayout {
             this.iconView.clearImage();
             if (webMetadata == null) {
             }
-            if (tLRPC$WebPage != null) {
+            if (webPage != null) {
             }
             if (this.textView.getText() != null) {
             }
@@ -504,7 +500,7 @@ public class AddressBarList extends FrameLayout {
             this.iconView.setImageDrawable(combinedDrawable2);
             this.timeView.setVisibility(8);
             this.insertView.setVisibility(z ? 0 : 8);
-            String link22 = tLRPC$WebPage == null ? tLRPC$WebPage.url : AddressBarList.getLink(messageObject);
+            String link22 = webPage == null ? webPage.url : AddressBarList.getLink(messageObject);
             Uri parse2 = Uri.parse(link22);
             link22 = Browser.replaceHostname(parse2, Browser.IDN_toUnicode(parse2.getHost()), null);
             link22 = URLDecoder.decode(link22.replaceAll("\\+", "%2b"), "UTF-8");
@@ -913,11 +909,11 @@ public class AddressBarList extends FrameLayout {
     }
 
     public static String getLink(MessageObject messageObject) {
-        TLRPC$Message tLRPC$Message = messageObject.messageOwner;
-        if (tLRPC$Message != null) {
-            TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message.media;
-            if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaWebPage) {
-                return tLRPC$MessageMedia.webpage.url;
+        TLRPC.Message message = messageObject.messageOwner;
+        if (message != null) {
+            TLRPC.MessageMedia messageMedia = message.media;
+            if (messageMedia instanceof TLRPC.TL_messageMediaWebPage) {
+                return messageMedia.webpage.url;
             }
         }
         CharSequence charSequence = messageObject.messageText;

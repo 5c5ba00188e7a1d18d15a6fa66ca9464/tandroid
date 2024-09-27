@@ -25,9 +25,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$TL_authorization;
-import org.telegram.tgnet.TLRPC$TL_webAuthorization;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.AvatarDrawable;
@@ -206,28 +204,28 @@ public class SessionCell extends FrameLayout {
     }
 
     public static CombinedDrawable createDrawable(int i, String str) {
-        TLRPC$TL_authorization tLRPC$TL_authorization = new TLRPC$TL_authorization();
-        tLRPC$TL_authorization.device_model = str;
-        tLRPC$TL_authorization.platform = str;
-        tLRPC$TL_authorization.app_name = str;
-        return createDrawable(i, tLRPC$TL_authorization);
+        TLRPC.TL_authorization tL_authorization = new TLRPC.TL_authorization();
+        tL_authorization.device_model = str;
+        tL_authorization.platform = str;
+        tL_authorization.app_name = str;
+        return createDrawable(i, tL_authorization);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:64:0x011c  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x011f  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0126  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0127  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x012a  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x0131  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static CombinedDrawable createDrawable(int i, TLRPC$TL_authorization tLRPC$TL_authorization) {
+    public static CombinedDrawable createDrawable(int i, TLRPC.TL_authorization tL_authorization) {
         int i2;
         int i3;
         int i4;
-        String lowerCase = tLRPC$TL_authorization.platform.toLowerCase();
+        String lowerCase = tL_authorization.platform.toLowerCase();
         if (lowerCase.isEmpty()) {
-            lowerCase = tLRPC$TL_authorization.system_version.toLowerCase();
+            lowerCase = tL_authorization.system_version.toLowerCase();
         }
-        String lowerCase2 = tLRPC$TL_authorization.device_model.toLowerCase();
+        String lowerCase2 = tL_authorization.device_model.toLowerCase();
         if (lowerCase2.contains("safari")) {
             i2 = R.drawable.device_web_safari;
         } else if (lowerCase2.contains("edge")) {
@@ -240,50 +238,59 @@ public class SessionCell extends FrameLayout {
             i2 = R.drawable.device_web_firefox;
         } else {
             if (!lowerCase2.contains("vivaldi")) {
-                if (lowerCase.contains("ios")) {
-                    i2 = lowerCase2.contains("ipad") ? R.drawable.device_tablet_ios : R.drawable.device_phone_ios;
-                    i3 = Theme.key_avatar_backgroundBlue;
-                    i4 = Theme.key_avatar_background2Blue;
-                } else {
+                if (!lowerCase.contains("ios")) {
                     if (lowerCase.contains("windows")) {
                         i2 = R.drawable.device_desktop_win;
-                    } else if (lowerCase.contains("macos")) {
-                        i2 = R.drawable.device_desktop_osx;
-                    } else if (lowerCase.contains("android")) {
-                        i2 = lowerCase2.contains("tab") ? R.drawable.device_tablet_android : R.drawable.device_phone_android;
-                        i3 = Theme.key_avatar_backgroundGreen;
-                        i4 = Theme.key_avatar_background2Green;
-                    } else {
-                        if (lowerCase.contains("fragment")) {
-                            i2 = R.drawable.fragment;
-                        } else if (lowerCase.contains("premiumbot")) {
-                            i2 = R.drawable.filled_star_plus;
-                            i3 = Theme.key_color_yellow;
-                            i4 = Theme.key_color_orange;
-                        } else if (lowerCase.contains("ads")) {
-                            i2 = R.drawable.msg_channel;
-                        } else if (lowerCase.equals("?")) {
-                            i2 = R.drawable.msg_emoji_question;
-                        } else if (tLRPC$TL_authorization.app_name.toLowerCase().contains("desktop")) {
-                            i2 = R.drawable.device_desktop_other;
+                    } else if (!lowerCase.contains("macos")) {
+                        if (lowerCase.contains("android")) {
+                            i2 = lowerCase2.contains("tab") ? R.drawable.device_tablet_android : R.drawable.device_phone_android;
+                            i3 = Theme.key_avatar_backgroundGreen;
+                            i4 = Theme.key_avatar_background2Green;
+                        } else {
+                            if (lowerCase.contains("fragment")) {
+                                i2 = R.drawable.fragment;
+                            } else if (lowerCase.contains("anonymous")) {
+                                i2 = R.drawable.large_hidden;
+                            } else if (lowerCase.contains("premiumbot")) {
+                                i2 = R.drawable.filled_star_plus;
+                                i3 = Theme.key_color_yellow;
+                                i4 = Theme.key_color_orange;
+                            } else if (lowerCase.contains("ads")) {
+                                i2 = R.drawable.msg_channel;
+                            } else if (lowerCase.equals("?")) {
+                                i2 = R.drawable.msg_emoji_question;
+                            } else if (tL_authorization.app_name.toLowerCase().contains("desktop")) {
+                                i2 = R.drawable.device_desktop_other;
+                            }
+                            i3 = -1;
+                            i4 = -1;
                         }
-                        i3 = -1;
-                        i4 = -1;
+                        Drawable mutate = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i2).mutate();
+                        mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
+                        return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(i), i3 != -1 ? -16777216 : Theme.getColor(i3), i4 != -1 ? Theme.getColor(i4) : -16777216), mutate);
+                    } else {
+                        i2 = R.drawable.device_desktop_osx;
                     }
                     i3 = Theme.key_avatar_backgroundCyan;
                     i4 = Theme.key_avatar_background2Cyan;
+                    Drawable mutate2 = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i2).mutate();
+                    mutate2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
+                    return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(i), i3 != -1 ? -16777216 : Theme.getColor(i3), i4 != -1 ? Theme.getColor(i4) : -16777216), mutate2);
                 }
-                Drawable mutate = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i2).mutate();
-                mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
-                return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(i), i3 != -1 ? -16777216 : Theme.getColor(i3), i4 != -1 ? Theme.getColor(i4) : -16777216), mutate);
+                i2 = lowerCase2.contains("ipad") ? R.drawable.device_tablet_ios : R.drawable.device_phone_ios;
+                i3 = Theme.key_avatar_backgroundBlue;
+                i4 = Theme.key_avatar_background2Blue;
+                Drawable mutate22 = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i2).mutate();
+                mutate22.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
+                return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(i), i3 != -1 ? -16777216 : Theme.getColor(i3), i4 != -1 ? Theme.getColor(i4) : -16777216), mutate22);
             }
             i2 = R.drawable.device_web_other;
         }
         i3 = Theme.key_avatar_backgroundPink;
         i4 = Theme.key_avatar_background2Pink;
-        Drawable mutate2 = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i2).mutate();
-        mutate2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
-        return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(i), i3 != -1 ? -16777216 : Theme.getColor(i3), i4 != -1 ? Theme.getColor(i4) : -16777216), mutate2);
+        Drawable mutate222 = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i2).mutate();
+        mutate222.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
+        return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(i), i3 != -1 ? -16777216 : Theme.getColor(i3), i4 != -1 ? Theme.getColor(i4) : -16777216), mutate222);
     }
 
     private void setContentAlpha(float f) {
@@ -373,11 +380,11 @@ public class SessionCell extends FrameLayout {
         String str2;
         String stringForMessageListDate;
         this.needDivider = z;
-        if (!(tLObject instanceof TLRPC$TL_authorization)) {
-            if (tLObject instanceof TLRPC$TL_webAuthorization) {
-                TLRPC$TL_webAuthorization tLRPC$TL_webAuthorization = (TLRPC$TL_webAuthorization) tLObject;
-                TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tLRPC$TL_webAuthorization.bot_id));
-                this.nameTextView.setText(tLRPC$TL_webAuthorization.domain);
+        if (!(tLObject instanceof TLRPC.TL_authorization)) {
+            if (tLObject instanceof TLRPC.TL_webAuthorization) {
+                TLRPC.TL_webAuthorization tL_webAuthorization = (TLRPC.TL_webAuthorization) tLObject;
+                TLRPC.User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tL_webAuthorization.bot_id));
+                this.nameTextView.setText(tL_webAuthorization.domain);
                 if (user != null) {
                     this.avatarDrawable.setInfo(this.currentAccount, user);
                     str = UserObject.getFirstName(user);
@@ -387,35 +394,35 @@ public class SessionCell extends FrameLayout {
                 }
                 int i = Theme.key_windowBackgroundWhiteGrayText3;
                 setTag(Integer.valueOf(i));
-                this.onlineTextView.setText(LocaleController.stringForMessageListDate(tLRPC$TL_webAuthorization.date_active));
+                this.onlineTextView.setText(LocaleController.stringForMessageListDate(tL_webAuthorization.date_active));
                 this.onlineTextView.setTextColor(Theme.getColor(i));
                 StringBuilder sb2 = new StringBuilder();
-                if (tLRPC$TL_webAuthorization.ip.length() != 0) {
-                    sb2.append(tLRPC$TL_webAuthorization.ip);
+                if (tL_webAuthorization.ip.length() != 0) {
+                    sb2.append(tL_webAuthorization.ip);
                 }
-                if (tLRPC$TL_webAuthorization.region.length() != 0) {
+                if (tL_webAuthorization.region.length() != 0) {
                     if (sb2.length() != 0) {
                         sb2.append(" ");
                     }
                     sb2.append("— ");
-                    sb2.append(tLRPC$TL_webAuthorization.region);
+                    sb2.append(tL_webAuthorization.region);
                 }
                 this.detailExTextView.setText(sb2);
                 sb = new StringBuilder();
                 if (!TextUtils.isEmpty(str)) {
                     sb.append(str);
                 }
-                if (tLRPC$TL_webAuthorization.browser.length() != 0) {
+                if (tL_webAuthorization.browser.length() != 0) {
                     if (sb.length() != 0) {
                         sb.append(", ");
                     }
-                    sb.append(tLRPC$TL_webAuthorization.browser);
+                    sb.append(tL_webAuthorization.browser);
                 }
-                if (tLRPC$TL_webAuthorization.platform.length() != 0) {
+                if (tL_webAuthorization.platform.length() != 0) {
                     if (sb.length() != 0) {
                         sb.append(", ");
                     }
-                    str2 = tLRPC$TL_webAuthorization.platform;
+                    str2 = tL_webAuthorization.platform;
                 }
                 this.detailTextView.setText(sb);
             }
@@ -426,34 +433,34 @@ public class SessionCell extends FrameLayout {
             invalidate();
             return;
         }
-        TLRPC$TL_authorization tLRPC$TL_authorization = (TLRPC$TL_authorization) tLObject;
-        this.imageView.setImageDrawable(createDrawable(42, tLRPC$TL_authorization));
+        TLRPC.TL_authorization tL_authorization = (TLRPC.TL_authorization) tLObject;
+        this.imageView.setImageDrawable(createDrawable(42, tL_authorization));
         StringBuilder sb3 = new StringBuilder();
-        if (tLRPC$TL_authorization.device_model.length() != 0) {
-            sb3.append(tLRPC$TL_authorization.device_model);
+        if (tL_authorization.device_model.length() != 0) {
+            sb3.append(tL_authorization.device_model);
         }
         if (sb3.length() == 0) {
-            if (tLRPC$TL_authorization.platform.length() != 0) {
-                sb3.append(tLRPC$TL_authorization.platform);
+            if (tL_authorization.platform.length() != 0) {
+                sb3.append(tL_authorization.platform);
             }
-            if (tLRPC$TL_authorization.system_version.length() != 0) {
-                if (tLRPC$TL_authorization.platform.length() != 0) {
+            if (tL_authorization.system_version.length() != 0) {
+                if (tL_authorization.platform.length() != 0) {
                     sb3.append(" ");
                 }
-                sb3.append(tLRPC$TL_authorization.system_version);
+                sb3.append(tL_authorization.system_version);
             }
         }
         this.nameTextView.setText(sb3);
-        if ((tLRPC$TL_authorization.flags & 1) != 0) {
+        if ((tL_authorization.flags & 1) != 0) {
             setTag(Integer.valueOf(Theme.key_windowBackgroundWhiteValueText));
             stringForMessageListDate = LocaleController.getString(R.string.Online);
         } else {
             setTag(Integer.valueOf(Theme.key_windowBackgroundWhiteGrayText3));
-            stringForMessageListDate = LocaleController.stringForMessageListDate(tLRPC$TL_authorization.date_active);
+            stringForMessageListDate = LocaleController.stringForMessageListDate(tL_authorization.date_active);
         }
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-        if (tLRPC$TL_authorization.country.length() != 0) {
-            spannableStringBuilder.append((CharSequence) tLRPC$TL_authorization.country);
+        if (tL_authorization.country.length() != 0) {
+            spannableStringBuilder.append((CharSequence) tL_authorization.country);
         }
         if (spannableStringBuilder.length() != 0) {
             DotDividerSpan dotDividerSpan = new DotDividerSpan();
@@ -463,9 +470,9 @@ public class SessionCell extends FrameLayout {
         spannableStringBuilder.append((CharSequence) stringForMessageListDate);
         this.detailExTextView.setText(spannableStringBuilder);
         sb = new StringBuilder();
-        sb.append(tLRPC$TL_authorization.app_name);
+        sb.append(tL_authorization.app_name);
         sb.append(" ");
-        str2 = tLRPC$TL_authorization.app_version;
+        str2 = tL_authorization.app_version;
         sb.append(str2);
         this.detailTextView.setText(sb);
         if (this.showStub) {

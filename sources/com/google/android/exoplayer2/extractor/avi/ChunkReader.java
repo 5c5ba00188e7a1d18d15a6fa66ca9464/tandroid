@@ -8,7 +8,6 @@ import com.google.android.exoplayer2.upstream.DataReader;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
-import org.telegram.messenger.LiteMode;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class ChunkReader {
@@ -36,8 +35,8 @@ public final class ChunkReader {
         this.trackOutput = trackOutput;
         this.chunkId = getChunkIdFourCc(i, i2 == 2 ? 1667497984 : 1651965952);
         this.alternativeChunkId = i2 == 2 ? getChunkIdFourCc(i, 1650720768) : -1;
-        this.keyFrameOffsets = new long[LiteMode.FLAG_CALLS_ANIMATIONS];
-        this.keyFrameIndices = new int[LiteMode.FLAG_CALLS_ANIMATIONS];
+        this.keyFrameOffsets = new long[512];
+        this.keyFrameIndices = new int[512];
     }
 
     private static int getChunkIdFourCc(int i, int i2) {

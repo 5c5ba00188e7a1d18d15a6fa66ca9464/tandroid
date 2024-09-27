@@ -132,7 +132,7 @@ public final class Cea708Decoder extends CeaDecoder {
             Assertions.checkIndex(i2, 0, 4);
             Assertions.checkIndex(i3, 0, 4);
             Assertions.checkIndex(i4, 0, 4);
-            return Color.argb(i4 != 2 ? i4 != 3 ? NotificationCenter.didClearDatabase : 0 : NotificationCenter.dialogTranslate, i > 1 ? NotificationCenter.didClearDatabase : 0, i2 > 1 ? NotificationCenter.didClearDatabase : 0, i3 > 1 ? NotificationCenter.didClearDatabase : 0);
+            return Color.argb(i4 != 2 ? i4 != 3 ? NotificationCenter.messagePlayingSpeedChanged : 0 : NotificationCenter.dialogTranslate, i > 1 ? NotificationCenter.messagePlayingSpeedChanged : 0, i2 > 1 ? NotificationCenter.messagePlayingSpeedChanged : 0, i3 > 1 ? NotificationCenter.messagePlayingSpeedChanged : 0);
         }
 
         public void append(char c) {
@@ -583,9 +583,9 @@ public final class Cea708Decoder extends CeaDecoder {
             case NotificationCenter.recordStopped /* 153 */:
             case NotificationCenter.recordPaused /* 154 */:
             case NotificationCenter.recordResumed /* 155 */:
-            case 156:
+            case NotificationCenter.screenshotTook /* 156 */:
             case NotificationCenter.albumsDidLoad /* 157 */:
-            case NotificationCenter.audioDidSent /* 158 */:
+            case 158:
             case NotificationCenter.audioRecordTooShort /* 159 */:
                 int i7 = i - 152;
                 handleDefineWindow(i7);
@@ -662,12 +662,12 @@ public final class Cea708Decoder extends CeaDecoder {
         if (i == 127) {
             this.currentCueInfoBuilder.append((char) 9835);
         } else {
-            this.currentCueInfoBuilder.append((char) (i & NotificationCenter.didClearDatabase));
+            this.currentCueInfoBuilder.append((char) (i & NotificationCenter.messagePlayingSpeedChanged));
         }
     }
 
     private void handleG1Character(int i) {
-        this.currentCueInfoBuilder.append((char) (i & NotificationCenter.didClearDatabase));
+        this.currentCueInfoBuilder.append((char) (i & NotificationCenter.messagePlayingSpeedChanged));
     }
 
     private void handleG2Character(int i) {

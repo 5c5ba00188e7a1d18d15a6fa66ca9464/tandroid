@@ -22,13 +22,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$ChatFull;
-import org.telegram.tgnet.TLRPC$ChatInvite;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_messages_importChatInvite;
-import org.telegram.tgnet.TLRPC$Updates;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.SimpleTextView;
@@ -37,8 +31,8 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.Bulletin;
 /* loaded from: classes3.dex */
 public class JoinGroupAlert extends BottomSheet {
-    private TLRPC$ChatInvite chatInvite;
-    private TLRPC$Chat currentChat;
+    private TLRPC.ChatInvite chatInvite;
+    private TLRPC.Chat currentChat;
     private final BaseFragment fragment;
     private final String hash;
     private RadialProgressView requestProgressView;
@@ -70,17 +64,17 @@ public class JoinGroupAlert extends BottomSheet {
         Drawable scamDrawable;
         final boolean z3;
         boolean z4;
-        TLRPC$ChatInvite tLRPC$ChatInvite;
+        TLRPC.ChatInvite chatInvite;
         boolean z5;
         CharSequence format;
         setApplyBottomPadding(false);
         setApplyTopPadding(false);
         fixNavigationBar(getThemedColor(Theme.key_windowBackgroundWhite));
         this.fragment = baseFragment;
-        if (tLObject instanceof TLRPC$ChatInvite) {
-            this.chatInvite = (TLRPC$ChatInvite) tLObject;
-        } else if (tLObject instanceof TLRPC$Chat) {
-            this.currentChat = (TLRPC$Chat) tLObject;
+        if (tLObject instanceof TLRPC.ChatInvite) {
+            this.chatInvite = (TLRPC.ChatInvite) tLObject;
+        } else if (tLObject instanceof TLRPC.Chat) {
+            this.currentChat = (TLRPC.Chat) tLObject;
         }
         this.hash = str;
         LinearLayout linearLayout = new LinearLayout(context);
@@ -107,45 +101,45 @@ public class JoinGroupAlert extends BottomSheet {
         BackupImageView backupImageView = new BackupImageView(context);
         backupImageView.setRoundRadius(AndroidUtilities.dp(45.0f));
         linearLayout.addView(backupImageView, LayoutHelper.createLinear(90, 90, 49, 0, 27, 0, 0));
-        TLRPC$ChatInvite tLRPC$ChatInvite2 = this.chatInvite;
-        if (tLRPC$ChatInvite2 != null) {
-            if (tLRPC$ChatInvite2.chat != null) {
+        TLRPC.ChatInvite chatInvite2 = this.chatInvite;
+        if (chatInvite2 != null) {
+            if (chatInvite2.chat != null) {
                 AvatarDrawable avatarDrawable = new AvatarDrawable(this.chatInvite.chat);
-                TLRPC$ChatInvite tLRPC$ChatInvite3 = this.chatInvite;
-                TLRPC$Chat tLRPC$Chat = tLRPC$ChatInvite3.chat;
-                String str3 = tLRPC$Chat.title;
-                i3 = tLRPC$Chat.participants_count;
-                backupImageView.setForUserOrChat(tLRPC$Chat, avatarDrawable, tLRPC$ChatInvite3);
+                TLRPC.ChatInvite chatInvite3 = this.chatInvite;
+                TLRPC.Chat chat = chatInvite3.chat;
+                String str3 = chat.title;
+                i3 = chat.participants_count;
+                backupImageView.setForUserOrChat(chat, avatarDrawable, chatInvite3);
                 r12 = str3;
             } else {
                 AvatarDrawable avatarDrawable2 = new AvatarDrawable();
                 avatarDrawable2.setInfo(0L, this.chatInvite.title, null);
-                TLRPC$ChatInvite tLRPC$ChatInvite4 = this.chatInvite;
-                String str4 = tLRPC$ChatInvite4.title;
-                i3 = tLRPC$ChatInvite4.participants_count;
-                backupImageView.setImage(ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(tLRPC$ChatInvite4.photo.sizes, 50), this.chatInvite.photo), "50_50", avatarDrawable2, this.chatInvite);
+                TLRPC.ChatInvite chatInvite4 = this.chatInvite;
+                String str4 = chatInvite4.title;
+                i3 = chatInvite4.participants_count;
+                backupImageView.setImage(ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(chatInvite4.photo.sizes, 50), this.chatInvite.photo), "50_50", avatarDrawable2, this.chatInvite);
                 r12 = str4;
             }
-            TLRPC$ChatInvite tLRPC$ChatInvite5 = this.chatInvite;
-            str2 = tLRPC$ChatInvite5.about;
-            z = tLRPC$ChatInvite5.verified;
-            z2 = tLRPC$ChatInvite5.fake;
-            i2 = tLRPC$ChatInvite5.scam;
+            TLRPC.ChatInvite chatInvite5 = this.chatInvite;
+            str2 = chatInvite5.about;
+            z = chatInvite5.verified;
+            z2 = chatInvite5.fake;
+            i2 = chatInvite5.scam;
         } else if (this.currentChat != null) {
             AvatarDrawable avatarDrawable3 = new AvatarDrawable(this.currentChat);
             String str5 = this.currentChat.title;
-            TLRPC$ChatFull chatFull = MessagesController.getInstance(this.currentAccount).getChatFull(this.currentChat.id);
+            TLRPC.ChatFull chatFull = MessagesController.getInstance(this.currentAccount).getChatFull(this.currentChat.id);
             r12 = chatFull != null ? chatFull.about : null;
             i3 = Math.max(this.currentChat.participants_count, chatFull != null ? chatFull.participants_count : 0);
-            TLRPC$Chat tLRPC$Chat2 = this.currentChat;
-            backupImageView.setForUserOrChat(tLRPC$Chat2, avatarDrawable3, tLRPC$Chat2);
-            TLRPC$Chat tLRPC$Chat3 = this.currentChat;
-            boolean z6 = tLRPC$Chat3.verified;
-            z2 = tLRPC$Chat3.fake;
+            TLRPC.Chat chat2 = this.currentChat;
+            backupImageView.setForUserOrChat(chat2, avatarDrawable3, chat2);
+            TLRPC.Chat chat3 = this.currentChat;
+            boolean z6 = chat3.verified;
+            z2 = chat3.fake;
             z = z6;
             str2 = r12;
             r12 = str5;
-            i2 = tLRPC$Chat3.scam;
+            i2 = chat3.scam;
         } else {
             str2 = null;
             i2 = 0;
@@ -163,8 +157,8 @@ public class JoinGroupAlert extends BottomSheet {
         linearLayout.addView(simpleTextView, LayoutHelper.createLinear(-2, -2, 49, 10, 10, 10, i3 > 0 ? 0 : 20));
         if (i2 == 0 && !z2) {
             scamDrawable = z ? getVerifiedCrossfadeDrawable() : scamDrawable;
-            TLRPC$ChatInvite tLRPC$ChatInvite6 = this.chatInvite;
-            z3 = (tLRPC$ChatInvite6 == null && ((tLRPC$ChatInvite6.channel && !tLRPC$ChatInvite6.megagroup) || ChatObject.isChannelAndNotMegaGroup(tLRPC$ChatInvite6.chat))) || (ChatObject.isChannel(this.currentChat) && !this.currentChat.megagroup);
+            TLRPC.ChatInvite chatInvite6 = this.chatInvite;
+            z3 = (chatInvite6 == null && ((chatInvite6.channel && !chatInvite6.megagroup) || ChatObject.isChannelAndNotMegaGroup(chatInvite6.chat))) || (ChatObject.isChannel(this.currentChat) && !this.currentChat.megagroup);
             z4 = !TextUtils.isEmpty(str2);
             TextView textView = new TextView(context);
             textView.setTextSize(1, 13.0f);
@@ -183,8 +177,8 @@ public class JoinGroupAlert extends BottomSheet {
                 textView2.setTextSize(1, 15.0f);
                 linearLayout.addView(textView2, LayoutHelper.createLinear(-1, -2, 48, 24, 10, 24, 20));
             }
-            tLRPC$ChatInvite = this.chatInvite;
-            if (tLRPC$ChatInvite != null || tLRPC$ChatInvite.request_needed) {
+            chatInvite = this.chatInvite;
+            if (chatInvite != null || chatInvite.request_needed) {
                 FrameLayout frameLayout2 = new FrameLayout(getContext());
                 linearLayout.addView(frameLayout2, LayoutHelper.createLinear(-1, -2));
                 RadialProgressView radialProgressView = new RadialProgressView(getContext(), resourcesProvider);
@@ -218,7 +212,7 @@ public class JoinGroupAlert extends BottomSheet {
                 textView4.setTextColor(getThemedColor(i5));
                 linearLayout.addView(textView4, LayoutHelper.createLinear(-1, -2, 48, 24, 17, 24, 15));
             }
-            if (tLRPC$ChatInvite.participants.isEmpty()) {
+            if (chatInvite.participants.isEmpty()) {
                 z5 = false;
             } else {
                 int min = Math.min(this.chatInvite.participants.size(), 3);
@@ -229,7 +223,7 @@ public class JoinGroupAlert extends BottomSheet {
                 avatarsImageView.setCount(min);
                 avatarsImageView.setStepFactor(0.65f);
                 for (int i7 = 0; i7 < min; i7++) {
-                    avatarsImageView.setObject(i7, UserConfig.selectedAccount, (TLObject) this.chatInvite.participants.get(i7));
+                    avatarsImageView.setObject(i7, UserConfig.selectedAccount, this.chatInvite.participants.get(i7));
                 }
                 avatarsImageView.commitTransition(false);
                 linearLayout.addView(avatarsImageView, LayoutHelper.createLinear((int) (f + ((min - 1) * ((0.65f * f) + 1.0f))), 44, 17, 0, 2, 0, 4));
@@ -254,8 +248,8 @@ public class JoinGroupAlert extends BottomSheet {
                 textView5.setText(format);
                 linearLayout.addView(textView5, LayoutHelper.createLinear(-2, -2, 49, 10, 0, 10, 24));
             }
-            TLRPC$ChatInvite tLRPC$ChatInvite7 = this.chatInvite;
-            if ((tLRPC$ChatInvite7.channel && !tLRPC$ChatInvite7.megagroup) || (ChatObject.isChannel(tLRPC$ChatInvite7.chat) && !this.chatInvite.chat.megagroup)) {
+            TLRPC.ChatInvite chatInvite7 = this.chatInvite;
+            if ((chatInvite7.channel && !chatInvite7.megagroup) || (ChatObject.isChannel(chatInvite7.chat) && !this.chatInvite.chat.megagroup)) {
                 z5 = true;
             }
             TextView textView6 = new TextView(getContext());
@@ -278,8 +272,8 @@ public class JoinGroupAlert extends BottomSheet {
         }
         scamDrawable = getScamDrawable(i2 ^ 1);
         simpleTextView.setRightDrawable(scamDrawable);
-        TLRPC$ChatInvite tLRPC$ChatInvite62 = this.chatInvite;
-        if (tLRPC$ChatInvite62 == null) {
+        TLRPC.ChatInvite chatInvite62 = this.chatInvite;
+        if (chatInvite62 == null) {
         }
         z4 = !TextUtils.isEmpty(str2);
         TextView textView7 = new TextView(context);
@@ -293,8 +287,8 @@ public class JoinGroupAlert extends BottomSheet {
         linearLayout.addView(textView7, LayoutHelper.createLinear(-2, -2, 49, 10, 0, 10, !z4 ? 0 : 20));
         if (z4) {
         }
-        tLRPC$ChatInvite = this.chatInvite;
-        if (tLRPC$ChatInvite != null) {
+        chatInvite = this.chatInvite;
+        if (chatInvite != null) {
         }
         FrameLayout frameLayout22 = new FrameLayout(getContext());
         linearLayout.addView(frameLayout22, LayoutHelper.createLinear(-1, -2));
@@ -330,8 +324,8 @@ public class JoinGroupAlert extends BottomSheet {
         linearLayout.addView(textView42, LayoutHelper.createLinear(-1, -2, 48, 24, 17, 24, 15));
     }
 
-    private CharSequence ellipsize(TextView textView, TLRPC$ChatInvite tLRPC$ChatInvite, int i) {
-        String str = ((TLRPC$User) tLRPC$ChatInvite.participants.get(i)).first_name;
+    private CharSequence ellipsize(TextView textView, TLRPC.ChatInvite chatInvite, int i) {
+        String str = chatInvite.participants.get(i).first_name;
         if (str == null) {
             str = "";
         }
@@ -363,12 +357,12 @@ public class JoinGroupAlert extends BottomSheet {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$10(final int i, View view) {
         dismiss();
-        final TLRPC$TL_messages_importChatInvite tLRPC$TL_messages_importChatInvite = new TLRPC$TL_messages_importChatInvite();
-        tLRPC$TL_messages_importChatInvite.hash = this.hash;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_importChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda3
+        final TLRPC.TL_messages_importChatInvite tL_messages_importChatInvite = new TLRPC.TL_messages_importChatInvite();
+        tL_messages_importChatInvite.hash = this.hash;
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_messages_importChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda3
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                JoinGroupAlert.this.lambda$new$9(i, tLRPC$TL_messages_importChatInvite, tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                JoinGroupAlert.this.lambda$new$9(i, tL_messages_importChatInvite, tLObject, tL_error);
             }
         }, 2);
     }
@@ -379,8 +373,8 @@ public class JoinGroupAlert extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$new$3(final boolean z, TLRPC$TL_error tLRPC$TL_error) {
-        if (tLRPC$TL_error != null && "INVITE_REQUEST_SENT".equals(tLRPC$TL_error.text)) {
+    public /* synthetic */ boolean lambda$new$3(final boolean z, TLRPC.TL_error tL_error) {
+        if (tL_error != null && "INVITE_REQUEST_SENT".equals(tL_error.text)) {
             setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda9
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
@@ -398,13 +392,13 @@ public class JoinGroupAlert extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$5(TLRPC$TL_error tLRPC$TL_error, final boolean z, TLRPC$TL_messages_importChatInvite tLRPC$TL_messages_importChatInvite) {
+    public /* synthetic */ void lambda$new$5(TLRPC.TL_error tL_error, final boolean z, TLRPC.TL_messages_importChatInvite tL_messages_importChatInvite) {
         BaseFragment baseFragment = this.fragment;
         if (baseFragment == null || baseFragment.getParentActivity() == null) {
             return;
         }
-        if (tLRPC$TL_error != null) {
-            if ("INVITE_REQUEST_SENT".equals(tLRPC$TL_error.text)) {
+        if (tL_error != null) {
+            if ("INVITE_REQUEST_SENT".equals(tL_error.text)) {
                 setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda11
                     @Override // android.content.DialogInterface.OnDismissListener
                     public final void onDismiss(DialogInterface dialogInterface) {
@@ -412,18 +406,18 @@ public class JoinGroupAlert extends BottomSheet {
                     }
                 });
             } else {
-                AlertsCreator.processError(this.currentAccount, tLRPC$TL_error, this.fragment, tLRPC$TL_messages_importChatInvite, new Object[0]);
+                AlertsCreator.processError(this.currentAccount, tL_error, this.fragment, tL_messages_importChatInvite, new Object[0]);
             }
         }
         dismiss();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$6(final boolean z, final TLRPC$TL_messages_importChatInvite tLRPC$TL_messages_importChatInvite, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$new$6(final boolean z, final TLRPC.TL_messages_importChatInvite tL_messages_importChatInvite, TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
-                JoinGroupAlert.this.lambda$new$5(tLRPC$TL_error, z, tLRPC$TL_messages_importChatInvite);
+                JoinGroupAlert.this.lambda$new$5(tL_error, z, tL_messages_importChatInvite);
             }
         });
     }
@@ -444,62 +438,62 @@ public class JoinGroupAlert extends BottomSheet {
                 }
             }, new MessagesController.ErrorDelegate() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda6
                 @Override // org.telegram.messenger.MessagesController.ErrorDelegate
-                public final boolean run(TLRPC$TL_error tLRPC$TL_error) {
+                public final boolean run(TLRPC.TL_error tL_error) {
                     boolean lambda$new$3;
-                    lambda$new$3 = JoinGroupAlert.this.lambda$new$3(z, tLRPC$TL_error);
+                    lambda$new$3 = JoinGroupAlert.this.lambda$new$3(z, tL_error);
                     return lambda$new$3;
                 }
             });
             return;
         }
-        final TLRPC$TL_messages_importChatInvite tLRPC$TL_messages_importChatInvite = new TLRPC$TL_messages_importChatInvite();
-        tLRPC$TL_messages_importChatInvite.hash = this.hash;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_importChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda7
+        final TLRPC.TL_messages_importChatInvite tL_messages_importChatInvite = new TLRPC.TL_messages_importChatInvite();
+        tL_messages_importChatInvite.hash = this.hash;
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_messages_importChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda7
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                JoinGroupAlert.this.lambda$new$6(z, tLRPC$TL_messages_importChatInvite, tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                JoinGroupAlert.this.lambda$new$6(z, tL_messages_importChatInvite, tLObject, tL_error);
             }
         }, 2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$8(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, int i, TLRPC$TL_messages_importChatInvite tLRPC$TL_messages_importChatInvite) {
-        TLRPC$ChatInvite tLRPC$ChatInvite;
-        TLRPC$Chat tLRPC$Chat;
+    public /* synthetic */ void lambda$new$8(TLRPC.TL_error tL_error, TLObject tLObject, int i, TLRPC.TL_messages_importChatInvite tL_messages_importChatInvite) {
+        TLRPC.ChatInvite chatInvite;
+        TLRPC.Chat chat;
         long j;
         BaseFragment baseFragment = this.fragment;
         if (baseFragment == null || baseFragment.getParentActivity() == null) {
             return;
         }
-        if (tLRPC$TL_error == null) {
-            TLRPC$Updates tLRPC$Updates = (TLRPC$Updates) tLObject;
-            if (tLRPC$Updates.chats.isEmpty()) {
+        if (tL_error == null) {
+            TLRPC.Updates updates = (TLRPC.Updates) tLObject;
+            if (updates.chats.isEmpty()) {
                 return;
             }
-            TLRPC$Chat tLRPC$Chat2 = tLRPC$Updates.chats.get(0);
-            tLRPC$Chat2.left = false;
-            tLRPC$Chat2.kicked = false;
-            MessagesController.getInstance(this.currentAccount).putUsers(tLRPC$Updates.users, false);
-            MessagesController.getInstance(this.currentAccount).putChats(tLRPC$Updates.chats, false);
-            j = tLRPC$Chat2.id;
-        } else if (!"USER_ALREADY_PARTICIPANT".equals(tLRPC$TL_error.text) || i != 0 || (tLRPC$ChatInvite = this.chatInvite) == null || (tLRPC$Chat = tLRPC$ChatInvite.chat) == null) {
-            AlertsCreator.processError(this.currentAccount, tLRPC$TL_error, this.fragment, tLRPC$TL_messages_importChatInvite, new Object[0]);
+            TLRPC.Chat chat2 = updates.chats.get(0);
+            chat2.left = false;
+            chat2.kicked = false;
+            MessagesController.getInstance(this.currentAccount).putUsers(updates.users, false);
+            MessagesController.getInstance(this.currentAccount).putChats(updates.chats, false);
+            j = chat2.id;
+        } else if (!"USER_ALREADY_PARTICIPANT".equals(tL_error.text) || i != 0 || (chatInvite = this.chatInvite) == null || (chat = chatInvite.chat) == null) {
+            AlertsCreator.processError(this.currentAccount, tL_error, this.fragment, tL_messages_importChatInvite, new Object[0]);
             return;
         } else {
-            j = tLRPC$Chat.id;
+            j = chat.id;
         }
         openChat(j);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$9(final int i, final TLRPC$TL_messages_importChatInvite tLRPC$TL_messages_importChatInvite, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        if (tLRPC$TL_error == null) {
-            MessagesController.getInstance(this.currentAccount).processUpdates((TLRPC$Updates) tLObject, false);
+    public /* synthetic */ void lambda$new$9(final int i, final TLRPC.TL_messages_importChatInvite tL_messages_importChatInvite, final TLObject tLObject, final TLRPC.TL_error tL_error) {
+        if (tL_error == null) {
+            MessagesController.getInstance(this.currentAccount).processUpdates((TLRPC.Updates) tLObject, false);
         }
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
-                JoinGroupAlert.this.lambda$new$8(tLRPC$TL_error, tLObject, i, tLRPC$TL_messages_importChatInvite);
+                JoinGroupAlert.this.lambda$new$8(tL_error, tLObject, i, tL_messages_importChatInvite);
             }
         });
     }

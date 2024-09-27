@@ -13,11 +13,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$StickerSetCovered;
-import org.telegram.tgnet.TLRPC$TL_emojiList;
-import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
-import org.telegram.tgnet.TLRPC$TL_stickerSetFullCovered;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarConstructorFragment;
 /* loaded from: classes3.dex */
@@ -28,7 +24,7 @@ public abstract class AvatarConstructorPreviewCell extends FrameLayout {
     GradientTools currentBackgroundDrawable;
     BackupImageView currentImage;
     int emojiIndex;
-    TLRPC$TL_emojiList emojiList;
+    TLRPC.TL_emojiList emojiList;
     public final boolean forUser;
     private boolean isAllEmojiDrawablesLoaded;
     private AnimatedEmojiDrawable nextAnimatedEmojiDrawable;
@@ -49,8 +45,8 @@ public abstract class AvatarConstructorPreviewCell extends FrameLayout {
             @Override // java.lang.Runnable
             public void run() {
                 AndroidUtilities.runOnUIThread(AvatarConstructorPreviewCell.this.scheduleSwitchToNextRunnable, 1000L);
-                TLRPC$TL_emojiList tLRPC$TL_emojiList = AvatarConstructorPreviewCell.this.emojiList;
-                if (tLRPC$TL_emojiList == null || tLRPC$TL_emojiList.document_id.isEmpty()) {
+                TLRPC.TL_emojiList tL_emojiList = AvatarConstructorPreviewCell.this.emojiList;
+                if (tL_emojiList == null || tL_emojiList.document_id.isEmpty()) {
                     return;
                 }
                 AvatarConstructorPreviewCell avatarConstructorPreviewCell = AvatarConstructorPreviewCell.this;
@@ -73,7 +69,7 @@ public abstract class AvatarConstructorPreviewCell extends FrameLayout {
                     }
                     int i4 = AvatarConstructorPreviewCell.this.currentAccount;
                     AvatarConstructorPreviewCell avatarConstructorPreviewCell4 = AvatarConstructorPreviewCell.this;
-                    avatarConstructorPreviewCell3.animatedEmojiDrawable = new AnimatedEmojiDrawable(4, i4, ((Long) avatarConstructorPreviewCell4.emojiList.document_id.get(avatarConstructorPreviewCell4.emojiIndex)).longValue());
+                    avatarConstructorPreviewCell3.animatedEmojiDrawable = new AnimatedEmojiDrawable(4, i4, avatarConstructorPreviewCell4.emojiList.document_id.get(avatarConstructorPreviewCell4.emojiIndex).longValue());
                     AvatarConstructorPreviewCell avatarConstructorPreviewCell5 = AvatarConstructorPreviewCell.this;
                     avatarConstructorPreviewCell5.nextImage.setAnimatedEmojiDrawable(avatarConstructorPreviewCell5.animatedEmojiDrawable);
                     AvatarConstructorPreviewCell avatarConstructorPreviewCell6 = AvatarConstructorPreviewCell.this;
@@ -93,29 +89,29 @@ public abstract class AvatarConstructorPreviewCell extends FrameLayout {
         };
         this.forUser = z;
         this.emojiList = z ? MediaDataController.getInstance(i).profileAvatarConstructorDefault : MediaDataController.getInstance(i).groupAvatarConstructorDefault;
-        TLRPC$TL_emojiList tLRPC$TL_emojiList = this.emojiList;
-        if (tLRPC$TL_emojiList == null || tLRPC$TL_emojiList.document_id.isEmpty()) {
-            ArrayList<TLRPC$TL_messages_stickerSet> stickerSets = MediaDataController.getInstance(i).getStickerSets(5);
-            this.emojiList = new TLRPC$TL_emojiList();
+        TLRPC.TL_emojiList tL_emojiList = this.emojiList;
+        if (tL_emojiList == null || tL_emojiList.document_id.isEmpty()) {
+            ArrayList<TLRPC.TL_messages_stickerSet> stickerSets = MediaDataController.getInstance(i).getStickerSets(5);
+            this.emojiList = new TLRPC.TL_emojiList();
             if (stickerSets.isEmpty()) {
-                ArrayList<TLRPC$StickerSetCovered> featuredEmojiSets = MediaDataController.getInstance(i).getFeaturedEmojiSets();
+                ArrayList<TLRPC.StickerSetCovered> featuredEmojiSets = MediaDataController.getInstance(i).getFeaturedEmojiSets();
                 for (int i2 = 0; i2 < featuredEmojiSets.size(); i2++) {
-                    TLRPC$StickerSetCovered tLRPC$StickerSetCovered = featuredEmojiSets.get(i2);
-                    TLRPC$Document tLRPC$Document = tLRPC$StickerSetCovered.cover;
-                    if (tLRPC$Document != null) {
-                        this.emojiList.document_id.add(Long.valueOf(tLRPC$Document.id));
-                    } else if (tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetFullCovered) {
-                        TLRPC$TL_stickerSetFullCovered tLRPC$TL_stickerSetFullCovered = (TLRPC$TL_stickerSetFullCovered) tLRPC$StickerSetCovered;
-                        if (!tLRPC$TL_stickerSetFullCovered.documents.isEmpty()) {
-                            this.emojiList.document_id.add(Long.valueOf(((TLRPC$Document) tLRPC$TL_stickerSetFullCovered.documents.get(0)).id));
+                    TLRPC.StickerSetCovered stickerSetCovered = featuredEmojiSets.get(i2);
+                    TLRPC.Document document = stickerSetCovered.cover;
+                    if (document != null) {
+                        this.emojiList.document_id.add(Long.valueOf(document.id));
+                    } else if (stickerSetCovered instanceof TLRPC.TL_stickerSetFullCovered) {
+                        TLRPC.TL_stickerSetFullCovered tL_stickerSetFullCovered = (TLRPC.TL_stickerSetFullCovered) stickerSetCovered;
+                        if (!tL_stickerSetFullCovered.documents.isEmpty()) {
+                            this.emojiList.document_id.add(Long.valueOf(tL_stickerSetFullCovered.documents.get(0).id));
                         }
                     }
                 }
             } else {
                 for (int i3 = 0; i3 < stickerSets.size(); i3++) {
-                    TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = stickerSets.get(i3);
-                    if (!tLRPC$TL_messages_stickerSet.documents.isEmpty()) {
-                        this.emojiList.document_id.add(Long.valueOf(((TLRPC$Document) tLRPC$TL_messages_stickerSet.documents.get(Math.abs(Utilities.fastRandom.nextInt() % tLRPC$TL_messages_stickerSet.documents.size()))).id));
+                    TLRPC.TL_messages_stickerSet tL_messages_stickerSet = stickerSets.get(i3);
+                    if (!tL_messages_stickerSet.documents.isEmpty()) {
+                        this.emojiList.document_id.add(Long.valueOf(tL_messages_stickerSet.documents.get(Math.abs(Utilities.fastRandom.nextInt() % tL_messages_stickerSet.documents.size())).id));
                     }
                 }
             }
@@ -124,9 +120,9 @@ public abstract class AvatarConstructorPreviewCell extends FrameLayout {
         this.nextImage = new BackupImageView(context);
         addView(this.currentImage, LayoutHelper.createFrame(50, 50, 1));
         addView(this.nextImage, LayoutHelper.createFrame(50, 50, 1));
-        TLRPC$TL_emojiList tLRPC$TL_emojiList2 = this.emojiList;
-        if (tLRPC$TL_emojiList2 != null && !tLRPC$TL_emojiList2.document_id.isEmpty()) {
-            AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable(4, this.currentAccount, ((Long) this.emojiList.document_id.get(0)).longValue());
+        TLRPC.TL_emojiList tL_emojiList2 = this.emojiList;
+        if (tL_emojiList2 != null && !tL_emojiList2.document_id.isEmpty()) {
+            AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable(4, this.currentAccount, this.emojiList.document_id.get(0).longValue());
             this.animatedEmojiDrawable = animatedEmojiDrawable;
             this.currentImage.setAnimatedEmojiDrawable(animatedEmojiDrawable);
             preloadNextEmojiDrawable();
@@ -159,7 +155,7 @@ public abstract class AvatarConstructorPreviewCell extends FrameLayout {
             this.isAllEmojiDrawablesLoaded = true;
             return;
         }
-        AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable(4, this.currentAccount, ((Long) this.emojiList.document_id.get(i)).longValue());
+        AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable(4, this.currentAccount, this.emojiList.document_id.get(i).longValue());
         this.nextAnimatedEmojiDrawable = animatedEmojiDrawable;
         animatedEmojiDrawable.preload();
     }
@@ -177,7 +173,7 @@ public abstract class AvatarConstructorPreviewCell extends FrameLayout {
         }
         float f = this.progressToNext;
         if (f == 1.0f) {
-            this.currentBackgroundDrawable.paint.setAlpha(NotificationCenter.didClearDatabase);
+            this.currentBackgroundDrawable.paint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
             canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), this.currentBackgroundDrawable.paint);
             this.currentImage.setAlpha(1.0f);
             this.currentImage.setScaleX(1.0f);
@@ -185,7 +181,7 @@ public abstract class AvatarConstructorPreviewCell extends FrameLayout {
             this.nextImage.setAlpha(0.0f);
         } else {
             float interpolation = CubicBezierInterpolator.DEFAULT.getInterpolation(f);
-            this.currentBackgroundDrawable.paint.setAlpha(NotificationCenter.didClearDatabase);
+            this.currentBackgroundDrawable.paint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
             canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), this.currentBackgroundDrawable.paint);
             this.nextBackgroundDrawable.paint.setAlpha((int) (255.0f * interpolation));
             canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), this.nextBackgroundDrawable.paint);

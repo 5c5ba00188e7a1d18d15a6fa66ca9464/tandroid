@@ -60,8 +60,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -747,7 +746,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             addView(this.percentsTextView, LayoutHelper.createFrame(-1, 32.0f, 49, 0.0f, 176.0f, 0.0f, 0.0f));
             ProgressView progressView = new ProgressView(context);
             this.progressView = progressView;
-            addView(progressView, LayoutHelper.createFrame(NotificationCenter.locationPermissionDenied, 5.0f, 49, 0.0f, 226.0f, 0.0f, 0.0f));
+            addView(progressView, LayoutHelper.createFrame(NotificationCenter.goingToPreviewTheme, 5.0f, 49, 0.0f, 226.0f, 0.0f, 0.0f));
             TextView textView = new TextView(context);
             this.title = textView;
             textView.setGravity(1);
@@ -762,7 +761,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             this.subtitle.setTextColor(Theme.getColor(i));
             this.subtitle.setTextSize(1, 14.0f);
             this.subtitle.setText(LocaleController.getString(R.string.ClearingCacheDescription));
-            addView(this.subtitle, LayoutHelper.createFrame(NotificationCenter.locationPermissionDenied, -2.0f, 49, 0.0f, 289.0f, 0.0f, 0.0f));
+            addView(this.subtitle, LayoutHelper.createFrame(NotificationCenter.goingToPreviewTheme, -2.0f, 49, 0.0f, 289.0f, 0.0f, 0.0f));
             setProgress(0.0f);
         }
 
@@ -1239,13 +1238,15 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                         break;
                     case 8:
                         View view2 = CacheControlActivity.this.cachedMediaLayout = new CachedMediaLayout(this.mContext, CacheControlActivity.this) { // from class: org.telegram.ui.CacheControlActivity.ListAdapter.2
+                            /* JADX INFO: Access modifiers changed from: protected */
                             @Override // org.telegram.ui.CachedMediaLayout, android.widget.FrameLayout, android.view.View
-                            protected void onMeasure(int i4, int i5) {
+                            public void onMeasure(int i4, int i5) {
                                 super.onMeasure(i4, View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i5) - (ActionBar.getCurrentActionBarHeight() / 2), 1073741824));
                             }
 
+                            /* JADX INFO: Access modifiers changed from: protected */
                             @Override // org.telegram.ui.CachedMediaLayout
-                            protected void showActionMode(boolean z) {
+                            public void showActionMode(boolean z) {
                                 if (!z) {
                                     ((BaseFragment) CacheControlActivity.this).actionBar.hideActionMode();
                                     return;
@@ -2482,8 +2483,8 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadDialogEntities$7(ArrayList arrayList, ArrayList arrayList2, final ArrayList arrayList3, final CacheModel cacheModel) {
-        final ArrayList<TLRPC$User> arrayList4 = new ArrayList<>();
-        final ArrayList<TLRPC$Chat> arrayList5 = new ArrayList<>();
+        final ArrayList<TLRPC.User> arrayList4 = new ArrayList<>();
+        final ArrayList<TLRPC.Chat> arrayList5 = new ArrayList<>();
         if (!arrayList.isEmpty()) {
             try {
                 getMessagesStorage().getUsersInternal(arrayList, arrayList4);

@@ -17,7 +17,6 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.util.Map;
-import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class FlacExtractor implements Extractor {
     public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.flac.FlacExtractor$$ExternalSyntheticLambda0
@@ -56,7 +55,7 @@ public final class FlacExtractor implements Extractor {
 
     public FlacExtractor(int i) {
         this.streamMarkerAndInfoBlock = new byte[42];
-        this.buffer = new ParsableByteArray(new byte[LiteMode.FLAG_CHAT_SCALE], 0);
+        this.buffer = new ParsableByteArray(new byte[32768], 0);
         this.id3MetadataDisabled = (i & 1) != 0;
         this.sampleNumberHolder = new FlacFrameReader.SampleNumberHolder();
         this.state = 0;
@@ -151,7 +150,7 @@ public final class FlacExtractor implements Extractor {
             }
             int limit = this.buffer.limit();
             if (limit < 32768) {
-                int read = extractorInput.read(this.buffer.getData(), limit, LiteMode.FLAG_CHAT_SCALE - limit);
+                int read = extractorInput.read(this.buffer.getData(), limit, 32768 - limit);
                 z = read == -1;
                 if (!z) {
                     this.buffer.setLimit(limit + read);

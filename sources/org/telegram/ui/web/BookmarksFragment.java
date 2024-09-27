@@ -19,9 +19,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
-import org.telegram.tgnet.TLRPC$Message;
-import org.telegram.tgnet.TLRPC$MessageMedia;
-import org.telegram.tgnet.TLRPC$WebPage;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -401,7 +399,6 @@ public class BookmarksFragment extends UniversalFragment {
         }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).makeRed(-1).show();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Code restructure failed: missing block: B:19:0x0060, code lost:
         if (r10.list.endReached == false) goto L34;
      */
@@ -417,9 +414,9 @@ public class BookmarksFragment extends UniversalFragment {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void fillItems(ArrayList arrayList, UniversalAdapter universalAdapter) {
-        TLRPC$Message tLRPC$Message;
-        TLRPC$MessageMedia tLRPC$MessageMedia;
+    protected void fillItems(ArrayList arrayList, UniversalAdapter universalAdapter) {
+        TLRPC.Message message;
+        TLRPC.MessageMedia messageMedia;
         this.addedUrls.clear();
         if (TextUtils.isEmpty(this.query)) {
             Iterator it = this.list.links.iterator();
@@ -440,9 +437,9 @@ public class BookmarksFragment extends UniversalFragment {
                     this.addedUrls.add(link2);
                     String hostAuthority = AndroidUtilities.getHostAuthority(link2, true);
                     WebMetadataCache.WebMetadata webMetadata = WebMetadataCache.getInstance().get(hostAuthority);
-                    TLRPC$WebPage tLRPC$WebPage = (messageObject2 == null || (tLRPC$Message = messageObject2.messageOwner) == null || (tLRPC$MessageMedia = tLRPC$Message.media) == null) ? null : tLRPC$MessageMedia.webpage;
-                    String str = (tLRPC$WebPage == null || TextUtils.isEmpty(tLRPC$WebPage.site_name)) ? (webMetadata == null || TextUtils.isEmpty(webMetadata.sitename)) ? null : webMetadata.sitename : tLRPC$WebPage.site_name;
-                    String str2 = (tLRPC$WebPage == null || TextUtils.isEmpty(tLRPC$WebPage.title)) ? null : tLRPC$WebPage.title;
+                    TLRPC.WebPage webPage = (messageObject2 == null || (message = messageObject2.messageOwner) == null || (messageMedia = message.media) == null) ? null : messageMedia.webpage;
+                    String str = (webPage == null || TextUtils.isEmpty(webPage.site_name)) ? (webMetadata == null || TextUtils.isEmpty(webMetadata.sitename)) ? null : webMetadata.sitename : webPage.site_name;
+                    String str2 = (webPage == null || TextUtils.isEmpty(webPage.title)) ? null : webPage.title;
                     if (matches(hostAuthority, this.query) || matches(str, this.query) || matches(str2, this.query)) {
                         arrayList.add(AddressBarList.BookmarkView.Factory.as(messageObject2, false, this.query).setChecked(isSelected(messageObject2)));
                     }
@@ -497,9 +494,8 @@ public class BookmarksFragment extends UniversalFragment {
         return messageObject != null && this.selected.contains(Integer.valueOf(messageObject.getId()));
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.UniversalFragment
-    public void onClick(UItem uItem, View view, int i, float f, float f2) {
+    protected void onClick(UItem uItem, View view, int i, float f, float f2) {
         if (uItem.instanceOf(AddressBarList.BookmarkView.Factory.class)) {
             if (this.actionBar.isActionModeShowed()) {
                 clickSelect(uItem, view);
@@ -522,9 +518,8 @@ public class BookmarksFragment extends UniversalFragment {
         this.list.detach();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.UniversalFragment
-    public boolean onLongClick(UItem uItem, View view, int i, float f, float f2) {
+    protected boolean onLongClick(UItem uItem, View view, int i, float f, float f2) {
         if (uItem.instanceOf(AddressBarList.BookmarkView.Factory.class)) {
             clickSelect(uItem, view);
             return true;

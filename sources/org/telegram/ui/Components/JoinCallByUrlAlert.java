@@ -11,7 +11,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
-import org.telegram.tgnet.TLRPC$Chat;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
@@ -57,7 +57,7 @@ public abstract class JoinCallByUrlAlert extends BottomSheet {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public JoinCallByUrlAlert(Context context, TLRPC$Chat tLRPC$Chat) {
+    public JoinCallByUrlAlert(Context context, TLRPC.Chat chat) {
         super(context, true);
         String str;
         setApplyBottomPadding(false);
@@ -68,7 +68,7 @@ public abstract class JoinCallByUrlAlert extends BottomSheet {
         BackupImageView backupImageView = new BackupImageView(context);
         backupImageView.setRoundRadius(AndroidUtilities.dp(45.0f));
         linearLayout.addView(backupImageView, LayoutHelper.createLinear(90, 90, 49, 0, 29, 0, 0));
-        backupImageView.setForUserOrChat(tLRPC$Chat, new AvatarDrawable(tLRPC$Chat));
+        backupImageView.setForUserOrChat(chat, new AvatarDrawable(chat));
         TextView textView = new TextView(context);
         textView.setTypeface(AndroidUtilities.bold());
         textView.setTextSize(1, 18.0f);
@@ -80,16 +80,16 @@ public abstract class JoinCallByUrlAlert extends BottomSheet {
         textView2.setTextColor(Theme.getColor(Theme.key_dialogTextGray3));
         textView2.setGravity(1);
         linearLayout.addView(textView2, LayoutHelper.createLinear(-2, -2, 49, 30, 8, 30, 0));
-        ChatObject.Call groupCall = AccountInstance.getInstance(this.currentAccount).getMessagesController().getGroupCall(tLRPC$Chat.id, false);
+        ChatObject.Call groupCall = AccountInstance.getInstance(this.currentAccount).getMessagesController().getGroupCall(chat.id, false);
         if (groupCall != null) {
-            textView.setText(TextUtils.isEmpty(groupCall.call.title) ? tLRPC$Chat.title : groupCall.call.title);
+            textView.setText(TextUtils.isEmpty(groupCall.call.title) ? chat.title : groupCall.call.title);
             int i = groupCall.call.participants_count;
             if (i != 0) {
                 str = LocaleController.formatPluralString("Participants", i, new Object[0]);
                 textView2.setText(str);
                 BottomSheetCell bottomSheetCell = new BottomSheetCell(context);
                 bottomSheetCell.setBackground(null);
-                bottomSheetCell.setText(LocaleController.getString(!ChatObject.isChannelOrGiga(tLRPC$Chat) ? R.string.VoipChannelJoinVoiceChatUrl : R.string.VoipGroupJoinVoiceChatUrl));
+                bottomSheetCell.setText(LocaleController.getString(!ChatObject.isChannelOrGiga(chat) ? R.string.VoipChannelJoinVoiceChatUrl : R.string.VoipGroupJoinVoiceChatUrl));
                 bottomSheetCell.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinCallByUrlAlert$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
@@ -99,13 +99,13 @@ public abstract class JoinCallByUrlAlert extends BottomSheet {
                 linearLayout.addView(bottomSheetCell, LayoutHelper.createLinear(-1, 50, 51, 0, 30, 0, 0));
             }
         } else {
-            textView.setText(tLRPC$Chat.title);
+            textView.setText(chat.title);
         }
         str = LocaleController.getString(R.string.NoOneJoinedYet);
         textView2.setText(str);
         BottomSheetCell bottomSheetCell2 = new BottomSheetCell(context);
         bottomSheetCell2.setBackground(null);
-        bottomSheetCell2.setText(LocaleController.getString(!ChatObject.isChannelOrGiga(tLRPC$Chat) ? R.string.VoipChannelJoinVoiceChatUrl : R.string.VoipGroupJoinVoiceChatUrl));
+        bottomSheetCell2.setText(LocaleController.getString(!ChatObject.isChannelOrGiga(chat) ? R.string.VoipChannelJoinVoiceChatUrl : R.string.VoipGroupJoinVoiceChatUrl));
         bottomSheetCell2.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinCallByUrlAlert$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {

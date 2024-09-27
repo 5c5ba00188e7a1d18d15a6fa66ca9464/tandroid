@@ -22,10 +22,8 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$TL_contact;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$UserStatus;
-import org.telegram.tgnet.tl.TL_stories$PeerStories;
+import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -72,7 +70,7 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
     }
 
     private int getCountForSectionInternal(int i) {
-        HashMap<String, ArrayList<TLRPC$TL_contact>> hashMap = this.onlyUsers == 2 ? ContactsController.getInstance(this.currentAccount).usersMutualSectionsDict : ContactsController.getInstance(this.currentAccount).usersSectionsDict;
+        HashMap<String, ArrayList<TLRPC.TL_contact>> hashMap = this.onlyUsers == 2 ? ContactsController.getInstance(this.currentAccount).usersMutualSectionsDict : ContactsController.getInstance(this.currentAccount).usersSectionsDict;
         ArrayList<String> arrayList = this.onlyUsers == 2 ? ContactsController.getInstance(this.currentAccount).sortedUsersMutualSectionsArray : ContactsController.getInstance(this.currentAccount).sortedUsersSectionsArray;
         boolean z = this.hasStories;
         if (z && i == 1) {
@@ -123,27 +121,27 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static /* synthetic */ int lambda$sortOnlineContacts$0(MessagesController messagesController, int i, TLRPC$TL_contact tLRPC$TL_contact, TLRPC$TL_contact tLRPC$TL_contact2) {
+    public static /* synthetic */ int lambda$sortOnlineContacts$0(MessagesController messagesController, int i, TLRPC.TL_contact tL_contact, TLRPC.TL_contact tL_contact2) {
         int i2;
         int i3;
-        TLRPC$User user = messagesController.getUser(Long.valueOf(tLRPC$TL_contact2.user_id));
-        TLRPC$User user2 = messagesController.getUser(Long.valueOf(tLRPC$TL_contact.user_id));
+        TLRPC.User user = messagesController.getUser(Long.valueOf(tL_contact2.user_id));
+        TLRPC.User user2 = messagesController.getUser(Long.valueOf(tL_contact.user_id));
         if (user != null) {
             if (user.self) {
                 i2 = i + 50000;
             } else {
-                TLRPC$UserStatus tLRPC$UserStatus = user.status;
-                if (tLRPC$UserStatus != null) {
-                    i2 = tLRPC$UserStatus.expires;
+                TLRPC.UserStatus userStatus = user.status;
+                if (userStatus != null) {
+                    i2 = userStatus.expires;
                 }
             }
             if (user2 != null) {
                 if (user2.self) {
                     i3 = i + 50000;
                 } else {
-                    TLRPC$UserStatus tLRPC$UserStatus2 = user2.status;
-                    if (tLRPC$UserStatus2 != null) {
-                        i3 = tLRPC$UserStatus2.expires;
+                    TLRPC.UserStatus userStatus2 = user2.status;
+                    if (userStatus2 != null) {
+                        i3 = userStatus2.expires;
                     }
                 }
                 if (i2 <= 0 && i3 > 0) {
@@ -207,16 +205,16 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
         }
         boolean z = this.hasStories;
         if (z && i == 1) {
-            return i2 == this.userStories.size() ? "Header" : Long.valueOf(DialogObject.getPeerDialogId(((TL_stories$PeerStories) this.userStories.get(i2)).peer));
+            return i2 == this.userStories.size() ? "Header" : Long.valueOf(DialogObject.getPeerDialogId(((TL_stories.PeerStories) this.userStories.get(i2)).peer));
         }
         if (z && i > 1) {
             i--;
         }
-        HashMap<String, ArrayList<TLRPC$TL_contact>> hashMap = this.onlyUsers == 2 ? ContactsController.getInstance(this.currentAccount).usersMutualSectionsDict : ContactsController.getInstance(this.currentAccount).usersSectionsDict;
+        HashMap<String, ArrayList<TLRPC.TL_contact>> hashMap = this.onlyUsers == 2 ? ContactsController.getInstance(this.currentAccount).usersMutualSectionsDict : ContactsController.getInstance(this.currentAccount).usersSectionsDict;
         ArrayList<String> arrayList = this.onlyUsers == 2 ? ContactsController.getInstance(this.currentAccount).sortedUsersMutualSectionsArray : ContactsController.getInstance(this.currentAccount).sortedUsersSectionsArray;
         if (this.onlyUsers != 0 && !this.isAdmin) {
             if (i < arrayList.size()) {
-                ArrayList<TLRPC$TL_contact> arrayList2 = hashMap.get(arrayList.get(i));
+                ArrayList<TLRPC.TL_contact> arrayList2 = hashMap.get(arrayList.get(i));
                 if (i2 < arrayList2.size()) {
                     return MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(arrayList2.get(i2).user_id));
                 }
@@ -228,7 +226,7 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
             if (this.sortType != 2) {
                 int i3 = i - 1;
                 if (i3 < arrayList.size()) {
-                    ArrayList<TLRPC$TL_contact> arrayList3 = hashMap.get(arrayList.get(i3));
+                    ArrayList<TLRPC.TL_contact> arrayList3 = hashMap.get(arrayList.get(i3));
                     if (i2 < arrayList3.size()) {
                         return MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(arrayList3.get(i2).user_id));
                     }
@@ -236,7 +234,7 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
                 }
             } else if (i == 1) {
                 if (i2 < this.onlineContacts.size()) {
-                    return MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(((TLRPC$TL_contact) this.onlineContacts.get(i2)).user_id));
+                    return MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(((TLRPC.TL_contact) this.onlineContacts.get(i2)).user_id));
                 }
                 return null;
             }
@@ -249,7 +247,7 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
 
     @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
     public int getItemViewType(int i, int i2) {
-        HashMap<String, ArrayList<TLRPC$TL_contact>> hashMap = this.onlyUsers == 2 ? ContactsController.getInstance(this.currentAccount).usersMutualSectionsDict : ContactsController.getInstance(this.currentAccount).usersSectionsDict;
+        HashMap<String, ArrayList<TLRPC.TL_contact>> hashMap = this.onlyUsers == 2 ? ContactsController.getInstance(this.currentAccount).usersMutualSectionsDict : ContactsController.getInstance(this.currentAccount).usersSectionsDict;
         ArrayList<String> arrayList = this.onlyUsers == 2 ? ContactsController.getInstance(this.currentAccount).sortedUsersMutualSectionsArray : ContactsController.getInstance(this.currentAccount).sortedUsersSectionsArray;
         boolean z = this.hasStories;
         if (z && i == 1) {
@@ -348,9 +346,9 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
     @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
     public View getSectionHeaderView(int i, View view) {
         if (this.onlyUsers == 2) {
-            HashMap<String, ArrayList<TLRPC$TL_contact>> hashMap = ContactsController.getInstance(this.currentAccount).usersMutualSectionsDict;
+            HashMap<String, ArrayList<TLRPC.TL_contact>> hashMap = ContactsController.getInstance(this.currentAccount).usersMutualSectionsDict;
         } else {
-            HashMap<String, ArrayList<TLRPC$TL_contact>> hashMap2 = ContactsController.getInstance(this.currentAccount).usersSectionsDict;
+            HashMap<String, ArrayList<TLRPC.TL_contact>> hashMap2 = ContactsController.getInstance(this.currentAccount).usersSectionsDict;
         }
         ArrayList<String> arrayList = this.onlyUsers == 2 ? ContactsController.getInstance(this.currentAccount).sortedUsersMutualSectionsArray : ContactsController.getInstance(this.currentAccount).sortedUsersSectionsArray;
         if (view == null) {
@@ -382,7 +380,7 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
         if (z && i > 1) {
             i--;
         }
-        HashMap<String, ArrayList<TLRPC$TL_contact>> hashMap = this.onlyUsers == 2 ? ContactsController.getInstance(this.currentAccount).usersMutualSectionsDict : ContactsController.getInstance(this.currentAccount).usersSectionsDict;
+        HashMap<String, ArrayList<TLRPC.TL_contact>> hashMap = this.onlyUsers == 2 ? ContactsController.getInstance(this.currentAccount).usersMutualSectionsDict : ContactsController.getInstance(this.currentAccount).usersSectionsDict;
         ArrayList<String> arrayList = this.onlyUsers == 2 ? ContactsController.getInstance(this.currentAccount).sortedUsersMutualSectionsArray : ContactsController.getInstance(this.currentAccount).sortedUsersSectionsArray;
         if (this.onlyUsers != 0 && !this.isAdmin) {
             return !this.isEmpty && i2 < hashMap.get(arrayList.get(i)).size();
@@ -402,7 +400,7 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
 
     @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
     public void onBindViewHolder(int i, int i2, RecyclerView.ViewHolder viewHolder) {
-        ArrayList<TLRPC$TL_contact> arrayList;
+        ArrayList<TLRPC.TL_contact> arrayList;
         String str;
         String string;
         int i3;
@@ -426,13 +424,13 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
             userCell.setAvatarPadding(6);
             userCell.storyParams.drawSegments = true;
             StoriesController storiesController = MessagesController.getInstance(this.currentAccount).getStoriesController();
-            TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(DialogObject.getPeerDialogId(((TL_stories$PeerStories) this.userStories.get(i2)).peer)));
+            TLRPC.User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(DialogObject.getPeerDialogId(((TL_stories.PeerStories) this.userStories.get(i2)).peer)));
             if (storiesController.hasUnreadStories(user.id)) {
                 int unreadStoriesCount = storiesController.getUnreadStoriesCount(user.id);
                 formatName = ContactsController.formatName(user);
                 formatPluralString = LocaleController.formatPluralString("NewStories", unreadStoriesCount, Integer.valueOf(unreadStoriesCount));
             } else {
-                int size = ((TL_stories$PeerStories) this.userStories.get(i2)).stories.size();
+                int size = ((TL_stories.PeerStories) this.userStories.get(i2)).stories.size();
                 formatName = ContactsController.formatName(user);
                 formatPluralString = LocaleController.formatPluralString("Stories", size, Integer.valueOf(size));
             }
@@ -455,7 +453,7 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
             } else {
                 arrayList = (this.onlyUsers == 2 ? ContactsController.getInstance(this.currentAccount).usersMutualSectionsDict : ContactsController.getInstance(this.currentAccount).usersSectionsDict).get((this.onlyUsers == 2 ? ContactsController.getInstance(this.currentAccount).sortedUsersMutualSectionsArray : ContactsController.getInstance(this.currentAccount).sortedUsersSectionsArray).get(i - ((this.onlyUsers == 0 || this.isAdmin) ? 1 : 0)));
             }
-            TLRPC$User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(arrayList.get(i2).user_id));
+            TLRPC.User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(arrayList.get(i2).user_id));
             userCell2.setData(user2, null, null, 0);
             userCell2.setChecked(this.selectedContacts.indexOfKey(user2.id) >= 0, false);
             LongSparseArray longSparseArray = this.ignoreUsers;
@@ -597,7 +595,7 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
             while (true) {
                 if (i2 >= size) {
                     break;
-                } else if (((TLRPC$TL_contact) this.onlineContacts.get(i2)).user_id == j) {
+                } else if (((TLRPC.TL_contact) this.onlineContacts.get(i2)).user_id == j) {
                     this.onlineContacts.remove(i2);
                     break;
                 } else {
@@ -622,7 +620,7 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
                 @Override // java.util.Comparator
                 public final int compare(Object obj, Object obj2) {
                     int lambda$sortOnlineContacts$0;
-                    lambda$sortOnlineContacts$0 = ContactsAdapter.lambda$sortOnlineContacts$0(MessagesController.this, currentTime, (TLRPC$TL_contact) obj, (TLRPC$TL_contact) obj2);
+                    lambda$sortOnlineContacts$0 = ContactsAdapter.lambda$sortOnlineContacts$0(MessagesController.this, currentTime, (TLRPC.TL_contact) obj, (TLRPC.TL_contact) obj2);
                     return lambda$sortOnlineContacts$0;
                 }
             });

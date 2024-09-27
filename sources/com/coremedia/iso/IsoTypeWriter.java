@@ -9,7 +9,7 @@ public abstract class IsoTypeWriter {
         byteBuffer.put((byte) (((-16777216) & i) >> 24));
         byteBuffer.put((byte) ((16711680 & i) >> 16));
         byteBuffer.put((byte) ((65280 & i) >> 8));
-        byteBuffer.put((byte) (i & NotificationCenter.didClearDatabase));
+        byteBuffer.put((byte) (i & NotificationCenter.messagePlayingSpeedChanged));
     }
 
     public static void writeFixedPoint1616(ByteBuffer byteBuffer, double d) {
@@ -17,7 +17,7 @@ public abstract class IsoTypeWriter {
         byteBuffer.put((byte) (((-16777216) & i) >> 24));
         byteBuffer.put((byte) ((16711680 & i) >> 16));
         byteBuffer.put((byte) ((65280 & i) >> 8));
-        byteBuffer.put((byte) (i & NotificationCenter.didClearDatabase));
+        byteBuffer.put((byte) (i & NotificationCenter.messagePlayingSpeedChanged));
     }
 
     public static void writeFixedPoint88(ByteBuffer byteBuffer, double d) {
@@ -39,7 +39,7 @@ public abstract class IsoTypeWriter {
 
     public static void writeUInt16(ByteBuffer byteBuffer, int i) {
         writeUInt8(byteBuffer, (65535 & i) >> 8);
-        writeUInt8(byteBuffer, i & NotificationCenter.didClearDatabase);
+        writeUInt8(byteBuffer, i & NotificationCenter.messagePlayingSpeedChanged);
     }
 
     public static void writeUInt24(ByteBuffer byteBuffer, int i) {
@@ -62,7 +62,7 @@ public abstract class IsoTypeWriter {
     }
 
     public static void writeUInt8(ByteBuffer byteBuffer, int i) {
-        byteBuffer.put((byte) (i & NotificationCenter.didClearDatabase));
+        byteBuffer.put((byte) (i & NotificationCenter.messagePlayingSpeedChanged));
     }
 
     public static void writeUtf8String(ByteBuffer byteBuffer, String str) {

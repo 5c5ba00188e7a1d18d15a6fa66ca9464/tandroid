@@ -30,8 +30,7 @@ import org.json.JSONObject;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.SerializedData;
-import org.telegram.tgnet.TLRPC$TL_help_appUpdate;
-import org.telegram.tgnet.TLRPC$help_AppUpdate;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.LaunchActivity;
@@ -58,7 +57,6 @@ public class SharedConfig {
     public static int autoLockIn = 0;
     public static int badPasscodeTries = 0;
     public static boolean bigCameraForRound = false;
-    public static boolean botTabs3DEffect = false;
     public static int bubbleRadius = 0;
     public static int callEncryptionHintDisplayedCount = 0;
     public static boolean chatBubbles = false;
@@ -68,6 +66,7 @@ public class SharedConfig {
     public static boolean customTabs = false;
     public static int dayNightThemeSwitchHintCount = 0;
     public static int dayNightWallpaperSwitchHint = 0;
+    public static boolean debugVideoQualities = false;
     public static boolean debugWebView = false;
     private static int devicePerformanceClass = 0;
     public static boolean directShare = false;
@@ -123,7 +122,7 @@ public class SharedConfig {
     public static boolean pauseMusicOnMedia;
     public static boolean pauseMusicOnRecord;
     public static boolean payByInvoice;
-    public static TLRPC$TL_help_appUpdate pendingAppUpdate;
+    public static TLRPC.TL_help_appUpdate pendingAppUpdate;
     public static int pendingAppUpdateBuildVersion;
     public static boolean photoViewerBlur;
     public static boolean playOrderReversed;
@@ -316,6 +315,7 @@ public class SharedConfig {
         pauseMusicOnRecord = false;
         pauseMusicOnMedia = false;
         showNotificationsForAllAccounts = true;
+        debugVideoQualities = false;
         fontSize = 16;
         bubbleRadius = 17;
         ivFontSize = 16;
@@ -724,8 +724,8 @@ public class SharedConfig {
 
     public static boolean isAppUpdateAvailable() {
         int buildVersion;
-        TLRPC$TL_help_appUpdate tLRPC$TL_help_appUpdate = pendingAppUpdate;
-        if (tLRPC$TL_help_appUpdate == null || tLRPC$TL_help_appUpdate.document == null || !ApplicationLoader.isStandaloneBuild()) {
+        TLRPC.TL_help_appUpdate tL_help_appUpdate = pendingAppUpdate;
+        if (tL_help_appUpdate == null || tL_help_appUpdate.document == null || !ApplicationLoader.isStandaloneBuild()) {
             return false;
         }
         try {
@@ -931,7 +931,7 @@ public class SharedConfig {
                             byte[] decode = Base64.decode(string3, 0);
                             if (decode != null) {
                                 SerializedData serializedData = new SerializedData(decode);
-                                pendingAppUpdate = (TLRPC$TL_help_appUpdate) TLRPC$help_AppUpdate.TLdeserialize(serializedData, serializedData.readInt32(false), false);
+                                pendingAppUpdate = (TLRPC.TL_help_appUpdate) TLRPC.help_AppUpdate.TLdeserialize(serializedData, serializedData.readInt32(false), false);
                                 serializedData.cleanup();
                             }
                         }
@@ -1043,7 +1043,7 @@ public class SharedConfig {
                                     photoViewerBlur = sharedPreferences.getBoolean("photoViewerBlur", true);
                                     multipleReactionsPromoShowed = sharedPreferences.getBoolean("multipleReactionsPromoShowed", false);
                                     callEncryptionHintDisplayedCount = sharedPreferences.getInt("callEncryptionHintDisplayedCount", 0);
-                                    botTabs3DEffect = sharedPreferences.getBoolean("botTabs3DEffect", true);
+                                    debugVideoQualities = sharedPreferences.getBoolean("debugVideoQualities", false);
                                     loadDebugConfig(sharedPreferences);
                                     showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
                                     configLoaded = true;
@@ -1159,7 +1159,7 @@ public class SharedConfig {
                     photoViewerBlur = sharedPreferences.getBoolean("photoViewerBlur", true);
                     multipleReactionsPromoShowed = sharedPreferences.getBoolean("multipleReactionsPromoShowed", false);
                     callEncryptionHintDisplayedCount = sharedPreferences.getInt("callEncryptionHintDisplayedCount", 0);
-                    botTabs3DEffect = sharedPreferences.getBoolean("botTabs3DEffect", true);
+                    debugVideoQualities = sharedPreferences.getBoolean("debugVideoQualities", false);
                     loadDebugConfig(sharedPreferences);
                     showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
                     configLoaded = true;
@@ -1380,10 +1380,10 @@ public class SharedConfig {
                     edit.putString("storageCacheDir", !TextUtils.isEmpty(storageCacheDir) ? storageCacheDir : "");
                     edit.putBoolean("proxyRotationEnabled", proxyRotationEnabled);
                     edit.putInt("proxyRotationTimeout", proxyRotationTimeout);
-                    TLRPC$TL_help_appUpdate tLRPC$TL_help_appUpdate = pendingAppUpdate;
-                    if (tLRPC$TL_help_appUpdate != null) {
+                    TLRPC.TL_help_appUpdate tL_help_appUpdate = pendingAppUpdate;
+                    if (tL_help_appUpdate != null) {
                         try {
-                            SerializedData serializedData = new SerializedData(tLRPC$TL_help_appUpdate.getObjectSize());
+                            SerializedData serializedData = new SerializedData(tL_help_appUpdate.getObjectSize());
                             pendingAppUpdate.serializeToStream(serializedData);
                             edit.putString("appUpdate", Base64.encodeToString(serializedData.toByteArray(), 0));
                             edit.putInt("appUpdateBuild", pendingAppUpdateBuildVersion);
@@ -1463,13 +1463,6 @@ public class SharedConfig {
         animationsEnabled = Boolean.valueOf(z);
     }
 
-    public static void setBotTabs3DEffect(boolean z) {
-        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
-        botTabs3DEffect = z;
-        edit.putBoolean("botTabs3DEffect", z);
-        edit.apply();
-    }
-
     public static void setDistanceSystemType(int i) {
         distanceSystemType = i;
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
@@ -1516,7 +1509,7 @@ public class SharedConfig {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static boolean setNewAppVersionAvailable(TLRPC$TL_help_appUpdate tLRPC$TL_help_appUpdate) {
+    public static boolean setNewAppVersionAvailable(TLRPC.TL_help_appUpdate tL_help_appUpdate) {
         int i;
         String str;
         String str2;
@@ -1538,7 +1531,7 @@ public class SharedConfig {
             }
             if (str == null) {
             }
-            str2 = tLRPC$TL_help_appUpdate.version;
+            str2 = tL_help_appUpdate.version;
             if (str2 != null) {
             }
             return false;
@@ -1549,11 +1542,11 @@ public class SharedConfig {
         if (str == null) {
             str = BuildVars.BUILD_VERSION_STRING;
         }
-        str2 = tLRPC$TL_help_appUpdate.version;
+        str2 = tL_help_appUpdate.version;
         if (str2 != null || versionBiggerOrEqual(str, str2)) {
             return false;
         }
-        pendingAppUpdate = tLRPC$TL_help_appUpdate;
+        pendingAppUpdate = tL_help_appUpdate;
         pendingAppUpdateBuildVersion = i;
         saveConfig();
         return true;
@@ -1707,6 +1700,13 @@ public class SharedConfig {
         customTabs = z;
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putBoolean("custom_tabs", customTabs);
+        edit.apply();
+    }
+
+    public static void toggleDebugVideoQualities() {
+        debugVideoQualities = !debugVideoQualities;
+        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+        edit.putBoolean("debugVideoQualities", debugVideoQualities);
         edit.apply();
     }
 

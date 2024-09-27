@@ -26,17 +26,7 @@ import org.telegram.messenger.Emoji;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$ChatPhoto;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$Photo;
-import org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive;
-import org.telegram.tgnet.TLRPC$TL_videoSizeEmojiMarkup;
-import org.telegram.tgnet.TLRPC$TL_videoSizeStickerMarkup;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$UserFull;
-import org.telegram.tgnet.TLRPC$UserProfilePhoto;
-import org.telegram.tgnet.TLRPC$VideoSize;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.AnimatedFileDrawable;
 import org.telegram.ui.Components.AttachableDrawable;
 import org.telegram.ui.Components.AvatarDrawable;
@@ -154,7 +144,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     List<ImageReceiver> preloadReceivers;
     private float pressedProgress;
     private float previousAlpha;
-    private TLRPC$Document qulityThumbDocument;
+    private TLRPC.Document qulityThumbDocument;
     private Paint roundPaint;
     private final Path roundPath;
     private final int[] roundRadius;
@@ -1102,14 +1092,14 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                                                 i6 = i5;
                                                 drawDrawable(canvas, drawable, i6, bitmapShader7, this.thumbOrientation, this.thumbInvert, backgroundThreadDrawHolder);
                                                 if (i6 != 255 && (drawable instanceof Emoji.EmojiDrawable)) {
-                                                    drawable.setAlpha(NotificationCenter.didClearDatabase);
+                                                    drawable.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                                                 }
                                             }
                                             i5 = (int) ((f5 - min) * f3 * 255.0f);
                                             i6 = i5;
                                             drawDrawable(canvas, drawable, i6, bitmapShader7, this.thumbOrientation, this.thumbInvert, backgroundThreadDrawHolder);
                                             if (i6 != 255) {
-                                                drawable.setAlpha(NotificationCenter.didClearDatabase);
+                                                drawable.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                                             }
                                         }
                                     }
@@ -1979,6 +1969,10 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         return null;
     }
 
+    public int getAutoRepeat() {
+        return this.autoRepeat;
+    }
+
     public Bitmap getBitmap() {
         RLottieDrawable lottieAnimation = getLottieAnimation();
         if (lottieAnimation == null || !lottieAnimation.hasBitmap()) {
@@ -2330,7 +2324,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         return this.isPressed != 0;
     }
 
-    public TLRPC$Document getQualityThumbDocument() {
+    public TLRPC.Document getQualityThumbDocument() {
         return this.qulityThumbDocument;
     }
 
@@ -2580,7 +2574,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             invalidate();
         }
         if (NotificationCenter.getGlobalInstance().isAnimationInProgress()) {
-            didReceivedNotification(NotificationCenter.stopAllHeavyOperations, this.currentAccount, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
+            didReceivedNotification(NotificationCenter.stopAllHeavyOperations, this.currentAccount, 512);
         }
         Drawable drawable = this.staticThumbDrawable;
         if (drawable instanceof AttachableDrawable) {
@@ -2955,7 +2949,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         BitmapDrawable bitmapDrawable;
         boolean z3;
         boolean z4;
-        TLRPC$ChatPhoto tLRPC$ChatPhoto;
+        TLRPC.ChatPhoto chatPhoto;
         ?? r3;
         ImageLocation forUserOrChat;
         String str;
@@ -2966,61 +2960,61 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         String str3;
         BitmapDrawable bitmapDrawable2;
         ImageLocation imageLocation2;
-        TLRPC$VideoSize tLRPC$VideoSize;
-        TLRPC$UserFull userFull;
-        ArrayList arrayList;
-        TLRPC$UserFull userFull2;
+        TLRPC.VideoSize videoSize;
+        TLRPC.UserFull userFull;
+        ArrayList<TLRPC.VideoSize> arrayList;
+        TLRPC.UserFull userFull2;
         Object obj3 = obj == null ? tLObject : obj;
         setUseRoundForThumbDrawable(true);
         ImageLocation imageLocation3 = null;
-        if (tLObject instanceof TLRPC$User) {
-            TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
-            z3 = tLRPC$User.premium;
-            TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto = tLRPC$User.photo;
-            if (tLRPC$UserProfilePhoto != null) {
-                bitmapDrawable = tLRPC$UserProfilePhoto.strippedBitmap;
-                z4 = tLRPC$UserProfilePhoto.stripped_thumb != null;
-                if (i == 3 && (userFull2 = MessagesController.getInstance(this.currentAccount).getUserFull(tLRPC$User.id)) != null) {
-                    TLRPC$Photo tLRPC$Photo = tLRPC$User.photo.personal ? userFull2.personal_photo : userFull2.profile_photo;
-                    if (tLRPC$Photo != null) {
-                        tLRPC$VideoSize = FileLoader.getVectorMarkupVideoSize(tLRPC$Photo);
-                        if (tLRPC$VideoSize == null && z && MessagesController.getInstance(this.currentAccount).isPremiumUser(tLRPC$User) && tLRPC$User.photo.has_video && LiteMode.isEnabled(1024)) {
-                            userFull = MessagesController.getInstance(this.currentAccount).getUserFull(tLRPC$User.id);
+        if (tLObject instanceof TLRPC.User) {
+            TLRPC.User user = (TLRPC.User) tLObject;
+            z3 = user.premium;
+            TLRPC.UserProfilePhoto userProfilePhoto = user.photo;
+            if (userProfilePhoto != null) {
+                bitmapDrawable = userProfilePhoto.strippedBitmap;
+                z4 = userProfilePhoto.stripped_thumb != null;
+                if (i == 3 && (userFull2 = MessagesController.getInstance(this.currentAccount).getUserFull(user.id)) != null) {
+                    TLRPC.Photo photo = user.photo.personal ? userFull2.personal_photo : userFull2.profile_photo;
+                    if (photo != null) {
+                        videoSize = FileLoader.getVectorMarkupVideoSize(photo);
+                        if (videoSize == null && z && MessagesController.getInstance(this.currentAccount).isPremiumUser(user) && user.photo.has_video && LiteMode.isEnabled(1024)) {
+                            userFull = MessagesController.getInstance(this.currentAccount).getUserFull(user.id);
                             if (userFull != null) {
-                                MessagesController.getInstance(this.currentAccount).loadFullUser(tLRPC$User, this.currentGuid, false);
+                                MessagesController.getInstance(this.currentAccount).loadFullUser(user, this.currentGuid, false);
                             } else {
-                                TLRPC$Photo tLRPC$Photo2 = tLRPC$User.photo.personal ? userFull.personal_photo : userFull.profile_photo;
-                                if (tLRPC$Photo2 != null && (tLRPC$VideoSize = FileLoader.getVectorMarkupVideoSize(tLRPC$Photo2)) == null && (arrayList = tLRPC$Photo2.video_sizes) != null && !arrayList.isEmpty()) {
-                                    TLRPC$VideoSize closestVideoSizeWithSize = FileLoader.getClosestVideoSizeWithSize(arrayList, 100);
+                                TLRPC.Photo photo2 = user.photo.personal ? userFull.personal_photo : userFull.profile_photo;
+                                if (photo2 != null && (videoSize = FileLoader.getVectorMarkupVideoSize(photo2)) == null && (arrayList = photo2.video_sizes) != null && !arrayList.isEmpty()) {
+                                    TLRPC.VideoSize closestVideoSizeWithSize = FileLoader.getClosestVideoSizeWithSize(arrayList, 100);
                                     int i3 = 0;
-                                    tLRPC$VideoSize = tLRPC$VideoSize;
+                                    videoSize = videoSize;
                                     while (i3 < arrayList.size()) {
-                                        TLRPC$VideoSize tLRPC$VideoSize2 = (TLRPC$VideoSize) arrayList.get(i3);
-                                        if ("p".equals(tLRPC$VideoSize2.type)) {
-                                            closestVideoSizeWithSize = tLRPC$VideoSize2;
+                                        TLRPC.VideoSize videoSize2 = arrayList.get(i3);
+                                        if ("p".equals(videoSize2.type)) {
+                                            closestVideoSizeWithSize = videoSize2;
                                         }
-                                        if ((tLRPC$VideoSize2 instanceof TLRPC$TL_videoSizeEmojiMarkup) || (tLRPC$VideoSize2 instanceof TLRPC$TL_videoSizeStickerMarkup)) {
-                                            tLRPC$VideoSize = tLRPC$VideoSize2;
+                                        if ((videoSize2 instanceof TLRPC.TL_videoSizeEmojiMarkup) || (videoSize2 instanceof TLRPC.TL_videoSizeStickerMarkup)) {
+                                            videoSize = videoSize2;
                                         }
                                         i3++;
-                                        tLRPC$VideoSize = tLRPC$VideoSize;
+                                        videoSize = videoSize;
                                     }
-                                    imageLocation3 = ImageLocation.getForPhoto(closestVideoSizeWithSize, tLRPC$Photo2);
+                                    imageLocation3 = ImageLocation.getForPhoto(closestVideoSizeWithSize, photo2);
                                 }
                             }
                         }
                         imageLocation2 = imageLocation3;
-                        imageLocation3 = tLRPC$VideoSize;
+                        imageLocation3 = videoSize;
                     }
                 }
-                tLRPC$VideoSize = null;
-                if (tLRPC$VideoSize == null) {
-                    userFull = MessagesController.getInstance(this.currentAccount).getUserFull(tLRPC$User.id);
+                videoSize = null;
+                if (videoSize == null) {
+                    userFull = MessagesController.getInstance(this.currentAccount).getUserFull(user.id);
                     if (userFull != null) {
                     }
                 }
                 imageLocation2 = imageLocation3;
-                imageLocation3 = tLRPC$VideoSize;
+                imageLocation3 = videoSize;
             } else {
                 imageLocation2 = null;
                 bitmapDrawable = null;
@@ -3030,12 +3024,12 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             imageLocation3 = imageLocation2;
             r3 = imageLocation4;
         } else {
-            if (!(tLObject instanceof TLRPC$Chat) || (tLRPC$ChatPhoto = ((TLRPC$Chat) tLObject).photo) == null) {
+            if (!(tLObject instanceof TLRPC.Chat) || (chatPhoto = ((TLRPC.Chat) tLObject).photo) == null) {
                 obj2 = null;
                 bitmapDrawable = null;
             } else {
-                BitmapDrawable bitmapDrawable3 = tLRPC$ChatPhoto.strippedBitmap;
-                if (tLRPC$ChatPhoto.stripped_thumb != null) {
+                BitmapDrawable bitmapDrawable3 = chatPhoto.strippedBitmap;
+                if (chatPhoto.stripped_thumb != null) {
                     r3 = 0;
                     bitmapDrawable = bitmapDrawable3;
                     z3 = false;
@@ -3252,12 +3246,12 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             this.animatedFileDrawableRepeatMaxCount = Math.max(this.autoRepeatCount, 0);
             this.currentKeyQuality = false;
             if (key == null && this.needsQualityThumb && ((obj instanceof MessageObject) || this.qulityThumbDocument != null)) {
-                TLRPC$Document tLRPC$Document = this.qulityThumbDocument;
-                if (tLRPC$Document == null) {
-                    tLRPC$Document = ((MessageObject) obj).getDocument();
+                TLRPC.Document document = this.qulityThumbDocument;
+                if (document == null) {
+                    document = ((MessageObject) obj).getDocument();
                 }
-                if (tLRPC$Document != null && tLRPC$Document.dc_id != 0 && tLRPC$Document.id != 0) {
-                    key = "q_" + tLRPC$Document.dc_id + "_" + tLRPC$Document.id;
+                if (document != null && document.dc_id != 0 && document.id != 0) {
+                    key = "q_" + document.dc_id + "_" + document.id;
                     this.currentKeyQuality = true;
                 }
             }
@@ -3303,7 +3297,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                 Object obj2 = this.currentParentObject;
                 if (obj2 instanceof MessageObject) {
                     MessageObject messageObject = (MessageObject) obj2;
-                    if (messageObject.lastGeoWebFileSet != null && (MessageObject.getMedia(messageObject) instanceof TLRPC$TL_messageMediaGeoLive)) {
+                    if (messageObject.lastGeoWebFileSet != null && (MessageObject.getMedia(messageObject) instanceof TLRPC.TL_messageMediaGeoLive)) {
                         MessageObject messageObject2 = (MessageObject) this.currentParentObject;
                         messageObject2.lastGeoWebFileLoaded = messageObject2.lastGeoWebFileSet;
                     }
@@ -3942,8 +3936,8 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         this.isPressed = i;
     }
 
-    public void setQualityThumbDocument(TLRPC$Document tLRPC$Document) {
-        this.qulityThumbDocument = tLRPC$Document;
+    public void setQualityThumbDocument(TLRPC.Document document) {
+        this.qulityThumbDocument = document;
     }
 
     public void setRoundRadius(int i) {
@@ -4131,7 +4125,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         if ((drawable == null || (bitmapShader = this.thumbShader) == null) && ((drawable = this.staticThumbDrawable) == null || (bitmapShader = this.staticThumbShader) == null)) {
             return false;
         }
-        drawDrawable(null, drawable, NotificationCenter.didClearDatabase, bitmapShader, 0, 0, 0, null);
+        drawDrawable(null, drawable, NotificationCenter.messagePlayingSpeedChanged, bitmapShader, 0, 0, 0, null);
         return true;
     }
 }

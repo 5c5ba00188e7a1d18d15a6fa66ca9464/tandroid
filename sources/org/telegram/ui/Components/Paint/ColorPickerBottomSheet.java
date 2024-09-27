@@ -232,14 +232,14 @@ public class ColorPickerBottomSheet extends BottomSheet {
             int argb2;
             int i = this.mode;
             if (i == 1) {
-                argb = Color.argb((int) NotificationCenter.didClearDatabase, Color.red(ColorPickerBottomSheet.this.mColor), 0, Color.blue(ColorPickerBottomSheet.this.mColor));
-                argb2 = Color.argb((int) NotificationCenter.didClearDatabase, Color.red(ColorPickerBottomSheet.this.mColor), (int) NotificationCenter.didClearDatabase, Color.blue(ColorPickerBottomSheet.this.mColor));
+                argb = Color.argb((int) NotificationCenter.messagePlayingSpeedChanged, Color.red(ColorPickerBottomSheet.this.mColor), 0, Color.blue(ColorPickerBottomSheet.this.mColor));
+                argb2 = Color.argb((int) NotificationCenter.messagePlayingSpeedChanged, Color.red(ColorPickerBottomSheet.this.mColor), (int) NotificationCenter.messagePlayingSpeedChanged, Color.blue(ColorPickerBottomSheet.this.mColor));
             } else if (i != 2) {
-                argb = Color.argb((int) NotificationCenter.didClearDatabase, 0, Color.green(ColorPickerBottomSheet.this.mColor), Color.blue(ColorPickerBottomSheet.this.mColor));
-                argb2 = Color.argb((int) NotificationCenter.didClearDatabase, (int) NotificationCenter.didClearDatabase, Color.green(ColorPickerBottomSheet.this.mColor), Color.blue(ColorPickerBottomSheet.this.mColor));
+                argb = Color.argb((int) NotificationCenter.messagePlayingSpeedChanged, 0, Color.green(ColorPickerBottomSheet.this.mColor), Color.blue(ColorPickerBottomSheet.this.mColor));
+                argb2 = Color.argb((int) NotificationCenter.messagePlayingSpeedChanged, (int) NotificationCenter.messagePlayingSpeedChanged, Color.green(ColorPickerBottomSheet.this.mColor), Color.blue(ColorPickerBottomSheet.this.mColor));
             } else {
-                argb = Color.argb((int) NotificationCenter.didClearDatabase, Color.red(ColorPickerBottomSheet.this.mColor), Color.green(ColorPickerBottomSheet.this.mColor), 0);
-                argb2 = Color.argb((int) NotificationCenter.didClearDatabase, Color.red(ColorPickerBottomSheet.this.mColor), Color.green(ColorPickerBottomSheet.this.mColor), (int) NotificationCenter.didClearDatabase);
+                argb = Color.argb((int) NotificationCenter.messagePlayingSpeedChanged, Color.red(ColorPickerBottomSheet.this.mColor), Color.green(ColorPickerBottomSheet.this.mColor), 0);
+                argb2 = Color.argb((int) NotificationCenter.messagePlayingSpeedChanged, Color.red(ColorPickerBottomSheet.this.mColor), Color.green(ColorPickerBottomSheet.this.mColor), (int) NotificationCenter.messagePlayingSpeedChanged);
             }
             this.colorPaint.setShader(new LinearGradient(0.0f, 0.0f, getWidth(), 0.0f, new int[]{argb, argb2}, (float[]) null, Shader.TileMode.CLAMP));
         }
@@ -248,14 +248,14 @@ public class ColorPickerBottomSheet extends BottomSheet {
             float dp = AndroidUtilities.dp(6.0f);
             float clamp = MathUtils.clamp(((f - dp) + (AndroidUtilities.dp(13.0f) - (this.outlinePaint.getStrokeWidth() / 2.0f))) / (getWidth() - (dp * 2.0f)), 0.0f, 1.0f);
             int i = this.mode;
-            int argb = i != 1 ? i != 2 ? Color.argb((int) NotificationCenter.didClearDatabase, (int) (clamp * 255.0f), Color.green(ColorPickerBottomSheet.this.mColor), Color.blue(ColorPickerBottomSheet.this.mColor)) : Color.argb((int) NotificationCenter.didClearDatabase, Color.red(ColorPickerBottomSheet.this.mColor), Color.green(ColorPickerBottomSheet.this.mColor), (int) (clamp * 255.0f)) : Color.argb((int) NotificationCenter.didClearDatabase, Color.red(ColorPickerBottomSheet.this.mColor), (int) (clamp * 255.0f), Color.blue(ColorPickerBottomSheet.this.mColor));
+            int argb = i != 1 ? i != 2 ? Color.argb((int) NotificationCenter.messagePlayingSpeedChanged, (int) (clamp * 255.0f), Color.green(ColorPickerBottomSheet.this.mColor), Color.blue(ColorPickerBottomSheet.this.mColor)) : Color.argb((int) NotificationCenter.messagePlayingSpeedChanged, Color.red(ColorPickerBottomSheet.this.mColor), Color.green(ColorPickerBottomSheet.this.mColor), (int) (clamp * 255.0f)) : Color.argb((int) NotificationCenter.messagePlayingSpeedChanged, Color.red(ColorPickerBottomSheet.this.mColor), (int) (clamp * 255.0f), Color.blue(ColorPickerBottomSheet.this.mColor));
             ColorPickerBottomSheet colorPickerBottomSheet = ColorPickerBottomSheet.this;
             colorPickerBottomSheet.onSetColor(ColorUtils.setAlphaComponent(argb, Color.alpha(colorPickerBottomSheet.mColor)), 4);
             invalidate();
         }
 
         public void invalidateColor() {
-            this.filledColor = ColorUtils.setAlphaComponent(ColorPickerBottomSheet.this.mColor, NotificationCenter.didClearDatabase);
+            this.filledColor = ColorUtils.setAlphaComponent(ColorPickerBottomSheet.this.mColor, NotificationCenter.messagePlayingSpeedChanged);
             invalidateShader();
             invalidate();
         }
@@ -378,7 +378,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
             this.shadowDrawable.setBounds((int) ((paddingLeft - dp) - rect.left), (int) ((paddingTop - dp) - rect.top), (int) (paddingLeft + dp + f3), (int) (paddingTop + dp + f3));
             this.shadowDrawable.draw(canvas);
             canvas.drawCircle(paddingLeft, paddingTop, dp, this.outlinePaint);
-            PaintColorsListView.drawColorCircle(canvas, paddingLeft, paddingTop, dp - (this.outlinePaint.getStrokeWidth() / 2.0f), ColorUtils.setAlphaComponent(ColorPickerBottomSheet.this.mColor, NotificationCenter.didClearDatabase));
+            PaintColorsListView.drawColorCircle(canvas, paddingLeft, paddingTop, dp - (this.outlinePaint.getStrokeWidth() / 2.0f), ColorUtils.setAlphaComponent(ColorPickerBottomSheet.this.mColor, NotificationCenter.messagePlayingSpeedChanged));
         }
 
         @Override // android.view.View
@@ -652,7 +652,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
                     if (SliderCell.this.isInvalidatingColor || this.previous == null || editable == null || TextUtils.isEmpty(editable) || Objects.equals(this.previous.toString(), editable.toString())) {
                         return;
                     }
-                    int clamp = MathUtils.clamp(Integer.parseInt(editable.toString()), 0, (int) NotificationCenter.didClearDatabase);
+                    int clamp = MathUtils.clamp(Integer.parseInt(editable.toString()), 0, (int) NotificationCenter.messagePlayingSpeedChanged);
                     int i = SliderCell.this.mode;
                     ColorPickerBottomSheet.this.onSetColor(i != 1 ? i != 2 ? Color.argb(Color.alpha(ColorPickerBottomSheet.this.mColor), clamp, Color.green(ColorPickerBottomSheet.this.mColor), Color.blue(ColorPickerBottomSheet.this.mColor)) : Color.argb(Color.alpha(ColorPickerBottomSheet.this.mColor), Color.red(ColorPickerBottomSheet.this.mColor), Color.green(ColorPickerBottomSheet.this.mColor), clamp) : Color.argb(Color.alpha(ColorPickerBottomSheet.this.mColor), Color.red(ColorPickerBottomSheet.this.mColor), clamp, Color.blue(ColorPickerBottomSheet.this.mColor)), 5);
                 }

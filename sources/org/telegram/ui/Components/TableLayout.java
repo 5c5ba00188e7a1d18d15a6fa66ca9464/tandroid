@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.tgnet.TLRPC$TL_pageTableCell;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ArticleViewer;
 import org.telegram.ui.Cells.TextSelectionHelper;
 /* loaded from: classes3.dex */
@@ -749,7 +749,7 @@ public class TableLayout extends View {
 
     /* loaded from: classes3.dex */
     public class Child {
-        private TLRPC$TL_pageTableCell cell;
+        private TLRPC.TL_pageTableCell cell;
         private int fixedHeight;
         private int index;
         private LayoutParams layoutParams;
@@ -1037,13 +1037,13 @@ public class TableLayout extends View {
             if (z) {
                 this.fixedHeight = i2;
             }
-            TLRPC$TL_pageTableCell tLRPC$TL_pageTableCell = this.cell;
-            if (tLRPC$TL_pageTableCell == null) {
+            TLRPC.TL_pageTableCell tL_pageTableCell = this.cell;
+            if (tL_pageTableCell == null) {
                 return;
             }
-            if (tLRPC$TL_pageTableCell.valign_middle) {
+            if (tL_pageTableCell.valign_middle) {
                 i3 = (i2 - this.textHeight) / 2;
-            } else if (!tLRPC$TL_pageTableCell.valign_bottom) {
+            } else if (!tL_pageTableCell.valign_bottom) {
                 this.textY = TableLayout.this.itemPaddingTop;
                 drawingText = this.textLayout;
                 if (drawingText == null) {
@@ -1051,8 +1051,8 @@ public class TableLayout extends View {
                     if (!z) {
                         if (lineCount <= 1) {
                             if (lineCount > 0) {
-                                TLRPC$TL_pageTableCell tLRPC$TL_pageTableCell2 = this.cell;
-                                if (!tLRPC$TL_pageTableCell2.align_center) {
+                                TLRPC.TL_pageTableCell tL_pageTableCell2 = this.cell;
+                                if (!tL_pageTableCell2.align_center) {
                                 }
                             }
                         }
@@ -1063,8 +1063,8 @@ public class TableLayout extends View {
                     if (i5 != 0) {
                         int i6 = -i5;
                         this.textX = i6;
-                        TLRPC$TL_pageTableCell tLRPC$TL_pageTableCell3 = this.cell;
-                        i4 = i6 + (tLRPC$TL_pageTableCell3.align_right ? (this.measuredWidth - this.textWidth) - TableLayout.this.itemPaddingLeft : tLRPC$TL_pageTableCell3.align_center ? Math.round((this.measuredWidth - this.textWidth) / 2) : TableLayout.this.itemPaddingLeft);
+                        TLRPC.TL_pageTableCell tL_pageTableCell3 = this.cell;
+                        i4 = i6 + (tL_pageTableCell3.align_right ? (this.measuredWidth - this.textWidth) - TableLayout.this.itemPaddingLeft : tL_pageTableCell3.align_center ? Math.round((this.measuredWidth - this.textWidth) / 2) : TableLayout.this.itemPaddingLeft);
                     } else {
                         i4 = TableLayout.this.itemPaddingLeft;
                     }
@@ -1085,10 +1085,10 @@ public class TableLayout extends View {
             int i2;
             int i3 = this.fixedHeight;
             this.measuredHeight = i3;
-            TLRPC$TL_pageTableCell tLRPC$TL_pageTableCell = this.cell;
-            if (tLRPC$TL_pageTableCell.valign_middle) {
+            TLRPC.TL_pageTableCell tL_pageTableCell = this.cell;
+            if (tL_pageTableCell.valign_middle) {
                 i2 = (i3 - this.textHeight) / 2;
-            } else if (!tLRPC$TL_pageTableCell.valign_bottom) {
+            } else if (!tL_pageTableCell.valign_bottom) {
                 return;
             } else {
                 i2 = (i3 - this.textHeight) - TableLayout.this.itemPaddingTop;
@@ -1330,7 +1330,7 @@ public class TableLayout extends View {
 
     /* loaded from: classes3.dex */
     public interface TableLayoutDelegate {
-        ArticleViewer.DrawingText createTextLayout(TLRPC$TL_pageTableCell tLRPC$TL_pageTableCell, int i);
+        ArticleViewer.DrawingText createTextLayout(TLRPC.TL_pageTableCell tL_pageTableCell, int i);
 
         Paint getHeaderPaint();
 
@@ -1753,12 +1753,12 @@ public class TableLayout extends View {
         invalidateStructure();
     }
 
-    public void addChild(TLRPC$TL_pageTableCell tLRPC$TL_pageTableCell, int i, int i2, int i3) {
+    public void addChild(TLRPC.TL_pageTableCell tL_pageTableCell, int i, int i2, int i3) {
         int i4 = i3 == 0 ? 1 : i3;
         Child child = new Child(this.childrens.size());
-        child.cell = tLRPC$TL_pageTableCell;
+        child.cell = tL_pageTableCell;
         LayoutParams layoutParams = new LayoutParams();
-        int i5 = tLRPC$TL_pageTableCell.rowspan;
+        int i5 = tL_pageTableCell.rowspan;
         if (i5 == 0) {
             i5 = 1;
         }
@@ -1769,7 +1769,7 @@ public class TableLayout extends View {
         child.layoutParams = layoutParams;
         child.rowspan = i2;
         this.childrens.add(child);
-        int i6 = tLRPC$TL_pageTableCell.rowspan;
+        int i6 = tL_pageTableCell.rowspan;
         if (i6 > 1) {
             this.rowSpans.add(new Point(i2, i6 + i2));
         }

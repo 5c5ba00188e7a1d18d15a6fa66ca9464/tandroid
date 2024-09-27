@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.SeekParameters;
 import com.google.android.exoplayer2.drm.DrmSessionEventListener;
 import com.google.android.exoplayer2.drm.DrmSessionManager;
 import com.google.android.exoplayer2.source.CompositeSequenceableLoaderFactory;
+import com.google.android.exoplayer2.source.LoadingInfo;
 import com.google.android.exoplayer2.source.MediaPeriod;
 import com.google.android.exoplayer2.source.MediaSourceEventListener;
 import com.google.android.exoplayer2.source.SampleStream;
@@ -16,12 +17,19 @@ import com.google.android.exoplayer2.source.smoothstreaming.SsChunkSource;
 import com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifest;
 import com.google.android.exoplayer2.trackselection.ExoTrackSelection;
 import com.google.android.exoplayer2.upstream.Allocator;
+import com.google.android.exoplayer2.upstream.CmcdConfiguration;
 import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy;
 import com.google.android.exoplayer2.upstream.LoaderErrorThrower;
 import com.google.android.exoplayer2.upstream.TransferListener;
+import com.google.android.exoplayer2.util.Assertions;
+import com.google.common.base.Function;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import java.util.ArrayList;
+import java.util.List;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-final class SsMediaPeriod implements MediaPeriod, SequenceableLoader.Callback {
+public final class SsMediaPeriod implements MediaPeriod, SequenceableLoader.Callback {
     private final Allocator allocator;
     private MediaPeriod.Callback callback;
     private final SsChunkSource.Factory chunkSourceFactory;
@@ -33,11 +41,11 @@ final class SsMediaPeriod implements MediaPeriod, SequenceableLoader.Callback {
     private SsManifest manifest;
     private final LoaderErrorThrower manifestLoaderErrorThrower;
     private final MediaSourceEventListener.EventDispatcher mediaSourceEventDispatcher;
-    private ChunkSampleStream[] sampleStreams;
+    private ChunkSampleStream[] sampleStreams = newSampleStreamArray(0);
     private final TrackGroupArray trackGroups;
     private final TransferListener transferListener;
 
-    public SsMediaPeriod(SsManifest ssManifest, SsChunkSource.Factory factory, TransferListener transferListener, CompositeSequenceableLoaderFactory compositeSequenceableLoaderFactory, DrmSessionManager drmSessionManager, DrmSessionEventListener.EventDispatcher eventDispatcher, LoadErrorHandlingPolicy loadErrorHandlingPolicy, MediaSourceEventListener.EventDispatcher eventDispatcher2, LoaderErrorThrower loaderErrorThrower, Allocator allocator) {
+    public SsMediaPeriod(SsManifest ssManifest, SsChunkSource.Factory factory, TransferListener transferListener, CompositeSequenceableLoaderFactory compositeSequenceableLoaderFactory, CmcdConfiguration cmcdConfiguration, DrmSessionManager drmSessionManager, DrmSessionEventListener.EventDispatcher eventDispatcher, LoadErrorHandlingPolicy loadErrorHandlingPolicy, MediaSourceEventListener.EventDispatcher eventDispatcher2, LoaderErrorThrower loaderErrorThrower, Allocator allocator) {
         this.manifest = ssManifest;
         this.chunkSourceFactory = factory;
         this.transferListener = transferListener;
@@ -48,18 +56,16 @@ final class SsMediaPeriod implements MediaPeriod, SequenceableLoader.Callback {
         this.mediaSourceEventDispatcher = eventDispatcher2;
         this.allocator = allocator;
         this.compositeSequenceableLoaderFactory = compositeSequenceableLoaderFactory;
-        this.trackGroups = buildTrackGroups(ssManifest, drmSessionManager);
-        ChunkSampleStream[] newSampleStreamArray = newSampleStreamArray(0);
-        this.sampleStreams = newSampleStreamArray;
-        this.compositeSequenceableLoader = compositeSequenceableLoaderFactory.createCompositeSequenceableLoader(newSampleStreamArray);
+        this.trackGroups = buildTrackGroups(ssManifest, drmSessionManager, factory);
+        this.compositeSequenceableLoader = compositeSequenceableLoaderFactory.empty();
     }
 
     private ChunkSampleStream buildSampleStream(ExoTrackSelection exoTrackSelection, long j) {
         int indexOf = this.trackGroups.indexOf(exoTrackSelection.getTrackGroup());
-        return new ChunkSampleStream(this.manifest.streamElements[indexOf].type, null, null, this.chunkSourceFactory.createChunkSource(this.manifestLoaderErrorThrower, this.manifest, indexOf, exoTrackSelection, this.transferListener), this, this.allocator, j, this.drmSessionManager, this.drmEventDispatcher, this.loadErrorHandlingPolicy, this.mediaSourceEventDispatcher);
+        return new ChunkSampleStream(this.manifest.streamElements[indexOf].type, null, null, this.chunkSourceFactory.createChunkSource(this.manifestLoaderErrorThrower, this.manifest, indexOf, exoTrackSelection, this.transferListener, null), this, this.allocator, j, this.drmSessionManager, this.drmEventDispatcher, this.loadErrorHandlingPolicy, this.mediaSourceEventDispatcher);
     }
 
-    private static TrackGroupArray buildTrackGroups(SsManifest ssManifest, DrmSessionManager drmSessionManager) {
+    private static TrackGroupArray buildTrackGroups(SsManifest ssManifest, DrmSessionManager drmSessionManager, SsChunkSource.Factory factory) {
         TrackGroup[] trackGroupArr = new TrackGroup[ssManifest.streamElements.length];
         int i = 0;
         while (true) {
@@ -78,13 +84,18 @@ final class SsMediaPeriod implements MediaPeriod, SequenceableLoader.Callback {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ List lambda$selectTracks$0(ChunkSampleStream chunkSampleStream) {
+        return ImmutableList.of((Object) Integer.valueOf(chunkSampleStream.primaryTrackType));
+    }
+
     private static ChunkSampleStream[] newSampleStreamArray(int i) {
         return new ChunkSampleStream[i];
     }
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
-    public boolean continueLoading(long j) {
-        return this.compositeSequenceableLoader.continueLoading(j);
+    public boolean continueLoading(LoadingInfo loadingInfo) {
+        return this.compositeSequenceableLoader.continueLoading(loadingInfo);
     }
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod
@@ -132,7 +143,7 @@ final class SsMediaPeriod implements MediaPeriod, SequenceableLoader.Callback {
 
     @Override // com.google.android.exoplayer2.source.SequenceableLoader.Callback
     public void onContinueLoadingRequested(ChunkSampleStream chunkSampleStream) {
-        this.callback.onContinueLoadingRequested(this);
+        ((MediaPeriod.Callback) Assertions.checkNotNull(this.callback)).onContinueLoadingRequested(this);
     }
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod
@@ -178,7 +189,7 @@ final class SsMediaPeriod implements MediaPeriod, SequenceableLoader.Callback {
                     chunkSampleStream.release();
                     sampleStreamArr[i] = null;
                 } else {
-                    ((SsChunkSource) chunkSampleStream.getChunkSource()).updateTrackSelection(exoTrackSelectionArr[i]);
+                    ((SsChunkSource) chunkSampleStream.getChunkSource()).updateTrackSelection((ExoTrackSelection) Assertions.checkNotNull(exoTrackSelectionArr[i]));
                     arrayList.add(chunkSampleStream);
                 }
             }
@@ -192,7 +203,14 @@ final class SsMediaPeriod implements MediaPeriod, SequenceableLoader.Callback {
         ChunkSampleStream[] newSampleStreamArray = newSampleStreamArray(arrayList.size());
         this.sampleStreams = newSampleStreamArray;
         arrayList.toArray(newSampleStreamArray);
-        this.compositeSequenceableLoader = this.compositeSequenceableLoaderFactory.createCompositeSequenceableLoader(this.sampleStreams);
+        this.compositeSequenceableLoader = this.compositeSequenceableLoaderFactory.create(arrayList, Lists.transform(arrayList, new Function() { // from class: com.google.android.exoplayer2.source.smoothstreaming.SsMediaPeriod$$ExternalSyntheticLambda0
+            @Override // com.google.common.base.Function
+            public final Object apply(Object obj) {
+                List lambda$selectTracks$0;
+                lambda$selectTracks$0 = SsMediaPeriod.lambda$selectTracks$0((ChunkSampleStream) obj);
+                return lambda$selectTracks$0;
+            }
+        }));
         return j;
     }
 
@@ -201,6 +219,6 @@ final class SsMediaPeriod implements MediaPeriod, SequenceableLoader.Callback {
         for (ChunkSampleStream chunkSampleStream : this.sampleStreams) {
             ((SsChunkSource) chunkSampleStream.getChunkSource()).updateManifest(ssManifest);
         }
-        this.callback.onContinueLoadingRequested(this);
+        ((MediaPeriod.Callback) Assertions.checkNotNull(this.callback)).onContinueLoadingRequested(this);
     }
 }

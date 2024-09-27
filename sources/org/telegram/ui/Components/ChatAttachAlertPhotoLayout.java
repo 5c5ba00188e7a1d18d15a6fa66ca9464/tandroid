@@ -77,13 +77,7 @@ import org.telegram.messenger.camera.CameraController;
 import org.telegram.messenger.camera.CameraSessionWrapper;
 import org.telegram.messenger.camera.CameraView;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$FileLocation;
-import org.telegram.tgnet.TLRPC$MessageEntity;
-import org.telegram.tgnet.TLRPC$TL_videoSizeEmojiMarkup;
-import org.telegram.tgnet.TLRPC$TL_videoSizeStickerMarkup;
-import org.telegram.tgnet.TLRPC$VideoSize;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
@@ -235,7 +229,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
 
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC$FileLocation tLRPC$FileLocation, int i, boolean z) {
+        public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i, boolean z) {
             PhotoAttachPhotoCell cellForIndex = ChatAttachAlertPhotoLayout.this.getCellForIndex(i);
             if (cellForIndex != null) {
                 int[] iArr = new int[2];
@@ -259,7 +253,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
 
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public ImageReceiver.BitmapHolder getThumbForPhoto(MessageObject messageObject, TLRPC$FileLocation tLRPC$FileLocation, int i) {
+        public ImageReceiver.BitmapHolder getThumbForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i) {
             PhotoAttachPhotoCell cellForIndex = ChatAttachAlertPhotoLayout.this.getCellForIndex(i);
             if (cellForIndex != null) {
                 return cellForIndex.getImageView().getImageReceiver().getBitmapSafe();
@@ -270,7 +264,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
         public void onApplyCaption(CharSequence charSequence) {
             SpannableStringBuilder spannableStringBuilder;
-            ArrayList<TLRPC$MessageEntity> arrayList;
+            ArrayList<TLRPC.MessageEntity> arrayList;
             if (ChatAttachAlertPhotoLayout.selectedPhotos.size() <= 0 || ChatAttachAlertPhotoLayout.selectedPhotosOrder.size() <= 0) {
                 return;
             }
@@ -288,7 +282,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 spannableStringBuilder = searchImage.caption;
                 arrayList = searchImage.entities;
             }
-            ArrayList<TLRPC$MessageEntity> arrayList2 = arrayList;
+            ArrayList<TLRPC.MessageEntity> arrayList2 = arrayList;
             if (spannableStringBuilder != null && arrayList2 != null) {
                 if (!(spannableStringBuilder instanceof Spannable)) {
                     spannableStringBuilder = new SpannableStringBuilder(spannableStringBuilder);
@@ -423,7 +417,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
 
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public void willSwitchFromPhoto(MessageObject messageObject, TLRPC$FileLocation tLRPC$FileLocation, int i) {
+        public void willSwitchFromPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i) {
             PhotoAttachPhotoCell cellForIndex = ChatAttachAlertPhotoLayout.this.getCellForIndex(i);
             if (cellForIndex != null) {
                 cellForIndex.showCheck(true);
@@ -770,7 +764,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
 
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public ImageReceiver.BitmapHolder getThumbForPhoto(MessageObject messageObject, TLRPC$FileLocation tLRPC$FileLocation, int i) {
+        public ImageReceiver.BitmapHolder getThumbForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i) {
             return null;
         }
 
@@ -984,7 +978,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$createHolder$0(PhotoAttachPhotoCell photoAttachPhotoCell, PhotoAttachPhotoCell photoAttachPhotoCell2) {
             PhotoAttachAdapter photoAttachAdapter;
-            TLRPC$Chat currentChat;
+            TLRPC.Chat currentChat;
             if (ChatAttachAlertPhotoLayout.this.mediaEnabled && ChatAttachAlertPhotoLayout.this.parentAlert.avatarPicker == 0) {
                 int intValue = ((Integer) photoAttachPhotoCell2.getTag()).intValue();
                 MediaController.PhotoEntry photoEntry = photoAttachPhotoCell2.getPhotoEntry();
@@ -2388,7 +2382,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$showAvatarConstructorFragment$10(AvatarConstructorFragment avatarConstructorFragment, AvatarConstructorFragment.BackgroundGradient backgroundGradient, long j, TLRPC$Document tLRPC$Document, AvatarConstructorFragment.PreviewView previewView) {
+    public /* synthetic */ void lambda$showAvatarConstructorFragment$10(AvatarConstructorFragment avatarConstructorFragment, AvatarConstructorFragment.BackgroundGradient backgroundGradient, long j, TLRPC.Document document, AvatarConstructorFragment.PreviewView previewView) {
         int i;
         int i2;
         int i3;
@@ -2396,8 +2390,8 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         MediaController.PhotoEntry photoEntry;
         int i5;
         int i6;
-        TLRPC$TL_videoSizeStickerMarkup tLRPC$TL_videoSizeStickerMarkup;
-        TLRPC$TL_videoSizeStickerMarkup tLRPC$TL_videoSizeStickerMarkup2;
+        TLRPC.TL_videoSizeStickerMarkup tL_videoSizeStickerMarkup;
+        TLRPC.TL_videoSizeStickerMarkup tL_videoSizeStickerMarkup2;
         selectedPhotos.clear();
         Bitmap createBitmap = Bitmap.createBitmap(800, 800, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(createBitmap);
@@ -2471,40 +2465,40 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             photoEntry = new MediaController.PhotoEntry(0, 0, 0L, file.getPath(), 0, false, 0, 0, 0L);
             photoEntry.thumbPath = file2.getPath();
             if (previewView.documentId != 0) {
-                TLRPC$TL_videoSizeEmojiMarkup tLRPC$TL_videoSizeEmojiMarkup = new TLRPC$TL_videoSizeEmojiMarkup();
+                TLRPC.TL_videoSizeEmojiMarkup tL_videoSizeEmojiMarkup = new TLRPC.TL_videoSizeEmojiMarkup();
                 i5 = i8;
-                tLRPC$TL_videoSizeEmojiMarkup.emoji_id = previewView.documentId;
-                tLRPC$TL_videoSizeEmojiMarkup.background_colors.add(Integer.valueOf(previewView.backgroundGradient.color1));
+                tL_videoSizeEmojiMarkup.emoji_id = previewView.documentId;
+                tL_videoSizeEmojiMarkup.background_colors.add(Integer.valueOf(previewView.backgroundGradient.color1));
                 int i9 = previewView.backgroundGradient.color2;
                 if (i9 != 0) {
-                    tLRPC$TL_videoSizeEmojiMarkup.background_colors.add(Integer.valueOf(i9));
+                    tL_videoSizeEmojiMarkup.background_colors.add(Integer.valueOf(i9));
                 }
                 int i10 = previewView.backgroundGradient.color3;
                 if (i10 != 0) {
-                    tLRPC$TL_videoSizeEmojiMarkup.background_colors.add(Integer.valueOf(i10));
+                    tL_videoSizeEmojiMarkup.background_colors.add(Integer.valueOf(i10));
                 }
                 i6 = previewView.backgroundGradient.color4;
-                tLRPC$TL_videoSizeStickerMarkup2 = tLRPC$TL_videoSizeEmojiMarkup;
-                tLRPC$TL_videoSizeStickerMarkup = tLRPC$TL_videoSizeEmojiMarkup;
+                tL_videoSizeStickerMarkup2 = tL_videoSizeEmojiMarkup;
+                tL_videoSizeStickerMarkup = tL_videoSizeEmojiMarkup;
             } else {
                 i5 = i8;
                 if (previewView.document != null) {
-                    TLRPC$TL_videoSizeStickerMarkup tLRPC$TL_videoSizeStickerMarkup3 = new TLRPC$TL_videoSizeStickerMarkup();
-                    TLRPC$Document tLRPC$Document2 = previewView.document;
-                    tLRPC$TL_videoSizeStickerMarkup3.sticker_id = tLRPC$Document2.id;
-                    tLRPC$TL_videoSizeStickerMarkup3.stickerset = MessageObject.getInputStickerSet(tLRPC$Document2);
-                    tLRPC$TL_videoSizeStickerMarkup3.background_colors.add(Integer.valueOf(previewView.backgroundGradient.color1));
+                    TLRPC.TL_videoSizeStickerMarkup tL_videoSizeStickerMarkup3 = new TLRPC.TL_videoSizeStickerMarkup();
+                    TLRPC.Document document2 = previewView.document;
+                    tL_videoSizeStickerMarkup3.sticker_id = document2.id;
+                    tL_videoSizeStickerMarkup3.stickerset = MessageObject.getInputStickerSet(document2);
+                    tL_videoSizeStickerMarkup3.background_colors.add(Integer.valueOf(previewView.backgroundGradient.color1));
                     int i11 = previewView.backgroundGradient.color2;
                     if (i11 != 0) {
-                        tLRPC$TL_videoSizeStickerMarkup3.background_colors.add(Integer.valueOf(i11));
+                        tL_videoSizeStickerMarkup3.background_colors.add(Integer.valueOf(i11));
                     }
                     int i12 = previewView.backgroundGradient.color3;
                     if (i12 != 0) {
-                        tLRPC$TL_videoSizeStickerMarkup3.background_colors.add(Integer.valueOf(i12));
+                        tL_videoSizeStickerMarkup3.background_colors.add(Integer.valueOf(i12));
                     }
                     i6 = previewView.backgroundGradient.color4;
-                    tLRPC$TL_videoSizeStickerMarkup2 = tLRPC$TL_videoSizeStickerMarkup3;
-                    tLRPC$TL_videoSizeStickerMarkup = tLRPC$TL_videoSizeStickerMarkup3;
+                    tL_videoSizeStickerMarkup2 = tL_videoSizeStickerMarkup3;
+                    tL_videoSizeStickerMarkup = tL_videoSizeStickerMarkup3;
                 }
                 VideoEditedInfo videoEditedInfo = new VideoEditedInfo();
                 photoEntry.editedInfo = videoEditedInfo;
@@ -2528,7 +2522,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 videoEditedInfo3.estimatedDuration = j2;
                 VideoEditedInfo.MediaEntity mediaEntity = new VideoEditedInfo.MediaEntity();
                 mediaEntity.type = (byte) 0;
-                TLRPC$Document findDocument = tLRPC$Document == null ? AnimatedEmojiDrawable.findDocument(UserConfig.selectedAccount, j) : tLRPC$Document;
+                TLRPC.Document findDocument = document == null ? AnimatedEmojiDrawable.findDocument(UserConfig.selectedAccount, j) : document;
                 if (findDocument == null) {
                     return;
                 }
@@ -4129,7 +4123,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                     this.progressView.setText(LocaleController.getString(R.string.NoPhotos));
                     this.progressView.setLottie(0, 0, 0);
                 } else {
-                    TLRPC$Chat chat = chatAttachAlert2.getChat();
+                    TLRPC.Chat chat = chatAttachAlert2.getChat();
                     this.progressView.setLottie(R.raw.media_forbidden, 150, 150);
                     if (ChatObject.isActionBannedByDefault(chat, 7)) {
                         emptyTextProgressView = this.progressView;
@@ -4200,7 +4194,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
 
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public void onMenuItemClick(int i) {
-        TLRPC$Chat chat;
+        TLRPC.Chat chat;
         boolean z;
         ChatAttachAlert.ChatAttachViewDelegate chatAttachViewDelegate;
         boolean z2;
@@ -5016,7 +5010,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         invalidate();
     }
 
-    public void showAvatarConstructorFragment(AvatarConstructorPreviewCell avatarConstructorPreviewCell, TLRPC$VideoSize tLRPC$VideoSize) {
+    public void showAvatarConstructorFragment(AvatarConstructorPreviewCell avatarConstructorPreviewCell, TLRPC.VideoSize videoSize) {
         ChatAttachAlert chatAttachAlert = this.parentAlert;
         final AvatarConstructorFragment avatarConstructorFragment = new AvatarConstructorFragment(chatAttachAlert.parentImageUpdater, chatAttachAlert.getAvatarFor());
         avatarConstructorFragment.finishOnDone = this.parentAlert.getAvatarFor() == null || this.parentAlert.getAvatarFor().type != 2;
@@ -5024,13 +5018,13 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         if (avatarConstructorPreviewCell != null) {
             avatarConstructorFragment.startFrom(avatarConstructorPreviewCell);
         }
-        if (tLRPC$VideoSize != null) {
-            avatarConstructorFragment.startFrom(tLRPC$VideoSize);
+        if (videoSize != null) {
+            avatarConstructorFragment.startFrom(videoSize);
         }
         avatarConstructorFragment.setDelegate(new AvatarConstructorFragment.Delegate() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda28
             @Override // org.telegram.ui.Components.AvatarConstructorFragment.Delegate
-            public final void onDone(AvatarConstructorFragment.BackgroundGradient backgroundGradient, long j, TLRPC$Document tLRPC$Document, AvatarConstructorFragment.PreviewView previewView) {
-                ChatAttachAlertPhotoLayout.this.lambda$showAvatarConstructorFragment$10(avatarConstructorFragment, backgroundGradient, j, tLRPC$Document, previewView);
+            public final void onDone(AvatarConstructorFragment.BackgroundGradient backgroundGradient, long j, TLRPC.Document document, AvatarConstructorFragment.PreviewView previewView) {
+                ChatAttachAlertPhotoLayout.this.lambda$showAvatarConstructorFragment$10(avatarConstructorFragment, backgroundGradient, j, document, previewView);
             }
         });
     }

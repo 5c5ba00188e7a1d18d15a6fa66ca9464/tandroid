@@ -20,10 +20,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$Dialog;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$UserStatus;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.AvatarDrawable;
@@ -41,7 +38,7 @@ public class HintDialogCell extends FrameLayout {
     CheckBox2 checkBox;
     CounterView counterView;
     private int currentAccount;
-    private TLRPC$User currentUser;
+    private TLRPC.User currentUser;
     private long dialogId;
     private final boolean drawCheckbox;
     private BackupImageView imageView;
@@ -141,11 +138,11 @@ public class HintDialogCell extends FrameLayout {
     protected boolean drawChild(Canvas canvas, View view, long j) {
         float f;
         Drawable drawable;
-        TLRPC$User tLRPC$User;
-        TLRPC$UserStatus tLRPC$UserStatus;
+        TLRPC.User user;
+        TLRPC.UserStatus userStatus;
         boolean drawChild = super.drawChild(canvas, view, j);
         if (view == this.imageView) {
-            boolean z = (this.premiumBlocked || (tLRPC$User = this.currentUser) == null || tLRPC$User.bot || (((tLRPC$UserStatus = tLRPC$User.status) == null || tLRPC$UserStatus.expires <= ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) && !MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(this.currentUser.id)))) ? false : true;
+            boolean z = (this.premiumBlocked || (user = this.currentUser) == null || user.bot || (((userStatus = user.status) == null || userStatus.expires <= ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) && !MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(this.currentUser.id)))) ? false : true;
             if (!this.wasDraw) {
                 this.showOnlineProgress = z ? 1.0f : 0.0f;
             }
@@ -262,7 +259,7 @@ public class HintDialogCell extends FrameLayout {
         }
         this.dialogId = j;
         if (DialogObject.isUserDialog(j)) {
-            TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j));
+            TLRPC.User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j));
             this.currentUser = user;
             if (charSequence != null) {
                 this.nameTextView.setText(charSequence);
@@ -274,7 +271,7 @@ public class HintDialogCell extends FrameLayout {
             this.avatarDrawable.setInfo(this.currentAccount, this.currentUser);
             this.imageView.setForUserOrChat(this.currentUser, this.avatarDrawable);
         } else {
-            TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j));
+            TLRPC.Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j));
             TextView textView = this.nameTextView;
             if (charSequence == null) {
                 if (chat != null) {
@@ -312,7 +309,7 @@ public class HintDialogCell extends FrameLayout {
 
     public void update() {
         if (DialogObject.isUserDialog(this.dialogId)) {
-            TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.dialogId));
+            TLRPC.User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.dialogId));
             this.currentUser = user;
             this.avatarDrawable.setInfo(this.currentAccount, user);
         } else {
@@ -332,8 +329,8 @@ public class HintDialogCell extends FrameLayout {
         if (i != 0 && (MessagesController.UPDATE_MASK_READ_DIALOG_MESSAGE & i) == 0 && (i & MessagesController.UPDATE_MASK_NEW_MESSAGE) == 0) {
             return;
         }
-        TLRPC$Dialog tLRPC$Dialog = (TLRPC$Dialog) MessagesController.getInstance(this.currentAccount).dialogs_dict.get(this.dialogId);
-        if (tLRPC$Dialog == null || (i2 = tLRPC$Dialog.unread_count) == 0) {
+        TLRPC.Dialog dialog = (TLRPC.Dialog) MessagesController.getInstance(this.currentAccount).dialogs_dict.get(this.dialogId);
+        if (dialog == null || (i2 = dialog.unread_count) == 0) {
             i2 = 0;
         } else if (this.lastUnreadCount == i2) {
             return;

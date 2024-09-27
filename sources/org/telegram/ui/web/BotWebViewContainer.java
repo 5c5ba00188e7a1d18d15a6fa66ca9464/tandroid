@@ -12,6 +12,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -94,22 +95,8 @@ import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$InputInvoice;
-import org.telegram.tgnet.TLRPC$ReplyMarkup;
-import org.telegram.tgnet.TLRPC$TL_attachMenuBot;
-import org.telegram.tgnet.TLRPC$TL_attachMenuBotIcon;
-import org.telegram.tgnet.TLRPC$TL_attachMenuBotsBot;
-import org.telegram.tgnet.TLRPC$TL_boolTrue;
-import org.telegram.tgnet.TLRPC$TL_dataJSON;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_inputInvoiceSlug;
-import org.telegram.tgnet.TLRPC$TL_messages_getAttachMenuBot;
-import org.telegram.tgnet.TLRPC$TL_payments_getPaymentForm;
-import org.telegram.tgnet.TLRPC$Updates;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.tl.TL_bots$allowSendMessage;
-import org.telegram.tgnet.tl.TL_bots$canSendMessage;
-import org.telegram.tgnet.tl.TL_bots$invokeWebViewCustomMethod;
+import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_bots;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarLayout;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
@@ -149,7 +136,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     private BotBiometry biometry;
     private long blockedDialogsUntil;
     public final boolean bot;
-    private TLRPC$User botUser;
+    private TLRPC.User botUser;
     private BotWebViewProxy botWebViewProxy;
     private String buttonData;
     private BottomSheet cameraBottomSheet;
@@ -251,10 +238,6 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 return false;
             }
 
-            public static void $default$onCloseToTabs(Delegate delegate) {
-                delegate.onCloseRequested(null);
-            }
-
             public static void $default$onInstantClose(Delegate delegate) {
                 delegate.onCloseRequested(null);
             }
@@ -294,7 +277,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
         void onWebAppExpand();
 
-        void onWebAppOpenInvoice(TLRPC$InputInvoice tLRPC$InputInvoice, String str, TLObject tLObject);
+        void onWebAppOpenInvoice(TLRPC.InputInvoice inputInvoice, String str, TLObject tLObject);
 
         void onWebAppReady();
 
@@ -308,7 +291,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
         void onWebAppSwipingBehavior(boolean z);
 
-        void onWebAppSwitchInlineQuery(TLRPC$User tLRPC$User, String str, List list);
+        void onWebAppSwitchInlineQuery(TLRPC.User user, String str, List list);
     }
 
     /* loaded from: classes.dex */
@@ -2530,6 +2513,16 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         return new JSONObject();
     }
 
+    private static String capitalizeFirst(String str) {
+        if (str == null) {
+            return "";
+        }
+        if (str.length() <= 1) {
+            return str.toUpperCase();
+        }
+        return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+    }
+
     private boolean checkPermissions(String[] strArr) {
         int checkSelfPermission;
         for (String str : strArr) {
@@ -2613,11 +2606,11 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
     public /* synthetic */ void lambda$loadFlickerAndSettingsItem$1(TLObject tLObject) {
         boolean z;
-        if (tLObject instanceof TLRPC$TL_attachMenuBotsBot) {
-            TLRPC$TL_attachMenuBot tLRPC$TL_attachMenuBot = ((TLRPC$TL_attachMenuBotsBot) tLObject).bot;
-            TLRPC$TL_attachMenuBotIcon placeholderStaticAttachMenuBotIcon = MediaDataController.getPlaceholderStaticAttachMenuBotIcon(tLRPC$TL_attachMenuBot);
+        if (tLObject instanceof TLRPC.TL_attachMenuBotsBot) {
+            TLRPC.TL_attachMenuBot tL_attachMenuBot = ((TLRPC.TL_attachMenuBotsBot) tLObject).bot;
+            TLRPC.TL_attachMenuBotIcon placeholderStaticAttachMenuBotIcon = MediaDataController.getPlaceholderStaticAttachMenuBotIcon(tL_attachMenuBot);
             if (placeholderStaticAttachMenuBotIcon == null) {
-                placeholderStaticAttachMenuBotIcon = MediaDataController.getStaticAttachMenuBotIcon(tLRPC$TL_attachMenuBot);
+                placeholderStaticAttachMenuBotIcon = MediaDataController.getStaticAttachMenuBotIcon(tL_attachMenuBot);
                 z = true;
             } else {
                 z = false;
@@ -2625,13 +2618,13 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             if (placeholderStaticAttachMenuBotIcon != null) {
                 this.flickerView.setVisibility(0);
                 this.flickerView.setAlpha(1.0f);
-                this.flickerView.setImage(ImageLocation.getForDocument(placeholderStaticAttachMenuBotIcon.icon), (String) null, (Drawable) null, tLRPC$TL_attachMenuBot);
+                this.flickerView.setImage(ImageLocation.getForDocument(placeholderStaticAttachMenuBotIcon.icon), (String) null, (Drawable) null, tL_attachMenuBot);
                 setupFlickerParams(z);
             }
         }
     }
 
-    public /* synthetic */ void lambda$loadFlickerAndSettingsItem$2(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$loadFlickerAndSettingsItem$2(final TLObject tLObject, TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
@@ -2666,52 +2659,52 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         this.lastDialogClosed = System.currentTimeMillis();
     }
 
-    public /* synthetic */ void lambda$onEventReceived$11(TLRPC$TL_error tLRPC$TL_error, String str, TLRPC$TL_inputInvoiceSlug tLRPC$TL_inputInvoiceSlug, TLObject tLObject) {
-        if (tLRPC$TL_error != null) {
+    public /* synthetic */ void lambda$onEventReceived$11(TLRPC.TL_error tL_error, String str, TLRPC.TL_inputInvoiceSlug tL_inputInvoiceSlug, TLObject tLObject) {
+        if (tL_error != null) {
             onInvoiceStatusUpdate(str, "failed");
         } else {
-            this.delegate.onWebAppOpenInvoice(tLRPC$TL_inputInvoiceSlug, str, tLObject);
+            this.delegate.onWebAppOpenInvoice(tL_inputInvoiceSlug, str, tLObject);
         }
     }
 
-    public /* synthetic */ void lambda$onEventReceived$12(final String str, final TLRPC$TL_inputInvoiceSlug tLRPC$TL_inputInvoiceSlug, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$onEventReceived$12(final String str, final TLRPC.TL_inputInvoiceSlug tL_inputInvoiceSlug, final TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda30
             @Override // java.lang.Runnable
             public final void run() {
-                BotWebViewContainer.this.lambda$onEventReceived$11(tLRPC$TL_error, str, tLRPC$TL_inputInvoiceSlug, tLObject);
+                BotWebViewContainer.this.lambda$onEventReceived$11(tL_error, str, tL_inputInvoiceSlug, tLObject);
             }
         });
     }
 
-    public /* synthetic */ void lambda$onEventReceived$13(TLObject tLObject, String[] strArr, TLRPC$TL_error tLRPC$TL_error, DialogInterface dialogInterface) {
+    public /* synthetic */ void lambda$onEventReceived$13(TLObject tLObject, String[] strArr, TLRPC.TL_error tL_error, DialogInterface dialogInterface) {
         if (tLObject != null) {
             strArr[0] = "allowed";
-            if (tLObject instanceof TLRPC$Updates) {
-                MessagesController.getInstance(this.currentAccount).processUpdates((TLRPC$Updates) tLObject, false);
+            if (tLObject instanceof TLRPC.Updates) {
+                MessagesController.getInstance(this.currentAccount).processUpdates((TLRPC.Updates) tLObject, false);
             }
         }
-        if (tLRPC$TL_error != null) {
-            unknownError(tLRPC$TL_error.text);
+        if (tL_error != null) {
+            unknownError(tL_error.text);
         }
         dialogInterface.dismiss();
     }
 
-    public /* synthetic */ void lambda$onEventReceived$14(final String[] strArr, final DialogInterface dialogInterface, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$onEventReceived$14(final String[] strArr, final DialogInterface dialogInterface, final TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda39
             @Override // java.lang.Runnable
             public final void run() {
-                BotWebViewContainer.this.lambda$onEventReceived$13(tLObject, strArr, tLRPC$TL_error, dialogInterface);
+                BotWebViewContainer.this.lambda$onEventReceived$13(tLObject, strArr, tL_error, dialogInterface);
             }
         });
     }
 
     public /* synthetic */ void lambda$onEventReceived$15(final String[] strArr, final DialogInterface dialogInterface, int i) {
-        TL_bots$allowSendMessage tL_bots$allowSendMessage = new TL_bots$allowSendMessage();
-        tL_bots$allowSendMessage.bot = MessagesController.getInstance(this.currentAccount).getInputUser(this.botUser);
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_bots$allowSendMessage, new RequestDelegate() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda38
+        TL_bots.allowSendMessage allowsendmessage = new TL_bots.allowSendMessage();
+        allowsendmessage.bot = MessagesController.getInstance(this.currentAccount).getInputUser(this.botUser);
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(allowsendmessage, new RequestDelegate() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda38
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                BotWebViewContainer.this.lambda$onEventReceived$14(strArr, dialogInterface, tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                BotWebViewContainer.this.lambda$onEventReceived$14(strArr, dialogInterface, tLObject, tL_error);
             }
         });
     }
@@ -2726,10 +2719,10 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         }
     }
 
-    public /* synthetic */ void lambda$onEventReceived$18(TLObject tLObject, final int i, final MyWebView myWebView, TLRPC$TL_error tLRPC$TL_error) {
-        if (!(tLObject instanceof TLRPC$TL_boolTrue)) {
-            if (tLRPC$TL_error != null) {
-                unknownError(tLRPC$TL_error.text);
+    public /* synthetic */ void lambda$onEventReceived$18(TLObject tLObject, final int i, final MyWebView myWebView, TLRPC.TL_error tL_error) {
+        if (!(tLObject instanceof TLRPC.TL_boolTrue)) {
+            if (tL_error != null) {
+                unknownError(tL_error.text);
                 return;
             }
             final String[] strArr = {"cancelled"};
@@ -2760,23 +2753,23 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         }
     }
 
-    public /* synthetic */ void lambda$onEventReceived$19(final int i, final MyWebView myWebView, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$onEventReceived$19(final int i, final MyWebView myWebView, final TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda32
             @Override // java.lang.Runnable
             public final void run() {
-                BotWebViewContainer.this.lambda$onEventReceived$18(tLObject, i, myWebView, tLRPC$TL_error);
+                BotWebViewContainer.this.lambda$onEventReceived$18(tLObject, i, myWebView, tL_error);
             }
         });
     }
 
-    public /* synthetic */ void lambda$onEventReceived$20(String str, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error, int i, MyWebView myWebView) {
+    public /* synthetic */ void lambda$onEventReceived$20(String str, TLObject tLObject, TLRPC.TL_error tL_error, int i, MyWebView myWebView) {
         try {
             JSONObject jSONObject = new JSONObject();
             jSONObject.put("req_id", str);
-            if (tLObject instanceof TLRPC$TL_dataJSON) {
-                jSONObject.put("result", new JSONTokener(((TLRPC$TL_dataJSON) tLObject).data).nextValue());
-            } else if (tLRPC$TL_error != null) {
-                jSONObject.put("error", tLRPC$TL_error.text);
+            if (tLObject instanceof TLRPC.TL_dataJSON) {
+                jSONObject.put("result", new JSONTokener(((TLRPC.TL_dataJSON) tLObject).data).nextValue());
+            } else if (tL_error != null) {
+                jSONObject.put("error", tL_error.text);
             }
             notifyEvent(i, myWebView, "custom_method_invoked", jSONObject);
         } catch (Exception e) {
@@ -2785,17 +2778,17 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         }
     }
 
-    public /* synthetic */ void lambda$onEventReceived$21(final String str, final int i, final MyWebView myWebView, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$onEventReceived$21(final String str, final int i, final MyWebView myWebView, final TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda24
             @Override // java.lang.Runnable
             public final void run() {
-                BotWebViewContainer.this.lambda$onEventReceived$20(str, tLObject, tLRPC$TL_error, i, myWebView);
+                BotWebViewContainer.this.lambda$onEventReceived$20(str, tLObject, tL_error, i, myWebView);
             }
         });
     }
 
     public /* synthetic */ void lambda$onEventReceived$22(int i, MyWebView myWebView) {
-        SendMessagesHelper.getInstance(this.currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of(UserConfig.getInstance(this.currentAccount).getCurrentUser(), this.botUser.id, (MessageObject) null, (MessageObject) null, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, true, 0));
+        SendMessagesHelper.getInstance(this.currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of(UserConfig.getInstance(this.currentAccount).getCurrentUser(), this.botUser.id, (MessageObject) null, (MessageObject) null, (TLRPC.ReplyMarkup) null, (HashMap<String, String>) null, true, 0));
         try {
             JSONObject jSONObject = new JSONObject();
             jSONObject.put("status", "sent");
@@ -2818,7 +2811,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             });
             return;
         }
-        SendMessagesHelper.getInstance(i3).sendMessage(SendMessagesHelper.SendMessageParams.of(UserConfig.getInstance(this.currentAccount).getCurrentUser(), this.botUser.id, (MessageObject) null, (MessageObject) null, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, true, 0));
+        SendMessagesHelper.getInstance(i3).sendMessage(SendMessagesHelper.SendMessageParams.of(UserConfig.getInstance(this.currentAccount).getCurrentUser(), this.botUser.id, (MessageObject) null, (MessageObject) null, (TLRPC.ReplyMarkup) null, (HashMap<String, String>) null, true, 0));
         try {
             JSONObject jSONObject = new JSONObject();
             jSONObject.put("status", "sent");
@@ -3122,20 +3115,20 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Removed duplicated region for block: B:1030:0x046d  */
-    /* JADX WARN: Removed duplicated region for block: B:1055:0x04b5  */
-    /* JADX WARN: Removed duplicated region for block: B:1062:0x04c3 A[Catch: Exception -> 0x032d, TryCatch #2 {Exception -> 0x032d, blocks: (B:949:0x0315, B:951:0x0324, B:955:0x0334, B:957:0x0338, B:954:0x0330, B:1012:0x042d, B:1098:0x052c, B:1035:0x0475, B:1037:0x047a, B:1060:0x04bd, B:1061:0x04c0, B:1062:0x04c3, B:1044:0x0494, B:1047:0x049e, B:1050:0x04a8, B:1063:0x04c6, B:1064:0x04d0, B:1092:0x0516, B:1093:0x051a, B:1094:0x051e, B:1095:0x0522, B:1096:0x0526, B:1066:0x04d4, B:1069:0x04de, B:1072:0x04e8, B:1075:0x04f2, B:1078:0x04fc, B:1019:0x044c, B:1022:0x0456, B:1025:0x0460, B:1372:0x0bf1, B:1374:0x0c0e, B:1376:0x0c20), top: B:1402:0x022d }] */
-    /* JADX WARN: Removed duplicated region for block: B:1063:0x04c6 A[Catch: Exception -> 0x032d, TryCatch #2 {Exception -> 0x032d, blocks: (B:949:0x0315, B:951:0x0324, B:955:0x0334, B:957:0x0338, B:954:0x0330, B:1012:0x042d, B:1098:0x052c, B:1035:0x0475, B:1037:0x047a, B:1060:0x04bd, B:1061:0x04c0, B:1062:0x04c3, B:1044:0x0494, B:1047:0x049e, B:1050:0x04a8, B:1063:0x04c6, B:1064:0x04d0, B:1092:0x0516, B:1093:0x051a, B:1094:0x051e, B:1095:0x0522, B:1096:0x0526, B:1066:0x04d4, B:1069:0x04de, B:1072:0x04e8, B:1075:0x04f2, B:1078:0x04fc, B:1019:0x044c, B:1022:0x0456, B:1025:0x0460, B:1372:0x0bf1, B:1374:0x0c0e, B:1376:0x0c20), top: B:1402:0x022d }] */
-    /* JADX WARN: Removed duplicated region for block: B:1098:0x052c A[Catch: Exception -> 0x032d, TRY_LEAVE, TryCatch #2 {Exception -> 0x032d, blocks: (B:949:0x0315, B:951:0x0324, B:955:0x0334, B:957:0x0338, B:954:0x0330, B:1012:0x042d, B:1098:0x052c, B:1035:0x0475, B:1037:0x047a, B:1060:0x04bd, B:1061:0x04c0, B:1062:0x04c3, B:1044:0x0494, B:1047:0x049e, B:1050:0x04a8, B:1063:0x04c6, B:1064:0x04d0, B:1092:0x0516, B:1093:0x051a, B:1094:0x051e, B:1095:0x0522, B:1096:0x0526, B:1066:0x04d4, B:1069:0x04de, B:1072:0x04e8, B:1075:0x04f2, B:1078:0x04fc, B:1019:0x044c, B:1022:0x0456, B:1025:0x0460, B:1372:0x0bf1, B:1374:0x0c0e, B:1376:0x0c20), top: B:1402:0x022d }] */
-    /* JADX WARN: Removed duplicated region for block: B:1204:0x0781 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:1205:0x0782  */
-    /* JADX WARN: Removed duplicated region for block: B:1224:0x0831  */
-    /* JADX WARN: Removed duplicated region for block: B:1451:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1456:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1473:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:940:0x02f9  */
-    /* JADX WARN: Removed duplicated region for block: B:945:0x0302 A[Catch: JSONException -> 0x02a9, TryCatch #12 {JSONException -> 0x02a9, blocks: (B:916:0x028e, B:922:0x02af, B:924:0x02be, B:926:0x02c4, B:927:0x02cd, B:947:0x0307, B:943:0x02fe, B:945:0x0302, B:932:0x02e2, B:935:0x02ec, B:980:0x0387, B:982:0x0394, B:983:0x039d, B:985:0x03af, B:987:0x03c9, B:991:0x03d4, B:993:0x03da, B:995:0x03e5, B:997:0x03eb, B:1000:0x03f8, B:1005:0x0407, B:1010:0x0414, B:999:0x03f5, B:994:0x03e3, B:1119:0x05de, B:1121:0x05eb, B:1122:0x05f4, B:1123:0x0605, B:1125:0x060b, B:1126:0x0615, B:1127:0x0624, B:1128:0x0636, B:1130:0x064b, B:1133:0x0657, B:1135:0x0669, B:1137:0x0670, B:1140:0x068a, B:1139:0x0680, B:1211:0x07c4, B:1213:0x07d7, B:1214:0x07dc, B:1276:0x0981, B:1278:0x0985, B:1281:0x098b, B:1283:0x099f, B:1285:0x09a9, B:1287:0x09c3, B:1288:0x09c8, B:1291:0x09dc, B:1293:0x09f6, B:1297:0x0a01, B:1299:0x0a07, B:1301:0x0a12, B:1303:0x0a18, B:1306:0x0a25, B:1311:0x0a30, B:1316:0x0a41, B:1318:0x0a47, B:1322:0x0a52, B:1319:0x0a4c, B:1305:0x0a22, B:1300:0x0a10, B:1324:0x0a6f, B:1326:0x0a7e, B:1327:0x0a84, B:1328:0x0aa4, B:1331:0x0aaa, B:1333:0x0ab7, B:1335:0x0ac0, B:1336:0x0acb, B:1339:0x0ada, B:1340:0x0b08, B:1342:0x0b0e, B:1343:0x0b1d, B:1346:0x0b26, B:1348:0x0b32, B:1349:0x0b43, B:1351:0x0b4a, B:1352:0x0b5b, B:1354:0x0b62, B:1355:0x0b73, B:1357:0x0b88, B:1359:0x0b93, B:1360:0x0ba5, B:1362:0x0bac, B:1364:0x0bb7, B:1365:0x0bc9, B:1367:0x0bd0, B:1369:0x0bdb), top: B:1402:0x022d }] */
-    /* JADX WARN: Removed duplicated region for block: B:947:0x0307 A[Catch: JSONException -> 0x02a9, TRY_LEAVE, TryCatch #12 {JSONException -> 0x02a9, blocks: (B:916:0x028e, B:922:0x02af, B:924:0x02be, B:926:0x02c4, B:927:0x02cd, B:947:0x0307, B:943:0x02fe, B:945:0x0302, B:932:0x02e2, B:935:0x02ec, B:980:0x0387, B:982:0x0394, B:983:0x039d, B:985:0x03af, B:987:0x03c9, B:991:0x03d4, B:993:0x03da, B:995:0x03e5, B:997:0x03eb, B:1000:0x03f8, B:1005:0x0407, B:1010:0x0414, B:999:0x03f5, B:994:0x03e3, B:1119:0x05de, B:1121:0x05eb, B:1122:0x05f4, B:1123:0x0605, B:1125:0x060b, B:1126:0x0615, B:1127:0x0624, B:1128:0x0636, B:1130:0x064b, B:1133:0x0657, B:1135:0x0669, B:1137:0x0670, B:1140:0x068a, B:1139:0x0680, B:1211:0x07c4, B:1213:0x07d7, B:1214:0x07dc, B:1276:0x0981, B:1278:0x0985, B:1281:0x098b, B:1283:0x099f, B:1285:0x09a9, B:1287:0x09c3, B:1288:0x09c8, B:1291:0x09dc, B:1293:0x09f6, B:1297:0x0a01, B:1299:0x0a07, B:1301:0x0a12, B:1303:0x0a18, B:1306:0x0a25, B:1311:0x0a30, B:1316:0x0a41, B:1318:0x0a47, B:1322:0x0a52, B:1319:0x0a4c, B:1305:0x0a22, B:1300:0x0a10, B:1324:0x0a6f, B:1326:0x0a7e, B:1327:0x0a84, B:1328:0x0aa4, B:1331:0x0aaa, B:1333:0x0ab7, B:1335:0x0ac0, B:1336:0x0acb, B:1339:0x0ada, B:1340:0x0b08, B:1342:0x0b0e, B:1343:0x0b1d, B:1346:0x0b26, B:1348:0x0b32, B:1349:0x0b43, B:1351:0x0b4a, B:1352:0x0b5b, B:1354:0x0b62, B:1355:0x0b73, B:1357:0x0b88, B:1359:0x0b93, B:1360:0x0ba5, B:1362:0x0bac, B:1364:0x0bb7, B:1365:0x0bc9, B:1367:0x0bd0, B:1369:0x0bdb), top: B:1402:0x022d }] */
+    /* JADX WARN: Removed duplicated region for block: B:1022:0x046b  */
+    /* JADX WARN: Removed duplicated region for block: B:1047:0x04b3  */
+    /* JADX WARN: Removed duplicated region for block: B:1054:0x04c1 A[Catch: Exception -> 0x02a7, TryCatch #10 {Exception -> 0x02a7, blocks: (B:912:0x028e, B:916:0x02ad, B:918:0x02bc, B:920:0x02c2, B:921:0x02cb, B:941:0x0305, B:937:0x02fc, B:939:0x0300, B:926:0x02e0, B:929:0x02ea, B:942:0x0313, B:944:0x0322, B:946:0x032f, B:948:0x0333, B:945:0x032b, B:978:0x03ad, B:980:0x03c7, B:984:0x03d2, B:986:0x03d8, B:988:0x03e3, B:990:0x03e9, B:993:0x03f6, B:998:0x0405, B:1003:0x0412, B:992:0x03f3, B:987:0x03e1, B:1004:0x042b, B:1090:0x052a, B:1027:0x0473, B:1029:0x0478, B:1052:0x04bb, B:1053:0x04be, B:1054:0x04c1, B:1036:0x0492, B:1039:0x049c, B:1042:0x04a6, B:1055:0x04c4, B:1056:0x04ce, B:1084:0x0514, B:1085:0x0518, B:1086:0x051c, B:1087:0x0520, B:1088:0x0524, B:1058:0x04d2, B:1061:0x04dc, B:1064:0x04e6, B:1067:0x04f0, B:1070:0x04fa, B:1011:0x044a, B:1014:0x0454, B:1017:0x045e, B:1283:0x09da, B:1285:0x09f4, B:1289:0x09ff, B:1291:0x0a05, B:1293:0x0a10, B:1295:0x0a16, B:1298:0x0a23, B:1303:0x0a2e, B:1308:0x0a3f, B:1310:0x0a45, B:1314:0x0a50, B:1311:0x0a4a, B:1297:0x0a20, B:1292:0x0a0e, B:1364:0x0bef, B:1366:0x0c0c, B:1368:0x0c1e), top: B:1402:0x022d }] */
+    /* JADX WARN: Removed duplicated region for block: B:1055:0x04c4 A[Catch: Exception -> 0x02a7, TryCatch #10 {Exception -> 0x02a7, blocks: (B:912:0x028e, B:916:0x02ad, B:918:0x02bc, B:920:0x02c2, B:921:0x02cb, B:941:0x0305, B:937:0x02fc, B:939:0x0300, B:926:0x02e0, B:929:0x02ea, B:942:0x0313, B:944:0x0322, B:946:0x032f, B:948:0x0333, B:945:0x032b, B:978:0x03ad, B:980:0x03c7, B:984:0x03d2, B:986:0x03d8, B:988:0x03e3, B:990:0x03e9, B:993:0x03f6, B:998:0x0405, B:1003:0x0412, B:992:0x03f3, B:987:0x03e1, B:1004:0x042b, B:1090:0x052a, B:1027:0x0473, B:1029:0x0478, B:1052:0x04bb, B:1053:0x04be, B:1054:0x04c1, B:1036:0x0492, B:1039:0x049c, B:1042:0x04a6, B:1055:0x04c4, B:1056:0x04ce, B:1084:0x0514, B:1085:0x0518, B:1086:0x051c, B:1087:0x0520, B:1088:0x0524, B:1058:0x04d2, B:1061:0x04dc, B:1064:0x04e6, B:1067:0x04f0, B:1070:0x04fa, B:1011:0x044a, B:1014:0x0454, B:1017:0x045e, B:1283:0x09da, B:1285:0x09f4, B:1289:0x09ff, B:1291:0x0a05, B:1293:0x0a10, B:1295:0x0a16, B:1298:0x0a23, B:1303:0x0a2e, B:1308:0x0a3f, B:1310:0x0a45, B:1314:0x0a50, B:1311:0x0a4a, B:1297:0x0a20, B:1292:0x0a0e, B:1364:0x0bef, B:1366:0x0c0c, B:1368:0x0c1e), top: B:1402:0x022d }] */
+    /* JADX WARN: Removed duplicated region for block: B:1090:0x052a A[Catch: Exception -> 0x02a7, TRY_LEAVE, TryCatch #10 {Exception -> 0x02a7, blocks: (B:912:0x028e, B:916:0x02ad, B:918:0x02bc, B:920:0x02c2, B:921:0x02cb, B:941:0x0305, B:937:0x02fc, B:939:0x0300, B:926:0x02e0, B:929:0x02ea, B:942:0x0313, B:944:0x0322, B:946:0x032f, B:948:0x0333, B:945:0x032b, B:978:0x03ad, B:980:0x03c7, B:984:0x03d2, B:986:0x03d8, B:988:0x03e3, B:990:0x03e9, B:993:0x03f6, B:998:0x0405, B:1003:0x0412, B:992:0x03f3, B:987:0x03e1, B:1004:0x042b, B:1090:0x052a, B:1027:0x0473, B:1029:0x0478, B:1052:0x04bb, B:1053:0x04be, B:1054:0x04c1, B:1036:0x0492, B:1039:0x049c, B:1042:0x04a6, B:1055:0x04c4, B:1056:0x04ce, B:1084:0x0514, B:1085:0x0518, B:1086:0x051c, B:1087:0x0520, B:1088:0x0524, B:1058:0x04d2, B:1061:0x04dc, B:1064:0x04e6, B:1067:0x04f0, B:1070:0x04fa, B:1011:0x044a, B:1014:0x0454, B:1017:0x045e, B:1283:0x09da, B:1285:0x09f4, B:1289:0x09ff, B:1291:0x0a05, B:1293:0x0a10, B:1295:0x0a16, B:1298:0x0a23, B:1303:0x0a2e, B:1308:0x0a3f, B:1310:0x0a45, B:1314:0x0a50, B:1311:0x0a4a, B:1297:0x0a20, B:1292:0x0a0e, B:1364:0x0bef, B:1366:0x0c0c, B:1368:0x0c1e), top: B:1402:0x022d }] */
+    /* JADX WARN: Removed duplicated region for block: B:1196:0x077f A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:1197:0x0780  */
+    /* JADX WARN: Removed duplicated region for block: B:1216:0x082f  */
+    /* JADX WARN: Removed duplicated region for block: B:1443:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1450:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1467:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:934:0x02f7  */
+    /* JADX WARN: Removed duplicated region for block: B:939:0x0300 A[Catch: Exception -> 0x02a7, TryCatch #10 {Exception -> 0x02a7, blocks: (B:912:0x028e, B:916:0x02ad, B:918:0x02bc, B:920:0x02c2, B:921:0x02cb, B:941:0x0305, B:937:0x02fc, B:939:0x0300, B:926:0x02e0, B:929:0x02ea, B:942:0x0313, B:944:0x0322, B:946:0x032f, B:948:0x0333, B:945:0x032b, B:978:0x03ad, B:980:0x03c7, B:984:0x03d2, B:986:0x03d8, B:988:0x03e3, B:990:0x03e9, B:993:0x03f6, B:998:0x0405, B:1003:0x0412, B:992:0x03f3, B:987:0x03e1, B:1004:0x042b, B:1090:0x052a, B:1027:0x0473, B:1029:0x0478, B:1052:0x04bb, B:1053:0x04be, B:1054:0x04c1, B:1036:0x0492, B:1039:0x049c, B:1042:0x04a6, B:1055:0x04c4, B:1056:0x04ce, B:1084:0x0514, B:1085:0x0518, B:1086:0x051c, B:1087:0x0520, B:1088:0x0524, B:1058:0x04d2, B:1061:0x04dc, B:1064:0x04e6, B:1067:0x04f0, B:1070:0x04fa, B:1011:0x044a, B:1014:0x0454, B:1017:0x045e, B:1283:0x09da, B:1285:0x09f4, B:1289:0x09ff, B:1291:0x0a05, B:1293:0x0a10, B:1295:0x0a16, B:1298:0x0a23, B:1303:0x0a2e, B:1308:0x0a3f, B:1310:0x0a45, B:1314:0x0a50, B:1311:0x0a4a, B:1297:0x0a20, B:1292:0x0a0e, B:1364:0x0bef, B:1366:0x0c0c, B:1368:0x0c1e), top: B:1402:0x022d }] */
+    /* JADX WARN: Removed duplicated region for block: B:941:0x0305 A[Catch: Exception -> 0x02a7, TryCatch #10 {Exception -> 0x02a7, blocks: (B:912:0x028e, B:916:0x02ad, B:918:0x02bc, B:920:0x02c2, B:921:0x02cb, B:941:0x0305, B:937:0x02fc, B:939:0x0300, B:926:0x02e0, B:929:0x02ea, B:942:0x0313, B:944:0x0322, B:946:0x032f, B:948:0x0333, B:945:0x032b, B:978:0x03ad, B:980:0x03c7, B:984:0x03d2, B:986:0x03d8, B:988:0x03e3, B:990:0x03e9, B:993:0x03f6, B:998:0x0405, B:1003:0x0412, B:992:0x03f3, B:987:0x03e1, B:1004:0x042b, B:1090:0x052a, B:1027:0x0473, B:1029:0x0478, B:1052:0x04bb, B:1053:0x04be, B:1054:0x04c1, B:1036:0x0492, B:1039:0x049c, B:1042:0x04a6, B:1055:0x04c4, B:1056:0x04ce, B:1084:0x0514, B:1085:0x0518, B:1086:0x051c, B:1087:0x0520, B:1088:0x0524, B:1058:0x04d2, B:1061:0x04dc, B:1064:0x04e6, B:1067:0x04f0, B:1070:0x04fa, B:1011:0x044a, B:1014:0x0454, B:1017:0x045e, B:1283:0x09da, B:1285:0x09f4, B:1289:0x09ff, B:1291:0x0a05, B:1293:0x0a10, B:1295:0x0a16, B:1298:0x0a23, B:1303:0x0a2e, B:1308:0x0a3f, B:1310:0x0a45, B:1314:0x0a50, B:1311:0x0a4a, B:1297:0x0a20, B:1292:0x0a0e, B:1364:0x0bef, B:1366:0x0c0c, B:1368:0x0c1e), top: B:1402:0x022d }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3428,925 +3421,920 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             BotWebViewVibrationEffect botWebViewVibrationEffect2 = null;
             try {
                 try {
-                    try {
-                        switch (c) {
-                            case 0:
-                                if (this.botUser == null) {
-                                    return;
-                                }
-                                try {
-                                    JSONObject jSONObject = new JSONObject(str2);
-                                    final String string = jSONObject.getString("req_id");
-                                    String string2 = jSONObject.getString("method");
-                                    String obj = jSONObject.get("params").toString();
-                                    final int i3 = this.currentAccount;
-                                    final MyWebView myWebView = this.webView;
-                                    TL_bots$invokeWebViewCustomMethod tL_bots$invokeWebViewCustomMethod = new TL_bots$invokeWebViewCustomMethod();
-                                    tL_bots$invokeWebViewCustomMethod.bot = MessagesController.getInstance(i3).getInputUser(this.botUser.id);
-                                    tL_bots$invokeWebViewCustomMethod.custom_method = string2;
-                                    TLRPC$TL_dataJSON tLRPC$TL_dataJSON = new TLRPC$TL_dataJSON();
-                                    tL_bots$invokeWebViewCustomMethod.params = tLRPC$TL_dataJSON;
-                                    tLRPC$TL_dataJSON.data = obj;
-                                    ConnectionsManager.getInstance(i3).sendRequest(tL_bots$invokeWebViewCustomMethod, new RequestDelegate() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda14
-                                        @Override // org.telegram.tgnet.RequestDelegate
-                                        public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                            BotWebViewContainer.this.lambda$onEventReceived$21(string, i3, myWebView, tLObject, tLRPC$TL_error);
-                                        }
-                                    });
-                                    return;
-                                } catch (Exception e) {
-                                    FileLog.e(e);
-                                    if (e instanceof JSONException) {
-                                        error("JSON Parse error");
-                                        return;
-                                    } else {
-                                        unknownError();
-                                        return;
-                                    }
-                                }
-                            case 1:
-                                if (!this.hasQRPending || (bottomSheet = this.cameraBottomSheet) == null) {
-                                    return;
-                                }
-                                bottomSheet.dismiss();
+                    switch (c) {
+                        case 0:
+                            if (this.botUser == null) {
                                 return;
-                            case 2:
-                                break;
-                            case 3:
-                                JSONObject jSONObject2 = new JSONObject(str2);
-                                Uri parse = Uri.parse(jSONObject2.optString("url"));
-                                String optString = jSONObject2.optString("try_browser");
-                                if (MessagesController.getInstance(this.currentAccount).webAppAllowedProtocols == null || !MessagesController.getInstance(this.currentAccount).webAppAllowedProtocols.contains(parse.getScheme())) {
-                                    return;
-                                }
-                                onOpenUri(parse, optString, jSONObject2.optBoolean("try_instant_view"), true);
-                                return;
-                            case 4:
-                                if (this.currentDialog != null) {
-                                    return;
-                                }
-                                if (System.currentTimeMillis() - this.lastDialogClosed <= 150) {
-                                    int i4 = this.dialogSequentialOpenTimes + 1;
-                                    this.dialogSequentialOpenTimes = i4;
-                                    if (i4 >= 3) {
-                                        this.dialogSequentialOpenTimes = 0;
-                                        this.lastDialogCooldownTime = System.currentTimeMillis();
-                                        return;
-                                    }
-                                }
-                                if (System.currentTimeMillis() - this.lastDialogCooldownTime <= 3000) {
-                                    return;
-                                }
-                                JSONObject jSONObject3 = new JSONObject(str2);
-                                String optString2 = jSONObject3.optString("title", null);
-                                String string3 = jSONObject3.getString("message");
-                                JSONArray jSONArray2 = jSONObject3.getJSONArray("buttons");
-                                AlertDialog.Builder message = new AlertDialog.Builder(getContext()).setTitle(optString2).setMessage(string3);
-                                ArrayList arrayList = new ArrayList();
-                                for (int i5 = 0; i5 < jSONArray2.length(); i5++) {
-                                    arrayList.add(new PopupButton(jSONArray2.getJSONObject(i5)));
-                                }
-                                if (arrayList.size() > 3) {
-                                    return;
-                                }
-                                final AtomicBoolean atomicBoolean = new AtomicBoolean();
-                                if (arrayList.size() >= 1) {
-                                    final PopupButton popupButton = (PopupButton) arrayList.get(0);
-                                    message.setPositiveButton(popupButton.text, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda10
-                                        @Override // android.content.DialogInterface.OnClickListener
-                                        public final void onClick(DialogInterface dialogInterface, int i6) {
-                                            BotWebViewContainer.this.lambda$onEventReceived$7(popupButton, atomicBoolean, dialogInterface, i6);
-                                        }
-                                    });
-                                }
-                                if (arrayList.size() >= 2) {
-                                    final PopupButton popupButton2 = (PopupButton) arrayList.get(1);
-                                    message.setNegativeButton(popupButton2.text, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda11
-                                        @Override // android.content.DialogInterface.OnClickListener
-                                        public final void onClick(DialogInterface dialogInterface, int i6) {
-                                            BotWebViewContainer.this.lambda$onEventReceived$8(popupButton2, atomicBoolean, dialogInterface, i6);
-                                        }
-                                    });
-                                }
-                                if (arrayList.size() == 3) {
-                                    final PopupButton popupButton3 = (PopupButton) arrayList.get(2);
-                                    message.setNeutralButton(popupButton3.text, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda12
-                                        @Override // android.content.DialogInterface.OnClickListener
-                                        public final void onClick(DialogInterface dialogInterface, int i6) {
-                                            BotWebViewContainer.this.lambda$onEventReceived$9(popupButton3, atomicBoolean, dialogInterface, i6);
-                                        }
-                                    });
-                                }
-                                message.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda13
-                                    @Override // android.content.DialogInterface.OnDismissListener
-                                    public final void onDismiss(DialogInterface dialogInterface) {
-                                        BotWebViewContainer.this.lambda$onEventReceived$10(atomicBoolean, dialogInterface);
-                                    }
-                                });
-                                this.currentDialog = message.show();
-                                if (arrayList.size() >= 1) {
-                                    PopupButton popupButton4 = (PopupButton) arrayList.get(0);
-                                    if (popupButton4.textColorKey >= 0) {
-                                        ((TextView) this.currentDialog.getButton(-1)).setTextColor(getColor(popupButton4.textColorKey));
-                                    }
-                                }
-                                if (arrayList.size() >= 2) {
-                                    PopupButton popupButton5 = (PopupButton) arrayList.get(1);
-                                    if (popupButton5.textColorKey >= 0) {
-                                        ((TextView) this.currentDialog.getButton(-2)).setTextColor(getColor(popupButton5.textColorKey));
-                                    }
-                                }
-                                if (arrayList.size() == 3) {
-                                    PopupButton popupButton6 = (PopupButton) arrayList.get(2);
-                                    if (popupButton6.textColorKey >= 0) {
-                                        ((TextView) this.currentDialog.getButton(-3)).setTextColor(getColor(popupButton6.textColorKey));
-                                        return;
-                                    }
-                                    return;
-                                }
-                                return;
-                            case 5:
-                                final String optString3 = new JSONObject(str2).optString("slug");
-                                if (this.currentPaymentSlug != null) {
-                                    onInvoiceStatusUpdate(optString3, "cancelled", true);
-                                    return;
-                                }
-                                this.currentPaymentSlug = optString3;
-                                TLRPC$TL_payments_getPaymentForm tLRPC$TL_payments_getPaymentForm = new TLRPC$TL_payments_getPaymentForm();
-                                final TLRPC$TL_inputInvoiceSlug tLRPC$TL_inputInvoiceSlug = new TLRPC$TL_inputInvoiceSlug();
-                                tLRPC$TL_inputInvoiceSlug.slug = optString3;
-                                tLRPC$TL_payments_getPaymentForm.invoice = tLRPC$TL_inputInvoiceSlug;
-                                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getPaymentForm, new RequestDelegate() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda9
+                            }
+                            try {
+                                JSONObject jSONObject = new JSONObject(str2);
+                                final String string = jSONObject.getString("req_id");
+                                String string2 = jSONObject.getString("method");
+                                String obj = jSONObject.get("params").toString();
+                                final int i3 = this.currentAccount;
+                                final MyWebView myWebView = this.webView;
+                                TL_bots.invokeWebViewCustomMethod invokewebviewcustommethod = new TL_bots.invokeWebViewCustomMethod();
+                                invokewebviewcustommethod.bot = MessagesController.getInstance(i3).getInputUser(this.botUser.id);
+                                invokewebviewcustommethod.custom_method = string2;
+                                TLRPC.TL_dataJSON tL_dataJSON = new TLRPC.TL_dataJSON();
+                                invokewebviewcustommethod.params = tL_dataJSON;
+                                tL_dataJSON.data = obj;
+                                ConnectionsManager.getInstance(i3).sendRequest(invokewebviewcustommethod, new RequestDelegate() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda14
                                     @Override // org.telegram.tgnet.RequestDelegate
-                                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                        BotWebViewContainer.this.lambda$onEventReceived$12(optString3, tLRPC$TL_inputInvoiceSlug, tLObject, tLRPC$TL_error);
+                                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                                        BotWebViewContainer.this.lambda$onEventReceived$21(string, i3, myWebView, tLObject, tL_error);
                                     }
                                 });
                                 return;
-                            case 6:
-                                JSONObject jSONObject4 = new JSONObject(str2);
-                                boolean optBoolean = jSONObject4.optBoolean("is_active", false);
-                                String trim = jSONObject4.optString("text", this.lastSecondaryButtonText).trim();
-                                boolean z8 = jSONObject4.optBoolean("is_visible", false) && !TextUtils.isEmpty(trim);
-                                int parseColor = jSONObject4.has("color") ? Color.parseColor(jSONObject4.optString("color")) : this.lastSecondaryButtonColor;
-                                int parseColor2 = jSONObject4.has("text_color") ? Color.parseColor(jSONObject4.optString("text_color")) : this.lastSecondaryButtonTextColor;
-                                boolean z9 = jSONObject4.optBoolean("is_progress_visible", false) && z8;
-                                if (jSONObject4.optBoolean("has_shine_effect", false) && z8) {
-                                    str3 = "position";
-                                    z4 = true;
+                            } catch (Exception e) {
+                                FileLog.e(e);
+                                if (e instanceof JSONException) {
+                                    error("JSON Parse error");
+                                    return;
                                 } else {
-                                    str3 = "position";
-                                    z4 = false;
+                                    unknownError();
+                                    return;
                                 }
-                                String optString4 = jSONObject4.has(str3) ? jSONObject4.optString(str3) : this.lastSecondaryButtonPosition;
-                                if (optString4 == null) {
-                                    optString4 = "left";
+                            }
+                        case 1:
+                            if (!this.hasQRPending || (bottomSheet = this.cameraBottomSheet) == null) {
+                                return;
+                            }
+                            bottomSheet.dismiss();
+                            return;
+                        case 2:
+                            break;
+                        case 3:
+                            JSONObject jSONObject2 = new JSONObject(str2);
+                            Uri parse = Uri.parse(jSONObject2.optString("url"));
+                            String optString = jSONObject2.optString("try_browser");
+                            if (MessagesController.getInstance(this.currentAccount).webAppAllowedProtocols == null || !MessagesController.getInstance(this.currentAccount).webAppAllowedProtocols.contains(parse.getScheme())) {
+                                return;
+                            }
+                            onOpenUri(parse, optString, jSONObject2.optBoolean("try_instant_view"), true);
+                            return;
+                        case 4:
+                            if (this.currentDialog != null) {
+                                return;
+                            }
+                            if (System.currentTimeMillis() - this.lastDialogClosed <= 150) {
+                                int i4 = this.dialogSequentialOpenTimes + 1;
+                                this.dialogSequentialOpenTimes = i4;
+                                if (i4 >= 3) {
+                                    this.dialogSequentialOpenTimes = 0;
+                                    this.lastDialogCooldownTime = System.currentTimeMillis();
+                                    return;
                                 }
-                                this.lastSecondaryButtonColor = parseColor;
-                                this.lastSecondaryButtonTextColor = parseColor2;
-                                this.lastSecondaryButtonText = trim;
-                                this.lastSecondaryButtonPosition = optString4;
-                                this.secondaryButtonData = str2;
-                                this.delegate.onSetupSecondaryButton(z8, optBoolean, trim, parseColor, parseColor2, z9, z4, optString4);
+                            }
+                            if (System.currentTimeMillis() - this.lastDialogCooldownTime <= 3000) {
                                 return;
-                            case 7:
-                                this.delegate.onWebAppSetupClosingBehavior(new JSONObject(str2).optBoolean("need_confirmation"));
+                            }
+                            JSONObject jSONObject3 = new JSONObject(str2);
+                            String optString2 = jSONObject3.optString("title", null);
+                            String string3 = jSONObject3.getString("message");
+                            JSONArray jSONArray2 = jSONObject3.getJSONArray("buttons");
+                            AlertDialog.Builder message = new AlertDialog.Builder(getContext()).setTitle(optString2).setMessage(string3);
+                            ArrayList arrayList = new ArrayList();
+                            for (int i5 = 0; i5 < jSONArray2.length(); i5++) {
+                                arrayList.add(new PopupButton(jSONArray2.getJSONObject(i5)));
+                            }
+                            if (arrayList.size() > 3) {
                                 return;
-                            case '\b':
-                                if (!this.hasQRPending && this.parentActivity != null) {
-                                    this.lastQrText = new JSONObject(str2).optString("text");
-                                    this.hasQRPending = true;
-                                    if (Build.VERSION.SDK_INT >= 23) {
-                                        checkSelfPermission = this.parentActivity.checkSelfPermission("android.permission.CAMERA");
-                                        if (checkSelfPermission != 0) {
-                                            NotificationCenter.getGlobalInstance().addObserver(new NotificationCenter.NotificationCenterDelegate() { // from class: org.telegram.ui.web.BotWebViewContainer.4
-                                                {
-                                                    BotWebViewContainer.this = this;
-                                                }
+                            }
+                            final AtomicBoolean atomicBoolean = new AtomicBoolean();
+                            if (arrayList.size() >= 1) {
+                                final PopupButton popupButton = (PopupButton) arrayList.get(0);
+                                message.setPositiveButton(popupButton.text, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda10
+                                    @Override // android.content.DialogInterface.OnClickListener
+                                    public final void onClick(DialogInterface dialogInterface, int i6) {
+                                        BotWebViewContainer.this.lambda$onEventReceived$7(popupButton, atomicBoolean, dialogInterface, i6);
+                                    }
+                                });
+                            }
+                            if (arrayList.size() >= 2) {
+                                final PopupButton popupButton2 = (PopupButton) arrayList.get(1);
+                                message.setNegativeButton(popupButton2.text, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda11
+                                    @Override // android.content.DialogInterface.OnClickListener
+                                    public final void onClick(DialogInterface dialogInterface, int i6) {
+                                        BotWebViewContainer.this.lambda$onEventReceived$8(popupButton2, atomicBoolean, dialogInterface, i6);
+                                    }
+                                });
+                            }
+                            if (arrayList.size() == 3) {
+                                final PopupButton popupButton3 = (PopupButton) arrayList.get(2);
+                                message.setNeutralButton(popupButton3.text, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda12
+                                    @Override // android.content.DialogInterface.OnClickListener
+                                    public final void onClick(DialogInterface dialogInterface, int i6) {
+                                        BotWebViewContainer.this.lambda$onEventReceived$9(popupButton3, atomicBoolean, dialogInterface, i6);
+                                    }
+                                });
+                            }
+                            message.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda13
+                                @Override // android.content.DialogInterface.OnDismissListener
+                                public final void onDismiss(DialogInterface dialogInterface) {
+                                    BotWebViewContainer.this.lambda$onEventReceived$10(atomicBoolean, dialogInterface);
+                                }
+                            });
+                            this.currentDialog = message.show();
+                            if (arrayList.size() >= 1) {
+                                PopupButton popupButton4 = (PopupButton) arrayList.get(0);
+                                if (popupButton4.textColorKey >= 0) {
+                                    ((TextView) this.currentDialog.getButton(-1)).setTextColor(getColor(popupButton4.textColorKey));
+                                }
+                            }
+                            if (arrayList.size() >= 2) {
+                                PopupButton popupButton5 = (PopupButton) arrayList.get(1);
+                                if (popupButton5.textColorKey >= 0) {
+                                    ((TextView) this.currentDialog.getButton(-2)).setTextColor(getColor(popupButton5.textColorKey));
+                                }
+                            }
+                            if (arrayList.size() == 3) {
+                                PopupButton popupButton6 = (PopupButton) arrayList.get(2);
+                                if (popupButton6.textColorKey >= 0) {
+                                    ((TextView) this.currentDialog.getButton(-3)).setTextColor(getColor(popupButton6.textColorKey));
+                                    return;
+                                }
+                                return;
+                            }
+                            return;
+                        case 5:
+                            final String optString3 = new JSONObject(str2).optString("slug");
+                            if (this.currentPaymentSlug != null) {
+                                onInvoiceStatusUpdate(optString3, "cancelled", true);
+                                return;
+                            }
+                            this.currentPaymentSlug = optString3;
+                            TLRPC.TL_payments_getPaymentForm tL_payments_getPaymentForm = new TLRPC.TL_payments_getPaymentForm();
+                            final TLRPC.TL_inputInvoiceSlug tL_inputInvoiceSlug = new TLRPC.TL_inputInvoiceSlug();
+                            tL_inputInvoiceSlug.slug = optString3;
+                            tL_payments_getPaymentForm.invoice = tL_inputInvoiceSlug;
+                            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_payments_getPaymentForm, new RequestDelegate() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda9
+                                @Override // org.telegram.tgnet.RequestDelegate
+                                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                                    BotWebViewContainer.this.lambda$onEventReceived$12(optString3, tL_inputInvoiceSlug, tLObject, tL_error);
+                                }
+                            });
+                            return;
+                        case 6:
+                            JSONObject jSONObject4 = new JSONObject(str2);
+                            boolean optBoolean = jSONObject4.optBoolean("is_active", false);
+                            String trim = jSONObject4.optString("text", this.lastSecondaryButtonText).trim();
+                            boolean z8 = jSONObject4.optBoolean("is_visible", false) && !TextUtils.isEmpty(trim);
+                            int parseColor = jSONObject4.has("color") ? Color.parseColor(jSONObject4.optString("color")) : this.lastSecondaryButtonColor;
+                            int parseColor2 = jSONObject4.has("text_color") ? Color.parseColor(jSONObject4.optString("text_color")) : this.lastSecondaryButtonTextColor;
+                            boolean z9 = jSONObject4.optBoolean("is_progress_visible", false) && z8;
+                            if (jSONObject4.optBoolean("has_shine_effect", false) && z8) {
+                                str3 = "position";
+                                z4 = true;
+                            } else {
+                                str3 = "position";
+                                z4 = false;
+                            }
+                            String optString4 = jSONObject4.has(str3) ? jSONObject4.optString(str3) : this.lastSecondaryButtonPosition;
+                            if (optString4 == null) {
+                                optString4 = "left";
+                            }
+                            this.lastSecondaryButtonColor = parseColor;
+                            this.lastSecondaryButtonTextColor = parseColor2;
+                            this.lastSecondaryButtonText = trim;
+                            this.lastSecondaryButtonPosition = optString4;
+                            this.secondaryButtonData = str2;
+                            this.delegate.onSetupSecondaryButton(z8, optBoolean, trim, parseColor, parseColor2, z9, z4, optString4);
+                            return;
+                        case 7:
+                            this.delegate.onWebAppSetupClosingBehavior(new JSONObject(str2).optBoolean("need_confirmation"));
+                            return;
+                        case '\b':
+                            if (!this.hasQRPending && this.parentActivity != null) {
+                                this.lastQrText = new JSONObject(str2).optString("text");
+                                this.hasQRPending = true;
+                                if (Build.VERSION.SDK_INT >= 23) {
+                                    checkSelfPermission = this.parentActivity.checkSelfPermission("android.permission.CAMERA");
+                                    if (checkSelfPermission != 0) {
+                                        NotificationCenter.getGlobalInstance().addObserver(new NotificationCenter.NotificationCenterDelegate() { // from class: org.telegram.ui.web.BotWebViewContainer.4
+                                            {
+                                                BotWebViewContainer.this = this;
+                                            }
 
-                                                @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-                                                public void didReceivedNotification(int i6, int i7, Object... objArr) {
-                                                    int i8 = NotificationCenter.onRequestPermissionResultReceived;
-                                                    if (i6 == i8) {
-                                                        int intValue = ((Integer) objArr[0]).intValue();
-                                                        int[] iArr = (int[]) objArr[2];
-                                                        if (intValue == 5000) {
-                                                            NotificationCenter.getGlobalInstance().removeObserver(this, i8);
-                                                            if (iArr[0] == 0) {
-                                                                BotWebViewContainer.this.openQrScanActivity();
-                                                            } else {
-                                                                BotWebViewContainer.this.notifyEvent("scan_qr_popup_closed", new JSONObject());
-                                                            }
+                                            @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+                                            public void didReceivedNotification(int i6, int i7, Object... objArr) {
+                                                int i8 = NotificationCenter.onRequestPermissionResultReceived;
+                                                if (i6 == i8) {
+                                                    int intValue = ((Integer) objArr[0]).intValue();
+                                                    int[] iArr = (int[]) objArr[2];
+                                                    if (intValue == 5000) {
+                                                        NotificationCenter.getGlobalInstance().removeObserver(this, i8);
+                                                        if (iArr[0] == 0) {
+                                                            BotWebViewContainer.this.openQrScanActivity();
+                                                        } else {
+                                                            BotWebViewContainer.this.notifyEvent("scan_qr_popup_closed", new JSONObject());
                                                         }
                                                     }
                                                 }
-                                            }, NotificationCenter.onRequestPermissionResultReceived);
-                                            this.parentActivity.requestPermissions(new String[]{"android.permission.CAMERA"}, 5000);
-                                            return;
-                                        }
-                                    }
-                                    openQrScanActivity();
-                                    return;
-                                }
-                                return;
-                            case '\t':
-                                if (ignoreDialog(4)) {
-                                    try {
-                                        JSONObject jSONObject5 = new JSONObject();
-                                        jSONObject5.put("status", "cancelled");
-                                        notifyEvent("phone_requested", jSONObject5);
-                                        return;
-                                    } catch (Exception e2) {
-                                        FileLog.e(e2);
+                                            }
+                                        }, NotificationCenter.onRequestPermissionResultReceived);
+                                        this.parentActivity.requestPermissions(new String[]{"android.permission.CAMERA"}, 5000);
                                         return;
                                     }
                                 }
-                                final int i6 = this.currentAccount;
-                                final MyWebView myWebView2 = this.webView;
-                                final String[] strArr = {"cancelled"};
-                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), this.resourcesProvider);
-                                builder.setTitle(LocaleController.getString(R.string.ShareYouPhoneNumberTitle));
-                                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-                                String userName = UserObject.getUserName(this.botUser);
-                                spannableStringBuilder.append((CharSequence) AndroidUtilities.replaceTags(!TextUtils.isEmpty(userName) ? LocaleController.formatString(R.string.AreYouSureShareMyContactInfoWebapp, userName) : LocaleController.getString(R.string.AreYouSureShareMyContactInfoBot)));
-                                final boolean z10 = MessagesController.getInstance(this.currentAccount).blockePeers.indexOfKey(this.botUser.id) >= 0;
-                                if (z10) {
-                                    spannableStringBuilder.append((CharSequence) "\n\n");
-                                    spannableStringBuilder.append((CharSequence) LocaleController.getString(R.string.AreYouSureShareMyContactInfoBotUnblock));
+                                openQrScanActivity();
+                                return;
+                            }
+                            return;
+                        case '\t':
+                            if (ignoreDialog(4)) {
+                                try {
+                                    JSONObject jSONObject5 = new JSONObject();
+                                    jSONObject5.put("status", "cancelled");
+                                    notifyEvent("phone_requested", jSONObject5);
+                                    return;
+                                } catch (Exception e2) {
+                                    FileLog.e(e2);
+                                    return;
                                 }
-                                builder.setMessage(spannableStringBuilder);
-                                builder.setPositiveButton(LocaleController.getString(R.string.ShareContact), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda22
-                                    @Override // android.content.DialogInterface.OnClickListener
-                                    public final void onClick(DialogInterface dialogInterface, int i7) {
-                                        BotWebViewContainer.this.lambda$onEventReceived$23(strArr, z10, i6, myWebView2, dialogInterface, i7);
+                            }
+                            final int i6 = this.currentAccount;
+                            final MyWebView myWebView2 = this.webView;
+                            final String[] strArr = {"cancelled"};
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), this.resourcesProvider);
+                            builder.setTitle(LocaleController.getString(R.string.ShareYouPhoneNumberTitle));
+                            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+                            String userName = UserObject.getUserName(this.botUser);
+                            spannableStringBuilder.append((CharSequence) AndroidUtilities.replaceTags(!TextUtils.isEmpty(userName) ? LocaleController.formatString(R.string.AreYouSureShareMyContactInfoWebapp, userName) : LocaleController.getString(R.string.AreYouSureShareMyContactInfoBot)));
+                            final boolean z10 = MessagesController.getInstance(this.currentAccount).blockePeers.indexOfKey(this.botUser.id) >= 0;
+                            if (z10) {
+                                spannableStringBuilder.append((CharSequence) "\n\n");
+                                spannableStringBuilder.append((CharSequence) LocaleController.getString(R.string.AreYouSureShareMyContactInfoBotUnblock));
+                            }
+                            builder.setMessage(spannableStringBuilder);
+                            builder.setPositiveButton(LocaleController.getString(R.string.ShareContact), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda22
+                                @Override // android.content.DialogInterface.OnClickListener
+                                public final void onClick(DialogInterface dialogInterface, int i7) {
+                                    BotWebViewContainer.this.lambda$onEventReceived$23(strArr, z10, i6, myWebView2, dialogInterface, i7);
+                                }
+                            });
+                            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda23
+                                @Override // android.content.DialogInterface.OnClickListener
+                                public final void onClick(DialogInterface dialogInterface, int i7) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                            showDialog(4, builder.create(), new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda8
+                                @Override // java.lang.Runnable
+                                public final void run() {
+                                    BotWebViewContainer.lambda$onEventReceived$25(strArr, i6, myWebView2);
+                                }
+                            });
+                            return;
+                        case '\n':
+                            notifyThemeChanged();
+                            return;
+                        case 11:
+                            if (this.isRequestingPageOpen || System.currentTimeMillis() - this.lastClickMs > 10000) {
+                                return;
+                            }
+                            this.lastClickMs = 0L;
+                            BaseFragment lastFragment = LaunchActivity.getLastFragment();
+                            if (lastFragment == null) {
+                                return;
+                            }
+                            BaseFragment.BottomSheetParams bottomSheetParams = new BaseFragment.BottomSheetParams();
+                            bottomSheetParams.transitionFromLeft = true;
+                            bottomSheetParams.allowNestedScroll = false;
+                            lastFragment.showAsSheet(new BotBiometrySettings(), bottomSheetParams);
+                            return;
+                        case '\f':
+                            if ((getParent() instanceof ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) && ((ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) getParent()).isSwipeInProgress()) {
+                                z5 = true;
+                                z6 = true;
+                            } else {
+                                z5 = true;
+                                z6 = false;
+                            }
+                            invalidateViewPortHeight(!z6, z5);
+                            return;
+                        case '\r':
+                            try {
+                                str12 = new JSONObject(str2).getString("reason");
+                            } catch (Exception unused) {
+                            }
+                            createBiometry();
+                            BotBiometry botBiometry = this.biometry;
+                            if (botBiometry == null) {
+                                return;
+                            }
+                            if (botBiometry.access_granted) {
+                                botBiometry.requestToken(str12, new Utilities.Callback2() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda21
+                                    @Override // org.telegram.messenger.Utilities.Callback2
+                                    public final void run(Object obj2, Object obj3) {
+                                        BotWebViewContainer.this.lambda$onEventReceived$31((Boolean) obj2, (String) obj3);
                                     }
                                 });
-                                builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda23
-                                    @Override // android.content.DialogInterface.OnClickListener
-                                    public final void onClick(DialogInterface dialogInterface, int i7) {
-                                        dialogInterface.dismiss();
-                                    }
-                                });
-                                showDialog(4, builder.create(), new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda8
-                                    @Override // java.lang.Runnable
-                                    public final void run() {
-                                        BotWebViewContainer.lambda$onEventReceived$25(strArr, i6, myWebView2);
-                                    }
-                                });
                                 return;
-                            case '\n':
-                                notifyThemeChanged();
+                            }
+                            try {
+                                JSONObject jSONObject6 = new JSONObject();
+                                jSONObject6.put("status", "failed");
+                                notifyEvent("biometry_auth_requested", jSONObject6);
                                 return;
-                            case 11:
-                                if (this.isRequestingPageOpen || System.currentTimeMillis() - this.lastClickMs > 10000) {
-                                    return;
-                                }
-                                this.lastClickMs = 0L;
-                                BaseFragment lastFragment = LaunchActivity.getLastFragment();
-                                if (lastFragment == null) {
-                                    return;
-                                }
-                                BaseFragment.BottomSheetParams bottomSheetParams = new BaseFragment.BottomSheetParams();
-                                bottomSheetParams.transitionFromLeft = true;
-                                bottomSheetParams.allowNestedScroll = false;
-                                lastFragment.showAsSheet(new BotBiometrySettings(), bottomSheetParams);
+                            } catch (Exception e3) {
+                                FileLog.e(e3);
                                 return;
-                            case '\f':
-                                if ((getParent() instanceof ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) && ((ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) getParent()).isSwipeInProgress()) {
-                                    z5 = true;
-                                    z6 = true;
-                                } else {
-                                    z5 = true;
-                                    z6 = false;
-                                }
-                                invalidateViewPortHeight(!z6, z5);
-                                return;
-                            case '\r':
-                                try {
-                                    str12 = new JSONObject(str2).getString("reason");
-                                } catch (Exception unused) {
-                                }
-                                createBiometry();
-                                BotBiometry botBiometry = this.biometry;
-                                if (botBiometry == null) {
-                                    return;
-                                }
-                                if (botBiometry.access_granted) {
-                                    botBiometry.requestToken(str12, new Utilities.Callback2() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda21
-                                        @Override // org.telegram.messenger.Utilities.Callback2
-                                        public final void run(Object obj2, Object obj3) {
-                                            BotWebViewContainer.this.lambda$onEventReceived$31((Boolean) obj2, (String) obj3);
-                                        }
-                                    });
-                                    return;
-                                }
-                                try {
-                                    JSONObject jSONObject6 = new JSONObject();
-                                    jSONObject6.put("status", "failed");
-                                    notifyEvent("biometry_auth_requested", jSONObject6);
-                                    return;
-                                } catch (Exception e3) {
-                                    FileLog.e(e3);
-                                    return;
-                                }
-                            case 14:
-                                try {
-                                    jSONArray = new JSONArray(str2);
-                                    z2 = jSONArray.optBoolean(0, true);
-                                } catch (Exception unused2) {
-                                    z2 = true;
-                                }
-                                try {
-                                    z3 = jSONArray.optBoolean(1, true);
-                                } catch (Exception unused3) {
-                                    z3 = true;
-                                    d("allowScroll " + z2 + " " + z3);
-                                    if (getParent() instanceof ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) {
-                                    }
-                                }
+                            }
+                        case 14:
+                            try {
+                                jSONArray = new JSONArray(str2);
+                                z2 = jSONArray.optBoolean(0, true);
+                            } catch (Exception unused2) {
+                                z2 = true;
+                            }
+                            try {
+                                z3 = jSONArray.optBoolean(1, true);
+                            } catch (Exception unused3) {
+                                z3 = true;
                                 d("allowScroll " + z2 + " " + z3);
                                 if (getParent() instanceof ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) {
-                                    return;
                                 }
-                                ((ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) getParent()).allowThisScroll(z2, z3);
+                            }
+                            d("allowScroll " + z2 + " " + z3);
+                            if (getParent() instanceof ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) {
                                 return;
-                            case 15:
-                                String optString5 = new JSONObject(str2).optString("path_full");
-                                if (optString5.startsWith("/")) {
-                                    optString5 = optString5.substring(1);
-                                }
-                                onOpenUri(Uri.parse("https://t.me/" + optString5), null, false, true);
+                            }
+                            ((ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) getParent()).allowThisScroll(z2, z3);
+                            return;
+                        case 15:
+                            String optString5 = new JSONObject(str2).optString("path_full");
+                            if (optString5.startsWith("/")) {
+                                optString5 = optString5.substring(1);
+                            }
+                            onOpenUri(Uri.parse("https://t.me/" + optString5), null, false, true);
+                            return;
+                        case 16:
+                            if (this.isRequestingPageOpen || System.currentTimeMillis() - this.lastClickMs > 10000 || System.currentTimeMillis() - this.lastPostStoryMs < 2000) {
                                 return;
-                            case 16:
-                                if (this.isRequestingPageOpen || System.currentTimeMillis() - this.lastClickMs > 10000 || System.currentTimeMillis() - this.lastPostStoryMs < 2000) {
-                                    return;
-                                }
-                                this.lastClickMs = 0L;
-                                this.lastPostStoryMs = System.currentTimeMillis();
+                            }
+                            this.lastClickMs = 0L;
+                            this.lastPostStoryMs = System.currentTimeMillis();
+                            try {
+                                JSONObject jSONObject7 = new JSONObject(str2);
+                                str4 = jSONObject7.optString("media_url");
                                 try {
-                                    JSONObject jSONObject7 = new JSONObject(str2);
-                                    str4 = jSONObject7.optString("media_url");
+                                    str5 = jSONObject7.optString("text");
                                     try {
-                                        str5 = jSONObject7.optString("text");
-                                        try {
-                                            JSONObject optJSONObject = jSONObject7.optJSONObject("widget_link");
-                                            if (optJSONObject != null) {
-                                                str6 = optJSONObject.optString("url");
-                                                try {
-                                                    str10 = optJSONObject.optString("name");
-                                                    str7 = str4;
-                                                    str8 = str5;
-                                                    str9 = str6;
-                                                } catch (Exception e4) {
-                                                    e = e4;
-                                                    FileLog.e(e);
-                                                    str7 = str4;
-                                                    str8 = str5;
-                                                    str9 = str6;
-                                                    str10 = null;
-                                                    if (str7 == null) {
-                                                    }
-                                                }
-                                            } else {
+                                        JSONObject optJSONObject = jSONObject7.optJSONObject("widget_link");
+                                        if (optJSONObject != null) {
+                                            str6 = optJSONObject.optString("url");
+                                            try {
+                                                str10 = optJSONObject.optString("name");
                                                 str7 = str4;
                                                 str8 = str5;
-                                                str9 = null;
+                                                str9 = str6;
+                                            } catch (Exception e4) {
+                                                e = e4;
+                                                FileLog.e(e);
+                                                str7 = str4;
+                                                str8 = str5;
+                                                str9 = str6;
                                                 str10 = null;
+                                                if (str7 == null) {
+                                                }
                                             }
-                                        } catch (Exception e5) {
-                                            e = e5;
-                                            str6 = null;
+                                        } else {
+                                            str7 = str4;
+                                            str8 = str5;
+                                            str9 = null;
+                                            str10 = null;
                                         }
-                                    } catch (Exception e6) {
-                                        e = e6;
-                                        str5 = null;
-                                        str6 = str5;
-                                        FileLog.e(e);
-                                        str7 = str4;
-                                        str8 = str5;
-                                        str9 = str6;
-                                        str10 = null;
-                                        if (str7 == null) {
-                                        }
+                                    } catch (Exception e5) {
+                                        e = e5;
+                                        str6 = null;
                                     }
-                                } catch (Exception e7) {
-                                    e = e7;
-                                    str4 = null;
+                                } catch (Exception e6) {
+                                    e = e6;
                                     str5 = null;
-                                }
-                                if (str7 == null) {
-                                    return;
-                                }
-                                if (!MessagesController.getInstance(this.currentAccount).storiesEnabled()) {
-                                    new PremiumFeatureBottomSheet(new BaseFragment() { // from class: org.telegram.ui.web.BotWebViewContainer.5
-                                        {
-                                            BotWebViewContainer.this = this;
-                                            this.currentAccount = this.currentAccount;
-                                        }
-
-                                        @Override // org.telegram.ui.ActionBar.BaseFragment
-                                        public Activity getParentActivity() {
-                                            return BotWebViewContainer.this.parentActivity;
-                                        }
-
-                                        @Override // org.telegram.ui.ActionBar.BaseFragment
-                                        public Theme.ResourcesProvider getResourceProvider() {
-                                            return new WrappedResourceProvider(BotWebViewContainer.this.resourcesProvider) { // from class: org.telegram.ui.web.BotWebViewContainer.5.1
-                                                {
-                                                    5.this = this;
-                                                }
-
-                                                @Override // org.telegram.ui.WrappedResourceProvider
-                                                public void appendColors() {
-                                                    this.sparseIntArray.append(Theme.key_dialogBackground, -14803426);
-                                                    this.sparseIntArray.append(Theme.key_windowBackgroundGray, -16777216);
-                                                }
-                                            };
-                                        }
-
-                                        @Override // org.telegram.ui.ActionBar.BaseFragment
-                                        public boolean isLightStatusBar() {
-                                            return false;
-                                        }
-
-                                        @Override // org.telegram.ui.ActionBar.BaseFragment
-                                        public Dialog showDialog(Dialog dialog) {
-                                            dialog.show();
-                                            return dialog;
-                                        }
-                                    }, 14, true).show();
-                                    return;
-                                }
-                                final AlertDialog alertDialog = new AlertDialog(this.parentActivity, 3);
-                                new HttpGetFileTask(new Utilities.Callback() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda20
-                                    @Override // org.telegram.messenger.Utilities.Callback
-                                    public final void run(Object obj2) {
-                                        BotWebViewContainer.this.lambda$onEventReceived$36(alertDialog, str8, str9, str10, (File) obj2);
+                                    str6 = str5;
+                                    FileLog.e(e);
+                                    str7 = str4;
+                                    str8 = str5;
+                                    str9 = str6;
+                                    str10 = null;
+                                    if (str7 == null) {
                                     }
-                                }).execute(str7);
-                                alertDialog.showDelayed(250L);
-                                return;
-                            case 17:
-                                try {
-                                    z = new JSONObject(str2).optBoolean("return_back");
-                                } catch (Exception e8) {
-                                    FileLog.e(e8);
-                                    z = false;
                                 }
-                                this.delegate.onCloseRequested(null);
-                                if (z) {
-                                    if (this.wasOpenedByLinkIntent && LaunchActivity.instance != null) {
-                                        Activity findActivity = AndroidUtilities.findActivity(getContext());
-                                        if (findActivity == null) {
-                                            findActivity = LaunchActivity.instance;
-                                        }
-                                        if (findActivity == null || findActivity.isFinishing()) {
-                                            return;
-                                        }
-                                        findActivity.moveTaskToBack(true);
+                            } catch (Exception e7) {
+                                e = e7;
+                                str4 = null;
+                                str5 = null;
+                            }
+                            if (str7 == null) {
+                                return;
+                            }
+                            if (!MessagesController.getInstance(this.currentAccount).storiesEnabled()) {
+                                new PremiumFeatureBottomSheet(new BaseFragment() { // from class: org.telegram.ui.web.BotWebViewContainer.5
+                                    {
+                                        BotWebViewContainer.this = this;
+                                        this.currentAccount = this.currentAccount;
+                                    }
+
+                                    @Override // org.telegram.ui.ActionBar.BaseFragment
+                                    public Activity getParentActivity() {
+                                        return BotWebViewContainer.this.parentActivity;
+                                    }
+
+                                    @Override // org.telegram.ui.ActionBar.BaseFragment
+                                    public Theme.ResourcesProvider getResourceProvider() {
+                                        return new WrappedResourceProvider(BotWebViewContainer.this.resourcesProvider) { // from class: org.telegram.ui.web.BotWebViewContainer.5.1
+                                            {
+                                                5.this = this;
+                                            }
+
+                                            @Override // org.telegram.ui.WrappedResourceProvider
+                                            public void appendColors() {
+                                                this.sparseIntArray.append(Theme.key_dialogBackground, -14803426);
+                                                this.sparseIntArray.append(Theme.key_windowBackgroundGray, -16777216);
+                                            }
+                                        };
+                                    }
+
+                                    @Override // org.telegram.ui.ActionBar.BaseFragment
+                                    public boolean isLightStatusBar() {
+                                        return false;
+                                    }
+
+                                    @Override // org.telegram.ui.ActionBar.BaseFragment
+                                    public Dialog showDialog(Dialog dialog) {
+                                        dialog.show();
+                                        return dialog;
+                                    }
+                                }, 14, true).show();
+                                return;
+                            }
+                            final AlertDialog alertDialog = new AlertDialog(this.parentActivity, 3);
+                            new HttpGetFileTask(new Utilities.Callback() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda20
+                                @Override // org.telegram.messenger.Utilities.Callback
+                                public final void run(Object obj2) {
+                                    BotWebViewContainer.this.lambda$onEventReceived$36(alertDialog, str8, str9, str10, (File) obj2);
+                                }
+                            }).execute(str7);
+                            alertDialog.showDelayed(250L);
+                            return;
+                        case 17:
+                            try {
+                                z = new JSONObject(str2).optBoolean("return_back");
+                            } catch (Exception e8) {
+                                FileLog.e(e8);
+                                z = false;
+                            }
+                            this.delegate.onCloseRequested(null);
+                            if (z) {
+                                if (this.wasOpenedByLinkIntent && LaunchActivity.instance != null) {
+                                    Activity findActivity = AndroidUtilities.findActivity(getContext());
+                                    if (findActivity == null) {
+                                        findActivity = LaunchActivity.instance;
+                                    }
+                                    if (findActivity == null || findActivity.isFinishing()) {
                                         return;
-                                    } else if (this.wasOpenedByBot == null || (launchActivity = LaunchActivity.instance) == null || launchActivity.getBottomSheetTabs() == null) {
-                                        return;
-                                    } else {
-                                        BottomSheetTabs bottomSheetTabs = LaunchActivity.instance.getBottomSheetTabs();
-                                        ArrayList<BottomSheetTabs.WebTabData> tabs = bottomSheetTabs.getTabs();
-                                        int i7 = 0;
-                                        while (true) {
-                                            if (i7 < tabs.size()) {
-                                                BottomSheetTabs.WebTabData webTabData2 = tabs.get(i7);
-                                                if (!this.wasOpenedByBot.equals(webTabData2.props) || webTabData2.webView == this.webView) {
-                                                    i7++;
-                                                } else {
-                                                    webTabData = webTabData2;
-                                                }
+                                    }
+                                    findActivity.moveTaskToBack(true);
+                                    return;
+                                } else if (this.wasOpenedByBot == null || (launchActivity = LaunchActivity.instance) == null || launchActivity.getBottomSheetTabs() == null) {
+                                    return;
+                                } else {
+                                    BottomSheetTabs bottomSheetTabs = LaunchActivity.instance.getBottomSheetTabs();
+                                    ArrayList<BottomSheetTabs.WebTabData> tabs = bottomSheetTabs.getTabs();
+                                    int i7 = 0;
+                                    while (true) {
+                                        if (i7 < tabs.size()) {
+                                            BottomSheetTabs.WebTabData webTabData2 = tabs.get(i7);
+                                            if (!this.wasOpenedByBot.equals(webTabData2.props) || webTabData2.webView == this.webView) {
+                                                i7++;
+                                            } else {
+                                                webTabData = webTabData2;
                                             }
                                         }
-                                        if (webTabData != null) {
-                                            bottomSheetTabs.openTab(webTabData);
-                                            return;
-                                        }
+                                    }
+                                    if (webTabData != null) {
+                                        bottomSheetTabs.openTab(webTabData);
                                         return;
                                     }
-                                }
-                                return;
-                            case 18:
-                                setPageLoaded(this.webView.getUrl(), true);
-                                return;
-                            case 19:
-                                String string4 = new JSONObject(str2).getString("req_id");
-                                if (this.delegate.isClipboardAvailable() && System.currentTimeMillis() - this.lastClickMs <= 10000) {
-                                    CharSequence text = ((ClipboardManager) getContext().getSystemService("clipboard")).getText();
-                                    put = new JSONObject().put("req_id", string4).put("data", text != null ? text.toString() : "");
-                                    notifyEvent("clipboard_text_received", put);
                                     return;
                                 }
-                                put = new JSONObject().put("req_id", string4);
+                            }
+                            return;
+                        case 18:
+                            setPageLoaded(this.webView.getUrl(), true);
+                            return;
+                        case 19:
+                            String string4 = new JSONObject(str2).getString("req_id");
+                            if (this.delegate.isClipboardAvailable() && System.currentTimeMillis() - this.lastClickMs <= 10000) {
+                                CharSequence text = ((ClipboardManager) getContext().getSystemService("clipboard")).getText();
+                                put = new JSONObject().put("req_id", string4).put("data", text != null ? text.toString() : "");
                                 notifyEvent("clipboard_text_received", put);
                                 return;
-                            case 20:
-                                this.delegate.onSendWebViewData(new JSONObject(str2).optString("data"));
+                            }
+                            put = new JSONObject().put("req_id", string4);
+                            notifyEvent("clipboard_text_received", put);
+                            return;
+                        case 20:
+                            this.delegate.onSendWebViewData(new JSONObject(str2).optString("data"));
+                            return;
+                        case 21:
+                            JSONObject jSONObject8 = new JSONObject(str2);
+                            ArrayList arrayList2 = new ArrayList();
+                            JSONArray jSONArray3 = jSONObject8.getJSONArray("chat_types");
+                            for (int i8 = 0; i8 < jSONArray3.length(); i8++) {
+                                arrayList2.add(jSONArray3.getString(i8));
+                            }
+                            this.delegate.onWebAppSwitchInlineQuery(this.botUser, jSONObject8.getString("query"), arrayList2);
+                            return;
+                        case 22:
+                            boolean optBoolean2 = new JSONObject(str2).optBoolean("is_visible");
+                            if (optBoolean2 != this.isBackButtonVisible) {
+                                this.isBackButtonVisible = optBoolean2;
+                                this.delegate.onSetBackButtonVisible(optBoolean2);
                                 return;
-                            case 21:
-                                JSONObject jSONObject8 = new JSONObject(str2);
-                                ArrayList arrayList2 = new ArrayList();
-                                JSONArray jSONArray3 = jSONObject8.getJSONArray("chat_types");
-                                for (int i8 = 0; i8 < jSONArray3.length(); i8++) {
-                                    arrayList2.add(jSONArray3.getString(i8));
+                            }
+                            return;
+                        case 23:
+                            try {
+                                str13 = new JSONObject(str2).getString("reason");
+                            } catch (Exception unused4) {
+                            }
+                            createBiometry();
+                            BotBiometry botBiometry2 = this.biometry;
+                            if (botBiometry2 == null) {
+                                return;
+                            }
+                            boolean z11 = botBiometry2.access_requested;
+                            if (z11) {
+                                notifyBiometryReceived();
+                                return;
+                            } else if (botBiometry2.access_granted) {
+                                if (!z11) {
+                                    botBiometry2.access_requested = true;
+                                    botBiometry2.save();
+                                    break;
                                 }
-                                this.delegate.onWebAppSwitchInlineQuery(this.botUser, jSONObject8.getString("query"), arrayList2);
+                            } else {
+                                final Runnable[] runnableArr = {new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda16
+                                    @Override // java.lang.Runnable
+                                    public final void run() {
+                                        BotWebViewContainer.this.lambda$onEventReceived$26();
+                                    }
+                                }};
+                                AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext(), this.resourcesProvider);
+                                if (TextUtils.isEmpty(str13)) {
+                                    builder2.setTitle(LocaleController.getString(R.string.BotAllowBiometryTitle));
+                                    builder2.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString(R.string.BotAllowBiometryMessage, UserObject.getUserName(this.botUser))));
+                                } else {
+                                    builder2.setTitle(AndroidUtilities.replaceTags(LocaleController.formatString(R.string.BotAllowBiometryMessage, UserObject.getUserName(this.botUser))));
+                                    builder2.setMessage(str13);
+                                }
+                                builder2.setPositiveButton(LocaleController.getString(R.string.Allow), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda17
+                                    @Override // android.content.DialogInterface.OnClickListener
+                                    public final void onClick(DialogInterface dialogInterface, int i9) {
+                                        BotWebViewContainer.this.lambda$onEventReceived$28(runnableArr, dialogInterface, i9);
+                                    }
+                                });
+                                builder2.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda18
+                                    @Override // android.content.DialogInterface.OnClickListener
+                                    public final void onClick(DialogInterface dialogInterface, int i9) {
+                                        BotWebViewContainer.this.lambda$onEventReceived$29(runnableArr, dialogInterface, i9);
+                                    }
+                                });
+                                builder2.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda19
+                                    @Override // android.content.DialogInterface.OnDismissListener
+                                    public final void onDismiss(DialogInterface dialogInterface) {
+                                        BotWebViewContainer.lambda$onEventReceived$30(runnableArr, dialogInterface);
+                                    }
+                                });
+                                builder2.show();
                                 return;
-                            case 22:
-                                boolean optBoolean2 = new JSONObject(str2).optBoolean("is_visible");
-                                if (optBoolean2 != this.isBackButtonVisible) {
-                                    this.isBackButtonVisible = optBoolean2;
-                                    this.delegate.onSetBackButtonVisible(optBoolean2);
+                            }
+                            break;
+                        case 24:
+                            JSONObject jSONObject9 = new JSONObject(str2);
+                            String optString6 = jSONObject9.optString("type");
+                            int hashCode = optString6.hashCode();
+                            if (hashCode == -1184809658) {
+                                if (optString6.equals("impact")) {
+                                    c2 = 0;
+                                    if (c2 != 0) {
+                                    }
+                                    if (botWebViewVibrationEffect2 == null) {
+                                    }
+                                }
+                                c2 = 65535;
+                                if (c2 != 0) {
+                                }
+                                if (botWebViewVibrationEffect2 == null) {
+                                }
+                            } else if (hashCode != 193071555) {
+                                if (hashCode == 595233003 && optString6.equals("notification")) {
+                                    c2 = 1;
+                                    if (c2 != 0) {
+                                        String optString7 = jSONObject9.optString("impact_style");
+                                        switch (optString7.hashCode()) {
+                                            case -1078030475:
+                                                if (optString7.equals("medium")) {
+                                                    c3 = 1;
+                                                    break;
+                                                }
+                                                c3 = 65535;
+                                                break;
+                                            case 3535914:
+                                                if (optString7.equals("soft")) {
+                                                    c3 = 4;
+                                                    break;
+                                                }
+                                                c3 = 65535;
+                                                break;
+                                            case 99152071:
+                                                if (optString7.equals("heavy")) {
+                                                    c3 = 2;
+                                                    break;
+                                                }
+                                                c3 = 65535;
+                                                break;
+                                            case 102970646:
+                                                if (optString7.equals("light")) {
+                                                    c3 = 0;
+                                                    break;
+                                                }
+                                                c3 = 65535;
+                                                break;
+                                            case 108511787:
+                                                if (optString7.equals("rigid")) {
+                                                    c3 = 3;
+                                                    break;
+                                                }
+                                                c3 = 65535;
+                                                break;
+                                            default:
+                                                c3 = 65535;
+                                                break;
+                                        }
+                                        if (c3 == 0) {
+                                            botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_LIGHT;
+                                        } else if (c3 == 1) {
+                                            botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_MEDIUM;
+                                        } else if (c3 == 2) {
+                                            botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_HEAVY;
+                                        } else if (c3 == 3) {
+                                            botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_RIGID;
+                                        } else if (c3 == 4) {
+                                            botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_SOFT;
+                                        }
+                                        botWebViewVibrationEffect2 = botWebViewVibrationEffect;
+                                    } else if (c2 == 1) {
+                                        String optString8 = jSONObject9.optString("notification_type");
+                                        int hashCode2 = optString8.hashCode();
+                                        if (hashCode2 == -1867169789) {
+                                            if (optString8.equals("success")) {
+                                                c4 = 1;
+                                                if (c4 != 0) {
+                                                }
+                                                botWebViewVibrationEffect2 = botWebViewVibrationEffect;
+                                            }
+                                            c4 = 65535;
+                                            if (c4 != 0) {
+                                            }
+                                            botWebViewVibrationEffect2 = botWebViewVibrationEffect;
+                                        } else if (hashCode2 != 96784904) {
+                                            if (hashCode2 == 1124446108 && optString8.equals("warning")) {
+                                                c4 = 2;
+                                                if (c4 != 0) {
+                                                    botWebViewVibrationEffect = BotWebViewVibrationEffect.NOTIFICATION_ERROR;
+                                                } else if (c4 == 1) {
+                                                    botWebViewVibrationEffect = BotWebViewVibrationEffect.NOTIFICATION_SUCCESS;
+                                                } else if (c4 == 2) {
+                                                    botWebViewVibrationEffect = BotWebViewVibrationEffect.NOTIFICATION_WARNING;
+                                                }
+                                                botWebViewVibrationEffect2 = botWebViewVibrationEffect;
+                                            }
+                                            c4 = 65535;
+                                            if (c4 != 0) {
+                                            }
+                                            botWebViewVibrationEffect2 = botWebViewVibrationEffect;
+                                        } else {
+                                            if (optString8.equals("error")) {
+                                                c4 = 0;
+                                                if (c4 != 0) {
+                                                }
+                                                botWebViewVibrationEffect2 = botWebViewVibrationEffect;
+                                            }
+                                            c4 = 65535;
+                                            if (c4 != 0) {
+                                            }
+                                            botWebViewVibrationEffect2 = botWebViewVibrationEffect;
+                                        }
+                                    } else if (c2 == 2) {
+                                        botWebViewVibrationEffect = BotWebViewVibrationEffect.SELECTION_CHANGE;
+                                        botWebViewVibrationEffect2 = botWebViewVibrationEffect;
+                                    }
+                                    if (botWebViewVibrationEffect2 == null) {
+                                        botWebViewVibrationEffect2.vibrate();
+                                        return;
+                                    }
                                     return;
                                 }
+                                c2 = 65535;
+                                if (c2 != 0) {
+                                }
+                                if (botWebViewVibrationEffect2 == null) {
+                                }
+                            } else {
+                                if (optString6.equals("selection_change")) {
+                                    c2 = 2;
+                                    if (c2 != 0) {
+                                    }
+                                    if (botWebViewVibrationEffect2 == null) {
+                                    }
+                                }
+                                c2 = 65535;
+                                if (c2 != 0) {
+                                }
+                                if (botWebViewVibrationEffect2 == null) {
+                                }
+                            }
+                            break;
+                        case 25:
+                            JSONObject jSONObject10 = new JSONObject(str2);
+                            boolean optBoolean3 = jSONObject10.optBoolean("is_active", false);
+                            String trim2 = jSONObject10.optString("text", this.lastButtonText).trim();
+                            boolean z12 = jSONObject10.optBoolean("is_visible", false) && !TextUtils.isEmpty(trim2);
+                            int parseColor3 = jSONObject10.has("color") ? Color.parseColor(jSONObject10.optString("color")) : this.lastButtonColor;
+                            int parseColor4 = jSONObject10.has("text_color") ? Color.parseColor(jSONObject10.optString("text_color")) : this.lastButtonTextColor;
+                            if (jSONObject10.optBoolean("is_progress_visible", false) && z12) {
+                                str11 = "has_shine_effect";
+                                z7 = true;
+                            } else {
+                                str11 = "has_shine_effect";
+                                z7 = false;
+                            }
+                            boolean z13 = jSONObject10.optBoolean(str11, false) && z12;
+                            this.lastButtonColor = parseColor3;
+                            this.lastButtonTextColor = parseColor4;
+                            this.lastButtonText = trim2;
+                            this.buttonData = str2;
+                            this.delegate.onSetupMainButton(z12, optBoolean3, trim2, parseColor3, parseColor4, z7, z13);
+                            return;
+                        case 26:
+                            this.delegate.onWebAppSwipingBehavior(new JSONObject(str2).optBoolean("allow_vertical_swipe"));
+                            return;
+                        case 27:
+                            boolean optBoolean4 = new JSONObject(str2).optBoolean("is_visible");
+                            if (optBoolean4 != this.isSettingsButtonVisible) {
+                                this.isSettingsButtonVisible = optBoolean4;
+                                this.delegate.onSetSettingsButtonVisible(optBoolean4);
                                 return;
-                            case 23:
+                            }
+                            return;
+                        case 28:
+                            try {
+                                JSONObject jSONObject11 = new JSONObject(str2);
+                                final String string5 = jSONObject11.getString("token");
                                 try {
-                                    str13 = new JSONObject(str2).getString("reason");
-                                } catch (Exception unused4) {
+                                    str14 = jSONObject11.getString("reason");
+                                } catch (Exception unused5) {
                                 }
                                 createBiometry();
-                                BotBiometry botBiometry2 = this.biometry;
-                                if (botBiometry2 == null) {
+                                BotBiometry botBiometry3 = this.biometry;
+                                if (botBiometry3 == null) {
                                     return;
                                 }
-                                boolean z11 = botBiometry2.access_requested;
-                                if (z11) {
-                                    notifyBiometryReceived();
-                                    return;
-                                } else if (botBiometry2.access_granted) {
-                                    if (!z11) {
-                                        botBiometry2.access_requested = true;
-                                        botBiometry2.save();
-                                        break;
-                                    }
-                                } else {
-                                    final Runnable[] runnableArr = {new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda16
-                                        @Override // java.lang.Runnable
-                                        public final void run() {
-                                            BotWebViewContainer.this.lambda$onEventReceived$26();
-                                        }
-                                    }};
-                                    AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext(), this.resourcesProvider);
-                                    if (TextUtils.isEmpty(str13)) {
-                                        builder2.setTitle(LocaleController.getString(R.string.BotAllowBiometryTitle));
-                                        builder2.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString(R.string.BotAllowBiometryMessage, UserObject.getUserName(this.botUser))));
-                                    } else {
-                                        builder2.setTitle(AndroidUtilities.replaceTags(LocaleController.formatString(R.string.BotAllowBiometryMessage, UserObject.getUserName(this.botUser))));
-                                        builder2.setMessage(str13);
-                                    }
-                                    builder2.setPositiveButton(LocaleController.getString(R.string.Allow), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda17
-                                        @Override // android.content.DialogInterface.OnClickListener
-                                        public final void onClick(DialogInterface dialogInterface, int i9) {
-                                            BotWebViewContainer.this.lambda$onEventReceived$28(runnableArr, dialogInterface, i9);
+                                if (botBiometry3.access_granted) {
+                                    botBiometry3.updateToken(str14, string5, new Utilities.Callback() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda15
+                                        @Override // org.telegram.messenger.Utilities.Callback
+                                        public final void run(Object obj2) {
+                                            BotWebViewContainer.this.lambda$onEventReceived$32(string5, (Boolean) obj2);
                                         }
                                     });
-                                    builder2.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda18
-                                        @Override // android.content.DialogInterface.OnClickListener
-                                        public final void onClick(DialogInterface dialogInterface, int i9) {
-                                            BotWebViewContainer.this.lambda$onEventReceived$29(runnableArr, dialogInterface, i9);
-                                        }
-                                    });
-                                    builder2.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda19
-                                        @Override // android.content.DialogInterface.OnDismissListener
-                                        public final void onDismiss(DialogInterface dialogInterface) {
-                                            BotWebViewContainer.lambda$onEventReceived$30(runnableArr, dialogInterface);
-                                        }
-                                    });
-                                    builder2.show();
                                     return;
                                 }
-                                break;
-                            case 24:
-                                JSONObject jSONObject9 = new JSONObject(str2);
-                                String optString6 = jSONObject9.optString("type");
-                                int hashCode = optString6.hashCode();
-                                if (hashCode == -1184809658) {
-                                    if (optString6.equals("impact")) {
-                                        c2 = 0;
-                                        if (c2 != 0) {
-                                        }
-                                        if (botWebViewVibrationEffect2 == null) {
-                                        }
-                                    }
-                                    c2 = 65535;
-                                    if (c2 != 0) {
-                                    }
-                                    if (botWebViewVibrationEffect2 == null) {
-                                    }
-                                } else if (hashCode != 193071555) {
-                                    if (hashCode == 595233003 && optString6.equals("notification")) {
-                                        c2 = 1;
-                                        if (c2 != 0) {
-                                            String optString7 = jSONObject9.optString("impact_style");
-                                            switch (optString7.hashCode()) {
-                                                case -1078030475:
-                                                    if (optString7.equals("medium")) {
-                                                        c3 = 1;
-                                                        break;
-                                                    }
-                                                    c3 = 65535;
-                                                    break;
-                                                case 3535914:
-                                                    if (optString7.equals("soft")) {
-                                                        c3 = 4;
-                                                        break;
-                                                    }
-                                                    c3 = 65535;
-                                                    break;
-                                                case 99152071:
-                                                    if (optString7.equals("heavy")) {
-                                                        c3 = 2;
-                                                        break;
-                                                    }
-                                                    c3 = 65535;
-                                                    break;
-                                                case 102970646:
-                                                    if (optString7.equals("light")) {
-                                                        c3 = 0;
-                                                        break;
-                                                    }
-                                                    c3 = 65535;
-                                                    break;
-                                                case 108511787:
-                                                    if (optString7.equals("rigid")) {
-                                                        c3 = 3;
-                                                        break;
-                                                    }
-                                                    c3 = 65535;
-                                                    break;
-                                                default:
-                                                    c3 = 65535;
-                                                    break;
-                                            }
-                                            if (c3 == 0) {
-                                                botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_LIGHT;
-                                            } else if (c3 == 1) {
-                                                botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_MEDIUM;
-                                            } else if (c3 == 2) {
-                                                botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_HEAVY;
-                                            } else if (c3 == 3) {
-                                                botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_RIGID;
-                                            } else if (c3 == 4) {
-                                                botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_SOFT;
-                                            }
-                                            botWebViewVibrationEffect2 = botWebViewVibrationEffect;
-                                        } else if (c2 == 1) {
-                                            String optString8 = jSONObject9.optString("notification_type");
-                                            int hashCode2 = optString8.hashCode();
-                                            if (hashCode2 == -1867169789) {
-                                                if (optString8.equals("success")) {
-                                                    c4 = 1;
-                                                    if (c4 != 0) {
-                                                    }
-                                                    botWebViewVibrationEffect2 = botWebViewVibrationEffect;
-                                                }
-                                                c4 = 65535;
-                                                if (c4 != 0) {
-                                                }
-                                                botWebViewVibrationEffect2 = botWebViewVibrationEffect;
-                                            } else if (hashCode2 != 96784904) {
-                                                if (hashCode2 == 1124446108 && optString8.equals("warning")) {
-                                                    c4 = 2;
-                                                    if (c4 != 0) {
-                                                        botWebViewVibrationEffect = BotWebViewVibrationEffect.NOTIFICATION_ERROR;
-                                                    } else if (c4 == 1) {
-                                                        botWebViewVibrationEffect = BotWebViewVibrationEffect.NOTIFICATION_SUCCESS;
-                                                    } else if (c4 == 2) {
-                                                        botWebViewVibrationEffect = BotWebViewVibrationEffect.NOTIFICATION_WARNING;
-                                                    }
-                                                    botWebViewVibrationEffect2 = botWebViewVibrationEffect;
-                                                }
-                                                c4 = 65535;
-                                                if (c4 != 0) {
-                                                }
-                                                botWebViewVibrationEffect2 = botWebViewVibrationEffect;
-                                            } else {
-                                                if (optString8.equals("error")) {
-                                                    c4 = 0;
-                                                    if (c4 != 0) {
-                                                    }
-                                                    botWebViewVibrationEffect2 = botWebViewVibrationEffect;
-                                                }
-                                                c4 = 65535;
-                                                if (c4 != 0) {
-                                                }
-                                                botWebViewVibrationEffect2 = botWebViewVibrationEffect;
-                                            }
-                                        } else if (c2 == 2) {
-                                            botWebViewVibrationEffect = BotWebViewVibrationEffect.SELECTION_CHANGE;
-                                            botWebViewVibrationEffect2 = botWebViewVibrationEffect;
-                                        }
-                                        if (botWebViewVibrationEffect2 == null) {
-                                            botWebViewVibrationEffect2.vibrate();
-                                            return;
-                                        }
-                                        return;
-                                    }
-                                    c2 = 65535;
-                                    if (c2 != 0) {
-                                    }
-                                    if (botWebViewVibrationEffect2 == null) {
-                                    }
-                                } else {
-                                    if (optString6.equals("selection_change")) {
-                                        c2 = 2;
-                                        if (c2 != 0) {
-                                        }
-                                        if (botWebViewVibrationEffect2 == null) {
-                                        }
-                                    }
-                                    c2 = 65535;
-                                    if (c2 != 0) {
-                                    }
-                                    if (botWebViewVibrationEffect2 == null) {
-                                    }
-                                }
-                                break;
-                            case 25:
-                                JSONObject jSONObject10 = new JSONObject(str2);
-                                boolean optBoolean3 = jSONObject10.optBoolean("is_active", false);
-                                String trim2 = jSONObject10.optString("text", this.lastButtonText).trim();
-                                boolean z12 = jSONObject10.optBoolean("is_visible", false) && !TextUtils.isEmpty(trim2);
-                                int parseColor3 = jSONObject10.has("color") ? Color.parseColor(jSONObject10.optString("color")) : this.lastButtonColor;
-                                int parseColor4 = jSONObject10.has("text_color") ? Color.parseColor(jSONObject10.optString("text_color")) : this.lastButtonTextColor;
-                                if (jSONObject10.optBoolean("is_progress_visible", false) && z12) {
-                                    str11 = "has_shine_effect";
-                                    z7 = true;
-                                } else {
-                                    str11 = "has_shine_effect";
-                                    z7 = false;
-                                }
-                                boolean z13 = jSONObject10.optBoolean(str11, false) && z12;
-                                this.lastButtonColor = parseColor3;
-                                this.lastButtonTextColor = parseColor4;
-                                this.lastButtonText = trim2;
-                                this.buttonData = str2;
-                                this.delegate.onSetupMainButton(z12, optBoolean3, trim2, parseColor3, parseColor4, z7, z13);
-                                return;
-                            case 26:
-                                this.delegate.onWebAppSwipingBehavior(new JSONObject(str2).optBoolean("allow_vertical_swipe"));
-                                return;
-                            case 27:
-                                boolean optBoolean4 = new JSONObject(str2).optBoolean("is_visible");
-                                if (optBoolean4 != this.isSettingsButtonVisible) {
-                                    this.isSettingsButtonVisible = optBoolean4;
-                                    this.delegate.onSetSettingsButtonVisible(optBoolean4);
-                                    return;
-                                }
-                                return;
-                            case 28:
                                 try {
-                                    JSONObject jSONObject11 = new JSONObject(str2);
-                                    final String string5 = jSONObject11.getString("token");
-                                    try {
-                                        str14 = jSONObject11.getString("reason");
-                                    } catch (Exception unused5) {
-                                    }
-                                    createBiometry();
-                                    BotBiometry botBiometry3 = this.biometry;
-                                    if (botBiometry3 == null) {
-                                        return;
-                                    }
-                                    if (botBiometry3.access_granted) {
-                                        botBiometry3.updateToken(str14, string5, new Utilities.Callback() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda15
-                                            @Override // org.telegram.messenger.Utilities.Callback
-                                            public final void run(Object obj2) {
-                                                BotWebViewContainer.this.lambda$onEventReceived$32(string5, (Boolean) obj2);
-                                            }
-                                        });
-                                        return;
-                                    }
-                                    try {
-                                        JSONObject jSONObject12 = new JSONObject();
-                                        jSONObject12.put("status", "failed");
-                                        notifyEvent("biometry_token_updated", jSONObject12);
-                                        return;
-                                    } catch (Exception e9) {
-                                        FileLog.e(e9);
-                                        return;
-                                    }
-                                } catch (Exception e10) {
-                                    FileLog.e(e10);
-                                    if (e10 instanceof JSONException) {
-                                        error("JSON Parse error");
-                                        return;
-                                    } else {
-                                        unknownError();
-                                        return;
-                                    }
+                                    JSONObject jSONObject12 = new JSONObject();
+                                    jSONObject12.put("status", "failed");
+                                    notifyEvent("biometry_token_updated", jSONObject12);
+                                    return;
+                                } catch (Exception e9) {
+                                    FileLog.e(e9);
+                                    return;
                                 }
-                            case 29:
-                                String optString9 = new JSONObject(str2).optString("color", null);
-                                int color = TextUtils.isEmpty(optString9) ? Theme.getColor(Theme.key_windowBackgroundGray, this.resourcesProvider) : Color.parseColor(optString9);
-                                Delegate delegate = this.delegate;
-                                if (delegate != null) {
-                                    delegate.onWebAppSetNavigationBarColor(color);
+                            } catch (Exception e10) {
+                                FileLog.e(e10);
+                                if (e10 instanceof JSONException) {
+                                    error("JSON Parse error");
+                                    return;
+                                } else {
+                                    unknownError();
+                                    return;
+                                }
+                            }
+                        case 29:
+                            String optString9 = new JSONObject(str2).optString("color", null);
+                            int color = TextUtils.isEmpty(optString9) ? Theme.getColor(Theme.key_windowBackgroundGray, this.resourcesProvider) : Color.parseColor(optString9);
+                            Delegate delegate = this.delegate;
+                            if (delegate != null) {
+                                delegate.onWebAppSetNavigationBarColor(color);
+                                return;
+                            }
+                            return;
+                        case 30:
+                            JSONObject jSONObject13 = new JSONObject(str2);
+                            String optString10 = jSONObject13.optString("color", null);
+                            if (!TextUtils.isEmpty(optString10)) {
+                                int parseColor5 = Color.parseColor(optString10);
+                                if (parseColor5 != 0) {
+                                    this.delegate.onWebAppSetActionBarColor(-1, parseColor5, true);
                                     return;
                                 }
                                 return;
-                            case 30:
-                                JSONObject jSONObject13 = new JSONObject(str2);
-                                String optString10 = jSONObject13.optString("color", null);
-                                if (!TextUtils.isEmpty(optString10)) {
-                                    int parseColor5 = Color.parseColor(optString10);
-                                    if (parseColor5 != 0) {
-                                        this.delegate.onWebAppSetActionBarColor(-1, parseColor5, true);
-                                        return;
-                                    }
-                                    return;
-                                }
-                                String optString11 = jSONObject13.optString("color_key");
-                                int hashCode3 = optString11.hashCode();
-                                if (hashCode3 != -1265068311) {
-                                    if (hashCode3 == -210781868 && optString11.equals("secondary_bg_color")) {
-                                        c5 = 1;
-                                        if (c5 != 0) {
-                                            i = Theme.key_windowBackgroundWhite;
-                                        } else if (c5 != 1) {
-                                            i2 = -1;
-                                            if (i2 >= 0) {
-                                                this.delegate.onWebAppSetActionBarColor(i2, Theme.getColor(i2, this.resourcesProvider), false);
-                                                return;
-                                            }
-                                            return;
-                                        } else {
-                                            i = Theme.key_windowBackgroundGray;
-                                        }
-                                        i2 = i;
-                                        if (i2 >= 0) {
-                                        }
-                                    }
-                                    c5 = 65535;
+                            }
+                            String optString11 = jSONObject13.optString("color_key");
+                            int hashCode3 = optString11.hashCode();
+                            if (hashCode3 != -1265068311) {
+                                if (hashCode3 == -210781868 && optString11.equals("secondary_bg_color")) {
+                                    c5 = 1;
                                     if (c5 != 0) {
+                                        i = Theme.key_windowBackgroundWhite;
+                                    } else if (c5 != 1) {
+                                        i2 = -1;
+                                        if (i2 >= 0) {
+                                            this.delegate.onWebAppSetActionBarColor(i2, Theme.getColor(i2, this.resourcesProvider), false);
+                                            return;
+                                        }
+                                        return;
+                                    } else {
+                                        i = Theme.key_windowBackgroundGray;
                                     }
                                     i2 = i;
                                     if (i2 >= 0) {
                                     }
-                                } else {
-                                    if (optString11.equals("bg_color")) {
-                                        c5 = 0;
-                                        if (c5 != 0) {
-                                        }
-                                        i2 = i;
-                                        if (i2 >= 0) {
-                                        }
-                                    }
-                                    c5 = 65535;
+                                }
+                                c5 = 65535;
+                                if (c5 != 0) {
+                                }
+                                i2 = i;
+                                if (i2 >= 0) {
+                                }
+                            } else {
+                                if (optString11.equals("bg_color")) {
+                                    c5 = 0;
                                     if (c5 != 0) {
                                     }
                                     i2 = i;
                                     if (i2 >= 0) {
                                     }
                                 }
-                                break;
-                            case 31:
-                                this.delegate.onWebAppSetBackgroundColor(Color.parseColor(new JSONObject(str2).optString("color", "#ffffff")) | (-16777216));
-                                return;
-                            case ' ':
-                                if (!ignoreDialog(3)) {
-                                    final int i9 = this.currentAccount;
-                                    final MyWebView myWebView3 = this.webView;
-                                    TL_bots$canSendMessage tL_bots$canSendMessage = new TL_bots$canSendMessage();
-                                    tL_bots$canSendMessage.bot = MessagesController.getInstance(this.currentAccount).getInputUser(this.botUser);
-                                    ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_bots$canSendMessage, new RequestDelegate() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda7
-                                        @Override // org.telegram.tgnet.RequestDelegate
-                                        public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                            BotWebViewContainer.this.lambda$onEventReceived$19(i9, myWebView3, tLObject, tLRPC$TL_error);
-                                        }
-                                    });
-                                    return;
+                                c5 = 65535;
+                                if (c5 != 0) {
                                 }
-                                try {
-                                    JSONObject jSONObject14 = new JSONObject();
-                                    jSONObject14.put("status", "cancelled");
-                                    notifyEvent("write_access_requested", jSONObject14);
-                                    return;
-                                } catch (Exception e11) {
-                                    FileLog.e(e11);
-                                    return;
+                                i2 = i;
+                                if (i2 >= 0) {
                                 }
-                            case '!':
-                                this.delegate.onWebAppExpand();
+                            }
+                            break;
+                        case 31:
+                            this.delegate.onWebAppSetBackgroundColor(Color.parseColor(new JSONObject(str2).optString("color", "#ffffff")) | (-16777216));
+                            return;
+                        case ' ':
+                            if (!ignoreDialog(3)) {
+                                final int i9 = this.currentAccount;
+                                final MyWebView myWebView3 = this.webView;
+                                TL_bots.canSendMessage cansendmessage = new TL_bots.canSendMessage();
+                                cansendmessage.bot = MessagesController.getInstance(this.currentAccount).getInputUser(this.botUser);
+                                ConnectionsManager.getInstance(this.currentAccount).sendRequest(cansendmessage, new RequestDelegate() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda7
+                                    @Override // org.telegram.tgnet.RequestDelegate
+                                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                                        BotWebViewContainer.this.lambda$onEventReceived$19(i9, myWebView3, tLObject, tL_error);
+                                    }
+                                });
                                 return;
-                            default:
-                                FileLog.d("unknown webapp event " + str);
+                            }
+                            try {
+                                JSONObject jSONObject14 = new JSONObject();
+                                jSONObject14.put("status", "cancelled");
+                                notifyEvent("write_access_requested", jSONObject14);
                                 return;
-                        }
-                        notifyBiometryReceived();
-                    } catch (Exception e12) {
-                        e = e12;
-                        FileLog.e(e);
+                            } catch (Exception e11) {
+                                FileLog.e(e11);
+                                return;
+                            }
+                        case '!':
+                            this.delegate.onWebAppExpand();
+                            return;
+                        default:
+                            FileLog.d("unknown webapp event " + str);
+                            return;
                     }
-                } catch (JSONException e13) {
-                    e = e13;
+                    notifyBiometryReceived();
+                } catch (JSONException e12) {
+                    e = e12;
                     FileLog.e(e);
                 }
-            } catch (IllegalArgumentException e14) {
-                e = e14;
+            } catch (Exception e13) {
+                e = e13;
                 FileLog.e(e);
             }
         }
@@ -4641,7 +4629,18 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         }
         try {
             String replace = settings.getUserAgentString().replace("; wv)", ")");
-            settings.setUserAgentString(replace.replaceAll("\\(Linux; Android.+;[^)]+\\)", "(Linux; Android " + Build.VERSION.RELEASE + "; K)").replaceAll("Version/[\\d\\.]+ ", ""));
+            StringBuilder sb = new StringBuilder();
+            sb.append("(Linux; Android ");
+            String str = Build.VERSION.RELEASE;
+            sb.append(str);
+            sb.append("; K)");
+            String replaceAll = replace.replaceAll("\\(Linux; Android.+;[^)]+\\)", sb.toString()).replaceAll("Version/[\\d\\.]+ ", "");
+            if (this.bot) {
+                PackageInfo packageInfo = ApplicationLoader.applicationContext.getPackageManager().getPackageInfo(ApplicationLoader.applicationContext.getPackageName(), 0);
+                int devicePerformanceClass = SharedConfig.getDevicePerformanceClass();
+                replaceAll = replaceAll + " Telegram-Android/" + packageInfo.versionName + " (" + capitalizeFirst(Build.MANUFACTURER) + " " + Build.MODEL + "; Android " + str + "; SDK " + Build.VERSION.SDK_INT + "; " + (devicePerformanceClass == 0 ? "LOW" : devicePerformanceClass == 1 ? "AVERAGE" : "HIGH") + ")";
+            }
+            settings.setUserAgentString(replaceAll);
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -4915,7 +4914,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     }
 
     public void loadFlickerAndSettingsItem(int i, long j, ActionBarMenuSubItem actionBarMenuSubItem) {
-        TLRPC$TL_attachMenuBot tLRPC$TL_attachMenuBot;
+        TLRPC.TL_attachMenuBot tL_attachMenuBot;
         boolean z;
         String publicUsername = UserObject.getPublicUsername(MessagesController.getInstance(i).getUser(Long.valueOf(j)));
         if (publicUsername != null && publicUsername.equals("DurgerKingBot")) {
@@ -4925,31 +4924,31 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             setupFlickerParams(false);
             return;
         }
-        Iterator it = MediaDataController.getInstance(i).getAttachMenuBots().bots.iterator();
+        Iterator<TLRPC.TL_attachMenuBot> it = MediaDataController.getInstance(i).getAttachMenuBots().bots.iterator();
         while (true) {
             if (!it.hasNext()) {
-                tLRPC$TL_attachMenuBot = null;
+                tL_attachMenuBot = null;
                 break;
             }
-            tLRPC$TL_attachMenuBot = (TLRPC$TL_attachMenuBot) it.next();
-            if (tLRPC$TL_attachMenuBot.bot_id == j) {
+            tL_attachMenuBot = it.next();
+            if (tL_attachMenuBot.bot_id == j) {
                 break;
             }
         }
-        if (tLRPC$TL_attachMenuBot == null) {
-            TLRPC$TL_messages_getAttachMenuBot tLRPC$TL_messages_getAttachMenuBot = new TLRPC$TL_messages_getAttachMenuBot();
-            tLRPC$TL_messages_getAttachMenuBot.bot = MessagesController.getInstance(i).getInputUser(j);
-            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_getAttachMenuBot, new RequestDelegate() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda4
+        if (tL_attachMenuBot == null) {
+            TLRPC.TL_messages_getAttachMenuBot tL_messages_getAttachMenuBot = new TLRPC.TL_messages_getAttachMenuBot();
+            tL_messages_getAttachMenuBot.bot = MessagesController.getInstance(i).getInputUser(j);
+            ConnectionsManager.getInstance(i).sendRequest(tL_messages_getAttachMenuBot, new RequestDelegate() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda4
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    BotWebViewContainer.this.lambda$loadFlickerAndSettingsItem$2(tLObject, tLRPC$TL_error);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    BotWebViewContainer.this.lambda$loadFlickerAndSettingsItem$2(tLObject, tL_error);
                 }
             });
             return;
         }
-        TLRPC$TL_attachMenuBotIcon placeholderStaticAttachMenuBotIcon = MediaDataController.getPlaceholderStaticAttachMenuBotIcon(tLRPC$TL_attachMenuBot);
+        TLRPC.TL_attachMenuBotIcon placeholderStaticAttachMenuBotIcon = MediaDataController.getPlaceholderStaticAttachMenuBotIcon(tL_attachMenuBot);
         if (placeholderStaticAttachMenuBotIcon == null) {
-            placeholderStaticAttachMenuBotIcon = MediaDataController.getStaticAttachMenuBotIcon(tLRPC$TL_attachMenuBot);
+            placeholderStaticAttachMenuBotIcon = MediaDataController.getStaticAttachMenuBotIcon(tL_attachMenuBot);
             z = true;
         } else {
             z = false;
@@ -4957,7 +4956,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         if (placeholderStaticAttachMenuBotIcon != null) {
             this.flickerView.setVisibility(0);
             this.flickerView.setAlpha(1.0f);
-            this.flickerView.setImage(ImageLocation.getForDocument(placeholderStaticAttachMenuBotIcon.icon), (String) null, (Drawable) null, tLRPC$TL_attachMenuBot);
+            this.flickerView.setImage(ImageLocation.getForDocument(placeholderStaticAttachMenuBotIcon.icon), (String) null, (Drawable) null, tL_attachMenuBot);
             setupFlickerParams(z);
         }
     }
@@ -5167,8 +5166,8 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         }
     }
 
-    public void setBotUser(TLRPC$User tLRPC$User) {
-        this.botUser = tLRPC$User;
+    public void setBotUser(TLRPC.User user) {
+        this.botUser = user;
     }
 
     public void setDelegate(Delegate delegate) {

@@ -340,7 +340,7 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:49:0x0108  */
     /* JADX WARN: Type inference failed for: r7v0 */
-    /* JADX WARN: Type inference failed for: r7v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r7v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v3 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

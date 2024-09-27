@@ -34,6 +34,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLObject;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.web.BotWebViewContainer;
@@ -184,7 +185,7 @@ public class WebMetadataCache {
             abstractSerializedData.writeInt32(this.actionBarColor);
             abstractSerializedData.writeInt32(this.backgroundColor);
             if (this.favicon == null) {
-                abstractSerializedData.writeInt32(1450380236);
+                abstractSerializedData.writeInt32(TLRPC.TL_null.constructor);
                 return;
             }
             abstractSerializedData.writeInt32(953850003);

@@ -28,10 +28,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$Photo;
-import org.telegram.tgnet.TLRPC$PhotoSize;
-import org.telegram.tgnet.TLRPC$WebPage;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.AnimatedFloat;
@@ -104,7 +101,7 @@ public class LinkPreview extends View {
         public String name;
         public int photoSize;
         public String url;
-        public TLRPC$WebPage webpage;
+        public TLRPC.WebPage webpage;
 
         public static WebPagePreview TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
             if (-625858389 != i) {
@@ -126,7 +123,7 @@ public class LinkPreview extends View {
             this.captionAbove = (readInt32 & 16) != 0;
             this.url = abstractSerializedData.readString(z);
             if ((this.flags & 1) != 0) {
-                this.webpage = TLRPC$WebPage.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                this.webpage = TLRPC.WebPage.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
             }
             if ((this.flags & 2) != 0) {
                 this.name = abstractSerializedData.readString(z);
@@ -260,7 +257,7 @@ public class LinkPreview extends View {
             canvas.drawPath(this.path, this.previewPaint);
             canvas.save();
             canvas.clipPath(this.path);
-            this.previewPaint.setAlpha(NotificationCenter.didClearDatabase);
+            this.previewPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
             float f15 = this.density;
             canvas.drawRect(f15 * 10.0f, f10, f15 * 13.0f, f13, this.previewPaint);
             canvas.restore();
@@ -483,7 +480,7 @@ public class LinkPreview extends View {
         }
         if (withPreview()) {
             String fromUrl = TextUtils.isEmpty(this.webpage.name) ? fromUrl(this.webpage.url) : this.webpage.name;
-            TLRPC$WebPage tLRPC$WebPage = this.webpage.webpage;
+            TLRPC.WebPage webPage = this.webpage.webpage;
             int i4 = this.maxWidth;
             int i5 = this.padx;
             float f = (i4 - i5) - i5;
@@ -508,16 +505,16 @@ public class LinkPreview extends View {
             this.messageText = maxWidth;
             this.w = Math.max(this.w, Math.min(maxWidth.getCurrentWidth() + (this.density * 20.0f), f));
             this.h = this.h + this.messageText.getHeight() + (this.density * 7.0f);
-            this.hasPhoto = tLRPC$WebPage.photo != null || MessageObject.isVideoDocument(tLRPC$WebPage.document);
+            this.hasPhoto = webPage.photo != null || MessageObject.isVideoDocument(webPage.document);
             WebPagePreview webPagePreview = this.webpage;
             boolean z4 = !webPagePreview.largePhoto;
             this.smallPhoto = z4;
             int i6 = (!this.video || (webPagePreview.flags & 4) == 0) ? ((int) (z4 ? 48.0f : (f / this.density) - 40.0f)) * 2 : webPagePreview.photoSize;
             this.photoImage.setRoundRadius((int) (this.density * 4.0f));
-            TLRPC$Photo tLRPC$Photo = tLRPC$WebPage.photo;
-            if (tLRPC$Photo != null) {
-                TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, 1, false, null, false);
-                TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$WebPage.photo.sizes, (int) (i6 * this.density), false, closestPhotoSizeWithSize, false);
+            TLRPC.Photo photo = webPage.photo;
+            if (photo != null) {
+                TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, 1, false, null, false);
+                TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(webPage.photo.sizes, (int) (i6 * this.density), false, closestPhotoSizeWithSize, false);
                 if (closestPhotoSizeWithSize2 != null) {
                     i = closestPhotoSizeWithSize2.w;
                     i2 = closestPhotoSizeWithSize2.h;
@@ -526,17 +523,17 @@ public class LinkPreview extends View {
                     i2 = 0;
                 }
                 imageReceiver2 = this.photoImage;
-                forDocument = ImageLocation.getForPhoto(closestPhotoSizeWithSize2, tLRPC$WebPage.photo);
+                forDocument = ImageLocation.getForPhoto(closestPhotoSizeWithSize2, webPage.photo);
                 str = i6 + "_" + i6;
-                forDocument2 = this.video ? null : ImageLocation.getForPhoto(closestPhotoSizeWithSize, tLRPC$WebPage.photo);
+                forDocument2 = this.video ? null : ImageLocation.getForPhoto(closestPhotoSizeWithSize, webPage.photo);
                 if (!this.video) {
                     str2 = i6 + "_" + i6;
                 }
             } else {
-                TLRPC$Document tLRPC$Document = tLRPC$WebPage.document;
-                if (tLRPC$Document != null) {
-                    TLRPC$PhotoSize closestPhotoSizeWithSize3 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 1, false, null, false);
-                    TLRPC$PhotoSize closestPhotoSizeWithSize4 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$WebPage.document.thumbs, (int) (i6 * this.density), false, closestPhotoSizeWithSize3, false);
+                TLRPC.Document document = webPage.document;
+                if (document != null) {
+                    TLRPC.PhotoSize closestPhotoSizeWithSize3 = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 1, false, null, false);
+                    TLRPC.PhotoSize closestPhotoSizeWithSize4 = FileLoader.getClosestPhotoSizeWithSize(webPage.document.thumbs, (int) (i6 * this.density), false, closestPhotoSizeWithSize3, false);
                     if (closestPhotoSizeWithSize4 != null) {
                         i = closestPhotoSizeWithSize4.w;
                         i2 = closestPhotoSizeWithSize4.h;
@@ -545,9 +542,9 @@ public class LinkPreview extends View {
                         i2 = 0;
                     }
                     ImageReceiver imageReceiver3 = this.photoImage;
-                    forDocument = ImageLocation.getForDocument(closestPhotoSizeWithSize4, tLRPC$WebPage.document);
+                    forDocument = ImageLocation.getForDocument(closestPhotoSizeWithSize4, webPage.document);
                     str = i6 + "_" + i6;
-                    forDocument2 = this.video ? null : ImageLocation.getForDocument(closestPhotoSizeWithSize3, tLRPC$WebPage.document);
+                    forDocument2 = this.video ? null : ImageLocation.getForDocument(closestPhotoSizeWithSize3, webPage.document);
                     if (this.video) {
                         imageReceiver2 = imageReceiver3;
                     } else {
@@ -556,10 +553,10 @@ public class LinkPreview extends View {
                         imageReceiver = imageReceiver3;
                         imageReceiver.setImage(forDocument, str, imageLocation, str2, 0L, null, null, 0);
                         this.previewHeight += this.density * 5.66f;
-                        z = !TextUtils.isEmpty(tLRPC$WebPage.site_name);
+                        z = !TextUtils.isEmpty(webPage.site_name);
                         this.hasSiteName = z;
                         if (z) {
-                            Text textSizePx = new Text(tLRPC$WebPage.site_name, 14.0f, AndroidUtilities.bold()).setTextSizePx(this.density * 14.0f);
+                            Text textSizePx = new Text(webPage.site_name, 14.0f, AndroidUtilities.bold()).setTextSizePx(this.density * 14.0f);
                             float f2 = this.density;
                             Text maxWidth2 = textSizePx.setMaxWidth((int) Math.ceil((f - (f2 * 40.0f)) - ((this.hasPhoto && this.smallPhoto) ? f2 * 60.0f : 0.0f)));
                             this.siteNameText = maxWidth2;
@@ -572,10 +569,10 @@ public class LinkPreview extends View {
                         } else {
                             i3 = 0;
                         }
-                        z2 = !TextUtils.isEmpty(tLRPC$WebPage.title);
+                        z2 = !TextUtils.isEmpty(webPage.title);
                         this.hasTitle = z2;
                         if (z2) {
-                            Text textSizePx2 = new Text(tLRPC$WebPage.title, 14.0f, AndroidUtilities.bold()).setTextSizePx(this.density * 14.0f);
+                            Text textSizePx2 = new Text(webPage.title, 14.0f, AndroidUtilities.bold()).setTextSizePx(this.density * 14.0f);
                             float f5 = this.density;
                             Text maxWidth3 = textSizePx2.setMaxWidth((int) Math.ceil((f - (f5 * 40.0f)) - ((this.hasPhoto && this.smallPhoto) ? f5 * 60.0f : 0.0f)));
                             this.titleText = maxWidth3;
@@ -586,12 +583,12 @@ public class LinkPreview extends View {
                             this.previewHeight = this.previewHeight + this.titleText.getHeight() + (this.density * 2.66f);
                             i3 += this.titleText.getLineCount();
                         }
-                        z3 = !TextUtils.isEmpty(tLRPC$WebPage.description);
+                        z3 = !TextUtils.isEmpty(webPage.description);
                         this.hasDescription = z3;
                         if (z3) {
                             this.descriptionPaint.setTextSize(this.density * 14.0f);
                             int i7 = 3 - i3;
-                            this.descriptionLayout = ChatMessageCell.generateStaticLayout(tLRPC$WebPage.description, this.descriptionPaint, (int) Math.ceil(Math.max(1.0f, f - (this.density * 40.0f))), (int) Math.ceil(Math.max(1.0f, f - ((40 + ((this.hasPhoto && this.smallPhoto) ? 60 : 0)) * this.density))), i7, 4);
+                            this.descriptionLayout = ChatMessageCell.generateStaticLayout(webPage.description, this.descriptionPaint, (int) Math.ceil(Math.max(1.0f, f - (this.density * 40.0f))), (int) Math.ceil(Math.max(1.0f, f - ((40 + ((this.hasPhoto && this.smallPhoto) ? 60 : 0)) * this.density))), i7, 4);
                             this.descriptionLayoutWidth = 0.0f;
                             this.descriptionLayoutLeft = Float.MAX_VALUE;
                             int i8 = 0;
@@ -617,15 +614,15 @@ public class LinkPreview extends View {
                     i = 0;
                     i2 = 0;
                     this.previewHeight += this.density * 5.66f;
-                    z = !TextUtils.isEmpty(tLRPC$WebPage.site_name);
+                    z = !TextUtils.isEmpty(webPage.site_name);
                     this.hasSiteName = z;
                     if (z) {
                     }
-                    z2 = !TextUtils.isEmpty(tLRPC$WebPage.title);
+                    z2 = !TextUtils.isEmpty(webPage.title);
                     this.hasTitle = z2;
                     if (z2) {
                     }
-                    z3 = !TextUtils.isEmpty(tLRPC$WebPage.description);
+                    z3 = !TextUtils.isEmpty(webPage.description);
                     this.hasDescription = z3;
                     if (z3) {
                     }
@@ -644,15 +641,15 @@ public class LinkPreview extends View {
             imageLocation = forDocument2;
             imageReceiver.setImage(forDocument, str, imageLocation, str2, 0L, null, null, 0);
             this.previewHeight += this.density * 5.66f;
-            z = !TextUtils.isEmpty(tLRPC$WebPage.site_name);
+            z = !TextUtils.isEmpty(webPage.site_name);
             this.hasSiteName = z;
             if (z) {
             }
-            z2 = !TextUtils.isEmpty(tLRPC$WebPage.title);
+            z2 = !TextUtils.isEmpty(webPage.title);
             this.hasTitle = z2;
             if (z2) {
             }
-            z3 = !TextUtils.isEmpty(tLRPC$WebPage.description);
+            z3 = !TextUtils.isEmpty(webPage.description);
             this.hasDescription = z3;
             if (z3) {
             }

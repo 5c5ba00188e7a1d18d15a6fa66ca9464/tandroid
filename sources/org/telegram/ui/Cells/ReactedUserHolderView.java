@@ -31,19 +31,8 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$ChatPhoto;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$MessageMedia;
-import org.telegram.tgnet.TLRPC$MessagePeerReaction;
-import org.telegram.tgnet.TLRPC$Photo;
-import org.telegram.tgnet.TLRPC$PhotoSize;
-import org.telegram.tgnet.TLRPC$Reaction;
-import org.telegram.tgnet.TLRPC$TL_availableReaction;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$UserProfilePhoto;
-import org.telegram.tgnet.tl.TL_stories$StoryFwdHeader;
-import org.telegram.tgnet.tl.TL_stories$StoryItem;
+import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
@@ -109,9 +98,8 @@ public class ReactedUserHolderView extends FrameLayout {
         setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(50.0f)));
         int i3 = i == STYLE_STORY ? 48 : 34;
         BackupImageView backupImageView = new BackupImageView(context) { // from class: org.telegram.ui.Cells.ReactedUserHolderView.2
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-            public void onDraw(Canvas canvas) {
+            protected void onDraw(Canvas canvas) {
                 if (i != ReactedUserHolderView.STYLE_STORY) {
                     super.onDraw(canvas);
                     return;
@@ -273,23 +261,23 @@ public class ReactedUserHolderView extends FrameLayout {
     public void openStory(long j, Runnable runnable) {
     }
 
-    public void setUserReaction(TLRPC$MessagePeerReaction tLRPC$MessagePeerReaction) {
-        TLRPC$Chat chat;
-        TLRPC$User tLRPC$User;
-        if (tLRPC$MessagePeerReaction == null) {
+    public void setUserReaction(TLRPC.MessagePeerReaction messagePeerReaction) {
+        TLRPC.Chat chat;
+        TLRPC.User user;
+        if (messagePeerReaction == null) {
             return;
         }
-        long peerId = MessageObject.getPeerId(tLRPC$MessagePeerReaction.peer_id);
+        long peerId = MessageObject.getPeerId(messagePeerReaction.peer_id);
         int i = (peerId > 0L ? 1 : (peerId == 0L ? 0 : -1));
         MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
         if (i > 0) {
-            tLRPC$User = messagesController.getUser(Long.valueOf(peerId));
+            user = messagesController.getUser(Long.valueOf(peerId));
             chat = null;
         } else {
             chat = messagesController.getChat(Long.valueOf(-peerId));
-            tLRPC$User = null;
+            user = null;
         }
-        setUserReaction(tLRPC$User, chat, tLRPC$MessagePeerReaction.reaction, false, tLRPC$MessagePeerReaction.date, null, false, tLRPC$MessagePeerReaction.dateIsSeen, false);
+        setUserReaction(user, chat, messagePeerReaction.reaction, false, messagePeerReaction.date, null, false, messagePeerReaction.dateIsSeen, false);
     }
 
     /* JADX WARN: Multi-variable type inference failed */
@@ -304,45 +292,45 @@ public class ReactedUserHolderView extends FrameLayout {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void setUserReaction(TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat, TLRPC$Reaction tLRPC$Reaction, boolean z, long j, TL_stories$StoryItem tL_stories$StoryItem, boolean z2, boolean z3, boolean z4) {
+    public void setUserReaction(TLRPC.User user, TLRPC.Chat chat, TLRPC.Reaction reaction, boolean z, long j, TL_stories.StoryItem storyItem, boolean z2, boolean z3, boolean z4) {
         SimpleTextView simpleTextView;
         String str;
-        TLRPC$ChatPhoto tLRPC$ChatPhoto;
+        TLRPC.ChatPhoto chatPhoto;
         Drawable drawable;
         String formatString;
         boolean z5;
         boolean z6;
         long j2;
         float f;
-        TL_stories$StoryFwdHeader tL_stories$StoryFwdHeader;
+        TL_stories.StoryFwdHeader storyFwdHeader;
         int length;
         RelativeSizeSpan relativeSizeSpan;
-        TLRPC$Document tLRPC$Document;
+        TLRPC.Document document;
         BackupImageView backupImageView;
         ImageLocation forDocument;
-        TLRPC$Photo tLRPC$Photo;
-        TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto;
-        TLRPC$User tLRPC$User2 = tLRPC$User == null ? tLRPC$Chat : tLRPC$User;
-        if (tLRPC$User2 == null) {
+        TLRPC.Photo photo;
+        TLRPC.UserProfilePhoto userProfilePhoto;
+        TLRPC.User user2 = user == null ? chat : user;
+        if (user2 == null) {
             return;
         }
-        this.statusBadgeComponent.updateDrawable(tLRPC$User, tLRPC$Chat, Theme.getColor(this.style == STYLE_STORY ? Theme.key_windowBackgroundWhiteBlackText : Theme.key_chats_verifiedBackground, this.resourcesProvider), false);
-        this.avatarDrawable.setInfo(this.currentAccount, (TLObject) tLRPC$User2);
-        if (tLRPC$User != null) {
-            this.dialogId = tLRPC$User.id;
+        this.statusBadgeComponent.updateDrawable(user, chat, Theme.getColor(this.style == STYLE_STORY ? Theme.key_windowBackgroundWhiteBlackText : Theme.key_chats_verifiedBackground, this.resourcesProvider), false);
+        this.avatarDrawable.setInfo(this.currentAccount, (TLObject) user2);
+        if (user != null) {
+            this.dialogId = user.id;
             simpleTextView = this.titleView;
-            str = UserObject.getUserName(tLRPC$User);
+            str = UserObject.getUserName(user);
         } else {
-            this.dialogId = -tLRPC$Chat.id;
+            this.dialogId = -chat.id;
             simpleTextView = this.titleView;
-            str = tLRPC$Chat.title;
+            str = chat.title;
         }
         simpleTextView.setText(str);
         Drawable drawable2 = this.avatarDrawable;
-        if (tLRPC$User == null ? !((tLRPC$ChatPhoto = tLRPC$Chat.photo) == null || (drawable = tLRPC$ChatPhoto.strippedBitmap) == null) : !((tLRPC$UserProfilePhoto = tLRPC$User.photo) == null || (drawable = tLRPC$UserProfilePhoto.strippedBitmap) == null)) {
+        if (user == null ? !((chatPhoto = chat.photo) == null || (drawable = chatPhoto.strippedBitmap) == null) : !((userProfilePhoto = user.photo) == null || (drawable = userProfilePhoto.strippedBitmap) == null)) {
             drawable2 = drawable;
         }
-        this.avatarView.setImage(ImageLocation.getForUserOrChat(tLRPC$User2, 1), "50_50", drawable2, tLRPC$User2);
+        this.avatarView.setImage(ImageLocation.getForUserOrChat(user2, 1), "50_50", drawable2, user2);
         if (z) {
             BackupImageView backupImageView2 = this.reactView;
             if (backupImageView2 != null) {
@@ -353,18 +341,18 @@ public class ReactedUserHolderView extends FrameLayout {
             this.reactView.setImageDrawable(mutate);
             formatString = LocaleController.formatString("AccDescrLike", R.string.AccDescrLike, new Object[0]);
             z5 = true;
-        } else if (tLRPC$Reaction != null) {
-            ReactionsLayoutInBubble.VisibleReaction fromTL = ReactionsLayoutInBubble.VisibleReaction.fromTL(tLRPC$Reaction);
+        } else if (reaction != null) {
+            ReactionsLayoutInBubble.VisibleReaction fromTL = ReactionsLayoutInBubble.VisibleReaction.fromTL(reaction);
             if (fromTL.emojicon != null) {
                 BackupImageView backupImageView3 = this.reactView;
                 if (backupImageView3 != null) {
                     backupImageView3.setAnimatedEmojiDrawable(null);
                 }
-                TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(this.currentAccount).getReactionsMap().get(fromTL.emojicon);
+                TLRPC.TL_availableReaction tL_availableReaction = MediaDataController.getInstance(this.currentAccount).getReactionsMap().get(fromTL.emojicon);
                 BackupImageView backupImageView4 = this.reactView;
                 if (backupImageView4 != null) {
-                    if (tLRPC$TL_availableReaction != null) {
-                        this.reactView.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.center_icon), "40_40_lastreactframe", "webp", DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.static_icon.thumbs, Theme.key_windowBackgroundGray, 1.0f), tLRPC$TL_availableReaction);
+                    if (tL_availableReaction != null) {
+                        this.reactView.setImage(ImageLocation.getForDocument(tL_availableReaction.center_icon), "40_40_lastreactframe", "webp", DocumentObject.getSvgThumb(tL_availableReaction.static_icon.thumbs, Theme.key_windowBackgroundGray, 1.0f), tL_availableReaction);
                         z6 = true;
                     } else {
                         backupImageView4.setImageDrawable(null);
@@ -387,7 +375,7 @@ public class ReactedUserHolderView extends FrameLayout {
             CharSequence text = this.titleView.getText();
             Object obj = fromTL.emojicon;
             if (obj == null) {
-                obj = tLRPC$Reaction;
+                obj = reaction;
             }
             formatString = LocaleController.formatString("AccDescrReactedWith", i, text, obj);
             z5 = z6;
@@ -400,27 +388,27 @@ public class ReactedUserHolderView extends FrameLayout {
             formatString = LocaleController.formatString("AccDescrPersonHasSeen", R.string.AccDescrPersonHasSeen, this.titleView.getText());
             z5 = false;
         }
-        if (tL_stories$StoryItem != null) {
-            this.storyId = tL_stories$StoryItem.id;
+        if (storyItem != null) {
+            this.storyId = storyItem.id;
             if (this.storyPreviewView != null) {
-                TLRPC$MessageMedia tLRPC$MessageMedia = tL_stories$StoryItem.media;
-                if (tLRPC$MessageMedia == null || (tLRPC$Photo = tLRPC$MessageMedia.photo) == null) {
-                    if (tLRPC$MessageMedia != null && (tLRPC$Document = tLRPC$MessageMedia.document) != null) {
-                        TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 35, false, null, true);
+                TLRPC.MessageMedia messageMedia = storyItem.media;
+                if (messageMedia == null || (photo = messageMedia.photo) == null) {
+                    if (messageMedia != null && (document = messageMedia.document) != null) {
+                        TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 35, false, null, true);
                         backupImageView = this.storyPreviewView;
-                        forDocument = ImageLocation.getForDocument(closestPhotoSizeWithSize, tL_stories$StoryItem.media.document);
+                        forDocument = ImageLocation.getForDocument(closestPhotoSizeWithSize, storyItem.media.document);
                     }
                     this.storyPreviewView.setRoundRadius(AndroidUtilities.dp(3.33f));
                 } else {
-                    TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, 35, false, null, true);
+                    TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, 35, false, null, true);
                     backupImageView = this.storyPreviewView;
-                    forDocument = ImageLocation.getForPhoto(closestPhotoSizeWithSize2, tL_stories$StoryItem.media.photo);
+                    forDocument = ImageLocation.getForPhoto(closestPhotoSizeWithSize2, storyItem.media.photo);
                 }
-                backupImageView.setImage(forDocument, "22_35", (ImageLocation) null, (String) null, -1, tL_stories$StoryItem);
+                backupImageView.setImage(forDocument, "22_35", (ImageLocation) null, (String) null, -1, storyItem);
                 this.storyPreviewView.setRoundRadius(AndroidUtilities.dp(3.33f));
             }
             if (j <= 0) {
-                j2 = tL_stories$StoryItem.date;
+                j2 = storyItem.date;
                 if (j2 != 0) {
                     formatString = formatString + " " + LocaleController.formatSeenDate(j2);
                 }
@@ -428,12 +416,12 @@ public class ReactedUserHolderView extends FrameLayout {
                 f = 0.0f;
                 if (j2 == 0) {
                     this.subtitleView.setVisibility(0);
-                    MessageSeenCheckDrawable messageSeenCheckDrawable = tL_stories$StoryItem != null ? z2 ? forwardDrawable : repostDrawable : z3 ? seenDrawable : reactDrawable;
+                    MessageSeenCheckDrawable messageSeenCheckDrawable = storyItem != null ? z2 ? forwardDrawable : repostDrawable : z3 ? seenDrawable : reactDrawable;
                     SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
                     spannableStringBuilder.append(messageSeenCheckDrawable.getSpanned(getContext(), this.resourcesProvider));
                     spannableStringBuilder.append((CharSequence) LocaleController.formatSeenDate(j2));
-                    if (z2 || tL_stories$StoryItem == null || TextUtils.isEmpty(tL_stories$StoryItem.caption)) {
-                        if (!z2 && tL_stories$StoryItem != null && (tL_stories$StoryFwdHeader = tL_stories$StoryItem.fwd_from) != null && tL_stories$StoryFwdHeader.modified) {
+                    if (z2 || storyItem == null || TextUtils.isEmpty(storyItem.caption)) {
+                        if (!z2 && storyItem != null && (storyFwdHeader = storyItem.fwd_from) != null && storyFwdHeader.modified) {
                             spannableStringBuilder.append((CharSequence) "\u2004");
                             spannableStringBuilder.append((CharSequence) ".");
                             DotDividerSpan dotDividerSpan = new DotDividerSpan();

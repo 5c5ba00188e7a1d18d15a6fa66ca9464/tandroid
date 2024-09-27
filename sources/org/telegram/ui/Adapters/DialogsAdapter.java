@@ -37,17 +37,9 @@ import org.telegram.messenger.Utilities;
 import org.telegram.messenger.support.LongSparseIntArray;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$Dialog;
-import org.telegram.tgnet.TLRPC$RecentMeUrl;
-import org.telegram.tgnet.TLRPC$RequestPeerType;
-import org.telegram.tgnet.TLRPC$TL_contact;
-import org.telegram.tgnet.TLRPC$TL_requestPeerTypeBroadcast;
-import org.telegram.tgnet.TLRPC$TL_requestPeerTypeChat;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$UserStatus;
-import org.telegram.tgnet.tl.TL_chatlists$TL_chatlists_chatlistUpdates;
-import org.telegram.tgnet.tl.TL_stories$PeerStories;
+import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_chatlists;
+import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Adapters.DialogsAdapter;
@@ -102,7 +94,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     private DialogsPreloader preloader;
     private PullForegroundDrawable pullForegroundDrawable;
     RecyclerListView recyclerListView;
-    private TLRPC$RequestPeerType requestPeerType;
+    private TLRPC.RequestPeerType requestPeerType;
     private ArrayList selectedDialogs;
     boolean updateListPending;
     private boolean firstUpdate = true;
@@ -258,14 +250,14 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes4.dex */
     public class ItemInternal extends AdapterWithDiffUtils.Item {
-        TL_chatlists$TL_chatlists_chatlistUpdates chatlistUpdates;
-        TLRPC$TL_contact contact;
-        TLRPC$Dialog dialog;
+        TL_chatlists.TL_chatlists_chatlistUpdates chatlistUpdates;
+        TLRPC.TL_contact contact;
+        TLRPC.Dialog dialog;
         private int emptyType;
         private boolean isFolder;
         boolean isForumCell;
         private boolean pinned;
-        TLRPC$RecentMeUrl recentMeUrl;
+        TLRPC.RecentMeUrl recentMeUrl;
         private final int stableId;
 
         public ItemInternal(int i) {
@@ -296,27 +288,27 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public ItemInternal(int i, TLRPC$Dialog tLRPC$Dialog) {
+        public ItemInternal(int i, TLRPC.Dialog dialog) {
             super(i, true);
             int i2;
             boolean z = true;
-            this.dialog = tLRPC$Dialog;
-            if (tLRPC$Dialog != null) {
-                i2 = DialogsAdapter.this.dialogsStableIds.get(tLRPC$Dialog.id, -1);
+            this.dialog = dialog;
+            if (dialog != null) {
+                i2 = DialogsAdapter.this.dialogsStableIds.get(dialog.id, -1);
                 if (i2 < 0) {
                     int i3 = DialogsAdapter.this.stableIdPointer;
                     DialogsAdapter.this.stableIdPointer = i3 + 1;
                     this.stableId = i3;
-                    DialogsAdapter.this.dialogsStableIds.put(tLRPC$Dialog.id, i3);
-                    if (tLRPC$Dialog == null) {
+                    DialogsAdapter.this.dialogsStableIds.put(dialog.id, i3);
+                    if (dialog == null) {
                         if (DialogsAdapter.this.dialogsType == 7 || DialogsAdapter.this.dialogsType == 8) {
                             MessagesController.DialogFilter dialogFilter = MessagesController.getInstance(DialogsAdapter.this.currentAccount).selectedDialogFilter[DialogsAdapter.this.dialogsType == 8 ? (char) 1 : (char) 0];
-                            this.pinned = (dialogFilter == null || dialogFilter.pinnedDialogs.indexOfKey(tLRPC$Dialog.id) < 0) ? false : false;
+                            this.pinned = (dialogFilter == null || dialogFilter.pinnedDialogs.indexOfKey(dialog.id) < 0) ? false : false;
                         } else {
-                            this.pinned = tLRPC$Dialog.pinned;
+                            this.pinned = dialog.pinned;
                         }
-                        this.isFolder = tLRPC$Dialog.isFolder;
-                        this.isForumCell = MessagesController.getInstance(DialogsAdapter.this.currentAccount).isForum(tLRPC$Dialog.id);
+                        this.isFolder = dialog.isFolder;
+                        this.isForumCell = MessagesController.getInstance(DialogsAdapter.this.currentAccount).isForum(dialog.id);
                         return;
                     }
                     return;
@@ -328,24 +320,24 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 DialogsAdapter.this.stableIdPointer = i2 + 1;
             }
             this.stableId = i2;
-            if (tLRPC$Dialog == null) {
+            if (dialog == null) {
             }
         }
 
-        public ItemInternal(int i, TLRPC$RecentMeUrl tLRPC$RecentMeUrl) {
+        public ItemInternal(int i, TLRPC.RecentMeUrl recentMeUrl) {
             super(i, true);
-            this.recentMeUrl = tLRPC$RecentMeUrl;
+            this.recentMeUrl = recentMeUrl;
             int i2 = DialogsAdapter.this.stableIdPointer;
             DialogsAdapter.this.stableIdPointer = i2 + 1;
             this.stableId = i2;
         }
 
-        public ItemInternal(int i, TLRPC$TL_contact tLRPC$TL_contact) {
+        public ItemInternal(int i, TLRPC.TL_contact tL_contact) {
             super(i, true);
             int i2;
-            this.contact = tLRPC$TL_contact;
-            if (tLRPC$TL_contact != null) {
-                i2 = DialogsAdapter.this.dialogsStableIds.get(tLRPC$TL_contact.user_id, -1);
+            this.contact = tL_contact;
+            if (tL_contact != null) {
+                i2 = DialogsAdapter.this.dialogsStableIds.get(tL_contact.user_id, -1);
                 if (i2 <= 0) {
                     int i3 = DialogsAdapter.this.stableIdPointer;
                     DialogsAdapter.this.stableIdPointer = i3 + 1;
@@ -360,37 +352,37 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             this.stableId = i2;
         }
 
-        public ItemInternal(TL_chatlists$TL_chatlists_chatlistUpdates tL_chatlists$TL_chatlists_chatlistUpdates) {
+        public ItemInternal(TL_chatlists.TL_chatlists_chatlistUpdates tL_chatlists_chatlistUpdates) {
             super(17, true);
-            this.chatlistUpdates = tL_chatlists$TL_chatlists_chatlistUpdates;
+            this.chatlistUpdates = tL_chatlists_chatlistUpdates;
             int i = DialogsAdapter.this.stableIdPointer;
             DialogsAdapter.this.stableIdPointer = i + 1;
             this.stableId = i;
         }
 
         boolean compare(ItemInternal itemInternal) {
-            TLRPC$TL_contact tLRPC$TL_contact;
+            TLRPC.TL_contact tL_contact;
             String str;
-            TLRPC$Dialog tLRPC$Dialog;
-            TLRPC$Dialog tLRPC$Dialog2;
+            TLRPC.Dialog dialog;
+            TLRPC.Dialog dialog2;
             int i = this.viewType;
             if (i != itemInternal.viewType) {
                 return false;
             }
             if (i == 0) {
-                TLRPC$Dialog tLRPC$Dialog3 = this.dialog;
-                return tLRPC$Dialog3 != null && (tLRPC$Dialog2 = itemInternal.dialog) != null && tLRPC$Dialog3.id == tLRPC$Dialog2.id && this.isFolder == itemInternal.isFolder && this.isForumCell == itemInternal.isForumCell && this.pinned == itemInternal.pinned;
+                TLRPC.Dialog dialog3 = this.dialog;
+                return dialog3 != null && (dialog2 = itemInternal.dialog) != null && dialog3.id == dialog2.id && this.isFolder == itemInternal.isFolder && this.isForumCell == itemInternal.isForumCell && this.pinned == itemInternal.pinned;
             } else if (i == 14) {
-                TLRPC$Dialog tLRPC$Dialog4 = this.dialog;
-                return tLRPC$Dialog4 != null && (tLRPC$Dialog = itemInternal.dialog) != null && tLRPC$Dialog4.id == tLRPC$Dialog.id && tLRPC$Dialog4.isFolder == tLRPC$Dialog.isFolder;
+                TLRPC.Dialog dialog4 = this.dialog;
+                return dialog4 != null && (dialog = itemInternal.dialog) != null && dialog4.id == dialog.id && dialog4.isFolder == dialog.isFolder;
             } else if (i == 4) {
-                TLRPC$RecentMeUrl tLRPC$RecentMeUrl = this.recentMeUrl;
-                return (tLRPC$RecentMeUrl == null || itemInternal.recentMeUrl == null || (str = tLRPC$RecentMeUrl.url) == null || !str.equals(str)) ? false : true;
+                TLRPC.RecentMeUrl recentMeUrl = this.recentMeUrl;
+                return (recentMeUrl == null || itemInternal.recentMeUrl == null || (str = recentMeUrl.url) == null || !str.equals(str)) ? false : true;
             } else if (i != 6) {
                 return i == 5 ? this.emptyType == itemInternal.emptyType : i != 10;
             } else {
-                TLRPC$TL_contact tLRPC$TL_contact2 = this.contact;
-                return (tLRPC$TL_contact2 == null || (tLRPC$TL_contact = itemInternal.contact) == null || tLRPC$TL_contact2.user_id != tLRPC$TL_contact.user_id) ? false : true;
+                TLRPC.TL_contact tL_contact2 = this.contact;
+                return (tL_contact2 == null || (tL_contact = itemInternal.contact) == null || tL_contact2.user_id != tL_contact.user_id) ? false : true;
             }
         }
 
@@ -508,7 +500,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         }
     }
 
-    public DialogsAdapter(DialogsActivity dialogsActivity, Context context, int i, int i2, boolean z, ArrayList arrayList, int i3, TLRPC$RequestPeerType tLRPC$RequestPeerType) {
+    public DialogsAdapter(DialogsActivity dialogsActivity, Context context, int i, int i2, boolean z, ArrayList arrayList, int i3, TLRPC.RequestPeerType requestPeerType) {
         boolean z2 = true;
         this.mContext = context;
         this.parentFragment = dialogsActivity;
@@ -521,7 +513,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         if (i2 == 0) {
             this.preloader = new DialogsPreloader();
         }
-        this.requestPeerType = tLRPC$RequestPeerType;
+        this.requestPeerType = requestPeerType;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -550,27 +542,27 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static /* synthetic */ int lambda$sortOnlineContacts$0(MessagesController messagesController, int i, TLRPC$TL_contact tLRPC$TL_contact, TLRPC$TL_contact tLRPC$TL_contact2) {
+    public static /* synthetic */ int lambda$sortOnlineContacts$0(MessagesController messagesController, int i, TLRPC.TL_contact tL_contact, TLRPC.TL_contact tL_contact2) {
         int i2;
         int i3;
-        TLRPC$User user = messagesController.getUser(Long.valueOf(tLRPC$TL_contact2.user_id));
-        TLRPC$User user2 = messagesController.getUser(Long.valueOf(tLRPC$TL_contact.user_id));
+        TLRPC.User user = messagesController.getUser(Long.valueOf(tL_contact2.user_id));
+        TLRPC.User user2 = messagesController.getUser(Long.valueOf(tL_contact.user_id));
         if (user != null) {
             if (user.self) {
                 i2 = i + 50000;
             } else {
-                TLRPC$UserStatus tLRPC$UserStatus = user.status;
-                if (tLRPC$UserStatus != null) {
-                    i2 = tLRPC$UserStatus.expires;
+                TLRPC.UserStatus userStatus = user.status;
+                if (userStatus != null) {
+                    i2 = userStatus.expires;
                 }
             }
             if (user2 != null) {
                 if (user2.self) {
                     i3 = i + 50000;
                 } else {
-                    TLRPC$UserStatus tLRPC$UserStatus2 = user2.status;
-                    if (tLRPC$UserStatus2 != null) {
-                        i3 = tLRPC$UserStatus2.expires;
+                    TLRPC.UserStatus userStatus2 = user2.status;
+                    if (userStatus2 != null) {
+                        i3 = userStatus2.expires;
                     }
                 }
                 if (i2 <= 0 && i3 > 0) {
@@ -662,8 +654,8 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         boolean z;
         ArrayList arrayList5;
         ItemInternal itemInternal5;
-        TLRPC$RequestPeerType tLRPC$RequestPeerType;
-        TLRPC$Dialog tLRPC$Dialog;
+        TLRPC.RequestPeerType requestPeerType;
+        TLRPC.Dialog dialog;
         ArrayList arrayList6;
         ItemInternal itemInternal6;
         int i2;
@@ -694,7 +686,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                     int size2 = this.onlineContacts.size();
                     int i5 = 0;
                     while (i5 < size2) {
-                        long j2 = ((TLRPC$TL_contact) this.onlineContacts.get(i5)).user_id;
+                        long j2 = ((TLRPC.TL_contact) this.onlineContacts.get(i5)).user_id;
                         if (j2 == j || messagesController.dialogs_dict.get(j2) != null) {
                             this.onlineContacts.remove(i5);
                             i5--;
@@ -712,7 +704,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             int i6 = this.dialogsType;
             if ((i6 == 7 || i6 == 8) && (dialogFilter = messagesController.selectedDialogFilter[i6 - 7]) != null && dialogFilter.isChatlist()) {
                 messagesController.checkChatlistFolderUpdate(dialogFilter.id, false);
-                TL_chatlists$TL_chatlists_chatlistUpdates chatlistFolderUpdates = messagesController.getChatlistFolderUpdates(dialogFilter.id);
+                TL_chatlists.TL_chatlists_chatlistUpdates chatlistFolderUpdates = messagesController.getChatlistFolderUpdates(dialogFilter.id);
                 if (chatlistFolderUpdates != null && chatlistFolderUpdates.missing_peers.size() > 0) {
                     this.hasChatlistHint = true;
                     this.itemInternals.add(new ItemInternal(chatlistFolderUpdates));
@@ -725,10 +717,10 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 for (int i7 = 0; i7 < dialogsArray.size(); i7++) {
                     if (this.dialogsType == 2 && (dialogsArray.get(i7) instanceof DialogsActivity.DialogsHeader)) {
                         arrayList2 = this.itemInternals;
-                        itemInternal2 = new ItemInternal(14, (TLRPC$Dialog) dialogsArray.get(i7));
+                        itemInternal2 = new ItemInternal(14, (TLRPC.Dialog) dialogsArray.get(i7));
                     } else {
                         arrayList2 = this.itemInternals;
-                        itemInternal2 = new ItemInternal(0, (TLRPC$Dialog) dialogsArray.get(i7));
+                        itemInternal2 = new ItemInternal(0, (TLRPC.Dialog) dialogsArray.get(i7));
                     }
                     arrayList2.add(itemInternal2);
                 }
@@ -767,7 +759,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                             itemInternal4 = new ItemInternal(7);
                         } else {
                             for (int i8 = 0; i8 < dialogsArray.size(); i8++) {
-                                this.itemInternals.add(new ItemInternal(0, (TLRPC$Dialog) dialogsArray.get(i8)));
+                                this.itemInternals.add(new ItemInternal(0, (TLRPC.Dialog) dialogsArray.get(i8)));
                             }
                             this.itemInternals.add(new ItemInternal(8));
                             arrayList4 = this.itemInternals;
@@ -775,12 +767,12 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                         }
                         arrayList4.add(itemInternal4);
                         for (int i9 = 0; i9 < this.onlineContacts.size(); i9++) {
-                            this.itemInternals.add(new ItemInternal(6, (TLRPC$TL_contact) this.onlineContacts.get(i9)));
+                            this.itemInternals.add(new ItemInternal(6, (TLRPC.TL_contact) this.onlineContacts.get(i9)));
                         }
                         this.itemInternals.add(new ItemInternal(10));
                         z = true;
-                        tLRPC$RequestPeerType = this.requestPeerType;
-                        if (!(tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeBroadcast)) {
+                        requestPeerType = this.requestPeerType;
+                        if (!(requestPeerType instanceof TLRPC.TL_requestPeerTypeBroadcast)) {
                         }
                         this.itemInternals.add(new ItemInternal(12));
                         if (!z) {
@@ -803,18 +795,18 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                                 itemInternal3 = new ItemInternal(7);
                             }
                             z = false;
-                            tLRPC$RequestPeerType = this.requestPeerType;
-                            if ((!(tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeBroadcast) || (tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeChat)) && this.dialogsCount > 0) {
+                            requestPeerType = this.requestPeerType;
+                            if ((!(requestPeerType instanceof TLRPC.TL_requestPeerTypeBroadcast) || (requestPeerType instanceof TLRPC.TL_requestPeerTypeChat)) && this.dialogsCount > 0) {
                                 this.itemInternals.add(new ItemInternal(12));
                             }
                             if (!z) {
                                 for (int i12 = 0; i12 < dialogsArray.size(); i12++) {
                                     if (this.dialogsType == 2 && (dialogsArray.get(i12) instanceof DialogsActivity.DialogsHeader)) {
                                         arrayList7 = this.itemInternals;
-                                        itemInternal7 = new ItemInternal(14, (TLRPC$Dialog) dialogsArray.get(i12));
+                                        itemInternal7 = new ItemInternal(14, (TLRPC.Dialog) dialogsArray.get(i12));
                                     } else {
                                         arrayList7 = this.itemInternals;
-                                        itemInternal7 = new ItemInternal(0, (TLRPC$Dialog) dialogsArray.get(i12));
+                                        itemInternal7 = new ItemInternal(0, (TLRPC.Dialog) dialogsArray.get(i12));
                                     }
                                     arrayList7.add(itemInternal7);
                                 }
@@ -850,7 +842,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                             }
                             while (i4 < this.itemInternals.size()) {
                                 ItemInternal itemInternal9 = (ItemInternal) this.itemInternals.get(i4);
-                                if (itemInternal9.viewType == 0 && (tLRPC$Dialog = itemInternal9.dialog) != null && messagesController.isHiddenByUndo(tLRPC$Dialog.id)) {
+                                if (itemInternal9.viewType == 0 && (dialog = itemInternal9.dialog) != null && messagesController.isHiddenByUndo(dialog.id)) {
                                     this.itemInternals.remove(i4);
                                     i4--;
                                 }
@@ -865,8 +857,8 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 }
                 arrayList3.add(itemInternal3);
                 z = false;
-                tLRPC$RequestPeerType = this.requestPeerType;
-                if (!(tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeBroadcast)) {
+                requestPeerType = this.requestPeerType;
+                if (!(requestPeerType instanceof TLRPC.TL_requestPeerTypeBroadcast)) {
                 }
                 this.itemInternals.add(new ItemInternal(12));
                 if (!z) {
@@ -954,7 +946,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         return null;
     }
 
-    public TL_chatlists$TL_chatlists_chatlistUpdates getChatlistUpdate() {
+    public TL_chatlists.TL_chatlists_chatlistUpdates getChatlistUpdate() {
         ItemInternal itemInternal = (ItemInternal) this.itemInternals.get(0);
         if (itemInternal == null || itemInternal.viewType != 17) {
             return null;
@@ -1035,18 +1027,18 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         ArrayList dialogsArray = this.parentFragment.getDialogsArray(this.currentAccount, this.dialogsType, this.folderId, false);
         int fixPosition = fixPosition(i);
         int fixPosition2 = fixPosition(i2);
-        TLRPC$Dialog tLRPC$Dialog = (TLRPC$Dialog) dialogsArray.get(fixPosition);
-        TLRPC$Dialog tLRPC$Dialog2 = (TLRPC$Dialog) dialogsArray.get(fixPosition2);
+        TLRPC.Dialog dialog = (TLRPC.Dialog) dialogsArray.get(fixPosition);
+        TLRPC.Dialog dialog2 = (TLRPC.Dialog) dialogsArray.get(fixPosition2);
         int i3 = this.dialogsType;
         if (i3 == 7 || i3 == 8) {
             MessagesController.DialogFilter dialogFilter = MessagesController.getInstance(this.currentAccount).selectedDialogFilter[this.dialogsType == 8 ? (char) 1 : (char) 0];
-            int i4 = dialogFilter.pinnedDialogs.get(tLRPC$Dialog.id);
-            dialogFilter.pinnedDialogs.put(tLRPC$Dialog.id, dialogFilter.pinnedDialogs.get(tLRPC$Dialog2.id));
-            dialogFilter.pinnedDialogs.put(tLRPC$Dialog2.id, i4);
+            int i4 = dialogFilter.pinnedDialogs.get(dialog.id);
+            dialogFilter.pinnedDialogs.put(dialog.id, dialogFilter.pinnedDialogs.get(dialog2.id));
+            dialogFilter.pinnedDialogs.put(dialog2.id, i4);
         } else {
-            int i5 = tLRPC$Dialog.pinnedNum;
-            tLRPC$Dialog.pinnedNum = tLRPC$Dialog2.pinnedNum;
-            tLRPC$Dialog2.pinnedNum = i5;
+            int i5 = dialog.pinnedNum;
+            dialog.pinnedNum = dialog2.pinnedNum;
+            dialog2.pinnedNum = i5;
         }
         Collections.swap(dialogsArray, fixPosition, fixPosition2);
         updateList(null);
@@ -1073,88 +1065,88 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-        TLRPC$Chat tLRPC$Chat;
+        TLRPC.Chat chat;
         String str;
-        TLRPC$User tLRPC$User;
+        TLRPC.User user;
         String str2;
         String str3;
         int i2;
         int i3;
         String string;
         String str4;
-        TLRPC$Chat chat;
+        TLRPC.Chat chat2;
         HeaderCell headerCell;
         int i4;
         String string2;
         int i5;
         int itemViewType = viewHolder.getItemViewType();
         if (itemViewType == 0) {
-            TLRPC$Dialog tLRPC$Dialog = (TLRPC$Dialog) getItem(i);
-            TLRPC$Dialog tLRPC$Dialog2 = (TLRPC$Dialog) getItem(i + 1);
+            TLRPC.Dialog dialog = (TLRPC.Dialog) getItem(i);
+            TLRPC.Dialog dialog2 = (TLRPC.Dialog) getItem(i + 1);
             int i6 = this.dialogsType;
             if (i6 == 2 || i6 == 15) {
                 ProfileSearchCell profileSearchCell = (ProfileSearchCell) viewHolder.itemView;
                 long dialogId = profileSearchCell.getDialogId();
-                if (tLRPC$Dialog.id != 0) {
-                    tLRPC$Chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-tLRPC$Dialog.id));
-                    if (tLRPC$Chat != null && tLRPC$Chat.migrated_to != null && (chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(tLRPC$Chat.migrated_to.channel_id))) != null) {
-                        tLRPC$Chat = chat;
+                if (dialog.id != 0) {
+                    chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-dialog.id));
+                    if (chat != null && chat.migrated_to != null && (chat2 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(chat.migrated_to.channel_id))) != null) {
+                        chat = chat2;
                     }
                 } else {
-                    tLRPC$Chat = null;
+                    chat = null;
                 }
-                if (tLRPC$Chat != null) {
-                    String str5 = tLRPC$Chat.title;
-                    if (!ChatObject.isChannel(tLRPC$Chat) || tLRPC$Chat.megagroup) {
-                        i2 = tLRPC$Chat.participants_count;
+                if (chat != null) {
+                    String str5 = chat.title;
+                    if (!ChatObject.isChannel(chat) || chat.megagroup) {
+                        i2 = chat.participants_count;
                         if (i2 != 0) {
                             str4 = "Members";
                             string = LocaleController.formatPluralStringComma(str4, i2);
-                        } else if (tLRPC$Chat.has_geo) {
+                        } else if (chat.has_geo) {
                             string = LocaleController.getString(R.string.MegaLocation);
                         } else {
-                            i3 = !ChatObject.isPublic(tLRPC$Chat) ? R.string.MegaPrivate : R.string.MegaPublic;
+                            i3 = !ChatObject.isPublic(chat) ? R.string.MegaPrivate : R.string.MegaPublic;
                             string = LocaleController.getString(i3).toLowerCase();
                         }
                     } else {
-                        i2 = tLRPC$Chat.participants_count;
+                        i2 = chat.participants_count;
                         if (i2 != 0) {
                             str4 = "Subscribers";
                             string = LocaleController.formatPluralStringComma(str4, i2);
                         } else {
-                            i3 = !ChatObject.isPublic(tLRPC$Chat) ? R.string.ChannelPrivate : R.string.ChannelPublic;
+                            i3 = !ChatObject.isPublic(chat) ? R.string.ChannelPrivate : R.string.ChannelPublic;
                             string = LocaleController.getString(i3).toLowerCase();
                         }
                     }
                     str3 = string;
                     str2 = str5;
-                    tLRPC$User = tLRPC$Chat;
+                    user = chat;
                 } else {
-                    TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tLRPC$Dialog.id));
+                    TLRPC.User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(dialog.id));
                     str = "";
-                    if (user != null) {
-                        String userName = UserObject.getUserName(user);
-                        str = UserObject.isReplyUser(user) ? "" : user.bot ? LocaleController.getString(R.string.Bot) : LocaleController.formatUserStatus(this.currentAccount, user);
-                        tLRPC$User = user;
+                    if (user2 != null) {
+                        String userName = UserObject.getUserName(user2);
+                        str = UserObject.isReplyUser(user2) ? "" : user2.bot ? LocaleController.getString(R.string.Bot) : LocaleController.formatUserStatus(this.currentAccount, user2);
+                        user = user2;
                         str2 = userName;
                     } else {
-                        tLRPC$User = null;
+                        user = null;
                         str2 = null;
                     }
                     str3 = str;
                 }
-                profileSearchCell.useSeparator = tLRPC$Dialog2 != null;
-                profileSearchCell.setData(tLRPC$User, null, str2, str3, false, false);
+                profileSearchCell.useSeparator = dialog2 != null;
+                profileSearchCell.setData(user, null, str2, str3, false, false);
                 profileSearchCell.setChecked(this.selectedDialogs.contains(Long.valueOf(profileSearchCell.getDialogId())), dialogId == profileSearchCell.getDialogId());
             } else {
                 DialogCell dialogCell = (DialogCell) viewHolder.itemView;
-                dialogCell.useSeparator = tLRPC$Dialog2 != null;
-                dialogCell.fullSeparator = (!tLRPC$Dialog.pinned || tLRPC$Dialog2 == null || tLRPC$Dialog2.pinned) ? false : true;
+                dialogCell.useSeparator = dialog2 != null;
+                dialogCell.fullSeparator = (!dialog.pinned || dialog2 == null || dialog2.pinned) ? false : true;
                 if (i6 == 0 && AndroidUtilities.isTablet()) {
-                    dialogCell.setDialogSelected(tLRPC$Dialog.id == this.openedDialogId);
+                    dialogCell.setDialogSelected(dialog.id == this.openedDialogId);
                 }
-                dialogCell.setChecked(this.selectedDialogs.contains(Long.valueOf(tLRPC$Dialog.id)), false);
-                dialogCell.setDialog(tLRPC$Dialog, this.dialogsType, this.folderId);
+                dialogCell.setChecked(this.selectedDialogs.contains(Long.valueOf(dialog.id)), false);
+                dialogCell.setDialog(dialog, this.dialogsType, this.folderId);
                 dialogCell.checkHeight();
                 boolean z = dialogCell.collapsed;
                 boolean z2 = this.collapsedView;
@@ -1164,11 +1156,11 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 }
                 DialogsPreloader dialogsPreloader = this.preloader;
                 if (dialogsPreloader != null && i < 10) {
-                    dialogsPreloader.add(tLRPC$Dialog.id);
+                    dialogsPreloader.add(dialog.id);
                 }
             }
         } else if (itemViewType == 4) {
-            ((DialogMeUrlCell) viewHolder.itemView).setRecentMeUrl((TLRPC$RecentMeUrl) getItem(i));
+            ((DialogMeUrlCell) viewHolder.itemView).setRecentMeUrl((TLRPC.RecentMeUrl) getItem(i));
         } else if (itemViewType == 5) {
             DialogsEmptyCell dialogsEmptyCell = (DialogsEmptyCell) viewHolder.itemView;
             int i7 = this.lastDialogsEmptyType;
@@ -1250,9 +1242,9 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                         break;
                     case 17:
                         DialogsHintCell dialogsHintCell = (DialogsHintCell) viewHolder.itemView;
-                        TL_chatlists$TL_chatlists_chatlistUpdates tL_chatlists$TL_chatlists_chatlistUpdates = ((ItemInternal) this.itemInternals.get(i)).chatlistUpdates;
-                        if (tL_chatlists$TL_chatlists_chatlistUpdates != null) {
-                            int size = tL_chatlists$TL_chatlists_chatlistUpdates.missing_peers.size();
+                        TL_chatlists.TL_chatlists_chatlistUpdates tL_chatlists_chatlistUpdates = ((ItemInternal) this.itemInternals.get(i)).chatlistUpdates;
+                        if (tL_chatlists_chatlistUpdates != null) {
+                            int size = tL_chatlists_chatlistUpdates.missing_peers.size();
                             dialogsHintCell.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatPluralString("FolderUpdatesTitle", size, new Object[0]), Theme.key_windowBackgroundWhiteValueText, 0, null), LocaleController.formatPluralString("FolderUpdatesSubtitle", size, new Object[0]));
                             break;
                         }
@@ -1266,9 +1258,9 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 TextCell textCell = (TextCell) view;
                 int i11 = Theme.key_windowBackgroundWhiteBlueText4;
                 textCell.setColors(i11, i11);
-                TLRPC$RequestPeerType tLRPC$RequestPeerType = this.requestPeerType;
-                if (tLRPC$RequestPeerType != null) {
-                    if (tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeBroadcast) {
+                TLRPC.RequestPeerType requestPeerType = this.requestPeerType;
+                if (requestPeerType != null) {
+                    if (requestPeerType instanceof TLRPC.TL_requestPeerTypeBroadcast) {
                         string2 = LocaleController.getString(R.string.CreateChannelForThis);
                         i5 = R.drawable.msg_channel_create;
                     } else {
@@ -1284,7 +1276,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             }
             headerCell.setText(LocaleController.getString(i4));
         } else {
-            ((UserCell) viewHolder.itemView).setData((TLRPC$User) getItem(i), null, null, 0);
+            ((UserCell) viewHolder.itemView).setData((TLRPC.User) getItem(i), null, null, 0);
         }
         if (i >= this.dialogsCount + 1) {
             viewHolder.itemView.setAlpha(1.0f);
@@ -1553,10 +1545,10 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         if (storiesController.getHiddenList().isEmpty()) {
             return;
         }
-        boolean z = storiesController.getUnreadState(DialogObject.getPeerDialogId(((TL_stories$PeerStories) storiesController.getHiddenList().get(0)).peer)) != 0;
+        boolean z = storiesController.getUnreadState(DialogObject.getPeerDialogId(((TL_stories.PeerStories) storiesController.getHiddenList().get(0)).peer)) != 0;
         ArrayList arrayList = new ArrayList();
         for (int i = 0; i < storiesController.getHiddenList().size(); i++) {
-            long peerDialogId = DialogObject.getPeerDialogId(((TL_stories$PeerStories) storiesController.getHiddenList().get(i)).peer);
+            long peerDialogId = DialogObject.getPeerDialogId(((TL_stories.PeerStories) storiesController.getHiddenList().get(i)).peer);
             if (!z || storiesController.getUnreadState(peerDialogId) != 0) {
                 arrayList.add(Long.valueOf(peerDialogId));
             }
@@ -1660,7 +1652,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                         @Override // java.util.Comparator
                         public final int compare(Object obj, Object obj2) {
                             int lambda$sortOnlineContacts$0;
-                            lambda$sortOnlineContacts$0 = DialogsAdapter.lambda$sortOnlineContacts$0(MessagesController.this, currentTime, (TLRPC$TL_contact) obj, (TLRPC$TL_contact) obj2);
+                            lambda$sortOnlineContacts$0 = DialogsAdapter.lambda$sortOnlineContacts$0(MessagesController.this, currentTime, (TLRPC.TL_contact) obj, (TLRPC.TL_contact) obj2);
                             return lambda$sortOnlineContacts$0;
                         }
                     });

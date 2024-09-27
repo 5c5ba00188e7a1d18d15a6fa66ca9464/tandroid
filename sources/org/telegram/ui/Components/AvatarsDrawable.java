@@ -24,9 +24,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$TL_groupCallParticipant;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.GroupCallUserCell;
 import org.telegram.ui.Stories.StoriesGradientTools;
@@ -72,7 +70,7 @@ public class AvatarsDrawable {
         private long lastUpdateTime;
         private int moveFromIndex;
         private TLObject object;
-        TLRPC$TL_groupCallParticipant participant;
+        TLRPC.TL_groupCallParticipant participant;
         private GroupCallUserCell.AvatarWavesDrawable wavesDrawable;
 
         private DrawingState() {
@@ -333,7 +331,7 @@ public class AvatarsDrawable {
         DrawingState drawingState;
         float avatarScale;
         DrawingState drawingState2;
-        TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant;
+        TLRPC.TL_groupCallParticipant tL_groupCallParticipant;
         DrawingState drawingState3;
         DrawingState drawingState4;
         GroupCallUserCell.AvatarWavesDrawable avatarWavesDrawable;
@@ -396,7 +394,7 @@ public class AvatarsDrawable {
                     }
                     float f6 = -dp4;
                     i5 = 2;
-                    canvas.saveLayerAlpha(f6, f6, this.width + dp4, this.height + dp4, NotificationCenter.didClearDatabase, 31);
+                    canvas.saveLayerAlpha(f6, f6, this.width + dp4, this.height + dp4, NotificationCenter.messagePlayingSpeedChanged, 31);
                 }
                 float f7 = 2.0f;
                 float f8 = 1.0f;
@@ -551,8 +549,8 @@ public class AvatarsDrawable {
                                                                         drawingStateArr2[i6].lastUpdateTime = currentTimeMillis;
                                                                         if (this.currentStyle == 10) {
                                                                             DrawingState drawingState5 = drawingStateArr2[i6];
-                                                                            TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant2 = drawingState5.participant;
-                                                                            if (tLRPC$TL_groupCallParticipant2 == null || tLRPC$TL_groupCallParticipant2.amplitude <= 0.0f) {
+                                                                            TLRPC.TL_groupCallParticipant tL_groupCallParticipant2 = drawingState5.participant;
+                                                                            if (tL_groupCallParticipant2 == null || tL_groupCallParticipant2.amplitude <= 0.0f) {
                                                                                 drawingState5.wavesDrawable.setShowWaves(false, this.parent);
                                                                             } else {
                                                                                 drawingState5.wavesDrawable.setShowWaves(true, this.parent);
@@ -622,8 +620,8 @@ public class AvatarsDrawable {
                                                             drawingStateArr2[i6].wavesDrawable.setColor(ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_voipgroup_speakingText), (int) (f17 * 76.5f)));
                                                         }
                                                         drawingState2 = drawingStateArr2[i6];
-                                                        tLRPC$TL_groupCallParticipant = drawingState2.participant;
-                                                        if (tLRPC$TL_groupCallParticipant != null || tLRPC$TL_groupCallParticipant.amplitude <= 0.0f) {
+                                                        tL_groupCallParticipant = drawingState2.participant;
+                                                        if (tL_groupCallParticipant != null || tL_groupCallParticipant.amplitude <= 0.0f) {
                                                             drawingState2.wavesDrawable.setShowWaves(false, this.parent);
                                                         } else {
                                                             drawingState2.wavesDrawable.setShowWaves(true, this.parent);
@@ -673,8 +671,8 @@ public class AvatarsDrawable {
                                                 if (this.currentStyle == i9) {
                                                 }
                                                 drawingState2 = drawingStateArr2[i6];
-                                                tLRPC$TL_groupCallParticipant = drawingState2.participant;
-                                                if (tLRPC$TL_groupCallParticipant != null) {
+                                                tL_groupCallParticipant = drawingState2.participant;
+                                                if (tL_groupCallParticipant != null) {
                                                 }
                                                 drawingState2.wavesDrawable.setShowWaves(false, this.parent);
                                                 if (this.currentStyle == i9) {
@@ -709,8 +707,8 @@ public class AvatarsDrawable {
                                             if (this.currentStyle == i9) {
                                             }
                                             drawingState2 = drawingStateArr2[i6];
-                                            tLRPC$TL_groupCallParticipant = drawingState2.participant;
-                                            if (tLRPC$TL_groupCallParticipant != null) {
+                                            tL_groupCallParticipant = drawingState2.participant;
+                                            if (tL_groupCallParticipant != null) {
                                             }
                                             drawingState2.wavesDrawable.setShowWaves(false, this.parent);
                                             if (this.currentStyle == i9) {
@@ -749,8 +747,8 @@ public class AvatarsDrawable {
                                     if (this.currentStyle == i9) {
                                     }
                                     drawingState2 = drawingStateArr2[i6];
-                                    tLRPC$TL_groupCallParticipant = drawingState2.participant;
-                                    if (tLRPC$TL_groupCallParticipant != null) {
+                                    tL_groupCallParticipant = drawingState2.participant;
+                                    if (tL_groupCallParticipant != null) {
                                     }
                                     drawingState2.wavesDrawable.setShowWaves(false, this.parent);
                                     if (this.currentStyle == i9) {
@@ -859,77 +857,77 @@ public class AvatarsDrawable {
     }
 
     public void setObject(int i, int i2, TLObject tLObject) {
-        TLRPC$Chat tLRPC$Chat;
-        TLRPC$Chat chat;
+        TLRPC.Chat chat;
+        TLRPC.Chat chat2;
         DrawingState drawingState;
         long j = 0;
         this.animatingStates[i].id = 0L;
         DrawingState drawingState2 = this.animatingStates[i];
-        TLRPC$User tLRPC$User = null;
+        TLRPC.User user = null;
         drawingState2.participant = null;
         if (tLObject == null) {
             drawingState2.imageReceiver.setImageBitmap((Drawable) null);
         } else {
             drawingState2.lastSpeakTime = -1L;
             this.animatingStates[i].object = tLObject;
-            if (tLObject instanceof TLRPC$TL_groupCallParticipant) {
-                TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant = (TLRPC$TL_groupCallParticipant) tLObject;
-                this.animatingStates[i].participant = tLRPC$TL_groupCallParticipant;
-                long peerId = MessageObject.getPeerId(tLRPC$TL_groupCallParticipant.peer);
+            if (tLObject instanceof TLRPC.TL_groupCallParticipant) {
+                TLRPC.TL_groupCallParticipant tL_groupCallParticipant = (TLRPC.TL_groupCallParticipant) tLObject;
+                this.animatingStates[i].participant = tL_groupCallParticipant;
+                long peerId = MessageObject.getPeerId(tL_groupCallParticipant.peer);
                 if (DialogObject.isUserDialog(peerId)) {
-                    TLRPC$User user = MessagesController.getInstance(i2).getUser(Long.valueOf(peerId));
-                    this.animatingStates[i].avatarDrawable.setInfo(i2, user);
-                    tLRPC$User = user;
-                    chat = null;
+                    TLRPC.User user2 = MessagesController.getInstance(i2).getUser(Long.valueOf(peerId));
+                    this.animatingStates[i].avatarDrawable.setInfo(i2, user2);
+                    user = user2;
+                    chat2 = null;
                 } else {
-                    chat = MessagesController.getInstance(i2).getChat(Long.valueOf(-peerId));
-                    this.animatingStates[i].avatarDrawable.setInfo(i2, chat);
+                    chat2 = MessagesController.getInstance(i2).getChat(Long.valueOf(-peerId));
+                    this.animatingStates[i].avatarDrawable.setInfo(i2, chat2);
                 }
                 if (this.currentStyle == 4) {
                     if (peerId == AccountInstance.getInstance(i2).getUserConfig().getClientUserId()) {
                         drawingState = this.animatingStates[i];
                     } else if (this.isInCall) {
                         drawingState = this.animatingStates[i];
-                        j = tLRPC$TL_groupCallParticipant.lastActiveDate;
+                        j = tL_groupCallParticipant.lastActiveDate;
                     } else {
                         drawingState = this.animatingStates[i];
                     }
                     drawingState.lastSpeakTime = j;
                     this.animatingStates[i].id = peerId;
-                    tLRPC$Chat = chat;
+                    chat = chat2;
                 } else {
                     drawingState = this.animatingStates[i];
                 }
-                j = tLRPC$TL_groupCallParticipant.active_date;
+                j = tL_groupCallParticipant.active_date;
                 drawingState.lastSpeakTime = j;
                 this.animatingStates[i].id = peerId;
-                tLRPC$Chat = chat;
-            } else if (tLObject instanceof TLRPC$User) {
-                TLRPC$User tLRPC$User2 = (TLRPC$User) tLObject;
-                if (tLRPC$User2.self && this.showSavedMessages) {
+                chat = chat2;
+            } else if (tLObject instanceof TLRPC.User) {
+                TLRPC.User user3 = (TLRPC.User) tLObject;
+                if (user3.self && this.showSavedMessages) {
                     this.animatingStates[i].avatarDrawable.setAvatarType(1);
                     this.animatingStates[i].avatarDrawable.setScaleSize(0.6f);
                 } else {
                     this.animatingStates[i].avatarDrawable.setAvatarType(0);
                     this.animatingStates[i].avatarDrawable.setScaleSize(1.0f);
-                    this.animatingStates[i].avatarDrawable.setInfo(i2, tLRPC$User2);
+                    this.animatingStates[i].avatarDrawable.setInfo(i2, user3);
                 }
-                this.animatingStates[i].id = tLRPC$User2.id;
-                tLRPC$User = tLRPC$User2;
-                tLRPC$Chat = null;
+                this.animatingStates[i].id = user3.id;
+                user = user3;
+                chat = null;
             } else {
-                tLRPC$Chat = (TLRPC$Chat) tLObject;
+                chat = (TLRPC.Chat) tLObject;
                 this.animatingStates[i].avatarDrawable.setAvatarType(0);
                 this.animatingStates[i].avatarDrawable.setScaleSize(1.0f);
-                this.animatingStates[i].avatarDrawable.setInfo(i2, tLRPC$Chat);
-                this.animatingStates[i].id = -tLRPC$Chat.id;
+                this.animatingStates[i].avatarDrawable.setInfo(i2, chat);
+                this.animatingStates[i].id = -chat.id;
             }
-            if (tLRPC$User == null) {
-                this.animatingStates[i].imageReceiver.setForUserOrChat(tLRPC$Chat, this.animatingStates[i].avatarDrawable);
-            } else if (tLRPC$User.self && this.showSavedMessages) {
+            if (user == null) {
+                this.animatingStates[i].imageReceiver.setForUserOrChat(chat, this.animatingStates[i].avatarDrawable);
+            } else if (user.self && this.showSavedMessages) {
                 this.animatingStates[i].imageReceiver.setImageBitmap(this.animatingStates[i].avatarDrawable);
             } else {
-                this.animatingStates[i].imageReceiver.setForUserOrChat(tLRPC$User, this.animatingStates[i].avatarDrawable);
+                this.animatingStates[i].imageReceiver.setForUserOrChat(user, this.animatingStates[i].avatarDrawable);
             }
             int size = getSize();
             this.animatingStates[i].imageReceiver.setRoundRadius(size / 2);

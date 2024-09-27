@@ -27,7 +27,7 @@ public final class zzy$zzao extends zzeo implements zzgb {
         zzh(64),
         zzi(128),
         zzj(256),
-        zzk(LiteMode.FLAG_CALLS_ANIMATIONS),
+        zzk(512),
         zzl(1024),
         zzm(2048),
         zzn(LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM);

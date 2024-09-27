@@ -21,10 +21,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$ChatFull;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$UserFull;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.CheckBoxCell;
@@ -115,7 +112,7 @@ public class ClearHistoryAlert extends BottomSheet {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public ClearHistoryAlert(Context context, TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat, boolean z, Theme.ResourcesProvider resourcesProvider) {
+    public ClearHistoryAlert(Context context, TLRPC.User user, TLRPC.Chat chat, boolean z, Theme.ResourcesProvider resourcesProvider) {
         super(context, false, resourcesProvider);
         int i;
         int i2;
@@ -129,14 +126,14 @@ public class ClearHistoryAlert extends BottomSheet {
         this.autoDeleteOnly = !z;
         setApplyBottomPadding(false);
         MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
-        if (tLRPC$User != null) {
-            TLRPC$UserFull userFull = messagesController.getUserFull(tLRPC$User.id);
+        if (user != null) {
+            TLRPC.UserFull userFull = messagesController.getUserFull(user.id);
             if (userFull != null) {
                 i = userFull.ttl_period;
             }
             i = 0;
         } else {
-            TLRPC$ChatFull chatFull = messagesController.getChatFull(tLRPC$Chat.id);
+            TLRPC.ChatFull chatFull = messagesController.getChatFull(chat.id);
             if (chatFull != null) {
                 i = chatFull.ttl_period;
             }
@@ -248,14 +245,14 @@ public class ClearHistoryAlert extends BottomSheet {
         nestedScrollView.addView(this.linearLayout, LayoutHelper.createScroll(-1, -2, 80));
         setCustomView(this.linearLayout);
         long clientUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
-        if (tLRPC$User == null || tLRPC$User.bot) {
+        if (user == null || user.bot) {
             i2 = i4;
         } else {
             i2 = i4;
-            if (tLRPC$User.id != clientUserId && MessagesController.getInstance(this.currentAccount).canRevokePmInbox) {
+            if (user.id != clientUserId && MessagesController.getInstance(this.currentAccount).canRevokePmInbox) {
                 z2 = true;
                 MessagesController messagesController2 = MessagesController.getInstance(this.currentAccount);
-                boolean z3 = tLRPC$User == null && z2 && (tLRPC$User == null ? messagesController2.revokeTimePmLimit : messagesController2.revokeTimeLimit) == Integer.MAX_VALUE;
+                boolean z3 = user == null && z2 && (user == null ? messagesController2.revokeTimePmLimit : messagesController2.revokeTimeLimit) == Integer.MAX_VALUE;
                 final boolean[] zArr = {false};
                 if (this.autoDeleteOnly) {
                     TextView textView = new TextView(context);
@@ -274,18 +271,18 @@ public class ClearHistoryAlert extends BottomSheet {
                     textView2.setLinkTextColor(getThemedColor(Theme.key_dialogTextLink));
                     textView2.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
                     this.linearLayout.addView(textView2, LayoutHelper.createLinear(-2, -2, 51, 23, 16, 23, 5));
-                    if (tLRPC$User != null) {
-                        formatString = LocaleController.formatString("AreYouSureClearHistoryWithUser", R.string.AreYouSureClearHistoryWithUser, UserObject.getUserName(tLRPC$User));
-                    } else if (!ChatObject.isChannel(tLRPC$Chat) || (tLRPC$Chat.megagroup && !ChatObject.isPublic(tLRPC$Chat))) {
-                        formatString = LocaleController.formatString("AreYouSureClearHistoryWithChat", R.string.AreYouSureClearHistoryWithChat, tLRPC$Chat.title);
+                    if (user != null) {
+                        formatString = LocaleController.formatString("AreYouSureClearHistoryWithUser", R.string.AreYouSureClearHistoryWithUser, UserObject.getUserName(user));
+                    } else if (!ChatObject.isChannel(chat) || (chat.megagroup && !ChatObject.isPublic(chat))) {
+                        formatString = LocaleController.formatString("AreYouSureClearHistoryWithChat", R.string.AreYouSureClearHistoryWithChat, chat.title);
                     } else {
-                        string2 = LocaleController.getString(tLRPC$Chat.megagroup ? R.string.AreYouSureClearHistoryGroup : R.string.AreYouSureClearHistoryChannel);
+                        string2 = LocaleController.getString(chat.megagroup ? R.string.AreYouSureClearHistoryGroup : R.string.AreYouSureClearHistoryChannel);
                         textView2.setText(string2);
-                        if (z3 && !UserObject.isDeleted(tLRPC$User)) {
+                        if (z3 && !UserObject.isDeleted(user)) {
                             CheckBoxCell checkBoxCell = new CheckBoxCell(context, 1, resourcesProvider);
                             this.cell = checkBoxCell;
                             checkBoxCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-                            this.cell.setText(LocaleController.formatString("ClearHistoryOptionAlso", R.string.ClearHistoryOptionAlso, UserObject.getFirstName(tLRPC$User)), "", false, false);
+                            this.cell.setText(LocaleController.formatString("ClearHistoryOptionAlso", R.string.ClearHistoryOptionAlso, UserObject.getFirstName(user)), "", false, false);
                             this.cell.setPadding(!LocaleController.isRTL ? AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(5.0f), 0, !LocaleController.isRTL ? AndroidUtilities.dp(5.0f) : AndroidUtilities.dp(16.0f), 0);
                             this.linearLayout.addView(this.cell, LayoutHelper.createLinear(-1, 48, 51, 0, 0, 0, 0));
                             this.cell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ClearHistoryAlert$$ExternalSyntheticLambda0
@@ -320,7 +317,7 @@ public class ClearHistoryAlert extends BottomSheet {
                         CheckBoxCell checkBoxCell2 = new CheckBoxCell(context, 1, resourcesProvider);
                         this.cell = checkBoxCell2;
                         checkBoxCell2.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-                        this.cell.setText(LocaleController.formatString("ClearHistoryOptionAlso", R.string.ClearHistoryOptionAlso, UserObject.getFirstName(tLRPC$User)), "", false, false);
+                        this.cell.setText(LocaleController.formatString("ClearHistoryOptionAlso", R.string.ClearHistoryOptionAlso, UserObject.getFirstName(user)), "", false, false);
                         this.cell.setPadding(!LocaleController.isRTL ? AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(5.0f), 0, !LocaleController.isRTL ? AndroidUtilities.dp(5.0f) : AndroidUtilities.dp(16.0f), 0);
                         this.linearLayout.addView(this.cell, LayoutHelper.createLinear(-1, 48, 51, 0, 0, 0, 0));
                         this.cell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ClearHistoryAlert$$ExternalSyntheticLambda0
@@ -365,10 +362,10 @@ public class ClearHistoryAlert extends BottomSheet {
                     textView4.setTextSize(1, 14.0f);
                     textView4.setTextColor(getThemedColor(Theme.key_dialogTextGray3));
                     textView4.setGravity(1);
-                    if (tLRPC$User != null) {
-                        string = LocaleController.formatString("AutoDeleteAlertUserInfo", R.string.AutoDeleteAlertUserInfo, UserObject.getFirstName(tLRPC$User));
+                    if (user != null) {
+                        string = LocaleController.formatString("AutoDeleteAlertUserInfo", R.string.AutoDeleteAlertUserInfo, UserObject.getFirstName(user));
                     } else {
-                        string = LocaleController.getString((!ChatObject.isChannel(tLRPC$Chat) || tLRPC$Chat.megagroup) ? R.string.AutoDeleteAlertGroupInfo : R.string.AutoDeleteAlertChannelInfo);
+                        string = LocaleController.getString((!ChatObject.isChannel(chat) || chat.megagroup) ? R.string.AutoDeleteAlertGroupInfo : R.string.AutoDeleteAlertChannelInfo);
                     }
                     textView4.setText(string);
                     this.linearLayout.addView(textView4, LayoutHelper.createLinear(-2, -2, 49, 30, 22, 30, 20));
@@ -422,7 +419,7 @@ public class ClearHistoryAlert extends BottomSheet {
         }
         z2 = false;
         MessagesController messagesController22 = MessagesController.getInstance(this.currentAccount);
-        if (tLRPC$User == null) {
+        if (user == null) {
         }
         final boolean[] zArr2 = {false};
         if (this.autoDeleteOnly) {

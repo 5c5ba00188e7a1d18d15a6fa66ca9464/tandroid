@@ -17,7 +17,7 @@ import org.telegram.messenger.LocationController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$Message;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedFloat;
@@ -104,9 +104,9 @@ public class SendLocationCell extends FrameLayout {
             i = R.string.SendLiveLocationInfo;
         } else if (this.liveDisable) {
             String string2 = LocaleController.getString(R.string.StopLiveLocation);
-            TLRPC$Message tLRPC$Message = sharingLocationInfo.messageObject.messageOwner;
-            int i2 = tLRPC$Message.edit_date;
-            setText(string2, LocaleController.formatLocationUpdateDate(i2 != 0 ? i2 : tLRPC$Message.date));
+            TLRPC.Message message = sharingLocationInfo.messageObject.messageOwner;
+            int i2 = message.edit_date;
+            setText(string2, LocaleController.formatLocationUpdateDate(i2 != 0 ? i2 : message.date));
             return;
         } else {
             string = LocaleController.getString(R.string.SharingLiveLocation);

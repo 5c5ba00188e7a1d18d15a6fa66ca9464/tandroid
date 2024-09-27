@@ -202,8 +202,8 @@ abstract class DecodedBitStreamParser {
             int readBits = bitSource.readBits(13);
             int i3 = (readBits % 96) | ((readBits / 96) << 8);
             int i4 = i3 + (i3 < 2560 ? 41377 : 42657);
-            bArr[i2] = (byte) ((i4 >> 8) & NotificationCenter.didClearDatabase);
-            bArr[i2 + 1] = (byte) (i4 & NotificationCenter.didClearDatabase);
+            bArr[i2] = (byte) ((i4 >> 8) & NotificationCenter.messagePlayingSpeedChanged);
+            bArr[i2 + 1] = (byte) (i4 & NotificationCenter.messagePlayingSpeedChanged);
             i2 += 2;
             i--;
         }
@@ -283,7 +283,7 @@ abstract class DecodedBitStreamParser {
         if ((readBits & NotificationCenter.dialogPhotosUpdate) == 128) {
             return bitSource.readBits(8) | ((readBits & 63) << 8);
         }
-        if ((readBits & NotificationCenter.didReceiveSmsCode) == 192) {
+        if ((readBits & NotificationCenter.wallpapersDidLoad) == 192) {
             return bitSource.readBits(16) | ((readBits & 31) << 16);
         }
         throw FormatException.getFormatInstance();

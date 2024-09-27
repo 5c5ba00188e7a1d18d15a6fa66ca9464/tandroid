@@ -23,7 +23,7 @@ import java.util.Locale;
 import org.telegram.messenger.time.FastDateFormat;
 import org.telegram.messenger.video.MediaCodecVideoConvertor;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$TL_error;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.AnimatedFileDrawable;
 import org.telegram.ui.LaunchActivity;
 /* loaded from: classes.dex */
@@ -175,70 +175,76 @@ public class FileLog {
         gsonDisabled = z;
     }
 
-    public static void dumpResponseAndRequest(final int i, TLObject tLObject, TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error, final long j, final long j2, final int i2) {
-        final String str;
+    public static void dumpResponseAndRequest(final int i, TLObject tLObject, TLObject tLObject2, TLRPC.TL_error tL_error, final long j, final long j2, final int i2) {
         StringBuilder sb;
-        String simpleName = tLObject.getClass().getSimpleName();
-        checkGson();
-        if (excludeRequests.contains(simpleName) && tLRPC$TL_error == null) {
-            return;
-        }
-        try {
-            final String str2 = "req -> " + simpleName + " : " + gson.toJson(tLObject);
-            if (tLObject2 != null) {
+        String json;
+        if (BuildVars.DEBUG_PRIVATE_VERSION && BuildVars.LOGS_ENABLED && tLObject != null) {
+            String simpleName = tLObject.getClass().getSimpleName();
+            checkGson();
+            if (excludeRequests.contains(simpleName) && tL_error == null) {
+                return;
+            }
+            try {
+                final String str = "req -> " + simpleName + " : " + gson.toJson(tLObject);
+                String str2 = "null";
+                if (tLObject2 == null) {
+                    if (tL_error != null) {
+                        sb = new StringBuilder();
+                        sb.append("err -> ");
+                        sb.append(tL_error.getClass().getSimpleName());
+                        sb.append(" : ");
+                        json = gson.toJson(tL_error);
+                    }
+                    final String str3 = str2;
+                    final long currentTimeMillis = System.currentTimeMillis();
+                    getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda6
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            FileLog.lambda$dumpResponseAndRequest$0(j, j2, i2, i, currentTimeMillis, str, str3);
+                        }
+                    });
+                }
                 sb = new StringBuilder();
                 sb.append("res -> ");
                 sb.append(tLObject2.getClass().getSimpleName());
                 sb.append(" : ");
-                sb.append(gson.toJson(tLObject2));
-            } else if (tLRPC$TL_error == null) {
-                str = "null";
-                final long currentTimeMillis = System.currentTimeMillis();
+                json = gson.toJson(tLObject2);
+                sb.append(json);
+                str2 = sb.toString();
+                final String str32 = str2;
+                final long currentTimeMillis2 = System.currentTimeMillis();
                 getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda6
                     @Override // java.lang.Runnable
                     public final void run() {
-                        FileLog.lambda$dumpResponseAndRequest$0(j, j2, i2, i, currentTimeMillis, str2, str);
+                        FileLog.lambda$dumpResponseAndRequest$0(j, j2, i2, i, currentTimeMillis2, str, str32);
                     }
                 });
-            } else {
-                StringBuilder sb2 = new StringBuilder();
-                sb2.append("err -> ");
-                sb2.append(tLRPC$TL_error.getClass().getSimpleName());
-                sb2.append(" : ");
-                sb2.append(gson.toJson(tLRPC$TL_error));
-                sb = sb2;
+            } catch (Throwable th) {
+                e(th, BuildVars.DEBUG_PRIVATE_VERSION);
             }
-            str = sb.toString();
-            final long currentTimeMillis2 = System.currentTimeMillis();
-            getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda6
-                @Override // java.lang.Runnable
-                public final void run() {
-                    FileLog.lambda$dumpResponseAndRequest$0(j, j2, i2, i, currentTimeMillis2, str2, str);
-                }
-            });
-        } catch (Throwable th) {
-            e(th, BuildVars.DEBUG_PRIVATE_VERSION);
         }
     }
 
     public static void dumpUnparsedMessage(TLObject tLObject, final long j, final int i) {
-        try {
-            checkGson();
-            getInstance().dateFormat.format(System.currentTimeMillis());
-            StringBuilder sb = new StringBuilder();
-            sb.append("receive message -> ");
-            sb.append(tLObject.getClass().getSimpleName());
-            sb.append(" : ");
-            sb.append(gsonDisabled ? tLObject : gson.toJson(tLObject));
-            final String sb2 = sb.toString();
-            final long currentTimeMillis = System.currentTimeMillis();
-            getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    FileLog.lambda$dumpUnparsedMessage$1(currentTimeMillis, j, i, sb2);
-                }
-            });
-        } catch (Throwable unused) {
+        if (BuildVars.DEBUG_PRIVATE_VERSION && BuildVars.LOGS_ENABLED && tLObject != null) {
+            try {
+                checkGson();
+                getInstance().dateFormat.format(System.currentTimeMillis());
+                StringBuilder sb = new StringBuilder();
+                sb.append("receive message -> ");
+                sb.append(tLObject.getClass().getSimpleName());
+                sb.append(" : ");
+                sb.append(gsonDisabled ? tLObject : gson.toJson(tLObject));
+                final String sb2 = sb.toString();
+                final long currentTimeMillis = System.currentTimeMillis();
+                getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        FileLog.lambda$dumpUnparsedMessage$1(currentTimeMillis, j, i, sb2);
+                    }
+                });
+            } catch (Throwable unused) {
+            }
         }
     }
 
@@ -320,7 +326,7 @@ public class FileLog {
 
     public static void fatal(final Throwable th, boolean z) {
         if (BuildVars.LOGS_ENABLED) {
-            if (BuildVars.DEBUG_VERSION && needSent(th) && z) {
+            if (z && BuildVars.DEBUG_VERSION && needSent(th)) {
                 AndroidUtilities.appCenterLog(th);
             }
             ensureInitied();
@@ -450,6 +456,11 @@ public class FileLog {
             OutputStreamWriter outputStreamWriter = getInstance().streamWriter;
             outputStreamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: " + str + "\n");
             getInstance().streamWriter.write(th.toString());
+            StackTraceElement[] stackTrace = th.getStackTrace();
+            for (int i = 0; i < stackTrace.length; i++) {
+                OutputStreamWriter outputStreamWriter2 = getInstance().streamWriter;
+                outputStreamWriter2.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: \tat " + stackTrace[i] + "\n");
+            }
             getInstance().streamWriter.flush();
         } catch (Exception e) {
             e.printStackTrace();
@@ -475,7 +486,7 @@ public class FileLog {
             StackTraceElement[] stackTrace = th.getStackTrace();
             for (int i = 0; i < stackTrace.length; i++) {
                 OutputStreamWriter outputStreamWriter2 = getInstance().streamWriter;
-                outputStreamWriter2.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: " + stackTrace[i] + "\n");
+                outputStreamWriter2.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: \tat " + stackTrace[i] + "\n");
             }
             getInstance().streamWriter.flush();
         } catch (Exception e) {
@@ -487,11 +498,11 @@ public class FileLog {
     public static /* synthetic */ void lambda$fatal$5(Throwable th) {
         try {
             OutputStreamWriter outputStreamWriter = getInstance().streamWriter;
-            outputStreamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: " + th + "\n");
+            outputStreamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " FATAL/tmessages: " + th + "\n");
             StackTraceElement[] stackTrace = th.getStackTrace();
             for (int i = 0; i < stackTrace.length; i++) {
                 OutputStreamWriter outputStreamWriter2 = getInstance().streamWriter;
-                outputStreamWriter2.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: " + stackTrace[i] + "\n");
+                outputStreamWriter2.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " FATAL/tmessages: \tat " + stackTrace[i] + "\n");
             }
             getInstance().streamWriter.flush();
         } catch (Exception e) {

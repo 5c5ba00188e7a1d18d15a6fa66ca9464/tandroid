@@ -17,16 +17,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$BusinessAwayMessageSchedule;
-import org.telegram.tgnet.TLRPC$TL_account_updateBusinessAwayMessage;
-import org.telegram.tgnet.TLRPC$TL_boolFalse;
-import org.telegram.tgnet.TLRPC$TL_businessAwayMessage;
-import org.telegram.tgnet.TLRPC$TL_businessAwayMessageScheduleAlways;
-import org.telegram.tgnet.TLRPC$TL_businessAwayMessageScheduleCustom;
-import org.telegram.tgnet.TLRPC$TL_businessAwayMessageScheduleOutsideWorkHours;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_inputBusinessAwayMessage;
-import org.telegram.tgnet.TLRPC$UserFull;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.AlertDialog;
@@ -48,7 +39,7 @@ import org.telegram.ui.Components.UniversalRecyclerView;
 public class AwayMessagesActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private int currentScheduleCustomEnd;
     private int currentScheduleCustomStart;
-    public TLRPC$TL_businessAwayMessage currentValue;
+    public TLRPC.TL_businessAwayMessage currentValue;
     public int currentValueScheduleType;
     private ActionBarMenuItem doneButton;
     private CrossfadeDrawable doneButtonDrawable;
@@ -144,11 +135,11 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processDone$1(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
-        if (tLRPC$TL_error != null) {
+    public /* synthetic */ void lambda$processDone$1(TLRPC.TL_error tL_error, TLObject tLObject) {
+        if (tL_error != null) {
             this.doneButtonDrawable.animateToProgress(0.0f);
-            BulletinFactory.showError(tLRPC$TL_error);
-        } else if (!(tLObject instanceof TLRPC$TL_boolFalse)) {
+            BulletinFactory.showError(tL_error);
+        } else if (!(tLObject instanceof TLRPC.TL_boolFalse)) {
             finishFragment();
         } else {
             this.doneButtonDrawable.animateToProgress(0.0f);
@@ -157,11 +148,11 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processDone$2(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$processDone$2(final TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
-                AwayMessagesActivity.this.lambda$processDone$1(tLRPC$TL_error, tLObject);
+                AwayMessagesActivity.this.lambda$processDone$1(tL_error, tLObject);
             }
         });
     }
@@ -246,8 +237,8 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void processDone() {
-        TLRPC$TL_inputBusinessAwayMessage tLRPC$TL_inputBusinessAwayMessage;
-        TLRPC$BusinessAwayMessageSchedule tLRPC$TL_businessAwayMessageScheduleOutsideWorkHours;
+        TLRPC.TL_inputBusinessAwayMessage tL_inputBusinessAwayMessage;
+        TLRPC.BusinessAwayMessageSchedule tL_businessAwayMessageScheduleOutsideWorkHours;
         if (this.doneButtonDrawable.getProgress() > 0.0f) {
             return;
         }
@@ -267,51 +258,51 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
             universalRecyclerView.smoothScrollToPosition(universalRecyclerView.findPositionByItemId(2));
         } else if (!z || this.recipientsHelper.validate(this.listView)) {
             this.doneButtonDrawable.animateToProgress(1.0f);
-            TLRPC$UserFull userFull = getMessagesController().getUserFull(getUserConfig().getClientUserId());
-            TLRPC$TL_account_updateBusinessAwayMessage tLRPC$TL_account_updateBusinessAwayMessage = new TLRPC$TL_account_updateBusinessAwayMessage();
+            TLRPC.UserFull userFull = getMessagesController().getUserFull(getUserConfig().getClientUserId());
+            TLRPC.TL_account_updateBusinessAwayMessage tL_account_updateBusinessAwayMessage = new TLRPC.TL_account_updateBusinessAwayMessage();
             if (this.enabled) {
-                TLRPC$TL_inputBusinessAwayMessage tLRPC$TL_inputBusinessAwayMessage2 = new TLRPC$TL_inputBusinessAwayMessage();
-                tLRPC$TL_account_updateBusinessAwayMessage.message = tLRPC$TL_inputBusinessAwayMessage2;
-                tLRPC$TL_inputBusinessAwayMessage2.offline_only = this.offline_only;
-                tLRPC$TL_inputBusinessAwayMessage2.shortcut_id = findReply.id;
-                tLRPC$TL_inputBusinessAwayMessage2.recipients = this.recipientsHelper.getInputValue();
+                TLRPC.TL_inputBusinessAwayMessage tL_inputBusinessAwayMessage2 = new TLRPC.TL_inputBusinessAwayMessage();
+                tL_account_updateBusinessAwayMessage.message = tL_inputBusinessAwayMessage2;
+                tL_inputBusinessAwayMessage2.offline_only = this.offline_only;
+                tL_inputBusinessAwayMessage2.shortcut_id = findReply.id;
+                tL_inputBusinessAwayMessage2.recipients = this.recipientsHelper.getInputValue();
                 int i2 = this.schedule;
                 if (i2 == 0) {
-                    tLRPC$TL_inputBusinessAwayMessage = tLRPC$TL_account_updateBusinessAwayMessage.message;
-                    tLRPC$TL_businessAwayMessageScheduleOutsideWorkHours = new TLRPC$TL_businessAwayMessageScheduleAlways();
+                    tL_inputBusinessAwayMessage = tL_account_updateBusinessAwayMessage.message;
+                    tL_businessAwayMessageScheduleOutsideWorkHours = new TLRPC.TL_businessAwayMessageScheduleAlways();
                 } else if (i2 == 1) {
-                    tLRPC$TL_inputBusinessAwayMessage = tLRPC$TL_account_updateBusinessAwayMessage.message;
-                    tLRPC$TL_businessAwayMessageScheduleOutsideWorkHours = new TLRPC$TL_businessAwayMessageScheduleOutsideWorkHours();
+                    tL_inputBusinessAwayMessage = tL_account_updateBusinessAwayMessage.message;
+                    tL_businessAwayMessageScheduleOutsideWorkHours = new TLRPC.TL_businessAwayMessageScheduleOutsideWorkHours();
                 } else {
                     if (i2 == 2) {
-                        TLRPC$TL_businessAwayMessageScheduleCustom tLRPC$TL_businessAwayMessageScheduleCustom = new TLRPC$TL_businessAwayMessageScheduleCustom();
-                        tLRPC$TL_businessAwayMessageScheduleCustom.start_date = this.scheduleCustomStart;
-                        tLRPC$TL_businessAwayMessageScheduleCustom.end_date = this.scheduleCustomEnd;
-                        tLRPC$TL_account_updateBusinessAwayMessage.message.schedule = tLRPC$TL_businessAwayMessageScheduleCustom;
+                        TLRPC.TL_businessAwayMessageScheduleCustom tL_businessAwayMessageScheduleCustom = new TLRPC.TL_businessAwayMessageScheduleCustom();
+                        tL_businessAwayMessageScheduleCustom.start_date = this.scheduleCustomStart;
+                        tL_businessAwayMessageScheduleCustom.end_date = this.scheduleCustomEnd;
+                        tL_account_updateBusinessAwayMessage.message.schedule = tL_businessAwayMessageScheduleCustom;
                     }
-                    tLRPC$TL_account_updateBusinessAwayMessage.flags |= 1;
+                    tL_account_updateBusinessAwayMessage.flags |= 1;
                     if (userFull != null) {
                         userFull.flags2 |= 8;
-                        TLRPC$TL_businessAwayMessage tLRPC$TL_businessAwayMessage = new TLRPC$TL_businessAwayMessage();
-                        userFull.business_away_message = tLRPC$TL_businessAwayMessage;
-                        tLRPC$TL_businessAwayMessage.offline_only = this.offline_only;
-                        tLRPC$TL_businessAwayMessage.shortcut_id = findReply.id;
-                        tLRPC$TL_businessAwayMessage.recipients = this.recipientsHelper.getValue();
-                        userFull.business_away_message.schedule = tLRPC$TL_account_updateBusinessAwayMessage.message.schedule;
+                        TLRPC.TL_businessAwayMessage tL_businessAwayMessage = new TLRPC.TL_businessAwayMessage();
+                        userFull.business_away_message = tL_businessAwayMessage;
+                        tL_businessAwayMessage.offline_only = this.offline_only;
+                        tL_businessAwayMessage.shortcut_id = findReply.id;
+                        tL_businessAwayMessage.recipients = this.recipientsHelper.getValue();
+                        userFull.business_away_message.schedule = tL_account_updateBusinessAwayMessage.message.schedule;
                     }
                 }
-                tLRPC$TL_inputBusinessAwayMessage.schedule = tLRPC$TL_businessAwayMessageScheduleOutsideWorkHours;
-                tLRPC$TL_account_updateBusinessAwayMessage.flags |= 1;
+                tL_inputBusinessAwayMessage.schedule = tL_businessAwayMessageScheduleOutsideWorkHours;
+                tL_account_updateBusinessAwayMessage.flags |= 1;
                 if (userFull != null) {
                 }
             } else if (userFull != null) {
                 userFull.flags2 &= -9;
                 userFull.business_away_message = null;
             }
-            getConnectionsManager().sendRequest(tLRPC$TL_account_updateBusinessAwayMessage, new RequestDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda5
+            getConnectionsManager().sendRequest(tL_account_updateBusinessAwayMessage, new RequestDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda5
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    AwayMessagesActivity.this.lambda$processDone$2(tLObject, tLRPC$TL_error);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    AwayMessagesActivity.this.lambda$processDone$2(tLObject, tL_error);
                 }
             });
             getMessagesStorage().updateUserInfo(userFull, false);
@@ -324,32 +315,32 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
         if (this.valueSet) {
             return;
         }
-        TLRPC$UserFull userFull = getMessagesController().getUserFull(getUserConfig().getClientUserId());
+        TLRPC.UserFull userFull = getMessagesController().getUserFull(getUserConfig().getClientUserId());
         if (userFull == null) {
             getMessagesController().loadUserInfo(getUserConfig().getCurrentUser(), true, getClassGuid());
             return;
         }
-        TLRPC$TL_businessAwayMessage tLRPC$TL_businessAwayMessage = userFull.business_away_message;
-        this.currentValue = tLRPC$TL_businessAwayMessage;
+        TLRPC.TL_businessAwayMessage tL_businessAwayMessage = userFull.business_away_message;
+        this.currentValue = tL_businessAwayMessage;
         this.hasHours = userFull.business_work_hours != null;
-        this.enabled = tLRPC$TL_businessAwayMessage != null;
-        this.exclude = tLRPC$TL_businessAwayMessage != null ? tLRPC$TL_businessAwayMessage.recipients.exclude_selected : true;
-        this.offline_only = tLRPC$TL_businessAwayMessage != null ? tLRPC$TL_businessAwayMessage.offline_only : true;
+        this.enabled = tL_businessAwayMessage != null;
+        this.exclude = tL_businessAwayMessage != null ? tL_businessAwayMessage.recipients.exclude_selected : true;
+        this.offline_only = tL_businessAwayMessage != null ? tL_businessAwayMessage.offline_only : true;
         BusinessRecipientsHelper businessRecipientsHelper = this.recipientsHelper;
         if (businessRecipientsHelper != null) {
-            businessRecipientsHelper.setValue(tLRPC$TL_businessAwayMessage == null ? null : tLRPC$TL_businessAwayMessage.recipients);
+            businessRecipientsHelper.setValue(tL_businessAwayMessage == null ? null : tL_businessAwayMessage.recipients);
         }
-        TLRPC$TL_businessAwayMessage tLRPC$TL_businessAwayMessage2 = this.currentValue;
-        if (tLRPC$TL_businessAwayMessage2 != null) {
-            TLRPC$BusinessAwayMessageSchedule tLRPC$BusinessAwayMessageSchedule = tLRPC$TL_businessAwayMessage2.schedule;
-            if (tLRPC$BusinessAwayMessageSchedule instanceof TLRPC$TL_businessAwayMessageScheduleCustom) {
+        TLRPC.TL_businessAwayMessage tL_businessAwayMessage2 = this.currentValue;
+        if (tL_businessAwayMessage2 != null) {
+            TLRPC.BusinessAwayMessageSchedule businessAwayMessageSchedule = tL_businessAwayMessage2.schedule;
+            if (businessAwayMessageSchedule instanceof TLRPC.TL_businessAwayMessageScheduleCustom) {
                 this.currentValueScheduleType = 2;
                 this.schedule = 2;
-                TLRPC$TL_businessAwayMessageScheduleCustom tLRPC$TL_businessAwayMessageScheduleCustom = (TLRPC$TL_businessAwayMessageScheduleCustom) tLRPC$BusinessAwayMessageSchedule;
-                int i = tLRPC$TL_businessAwayMessageScheduleCustom.start_date;
+                TLRPC.TL_businessAwayMessageScheduleCustom tL_businessAwayMessageScheduleCustom = (TLRPC.TL_businessAwayMessageScheduleCustom) businessAwayMessageSchedule;
+                int i = tL_businessAwayMessageScheduleCustom.start_date;
                 this.currentScheduleCustomStart = i;
                 this.scheduleCustomStart = i;
-                int i2 = tLRPC$TL_businessAwayMessageScheduleCustom.end_date;
+                int i2 = tL_businessAwayMessageScheduleCustom.end_date;
                 this.currentScheduleCustomEnd = i2;
                 this.scheduleCustomEnd = i2;
                 universalRecyclerView = this.listView;
@@ -362,8 +353,8 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
         }
         this.scheduleCustomStart = getConnectionsManager().getCurrentTime();
         this.scheduleCustomEnd = getConnectionsManager().getCurrentTime() + 86400;
-        TLRPC$TL_businessAwayMessage tLRPC$TL_businessAwayMessage3 = this.currentValue;
-        if ((tLRPC$TL_businessAwayMessage3 == null || !(tLRPC$TL_businessAwayMessage3.schedule instanceof TLRPC$TL_businessAwayMessageScheduleAlways)) && tLRPC$TL_businessAwayMessage3 != null && (tLRPC$TL_businessAwayMessage3.schedule instanceof TLRPC$TL_businessAwayMessageScheduleOutsideWorkHours)) {
+        TLRPC.TL_businessAwayMessage tL_businessAwayMessage3 = this.currentValue;
+        if ((tL_businessAwayMessage3 == null || !(tL_businessAwayMessage3.schedule instanceof TLRPC.TL_businessAwayMessageScheduleAlways)) && tL_businessAwayMessage3 != null && (tL_businessAwayMessage3.schedule instanceof TLRPC.TL_businessAwayMessageScheduleOutsideWorkHours)) {
             this.currentValueScheduleType = 1;
             this.schedule = 1;
         } else {
@@ -413,8 +404,8 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
         businessRecipientsHelper.setExclude(this.exclude);
         BusinessRecipientsHelper businessRecipientsHelper2 = this.recipientsHelper;
         if (businessRecipientsHelper2 != null) {
-            TLRPC$TL_businessAwayMessage tLRPC$TL_businessAwayMessage = this.currentValue;
-            businessRecipientsHelper2.setValue(tLRPC$TL_businessAwayMessage == null ? null : tLRPC$TL_businessAwayMessage.recipients);
+            TLRPC.TL_businessAwayMessage tL_businessAwayMessage = this.currentValue;
+            businessRecipientsHelper2.setValue(tL_businessAwayMessage == null ? null : tL_businessAwayMessage.recipients);
         }
         UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(this, new Utilities.Callback2() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.messenger.Utilities.Callback2
@@ -454,12 +445,12 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
     public boolean hasChanges() {
         if (this.valueSet) {
             boolean z = this.enabled;
-            TLRPC$TL_businessAwayMessage tLRPC$TL_businessAwayMessage = this.currentValue;
-            if (z != (tLRPC$TL_businessAwayMessage != null)) {
+            TLRPC.TL_businessAwayMessage tL_businessAwayMessage = this.currentValue;
+            if (z != (tL_businessAwayMessage != null)) {
                 return true;
             }
-            if (z && tLRPC$TL_businessAwayMessage != null) {
-                if (tLRPC$TL_businessAwayMessage.recipients.exclude_selected != this.exclude) {
+            if (z && tL_businessAwayMessage != null) {
+                if (tL_businessAwayMessage.recipients.exclude_selected != this.exclude) {
                     return true;
                 }
                 BusinessRecipientsHelper businessRecipientsHelper = this.recipientsHelper;

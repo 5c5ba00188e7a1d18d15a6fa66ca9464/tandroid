@@ -103,94 +103,7 @@ import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$FileLocation;
-import org.telegram.tgnet.TLRPC$InputSecureFile;
-import org.telegram.tgnet.TLRPC$PasswordKdfAlgo;
-import org.telegram.tgnet.TLRPC$PhotoSize;
-import org.telegram.tgnet.TLRPC$SecureFile;
-import org.telegram.tgnet.TLRPC$SecurePasswordKdfAlgo;
-import org.telegram.tgnet.TLRPC$SecurePlainData;
-import org.telegram.tgnet.TLRPC$SecureRequiredType;
-import org.telegram.tgnet.TLRPC$SecureValueError;
-import org.telegram.tgnet.TLRPC$SecureValueType;
-import org.telegram.tgnet.TLRPC$TL_account_acceptAuthorization;
-import org.telegram.tgnet.TLRPC$TL_account_authorizationForm;
-import org.telegram.tgnet.TLRPC$TL_account_deleteSecureValue;
-import org.telegram.tgnet.TLRPC$TL_account_getPassword;
-import org.telegram.tgnet.TLRPC$TL_account_getPasswordSettings;
-import org.telegram.tgnet.TLRPC$TL_account_password;
-import org.telegram.tgnet.TLRPC$TL_account_passwordInputSettings;
-import org.telegram.tgnet.TLRPC$TL_account_passwordSettings;
-import org.telegram.tgnet.TLRPC$TL_account_saveSecureValue;
-import org.telegram.tgnet.TLRPC$TL_account_sendVerifyEmailCode;
-import org.telegram.tgnet.TLRPC$TL_account_sendVerifyPhoneCode;
-import org.telegram.tgnet.TLRPC$TL_account_sentEmailCode;
-import org.telegram.tgnet.TLRPC$TL_account_updatePasswordSettings;
-import org.telegram.tgnet.TLRPC$TL_account_verifyEmail;
-import org.telegram.tgnet.TLRPC$TL_account_verifyPhone;
-import org.telegram.tgnet.TLRPC$TL_auth_cancelCode;
-import org.telegram.tgnet.TLRPC$TL_auth_codeTypeCall;
-import org.telegram.tgnet.TLRPC$TL_auth_codeTypeFlashCall;
-import org.telegram.tgnet.TLRPC$TL_auth_codeTypeSms;
-import org.telegram.tgnet.TLRPC$TL_auth_passwordRecovery;
-import org.telegram.tgnet.TLRPC$TL_auth_requestPasswordRecovery;
-import org.telegram.tgnet.TLRPC$TL_auth_resendCode;
-import org.telegram.tgnet.TLRPC$TL_auth_sentCode;
-import org.telegram.tgnet.TLRPC$TL_auth_sentCodeTypeCall;
-import org.telegram.tgnet.TLRPC$TL_auth_sentCodeTypeFlashCall;
-import org.telegram.tgnet.TLRPC$TL_auth_sentCodeTypeSms;
-import org.telegram.tgnet.TLRPC$TL_codeSettings;
-import org.telegram.tgnet.TLRPC$TL_emailVerificationCode;
-import org.telegram.tgnet.TLRPC$TL_emailVerifyPurposePassport;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_help_getPassportConfig;
-import org.telegram.tgnet.TLRPC$TL_help_passportConfig;
-import org.telegram.tgnet.TLRPC$TL_inputCheckPasswordSRP;
-import org.telegram.tgnet.TLRPC$TL_inputFile;
-import org.telegram.tgnet.TLRPC$TL_inputSecureFile;
-import org.telegram.tgnet.TLRPC$TL_inputSecureFileUploaded;
-import org.telegram.tgnet.TLRPC$TL_inputSecureValue;
-import org.telegram.tgnet.TLRPC$TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow;
-import org.telegram.tgnet.TLRPC$TL_secureCredentialsEncrypted;
-import org.telegram.tgnet.TLRPC$TL_secureData;
-import org.telegram.tgnet.TLRPC$TL_secureFile;
-import org.telegram.tgnet.TLRPC$TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000;
-import org.telegram.tgnet.TLRPC$TL_securePasswordKdfAlgoSHA512;
-import org.telegram.tgnet.TLRPC$TL_securePasswordKdfAlgoUnknown;
-import org.telegram.tgnet.TLRPC$TL_securePlainEmail;
-import org.telegram.tgnet.TLRPC$TL_securePlainPhone;
-import org.telegram.tgnet.TLRPC$TL_secureRequiredType;
-import org.telegram.tgnet.TLRPC$TL_secureRequiredTypeOneOf;
-import org.telegram.tgnet.TLRPC$TL_secureSecretSettings;
-import org.telegram.tgnet.TLRPC$TL_secureValue;
-import org.telegram.tgnet.TLRPC$TL_secureValueError;
-import org.telegram.tgnet.TLRPC$TL_secureValueErrorData;
-import org.telegram.tgnet.TLRPC$TL_secureValueErrorFile;
-import org.telegram.tgnet.TLRPC$TL_secureValueErrorFiles;
-import org.telegram.tgnet.TLRPC$TL_secureValueErrorFrontSide;
-import org.telegram.tgnet.TLRPC$TL_secureValueErrorReverseSide;
-import org.telegram.tgnet.TLRPC$TL_secureValueErrorSelfie;
-import org.telegram.tgnet.TLRPC$TL_secureValueErrorTranslationFile;
-import org.telegram.tgnet.TLRPC$TL_secureValueErrorTranslationFiles;
-import org.telegram.tgnet.TLRPC$TL_secureValueHash;
-import org.telegram.tgnet.TLRPC$TL_secureValueTypeAddress;
-import org.telegram.tgnet.TLRPC$TL_secureValueTypeBankStatement;
-import org.telegram.tgnet.TLRPC$TL_secureValueTypeDriverLicense;
-import org.telegram.tgnet.TLRPC$TL_secureValueTypeEmail;
-import org.telegram.tgnet.TLRPC$TL_secureValueTypeIdentityCard;
-import org.telegram.tgnet.TLRPC$TL_secureValueTypeInternalPassport;
-import org.telegram.tgnet.TLRPC$TL_secureValueTypePassport;
-import org.telegram.tgnet.TLRPC$TL_secureValueTypePassportRegistration;
-import org.telegram.tgnet.TLRPC$TL_secureValueTypePersonalDetails;
-import org.telegram.tgnet.TLRPC$TL_secureValueTypePhone;
-import org.telegram.tgnet.TLRPC$TL_secureValueTypeRentalAgreement;
-import org.telegram.tgnet.TLRPC$TL_secureValueTypeTemporaryRegistration;
-import org.telegram.tgnet.TLRPC$TL_secureValueTypeUtilityBill;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$Vector;
-import org.telegram.tgnet.TLRPC$account_Password;
-import org.telegram.tgnet.TLRPC$auth_CodeType;
-import org.telegram.tgnet.TLRPC$auth_SentCodeType;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.AlertDialog;
@@ -241,23 +154,23 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     private String currentCallbackUrl;
     private String currentCitizeship;
     private HashMap currentDocumentValues;
-    private TLRPC$TL_secureRequiredType currentDocumentsType;
-    private TLRPC$TL_secureValue currentDocumentsTypeValue;
+    private TLRPC.TL_secureRequiredType currentDocumentsType;
+    private TLRPC.TL_secureValue currentDocumentsTypeValue;
     private String currentEmail;
     private int[] currentExpireDate;
-    private TLRPC$TL_account_authorizationForm currentForm;
+    private TLRPC.TL_account_authorizationForm currentForm;
     private String currentGender;
     private String currentNonce;
-    private TLRPC$account_Password currentPassword;
+    private TLRPC.account_Password currentPassword;
     private String currentPayload;
-    private TLRPC$TL_auth_sentCode currentPhoneVerification;
+    private TLRPC.TL_auth_sentCode currentPhoneVerification;
     private LinearLayout currentPhotoViewerLayout;
     private String currentPicturePath;
     private String currentPublicKey;
     private String currentResidence;
     private String currentScope;
-    private TLRPC$TL_secureRequiredType currentType;
-    private TLRPC$TL_secureValue currentTypeValue;
+    private TLRPC.TL_secureRequiredType currentType;
+    private TLRPC.TL_secureValue currentTypeValue;
     private HashMap currentValues;
     private int currentViewNum;
     private PassportActivityDelegate delegate;
@@ -356,10 +269,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     public class 1ValueToSend {
         boolean selfie_required;
         boolean translation_required;
-        TLRPC$TL_secureValue value;
+        TLRPC.TL_secureValue value;
 
-        public 1ValueToSend(TLRPC$TL_secureValue tLRPC$TL_secureValue, boolean z, boolean z2) {
-            this.value = tLRPC$TL_secureValue;
+        public 1ValueToSend(TLRPC.TL_secureValue tL_secureValue, boolean z, boolean z2) {
+            this.value = tL_secureValue;
             this.selfie_required = z;
             this.translation_required = z2;
         }
@@ -412,21 +325,21 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onItemClick$5(TLRPC$TL_error tLRPC$TL_error, Runnable runnable, ErrorRunnable errorRunnable, TLRPC$TL_account_verifyEmail tLRPC$TL_account_verifyEmail) {
-            if (tLRPC$TL_error == null) {
+        public /* synthetic */ void lambda$onItemClick$5(TLRPC.TL_error tL_error, Runnable runnable, ErrorRunnable errorRunnable, TLRPC.TL_account_verifyEmail tL_account_verifyEmail) {
+            if (tL_error == null) {
                 PassportActivity.this.delegate.saveValue(PassportActivity.this.currentType, (String) PassportActivity.this.currentValues.get("email"), null, null, null, null, null, null, null, null, runnable, errorRunnable);
                 return;
             }
-            AlertsCreator.processError(((BaseFragment) PassportActivity.this).currentAccount, tLRPC$TL_error, PassportActivity.this, tLRPC$TL_account_verifyEmail, new Object[0]);
+            AlertsCreator.processError(((BaseFragment) PassportActivity.this).currentAccount, tL_error, PassportActivity.this, tL_account_verifyEmail, new Object[0]);
             errorRunnable.onError(null, null);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onItemClick$6(final Runnable runnable, final ErrorRunnable errorRunnable, final TLRPC$TL_account_verifyEmail tLRPC$TL_account_verifyEmail, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        public /* synthetic */ void lambda$onItemClick$6(final Runnable runnable, final ErrorRunnable errorRunnable, final TLRPC.TL_account_verifyEmail tL_account_verifyEmail, TLObject tLObject, final TLRPC.TL_error tL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$3$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PassportActivity.3.this.lambda$onItemClick$5(tLRPC$TL_error, runnable, errorRunnable, tLRPC$TL_account_verifyEmail);
+                    PassportActivity.3.this.lambda$onItemClick$5(tL_error, runnable, errorRunnable, tL_account_verifyEmail);
                 }
             });
         }
@@ -596,9 +509,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     PassportActivity.this.documentsErrors.clear();
                 }
                 PassportActivityDelegate passportActivityDelegate = PassportActivity.this.delegate;
-                TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType = PassportActivity.this.currentType;
+                TLRPC.TL_secureRequiredType tL_secureRequiredType = PassportActivity.this.currentType;
                 String jSONObject3 = jSONObject == null ? jSONObject.toString() : null;
-                TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2 = PassportActivity.this.currentDocumentsType;
+                TLRPC.TL_secureRequiredType tL_secureRequiredType2 = PassportActivity.this.currentDocumentsType;
                 String jSONObject4 = jSONObject2 == null ? jSONObject2.toString() : null;
                 SecureDocument secureDocument2 = PassportActivity.this.selfieDocument;
                 ArrayList arrayList3 = PassportActivity.this.translationDocuments;
@@ -606,7 +519,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 if (PassportActivity.this.reverseLayout != null && PassportActivity.this.reverseLayout.getVisibility() == 0) {
                     secureDocument = PassportActivity.this.reverseDocument;
                 }
-                passportActivityDelegate.saveValue(tLRPC$TL_secureRequiredType, null, jSONObject3, tLRPC$TL_secureRequiredType2, jSONObject4, null, secureDocument2, arrayList3, secureDocument3, secureDocument, runnable, errorRunnable);
+                passportActivityDelegate.saveValue(tL_secureRequiredType, null, jSONObject3, tL_secureRequiredType2, jSONObject4, null, secureDocument2, arrayList3, secureDocument3, secureDocument, runnable, errorRunnable);
                 return true;
             }
             jSONObject2 = null;
@@ -615,10 +528,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             if (PassportActivity.this.documentsErrors != null) {
             }
             PassportActivityDelegate passportActivityDelegate2 = PassportActivity.this.delegate;
-            TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType3 = PassportActivity.this.currentType;
+            TLRPC.TL_secureRequiredType tL_secureRequiredType3 = PassportActivity.this.currentType;
             if (jSONObject == null) {
             }
-            TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType22 = PassportActivity.this.currentDocumentsType;
+            TLRPC.TL_secureRequiredType tL_secureRequiredType22 = PassportActivity.this.currentDocumentsType;
             if (jSONObject2 == null) {
             }
             SecureDocument secureDocument22 = PassportActivity.this.selfieDocument;
@@ -627,7 +540,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             if (PassportActivity.this.reverseLayout != null) {
                 secureDocument = PassportActivity.this.reverseDocument;
             }
-            passportActivityDelegate2.saveValue(tLRPC$TL_secureRequiredType3, null, jSONObject3, tLRPC$TL_secureRequiredType22, jSONObject4, null, secureDocument22, arrayList32, secureDocument32, secureDocument, runnable, errorRunnable);
+            passportActivityDelegate2.saveValue(tL_secureRequiredType3, null, jSONObject3, tL_secureRequiredType22, jSONObject4, null, secureDocument22, arrayList32, secureDocument32, secureDocument, runnable, errorRunnable);
             return true;
         }
 
@@ -640,9 +553,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         */
         public void onItemClick(int i) {
             JSONObject jSONObject;
-            TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType;
+            TLRPC.TL_secureRequiredType tL_secureRequiredType;
             String jSONObject2;
-            TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2;
+            TLRPC.TL_secureRequiredType tL_secureRequiredType2;
             ArrayList arrayList;
             SecureDocument secureDocument;
             ArrayList arrayList2;
@@ -732,15 +645,15 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                     return;
                                 }
                             } else if (PassportActivity.this.currentActivityType == 6) {
-                                final TLRPC$TL_account_verifyEmail tLRPC$TL_account_verifyEmail = new TLRPC$TL_account_verifyEmail();
-                                tLRPC$TL_account_verifyEmail.purpose = new TLRPC$TL_emailVerifyPurposePassport();
-                                TLRPC$TL_emailVerificationCode tLRPC$TL_emailVerificationCode = new TLRPC$TL_emailVerificationCode();
-                                tLRPC$TL_emailVerificationCode.code = PassportActivity.this.inputFields[0].getText().toString();
-                                tLRPC$TL_account_verifyEmail.verification = tLRPC$TL_emailVerificationCode;
-                                ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tLRPC$TL_account_verifyEmail, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$3$$ExternalSyntheticLambda1
+                                final TLRPC.TL_account_verifyEmail tL_account_verifyEmail = new TLRPC.TL_account_verifyEmail();
+                                tL_account_verifyEmail.purpose = new TLRPC.TL_emailVerifyPurposePassport();
+                                TLRPC.TL_emailVerificationCode tL_emailVerificationCode = new TLRPC.TL_emailVerificationCode();
+                                tL_emailVerificationCode.code = PassportActivity.this.inputFields[0].getText().toString();
+                                tL_account_verifyEmail.verification = tL_emailVerificationCode;
+                                ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tL_account_verifyEmail, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$3$$ExternalSyntheticLambda1
                                     @Override // org.telegram.tgnet.RequestDelegate
-                                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                        PassportActivity.3.this.lambda$onItemClick$6(runnable, errorRunnable, tLRPC$TL_account_verifyEmail, tLObject, tLRPC$TL_error);
+                                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                                        PassportActivity.3.this.lambda$onItemClick$6(runnable, errorRunnable, tL_account_verifyEmail, tLObject, tL_error);
                                     }
                                 }), ((BaseFragment) PassportActivity.this).classGuid);
                             }
@@ -770,9 +683,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                     PassportActivity.this.documentsErrors.clear();
                                 }
                                 PassportActivityDelegate passportActivityDelegate2 = PassportActivity.this.delegate;
-                                tLRPC$TL_secureRequiredType = PassportActivity.this.currentType;
+                                tL_secureRequiredType = PassportActivity.this.currentType;
                                 jSONObject2 = jSONObject != null ? jSONObject.toString() : null;
-                                tLRPC$TL_secureRequiredType2 = PassportActivity.this.currentDocumentsType;
+                                tL_secureRequiredType2 = PassportActivity.this.currentDocumentsType;
                                 arrayList = PassportActivity.this.documents;
                                 secureDocument = PassportActivity.this.selfieDocument;
                                 arrayList2 = PassportActivity.this.translationDocuments;
@@ -781,7 +694,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                 str = null;
                                 str2 = null;
                                 passportActivityDelegate = passportActivityDelegate2;
-                                passportActivityDelegate.saveValue(tLRPC$TL_secureRequiredType, str, jSONObject2, tLRPC$TL_secureRequiredType2, str2, arrayList, secureDocument, arrayList2, secureDocument2, secureDocument3, runnable, errorRunnable);
+                                passportActivityDelegate.saveValue(tL_secureRequiredType, str, jSONObject2, tL_secureRequiredType2, str2, arrayList, secureDocument, arrayList2, secureDocument2, secureDocument3, runnable, errorRunnable);
                                 PassportActivity.this.showEditDoneProgress(true, true);
                             }
                             jSONObject = null;
@@ -790,9 +703,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             if (PassportActivity.this.documentsErrors != null) {
                             }
                             PassportActivityDelegate passportActivityDelegate22 = PassportActivity.this.delegate;
-                            tLRPC$TL_secureRequiredType = PassportActivity.this.currentType;
+                            tL_secureRequiredType = PassportActivity.this.currentType;
                             jSONObject2 = jSONObject != null ? jSONObject.toString() : null;
-                            tLRPC$TL_secureRequiredType2 = PassportActivity.this.currentDocumentsType;
+                            tL_secureRequiredType2 = PassportActivity.this.currentDocumentsType;
                             arrayList = PassportActivity.this.documents;
                             secureDocument = PassportActivity.this.selfieDocument;
                             arrayList2 = PassportActivity.this.translationDocuments;
@@ -801,7 +714,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             str = null;
                             str2 = null;
                             passportActivityDelegate = passportActivityDelegate22;
-                            passportActivityDelegate.saveValue(tLRPC$TL_secureRequiredType, str, jSONObject2, tLRPC$TL_secureRequiredType2, str2, arrayList, secureDocument, arrayList2, secureDocument2, secureDocument3, runnable, errorRunnable);
+                            passportActivityDelegate.saveValue(tL_secureRequiredType, str, jSONObject2, tL_secureRequiredType2, str2, arrayList, secureDocument, arrayList2, secureDocument2, secureDocument3, runnable, errorRunnable);
                             PassportActivity.this.showEditDoneProgress(true, true);
                         }
                     } else if (PassportActivity.this.useCurrentValue) {
@@ -813,16 +726,16 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     }
                     str = str3;
                     passportActivityDelegate = PassportActivity.this.delegate;
-                    tLRPC$TL_secureRequiredType = PassportActivity.this.currentType;
+                    tL_secureRequiredType = PassportActivity.this.currentType;
                     secureDocument2 = null;
                     secureDocument3 = null;
                     jSONObject2 = null;
-                    tLRPC$TL_secureRequiredType2 = null;
+                    tL_secureRequiredType2 = null;
                     str2 = null;
                     arrayList = null;
                     secureDocument = null;
                     arrayList2 = null;
-                    passportActivityDelegate.saveValue(tLRPC$TL_secureRequiredType, str, jSONObject2, tLRPC$TL_secureRequiredType2, str2, arrayList, secureDocument, arrayList2, secureDocument2, secureDocument3, runnable, errorRunnable);
+                    passportActivityDelegate.saveValue(tL_secureRequiredType, str, jSONObject2, tL_secureRequiredType2, str2, arrayList, secureDocument, arrayList2, secureDocument2, secureDocument3, runnable, errorRunnable);
                     PassportActivity.this.showEditDoneProgress(true, true);
                 }
             }
@@ -832,15 +745,15 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes4.dex */
     public class 8 implements RequestDelegate {
-        final /* synthetic */ TLRPC$TL_account_getPasswordSettings val$req;
+        final /* synthetic */ TLRPC.TL_account_getPasswordSettings val$req;
         final /* synthetic */ boolean val$saved;
         final /* synthetic */ String val$textPassword;
         final /* synthetic */ byte[] val$x_bytes;
 
-        8(boolean z, byte[] bArr, TLRPC$TL_account_getPasswordSettings tLRPC$TL_account_getPasswordSettings, String str) {
+        8(boolean z, byte[] bArr, TLRPC.TL_account_getPasswordSettings tL_account_getPasswordSettings, String str) {
             this.val$saved = z;
             this.val$x_bytes = bArr;
-            this.val$req = tLRPC$TL_account_getPasswordSettings;
+            this.val$req = tL_account_getPasswordSettings;
             this.val$textPassword = str;
         }
 
@@ -857,47 +770,47 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$generateNewSecret$4(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
-            if (tLRPC$TL_error == null) {
-                PassportActivity.this.currentPassword = (TLRPC$account_Password) tLObject;
+        public /* synthetic */ void lambda$generateNewSecret$4(TLRPC.TL_error tL_error, TLObject tLObject) {
+            if (tL_error == null) {
+                PassportActivity.this.currentPassword = (TLRPC.account_Password) tLObject;
                 TwoStepVerificationActivity.initPasswordNewAlgo(PassportActivity.this.currentPassword);
                 generateNewSecret();
             }
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$generateNewSecret$5(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        public /* synthetic */ void lambda$generateNewSecret$5(final TLObject tLObject, final TLRPC.TL_error tL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PassportActivity.8.this.lambda$generateNewSecret$4(tLRPC$TL_error, tLObject);
+                    PassportActivity.8.this.lambda$generateNewSecret$4(tL_error, tLObject);
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$generateNewSecret$6(TLRPC$TL_error tLRPC$TL_error) {
-            if (tLRPC$TL_error != null && "SRP_ID_INVALID".equals(tLRPC$TL_error.text)) {
-                ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(new TLRPC$TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda5
+        public /* synthetic */ void lambda$generateNewSecret$6(TLRPC.TL_error tL_error) {
+            if (tL_error != null && "SRP_ID_INVALID".equals(tL_error.text)) {
+                ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(new TLRPC.TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda5
                     @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error2) {
-                        PassportActivity.8.this.lambda$generateNewSecret$5(tLObject, tLRPC$TL_error2);
+                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error2) {
+                        PassportActivity.8.this.lambda$generateNewSecret$5(tLObject, tL_error2);
                     }
                 }, 8);
                 return;
             }
             if (PassportActivity.this.currentForm == null) {
-                PassportActivity.this.currentForm = new TLRPC$TL_account_authorizationForm();
+                PassportActivity.this.currentForm = new TLRPC.TL_account_authorizationForm();
             }
             openRequestInterface();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$generateNewSecret$7(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        public /* synthetic */ void lambda$generateNewSecret$7(TLObject tLObject, final TLRPC.TL_error tL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PassportActivity.8.this.lambda$generateNewSecret$6(tLRPC$TL_error);
+                    PassportActivity.8.this.lambda$generateNewSecret$6(tL_error);
                 }
             });
         }
@@ -905,87 +818,87 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$generateNewSecret$8(byte[] bArr, String str) {
             Utilities.random.setSeed(PassportActivity.this.currentPassword.secure_random);
-            TLRPC$TL_account_updatePasswordSettings tLRPC$TL_account_updatePasswordSettings = new TLRPC$TL_account_updatePasswordSettings();
-            if (PassportActivity.this.currentPassword.current_algo instanceof TLRPC$TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) {
-                tLRPC$TL_account_updatePasswordSettings.password = SRPHelper.startCheck(bArr, PassportActivity.this.currentPassword.srp_id, PassportActivity.this.currentPassword.srp_B, (TLRPC$TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) PassportActivity.this.currentPassword.current_algo);
+            TLRPC.TL_account_updatePasswordSettings tL_account_updatePasswordSettings = new TLRPC.TL_account_updatePasswordSettings();
+            if (PassportActivity.this.currentPassword.current_algo instanceof TLRPC.TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) {
+                tL_account_updatePasswordSettings.password = SRPHelper.startCheck(bArr, PassportActivity.this.currentPassword.srp_id, PassportActivity.this.currentPassword.srp_B, (TLRPC.TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) PassportActivity.this.currentPassword.current_algo);
             }
-            tLRPC$TL_account_updatePasswordSettings.new_settings = new TLRPC$TL_account_passwordInputSettings();
+            tL_account_updatePasswordSettings.new_settings = new TLRPC.TL_account_passwordInputSettings();
             PassportActivity passportActivity = PassportActivity.this;
             passportActivity.secureSecret = passportActivity.getRandomSecret();
             PassportActivity passportActivity2 = PassportActivity.this;
             passportActivity2.secureSecretId = Utilities.bytesToLong(Utilities.computeSHA256(passportActivity2.secureSecret));
-            if (PassportActivity.this.currentPassword.new_secure_algo instanceof TLRPC$TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000) {
-                TLRPC$TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000 tLRPC$TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000 = (TLRPC$TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000) PassportActivity.this.currentPassword.new_secure_algo;
-                PassportActivity.this.saltedPassword = Utilities.computePBKDF2(AndroidUtilities.getStringBytes(str), tLRPC$TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000.salt);
+            if (PassportActivity.this.currentPassword.new_secure_algo instanceof TLRPC.TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000) {
+                TLRPC.TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000 tL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000 = (TLRPC.TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000) PassportActivity.this.currentPassword.new_secure_algo;
+                PassportActivity.this.saltedPassword = Utilities.computePBKDF2(AndroidUtilities.getStringBytes(str), tL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000.salt);
                 byte[] bArr2 = new byte[32];
                 System.arraycopy(PassportActivity.this.saltedPassword, 0, bArr2, 0, 32);
                 byte[] bArr3 = new byte[16];
                 System.arraycopy(PassportActivity.this.saltedPassword, 32, bArr3, 0, 16);
                 Utilities.aesCbcEncryptionByteArraySafe(PassportActivity.this.secureSecret, bArr2, bArr3, 0, PassportActivity.this.secureSecret.length, 0, 1);
-                tLRPC$TL_account_updatePasswordSettings.new_settings.new_secure_settings = new TLRPC$TL_secureSecretSettings();
-                TLRPC$TL_secureSecretSettings tLRPC$TL_secureSecretSettings = tLRPC$TL_account_updatePasswordSettings.new_settings.new_secure_settings;
-                tLRPC$TL_secureSecretSettings.secure_algo = tLRPC$TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000;
-                tLRPC$TL_secureSecretSettings.secure_secret = PassportActivity.this.secureSecret;
-                tLRPC$TL_account_updatePasswordSettings.new_settings.new_secure_settings.secure_secret_id = PassportActivity.this.secureSecretId;
-                tLRPC$TL_account_updatePasswordSettings.new_settings.flags |= 4;
+                tL_account_updatePasswordSettings.new_settings.new_secure_settings = new TLRPC.TL_secureSecretSettings();
+                TLRPC.TL_secureSecretSettings tL_secureSecretSettings = tL_account_updatePasswordSettings.new_settings.new_secure_settings;
+                tL_secureSecretSettings.secure_algo = tL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000;
+                tL_secureSecretSettings.secure_secret = PassportActivity.this.secureSecret;
+                tL_account_updatePasswordSettings.new_settings.new_secure_settings.secure_secret_id = PassportActivity.this.secureSecretId;
+                tL_account_updatePasswordSettings.new_settings.flags |= 4;
             }
-            ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tLRPC$TL_account_updatePasswordSettings, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda0
+            ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tL_account_updatePasswordSettings, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda0
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    PassportActivity.8.this.lambda$generateNewSecret$7(tLObject, tLRPC$TL_error);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    PassportActivity.8.this.lambda$generateNewSecret$7(tLObject, tL_error);
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$resetSecret$0(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
-            if (tLRPC$TL_error == null) {
-                PassportActivity.this.currentPassword = (TLRPC$account_Password) tLObject;
+        public /* synthetic */ void lambda$resetSecret$0(TLRPC.TL_error tL_error, TLObject tLObject) {
+            if (tL_error == null) {
+                PassportActivity.this.currentPassword = (TLRPC.account_Password) tLObject;
                 TwoStepVerificationActivity.initPasswordNewAlgo(PassportActivity.this.currentPassword);
                 resetSecret();
             }
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$resetSecret$1(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        public /* synthetic */ void lambda$resetSecret$1(final TLObject tLObject, final TLRPC.TL_error tL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PassportActivity.8.this.lambda$resetSecret$0(tLRPC$TL_error, tLObject);
+                    PassportActivity.8.this.lambda$resetSecret$0(tL_error, tLObject);
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$resetSecret$2(TLRPC$TL_error tLRPC$TL_error) {
-            if (tLRPC$TL_error == null || !"SRP_ID_INVALID".equals(tLRPC$TL_error.text)) {
+        public /* synthetic */ void lambda$resetSecret$2(TLRPC.TL_error tL_error) {
+            if (tL_error == null || !"SRP_ID_INVALID".equals(tL_error.text)) {
                 generateNewSecret();
                 return;
             }
-            ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(new TLRPC$TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda3
+            ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(new TLRPC.TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda3
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error2) {
-                    PassportActivity.8.this.lambda$resetSecret$1(tLObject, tLRPC$TL_error2);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error2) {
+                    PassportActivity.8.this.lambda$resetSecret$1(tLObject, tL_error2);
                 }
             }, 8);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$resetSecret$3(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        public /* synthetic */ void lambda$resetSecret$3(TLObject tLObject, final TLRPC.TL_error tL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PassportActivity.8.this.lambda$resetSecret$2(tLRPC$TL_error);
+                    PassportActivity.8.this.lambda$resetSecret$2(tL_error);
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$run$10(final boolean z, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        public /* synthetic */ void lambda$run$10(final boolean z, final TLObject tLObject, final TLRPC.TL_error tL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda12
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PassportActivity.8.this.lambda$run$9(tLRPC$TL_error, tLObject, z);
+                    PassportActivity.8.this.lambda$run$9(tL_error, tLObject, z);
                 }
             });
         }
@@ -996,38 +909,38 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$run$12(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        public /* synthetic */ void lambda$run$12(TLObject tLObject, TLRPC.TL_error tL_error) {
             if (tLObject == null) {
-                if ("APP_VERSION_OUTDATED".equals(tLRPC$TL_error.text)) {
+                if ("APP_VERSION_OUTDATED".equals(tL_error.text)) {
                     AlertsCreator.showUpdateAppAlert(PassportActivity.this.getParentActivity(), LocaleController.getString(R.string.UpdateAppAlert), true);
                 } else {
-                    PassportActivity.this.showAlertWithText(LocaleController.getString(R.string.AppName), tLRPC$TL_error.text);
+                    PassportActivity.this.showAlertWithText(LocaleController.getString(R.string.AppName), tL_error.text);
                 }
                 PassportActivity.this.showEditDoneProgress(true, false);
                 return;
             }
-            PassportActivity.this.currentForm = new TLRPC$TL_account_authorizationForm();
-            TLRPC$Vector tLRPC$Vector = (TLRPC$Vector) tLObject;
-            int size = tLRPC$Vector.objects.size();
+            PassportActivity.this.currentForm = new TLRPC.TL_account_authorizationForm();
+            TLRPC.Vector vector = (TLRPC.Vector) tLObject;
+            int size = vector.objects.size();
             for (int i = 0; i < size; i++) {
-                PassportActivity.this.currentForm.values.add((TLRPC$TL_secureValue) tLRPC$Vector.objects.get(i));
+                PassportActivity.this.currentForm.values.add((TLRPC.TL_secureValue) vector.objects.get(i));
             }
             openRequestInterface();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$run$13(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        public /* synthetic */ void lambda$run$13(final TLObject tLObject, final TLRPC.TL_error tL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda16
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PassportActivity.8.this.lambda$run$12(tLObject, tLRPC$TL_error);
+                    PassportActivity.8.this.lambda$run$12(tLObject, tL_error);
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$run$14(TLRPC$TL_account_passwordSettings tLRPC$TL_account_passwordSettings, boolean z, byte[] bArr) {
-            PassportActivity.this.currentEmail = tLRPC$TL_account_passwordSettings.email;
+        public /* synthetic */ void lambda$run$14(TLRPC.TL_account_passwordSettings tL_account_passwordSettings, boolean z, byte[] bArr) {
+            PassportActivity.this.currentEmail = tL_account_passwordSettings.email;
             if (z) {
                 PassportActivity passportActivity = PassportActivity.this;
                 passportActivity.saltedPassword = passportActivity.savedSaltedPassword;
@@ -1038,29 +951,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     openRequestInterface();
                     return;
                 }
-                ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_account_getAllSecureValues
-                    @Override // org.telegram.tgnet.TLObject
-                    public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z2) {
-                        TLRPC$Vector tLRPC$Vector = new TLRPC$Vector();
-                        int readInt32 = abstractSerializedData.readInt32(z2);
-                        for (int i2 = 0; i2 < readInt32; i2++) {
-                            TLRPC$TL_secureValue TLdeserialize = TLRPC$TL_secureValue.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z2), z2);
-                            if (TLdeserialize == null) {
-                                return tLRPC$Vector;
-                            }
-                            tLRPC$Vector.objects.add(TLdeserialize);
-                        }
-                        return tLRPC$Vector;
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                        abstractSerializedData.writeInt32(-1299661699);
-                    }
-                }, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda13
+                ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(new TLRPC.TL_account_getAllSecureValues(), new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda13
                     @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        PassportActivity.8.this.lambda$run$13(tLObject, tLRPC$TL_error);
+                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                        PassportActivity.8.this.lambda$run$13(tLObject, tL_error);
                     }
                 });
                 return;
@@ -1086,21 +980,21 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$15(TLObject tLObject, String str, final boolean z) {
             final byte[] bArr;
-            final TLRPC$TL_account_passwordSettings tLRPC$TL_account_passwordSettings = (TLRPC$TL_account_passwordSettings) tLObject;
-            TLRPC$TL_secureSecretSettings tLRPC$TL_secureSecretSettings = tLRPC$TL_account_passwordSettings.secure_settings;
-            if (tLRPC$TL_secureSecretSettings != null) {
-                PassportActivity.this.secureSecret = tLRPC$TL_secureSecretSettings.secure_secret;
-                PassportActivity.this.secureSecretId = tLRPC$TL_account_passwordSettings.secure_settings.secure_secret_id;
-                TLRPC$SecurePasswordKdfAlgo tLRPC$SecurePasswordKdfAlgo = tLRPC$TL_account_passwordSettings.secure_settings.secure_algo;
-                if (tLRPC$SecurePasswordKdfAlgo instanceof TLRPC$TL_securePasswordKdfAlgoSHA512) {
-                    bArr = ((TLRPC$TL_securePasswordKdfAlgoSHA512) tLRPC$SecurePasswordKdfAlgo).salt;
+            final TLRPC.TL_account_passwordSettings tL_account_passwordSettings = (TLRPC.TL_account_passwordSettings) tLObject;
+            TLRPC.TL_secureSecretSettings tL_secureSecretSettings = tL_account_passwordSettings.secure_settings;
+            if (tL_secureSecretSettings != null) {
+                PassportActivity.this.secureSecret = tL_secureSecretSettings.secure_secret;
+                PassportActivity.this.secureSecretId = tL_account_passwordSettings.secure_settings.secure_secret_id;
+                TLRPC.SecurePasswordKdfAlgo securePasswordKdfAlgo = tL_account_passwordSettings.secure_settings.secure_algo;
+                if (securePasswordKdfAlgo instanceof TLRPC.TL_securePasswordKdfAlgoSHA512) {
+                    bArr = ((TLRPC.TL_securePasswordKdfAlgoSHA512) securePasswordKdfAlgo).salt;
                     PassportActivity.this.saltedPassword = Utilities.computeSHA512(bArr, AndroidUtilities.getStringBytes(str), bArr);
-                } else if (tLRPC$SecurePasswordKdfAlgo instanceof TLRPC$TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000) {
-                    TLRPC$TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000 tLRPC$TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000 = (TLRPC$TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000) tLRPC$SecurePasswordKdfAlgo;
-                    byte[] bArr2 = tLRPC$TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000.salt;
-                    PassportActivity.this.saltedPassword = Utilities.computePBKDF2(AndroidUtilities.getStringBytes(str), tLRPC$TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000.salt);
+                } else if (securePasswordKdfAlgo instanceof TLRPC.TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000) {
+                    TLRPC.TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000 tL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000 = (TLRPC.TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000) securePasswordKdfAlgo;
+                    byte[] bArr2 = tL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000.salt;
+                    PassportActivity.this.saltedPassword = Utilities.computePBKDF2(AndroidUtilities.getStringBytes(str), tL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000.salt);
                     bArr = bArr2;
-                } else if (tLRPC$SecurePasswordKdfAlgo instanceof TLRPC$TL_securePasswordKdfAlgoUnknown) {
+                } else if (securePasswordKdfAlgo instanceof TLRPC.TL_securePasswordKdfAlgoUnknown) {
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda10
                         @Override // java.lang.Runnable
                         public final void run() {
@@ -1112,10 +1006,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     bArr = new byte[0];
                 }
             } else {
-                if (PassportActivity.this.currentPassword.new_secure_algo instanceof TLRPC$TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000) {
-                    TLRPC$TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000 tLRPC$TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter1000002 = (TLRPC$TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000) PassportActivity.this.currentPassword.new_secure_algo;
-                    byte[] bArr3 = tLRPC$TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter1000002.salt;
-                    PassportActivity.this.saltedPassword = Utilities.computePBKDF2(AndroidUtilities.getStringBytes(str), tLRPC$TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter1000002.salt);
+                if (PassportActivity.this.currentPassword.new_secure_algo instanceof TLRPC.TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000) {
+                    TLRPC.TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000 tL_securePasswordKdfAlgoPBKDF2HMACSHA512iter1000002 = (TLRPC.TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000) PassportActivity.this.currentPassword.new_secure_algo;
+                    byte[] bArr3 = tL_securePasswordKdfAlgoPBKDF2HMACSHA512iter1000002.salt;
+                    PassportActivity.this.saltedPassword = Utilities.computePBKDF2(AndroidUtilities.getStringBytes(str), tL_securePasswordKdfAlgoPBKDF2HMACSHA512iter1000002.salt);
                     bArr = bArr3;
                 } else {
                     bArr = new byte[0];
@@ -1126,13 +1020,13 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda11
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PassportActivity.8.this.lambda$run$14(tLRPC$TL_account_passwordSettings, z, bArr);
+                    PassportActivity.8.this.lambda$run$14(tL_account_passwordSettings, z, bArr);
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$run$16(boolean z, TLRPC$TL_error tLRPC$TL_error) {
+        public /* synthetic */ void lambda$run$16(boolean z, TLRPC.TL_error tL_error) {
             if (z) {
                 UserConfig.getInstance(((BaseFragment) PassportActivity.this).currentAccount).resetSavedPassword();
                 PassportActivity.this.usingSavedPassword = 0;
@@ -1145,20 +1039,20 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 return;
             }
             PassportActivity.this.showEditDoneProgress(true, false);
-            if (tLRPC$TL_error.text.equals("PASSWORD_HASH_INVALID")) {
+            if (tL_error.text.equals("PASSWORD_HASH_INVALID")) {
                 PassportActivity.this.onPasscodeError(true);
-            } else if (!tLRPC$TL_error.text.startsWith("FLOOD_WAIT")) {
-                PassportActivity.this.showAlertWithText(LocaleController.getString(R.string.AppName), tLRPC$TL_error.text);
+            } else if (!tL_error.text.startsWith("FLOOD_WAIT")) {
+                PassportActivity.this.showAlertWithText(LocaleController.getString(R.string.AppName), tL_error.text);
             } else {
-                int intValue = Utilities.parseInt((CharSequence) tLRPC$TL_error.text).intValue();
+                int intValue = Utilities.parseInt((CharSequence) tL_error.text).intValue();
                 PassportActivity.this.showAlertWithText(LocaleController.getString(R.string.AppName), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, intValue < 60 ? LocaleController.formatPluralString("Seconds", intValue, new Object[0]) : LocaleController.formatPluralString("Minutes", intValue / 60, new Object[0])));
             }
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$run$9(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, boolean z) {
-            if (tLRPC$TL_error == null) {
-                PassportActivity.this.currentPassword = (TLRPC$account_Password) tLObject;
+        public /* synthetic */ void lambda$run$9(TLRPC.TL_error tL_error, TLObject tLObject, boolean z) {
+            if (tL_error == null) {
+                PassportActivity.this.currentPassword = (TLRPC.account_Password) tLObject;
                 TwoStepVerificationActivity.initPasswordNewAlgo(PassportActivity.this.currentPassword);
                 PassportActivity.this.onPasswordDone(z);
             }
@@ -1188,45 +1082,45 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
 
         private void resetSecret() {
-            TLRPC$TL_account_updatePasswordSettings tLRPC$TL_account_updatePasswordSettings = new TLRPC$TL_account_updatePasswordSettings();
-            if (PassportActivity.this.currentPassword.current_algo instanceof TLRPC$TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) {
-                tLRPC$TL_account_updatePasswordSettings.password = SRPHelper.startCheck(this.val$x_bytes, PassportActivity.this.currentPassword.srp_id, PassportActivity.this.currentPassword.srp_B, (TLRPC$TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) PassportActivity.this.currentPassword.current_algo);
+            TLRPC.TL_account_updatePasswordSettings tL_account_updatePasswordSettings = new TLRPC.TL_account_updatePasswordSettings();
+            if (PassportActivity.this.currentPassword.current_algo instanceof TLRPC.TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) {
+                tL_account_updatePasswordSettings.password = SRPHelper.startCheck(this.val$x_bytes, PassportActivity.this.currentPassword.srp_id, PassportActivity.this.currentPassword.srp_B, (TLRPC.TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) PassportActivity.this.currentPassword.current_algo);
             }
-            TLRPC$TL_account_passwordInputSettings tLRPC$TL_account_passwordInputSettings = new TLRPC$TL_account_passwordInputSettings();
-            tLRPC$TL_account_updatePasswordSettings.new_settings = tLRPC$TL_account_passwordInputSettings;
-            tLRPC$TL_account_passwordInputSettings.new_secure_settings = new TLRPC$TL_secureSecretSettings();
-            TLRPC$TL_secureSecretSettings tLRPC$TL_secureSecretSettings = tLRPC$TL_account_updatePasswordSettings.new_settings.new_secure_settings;
-            tLRPC$TL_secureSecretSettings.secure_secret = new byte[0];
-            tLRPC$TL_secureSecretSettings.secure_algo = new TLRPC$TL_securePasswordKdfAlgoUnknown();
-            TLRPC$TL_account_passwordInputSettings tLRPC$TL_account_passwordInputSettings2 = tLRPC$TL_account_updatePasswordSettings.new_settings;
-            tLRPC$TL_account_passwordInputSettings2.new_secure_settings.secure_secret_id = 0L;
-            tLRPC$TL_account_passwordInputSettings2.flags |= 4;
+            TLRPC.TL_account_passwordInputSettings tL_account_passwordInputSettings = new TLRPC.TL_account_passwordInputSettings();
+            tL_account_updatePasswordSettings.new_settings = tL_account_passwordInputSettings;
+            tL_account_passwordInputSettings.new_secure_settings = new TLRPC.TL_secureSecretSettings();
+            TLRPC.TL_secureSecretSettings tL_secureSecretSettings = tL_account_updatePasswordSettings.new_settings.new_secure_settings;
+            tL_secureSecretSettings.secure_secret = new byte[0];
+            tL_secureSecretSettings.secure_algo = new TLRPC.TL_securePasswordKdfAlgoUnknown();
+            TLRPC.TL_account_passwordInputSettings tL_account_passwordInputSettings2 = tL_account_updatePasswordSettings.new_settings;
+            tL_account_passwordInputSettings2.new_secure_settings.secure_secret_id = 0L;
+            tL_account_passwordInputSettings2.flags |= 4;
             ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(this.val$req, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda14
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    PassportActivity.8.this.lambda$resetSecret$3(tLObject, tLRPC$TL_error);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    PassportActivity.8.this.lambda$resetSecret$3(tLObject, tL_error);
                 }
             });
         }
 
         @Override // org.telegram.tgnet.RequestDelegate
-        public void run(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-            if (tLRPC$TL_error != null && "SRP_ID_INVALID".equals(tLRPC$TL_error.text)) {
-                TLRPC$TL_account_getPassword tLRPC$TL_account_getPassword = new TLRPC$TL_account_getPassword();
+        public void run(final TLObject tLObject, final TLRPC.TL_error tL_error) {
+            if (tL_error != null && "SRP_ID_INVALID".equals(tL_error.text)) {
+                TLRPC.TL_account_getPassword tL_account_getPassword = new TLRPC.TL_account_getPassword();
                 ConnectionsManager connectionsManager = ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount);
                 final boolean z = this.val$saved;
-                connectionsManager.sendRequest(tLRPC$TL_account_getPassword, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda7
+                connectionsManager.sendRequest(tL_account_getPassword, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda7
                     @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
-                        PassportActivity.8.this.lambda$run$10(z, tLObject2, tLRPC$TL_error2);
+                    public final void run(TLObject tLObject2, TLRPC.TL_error tL_error2) {
+                        PassportActivity.8.this.lambda$run$10(z, tLObject2, tL_error2);
                     }
                 }, 8);
-            } else if (tLRPC$TL_error != null) {
+            } else if (tL_error != null) {
                 final boolean z2 = this.val$saved;
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda9
                     @Override // java.lang.Runnable
                     public final void run() {
-                        PassportActivity.8.this.lambda$run$16(z2, tLRPC$TL_error);
+                        PassportActivity.8.this.lambda$run$16(z2, tL_error);
                     }
                 });
             } else {
@@ -1288,11 +1182,11 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes4.dex */
     public interface PassportActivityDelegate {
-        void deleteValue(TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType, TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2, ArrayList arrayList, boolean z, Runnable runnable, ErrorRunnable errorRunnable);
+        void deleteValue(TLRPC.TL_secureRequiredType tL_secureRequiredType, TLRPC.TL_secureRequiredType tL_secureRequiredType2, ArrayList arrayList, boolean z, Runnable runnable, ErrorRunnable errorRunnable);
 
-        SecureDocument saveFile(TLRPC$TL_secureFile tLRPC$TL_secureFile);
+        SecureDocument saveFile(TLRPC.TL_secureFile tL_secureFile);
 
-        void saveValue(TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType, String str, String str2, TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2, String str3, ArrayList arrayList, SecureDocument secureDocument, ArrayList arrayList2, SecureDocument secureDocument2, SecureDocument secureDocument3, Runnable runnable, ErrorRunnable errorRunnable);
+        void saveValue(TLRPC.TL_secureRequiredType tL_secureRequiredType, String str, String str2, TLRPC.TL_secureRequiredType tL_secureRequiredType2, String str3, ArrayList arrayList, SecureDocument secureDocument, ArrayList arrayList2, SecureDocument secureDocument2, SecureDocument secureDocument3, Runnable runnable, ErrorRunnable errorRunnable);
     }
 
     /* loaded from: classes4.dex */
@@ -1364,19 +1258,19 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$run$0(TLRPC$TL_error tLRPC$TL_error) {
-                PhoneConfirmationView.this.lastError = tLRPC$TL_error.text;
+            public /* synthetic */ void lambda$run$0(TLRPC.TL_error tL_error) {
+                PhoneConfirmationView.this.lastError = tL_error.text;
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$run$1(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-                if (tLRPC$TL_error == null || tLRPC$TL_error.text == null) {
+            public /* synthetic */ void lambda$run$1(TLObject tLObject, final TLRPC.TL_error tL_error) {
+                if (tL_error == null || tL_error.text == null) {
                     return;
                 }
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$5$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
-                        PassportActivity.PhoneConfirmationView.5.this.lambda$run$0(tLRPC$TL_error);
+                        PassportActivity.PhoneConfirmationView.5.this.lambda$run$0(tL_error);
                     }
                 });
             }
@@ -1418,13 +1312,13 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             }
                             textView.setText(LocaleController.getString(i));
                             PhoneConfirmationView.this.createCodeTimer();
-                            TLRPC$TL_auth_resendCode tLRPC$TL_auth_resendCode = new TLRPC$TL_auth_resendCode();
-                            tLRPC$TL_auth_resendCode.phone_number = PhoneConfirmationView.this.phone;
-                            tLRPC$TL_auth_resendCode.phone_code_hash = PhoneConfirmationView.this.phoneHash;
-                            ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tLRPC$TL_auth_resendCode, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$5$$ExternalSyntheticLambda1
+                            TLRPC.TL_auth_resendCode tL_auth_resendCode = new TLRPC.TL_auth_resendCode();
+                            tL_auth_resendCode.phone_number = PhoneConfirmationView.this.phone;
+                            tL_auth_resendCode.phone_code_hash = PhoneConfirmationView.this.phoneHash;
+                            ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tL_auth_resendCode, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$5$$ExternalSyntheticLambda1
                                 @Override // org.telegram.tgnet.RequestDelegate
-                                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                    PassportActivity.PhoneConfirmationView.5.this.lambda$run$1(tLObject, tLRPC$TL_error);
+                                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                                    PassportActivity.PhoneConfirmationView.5.this.lambda$run$1(tLObject, tL_error);
                                 }
                             }, 2);
                             return;
@@ -1739,7 +1633,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public static /* synthetic */ void lambda$onBackPressed$9(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        public static /* synthetic */ void lambda$onBackPressed$9(TLObject tLObject, TLRPC.TL_error tL_error) {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -1749,7 +1643,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public /* synthetic */ void lambda$onNextPressed$6(TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_account_verifyPhone tLRPC$TL_account_verifyPhone) {
+        public /* synthetic */ void lambda$onNextPressed$6(TLRPC.TL_error tL_error, TLRPC.TL_account_verifyPhone tL_account_verifyPhone) {
             int i;
             NotificationCenter globalInstance;
             int i2;
@@ -1758,14 +1652,14 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             int i4;
             PassportActivity.this.needHideProgress();
             this.nextPressed = false;
-            if (tLRPC$TL_error == null) {
+            if (tL_error == null) {
                 destroyTimer();
                 destroyCodeTimer();
                 PassportActivityDelegate passportActivityDelegate = PassportActivity.this.delegate;
-                TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType = PassportActivity.this.currentType;
+                TLRPC.TL_secureRequiredType tL_secureRequiredType = PassportActivity.this.currentType;
                 String str = (String) PassportActivity.this.currentValues.get("phone");
                 final PassportActivity passportActivity = PassportActivity.this;
-                passportActivityDelegate.saveValue(tLRPC$TL_secureRequiredType, str, null, null, null, null, null, null, null, null, new Runnable() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$$ExternalSyntheticLambda9
+                passportActivityDelegate.saveValue(tL_secureRequiredType, str, null, null, null, null, null, null, null, null, new Runnable() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$$ExternalSyntheticLambda9
                     @Override // java.lang.Runnable
                     public final void run() {
                         PassportActivity.this.finishFragment();
@@ -1773,7 +1667,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 }, null);
                 return;
             }
-            this.lastError = tLRPC$TL_error.text;
+            this.lastError = tL_error.text;
             int i5 = this.verificationType;
             if ((i5 == 3 && ((i4 = this.nextType) == 4 || i4 == 2)) || ((i5 == 2 && ((i = this.nextType) == 4 || i == 3)) || (i5 == 4 && this.nextType == 2))) {
                 createTimer();
@@ -1791,11 +1685,11 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 }
                 this.waitingForEvent = true;
                 if (this.verificationType != 3) {
-                    AlertsCreator.processError(((BaseFragment) PassportActivity.this).currentAccount, tLRPC$TL_error, PassportActivity.this, tLRPC$TL_account_verifyPhone, new Object[0]);
+                    AlertsCreator.processError(((BaseFragment) PassportActivity.this).currentAccount, tL_error, PassportActivity.this, tL_account_verifyPhone, new Object[0]);
                 }
                 PassportActivity.this.showEditDoneProgress(true, false);
-                if (tLRPC$TL_error.text.contains("PHONE_CODE_EMPTY") && !tLRPC$TL_error.text.contains("PHONE_CODE_INVALID")) {
-                    if (tLRPC$TL_error.text.contains("PHONE_CODE_EXPIRED")) {
+                if (tL_error.text.contains("PHONE_CODE_EMPTY") && !tL_error.text.contains("PHONE_CODE_INVALID")) {
+                    if (tL_error.text.contains("PHONE_CODE_EXPIRED")) {
                         onBackPressed(true);
                         PassportActivity.this.setPage(0, true, null);
                         return;
@@ -1819,7 +1713,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             if (this.verificationType != 3) {
             }
             PassportActivity.this.showEditDoneProgress(true, false);
-            if (tLRPC$TL_error.text.contains("PHONE_CODE_EMPTY")) {
+            if (tL_error.text.contains("PHONE_CODE_EMPTY")) {
             }
             i3 = 0;
             while (true) {
@@ -1832,11 +1726,11 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onNextPressed$7(final TLRPC$TL_account_verifyPhone tLRPC$TL_account_verifyPhone, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        public /* synthetic */ void lambda$onNextPressed$7(final TLRPC.TL_account_verifyPhone tL_account_verifyPhone, TLObject tLObject, final TLRPC.TL_error tL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PassportActivity.PhoneConfirmationView.this.lambda$onNextPressed$6(tLRPC$TL_error, tLRPC$TL_account_verifyPhone);
+                    PassportActivity.PhoneConfirmationView.this.lambda$onNextPressed$6(tL_error, tL_account_verifyPhone);
                 }
             });
         }
@@ -1848,13 +1742,13 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$resendCode$2(TLRPC$TL_error tLRPC$TL_error, Bundle bundle, TLObject tLObject, TLRPC$TL_auth_resendCode tLRPC$TL_auth_resendCode) {
+        public /* synthetic */ void lambda$resendCode$2(TLRPC.TL_error tL_error, Bundle bundle, TLObject tLObject, TLRPC.TL_auth_resendCode tL_auth_resendCode) {
             this.nextPressed = false;
-            if (tLRPC$TL_error == null) {
-                PassportActivity.this.fillNextCodeParams(bundle, (TLRPC$TL_auth_sentCode) tLObject, true);
+            if (tL_error == null) {
+                PassportActivity.this.fillNextCodeParams(bundle, (TLRPC.TL_auth_sentCode) tLObject, true);
             } else {
-                AlertDialog alertDialog = (AlertDialog) AlertsCreator.processError(((BaseFragment) PassportActivity.this).currentAccount, tLRPC$TL_error, PassportActivity.this, tLRPC$TL_auth_resendCode, new Object[0]);
-                if (alertDialog != null && tLRPC$TL_error.text.contains("PHONE_CODE_EXPIRED")) {
+                AlertDialog alertDialog = (AlertDialog) AlertsCreator.processError(((BaseFragment) PassportActivity.this).currentAccount, tL_error, PassportActivity.this, tL_auth_resendCode, new Object[0]);
+                if (alertDialog != null && tL_error.text.contains("PHONE_CODE_EXPIRED")) {
                     alertDialog.setPositiveButtonListener(new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$$ExternalSyntheticLambda10
                         @Override // android.content.DialogInterface.OnClickListener
                         public final void onClick(DialogInterface dialogInterface, int i) {
@@ -1867,11 +1761,11 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$resendCode$3(final Bundle bundle, final TLRPC$TL_auth_resendCode tLRPC$TL_auth_resendCode, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        public /* synthetic */ void lambda$resendCode$3(final Bundle bundle, final TLRPC.TL_auth_resendCode tL_auth_resendCode, final TLObject tLObject, final TLRPC.TL_error tL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$$ExternalSyntheticLambda8
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PassportActivity.PhoneConfirmationView.this.lambda$resendCode$2(tLRPC$TL_error, bundle, tLObject, tLRPC$TL_auth_resendCode);
+                    PassportActivity.PhoneConfirmationView.this.lambda$resendCode$2(tL_error, bundle, tLObject, tL_auth_resendCode);
                 }
             });
         }
@@ -1904,13 +1798,13 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             bundle.putString("phone", this.phone);
             this.nextPressed = true;
             PassportActivity.this.needShowProgress();
-            final TLRPC$TL_auth_resendCode tLRPC$TL_auth_resendCode = new TLRPC$TL_auth_resendCode();
-            tLRPC$TL_auth_resendCode.phone_number = this.phone;
-            tLRPC$TL_auth_resendCode.phone_code_hash = this.phoneHash;
-            ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tLRPC$TL_auth_resendCode, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$$ExternalSyntheticLambda6
+            final TLRPC.TL_auth_resendCode tL_auth_resendCode = new TLRPC.TL_auth_resendCode();
+            tL_auth_resendCode.phone_number = this.phone;
+            tL_auth_resendCode.phone_code_hash = this.phoneHash;
+            ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tL_auth_resendCode, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$$ExternalSyntheticLambda6
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    PassportActivity.PhoneConfirmationView.this.lambda$resendCode$3(bundle, tLRPC$TL_auth_resendCode, tLObject, tLRPC$TL_error);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    PassportActivity.PhoneConfirmationView.this.lambda$resendCode$3(bundle, tL_auth_resendCode, tLObject, tL_error);
                 }
             }, 2);
         }
@@ -1960,13 +1854,13 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 PassportActivity.this.showDialog(builder.create());
                 return false;
             }
-            TLRPC$TL_auth_cancelCode tLRPC$TL_auth_cancelCode = new TLRPC$TL_auth_cancelCode();
-            tLRPC$TL_auth_cancelCode.phone_number = this.phone;
-            tLRPC$TL_auth_cancelCode.phone_code_hash = this.phoneHash;
-            ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tLRPC$TL_auth_cancelCode, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$$ExternalSyntheticLambda3
+            TLRPC.TL_auth_cancelCode tL_auth_cancelCode = new TLRPC.TL_auth_cancelCode();
+            tL_auth_cancelCode.phone_number = this.phone;
+            tL_auth_cancelCode.phone_code_hash = this.phoneHash;
+            ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tL_auth_cancelCode, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$$ExternalSyntheticLambda3
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    PassportActivity.PhoneConfirmationView.lambda$onBackPressed$9(tLObject, tLRPC$TL_error);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    PassportActivity.PhoneConfirmationView.lambda$onBackPressed$9(tLObject, tL_error);
                 }
             }, 2);
             destroyTimer();
@@ -2100,16 +1994,16 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 }
                 this.waitingForEvent = false;
                 PassportActivity.this.showEditDoneProgress(true, true);
-                final TLRPC$TL_account_verifyPhone tLRPC$TL_account_verifyPhone = new TLRPC$TL_account_verifyPhone();
-                tLRPC$TL_account_verifyPhone.phone_number = this.phone;
-                tLRPC$TL_account_verifyPhone.phone_code = str;
-                tLRPC$TL_account_verifyPhone.phone_code_hash = this.phoneHash;
+                final TLRPC.TL_account_verifyPhone tL_account_verifyPhone = new TLRPC.TL_account_verifyPhone();
+                tL_account_verifyPhone.phone_number = this.phone;
+                tL_account_verifyPhone.phone_code = str;
+                tL_account_verifyPhone.phone_code_hash = this.phoneHash;
                 destroyTimer();
                 PassportActivity.this.needShowProgress();
-                ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tLRPC$TL_account_verifyPhone, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$$ExternalSyntheticLambda0
+                ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tL_account_verifyPhone, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$$ExternalSyntheticLambda0
                     @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        PassportActivity.PhoneConfirmationView.this.lambda$onNextPressed$7(tLRPC$TL_account_verifyPhone, tLObject, tLRPC$TL_error);
+                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                        PassportActivity.PhoneConfirmationView.this.lambda$onNextPressed$7(tL_account_verifyPhone, tLObject, tL_error);
                     }
                 }, 2);
             }
@@ -2119,16 +2013,16 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             globalInstance.removeObserver(this, i);
             this.waitingForEvent = false;
             PassportActivity.this.showEditDoneProgress(true, true);
-            final TLRPC$TL_account_verifyPhone tLRPC$TL_account_verifyPhone2 = new TLRPC$TL_account_verifyPhone();
-            tLRPC$TL_account_verifyPhone2.phone_number = this.phone;
-            tLRPC$TL_account_verifyPhone2.phone_code = str;
-            tLRPC$TL_account_verifyPhone2.phone_code_hash = this.phoneHash;
+            final TLRPC.TL_account_verifyPhone tL_account_verifyPhone2 = new TLRPC.TL_account_verifyPhone();
+            tL_account_verifyPhone2.phone_number = this.phone;
+            tL_account_verifyPhone2.phone_code = str;
+            tL_account_verifyPhone2.phone_code_hash = this.phoneHash;
             destroyTimer();
             PassportActivity.this.needShowProgress();
-            ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tLRPC$TL_account_verifyPhone2, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$$ExternalSyntheticLambda0
+            ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tL_account_verifyPhone2, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$$ExternalSyntheticLambda0
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    PassportActivity.PhoneConfirmationView.this.lambda$onNextPressed$7(tLRPC$TL_account_verifyPhone2, tLObject, tLRPC$TL_error);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    PassportActivity.PhoneConfirmationView.this.lambda$onNextPressed$7(tL_account_verifyPhone2, tLObject, tL_error);
                 }
             }, 2);
         }
@@ -2700,8 +2594,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public PassportActivity(int i, long j, String str, String str2, String str3, String str4, String str5, TLRPC$TL_account_authorizationForm tLRPC$TL_account_authorizationForm, TLRPC$account_Password tLRPC$account_Password) {
-        this(i, tLRPC$TL_account_authorizationForm, tLRPC$account_Password, (TLRPC$TL_secureRequiredType) null, (TLRPC$TL_secureValue) null, (TLRPC$TL_secureRequiredType) null, (TLRPC$TL_secureValue) null, (HashMap) null, (HashMap) null);
+    public PassportActivity(int i, long j, String str, String str2, String str3, String str4, String str5, TLRPC.TL_account_authorizationForm tL_account_authorizationForm, TLRPC.account_Password account_password) {
+        this(i, tL_account_authorizationForm, account_password, (TLRPC.TL_secureRequiredType) null, (TLRPC.TL_secureValue) null, (TLRPC.TL_secureRequiredType) null, (TLRPC.TL_secureValue) null, (HashMap) null, (HashMap) null);
         int i2;
         String nameForType;
         byte[] bArr;
@@ -2720,56 +2614,56 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         this.currentScope = str;
         this.currentPublicKey = str2;
         this.currentCallbackUrl = str5;
-        if (i != 0 || tLRPC$TL_account_authorizationForm.errors.isEmpty()) {
+        if (i != 0 || tL_account_authorizationForm.errors.isEmpty()) {
             return;
         }
         try {
-            Collections.sort(tLRPC$TL_account_authorizationForm.errors, new Comparator() { // from class: org.telegram.ui.PassportActivity.2
+            Collections.sort(tL_account_authorizationForm.errors, new Comparator() { // from class: org.telegram.ui.PassportActivity.2
                 @Override // java.util.Comparator
-                public int compare(TLRPC$SecureValueError tLRPC$SecureValueError, TLRPC$SecureValueError tLRPC$SecureValueError2) {
-                    int errorValue = getErrorValue(tLRPC$SecureValueError);
-                    int errorValue2 = getErrorValue(tLRPC$SecureValueError2);
+                public int compare(TLRPC.SecureValueError secureValueError, TLRPC.SecureValueError secureValueError2) {
+                    int errorValue = getErrorValue(secureValueError);
+                    int errorValue2 = getErrorValue(secureValueError2);
                     if (errorValue < errorValue2) {
                         return -1;
                     }
                     return errorValue > errorValue2 ? 1 : 0;
                 }
 
-                int getErrorValue(TLRPC$SecureValueError tLRPC$SecureValueError) {
-                    if (tLRPC$SecureValueError instanceof TLRPC$TL_secureValueError) {
+                int getErrorValue(TLRPC.SecureValueError secureValueError) {
+                    if (secureValueError instanceof TLRPC.TL_secureValueError) {
                         return 0;
                     }
-                    if (tLRPC$SecureValueError instanceof TLRPC$TL_secureValueErrorFrontSide) {
+                    if (secureValueError instanceof TLRPC.TL_secureValueErrorFrontSide) {
                         return 1;
                     }
-                    if (tLRPC$SecureValueError instanceof TLRPC$TL_secureValueErrorReverseSide) {
+                    if (secureValueError instanceof TLRPC.TL_secureValueErrorReverseSide) {
                         return 2;
                     }
-                    if (tLRPC$SecureValueError instanceof TLRPC$TL_secureValueErrorSelfie) {
+                    if (secureValueError instanceof TLRPC.TL_secureValueErrorSelfie) {
                         return 3;
                     }
-                    if (tLRPC$SecureValueError instanceof TLRPC$TL_secureValueErrorTranslationFile) {
+                    if (secureValueError instanceof TLRPC.TL_secureValueErrorTranslationFile) {
                         return 4;
                     }
-                    if (tLRPC$SecureValueError instanceof TLRPC$TL_secureValueErrorTranslationFiles) {
+                    if (secureValueError instanceof TLRPC.TL_secureValueErrorTranslationFiles) {
                         return 5;
                     }
-                    if (tLRPC$SecureValueError instanceof TLRPC$TL_secureValueErrorFile) {
+                    if (secureValueError instanceof TLRPC.TL_secureValueErrorFile) {
                         return 6;
                     }
-                    if (tLRPC$SecureValueError instanceof TLRPC$TL_secureValueErrorFiles) {
+                    if (secureValueError instanceof TLRPC.TL_secureValueErrorFiles) {
                         return 7;
                     }
-                    if (tLRPC$SecureValueError instanceof TLRPC$TL_secureValueErrorData) {
-                        return PassportActivity.this.getFieldCost(((TLRPC$TL_secureValueErrorData) tLRPC$SecureValueError).field);
+                    if (secureValueError instanceof TLRPC.TL_secureValueErrorData) {
+                        return PassportActivity.this.getFieldCost(((TLRPC.TL_secureValueErrorData) secureValueError).field);
                     }
                     return 100;
                 }
             });
-            int size = tLRPC$TL_account_authorizationForm.errors.size();
+            int size = tL_account_authorizationForm.errors.size();
             int i3 = 0;
             while (i3 < size) {
-                TLRPC$SecureValueError tLRPC$SecureValueError = (TLRPC$SecureValueError) tLRPC$TL_account_authorizationForm.errors.get(i3);
+                TLRPC.SecureValueError secureValueError = tL_account_authorizationForm.errors.get(i3);
                 String str12 = null;
                 str12 = null;
                 str12 = null;
@@ -2778,73 +2672,73 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 byte[] bArr2 = null;
                 str12 = null;
                 String str13 = "error_all";
-                if (tLRPC$SecureValueError instanceof TLRPC$TL_secureValueErrorFrontSide) {
-                    TLRPC$TL_secureValueErrorFrontSide tLRPC$TL_secureValueErrorFrontSide = (TLRPC$TL_secureValueErrorFrontSide) tLRPC$SecureValueError;
-                    nameForType = getNameForType(tLRPC$TL_secureValueErrorFrontSide.type);
-                    String str14 = tLRPC$TL_secureValueErrorFrontSide.text;
-                    bArr = tLRPC$TL_secureValueErrorFrontSide.file_hash;
+                if (secureValueError instanceof TLRPC.TL_secureValueErrorFrontSide) {
+                    TLRPC.TL_secureValueErrorFrontSide tL_secureValueErrorFrontSide = (TLRPC.TL_secureValueErrorFrontSide) secureValueError;
+                    nameForType = getNameForType(tL_secureValueErrorFrontSide.type);
+                    String str14 = tL_secureValueErrorFrontSide.text;
+                    bArr = tL_secureValueErrorFrontSide.file_hash;
                     str6 = str14;
                     str7 = "front";
-                } else if (tLRPC$SecureValueError instanceof TLRPC$TL_secureValueErrorReverseSide) {
-                    TLRPC$TL_secureValueErrorReverseSide tLRPC$TL_secureValueErrorReverseSide = (TLRPC$TL_secureValueErrorReverseSide) tLRPC$SecureValueError;
-                    nameForType = getNameForType(tLRPC$TL_secureValueErrorReverseSide.type);
-                    String str15 = tLRPC$TL_secureValueErrorReverseSide.text;
-                    bArr = tLRPC$TL_secureValueErrorReverseSide.file_hash;
+                } else if (secureValueError instanceof TLRPC.TL_secureValueErrorReverseSide) {
+                    TLRPC.TL_secureValueErrorReverseSide tL_secureValueErrorReverseSide = (TLRPC.TL_secureValueErrorReverseSide) secureValueError;
+                    nameForType = getNameForType(tL_secureValueErrorReverseSide.type);
+                    String str15 = tL_secureValueErrorReverseSide.text;
+                    bArr = tL_secureValueErrorReverseSide.file_hash;
                     str6 = str15;
                     str7 = "reverse";
-                } else if (tLRPC$SecureValueError instanceof TLRPC$TL_secureValueErrorSelfie) {
-                    TLRPC$TL_secureValueErrorSelfie tLRPC$TL_secureValueErrorSelfie = (TLRPC$TL_secureValueErrorSelfie) tLRPC$SecureValueError;
-                    nameForType = getNameForType(tLRPC$TL_secureValueErrorSelfie.type);
-                    String str16 = tLRPC$TL_secureValueErrorSelfie.text;
-                    bArr = tLRPC$TL_secureValueErrorSelfie.file_hash;
+                } else if (secureValueError instanceof TLRPC.TL_secureValueErrorSelfie) {
+                    TLRPC.TL_secureValueErrorSelfie tL_secureValueErrorSelfie = (TLRPC.TL_secureValueErrorSelfie) secureValueError;
+                    nameForType = getNameForType(tL_secureValueErrorSelfie.type);
+                    String str16 = tL_secureValueErrorSelfie.text;
+                    bArr = tL_secureValueErrorSelfie.file_hash;
                     str6 = str16;
                     str7 = "selfie";
-                } else if (tLRPC$SecureValueError instanceof TLRPC$TL_secureValueErrorTranslationFile) {
-                    TLRPC$TL_secureValueErrorTranslationFile tLRPC$TL_secureValueErrorTranslationFile = (TLRPC$TL_secureValueErrorTranslationFile) tLRPC$SecureValueError;
-                    nameForType = getNameForType(tLRPC$TL_secureValueErrorTranslationFile.type);
-                    String str17 = tLRPC$TL_secureValueErrorTranslationFile.text;
-                    bArr = tLRPC$TL_secureValueErrorTranslationFile.file_hash;
+                } else if (secureValueError instanceof TLRPC.TL_secureValueErrorTranslationFile) {
+                    TLRPC.TL_secureValueErrorTranslationFile tL_secureValueErrorTranslationFile = (TLRPC.TL_secureValueErrorTranslationFile) secureValueError;
+                    nameForType = getNameForType(tL_secureValueErrorTranslationFile.type);
+                    String str17 = tL_secureValueErrorTranslationFile.text;
+                    bArr = tL_secureValueErrorTranslationFile.file_hash;
                     str6 = str17;
                     str7 = "translation";
                 } else {
-                    if (tLRPC$SecureValueError instanceof TLRPC$TL_secureValueErrorTranslationFiles) {
-                        TLRPC$TL_secureValueErrorTranslationFiles tLRPC$TL_secureValueErrorTranslationFiles = (TLRPC$TL_secureValueErrorTranslationFiles) tLRPC$SecureValueError;
-                        nameForType = getNameForType(tLRPC$TL_secureValueErrorTranslationFiles.type);
-                        str8 = tLRPC$TL_secureValueErrorTranslationFiles.text;
+                    if (secureValueError instanceof TLRPC.TL_secureValueErrorTranslationFiles) {
+                        TLRPC.TL_secureValueErrorTranslationFiles tL_secureValueErrorTranslationFiles = (TLRPC.TL_secureValueErrorTranslationFiles) secureValueError;
+                        nameForType = getNameForType(tL_secureValueErrorTranslationFiles.type);
+                        str8 = tL_secureValueErrorTranslationFiles.text;
                         str9 = "translation";
-                    } else if (tLRPC$SecureValueError instanceof TLRPC$TL_secureValueErrorFile) {
-                        TLRPC$TL_secureValueErrorFile tLRPC$TL_secureValueErrorFile = (TLRPC$TL_secureValueErrorFile) tLRPC$SecureValueError;
-                        nameForType = getNameForType(tLRPC$TL_secureValueErrorFile.type);
-                        String str18 = tLRPC$TL_secureValueErrorFile.text;
-                        bArr = tLRPC$TL_secureValueErrorFile.file_hash;
+                    } else if (secureValueError instanceof TLRPC.TL_secureValueErrorFile) {
+                        TLRPC.TL_secureValueErrorFile tL_secureValueErrorFile = (TLRPC.TL_secureValueErrorFile) secureValueError;
+                        nameForType = getNameForType(tL_secureValueErrorFile.type);
+                        String str18 = tL_secureValueErrorFile.text;
+                        bArr = tL_secureValueErrorFile.file_hash;
                         str6 = str18;
                         str7 = "files";
-                    } else if (tLRPC$SecureValueError instanceof TLRPC$TL_secureValueErrorFiles) {
-                        TLRPC$TL_secureValueErrorFiles tLRPC$TL_secureValueErrorFiles = (TLRPC$TL_secureValueErrorFiles) tLRPC$SecureValueError;
-                        nameForType = getNameForType(tLRPC$TL_secureValueErrorFiles.type);
-                        str8 = tLRPC$TL_secureValueErrorFiles.text;
+                    } else if (secureValueError instanceof TLRPC.TL_secureValueErrorFiles) {
+                        TLRPC.TL_secureValueErrorFiles tL_secureValueErrorFiles = (TLRPC.TL_secureValueErrorFiles) secureValueError;
+                        nameForType = getNameForType(tL_secureValueErrorFiles.type);
+                        str8 = tL_secureValueErrorFiles.text;
                         str9 = "files";
-                    } else if (tLRPC$SecureValueError instanceof TLRPC$TL_secureValueError) {
-                        TLRPC$TL_secureValueError tLRPC$TL_secureValueError = (TLRPC$TL_secureValueError) tLRPC$SecureValueError;
-                        nameForType = getNameForType(tLRPC$TL_secureValueError.type);
-                        String str19 = tLRPC$TL_secureValueError.text;
-                        bArr = tLRPC$TL_secureValueError.hash;
+                    } else if (secureValueError instanceof TLRPC.TL_secureValueError) {
+                        TLRPC.TL_secureValueError tL_secureValueError = (TLRPC.TL_secureValueError) secureValueError;
+                        nameForType = getNameForType(tL_secureValueError.type);
+                        String str19 = tL_secureValueError.text;
+                        bArr = tL_secureValueError.hash;
                         str6 = str19;
                         str7 = "error_all";
                     } else {
-                        if (tLRPC$SecureValueError instanceof TLRPC$TL_secureValueErrorData) {
-                            TLRPC$TL_secureValueErrorData tLRPC$TL_secureValueErrorData = (TLRPC$TL_secureValueErrorData) tLRPC$SecureValueError;
+                        if (secureValueError instanceof TLRPC.TL_secureValueErrorData) {
+                            TLRPC.TL_secureValueErrorData tL_secureValueErrorData = (TLRPC.TL_secureValueErrorData) secureValueError;
                             int i4 = 0;
-                            while (i4 < tLRPC$TL_account_authorizationForm.values.size()) {
-                                TLRPC$TL_secureData tLRPC$TL_secureData = ((TLRPC$TL_secureValue) tLRPC$TL_account_authorizationForm.values.get(i4)).data;
-                                if (tLRPC$TL_secureData == null || !Arrays.equals(tLRPC$TL_secureData.data_hash, tLRPC$TL_secureValueErrorData.data_hash)) {
+                            while (i4 < tL_account_authorizationForm.values.size()) {
+                                TLRPC.TL_secureData tL_secureData = tL_account_authorizationForm.values.get(i4).data;
+                                if (tL_secureData == null || !Arrays.equals(tL_secureData.data_hash, tL_secureValueErrorData.data_hash)) {
                                     i4++;
                                     size = size;
                                 } else {
-                                    nameForType = getNameForType(tLRPC$TL_secureValueErrorData.type);
-                                    String str20 = tLRPC$TL_secureValueErrorData.text;
-                                    str12 = tLRPC$TL_secureValueErrorData.field;
-                                    bArr = tLRPC$TL_secureValueErrorData.data_hash;
+                                    nameForType = getNameForType(tL_secureValueErrorData.type);
+                                    String str20 = tL_secureValueErrorData.text;
+                                    str12 = tL_secureValueErrorData.field;
+                                    bArr = tL_secureValueErrorData.data_hash;
                                     str6 = str20;
                                     str7 = "data";
                                 }
@@ -3016,7 +2910,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    public PassportActivity(int i, TLRPC$TL_account_authorizationForm tLRPC$TL_account_authorizationForm, TLRPC$account_Password tLRPC$account_Password, TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType, TLRPC$TL_secureValue tLRPC$TL_secureValue, TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2, TLRPC$TL_secureValue tLRPC$TL_secureValue2, HashMap hashMap, HashMap hashMap2) {
+    public PassportActivity(int i, TLRPC.TL_account_authorizationForm tL_account_authorizationForm, TLRPC.account_Password account_password, TLRPC.TL_secureRequiredType tL_secureRequiredType, TLRPC.TL_secureValue tL_secureValue, TLRPC.TL_secureRequiredType tL_secureRequiredType2, TLRPC.TL_secureValue tL_secureValue2, HashMap hashMap, HashMap hashMap2) {
         this.currentCitizeship = "";
         this.currentResidence = "";
         this.currentExpireDate = new int[3];
@@ -3116,7 +3010,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             }
 
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-            public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC$FileLocation tLRPC$FileLocation, int i2, boolean z) {
+            public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i2, boolean z) {
                 if (i2 < 0 || i2 >= PassportActivity.this.currentPhotoViewerLayout.getChildCount()) {
                     return null;
                 }
@@ -3134,15 +3028,15 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             }
         };
         this.currentActivityType = i;
-        this.currentForm = tLRPC$TL_account_authorizationForm;
-        this.currentType = tLRPC$TL_secureRequiredType;
-        if (tLRPC$TL_secureRequiredType != null) {
-            this.allowNonLatinName = tLRPC$TL_secureRequiredType.native_names;
+        this.currentForm = tL_account_authorizationForm;
+        this.currentType = tL_secureRequiredType;
+        if (tL_secureRequiredType != null) {
+            this.allowNonLatinName = tL_secureRequiredType.native_names;
         }
-        this.currentTypeValue = tLRPC$TL_secureValue;
-        this.currentDocumentsType = tLRPC$TL_secureRequiredType2;
-        this.currentDocumentsTypeValue = tLRPC$TL_secureValue2;
-        this.currentPassword = tLRPC$account_Password;
+        this.currentTypeValue = tL_secureValue;
+        this.currentDocumentsType = tL_secureRequiredType2;
+        this.currentDocumentsTypeValue = tL_secureValue2;
+        this.currentPassword = account_password;
         this.currentValues = hashMap;
         this.currentDocumentValues = hashMap2;
         if (i == 3) {
@@ -3162,11 +3056,11 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 this.savedPasswordHash = UserConfig.getInstance(this.currentAccount).savedPasswordHash;
                 this.savedSaltedPassword = UserConfig.getInstance(this.currentAccount).savedSaltedPassword;
             }
-            TLRPC$account_Password tLRPC$account_Password2 = this.currentPassword;
-            if (tLRPC$account_Password2 == null) {
+            TLRPC.account_Password account_password2 = this.currentPassword;
+            if (account_password2 == null) {
                 loadPasswordInfo();
             } else {
-                TwoStepVerificationActivity.initPasswordNewAlgo(tLRPC$account_Password2);
+                TwoStepVerificationActivity.initPasswordNewAlgo(account_password2);
                 if (this.usingSavedPassword == 1) {
                     onPasswordDone(true);
                 }
@@ -3174,12 +3068,12 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             if (SharedConfig.isPassportConfigLoaded()) {
                 return;
             }
-            TLRPC$TL_help_getPassportConfig tLRPC$TL_help_getPassportConfig = new TLRPC$TL_help_getPassportConfig();
-            tLRPC$TL_help_getPassportConfig.hash = SharedConfig.passportConfigHash;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_help_getPassportConfig, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda2
+            TLRPC.TL_help_getPassportConfig tL_help_getPassportConfig = new TLRPC.TL_help_getPassportConfig();
+            tL_help_getPassportConfig.hash = SharedConfig.passportConfigHash;
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_help_getPassportConfig, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda2
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    PassportActivity.lambda$new$1(tLObject, tLRPC$TL_error);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    PassportActivity.lambda$new$1(tLObject, tL_error);
                 }
             });
         }
@@ -3236,8 +3130,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             sb = new StringBuilder();
             str = "translation";
         } else if (i == 2) {
-            TLRPC$SecureValueType tLRPC$SecureValueType = this.currentDocumentsType.type;
-            string = LocaleController.getString(((tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePassport) || (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeInternalPassport)) ? R.string.PassportMainPage : R.string.PassportFrontSide);
+            TLRPC.SecureValueType secureValueType = this.currentDocumentsType.type;
+            string = LocaleController.getString(((secureValueType instanceof TLRPC.TL_secureValueTypePassport) || (secureValueType instanceof TLRPC.TL_secureValueTypeInternalPassport)) ? R.string.PassportMainPage : R.string.PassportFrontSide);
             this.frontLayout.addView(secureDocumentCell, LayoutHelper.createLinear(-1, -2));
             sb = new StringBuilder();
             str = "front";
@@ -3278,17 +3172,17 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         });
     }
 
-    private void addDocumentViewInternal(TLRPC$TL_secureFile tLRPC$TL_secureFile, int i) {
-        addDocumentView(new SecureDocument(getSecureDocumentKey(tLRPC$TL_secureFile.secret, tLRPC$TL_secureFile.file_hash), tLRPC$TL_secureFile, null, null, null), i);
+    private void addDocumentViewInternal(TLRPC.TL_secureFile tL_secureFile, int i) {
+        addDocumentView(new SecureDocument(getSecureDocumentKey(tL_secureFile.secret, tL_secureFile.file_hash), tL_secureFile, null, null, null), i);
     }
 
     private void addDocumentViews(ArrayList arrayList) {
         this.documents.clear();
         int size = arrayList.size();
         for (int i = 0; i < size; i++) {
-            TLRPC$SecureFile tLRPC$SecureFile = (TLRPC$SecureFile) arrayList.get(i);
-            if (tLRPC$SecureFile instanceof TLRPC$TL_secureFile) {
-                addDocumentViewInternal((TLRPC$TL_secureFile) tLRPC$SecureFile, 0);
+            TLRPC.SecureFile secureFile = (TLRPC.SecureFile) arrayList.get(i);
+            if (secureFile instanceof TLRPC.TL_secureFile) {
+                addDocumentViewInternal((TLRPC.TL_secureFile) secureFile, 0);
             }
         }
     }
@@ -3297,55 +3191,55 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    private TextDetailSecureCell addField(Context context, final TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType, final ArrayList arrayList, final boolean z, boolean z2) {
+    private TextDetailSecureCell addField(Context context, final TLRPC.TL_secureRequiredType tL_secureRequiredType, final ArrayList arrayList, final boolean z, boolean z2) {
         int i;
         String formatString;
         String str;
         String str2;
-        TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2;
+        TLRPC.TL_secureRequiredType tL_secureRequiredType2;
         int i2;
-        TLRPC$TL_secureValue valueByType;
+        TLRPC.TL_secureValue valueByType;
         LinearLayout linearLayout;
         int size = arrayList != null ? arrayList.size() : 0;
         TextDetailSecureCell textDetailSecureCell = new TextDetailSecureCell(context);
         textDetailSecureCell.setBackgroundDrawable(Theme.getSelectorDrawable(true));
-        TLRPC$SecureValueType tLRPC$SecureValueType = tLRPC$TL_secureRequiredType.type;
-        if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePersonalDetails) {
+        TLRPC.SecureValueType secureValueType = tL_secureRequiredType.type;
+        if (secureValueType instanceof TLRPC.TL_secureValueTypePersonalDetails) {
             if (arrayList == null || arrayList.isEmpty()) {
                 i = R.string.PassportPersonalDetails;
             } else {
                 if (!z || arrayList.size() != 1) {
                     if (z && arrayList.size() == 2) {
-                        formatString = LocaleController.formatString("PassportTwoDocuments", R.string.PassportTwoDocuments, getTextForType(((TLRPC$TL_secureRequiredType) arrayList.get(0)).type), getTextForType(((TLRPC$TL_secureRequiredType) arrayList.get(1)).type));
+                        formatString = LocaleController.formatString("PassportTwoDocuments", R.string.PassportTwoDocuments, getTextForType(((TLRPC.TL_secureRequiredType) arrayList.get(0)).type), getTextForType(((TLRPC.TL_secureRequiredType) arrayList.get(1)).type));
                         textDetailSecureCell.setTextAndValue(formatString, "", !z2);
                     } else {
                         i = R.string.PassportIdentityDocument;
                     }
                 }
-                formatString = getTextForType(((TLRPC$TL_secureRequiredType) arrayList.get(0)).type);
+                formatString = getTextForType(((TLRPC.TL_secureRequiredType) arrayList.get(0)).type);
                 textDetailSecureCell.setTextAndValue(formatString, "", !z2);
             }
             formatString = LocaleController.getString(i);
             textDetailSecureCell.setTextAndValue(formatString, "", !z2);
         } else {
-            if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeAddress) {
+            if (secureValueType instanceof TLRPC.TL_secureValueTypeAddress) {
                 if (arrayList == null || arrayList.isEmpty()) {
                     i = R.string.PassportAddress;
                 } else {
                     if (!z || arrayList.size() != 1) {
                         if (z && arrayList.size() == 2) {
-                            formatString = LocaleController.formatString("PassportTwoDocuments", R.string.PassportTwoDocuments, getTextForType(((TLRPC$TL_secureRequiredType) arrayList.get(0)).type), getTextForType(((TLRPC$TL_secureRequiredType) arrayList.get(1)).type));
+                            formatString = LocaleController.formatString("PassportTwoDocuments", R.string.PassportTwoDocuments, getTextForType(((TLRPC.TL_secureRequiredType) arrayList.get(0)).type), getTextForType(((TLRPC.TL_secureRequiredType) arrayList.get(1)).type));
                             textDetailSecureCell.setTextAndValue(formatString, "", !z2);
                         } else {
                             i = R.string.PassportResidentialAddress;
                         }
                     }
-                    formatString = getTextForType(((TLRPC$TL_secureRequiredType) arrayList.get(0)).type);
+                    formatString = getTextForType(((TLRPC.TL_secureRequiredType) arrayList.get(0)).type);
                     textDetailSecureCell.setTextAndValue(formatString, "", !z2);
                 }
-            } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePhone) {
+            } else if (secureValueType instanceof TLRPC.TL_secureValueTypePhone) {
                 i = R.string.PassportPhone;
-            } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeEmail) {
+            } else if (secureValueType instanceof TLRPC.TL_secureValueTypeEmail) {
                 i = R.string.PassportEmail;
             }
             formatString = LocaleController.getString(i);
@@ -3359,68 +3253,68 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         textDetailSecureCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda56
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                PassportActivity.this.lambda$addField$64(arrayList, tLRPC$TL_secureRequiredType, z, view);
+                PassportActivity.this.lambda$addField$64(arrayList, tL_secureRequiredType, z, view);
             }
         });
-        this.typesViews.put(tLRPC$TL_secureRequiredType, textDetailSecureCell);
-        this.typesValues.put(tLRPC$TL_secureRequiredType, new HashMap());
-        TLRPC$TL_secureValue valueByType2 = getValueByType(tLRPC$TL_secureRequiredType, false);
+        this.typesViews.put(tL_secureRequiredType, textDetailSecureCell);
+        this.typesValues.put(tL_secureRequiredType, new HashMap());
+        TLRPC.TL_secureValue valueByType2 = getValueByType(tL_secureRequiredType, false);
         String str3 = null;
         if (valueByType2 != null) {
-            TLRPC$SecurePlainData tLRPC$SecurePlainData = valueByType2.plain_data;
-            if (tLRPC$SecurePlainData instanceof TLRPC$TL_securePlainEmail) {
-                str = ((TLRPC$TL_securePlainEmail) tLRPC$SecurePlainData).email;
-            } else if (tLRPC$SecurePlainData instanceof TLRPC$TL_securePlainPhone) {
-                str = ((TLRPC$TL_securePlainPhone) tLRPC$SecurePlainData).phone;
+            TLRPC.SecurePlainData securePlainData = valueByType2.plain_data;
+            if (securePlainData instanceof TLRPC.TL_securePlainEmail) {
+                str = ((TLRPC.TL_securePlainEmail) securePlainData).email;
+            } else if (securePlainData instanceof TLRPC.TL_securePlainPhone) {
+                str = ((TLRPC.TL_securePlainPhone) securePlainData).phone;
             } else {
-                TLRPC$TL_secureData tLRPC$TL_secureData = valueByType2.data;
-                if (tLRPC$TL_secureData != null) {
-                    str2 = decryptData(tLRPC$TL_secureData.data, decryptValueSecret(tLRPC$TL_secureData.secret, tLRPC$TL_secureData.data_hash), valueByType2.data.data_hash);
+                TLRPC.TL_secureData tL_secureData = valueByType2.data;
+                if (tL_secureData != null) {
+                    str2 = decryptData(tL_secureData.data, decryptValueSecret(tL_secureData.secret, tL_secureData.data_hash), valueByType2.data.data_hash);
                     str = null;
                     if (arrayList != null || arrayList.isEmpty()) {
-                        tLRPC$TL_secureRequiredType2 = null;
+                        tL_secureRequiredType2 = null;
                     } else {
                         int size2 = arrayList.size();
                         String str4 = null;
                         int i3 = 0;
                         boolean z3 = false;
                         while (i3 < size2) {
-                            TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType3 = (TLRPC$TL_secureRequiredType) arrayList.get(i3);
-                            this.typesValues.put(tLRPC$TL_secureRequiredType3, new HashMap());
-                            this.documentsToTypesLink.put(tLRPC$TL_secureRequiredType3, tLRPC$TL_secureRequiredType);
-                            if (z3 || (valueByType = getValueByType(tLRPC$TL_secureRequiredType3, false)) == null) {
+                            TLRPC.TL_secureRequiredType tL_secureRequiredType3 = (TLRPC.TL_secureRequiredType) arrayList.get(i3);
+                            this.typesValues.put(tL_secureRequiredType3, new HashMap());
+                            this.documentsToTypesLink.put(tL_secureRequiredType3, tL_secureRequiredType);
+                            if (z3 || (valueByType = getValueByType(tL_secureRequiredType3, false)) == null) {
                                 i2 = 1;
                             } else {
-                                TLRPC$TL_secureData tLRPC$TL_secureData2 = valueByType.data;
-                                if (tLRPC$TL_secureData2 != null) {
-                                    str4 = decryptData(tLRPC$TL_secureData2.data, decryptValueSecret(tLRPC$TL_secureData2.secret, tLRPC$TL_secureData2.data_hash), valueByType.data.data_hash);
+                                TLRPC.TL_secureData tL_secureData2 = valueByType.data;
+                                if (tL_secureData2 != null) {
+                                    str4 = decryptData(tL_secureData2.data, decryptValueSecret(tL_secureData2.secret, tL_secureData2.data_hash), valueByType.data.data_hash);
                                 }
-                                str3 = tLRPC$TL_secureRequiredType3;
+                                str3 = tL_secureRequiredType3;
                                 i2 = 1;
                                 z3 = true;
                             }
                             i3 += i2;
                         }
-                        tLRPC$TL_secureRequiredType2 = str3 == null ? (TLRPC$TL_secureRequiredType) arrayList.get(0) : str3;
+                        tL_secureRequiredType2 = str3 == null ? (TLRPC.TL_secureRequiredType) arrayList.get(0) : str3;
                         str3 = str4;
                     }
-                    setTypeValue(tLRPC$TL_secureRequiredType, str, str2, tLRPC$TL_secureRequiredType2, str3, z, size);
+                    setTypeValue(tL_secureRequiredType, str, str2, tL_secureRequiredType2, str3, z, size);
                     return textDetailSecureCell;
                 }
             }
             str2 = null;
             if (arrayList != null) {
             }
-            tLRPC$TL_secureRequiredType2 = null;
-            setTypeValue(tLRPC$TL_secureRequiredType, str, str2, tLRPC$TL_secureRequiredType2, str3, z, size);
+            tL_secureRequiredType2 = null;
+            setTypeValue(tL_secureRequiredType, str, str2, tL_secureRequiredType2, str3, z, size);
             return textDetailSecureCell;
         }
         str = null;
         str2 = null;
         if (arrayList != null) {
         }
-        tLRPC$TL_secureRequiredType2 = null;
-        setTypeValue(tLRPC$TL_secureRequiredType, str, str2, tLRPC$TL_secureRequiredType2, str3, z, size);
+        tL_secureRequiredType2 = null;
+        setTypeValue(tL_secureRequiredType, str, str2, tL_secureRequiredType2, str3, z, size);
         return textDetailSecureCell;
     }
 
@@ -3428,9 +3322,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         this.translationDocuments.clear();
         int size = arrayList.size();
         for (int i = 0; i < size; i++) {
-            TLRPC$SecureFile tLRPC$SecureFile = (TLRPC$SecureFile) arrayList.get(i);
-            if (tLRPC$SecureFile instanceof TLRPC$TL_secureFile) {
-                addDocumentViewInternal((TLRPC$TL_secureFile) tLRPC$SecureFile, 4);
+            TLRPC.SecureFile secureFile = (TLRPC.SecureFile) arrayList.get(i);
+            if (secureFile instanceof TLRPC.TL_secureFile) {
+                addDocumentViewInternal((TLRPC.TL_secureFile) secureFile, 4);
             }
         }
     }
@@ -3595,8 +3489,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             }
                         }
                     }
-                    TLRPC$SecureValueType tLRPC$SecureValueType = this.currentDocumentsType.type;
-                    if (((tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeIdentityCard) || (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeDriverLicense)) && (textDetailSettingsCell = this.uploadReverseCell) != null) {
+                    TLRPC.SecureValueType secureValueType = this.currentDocumentsType.type;
+                    if (((secureValueType instanceof TLRPC.TL_secureValueTypeIdentityCard) || (secureValueType instanceof TLRPC.TL_secureValueTypeDriverLicense)) && (textDetailSettingsCell = this.uploadReverseCell) != null) {
                         textSettingsCell = textDetailSettingsCell;
                         if (this.reverseDocument != null) {
                             if (this.errorsValues.containsKey("reverse" + getDocumentHash(this.reverseDocument))) {
@@ -3653,9 +3547,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 while (i4 < textSettingsCellArr.length) {
                     boolean hasErrorText = textSettingsCellArr[i4].hasErrorText();
                     if (!this.errorsValues.isEmpty()) {
-                        TLRPC$SecureValueType tLRPC$SecureValueType2 = this.currentType.type;
-                        if (!(tLRPC$SecureValueType2 instanceof TLRPC$TL_secureValueTypePersonalDetails)) {
-                            if (tLRPC$SecureValueType2 instanceof TLRPC$TL_secureValueTypeAddress) {
+                        TLRPC.SecureValueType secureValueType2 = this.currentType.type;
+                        if (!(secureValueType2 instanceof TLRPC.TL_secureValueTypePersonalDetails)) {
+                            if (secureValueType2 instanceof TLRPC.TL_secureValueTypeAddress) {
                                 if (i4 == 0) {
                                     str = "street_line1";
                                 } else if (i4 == 1) {
@@ -3920,7 +3814,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         for (byte b : bArr) {
             i += b & 255;
         }
-        if (i % NotificationCenter.didClearDatabase != 239) {
+        if (i % NotificationCenter.messagePlayingSpeedChanged != 239) {
             return false;
         }
         return l == null || Utilities.bytesToLong(Utilities.computeSHA256(bArr)) == l.longValue();
@@ -4000,23 +3894,23 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         this.topErrorCell.setPadding(0, AndroidUtilities.dp(7.0f), 0, 0);
         this.linearLayout2.addView(this.topErrorCell, LayoutHelper.createLinear(-1, -2));
         checkTopErrorCell(true);
-        TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType = this.currentDocumentsType;
-        if (tLRPC$TL_secureRequiredType != null) {
-            TLRPC$SecureValueType tLRPC$SecureValueType = tLRPC$TL_secureRequiredType.type;
-            if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeRentalAgreement) {
+        TLRPC.TL_secureRequiredType tL_secureRequiredType = this.currentDocumentsType;
+        if (tL_secureRequiredType != null) {
+            TLRPC.SecureValueType secureValueType = tL_secureRequiredType.type;
+            if (secureValueType instanceof TLRPC.TL_secureValueTypeRentalAgreement) {
                 actionBar = this.actionBar;
                 i2 = R.string.ActionBotDocumentRentalAgreement;
-            } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeBankStatement) {
+            } else if (secureValueType instanceof TLRPC.TL_secureValueTypeBankStatement) {
                 actionBar = this.actionBar;
                 i2 = R.string.ActionBotDocumentBankStatement;
-            } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeUtilityBill) {
+            } else if (secureValueType instanceof TLRPC.TL_secureValueTypeUtilityBill) {
                 actionBar = this.actionBar;
                 i2 = R.string.ActionBotDocumentUtilityBill;
-            } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePassportRegistration) {
+            } else if (secureValueType instanceof TLRPC.TL_secureValueTypePassportRegistration) {
                 actionBar = this.actionBar;
                 i2 = R.string.ActionBotDocumentPassportRegistration;
             } else {
-                if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeTemporaryRegistration) {
+                if (secureValueType instanceof TLRPC.TL_secureValueTypeTemporaryRegistration) {
                     actionBar = this.actionBar;
                     i2 = R.string.ActionBotDocumentTemporaryRegistration;
                 }
@@ -4048,16 +3942,16 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 if (this.currentBotId == 0) {
                     i3 = R.string.PassportAddAddressUploadInfo;
                 } else {
-                    TLRPC$SecureValueType tLRPC$SecureValueType2 = this.currentDocumentsType.type;
-                    if (tLRPC$SecureValueType2 instanceof TLRPC$TL_secureValueTypeRentalAgreement) {
+                    TLRPC.SecureValueType secureValueType2 = this.currentDocumentsType.type;
+                    if (secureValueType2 instanceof TLRPC.TL_secureValueTypeRentalAgreement) {
                         i3 = R.string.PassportAddAgreementInfo;
-                    } else if (tLRPC$SecureValueType2 instanceof TLRPC$TL_secureValueTypeUtilityBill) {
+                    } else if (secureValueType2 instanceof TLRPC.TL_secureValueTypeUtilityBill) {
                         i3 = R.string.PassportAddBillInfo;
-                    } else if (tLRPC$SecureValueType2 instanceof TLRPC$TL_secureValueTypePassportRegistration) {
+                    } else if (secureValueType2 instanceof TLRPC.TL_secureValueTypePassportRegistration) {
                         i3 = R.string.PassportAddPassportRegistrationInfo;
-                    } else if (tLRPC$SecureValueType2 instanceof TLRPC$TL_secureValueTypeTemporaryRegistration) {
+                    } else if (secureValueType2 instanceof TLRPC.TL_secureValueTypeTemporaryRegistration) {
                         i3 = R.string.PassportAddTemporaryRegistrationInfo;
-                    } else if (tLRPC$SecureValueType2 instanceof TLRPC$TL_secureValueTypeBankStatement) {
+                    } else if (secureValueType2 instanceof TLRPC.TL_secureValueTypeBankStatement) {
                         i3 = R.string.PassportAddBankInfo;
                     } else {
                         this.noAllDocumentsErrorText = "";
@@ -4104,16 +3998,16 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             if (this.currentBotId != 0) {
                                 i4 = R.string.PassportAddTranslationUploadInfo;
                             } else {
-                                TLRPC$SecureValueType tLRPC$SecureValueType3 = this.currentDocumentsType.type;
-                                if (tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypeRentalAgreement) {
+                                TLRPC.SecureValueType secureValueType3 = this.currentDocumentsType.type;
+                                if (secureValueType3 instanceof TLRPC.TL_secureValueTypeRentalAgreement) {
                                     i4 = R.string.PassportAddTranslationAgreementInfo;
-                                } else if (tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypeUtilityBill) {
+                                } else if (secureValueType3 instanceof TLRPC.TL_secureValueTypeUtilityBill) {
                                     i4 = R.string.PassportAddTranslationBillInfo;
-                                } else if (tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypePassportRegistration) {
+                                } else if (secureValueType3 instanceof TLRPC.TL_secureValueTypePassportRegistration) {
                                     i4 = R.string.PassportAddTranslationPassportRegistrationInfo;
-                                } else if (tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypeTemporaryRegistration) {
+                                } else if (secureValueType3 instanceof TLRPC.TL_secureValueTypeTemporaryRegistration) {
                                     i4 = R.string.PassportAddTranslationTemporaryRegistrationInfo;
-                                } else if (tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypeBankStatement) {
+                                } else if (secureValueType3 instanceof TLRPC.TL_secureValueTypeBankStatement) {
                                     i4 = R.string.PassportAddTranslationBankInfo;
                                 } else {
                                     this.noAllTranslationErrorText = "";
@@ -4414,9 +4308,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 this.bottomCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i12, i13));
             }
         } else {
-            TLRPC$TL_secureValue tLRPC$TL_secureValue = this.currentDocumentsTypeValue;
-            if (tLRPC$TL_secureValue != null) {
-                addDocumentViews(tLRPC$TL_secureValue.files);
+            TLRPC.TL_secureValue tL_secureValue = this.currentDocumentsTypeValue;
+            if (tL_secureValue != null) {
+                addDocumentViews(tL_secureValue.files);
                 addTranslationDocumentViews(this.currentDocumentsTypeValue.translation);
             }
             ShadowSectionCell shadowSectionCell3 = this.sectionCell;
@@ -4484,8 +4378,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 }
 
                 @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
-                public /* synthetic */ void didSelectBot(TLRPC$User tLRPC$User) {
-                    ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$didSelectBot(this, tLRPC$User);
+                public /* synthetic */ void didSelectBot(TLRPC.User user) {
+                    ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$didSelectBot(this, user);
                 }
 
                 @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
@@ -4546,16 +4440,16 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
         builder.setTitle(LocaleController.getString(R.string.AppName));
         boolean z = this.documentOnly;
-        builder.setMessage(LocaleController.getString((z && this.currentDocumentsType == null && (this.currentType.type instanceof TLRPC$TL_secureValueTypeAddress)) ? R.string.PassportDeleteAddressAlert : (z && this.currentDocumentsType == null && (this.currentType.type instanceof TLRPC$TL_secureValueTypePersonalDetails)) ? R.string.PassportDeletePersonalAlert : R.string.PassportDeleteDocumentAlert));
+        builder.setMessage(LocaleController.getString((z && this.currentDocumentsType == null && (this.currentType.type instanceof TLRPC.TL_secureValueTypeAddress)) ? R.string.PassportDeleteAddressAlert : (z && this.currentDocumentsType == null && (this.currentType.type instanceof TLRPC.TL_secureValueTypePersonalDetails)) ? R.string.PassportDeletePersonalAlert : R.string.PassportDeleteDocumentAlert));
         if (!this.documentOnly && this.currentDocumentsType != null) {
             FrameLayout frameLayout = new FrameLayout(getParentActivity());
             CheckBoxCell checkBoxCell = new CheckBoxCell(getParentActivity(), 1);
             checkBoxCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-            TLRPC$SecureValueType tLRPC$SecureValueType = this.currentType.type;
-            if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeAddress) {
+            TLRPC.SecureValueType secureValueType = this.currentType.type;
+            if (secureValueType instanceof TLRPC.TL_secureValueTypeAddress) {
                 i = R.string.PassportDeleteDocumentAddress;
             } else {
-                if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePersonalDetails) {
+                if (secureValueType instanceof TLRPC.TL_secureValueTypePersonalDetails) {
                     i = R.string.PassportDeleteDocumentPersonal;
                 }
                 checkBoxCell.setPadding(!LocaleController.isRTL ? AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(8.0f), 0, !LocaleController.isRTL ? AndroidUtilities.dp(8.0f) : AndroidUtilities.dp(16.0f), 0);
@@ -4620,13 +4514,13 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         this.inputFields[0].setInputType(33);
         this.inputFields[0].setImeOptions(268435462);
         this.inputFields[0].setHint(LocaleController.getString(R.string.PaymentShippingEmailPlaceholder));
-        TLRPC$TL_secureValue tLRPC$TL_secureValue = this.currentTypeValue;
-        if (tLRPC$TL_secureValue != null) {
-            TLRPC$SecurePlainData tLRPC$SecurePlainData = tLRPC$TL_secureValue.plain_data;
-            if (tLRPC$SecurePlainData instanceof TLRPC$TL_securePlainEmail) {
-                TLRPC$TL_securePlainEmail tLRPC$TL_securePlainEmail = (TLRPC$TL_securePlainEmail) tLRPC$SecurePlainData;
-                if (!TextUtils.isEmpty(tLRPC$TL_securePlainEmail.email)) {
-                    this.inputFields[0].setText(tLRPC$TL_securePlainEmail.email);
+        TLRPC.TL_secureValue tL_secureValue = this.currentTypeValue;
+        if (tL_secureValue != null) {
+            TLRPC.SecurePlainData securePlainData = tL_secureValue.plain_data;
+            if (securePlainData instanceof TLRPC.TL_securePlainEmail) {
+                TLRPC.TL_securePlainEmail tL_securePlainEmail = (TLRPC.TL_securePlainEmail) securePlainData;
+                if (!TextUtils.isEmpty(tL_securePlainEmail.email)) {
+                    this.inputFields[0].setText(tL_securePlainEmail.email);
                 }
             }
         }
@@ -4849,14 +4743,14 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 if (this.currentBotId != 0) {
                     i6 = R.string.PassportAddTranslationUploadInfo;
                 } else {
-                    TLRPC$SecureValueType tLRPC$SecureValueType = this.currentDocumentsType.type;
-                    if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePassport) {
+                    TLRPC.SecureValueType secureValueType = this.currentDocumentsType.type;
+                    if (secureValueType instanceof TLRPC.TL_secureValueTypePassport) {
                         i6 = R.string.PassportAddPassportInfo;
-                    } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeInternalPassport) {
+                    } else if (secureValueType instanceof TLRPC.TL_secureValueTypeInternalPassport) {
                         i6 = R.string.PassportAddInternalPassportInfo;
-                    } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeIdentityCard) {
+                    } else if (secureValueType instanceof TLRPC.TL_secureValueTypeIdentityCard) {
                         i6 = R.string.PassportAddIdentityCardInfo;
-                    } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeDriverLicense) {
+                    } else if (secureValueType instanceof TLRPC.TL_secureValueTypeDriverLicense) {
                         i6 = R.string.PassportAddDriverLicenceInfo;
                     } else {
                         this.noAllTranslationErrorText = "";
@@ -5045,20 +4939,20 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     if (((this.currentBotId == 0 && this.currentDocumentsType != null) || this.currentTypeValue == null || this.documentOnly) && this.currentDocumentsTypeValue == null) {
                         this.nativeInfoCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     } else {
-                        TLRPC$TL_secureValue tLRPC$TL_secureValue = this.currentDocumentsTypeValue;
-                        if (tLRPC$TL_secureValue != null) {
-                            addDocumentViews(tLRPC$TL_secureValue.files);
-                            TLRPC$SecureFile tLRPC$SecureFile = this.currentDocumentsTypeValue.front_side;
-                            if (tLRPC$SecureFile instanceof TLRPC$TL_secureFile) {
-                                addDocumentViewInternal((TLRPC$TL_secureFile) tLRPC$SecureFile, 2);
+                        TLRPC.TL_secureValue tL_secureValue = this.currentDocumentsTypeValue;
+                        if (tL_secureValue != null) {
+                            addDocumentViews(tL_secureValue.files);
+                            TLRPC.SecureFile secureFile = this.currentDocumentsTypeValue.front_side;
+                            if (secureFile instanceof TLRPC.TL_secureFile) {
+                                addDocumentViewInternal((TLRPC.TL_secureFile) secureFile, 2);
                             }
-                            TLRPC$SecureFile tLRPC$SecureFile2 = this.currentDocumentsTypeValue.reverse_side;
-                            if (tLRPC$SecureFile2 instanceof TLRPC$TL_secureFile) {
-                                addDocumentViewInternal((TLRPC$TL_secureFile) tLRPC$SecureFile2, 3);
+                            TLRPC.SecureFile secureFile2 = this.currentDocumentsTypeValue.reverse_side;
+                            if (secureFile2 instanceof TLRPC.TL_secureFile) {
+                                addDocumentViewInternal((TLRPC.TL_secureFile) secureFile2, 3);
                             }
-                            TLRPC$SecureFile tLRPC$SecureFile3 = this.currentDocumentsTypeValue.selfie;
-                            if (tLRPC$SecureFile3 instanceof TLRPC$TL_secureFile) {
-                                addDocumentViewInternal((TLRPC$TL_secureFile) tLRPC$SecureFile3, 1);
+                            TLRPC.SecureFile secureFile3 = this.currentDocumentsTypeValue.selfie;
+                            if (secureFile3 instanceof TLRPC.TL_secureFile) {
+                                addDocumentViewInternal((TLRPC.TL_secureFile) secureFile3, 1);
                             }
                             addTranslationDocumentViews(this.currentDocumentsTypeValue.translation);
                         }
@@ -5411,11 +5305,11 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         LinearLayout linearLayout2;
         LinearLayout.LayoutParams layoutParams;
         ArrayList arrayList;
-        TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType;
+        TLRPC.TL_secureRequiredType tL_secureRequiredType;
         boolean z;
         ArrayList arrayList2;
-        TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2;
-        TLRPC$SecureValueType tLRPC$TL_secureValueTypeAddress;
+        TLRPC.TL_secureRequiredType tL_secureRequiredType2;
+        TLRPC.SecureValueType tL_secureValueTypeAddress;
         FrameLayout frameLayout = (FrameLayout) this.fragmentView;
         this.actionBar.setTitle(LocaleController.getString(R.string.TelegramPassport));
         this.actionBar.createMenu().addItem(1, R.drawable.msg_info);
@@ -5518,45 +5412,45 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         int size = this.currentForm.values.size();
         int i7 = 0;
         while (i7 < size) {
-            TLRPC$TL_secureValue tLRPC$TL_secureValue = (TLRPC$TL_secureValue) this.currentForm.values.get(i7);
-            if (isPersonalDocument(tLRPC$TL_secureValue.type)) {
+            TLRPC.TL_secureValue tL_secureValue = this.currentForm.values.get(i7);
+            if (isPersonalDocument(tL_secureValue.type)) {
                 arrayList2 = new ArrayList();
-                TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType3 = new TLRPC$TL_secureRequiredType();
-                tLRPC$TL_secureRequiredType3.type = tLRPC$TL_secureValue.type;
-                tLRPC$TL_secureRequiredType3.selfie_required = true;
-                tLRPC$TL_secureRequiredType3.translation_required = true;
-                arrayList2.add(tLRPC$TL_secureRequiredType3);
-                tLRPC$TL_secureRequiredType2 = new TLRPC$TL_secureRequiredType();
-                tLRPC$TL_secureValueTypeAddress = new TLRPC$TL_secureValueTypePersonalDetails();
-            } else if (isAddressDocument(tLRPC$TL_secureValue.type)) {
+                TLRPC.TL_secureRequiredType tL_secureRequiredType3 = new TLRPC.TL_secureRequiredType();
+                tL_secureRequiredType3.type = tL_secureValue.type;
+                tL_secureRequiredType3.selfie_required = true;
+                tL_secureRequiredType3.translation_required = true;
+                arrayList2.add(tL_secureRequiredType3);
+                tL_secureRequiredType2 = new TLRPC.TL_secureRequiredType();
+                tL_secureValueTypeAddress = new TLRPC.TL_secureValueTypePersonalDetails();
+            } else if (isAddressDocument(tL_secureValue.type)) {
                 arrayList2 = new ArrayList();
-                TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType4 = new TLRPC$TL_secureRequiredType();
-                tLRPC$TL_secureRequiredType4.type = tLRPC$TL_secureValue.type;
-                tLRPC$TL_secureRequiredType4.translation_required = true;
-                arrayList2.add(tLRPC$TL_secureRequiredType4);
-                tLRPC$TL_secureRequiredType2 = new TLRPC$TL_secureRequiredType();
-                tLRPC$TL_secureValueTypeAddress = new TLRPC$TL_secureValueTypeAddress();
+                TLRPC.TL_secureRequiredType tL_secureRequiredType4 = new TLRPC.TL_secureRequiredType();
+                tL_secureRequiredType4.type = tL_secureValue.type;
+                tL_secureRequiredType4.translation_required = true;
+                arrayList2.add(tL_secureRequiredType4);
+                tL_secureRequiredType2 = new TLRPC.TL_secureRequiredType();
+                tL_secureValueTypeAddress = new TLRPC.TL_secureValueTypeAddress();
             } else {
-                TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType5 = new TLRPC$TL_secureRequiredType();
-                tLRPC$TL_secureRequiredType5.type = tLRPC$TL_secureValue.type;
+                TLRPC.TL_secureRequiredType tL_secureRequiredType5 = new TLRPC.TL_secureRequiredType();
+                tL_secureRequiredType5.type = tL_secureValue.type;
                 arrayList = null;
-                tLRPC$TL_secureRequiredType = tLRPC$TL_secureRequiredType5;
+                tL_secureRequiredType = tL_secureRequiredType5;
                 z = false;
-                addField(context, tLRPC$TL_secureRequiredType, arrayList, z, i7 != size + (-1));
+                addField(context, tL_secureRequiredType, arrayList, z, i7 != size + (-1));
                 i7++;
             }
-            tLRPC$TL_secureRequiredType2.type = tLRPC$TL_secureValueTypeAddress;
-            tLRPC$TL_secureRequiredType = tLRPC$TL_secureRequiredType2;
+            tL_secureRequiredType2.type = tL_secureValueTypeAddress;
+            tL_secureRequiredType = tL_secureRequiredType2;
             arrayList = arrayList2;
             z = true;
-            addField(context, tLRPC$TL_secureRequiredType, arrayList, z, i7 != size + (-1));
+            addField(context, tL_secureRequiredType, arrayList, z, i7 != size + (-1));
             i7++;
         }
         updateManageVisibility();
     }
 
     private void createPasswordInterface(Context context) {
-        TLRPC$User currentUser;
+        TLRPC.User currentUser;
         TextInfoPrivacyCell textInfoPrivacyCell;
         CharSequence replaceTags;
         if (this.currentForm != null) {
@@ -5566,7 +5460,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     currentUser = null;
                     break;
                 }
-                currentUser = (TLRPC$User) this.currentForm.users.get(i);
+                currentUser = this.currentForm.users.get(i);
                 if (currentUser.id == this.currentBotId) {
                     break;
                 }
@@ -6130,48 +6024,48 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void createRequestInterface(Context context) {
-        TLRPC$User tLRPC$User;
+        TLRPC.User user;
         TextInfoPrivacyCell textInfoPrivacyCell;
         SpannableStringBuilder replaceTags;
-        TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType;
-        TLRPC$SecureValueType tLRPC$TL_secureValueTypeAddress;
+        TLRPC.TL_secureRequiredType tL_secureRequiredType;
+        TLRPC.SecureValueType tL_secureValueTypeAddress;
         ArrayList arrayList;
         boolean z;
-        TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2;
+        TLRPC.TL_secureRequiredType tL_secureRequiredType2;
         ArrayList arrayList2;
         ArrayList arrayList3;
         int i;
         ArrayList arrayList4;
-        TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType3;
-        TLRPC$SecureValueType tLRPC$TL_secureValueTypeAddress2;
+        TLRPC.TL_secureRequiredType tL_secureRequiredType3;
+        TLRPC.SecureValueType tL_secureValueTypeAddress2;
         ArrayList arrayList5;
         int i2;
         int i3 = 1;
         int i4 = 0;
         if (this.currentForm != null) {
             for (int i5 = 0; i5 < this.currentForm.users.size(); i5++) {
-                TLRPC$User tLRPC$User2 = (TLRPC$User) this.currentForm.users.get(i5);
-                if (tLRPC$User2.id == this.currentBotId) {
-                    tLRPC$User = tLRPC$User2;
+                TLRPC.User user2 = this.currentForm.users.get(i5);
+                if (user2.id == this.currentBotId) {
+                    user = user2;
                     break;
                 }
             }
         }
-        tLRPC$User = null;
+        user = null;
         FrameLayout frameLayout = (FrameLayout) this.fragmentView;
         this.actionBar.setTitle(LocaleController.getString(R.string.TelegramPassport));
         this.actionBar.createMenu().addItem(1, R.drawable.msg_info);
-        if (tLRPC$User != null) {
+        if (user != null) {
             FrameLayout frameLayout2 = new FrameLayout(context);
             this.linearLayout2.addView(frameLayout2, LayoutHelper.createLinear(-1, 100));
             BackupImageView backupImageView = new BackupImageView(context);
             backupImageView.setRoundRadius(AndroidUtilities.dp(32.0f));
             frameLayout2.addView(backupImageView, LayoutHelper.createFrame(64, 64.0f, 17, 0.0f, 8.0f, 0.0f, 0.0f));
-            backupImageView.setForUserOrChat(tLRPC$User, new AvatarDrawable(tLRPC$User));
+            backupImageView.setForUserOrChat(user, new AvatarDrawable(user));
             TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(context);
             this.bottomCell = textInfoPrivacyCell2;
             textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, R.drawable.greydivider_top, Theme.key_windowBackgroundGrayShadow));
-            this.bottomCell.setText(AndroidUtilities.replaceTags(LocaleController.formatString("PassportRequest", R.string.PassportRequest, UserObject.getFirstName(tLRPC$User))));
+            this.bottomCell.setText(AndroidUtilities.replaceTags(LocaleController.formatString("PassportRequest", R.string.PassportRequest, UserObject.getFirstName(user))));
             this.bottomCell.getTextView().setGravity(1);
             ((FrameLayout.LayoutParams) this.bottomCell.getTextView().getLayoutParams()).gravity = 1;
             this.linearLayout2.addView(this.bottomCell, LayoutHelper.createLinear(-1, -2));
@@ -6181,9 +6075,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         headerCell.setText(LocaleController.getString(R.string.PassportRequestedInformation));
         this.headerCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         this.linearLayout2.addView(this.headerCell, LayoutHelper.createLinear(-1, -2));
-        TLRPC$TL_account_authorizationForm tLRPC$TL_account_authorizationForm = this.currentForm;
-        if (tLRPC$TL_account_authorizationForm != null) {
-            int size = tLRPC$TL_account_authorizationForm.required_types.size();
+        TLRPC.TL_account_authorizationForm tL_account_authorizationForm = this.currentForm;
+        if (tL_account_authorizationForm != null) {
+            int size = tL_account_authorizationForm.required_types.size();
             ArrayList arrayList6 = new ArrayList();
             ArrayList arrayList7 = new ArrayList();
             int i6 = 0;
@@ -6192,25 +6086,25 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             int i8 = 0;
             boolean z3 = false;
             while (i6 < size) {
-                TLRPC$SecureRequiredType tLRPC$SecureRequiredType = (TLRPC$SecureRequiredType) this.currentForm.required_types.get(i6);
-                if (tLRPC$SecureRequiredType instanceof TLRPC$TL_secureRequiredType) {
-                    TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType4 = (TLRPC$TL_secureRequiredType) tLRPC$SecureRequiredType;
-                    if (isPersonalDocument(tLRPC$TL_secureRequiredType4.type)) {
-                        arrayList6.add(tLRPC$TL_secureRequiredType4);
+                TLRPC.SecureRequiredType secureRequiredType = this.currentForm.required_types.get(i6);
+                if (secureRequiredType instanceof TLRPC.TL_secureRequiredType) {
+                    TLRPC.TL_secureRequiredType tL_secureRequiredType4 = (TLRPC.TL_secureRequiredType) secureRequiredType;
+                    if (isPersonalDocument(tL_secureRequiredType4.type)) {
+                        arrayList6.add(tL_secureRequiredType4);
                         i7 += i3;
                         i2 = 1;
                         i6 += i2;
                         i3 = 1;
                         i4 = 0;
                     } else {
-                        if (isAddressDocument(tLRPC$TL_secureRequiredType4.type)) {
-                            arrayList7.add(tLRPC$TL_secureRequiredType4);
+                        if (isAddressDocument(tL_secureRequiredType4.type)) {
+                            arrayList7.add(tL_secureRequiredType4);
                             i8 += i3;
                         } else {
-                            TLRPC$SecureValueType tLRPC$SecureValueType = tLRPC$TL_secureRequiredType4.type;
-                            if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePersonalDetails) {
+                            TLRPC.SecureValueType secureValueType = tL_secureRequiredType4.type;
+                            if (secureValueType instanceof TLRPC.TL_secureValueTypePersonalDetails) {
                                 z2 = true;
-                            } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeAddress) {
+                            } else if (secureValueType instanceof TLRPC.TL_secureValueTypeAddress) {
                                 i2 = 1;
                                 z3 = true;
                                 i6 += i2;
@@ -6224,28 +6118,28 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         i4 = 0;
                     }
                 } else {
-                    if (tLRPC$SecureRequiredType instanceof TLRPC$TL_secureRequiredTypeOneOf) {
-                        TLRPC$TL_secureRequiredTypeOneOf tLRPC$TL_secureRequiredTypeOneOf = (TLRPC$TL_secureRequiredTypeOneOf) tLRPC$SecureRequiredType;
-                        if (!tLRPC$TL_secureRequiredTypeOneOf.types.isEmpty()) {
-                            TLRPC$SecureRequiredType tLRPC$SecureRequiredType2 = (TLRPC$SecureRequiredType) tLRPC$TL_secureRequiredTypeOneOf.types.get(i4);
-                            if (tLRPC$SecureRequiredType2 instanceof TLRPC$TL_secureRequiredType) {
-                                TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType5 = (TLRPC$TL_secureRequiredType) tLRPC$SecureRequiredType2;
-                                if (isPersonalDocument(tLRPC$TL_secureRequiredType5.type)) {
-                                    int size2 = tLRPC$TL_secureRequiredTypeOneOf.types.size();
+                    if (secureRequiredType instanceof TLRPC.TL_secureRequiredTypeOneOf) {
+                        TLRPC.TL_secureRequiredTypeOneOf tL_secureRequiredTypeOneOf = (TLRPC.TL_secureRequiredTypeOneOf) secureRequiredType;
+                        if (!tL_secureRequiredTypeOneOf.types.isEmpty()) {
+                            TLRPC.SecureRequiredType secureRequiredType2 = tL_secureRequiredTypeOneOf.types.get(i4);
+                            if (secureRequiredType2 instanceof TLRPC.TL_secureRequiredType) {
+                                TLRPC.TL_secureRequiredType tL_secureRequiredType5 = (TLRPC.TL_secureRequiredType) secureRequiredType2;
+                                if (isPersonalDocument(tL_secureRequiredType5.type)) {
+                                    int size2 = tL_secureRequiredTypeOneOf.types.size();
                                     for (int i9 = 0; i9 < size2; i9++) {
-                                        TLRPC$SecureRequiredType tLRPC$SecureRequiredType3 = (TLRPC$SecureRequiredType) tLRPC$TL_secureRequiredTypeOneOf.types.get(i9);
-                                        if (tLRPC$SecureRequiredType3 instanceof TLRPC$TL_secureRequiredType) {
-                                            arrayList6.add((TLRPC$TL_secureRequiredType) tLRPC$SecureRequiredType3);
+                                        TLRPC.SecureRequiredType secureRequiredType3 = tL_secureRequiredTypeOneOf.types.get(i9);
+                                        if (secureRequiredType3 instanceof TLRPC.TL_secureRequiredType) {
+                                            arrayList6.add((TLRPC.TL_secureRequiredType) secureRequiredType3);
                                         }
                                         i3 = 1;
                                     }
                                     i7 += i3;
-                                } else if (isAddressDocument(tLRPC$TL_secureRequiredType5.type)) {
-                                    int size3 = tLRPC$TL_secureRequiredTypeOneOf.types.size();
+                                } else if (isAddressDocument(tL_secureRequiredType5.type)) {
+                                    int size3 = tL_secureRequiredTypeOneOf.types.size();
                                     for (int i10 = 0; i10 < size3; i10++) {
-                                        TLRPC$SecureRequiredType tLRPC$SecureRequiredType4 = (TLRPC$SecureRequiredType) tLRPC$TL_secureRequiredTypeOneOf.types.get(i10);
-                                        if (tLRPC$SecureRequiredType4 instanceof TLRPC$TL_secureRequiredType) {
-                                            arrayList7.add((TLRPC$TL_secureRequiredType) tLRPC$SecureRequiredType4);
+                                        TLRPC.SecureRequiredType secureRequiredType4 = tL_secureRequiredTypeOneOf.types.get(i10);
+                                        if (secureRequiredType4 instanceof TLRPC.TL_secureRequiredType) {
+                                            arrayList7.add((TLRPC.TL_secureRequiredType) secureRequiredType4);
                                         }
                                     }
                                     i2 = 1;
@@ -6267,51 +6161,51 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             boolean z5 = !z3 || i8 > 1;
             int i11 = 0;
             while (i11 < size) {
-                TLRPC$SecureRequiredType tLRPC$SecureRequiredType5 = (TLRPC$SecureRequiredType) this.currentForm.required_types.get(i11);
-                if (tLRPC$SecureRequiredType5 instanceof TLRPC$TL_secureRequiredType) {
-                    TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType6 = (TLRPC$TL_secureRequiredType) tLRPC$SecureRequiredType5;
-                    TLRPC$SecureValueType tLRPC$SecureValueType2 = tLRPC$TL_secureRequiredType6.type;
-                    if ((tLRPC$SecureValueType2 instanceof TLRPC$TL_secureValueTypePhone) || (tLRPC$SecureValueType2 instanceof TLRPC$TL_secureValueTypeEmail)) {
-                        tLRPC$TL_secureRequiredType2 = tLRPC$TL_secureRequiredType6;
+                TLRPC.SecureRequiredType secureRequiredType5 = this.currentForm.required_types.get(i11);
+                if (secureRequiredType5 instanceof TLRPC.TL_secureRequiredType) {
+                    TLRPC.TL_secureRequiredType tL_secureRequiredType6 = (TLRPC.TL_secureRequiredType) secureRequiredType5;
+                    TLRPC.SecureValueType secureValueType2 = tL_secureRequiredType6.type;
+                    if ((secureValueType2 instanceof TLRPC.TL_secureValueTypePhone) || (secureValueType2 instanceof TLRPC.TL_secureValueTypeEmail)) {
+                        tL_secureRequiredType2 = tL_secureRequiredType6;
                         arrayList = null;
                     } else {
-                        if (tLRPC$SecureValueType2 instanceof TLRPC$TL_secureValueTypePersonalDetails) {
+                        if (secureValueType2 instanceof TLRPC.TL_secureValueTypePersonalDetails) {
                             if (!z4) {
                                 arrayList5 = arrayList6;
-                                tLRPC$TL_secureRequiredType2 = tLRPC$TL_secureRequiredType6;
+                                tL_secureRequiredType2 = tL_secureRequiredType6;
                                 arrayList = arrayList5;
                             }
                             arrayList5 = null;
-                            tLRPC$TL_secureRequiredType2 = tLRPC$TL_secureRequiredType6;
+                            tL_secureRequiredType2 = tL_secureRequiredType6;
                             arrayList = arrayList5;
-                        } else if (tLRPC$SecureValueType2 instanceof TLRPC$TL_secureValueTypeAddress) {
+                        } else if (secureValueType2 instanceof TLRPC.TL_secureValueTypeAddress) {
                             if (!z5) {
                                 arrayList5 = arrayList7;
-                                tLRPC$TL_secureRequiredType2 = tLRPC$TL_secureRequiredType6;
+                                tL_secureRequiredType2 = tL_secureRequiredType6;
                                 arrayList = arrayList5;
                             }
                             arrayList5 = null;
-                            tLRPC$TL_secureRequiredType2 = tLRPC$TL_secureRequiredType6;
+                            tL_secureRequiredType2 = tL_secureRequiredType6;
                             arrayList = arrayList5;
                         } else {
-                            if (z4 && isPersonalDocument(tLRPC$SecureValueType2)) {
+                            if (z4 && isPersonalDocument(secureValueType2)) {
                                 arrayList4 = new ArrayList();
-                                arrayList4.add(tLRPC$TL_secureRequiredType6);
-                                tLRPC$TL_secureRequiredType3 = new TLRPC$TL_secureRequiredType();
-                                tLRPC$TL_secureValueTypeAddress2 = new TLRPC$TL_secureValueTypePersonalDetails();
+                                arrayList4.add(tL_secureRequiredType6);
+                                tL_secureRequiredType3 = new TLRPC.TL_secureRequiredType();
+                                tL_secureValueTypeAddress2 = new TLRPC.TL_secureValueTypePersonalDetails();
                             } else {
-                                if (z5 && isAddressDocument(tLRPC$TL_secureRequiredType6.type)) {
+                                if (z5 && isAddressDocument(tL_secureRequiredType6.type)) {
                                     arrayList4 = new ArrayList();
-                                    arrayList4.add(tLRPC$TL_secureRequiredType6);
-                                    tLRPC$TL_secureRequiredType3 = new TLRPC$TL_secureRequiredType();
-                                    tLRPC$TL_secureValueTypeAddress2 = new TLRPC$TL_secureValueTypeAddress();
+                                    arrayList4.add(tL_secureRequiredType6);
+                                    tL_secureRequiredType3 = new TLRPC.TL_secureRequiredType();
+                                    tL_secureValueTypeAddress2 = new TLRPC.TL_secureValueTypeAddress();
                                 }
                                 arrayList2 = arrayList7;
                                 arrayList3 = arrayList6;
                                 i = size;
                             }
-                            tLRPC$TL_secureRequiredType3.type = tLRPC$TL_secureValueTypeAddress2;
-                            tLRPC$TL_secureRequiredType2 = tLRPC$TL_secureRequiredType3;
+                            tL_secureRequiredType3.type = tL_secureValueTypeAddress2;
+                            tL_secureRequiredType2 = tL_secureRequiredType3;
                             arrayList = arrayList4;
                             z = true;
                         }
@@ -6320,7 +6214,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         arrayList3 = arrayList6;
                         boolean z6 = z;
                         i = size;
-                        addField(context, tLRPC$TL_secureRequiredType2, arrayList8, z6, i11 == size + (-1));
+                        addField(context, tL_secureRequiredType2, arrayList8, z6, i11 == size + (-1));
                     }
                     z = false;
                     arrayList2 = arrayList7;
@@ -6328,44 +6222,44 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     arrayList3 = arrayList6;
                     boolean z62 = z;
                     i = size;
-                    addField(context, tLRPC$TL_secureRequiredType2, arrayList82, z62, i11 == size + (-1));
+                    addField(context, tL_secureRequiredType2, arrayList82, z62, i11 == size + (-1));
                 } else {
-                    if (tLRPC$SecureRequiredType5 instanceof TLRPC$TL_secureRequiredTypeOneOf) {
-                        TLRPC$TL_secureRequiredTypeOneOf tLRPC$TL_secureRequiredTypeOneOf2 = (TLRPC$TL_secureRequiredTypeOneOf) tLRPC$SecureRequiredType5;
-                        if (!tLRPC$TL_secureRequiredTypeOneOf2.types.isEmpty()) {
-                            TLRPC$SecureRequiredType tLRPC$SecureRequiredType6 = (TLRPC$SecureRequiredType) tLRPC$TL_secureRequiredTypeOneOf2.types.get(0);
-                            if (tLRPC$SecureRequiredType6 instanceof TLRPC$TL_secureRequiredType) {
-                                TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType7 = (TLRPC$TL_secureRequiredType) tLRPC$SecureRequiredType6;
-                                if ((z4 && isPersonalDocument(tLRPC$TL_secureRequiredType7.type)) || (z5 && isAddressDocument(tLRPC$TL_secureRequiredType7.type))) {
+                    if (secureRequiredType5 instanceof TLRPC.TL_secureRequiredTypeOneOf) {
+                        TLRPC.TL_secureRequiredTypeOneOf tL_secureRequiredTypeOneOf2 = (TLRPC.TL_secureRequiredTypeOneOf) secureRequiredType5;
+                        if (!tL_secureRequiredTypeOneOf2.types.isEmpty()) {
+                            TLRPC.SecureRequiredType secureRequiredType6 = tL_secureRequiredTypeOneOf2.types.get(0);
+                            if (secureRequiredType6 instanceof TLRPC.TL_secureRequiredType) {
+                                TLRPC.TL_secureRequiredType tL_secureRequiredType7 = (TLRPC.TL_secureRequiredType) secureRequiredType6;
+                                if ((z4 && isPersonalDocument(tL_secureRequiredType7.type)) || (z5 && isAddressDocument(tL_secureRequiredType7.type))) {
                                     ArrayList arrayList9 = new ArrayList();
-                                    int size4 = tLRPC$TL_secureRequiredTypeOneOf2.types.size();
+                                    int size4 = tL_secureRequiredTypeOneOf2.types.size();
                                     int i12 = 0;
                                     while (i12 < size4) {
-                                        TLRPC$SecureRequiredType tLRPC$SecureRequiredType7 = (TLRPC$SecureRequiredType) tLRPC$TL_secureRequiredTypeOneOf2.types.get(i12);
-                                        TLRPC$TL_secureRequiredTypeOneOf tLRPC$TL_secureRequiredTypeOneOf3 = tLRPC$TL_secureRequiredTypeOneOf2;
-                                        if (tLRPC$SecureRequiredType7 instanceof TLRPC$TL_secureRequiredType) {
-                                            arrayList9.add((TLRPC$TL_secureRequiredType) tLRPC$SecureRequiredType7);
+                                        TLRPC.SecureRequiredType secureRequiredType7 = tL_secureRequiredTypeOneOf2.types.get(i12);
+                                        TLRPC.TL_secureRequiredTypeOneOf tL_secureRequiredTypeOneOf3 = tL_secureRequiredTypeOneOf2;
+                                        if (secureRequiredType7 instanceof TLRPC.TL_secureRequiredType) {
+                                            arrayList9.add((TLRPC.TL_secureRequiredType) secureRequiredType7);
                                         }
                                         i12++;
-                                        tLRPC$TL_secureRequiredTypeOneOf2 = tLRPC$TL_secureRequiredTypeOneOf3;
+                                        tL_secureRequiredTypeOneOf2 = tL_secureRequiredTypeOneOf3;
                                     }
-                                    if (isPersonalDocument(tLRPC$TL_secureRequiredType7.type)) {
-                                        tLRPC$TL_secureRequiredType = new TLRPC$TL_secureRequiredType();
-                                        tLRPC$TL_secureValueTypeAddress = new TLRPC$TL_secureValueTypePersonalDetails();
+                                    if (isPersonalDocument(tL_secureRequiredType7.type)) {
+                                        tL_secureRequiredType = new TLRPC.TL_secureRequiredType();
+                                        tL_secureValueTypeAddress = new TLRPC.TL_secureValueTypePersonalDetails();
                                     } else {
-                                        tLRPC$TL_secureRequiredType = new TLRPC$TL_secureRequiredType();
-                                        tLRPC$TL_secureValueTypeAddress = new TLRPC$TL_secureValueTypeAddress();
+                                        tL_secureRequiredType = new TLRPC.TL_secureRequiredType();
+                                        tL_secureValueTypeAddress = new TLRPC.TL_secureValueTypeAddress();
                                     }
-                                    tLRPC$TL_secureRequiredType.type = tLRPC$TL_secureValueTypeAddress;
+                                    tL_secureRequiredType.type = tL_secureValueTypeAddress;
                                     arrayList = arrayList9;
                                     z = true;
-                                    tLRPC$TL_secureRequiredType2 = tLRPC$TL_secureRequiredType;
+                                    tL_secureRequiredType2 = tL_secureRequiredType;
                                     arrayList2 = arrayList7;
                                     ArrayList arrayList822 = arrayList;
                                     arrayList3 = arrayList6;
                                     boolean z622 = z;
                                     i = size;
-                                    addField(context, tLRPC$TL_secureRequiredType2, arrayList822, z622, i11 == size + (-1));
+                                    addField(context, tL_secureRequiredType2, arrayList822, z622, i11 == size + (-1));
                                 }
                             }
                         }
@@ -6380,7 +6274,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 arrayList7 = arrayList2;
             }
         }
-        if (tLRPC$User != null) {
+        if (user != null) {
             TextInfoPrivacyCell textInfoPrivacyCell3 = new TextInfoPrivacyCell(context);
             this.bottomCell = textInfoPrivacyCell3;
             textInfoPrivacyCell3.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
@@ -6389,9 +6283,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             textInfoPrivacyCell4.setLinkTextColorKey(i13);
             if (TextUtils.isEmpty(this.currentForm.privacy_policy_url)) {
                 textInfoPrivacyCell = this.bottomCell;
-                replaceTags = AndroidUtilities.replaceTags(LocaleController.formatString("PassportNoPolicy", R.string.PassportNoPolicy, UserObject.getFirstName(tLRPC$User), tLRPC$User.username));
+                replaceTags = AndroidUtilities.replaceTags(LocaleController.formatString("PassportNoPolicy", R.string.PassportNoPolicy, UserObject.getFirstName(user), user.username));
             } else {
-                String formatString = LocaleController.formatString("PassportPolicy", R.string.PassportPolicy, UserObject.getFirstName(tLRPC$User), tLRPC$User.username);
+                String formatString = LocaleController.formatString("PassportPolicy", R.string.PassportPolicy, UserObject.getFirstName(user), user.username);
                 replaceTags = new SpannableStringBuilder(formatString);
                 int indexOf = formatString.indexOf(42);
                 int lastIndexOf = formatString.lastIndexOf(42);
@@ -6527,21 +6421,21 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void deleteValueInternal(final TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType, final TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2, final ArrayList arrayList, final boolean z, final Runnable runnable, final ErrorRunnable errorRunnable, final boolean z2) {
-        if (tLRPC$TL_secureRequiredType == null) {
+    public void deleteValueInternal(final TLRPC.TL_secureRequiredType tL_secureRequiredType, final TLRPC.TL_secureRequiredType tL_secureRequiredType2, final ArrayList arrayList, final boolean z, final Runnable runnable, final ErrorRunnable errorRunnable, final boolean z2) {
+        if (tL_secureRequiredType == null) {
             return;
         }
-        TLRPC$TL_account_deleteSecureValue tLRPC$TL_account_deleteSecureValue = new TLRPC$TL_account_deleteSecureValue();
-        if (!z2 || tLRPC$TL_secureRequiredType2 == null) {
+        TLRPC.TL_account_deleteSecureValue tL_account_deleteSecureValue = new TLRPC.TL_account_deleteSecureValue();
+        if (!z2 || tL_secureRequiredType2 == null) {
             if (z) {
-                tLRPC$TL_account_deleteSecureValue.types.add(tLRPC$TL_secureRequiredType.type);
+                tL_account_deleteSecureValue.types.add(tL_secureRequiredType.type);
             }
         }
-        tLRPC$TL_account_deleteSecureValue.types.add(tLRPC$TL_secureRequiredType2.type);
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_deleteSecureValue, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda61
+        tL_account_deleteSecureValue.types.add(tL_secureRequiredType2.type);
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_deleteSecureValue, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda61
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                PassportActivity.this.lambda$deleteValueInternal$60(errorRunnable, z2, tLRPC$TL_secureRequiredType2, tLRPC$TL_secureRequiredType, z, arrayList, runnable, tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                PassportActivity.this.lambda$deleteValueInternal$60(errorRunnable, z2, tL_secureRequiredType2, tL_secureRequiredType, z, arrayList, runnable, tLObject, tL_error);
             }
         });
     }
@@ -6593,37 +6487,37 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public void fillNextCodeParams(Bundle bundle, TLRPC$TL_auth_sentCode tLRPC$TL_auth_sentCode, boolean z) {
+    public void fillNextCodeParams(Bundle bundle, TLRPC.TL_auth_sentCode tL_auth_sentCode, boolean z) {
         int i;
-        bundle.putString("phoneHash", tLRPC$TL_auth_sentCode.phone_code_hash);
-        TLRPC$auth_CodeType tLRPC$auth_CodeType = tLRPC$TL_auth_sentCode.next_type;
-        if (tLRPC$auth_CodeType instanceof TLRPC$TL_auth_codeTypeCall) {
+        bundle.putString("phoneHash", tL_auth_sentCode.phone_code_hash);
+        TLRPC.auth_CodeType auth_codetype = tL_auth_sentCode.next_type;
+        if (auth_codetype instanceof TLRPC.TL_auth_codeTypeCall) {
             bundle.putInt("nextType", 4);
-        } else if (tLRPC$auth_CodeType instanceof TLRPC$TL_auth_codeTypeFlashCall) {
+        } else if (auth_codetype instanceof TLRPC.TL_auth_codeTypeFlashCall) {
             bundle.putInt("nextType", 3);
-        } else if (tLRPC$auth_CodeType instanceof TLRPC$TL_auth_codeTypeSms) {
+        } else if (auth_codetype instanceof TLRPC.TL_auth_codeTypeSms) {
             bundle.putInt("nextType", 2);
         }
-        if (tLRPC$TL_auth_sentCode.timeout == 0) {
-            tLRPC$TL_auth_sentCode.timeout = 60;
+        if (tL_auth_sentCode.timeout == 0) {
+            tL_auth_sentCode.timeout = 60;
         }
-        bundle.putInt("timeout", tLRPC$TL_auth_sentCode.timeout * 1000);
-        TLRPC$auth_SentCodeType tLRPC$auth_SentCodeType = tLRPC$TL_auth_sentCode.type;
-        if (tLRPC$auth_SentCodeType instanceof TLRPC$TL_auth_sentCodeTypeCall) {
+        bundle.putInt("timeout", tL_auth_sentCode.timeout * 1000);
+        TLRPC.auth_SentCodeType auth_sentcodetype = tL_auth_sentCode.type;
+        if (auth_sentcodetype instanceof TLRPC.TL_auth_sentCodeTypeCall) {
             bundle.putInt("type", 4);
-            bundle.putInt("length", tLRPC$TL_auth_sentCode.type.length);
+            bundle.putInt("length", tL_auth_sentCode.type.length);
             setPage(2, z, bundle);
             return;
         }
-        if (tLRPC$auth_SentCodeType instanceof TLRPC$TL_auth_sentCodeTypeFlashCall) {
+        if (auth_sentcodetype instanceof TLRPC.TL_auth_sentCodeTypeFlashCall) {
             bundle.putInt("type", 3);
-            bundle.putString("pattern", tLRPC$TL_auth_sentCode.type.pattern);
+            bundle.putString("pattern", tL_auth_sentCode.type.pattern);
             i = 1;
-        } else if (!(tLRPC$auth_SentCodeType instanceof TLRPC$TL_auth_sentCodeTypeSms)) {
+        } else if (!(auth_sentcodetype instanceof TLRPC.TL_auth_sentCodeTypeSms)) {
             return;
         } else {
             bundle.putInt("type", 2);
-            bundle.putInt("length", tLRPC$TL_auth_sentCode.type.length);
+            bundle.putInt("length", tL_auth_sentCode.type.length);
             i = 0;
         }
         setPage(i, z, bundle);
@@ -6680,8 +6574,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     public String getDocumentHash(SecureDocument secureDocument) {
         byte[] bArr;
         if (secureDocument != null) {
-            TLRPC$TL_secureFile tLRPC$TL_secureFile = secureDocument.secureFile;
-            if (tLRPC$TL_secureFile == null || (bArr = tLRPC$TL_secureFile.file_hash) == null) {
+            TLRPC.TL_secureFile tL_secureFile = secureDocument.secureFile;
+            if (tL_secureFile == null || (bArr = tL_secureFile.file_hash) == null) {
                 byte[] bArr2 = secureDocument.fileHash;
                 return bArr2 != null ? Base64.encodeToString(bArr2, 2) : "";
             }
@@ -6848,8 +6742,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         return 20 - arrayList.size();
     }
 
-    private String getNameForType(TLRPC$SecureValueType tLRPC$SecureValueType) {
-        return tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePersonalDetails ? "personal_details" : tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePassport ? "passport" : tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeInternalPassport ? "internal_passport" : tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeDriverLicense ? "driver_license" : tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeIdentityCard ? "identity_card" : tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeUtilityBill ? "utility_bill" : tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeAddress ? "address" : tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeBankStatement ? "bank_statement" : tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeRentalAgreement ? "rental_agreement" : tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeTemporaryRegistration ? "temporary_registration" : tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePassportRegistration ? "passport_registration" : tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeEmail ? "email" : tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePhone ? "phone" : "";
+    private String getNameForType(TLRPC.SecureValueType secureValueType) {
+        return secureValueType instanceof TLRPC.TL_secureValueTypePersonalDetails ? "personal_details" : secureValueType instanceof TLRPC.TL_secureValueTypePassport ? "passport" : secureValueType instanceof TLRPC.TL_secureValueTypeInternalPassport ? "internal_passport" : secureValueType instanceof TLRPC.TL_secureValueTypeDriverLicense ? "driver_license" : secureValueType instanceof TLRPC.TL_secureValueTypeIdentityCard ? "identity_card" : secureValueType instanceof TLRPC.TL_secureValueTypeUtilityBill ? "utility_bill" : secureValueType instanceof TLRPC.TL_secureValueTypeAddress ? "address" : secureValueType instanceof TLRPC.TL_secureValueTypeBankStatement ? "bank_statement" : secureValueType instanceof TLRPC.TL_secureValueTypeRentalAgreement ? "rental_agreement" : secureValueType instanceof TLRPC.TL_secureValueTypeTemporaryRegistration ? "temporary_registration" : secureValueType instanceof TLRPC.TL_secureValueTypePassportRegistration ? "passport_registration" : secureValueType instanceof TLRPC.TL_secureValueTypeEmail ? "email" : secureValueType instanceof TLRPC.TL_secureValueTypePhone ? "phone" : "";
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -6860,15 +6754,15 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         for (int i2 = 0; i2 < 32; i2++) {
             i += 255 & bArr[i2];
         }
-        int i3 = i % NotificationCenter.didClearDatabase;
+        int i3 = i % NotificationCenter.messagePlayingSpeedChanged;
         if (i3 != 239) {
-            int i4 = NotificationCenter.locationPermissionGranted - i3;
+            int i4 = NotificationCenter.needSetDayNightTheme - i3;
             int nextInt = Utilities.random.nextInt(32);
             int i5 = (bArr[nextInt] & 255) + i4;
             if (i5 < 255) {
-                i5 += NotificationCenter.didClearDatabase;
+                i5 += NotificationCenter.messagePlayingSpeedChanged;
             }
-            bArr[nextInt] = (byte) (i5 % NotificationCenter.didClearDatabase);
+            bArr[nextInt] = (byte) (i5 % NotificationCenter.messagePlayingSpeedChanged);
         }
         return bArr;
     }
@@ -6882,29 +6776,29 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         return new SecureDocumentKey(bArr3, bArr4);
     }
 
-    private String getTextForType(TLRPC$SecureValueType tLRPC$SecureValueType) {
+    private String getTextForType(TLRPC.SecureValueType secureValueType) {
         int i;
-        if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePassport) {
+        if (secureValueType instanceof TLRPC.TL_secureValueTypePassport) {
             i = R.string.ActionBotDocumentPassport;
-        } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeDriverLicense) {
+        } else if (secureValueType instanceof TLRPC.TL_secureValueTypeDriverLicense) {
             i = R.string.ActionBotDocumentDriverLicence;
-        } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeIdentityCard) {
+        } else if (secureValueType instanceof TLRPC.TL_secureValueTypeIdentityCard) {
             i = R.string.ActionBotDocumentIdentityCard;
-        } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeUtilityBill) {
+        } else if (secureValueType instanceof TLRPC.TL_secureValueTypeUtilityBill) {
             i = R.string.ActionBotDocumentUtilityBill;
-        } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeBankStatement) {
+        } else if (secureValueType instanceof TLRPC.TL_secureValueTypeBankStatement) {
             i = R.string.ActionBotDocumentBankStatement;
-        } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeRentalAgreement) {
+        } else if (secureValueType instanceof TLRPC.TL_secureValueTypeRentalAgreement) {
             i = R.string.ActionBotDocumentRentalAgreement;
-        } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeInternalPassport) {
+        } else if (secureValueType instanceof TLRPC.TL_secureValueTypeInternalPassport) {
             i = R.string.ActionBotDocumentInternalPassport;
-        } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePassportRegistration) {
+        } else if (secureValueType instanceof TLRPC.TL_secureValueTypePassportRegistration) {
             i = R.string.ActionBotDocumentPassportRegistration;
-        } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeTemporaryRegistration) {
+        } else if (secureValueType instanceof TLRPC.TL_secureValueTypeTemporaryRegistration) {
             i = R.string.ActionBotDocumentTemporaryRegistration;
-        } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePhone) {
+        } else if (secureValueType instanceof TLRPC.TL_secureValueTypePhone) {
             i = R.string.ActionBotDocumentPhone;
-        } else if (!(tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeEmail)) {
+        } else if (!(secureValueType instanceof TLRPC.TL_secureValueTypeEmail)) {
             return "";
         } else {
             i = R.string.ActionBotDocumentEmail;
@@ -6917,39 +6811,39 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         return LocaleController.getInstance().getTranslitString(str, true);
     }
 
-    private TLRPC$TL_secureValue getValueByType(TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType, boolean z) {
+    private TLRPC.TL_secureValue getValueByType(TLRPC.TL_secureRequiredType tL_secureRequiredType, boolean z) {
         JSONObject jSONObject;
         int i;
-        if (tLRPC$TL_secureRequiredType == null) {
+        if (tL_secureRequiredType == null) {
             return null;
         }
         int size = this.currentForm.values.size();
         for (int i2 = 0; i2 < size; i2++) {
-            TLRPC$TL_secureValue tLRPC$TL_secureValue = (TLRPC$TL_secureValue) this.currentForm.values.get(i2);
-            if (tLRPC$TL_secureRequiredType.type.getClass() == tLRPC$TL_secureValue.type.getClass()) {
+            TLRPC.TL_secureValue tL_secureValue = this.currentForm.values.get(i2);
+            if (tL_secureRequiredType.type.getClass() == tL_secureValue.type.getClass()) {
                 if (z) {
-                    if (tLRPC$TL_secureRequiredType.selfie_required && !(tLRPC$TL_secureValue.selfie instanceof TLRPC$TL_secureFile)) {
+                    if (tL_secureRequiredType.selfie_required && !(tL_secureValue.selfie instanceof TLRPC.TL_secureFile)) {
                         return null;
                     }
-                    if (tLRPC$TL_secureRequiredType.translation_required && tLRPC$TL_secureValue.translation.isEmpty()) {
+                    if (tL_secureRequiredType.translation_required && tL_secureValue.translation.isEmpty()) {
                         return null;
                     }
-                    if (isAddressDocument(tLRPC$TL_secureRequiredType.type) && tLRPC$TL_secureValue.files.isEmpty()) {
+                    if (isAddressDocument(tL_secureRequiredType.type) && tL_secureValue.files.isEmpty()) {
                         return null;
                     }
-                    if (isPersonalDocument(tLRPC$TL_secureRequiredType.type) && !(tLRPC$TL_secureValue.front_side instanceof TLRPC$TL_secureFile)) {
+                    if (isPersonalDocument(tL_secureRequiredType.type) && !(tL_secureValue.front_side instanceof TLRPC.TL_secureFile)) {
                         return null;
                     }
-                    TLRPC$SecureValueType tLRPC$SecureValueType = tLRPC$TL_secureRequiredType.type;
-                    if (((tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeDriverLicense) || (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeIdentityCard)) && !(tLRPC$TL_secureValue.reverse_side instanceof TLRPC$TL_secureFile)) {
+                    TLRPC.SecureValueType secureValueType = tL_secureRequiredType.type;
+                    if (((secureValueType instanceof TLRPC.TL_secureValueTypeDriverLicense) || (secureValueType instanceof TLRPC.TL_secureValueTypeIdentityCard)) && !(tL_secureValue.reverse_side instanceof TLRPC.TL_secureFile)) {
                         return null;
                     }
-                    boolean z2 = tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePersonalDetails;
-                    if (z2 || (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeAddress)) {
-                        String[] strArr = z2 ? tLRPC$TL_secureRequiredType.native_names ? new String[]{"first_name_native", "last_name_native", "birth_date", "gender", "country_code", "residence_country_code"} : new String[]{"first_name", "last_name", "birth_date", "gender", "country_code", "residence_country_code"} : new String[]{"street_line1", "street_line2", "post_code", "city", "state", "country_code"};
+                    boolean z2 = secureValueType instanceof TLRPC.TL_secureValueTypePersonalDetails;
+                    if (z2 || (secureValueType instanceof TLRPC.TL_secureValueTypeAddress)) {
+                        String[] strArr = z2 ? tL_secureRequiredType.native_names ? new String[]{"first_name_native", "last_name_native", "birth_date", "gender", "country_code", "residence_country_code"} : new String[]{"first_name", "last_name", "birth_date", "gender", "country_code", "residence_country_code"} : new String[]{"street_line1", "street_line2", "post_code", "city", "state", "country_code"};
                         try {
-                            TLRPC$TL_secureData tLRPC$TL_secureData = tLRPC$TL_secureValue.data;
-                            jSONObject = new JSONObject(decryptData(tLRPC$TL_secureData.data, decryptValueSecret(tLRPC$TL_secureData.secret, tLRPC$TL_secureData.data_hash), tLRPC$TL_secureValue.data.data_hash));
+                            TLRPC.TL_secureData tL_secureData = tL_secureValue.data;
+                            jSONObject = new JSONObject(decryptData(tL_secureData.data, decryptValueSecret(tL_secureData.secret, tL_secureData.data_hash), tL_secureValue.data.data_hash));
                         } catch (Throwable unused) {
                         }
                         while (i < strArr.length) {
@@ -6958,22 +6852,22 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         }
                     }
                 }
-                return tLRPC$TL_secureValue;
+                return tL_secureValue;
             }
         }
         return null;
     }
 
-    private TextDetailSecureCell getViewByType(TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType) {
-        TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2;
-        TextDetailSecureCell textDetailSecureCell = (TextDetailSecureCell) this.typesViews.get(tLRPC$TL_secureRequiredType);
-        return (textDetailSecureCell != null || (tLRPC$TL_secureRequiredType2 = (TLRPC$TL_secureRequiredType) this.documentsToTypesLink.get(tLRPC$TL_secureRequiredType)) == null) ? textDetailSecureCell : (TextDetailSecureCell) this.typesViews.get(tLRPC$TL_secureRequiredType2);
+    private TextDetailSecureCell getViewByType(TLRPC.TL_secureRequiredType tL_secureRequiredType) {
+        TLRPC.TL_secureRequiredType tL_secureRequiredType2;
+        TextDetailSecureCell textDetailSecureCell = (TextDetailSecureCell) this.typesViews.get(tL_secureRequiredType);
+        return (textDetailSecureCell != null || (tL_secureRequiredType2 = (TLRPC.TL_secureRequiredType) this.documentsToTypesLink.get(tL_secureRequiredType)) == null) ? textDetailSecureCell : (TextDetailSecureCell) this.typesViews.get(tL_secureRequiredType2);
     }
 
     private boolean hasNotValueForType(Class cls) {
         int size = this.currentForm.values.size();
         for (int i = 0; i < size; i++) {
-            if (((TLRPC$TL_secureValue) this.currentForm.values.get(i)).type.getClass() == cls) {
+            if (this.currentForm.values.get(i).type.getClass() == cls) {
                 return false;
             }
         }
@@ -6981,11 +6875,11 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     private boolean hasUnfilledValues() {
-        return hasNotValueForType(TLRPC$TL_secureValueTypePhone.class) || hasNotValueForType(TLRPC$TL_secureValueTypeEmail.class) || hasNotValueForType(TLRPC$TL_secureValueTypePersonalDetails.class) || hasNotValueForType(TLRPC$TL_secureValueTypePassport.class) || hasNotValueForType(TLRPC$TL_secureValueTypeInternalPassport.class) || hasNotValueForType(TLRPC$TL_secureValueTypeIdentityCard.class) || hasNotValueForType(TLRPC$TL_secureValueTypeDriverLicense.class) || hasNotValueForType(TLRPC$TL_secureValueTypeAddress.class) || hasNotValueForType(TLRPC$TL_secureValueTypeUtilityBill.class) || hasNotValueForType(TLRPC$TL_secureValueTypePassportRegistration.class) || hasNotValueForType(TLRPC$TL_secureValueTypeTemporaryRegistration.class) || hasNotValueForType(TLRPC$TL_secureValueTypeBankStatement.class) || hasNotValueForType(TLRPC$TL_secureValueTypeRentalAgreement.class);
+        return hasNotValueForType(TLRPC.TL_secureValueTypePhone.class) || hasNotValueForType(TLRPC.TL_secureValueTypeEmail.class) || hasNotValueForType(TLRPC.TL_secureValueTypePersonalDetails.class) || hasNotValueForType(TLRPC.TL_secureValueTypePassport.class) || hasNotValueForType(TLRPC.TL_secureValueTypeInternalPassport.class) || hasNotValueForType(TLRPC.TL_secureValueTypeIdentityCard.class) || hasNotValueForType(TLRPC.TL_secureValueTypeDriverLicense.class) || hasNotValueForType(TLRPC.TL_secureValueTypeAddress.class) || hasNotValueForType(TLRPC.TL_secureValueTypeUtilityBill.class) || hasNotValueForType(TLRPC.TL_secureValueTypePassportRegistration.class) || hasNotValueForType(TLRPC.TL_secureValueTypeTemporaryRegistration.class) || hasNotValueForType(TLRPC.TL_secureValueTypeBankStatement.class) || hasNotValueForType(TLRPC.TL_secureValueTypeRentalAgreement.class);
     }
 
-    private boolean isAddressDocument(TLRPC$SecureValueType tLRPC$SecureValueType) {
-        return (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeUtilityBill) || (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeBankStatement) || (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePassportRegistration) || (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeTemporaryRegistration) || (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeRentalAgreement);
+    private boolean isAddressDocument(TLRPC.SecureValueType secureValueType) {
+        return (secureValueType instanceof TLRPC.TL_secureValueTypeUtilityBill) || (secureValueType instanceof TLRPC.TL_secureValueTypeBankStatement) || (secureValueType instanceof TLRPC.TL_secureValueTypePassportRegistration) || (secureValueType instanceof TLRPC.TL_secureValueTypeTemporaryRegistration) || (secureValueType instanceof TLRPC.TL_secureValueTypeRentalAgreement);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -6994,8 +6888,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         return str == null || str.equals(getCurrentValues());
     }
 
-    private boolean isPersonalDocument(TLRPC$SecureValueType tLRPC$SecureValueType) {
-        return (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeDriverLicense) || (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePassport) || (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeInternalPassport) || (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeIdentityCard);
+    private boolean isPersonalDocument(TLRPC.SecureValueType secureValueType) {
+        return (secureValueType instanceof TLRPC.TL_secureValueTypeDriverLicense) || (secureValueType instanceof TLRPC.TL_secureValueTypePassport) || (secureValueType instanceof TLRPC.TL_secureValueTypeInternalPassport) || (secureValueType instanceof TLRPC.TL_secureValueTypeIdentityCard);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7092,8 +6986,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$addField$61(TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType, ArrayList arrayList, boolean z, DialogInterface dialogInterface, int i) {
-        openTypeActivity(tLRPC$TL_secureRequiredType, (TLRPC$TL_secureRequiredType) arrayList.get(i), arrayList, z);
+    public /* synthetic */ void lambda$addField$61(TLRPC.TL_secureRequiredType tL_secureRequiredType, ArrayList arrayList, boolean z, DialogInterface dialogInterface, int i) {
+        openTypeActivity(tL_secureRequiredType, (TLRPC.TL_secureRequiredType) arrayList.get(i), arrayList, z);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7102,9 +6996,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$addField$63(TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType, boolean z, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$addField$63(TLRPC.TL_secureRequiredType tL_secureRequiredType, boolean z, DialogInterface dialogInterface, int i) {
         needShowProgress();
-        deleteValueInternal(tLRPC$TL_secureRequiredType, null, null, true, new Runnable() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda69
+        deleteValueInternal(tL_secureRequiredType, null, null, true, new Runnable() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda69
             @Override // java.lang.Runnable
             public final void run() {
                 PassportActivity.this.needHideProgress();
@@ -7122,8 +7016,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$addField$64(final ArrayList arrayList, final TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType, final boolean z, View view) {
-        TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2;
+    public /* synthetic */ void lambda$addField$64(final ArrayList arrayList, final TLRPC.TL_secureRequiredType tL_secureRequiredType, final boolean z, View view) {
+        TLRPC.TL_secureRequiredType tL_secureRequiredType2;
         int i;
         int size;
         int i2;
@@ -7132,22 +7026,22 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         if (arrayList != null) {
             int size2 = arrayList.size();
             for (int i4 = 0; i4 < size2; i4++) {
-                tLRPC$TL_secureRequiredType2 = (TLRPC$TL_secureRequiredType) arrayList.get(i4);
-                if (getValueByType(tLRPC$TL_secureRequiredType2, false) != null || size2 == 1) {
+                tL_secureRequiredType2 = (TLRPC.TL_secureRequiredType) arrayList.get(i4);
+                if (getValueByType(tL_secureRequiredType2, false) != null || size2 == 1) {
                     break;
                 }
             }
         }
-        tLRPC$TL_secureRequiredType2 = null;
-        TLRPC$SecureValueType tLRPC$SecureValueType = tLRPC$TL_secureRequiredType.type;
-        if (!(tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePersonalDetails) && !(tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeAddress)) {
-            boolean z2 = tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePhone;
-            if ((z2 || (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeEmail)) && getValueByType(tLRPC$TL_secureRequiredType, false) != null) {
+        tL_secureRequiredType2 = null;
+        TLRPC.SecureValueType secureValueType = tL_secureRequiredType.type;
+        if (!(secureValueType instanceof TLRPC.TL_secureValueTypePersonalDetails) && !(secureValueType instanceof TLRPC.TL_secureValueTypeAddress)) {
+            boolean z2 = secureValueType instanceof TLRPC.TL_secureValueTypePhone;
+            if ((z2 || (secureValueType instanceof TLRPC.TL_secureValueTypeEmail)) && getValueByType(tL_secureRequiredType, false) != null) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 builder.setPositiveButton(LocaleController.getString(R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda67
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i5) {
-                        PassportActivity.this.lambda$addField$63(tLRPC$TL_secureRequiredType, z, dialogInterface, i5);
+                        PassportActivity.this.lambda$addField$63(tL_secureRequiredType, z, dialogInterface, i5);
                     }
                 });
                 builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -7157,37 +7051,37 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 showDialog(create);
                 return;
             }
-            openTypeActivity(tLRPC$TL_secureRequiredType, tLRPC$TL_secureRequiredType2, arrayList, z);
+            openTypeActivity(tL_secureRequiredType, tL_secureRequiredType2, arrayList, z);
         }
-        if (tLRPC$TL_secureRequiredType2 == null && arrayList != null && !arrayList.isEmpty()) {
+        if (tL_secureRequiredType2 == null && arrayList != null && !arrayList.isEmpty()) {
             AlertDialog.Builder builder2 = new AlertDialog.Builder(getParentActivity());
             builder2.setPositiveButton(LocaleController.getString(R.string.Cancel), null);
-            TLRPC$SecureValueType tLRPC$SecureValueType2 = tLRPC$TL_secureRequiredType.type;
-            if (!(tLRPC$SecureValueType2 instanceof TLRPC$TL_secureValueTypePersonalDetails)) {
-                if (tLRPC$SecureValueType2 instanceof TLRPC$TL_secureValueTypeAddress) {
+            TLRPC.SecureValueType secureValueType2 = tL_secureRequiredType.type;
+            if (!(secureValueType2 instanceof TLRPC.TL_secureValueTypePersonalDetails)) {
+                if (secureValueType2 instanceof TLRPC.TL_secureValueTypeAddress) {
                     i = R.string.PassportAddress;
                 }
                 ArrayList arrayList2 = new ArrayList();
                 size = arrayList.size();
                 for (i2 = 0; i2 < size; i2++) {
-                    TLRPC$SecureValueType tLRPC$SecureValueType3 = ((TLRPC$TL_secureRequiredType) arrayList.get(i2)).type;
-                    if (tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypeDriverLicense) {
+                    TLRPC.SecureValueType secureValueType3 = ((TLRPC.TL_secureRequiredType) arrayList.get(i2)).type;
+                    if (secureValueType3 instanceof TLRPC.TL_secureValueTypeDriverLicense) {
                         i3 = R.string.PassportAddLicence;
-                    } else if (tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypePassport) {
+                    } else if (secureValueType3 instanceof TLRPC.TL_secureValueTypePassport) {
                         i3 = R.string.PassportAddPassport;
-                    } else if (tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypeInternalPassport) {
+                    } else if (secureValueType3 instanceof TLRPC.TL_secureValueTypeInternalPassport) {
                         i3 = R.string.PassportAddInternalPassport;
-                    } else if (tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypeIdentityCard) {
+                    } else if (secureValueType3 instanceof TLRPC.TL_secureValueTypeIdentityCard) {
                         i3 = R.string.PassportAddCard;
-                    } else if (tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypeUtilityBill) {
+                    } else if (secureValueType3 instanceof TLRPC.TL_secureValueTypeUtilityBill) {
                         i3 = R.string.PassportAddBill;
-                    } else if (tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypeBankStatement) {
+                    } else if (secureValueType3 instanceof TLRPC.TL_secureValueTypeBankStatement) {
                         i3 = R.string.PassportAddBank;
-                    } else if (tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypeRentalAgreement) {
+                    } else if (secureValueType3 instanceof TLRPC.TL_secureValueTypeRentalAgreement) {
                         i3 = R.string.PassportAddAgreement;
-                    } else if (tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypeTemporaryRegistration) {
+                    } else if (secureValueType3 instanceof TLRPC.TL_secureValueTypeTemporaryRegistration) {
                         i3 = R.string.PassportAddTemporaryRegistration;
-                    } else if (tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypePassportRegistration) {
+                    } else if (secureValueType3 instanceof TLRPC.TL_secureValueTypePassportRegistration) {
                         i3 = R.string.PassportAddPassportRegistration;
                     }
                     arrayList2.add(LocaleController.getString(i3));
@@ -7195,7 +7089,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 builder2.setItems((CharSequence[]) arrayList2.toArray(new CharSequence[0]), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda68
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i5) {
-                        PassportActivity.this.lambda$addField$61(tLRPC$TL_secureRequiredType, arrayList, z, dialogInterface, i5);
+                        PassportActivity.this.lambda$addField$61(tL_secureRequiredType, arrayList, z, dialogInterface, i5);
                     }
                 });
                 create = builder2.create();
@@ -7211,14 +7105,14 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             builder2.setItems((CharSequence[]) arrayList22.toArray(new CharSequence[0]), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda68
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i5) {
-                    PassportActivity.this.lambda$addField$61(tLRPC$TL_secureRequiredType, arrayList, z, dialogInterface, i5);
+                    PassportActivity.this.lambda$addField$61(tL_secureRequiredType, arrayList, z, dialogInterface, i5);
                 }
             });
             create = builder2.create();
             showDialog(create);
             return;
         }
-        openTypeActivity(tLRPC$TL_secureRequiredType, tLRPC$TL_secureRequiredType2, arrayList, z);
+        openTypeActivity(tL_secureRequiredType, tL_secureRequiredType2, arrayList, z);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7663,7 +7557,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createManageInterface$19(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$createManageInterface$19(TLObject tLObject, TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda72
             @Override // java.lang.Runnable
             public final void run() {
@@ -7674,15 +7568,15 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createManageInterface$20(DialogInterface dialogInterface, int i) {
-        TLRPC$TL_account_deleteSecureValue tLRPC$TL_account_deleteSecureValue = new TLRPC$TL_account_deleteSecureValue();
+        TLRPC.TL_account_deleteSecureValue tL_account_deleteSecureValue = new TLRPC.TL_account_deleteSecureValue();
         for (int i2 = 0; i2 < this.currentForm.values.size(); i2++) {
-            tLRPC$TL_account_deleteSecureValue.types.add(((TLRPC$TL_secureValue) this.currentForm.values.get(i2)).type);
+            tL_account_deleteSecureValue.types.add(this.currentForm.values.get(i2).type);
         }
         needShowProgress();
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_deleteSecureValue, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda63
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_deleteSecureValue, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda63
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                PassportActivity.this.lambda$createManageInterface$19(tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                PassportActivity.this.lambda$createManageInterface$19(tLObject, tL_error);
             }
         });
     }
@@ -7713,11 +7607,11 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createPasswordInterface$10(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$createPasswordInterface$10(final TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda62
             @Override // java.lang.Runnable
             public final void run() {
-                PassportActivity.this.lambda$createPasswordInterface$9(tLRPC$TL_error, tLObject);
+                PassportActivity.this.lambda$createPasswordInterface$9(tL_error, tLObject);
             }
         });
     }
@@ -7732,10 +7626,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     public /* synthetic */ void lambda$createPasswordInterface$12(View view) {
         if (this.currentPassword.has_recovery) {
             needShowProgress();
-            ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_auth_requestPasswordRecovery(), new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda41
+            ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC.TL_auth_requestPasswordRecovery(), new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda41
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    PassportActivity.this.lambda$createPasswordInterface$10(tLObject, tLRPC$TL_error);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    PassportActivity.this.lambda$createPasswordInterface$10(tLObject, tL_error);
                 }
             }, 10), this.classGuid);
         } else if (getParentActivity() == null) {
@@ -7771,38 +7665,38 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createPasswordInterface$8(TLRPC$TL_auth_passwordRecovery tLRPC$TL_auth_passwordRecovery, DialogInterface dialogInterface, int i) {
-        TLRPC$account_Password tLRPC$account_Password = this.currentPassword;
-        tLRPC$account_Password.email_unconfirmed_pattern = tLRPC$TL_auth_passwordRecovery.email_pattern;
-        presentFragment(new TwoStepVerificationSetupActivity(this.currentAccount, 4, tLRPC$account_Password));
+    public /* synthetic */ void lambda$createPasswordInterface$8(TLRPC.TL_auth_passwordRecovery tL_auth_passwordRecovery, DialogInterface dialogInterface, int i) {
+        TLRPC.account_Password account_password = this.currentPassword;
+        account_password.email_unconfirmed_pattern = tL_auth_passwordRecovery.email_pattern;
+        presentFragment(new TwoStepVerificationSetupActivity(this.currentAccount, 4, account_password));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createPasswordInterface$9(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
+    public /* synthetic */ void lambda$createPasswordInterface$9(TLRPC.TL_error tL_error, TLObject tLObject) {
         String string;
         String str;
         needHideProgress();
-        if (tLRPC$TL_error != null) {
-            if (tLRPC$TL_error.text.startsWith("FLOOD_WAIT")) {
-                int intValue = Utilities.parseInt((CharSequence) tLRPC$TL_error.text).intValue();
+        if (tL_error != null) {
+            if (tL_error.text.startsWith("FLOOD_WAIT")) {
+                int intValue = Utilities.parseInt((CharSequence) tL_error.text).intValue();
                 String formatPluralString = intValue < 60 ? LocaleController.formatPluralString("Seconds", intValue, new Object[0]) : LocaleController.formatPluralString("Minutes", intValue / 60, new Object[0]);
                 string = LocaleController.getString(R.string.AppName);
                 str = LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, formatPluralString);
             } else {
                 string = LocaleController.getString(R.string.AppName);
-                str = tLRPC$TL_error.text;
+                str = tL_error.text;
             }
             showAlertWithText(string, str);
             return;
         }
-        final TLRPC$TL_auth_passwordRecovery tLRPC$TL_auth_passwordRecovery = (TLRPC$TL_auth_passwordRecovery) tLObject;
+        final TLRPC.TL_auth_passwordRecovery tL_auth_passwordRecovery = (TLRPC.TL_auth_passwordRecovery) tLObject;
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setMessage(LocaleController.formatString("RestoreEmailSent", R.string.RestoreEmailSent, tLRPC$TL_auth_passwordRecovery.email_pattern));
+        builder.setMessage(LocaleController.formatString("RestoreEmailSent", R.string.RestoreEmailSent, tL_auth_passwordRecovery.email_pattern));
         builder.setTitle(LocaleController.getString(R.string.RestoreEmailSentTitle));
         builder.setPositiveButton(LocaleController.getString(R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda73
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
-                PassportActivity.this.lambda$createPasswordInterface$8(tLRPC$TL_auth_passwordRecovery, dialogInterface, i);
+                PassportActivity.this.lambda$createPasswordInterface$8(tL_auth_passwordRecovery, dialogInterface, i);
             }
         });
         Dialog showDialog = showDialog(builder.create());
@@ -7890,27 +7784,27 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createRequestInterface$14(TLRPC$TL_error tLRPC$TL_error) {
-        if (tLRPC$TL_error == null) {
+    public /* synthetic */ void lambda$createRequestInterface$14(TLRPC.TL_error tL_error) {
+        if (tL_error == null) {
             this.ignoreOnFailure = true;
             callCallback(true);
             finishFragment();
             return;
         }
         showEditDoneProgress(false, false);
-        if ("APP_VERSION_OUTDATED".equals(tLRPC$TL_error.text)) {
+        if ("APP_VERSION_OUTDATED".equals(tL_error.text)) {
             AlertsCreator.showUpdateAppAlert(getParentActivity(), LocaleController.getString(R.string.UpdateAppAlert), true);
         } else {
-            showAlertWithText(LocaleController.getString(R.string.AppName), tLRPC$TL_error.text);
+            showAlertWithText(LocaleController.getString(R.string.AppName), tL_error.text);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createRequestInterface$15(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$createRequestInterface$15(TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda66
             @Override // java.lang.Runnable
             public final void run() {
-                PassportActivity.this.lambda$createRequestInterface$14(tLRPC$TL_error);
+                PassportActivity.this.lambda$createRequestInterface$14(tL_error);
             }
         });
     }
@@ -7919,32 +7813,32 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     public /* synthetic */ void lambda$createRequestInterface$16(View view) {
         ArrayList arrayList;
         int i;
-        TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType;
+        TLRPC.TL_secureRequiredType tL_secureRequiredType;
         ArrayList arrayList2 = new ArrayList();
         int size = this.currentForm.required_types.size();
         for (int i2 = 0; i2 < size; i2++) {
-            TLRPC$SecureRequiredType tLRPC$SecureRequiredType = (TLRPC$SecureRequiredType) this.currentForm.required_types.get(i2);
-            if (tLRPC$SecureRequiredType instanceof TLRPC$TL_secureRequiredType) {
-                tLRPC$TL_secureRequiredType = (TLRPC$TL_secureRequiredType) tLRPC$SecureRequiredType;
+            TLRPC.SecureRequiredType secureRequiredType = this.currentForm.required_types.get(i2);
+            if (secureRequiredType instanceof TLRPC.TL_secureRequiredType) {
+                tL_secureRequiredType = (TLRPC.TL_secureRequiredType) secureRequiredType;
             } else {
-                if (tLRPC$SecureRequiredType instanceof TLRPC$TL_secureRequiredTypeOneOf) {
-                    TLRPC$TL_secureRequiredTypeOneOf tLRPC$TL_secureRequiredTypeOneOf = (TLRPC$TL_secureRequiredTypeOneOf) tLRPC$SecureRequiredType;
-                    if (!tLRPC$TL_secureRequiredTypeOneOf.types.isEmpty()) {
-                        TLRPC$SecureRequiredType tLRPC$SecureRequiredType2 = (TLRPC$SecureRequiredType) tLRPC$TL_secureRequiredTypeOneOf.types.get(0);
-                        if (tLRPC$SecureRequiredType2 instanceof TLRPC$TL_secureRequiredType) {
-                            TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2 = (TLRPC$TL_secureRequiredType) tLRPC$SecureRequiredType2;
-                            int size2 = tLRPC$TL_secureRequiredTypeOneOf.types.size();
+                if (secureRequiredType instanceof TLRPC.TL_secureRequiredTypeOneOf) {
+                    TLRPC.TL_secureRequiredTypeOneOf tL_secureRequiredTypeOneOf = (TLRPC.TL_secureRequiredTypeOneOf) secureRequiredType;
+                    if (!tL_secureRequiredTypeOneOf.types.isEmpty()) {
+                        TLRPC.SecureRequiredType secureRequiredType2 = tL_secureRequiredTypeOneOf.types.get(0);
+                        if (secureRequiredType2 instanceof TLRPC.TL_secureRequiredType) {
+                            TLRPC.TL_secureRequiredType tL_secureRequiredType2 = (TLRPC.TL_secureRequiredType) secureRequiredType2;
+                            int size2 = tL_secureRequiredTypeOneOf.types.size();
                             int i3 = 0;
                             while (true) {
                                 if (i3 >= size2) {
-                                    tLRPC$TL_secureRequiredType = tLRPC$TL_secureRequiredType2;
+                                    tL_secureRequiredType = tL_secureRequiredType2;
                                     break;
                                 }
-                                TLRPC$SecureRequiredType tLRPC$SecureRequiredType3 = (TLRPC$SecureRequiredType) tLRPC$TL_secureRequiredTypeOneOf.types.get(i3);
-                                if (tLRPC$SecureRequiredType3 instanceof TLRPC$TL_secureRequiredType) {
-                                    TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType3 = (TLRPC$TL_secureRequiredType) tLRPC$SecureRequiredType3;
-                                    if (getValueByType(tLRPC$TL_secureRequiredType3, true) != null) {
-                                        tLRPC$TL_secureRequiredType = tLRPC$TL_secureRequiredType3;
+                                TLRPC.SecureRequiredType secureRequiredType3 = tL_secureRequiredTypeOneOf.types.get(i3);
+                                if (secureRequiredType3 instanceof TLRPC.TL_secureRequiredType) {
+                                    TLRPC.TL_secureRequiredType tL_secureRequiredType3 = (TLRPC.TL_secureRequiredType) secureRequiredType3;
+                                    if (getValueByType(tL_secureRequiredType3, true) != null) {
+                                        tL_secureRequiredType = tL_secureRequiredType3;
                                         break;
                                     }
                                 }
@@ -7960,64 +7854,64 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     continue;
                 }
             }
-            TLRPC$TL_secureValue valueByType = getValueByType(tLRPC$TL_secureRequiredType, true);
+            TLRPC.TL_secureValue valueByType = getValueByType(tL_secureRequiredType, true);
             if (valueByType == null) {
                 Vibrator vibrator = (Vibrator) getParentActivity().getSystemService("vibrator");
                 if (vibrator != null) {
                     vibrator.vibrate(200L);
                 }
-                AndroidUtilities.shakeView(getViewByType(tLRPC$TL_secureRequiredType));
+                AndroidUtilities.shakeView(getViewByType(tL_secureRequiredType));
                 return;
             }
-            HashMap hashMap = (HashMap) this.errorsMap.get(getNameForType(tLRPC$TL_secureRequiredType.type));
+            HashMap hashMap = (HashMap) this.errorsMap.get(getNameForType(tL_secureRequiredType.type));
             if (hashMap != null && !hashMap.isEmpty()) {
                 Vibrator vibrator2 = (Vibrator) getParentActivity().getSystemService("vibrator");
                 if (vibrator2 != null) {
                     vibrator2.vibrate(200L);
                 }
-                AndroidUtilities.shakeView(getViewByType(tLRPC$TL_secureRequiredType));
+                AndroidUtilities.shakeView(getViewByType(tL_secureRequiredType));
                 return;
             }
-            arrayList2.add(new 1ValueToSend(valueByType, tLRPC$TL_secureRequiredType.selfie_required, tLRPC$TL_secureRequiredType.translation_required));
+            arrayList2.add(new 1ValueToSend(valueByType, tL_secureRequiredType.selfie_required, tL_secureRequiredType.translation_required));
         }
         showEditDoneProgress(false, true);
-        TLRPC$TL_account_acceptAuthorization tLRPC$TL_account_acceptAuthorization = new TLRPC$TL_account_acceptAuthorization();
-        tLRPC$TL_account_acceptAuthorization.bot_id = this.currentBotId;
-        tLRPC$TL_account_acceptAuthorization.scope = this.currentScope;
-        tLRPC$TL_account_acceptAuthorization.public_key = this.currentPublicKey;
+        TLRPC.TL_account_acceptAuthorization tL_account_acceptAuthorization = new TLRPC.TL_account_acceptAuthorization();
+        tL_account_acceptAuthorization.bot_id = this.currentBotId;
+        tL_account_acceptAuthorization.scope = this.currentScope;
+        tL_account_acceptAuthorization.public_key = this.currentPublicKey;
         JSONObject jSONObject = new JSONObject();
         int size3 = arrayList2.size();
         int i4 = 0;
         while (i4 < size3) {
             1ValueToSend r9 = (1ValueToSend) arrayList2.get(i4);
-            TLRPC$TL_secureValue tLRPC$TL_secureValue = r9.value;
+            TLRPC.TL_secureValue tL_secureValue = r9.value;
             JSONObject jSONObject2 = new JSONObject();
-            TLRPC$SecurePlainData tLRPC$SecurePlainData = tLRPC$TL_secureValue.plain_data;
-            if (tLRPC$SecurePlainData == null) {
+            TLRPC.SecurePlainData securePlainData = tL_secureValue.plain_data;
+            if (securePlainData == null) {
                 try {
                     JSONObject jSONObject3 = new JSONObject();
-                    TLRPC$TL_secureData tLRPC$TL_secureData = tLRPC$TL_secureValue.data;
-                    if (tLRPC$TL_secureData != null) {
-                        byte[] decryptValueSecret = decryptValueSecret(tLRPC$TL_secureData.secret, tLRPC$TL_secureData.data_hash);
-                        jSONObject2.put("data_hash", Base64.encodeToString(tLRPC$TL_secureValue.data.data_hash, 2));
+                    TLRPC.TL_secureData tL_secureData = tL_secureValue.data;
+                    if (tL_secureData != null) {
+                        byte[] decryptValueSecret = decryptValueSecret(tL_secureData.secret, tL_secureData.data_hash);
+                        jSONObject2.put("data_hash", Base64.encodeToString(tL_secureValue.data.data_hash, 2));
                         jSONObject2.put("secret", Base64.encodeToString(decryptValueSecret, 2));
                         jSONObject3.put("data", jSONObject2);
                     }
-                    if (tLRPC$TL_secureValue.files.isEmpty()) {
+                    if (tL_secureValue.files.isEmpty()) {
                         arrayList = arrayList2;
                         i = size3;
                     } else {
                         JSONArray jSONArray = new JSONArray();
                         int i5 = 0;
-                        for (int size4 = tLRPC$TL_secureValue.files.size(); i5 < size4; size4 = size4) {
-                            TLRPC$TL_secureFile tLRPC$TL_secureFile = (TLRPC$TL_secureFile) tLRPC$TL_secureValue.files.get(i5);
+                        for (int size4 = tL_secureValue.files.size(); i5 < size4; size4 = size4) {
+                            TLRPC.TL_secureFile tL_secureFile = (TLRPC.TL_secureFile) tL_secureValue.files.get(i5);
                             arrayList = arrayList2;
                             try {
                                 i = size3;
                                 try {
-                                    byte[] decryptValueSecret2 = decryptValueSecret(tLRPC$TL_secureFile.secret, tLRPC$TL_secureFile.file_hash);
+                                    byte[] decryptValueSecret2 = decryptValueSecret(tL_secureFile.secret, tL_secureFile.file_hash);
                                     JSONObject jSONObject4 = new JSONObject();
-                                    jSONObject4.put("file_hash", Base64.encodeToString(tLRPC$TL_secureFile.file_hash, 2));
+                                    jSONObject4.put("file_hash", Base64.encodeToString(tL_secureFile.file_hash, 2));
                                     jSONObject4.put("secret", Base64.encodeToString(decryptValueSecret2, 2));
                                     jSONArray.put(jSONObject4);
                                     i5++;
@@ -8032,69 +7926,69 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         i = size3;
                         jSONObject3.put("files", jSONArray);
                     }
-                    TLRPC$SecureFile tLRPC$SecureFile = tLRPC$TL_secureValue.front_side;
-                    if (tLRPC$SecureFile instanceof TLRPC$TL_secureFile) {
-                        TLRPC$TL_secureFile tLRPC$TL_secureFile2 = (TLRPC$TL_secureFile) tLRPC$SecureFile;
-                        byte[] decryptValueSecret3 = decryptValueSecret(tLRPC$TL_secureFile2.secret, tLRPC$TL_secureFile2.file_hash);
+                    TLRPC.SecureFile secureFile = tL_secureValue.front_side;
+                    if (secureFile instanceof TLRPC.TL_secureFile) {
+                        TLRPC.TL_secureFile tL_secureFile2 = (TLRPC.TL_secureFile) secureFile;
+                        byte[] decryptValueSecret3 = decryptValueSecret(tL_secureFile2.secret, tL_secureFile2.file_hash);
                         JSONObject jSONObject5 = new JSONObject();
-                        jSONObject5.put("file_hash", Base64.encodeToString(tLRPC$TL_secureFile2.file_hash, 2));
+                        jSONObject5.put("file_hash", Base64.encodeToString(tL_secureFile2.file_hash, 2));
                         jSONObject5.put("secret", Base64.encodeToString(decryptValueSecret3, 2));
                         jSONObject3.put("front_side", jSONObject5);
                     }
-                    TLRPC$SecureFile tLRPC$SecureFile2 = tLRPC$TL_secureValue.reverse_side;
-                    if (tLRPC$SecureFile2 instanceof TLRPC$TL_secureFile) {
-                        TLRPC$TL_secureFile tLRPC$TL_secureFile3 = (TLRPC$TL_secureFile) tLRPC$SecureFile2;
-                        byte[] decryptValueSecret4 = decryptValueSecret(tLRPC$TL_secureFile3.secret, tLRPC$TL_secureFile3.file_hash);
+                    TLRPC.SecureFile secureFile2 = tL_secureValue.reverse_side;
+                    if (secureFile2 instanceof TLRPC.TL_secureFile) {
+                        TLRPC.TL_secureFile tL_secureFile3 = (TLRPC.TL_secureFile) secureFile2;
+                        byte[] decryptValueSecret4 = decryptValueSecret(tL_secureFile3.secret, tL_secureFile3.file_hash);
                         JSONObject jSONObject6 = new JSONObject();
-                        jSONObject6.put("file_hash", Base64.encodeToString(tLRPC$TL_secureFile3.file_hash, 2));
+                        jSONObject6.put("file_hash", Base64.encodeToString(tL_secureFile3.file_hash, 2));
                         jSONObject6.put("secret", Base64.encodeToString(decryptValueSecret4, 2));
                         jSONObject3.put("reverse_side", jSONObject6);
                     }
                     if (r9.selfie_required) {
-                        TLRPC$SecureFile tLRPC$SecureFile3 = tLRPC$TL_secureValue.selfie;
-                        if (tLRPC$SecureFile3 instanceof TLRPC$TL_secureFile) {
-                            TLRPC$TL_secureFile tLRPC$TL_secureFile4 = (TLRPC$TL_secureFile) tLRPC$SecureFile3;
-                            byte[] decryptValueSecret5 = decryptValueSecret(tLRPC$TL_secureFile4.secret, tLRPC$TL_secureFile4.file_hash);
+                        TLRPC.SecureFile secureFile3 = tL_secureValue.selfie;
+                        if (secureFile3 instanceof TLRPC.TL_secureFile) {
+                            TLRPC.TL_secureFile tL_secureFile4 = (TLRPC.TL_secureFile) secureFile3;
+                            byte[] decryptValueSecret5 = decryptValueSecret(tL_secureFile4.secret, tL_secureFile4.file_hash);
                             JSONObject jSONObject7 = new JSONObject();
-                            jSONObject7.put("file_hash", Base64.encodeToString(tLRPC$TL_secureFile4.file_hash, 2));
+                            jSONObject7.put("file_hash", Base64.encodeToString(tL_secureFile4.file_hash, 2));
                             jSONObject7.put("secret", Base64.encodeToString(decryptValueSecret5, 2));
                             jSONObject3.put("selfie", jSONObject7);
                         }
                     }
-                    if (r9.translation_required && !tLRPC$TL_secureValue.translation.isEmpty()) {
+                    if (r9.translation_required && !tL_secureValue.translation.isEmpty()) {
                         JSONArray jSONArray2 = new JSONArray();
-                        int size5 = tLRPC$TL_secureValue.translation.size();
+                        int size5 = tL_secureValue.translation.size();
                         for (int i6 = 0; i6 < size5; i6++) {
-                            TLRPC$TL_secureFile tLRPC$TL_secureFile5 = (TLRPC$TL_secureFile) tLRPC$TL_secureValue.translation.get(i6);
-                            byte[] decryptValueSecret6 = decryptValueSecret(tLRPC$TL_secureFile5.secret, tLRPC$TL_secureFile5.file_hash);
+                            TLRPC.TL_secureFile tL_secureFile5 = (TLRPC.TL_secureFile) tL_secureValue.translation.get(i6);
+                            byte[] decryptValueSecret6 = decryptValueSecret(tL_secureFile5.secret, tL_secureFile5.file_hash);
                             JSONObject jSONObject8 = new JSONObject();
-                            jSONObject8.put("file_hash", Base64.encodeToString(tLRPC$TL_secureFile5.file_hash, 2));
+                            jSONObject8.put("file_hash", Base64.encodeToString(tL_secureFile5.file_hash, 2));
                             jSONObject8.put("secret", Base64.encodeToString(decryptValueSecret6, 2));
                             jSONArray2.put(jSONObject8);
                         }
                         jSONObject3.put("translation", jSONArray2);
                     }
-                    jSONObject.put(getNameForType(tLRPC$TL_secureValue.type), jSONObject3);
+                    jSONObject.put(getNameForType(tL_secureValue.type), jSONObject3);
                 } catch (Exception unused3) {
                 }
-                TLRPC$TL_secureValueHash tLRPC$TL_secureValueHash = new TLRPC$TL_secureValueHash();
-                tLRPC$TL_secureValueHash.type = tLRPC$TL_secureValue.type;
-                tLRPC$TL_secureValueHash.hash = tLRPC$TL_secureValue.hash;
-                tLRPC$TL_account_acceptAuthorization.value_hashes.add(tLRPC$TL_secureValueHash);
+                TLRPC.TL_secureValueHash tL_secureValueHash = new TLRPC.TL_secureValueHash();
+                tL_secureValueHash.type = tL_secureValue.type;
+                tL_secureValueHash.hash = tL_secureValue.hash;
+                tL_account_acceptAuthorization.value_hashes.add(tL_secureValueHash);
                 i4++;
                 arrayList2 = arrayList;
                 size3 = i;
-            } else if (tLRPC$SecurePlainData instanceof TLRPC$TL_securePlainEmail) {
-                TLRPC$TL_securePlainEmail tLRPC$TL_securePlainEmail = (TLRPC$TL_securePlainEmail) tLRPC$SecurePlainData;
-            } else if (tLRPC$SecurePlainData instanceof TLRPC$TL_securePlainPhone) {
-                TLRPC$TL_securePlainPhone tLRPC$TL_securePlainPhone = (TLRPC$TL_securePlainPhone) tLRPC$SecurePlainData;
+            } else if (securePlainData instanceof TLRPC.TL_securePlainEmail) {
+                TLRPC.TL_securePlainEmail tL_securePlainEmail = (TLRPC.TL_securePlainEmail) securePlainData;
+            } else if (securePlainData instanceof TLRPC.TL_securePlainPhone) {
+                TLRPC.TL_securePlainPhone tL_securePlainPhone = (TLRPC.TL_securePlainPhone) securePlainData;
             }
             arrayList = arrayList2;
             i = size3;
-            TLRPC$TL_secureValueHash tLRPC$TL_secureValueHash2 = new TLRPC$TL_secureValueHash();
-            tLRPC$TL_secureValueHash2.type = tLRPC$TL_secureValue.type;
-            tLRPC$TL_secureValueHash2.hash = tLRPC$TL_secureValue.hash;
-            tLRPC$TL_account_acceptAuthorization.value_hashes.add(tLRPC$TL_secureValueHash2);
+            TLRPC.TL_secureValueHash tL_secureValueHash2 = new TLRPC.TL_secureValueHash();
+            tL_secureValueHash2.type = tL_secureValue.type;
+            tL_secureValueHash2.hash = tL_secureValue.hash;
+            tL_account_acceptAuthorization.value_hashes.add(tL_secureValueHash2);
             i4++;
             arrayList2 = arrayList;
             size3 = i;
@@ -8119,22 +8013,22 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             }
         }
         EncryptionResult encryptData = encryptData(AndroidUtilities.getStringBytes(jSONObject9.toString()));
-        TLRPC$TL_secureCredentialsEncrypted tLRPC$TL_secureCredentialsEncrypted = new TLRPC$TL_secureCredentialsEncrypted();
-        tLRPC$TL_account_acceptAuthorization.credentials = tLRPC$TL_secureCredentialsEncrypted;
-        tLRPC$TL_secureCredentialsEncrypted.hash = encryptData.fileHash;
-        tLRPC$TL_secureCredentialsEncrypted.data = encryptData.encryptedData;
+        TLRPC.TL_secureCredentialsEncrypted tL_secureCredentialsEncrypted = new TLRPC.TL_secureCredentialsEncrypted();
+        tL_account_acceptAuthorization.credentials = tL_secureCredentialsEncrypted;
+        tL_secureCredentialsEncrypted.hash = encryptData.fileHash;
+        tL_secureCredentialsEncrypted.data = encryptData.encryptedData;
         try {
             String replace = this.currentPublicKey.replaceAll("\\n", "").replace("-----BEGIN PUBLIC KEY-----", "").replace("-----END PUBLIC KEY-----", "");
             Cipher cipher = Cipher.getInstance("RSA/NONE/OAEPWithSHA1AndMGF1Padding");
             cipher.init(1, (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(Base64.decode(replace, 0))));
-            tLRPC$TL_account_acceptAuthorization.credentials.secret = cipher.doFinal(encryptData.decrypyedFileSecret);
+            tL_account_acceptAuthorization.credentials.secret = cipher.doFinal(encryptData.decrypyedFileSecret);
         } catch (Exception e) {
             FileLog.e(e);
         }
-        ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_acceptAuthorization, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda48
+        ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_acceptAuthorization, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda48
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                PassportActivity.this.lambda$createRequestInterface$15(tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                PassportActivity.this.lambda$createRequestInterface$15(tLObject, tL_error);
             }
         }), this.classGuid);
     }
@@ -8147,30 +8041,30 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$deleteValueInternal$59(TLRPC$TL_error tLRPC$TL_error, ErrorRunnable errorRunnable, boolean z, TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType, TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2, boolean z2, ArrayList arrayList, Runnable runnable) {
-        TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType3;
+    public /* synthetic */ void lambda$deleteValueInternal$59(TLRPC.TL_error tL_error, ErrorRunnable errorRunnable, boolean z, TLRPC.TL_secureRequiredType tL_secureRequiredType, TLRPC.TL_secureRequiredType tL_secureRequiredType2, boolean z2, ArrayList arrayList, Runnable runnable) {
+        TLRPC.TL_secureRequiredType tL_secureRequiredType3;
         String str;
         int size;
         String str2;
         PassportActivity passportActivity;
-        TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType4;
+        TLRPC.TL_secureRequiredType tL_secureRequiredType4;
         String str3;
-        TLRPC$TL_secureData tLRPC$TL_secureData;
+        TLRPC.TL_secureData tL_secureData;
         String str4;
         LinearLayout linearLayout;
         String str5 = null;
-        if (tLRPC$TL_error != null) {
+        if (tL_error != null) {
             if (errorRunnable != null) {
-                errorRunnable.onError(tLRPC$TL_error.text, null);
+                errorRunnable.onError(tL_error.text, null);
             }
-            showAlertWithText(LocaleController.getString(R.string.AppName), tLRPC$TL_error.text);
+            showAlertWithText(LocaleController.getString(R.string.AppName), tL_error.text);
             return;
         }
         if (z) {
-            if (tLRPC$TL_secureRequiredType == null) {
-                removeValue(tLRPC$TL_secureRequiredType2);
+            if (tL_secureRequiredType == null) {
+                removeValue(tL_secureRequiredType2);
                 if (this.currentActivityType != 8) {
-                    TextDetailSecureCell textDetailSecureCell = (TextDetailSecureCell) this.typesViews.remove(tLRPC$TL_secureRequiredType2);
+                    TextDetailSecureCell textDetailSecureCell = (TextDetailSecureCell) this.typesViews.remove(tL_secureRequiredType2);
                     if (textDetailSecureCell != null) {
                         this.linearLayout2.removeView(textDetailSecureCell);
                         View childAt = this.linearLayout2.getChildAt(linearLayout.getChildCount() - 6);
@@ -8180,32 +8074,32 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     }
                     updateManageVisibility();
                 } else {
-                    if (tLRPC$TL_secureRequiredType == null || arrayList == null || arrayList.size() <= 1) {
-                        tLRPC$TL_secureRequiredType3 = tLRPC$TL_secureRequiredType;
+                    if (tL_secureRequiredType == null || arrayList == null || arrayList.size() <= 1) {
+                        tL_secureRequiredType3 = tL_secureRequiredType;
                         str = null;
                     } else {
                         int size2 = arrayList.size();
                         int i = 0;
                         while (true) {
                             if (i >= size2) {
-                                tLRPC$TL_secureRequiredType3 = tLRPC$TL_secureRequiredType;
+                                tL_secureRequiredType3 = tL_secureRequiredType;
                                 break;
                             }
-                            tLRPC$TL_secureRequiredType3 = (TLRPC$TL_secureRequiredType) arrayList.get(i);
-                            TLRPC$TL_secureValue valueByType = getValueByType(tLRPC$TL_secureRequiredType3, false);
+                            tL_secureRequiredType3 = (TLRPC.TL_secureRequiredType) arrayList.get(i);
+                            TLRPC.TL_secureValue valueByType = getValueByType(tL_secureRequiredType3, false);
                             if (valueByType != null) {
-                                TLRPC$TL_secureData tLRPC$TL_secureData2 = valueByType.data;
-                                if (tLRPC$TL_secureData2 != null) {
-                                    str4 = decryptData(tLRPC$TL_secureData2.data, decryptValueSecret(tLRPC$TL_secureData2.secret, tLRPC$TL_secureData2.data_hash), valueByType.data.data_hash);
+                                TLRPC.TL_secureData tL_secureData2 = valueByType.data;
+                                if (tL_secureData2 != null) {
+                                    str4 = decryptData(tL_secureData2.data, decryptValueSecret(tL_secureData2.secret, tL_secureData2.data_hash), valueByType.data.data_hash);
                                 }
                             } else {
                                 i++;
                             }
                         }
                         str4 = null;
-                        if (tLRPC$TL_secureRequiredType3 == null) {
+                        if (tL_secureRequiredType3 == null) {
                             str = str4;
-                            tLRPC$TL_secureRequiredType3 = (TLRPC$TL_secureRequiredType) arrayList.get(0);
+                            tL_secureRequiredType3 = (TLRPC.TL_secureRequiredType) arrayList.get(0);
                         } else {
                             str = str4;
                         }
@@ -8214,20 +8108,20 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         size = arrayList != null ? arrayList.size() : 0;
                         str2 = null;
                         passportActivity = this;
-                        tLRPC$TL_secureRequiredType4 = tLRPC$TL_secureRequiredType2;
+                        tL_secureRequiredType4 = tL_secureRequiredType2;
                         str3 = null;
                     } else {
-                        TLRPC$TL_secureValue valueByType2 = getValueByType(tLRPC$TL_secureRequiredType2, false);
-                        if (valueByType2 != null && (tLRPC$TL_secureData = valueByType2.data) != null) {
-                            str5 = decryptData(tLRPC$TL_secureData.data, decryptValueSecret(tLRPC$TL_secureData.secret, tLRPC$TL_secureData.data_hash), valueByType2.data.data_hash);
+                        TLRPC.TL_secureValue valueByType2 = getValueByType(tL_secureRequiredType2, false);
+                        if (valueByType2 != null && (tL_secureData = valueByType2.data) != null) {
+                            str5 = decryptData(tL_secureData.data, decryptValueSecret(tL_secureData.secret, tL_secureData.data_hash), valueByType2.data.data_hash);
                         }
                         size = arrayList != null ? arrayList.size() : 0;
                         str2 = null;
                         passportActivity = this;
-                        tLRPC$TL_secureRequiredType4 = tLRPC$TL_secureRequiredType2;
+                        tL_secureRequiredType4 = tL_secureRequiredType2;
                         str3 = str5;
                     }
-                    passportActivity.setTypeValue(tLRPC$TL_secureRequiredType4, str2, str3, tLRPC$TL_secureRequiredType3, str, z, size);
+                    passportActivity.setTypeValue(tL_secureRequiredType4, str2, str3, tL_secureRequiredType3, str, z, size);
                 }
                 if (runnable == null) {
                     runnable.run();
@@ -8236,9 +8130,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 return;
             }
         } else if (z2) {
-            removeValue(tLRPC$TL_secureRequiredType2);
+            removeValue(tL_secureRequiredType2);
         }
-        removeValue(tLRPC$TL_secureRequiredType);
+        removeValue(tL_secureRequiredType);
         if (this.currentActivityType != 8) {
         }
         if (runnable == null) {
@@ -8246,11 +8140,11 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$deleteValueInternal$60(final ErrorRunnable errorRunnable, final boolean z, final TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType, final TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2, final boolean z2, final ArrayList arrayList, final Runnable runnable, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$deleteValueInternal$60(final ErrorRunnable errorRunnable, final boolean z, final TLRPC.TL_secureRequiredType tL_secureRequiredType, final TLRPC.TL_secureRequiredType tL_secureRequiredType2, final boolean z2, final ArrayList arrayList, final Runnable runnable, TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda71
             @Override // java.lang.Runnable
             public final void run() {
-                PassportActivity.this.lambda$deleteValueInternal$59(tLRPC$TL_error, errorRunnable, z, tLRPC$TL_secureRequiredType, tLRPC$TL_secureRequiredType2, z2, arrayList, runnable);
+                PassportActivity.this.lambda$deleteValueInternal$59(tL_error, errorRunnable, z, tL_secureRequiredType, tL_secureRequiredType2, z2, arrayList, runnable);
             }
         });
     }
@@ -8258,9 +8152,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadPasswordInfo$3(TLObject tLObject) {
         if (tLObject != null) {
-            TLRPC$account_Password tLRPC$account_Password = (TLRPC$account_Password) tLObject;
-            this.currentPassword = tLRPC$account_Password;
-            if (!TwoStepVerificationActivity.canHandleCurrentPassword(tLRPC$account_Password, false)) {
+            TLRPC.account_Password account_password = (TLRPC.account_Password) tLObject;
+            this.currentPassword = account_password;
+            if (!TwoStepVerificationActivity.canHandleCurrentPassword(account_password, false)) {
                 AlertsCreator.showUpdateAppAlert(getParentActivity(), LocaleController.getString(R.string.UpdateAppAlert), true);
                 return;
             }
@@ -8277,7 +8171,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadPasswordInfo$4(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$loadPasswordInfo$4(final TLObject tLObject, TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda59
             @Override // java.lang.Runnable
             public final void run() {
@@ -8288,16 +8182,16 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$new$0(TLObject tLObject) {
-        if (!(tLObject instanceof TLRPC$TL_help_passportConfig)) {
+        if (!(tLObject instanceof TLRPC.TL_help_passportConfig)) {
             SharedConfig.getCountryLangs();
             return;
         }
-        TLRPC$TL_help_passportConfig tLRPC$TL_help_passportConfig = (TLRPC$TL_help_passportConfig) tLObject;
-        SharedConfig.setPassportConfig(tLRPC$TL_help_passportConfig.countries_langs.data, tLRPC$TL_help_passportConfig.hash);
+        TLRPC.TL_help_passportConfig tL_help_passportConfig = (TLRPC.TL_help_passportConfig) tLObject;
+        SharedConfig.setPassportConfig(tL_help_passportConfig.countries_langs.data, tL_help_passportConfig.hash);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$new$1(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$new$1(final TLObject tLObject, TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda43
             @Override // java.lang.Runnable
             public final void run() {
@@ -8315,39 +8209,39 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     public /* synthetic */ void lambda$onPasswordDone$13(boolean z, String str) {
         byte[] bArr;
         byte[] x;
-        TLRPC$PasswordKdfAlgo tLRPC$PasswordKdfAlgo;
-        TLRPC$TL_account_getPasswordSettings tLRPC$TL_account_getPasswordSettings = new TLRPC$TL_account_getPasswordSettings();
+        TLRPC.PasswordKdfAlgo passwordKdfAlgo;
+        TLRPC.TL_account_getPasswordSettings tL_account_getPasswordSettings = new TLRPC.TL_account_getPasswordSettings();
         if (z) {
             x = this.savedPasswordHash;
-        } else if (!(this.currentPassword.current_algo instanceof TLRPC$TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow)) {
+        } else if (!(this.currentPassword.current_algo instanceof TLRPC.TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow)) {
             bArr = null;
-            8 r9 = new 8(z, bArr, tLRPC$TL_account_getPasswordSettings, str);
-            TLRPC$account_Password tLRPC$account_Password = this.currentPassword;
-            tLRPC$PasswordKdfAlgo = tLRPC$account_Password.current_algo;
-            if (tLRPC$PasswordKdfAlgo instanceof TLRPC$TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) {
-                TLRPC$TL_error tLRPC$TL_error = new TLRPC$TL_error();
-                tLRPC$TL_error.text = "PASSWORD_HASH_INVALID";
-                r9.run(null, tLRPC$TL_error);
+            8 r9 = new 8(z, bArr, tL_account_getPasswordSettings, str);
+            TLRPC.account_Password account_password = this.currentPassword;
+            passwordKdfAlgo = account_password.current_algo;
+            if (passwordKdfAlgo instanceof TLRPC.TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) {
+                TLRPC.TL_error tL_error = new TLRPC.TL_error();
+                tL_error.text = "PASSWORD_HASH_INVALID";
+                r9.run(null, tL_error);
                 return;
             }
-            TLRPC$TL_inputCheckPasswordSRP startCheck = SRPHelper.startCheck(bArr, tLRPC$account_Password.srp_id, tLRPC$account_Password.srp_B, (TLRPC$TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) tLRPC$PasswordKdfAlgo);
-            tLRPC$TL_account_getPasswordSettings.password = startCheck;
+            TLRPC.TL_inputCheckPasswordSRP startCheck = SRPHelper.startCheck(bArr, account_password.srp_id, account_password.srp_B, (TLRPC.TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) passwordKdfAlgo);
+            tL_account_getPasswordSettings.password = startCheck;
             if (startCheck != null) {
-                ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_getPasswordSettings, r9, 10), this.classGuid);
+                ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_getPasswordSettings, r9, 10), this.classGuid);
                 return;
             }
-            TLRPC$TL_error tLRPC$TL_error2 = new TLRPC$TL_error();
-            tLRPC$TL_error2.text = "ALGO_INVALID";
-            r9.run(null, tLRPC$TL_error2);
+            TLRPC.TL_error tL_error2 = new TLRPC.TL_error();
+            tL_error2.text = "ALGO_INVALID";
+            r9.run(null, tL_error2);
             return;
         } else {
-            x = SRPHelper.getX(AndroidUtilities.getStringBytes(str), (TLRPC$TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) this.currentPassword.current_algo);
+            x = SRPHelper.getX(AndroidUtilities.getStringBytes(str), (TLRPC.TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) this.currentPassword.current_algo);
         }
         bArr = x;
-        8 r92 = new 8(z, bArr, tLRPC$TL_account_getPasswordSettings, str);
-        TLRPC$account_Password tLRPC$account_Password2 = this.currentPassword;
-        tLRPC$PasswordKdfAlgo = tLRPC$account_Password2.current_algo;
-        if (tLRPC$PasswordKdfAlgo instanceof TLRPC$TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) {
+        8 r92 = new 8(z, bArr, tL_account_getPasswordSettings, str);
+        TLRPC.account_Password account_password2 = this.currentPassword;
+        passwordKdfAlgo = account_password2.current_algo;
+        if (passwordKdfAlgo instanceof TLRPC.TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) {
         }
     }
 
@@ -8385,34 +8279,34 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$openAddDocumentAlert$23(ArrayList arrayList, DialogInterface dialogInterface, int i) {
-        TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType;
-        TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2;
-        TLRPC$SecureValueType tLRPC$TL_secureValueTypeAddress;
-        TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType3 = null;
+        TLRPC.TL_secureRequiredType tL_secureRequiredType;
+        TLRPC.TL_secureRequiredType tL_secureRequiredType2;
+        TLRPC.SecureValueType tL_secureValueTypeAddress;
+        TLRPC.TL_secureRequiredType tL_secureRequiredType3 = null;
         try {
-            tLRPC$TL_secureRequiredType = new TLRPC$TL_secureRequiredType();
+            tL_secureRequiredType = new TLRPC.TL_secureRequiredType();
             try {
-                tLRPC$TL_secureRequiredType.type = (TLRPC$SecureValueType) ((Class) arrayList.get(i)).newInstance();
+                tL_secureRequiredType.type = (TLRPC.SecureValueType) ((Class) arrayList.get(i)).newInstance();
             } catch (Exception unused) {
             }
         } catch (Exception unused2) {
-            tLRPC$TL_secureRequiredType = null;
+            tL_secureRequiredType = null;
         }
-        if (!isPersonalDocument(tLRPC$TL_secureRequiredType.type)) {
-            if (isAddressDocument(tLRPC$TL_secureRequiredType.type)) {
-                tLRPC$TL_secureRequiredType2 = new TLRPC$TL_secureRequiredType();
-                tLRPC$TL_secureValueTypeAddress = new TLRPC$TL_secureValueTypeAddress();
+        if (!isPersonalDocument(tL_secureRequiredType.type)) {
+            if (isAddressDocument(tL_secureRequiredType.type)) {
+                tL_secureRequiredType2 = new TLRPC.TL_secureRequiredType();
+                tL_secureValueTypeAddress = new TLRPC.TL_secureValueTypeAddress();
             }
-            openTypeActivity(tLRPC$TL_secureRequiredType, tLRPC$TL_secureRequiredType3, new ArrayList(), tLRPC$TL_secureRequiredType3 != null);
+            openTypeActivity(tL_secureRequiredType, tL_secureRequiredType3, new ArrayList(), tL_secureRequiredType3 != null);
         }
-        tLRPC$TL_secureRequiredType.selfie_required = true;
-        tLRPC$TL_secureRequiredType.translation_required = true;
-        tLRPC$TL_secureRequiredType2 = new TLRPC$TL_secureRequiredType();
-        tLRPC$TL_secureValueTypeAddress = new TLRPC$TL_secureValueTypePersonalDetails();
-        tLRPC$TL_secureRequiredType2.type = tLRPC$TL_secureValueTypeAddress;
-        tLRPC$TL_secureRequiredType3 = tLRPC$TL_secureRequiredType;
-        tLRPC$TL_secureRequiredType = tLRPC$TL_secureRequiredType2;
-        openTypeActivity(tLRPC$TL_secureRequiredType, tLRPC$TL_secureRequiredType3, new ArrayList(), tLRPC$TL_secureRequiredType3 != null);
+        tL_secureRequiredType.selfie_required = true;
+        tL_secureRequiredType.translation_required = true;
+        tL_secureRequiredType2 = new TLRPC.TL_secureRequiredType();
+        tL_secureValueTypeAddress = new TLRPC.TL_secureValueTypePersonalDetails();
+        tL_secureRequiredType2.type = tL_secureValueTypeAddress;
+        tL_secureRequiredType3 = tL_secureRequiredType;
+        tL_secureRequiredType = tL_secureRequiredType2;
+        openTypeActivity(tL_secureRequiredType, tL_secureRequiredType3, new ArrayList(), tL_secureRequiredType3 != null);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -8462,54 +8356,54 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processSelectedFiles$71(MrzRecognizer.Result result) {
-        TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType;
+        TLRPC.TL_secureRequiredType tL_secureRequiredType;
         int i;
         int i2;
         EditTextBoldCursor editTextBoldCursor;
         int i3;
         int i4 = result.type;
         if (i4 == 2) {
-            if (!(this.currentDocumentsType.type instanceof TLRPC$TL_secureValueTypeIdentityCard)) {
+            if (!(this.currentDocumentsType.type instanceof TLRPC.TL_secureValueTypeIdentityCard)) {
                 int size = this.availableDocumentTypes.size();
                 for (int i5 = 0; i5 < size; i5++) {
-                    tLRPC$TL_secureRequiredType = (TLRPC$TL_secureRequiredType) this.availableDocumentTypes.get(i5);
-                    if (tLRPC$TL_secureRequiredType.type instanceof TLRPC$TL_secureValueTypeIdentityCard) {
-                        this.currentDocumentsType = tLRPC$TL_secureRequiredType;
+                    tL_secureRequiredType = (TLRPC.TL_secureRequiredType) this.availableDocumentTypes.get(i5);
+                    if (tL_secureRequiredType.type instanceof TLRPC.TL_secureValueTypeIdentityCard) {
+                        this.currentDocumentsType = tL_secureRequiredType;
                         updateInterfaceStringsForDocumentType();
                         break;
                     }
                 }
             }
         } else if (i4 == 1) {
-            if (!(this.currentDocumentsType.type instanceof TLRPC$TL_secureValueTypePassport)) {
+            if (!(this.currentDocumentsType.type instanceof TLRPC.TL_secureValueTypePassport)) {
                 int size2 = this.availableDocumentTypes.size();
                 for (int i6 = 0; i6 < size2; i6++) {
-                    tLRPC$TL_secureRequiredType = (TLRPC$TL_secureRequiredType) this.availableDocumentTypes.get(i6);
-                    if (tLRPC$TL_secureRequiredType.type instanceof TLRPC$TL_secureValueTypePassport) {
-                        this.currentDocumentsType = tLRPC$TL_secureRequiredType;
+                    tL_secureRequiredType = (TLRPC.TL_secureRequiredType) this.availableDocumentTypes.get(i6);
+                    if (tL_secureRequiredType.type instanceof TLRPC.TL_secureValueTypePassport) {
+                        this.currentDocumentsType = tL_secureRequiredType;
                         updateInterfaceStringsForDocumentType();
                         break;
                     }
                 }
             }
         } else if (i4 == 3) {
-            if (!(this.currentDocumentsType.type instanceof TLRPC$TL_secureValueTypeInternalPassport)) {
+            if (!(this.currentDocumentsType.type instanceof TLRPC.TL_secureValueTypeInternalPassport)) {
                 int size3 = this.availableDocumentTypes.size();
                 for (int i7 = 0; i7 < size3; i7++) {
-                    tLRPC$TL_secureRequiredType = (TLRPC$TL_secureRequiredType) this.availableDocumentTypes.get(i7);
-                    if (tLRPC$TL_secureRequiredType.type instanceof TLRPC$TL_secureValueTypeInternalPassport) {
-                        this.currentDocumentsType = tLRPC$TL_secureRequiredType;
+                    tL_secureRequiredType = (TLRPC.TL_secureRequiredType) this.availableDocumentTypes.get(i7);
+                    if (tL_secureRequiredType.type instanceof TLRPC.TL_secureValueTypeInternalPassport) {
+                        this.currentDocumentsType = tL_secureRequiredType;
                         updateInterfaceStringsForDocumentType();
                         break;
                     }
                 }
             }
-        } else if (i4 == 4 && !(this.currentDocumentsType.type instanceof TLRPC$TL_secureValueTypeDriverLicense)) {
+        } else if (i4 == 4 && !(this.currentDocumentsType.type instanceof TLRPC.TL_secureValueTypeDriverLicense)) {
             int size4 = this.availableDocumentTypes.size();
             for (int i8 = 0; i8 < size4; i8++) {
-                tLRPC$TL_secureRequiredType = (TLRPC$TL_secureRequiredType) this.availableDocumentTypes.get(i8);
-                if (tLRPC$TL_secureRequiredType.type instanceof TLRPC$TL_secureValueTypeDriverLicense) {
-                    this.currentDocumentsType = tLRPC$TL_secureRequiredType;
+                tL_secureRequiredType = (TLRPC.TL_secureRequiredType) this.availableDocumentTypes.get(i8);
+                if (tL_secureRequiredType.type instanceof TLRPC.TL_secureValueTypeDriverLicense) {
+                    this.currentDocumentsType = tL_secureRequiredType;
                     updateInterfaceStringsForDocumentType();
                     break;
                 }
@@ -8578,7 +8472,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processSelectedFiles$72(ArrayList arrayList, final int i, boolean z) {
-        TLRPC$PhotoSize scaleAndSaveImage;
+        TLRPC.PhotoSize scaleAndSaveImage;
         int i2 = this.uploadingFileType;
         int min = Math.min((i2 == 0 || i2 == 4) ? 20 : 1, arrayList.size());
         boolean z2 = false;
@@ -8586,12 +8480,12 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             SendMessagesHelper.SendingMediaInfo sendingMediaInfo = (SendMessagesHelper.SendingMediaInfo) arrayList.get(i3);
             Bitmap loadBitmap = ImageLoader.loadBitmap(sendingMediaInfo.path, sendingMediaInfo.uri, 2048.0f, 2048.0f, false);
             if (loadBitmap != null && (scaleAndSaveImage = ImageLoader.scaleAndSaveImage(loadBitmap, 2048.0f, 2048.0f, 89, false, 320, 320)) != null) {
-                TLRPC$TL_secureFile tLRPC$TL_secureFile = new TLRPC$TL_secureFile();
-                TLRPC$FileLocation tLRPC$FileLocation = scaleAndSaveImage.location;
-                tLRPC$TL_secureFile.dc_id = (int) tLRPC$FileLocation.volume_id;
-                tLRPC$TL_secureFile.id = tLRPC$FileLocation.local_id;
-                tLRPC$TL_secureFile.date = (int) (System.currentTimeMillis() / 1000);
-                final SecureDocument saveFile = this.delegate.saveFile(tLRPC$TL_secureFile);
+                TLRPC.TL_secureFile tL_secureFile = new TLRPC.TL_secureFile();
+                TLRPC.FileLocation fileLocation = scaleAndSaveImage.location;
+                tL_secureFile.dc_id = (int) fileLocation.volume_id;
+                tL_secureFile.id = fileLocation.local_id;
+                tL_secureFile.date = (int) (System.currentTimeMillis() / 1000);
+                final SecureDocument saveFile = this.delegate.saveFile(tL_secureFile);
                 saveFile.type = i;
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda57
                     @Override // java.lang.Runnable
@@ -8601,7 +8495,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 });
                 if (z && !z2) {
                     try {
-                        final MrzRecognizer.Result recognize = MrzRecognizer.recognize(loadBitmap, this.currentDocumentsType.type instanceof TLRPC$TL_secureValueTypeDriverLicense);
+                        final MrzRecognizer.Result recognize = MrzRecognizer.recognize(loadBitmap, this.currentDocumentsType.type instanceof TLRPC.TL_secureValueTypeDriverLicense);
                         if (recognize != null) {
                             try {
                                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda58
@@ -8627,37 +8521,37 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startPhoneVerification$65(TLRPC$TL_error tLRPC$TL_error, String str, PassportActivityDelegate passportActivityDelegate, TLObject tLObject, TLRPC$TL_account_sendVerifyPhoneCode tLRPC$TL_account_sendVerifyPhoneCode) {
-        if (tLRPC$TL_error != null) {
-            AlertsCreator.processError(this.currentAccount, tLRPC$TL_error, this, tLRPC$TL_account_sendVerifyPhoneCode, str);
+    public /* synthetic */ void lambda$startPhoneVerification$65(TLRPC.TL_error tL_error, String str, PassportActivityDelegate passportActivityDelegate, TLObject tLObject, TLRPC.TL_account_sendVerifyPhoneCode tL_account_sendVerifyPhoneCode) {
+        if (tL_error != null) {
+            AlertsCreator.processError(this.currentAccount, tL_error, this, tL_account_sendVerifyPhoneCode, str);
             return;
         }
         HashMap hashMap = new HashMap();
         hashMap.put("phone", str);
-        PassportActivity passportActivity = new PassportActivity(7, this.currentForm, this.currentPassword, this.currentType, (TLRPC$TL_secureValue) null, (TLRPC$TL_secureRequiredType) null, (TLRPC$TL_secureValue) null, hashMap, (HashMap) null);
+        PassportActivity passportActivity = new PassportActivity(7, this.currentForm, this.currentPassword, this.currentType, (TLRPC.TL_secureValue) null, (TLRPC.TL_secureRequiredType) null, (TLRPC.TL_secureValue) null, hashMap, (HashMap) null);
         passportActivity.currentAccount = this.currentAccount;
         passportActivity.saltedPassword = this.saltedPassword;
         passportActivity.secureSecret = this.secureSecret;
         passportActivity.delegate = passportActivityDelegate;
-        passportActivity.currentPhoneVerification = (TLRPC$TL_auth_sentCode) tLObject;
+        passportActivity.currentPhoneVerification = (TLRPC.TL_auth_sentCode) tLObject;
         presentFragment(passportActivity, true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startPhoneVerification$66(final String str, final PassportActivityDelegate passportActivityDelegate, final TLRPC$TL_account_sendVerifyPhoneCode tLRPC$TL_account_sendVerifyPhoneCode, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$startPhoneVerification$66(final String str, final PassportActivityDelegate passportActivityDelegate, final TLRPC.TL_account_sendVerifyPhoneCode tL_account_sendVerifyPhoneCode, final TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda65
             @Override // java.lang.Runnable
             public final void run() {
-                PassportActivity.this.lambda$startPhoneVerification$65(tLRPC$TL_error, str, passportActivityDelegate, tLObject, tLRPC$TL_account_sendVerifyPhoneCode);
+                PassportActivity.this.lambda$startPhoneVerification$65(tL_error, str, passportActivityDelegate, tLObject, tL_account_sendVerifyPhoneCode);
             }
         });
     }
 
     private void loadPasswordInfo() {
-        ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda7
+        ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC.TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda7
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                PassportActivity.this.lambda$loadPasswordInfo$4(tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                PassportActivity.this.lambda$loadPasswordInfo$4(tLObject, tL_error);
             }
         }), this.classGuid);
     }
@@ -8714,57 +8608,57 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     private void openAddDocumentAlert() {
         ArrayList arrayList = new ArrayList();
         final ArrayList arrayList2 = new ArrayList();
-        if (hasNotValueForType(TLRPC$TL_secureValueTypePhone.class)) {
+        if (hasNotValueForType(TLRPC.TL_secureValueTypePhone.class)) {
             arrayList.add(LocaleController.getString(R.string.ActionBotDocumentPhone));
-            arrayList2.add(TLRPC$TL_secureValueTypePhone.class);
+            arrayList2.add(TLRPC.TL_secureValueTypePhone.class);
         }
-        if (hasNotValueForType(TLRPC$TL_secureValueTypeEmail.class)) {
+        if (hasNotValueForType(TLRPC.TL_secureValueTypeEmail.class)) {
             arrayList.add(LocaleController.getString(R.string.ActionBotDocumentEmail));
-            arrayList2.add(TLRPC$TL_secureValueTypeEmail.class);
+            arrayList2.add(TLRPC.TL_secureValueTypeEmail.class);
         }
-        if (hasNotValueForType(TLRPC$TL_secureValueTypePersonalDetails.class)) {
+        if (hasNotValueForType(TLRPC.TL_secureValueTypePersonalDetails.class)) {
             arrayList.add(LocaleController.getString(R.string.ActionBotDocumentIdentity));
-            arrayList2.add(TLRPC$TL_secureValueTypePersonalDetails.class);
+            arrayList2.add(TLRPC.TL_secureValueTypePersonalDetails.class);
         }
-        if (hasNotValueForType(TLRPC$TL_secureValueTypePassport.class)) {
+        if (hasNotValueForType(TLRPC.TL_secureValueTypePassport.class)) {
             arrayList.add(LocaleController.getString(R.string.ActionBotDocumentPassport));
-            arrayList2.add(TLRPC$TL_secureValueTypePassport.class);
+            arrayList2.add(TLRPC.TL_secureValueTypePassport.class);
         }
-        if (hasNotValueForType(TLRPC$TL_secureValueTypeInternalPassport.class)) {
+        if (hasNotValueForType(TLRPC.TL_secureValueTypeInternalPassport.class)) {
             arrayList.add(LocaleController.getString(R.string.ActionBotDocumentInternalPassport));
-            arrayList2.add(TLRPC$TL_secureValueTypeInternalPassport.class);
+            arrayList2.add(TLRPC.TL_secureValueTypeInternalPassport.class);
         }
-        if (hasNotValueForType(TLRPC$TL_secureValueTypePassportRegistration.class)) {
+        if (hasNotValueForType(TLRPC.TL_secureValueTypePassportRegistration.class)) {
             arrayList.add(LocaleController.getString(R.string.ActionBotDocumentPassportRegistration));
-            arrayList2.add(TLRPC$TL_secureValueTypePassportRegistration.class);
+            arrayList2.add(TLRPC.TL_secureValueTypePassportRegistration.class);
         }
-        if (hasNotValueForType(TLRPC$TL_secureValueTypeTemporaryRegistration.class)) {
+        if (hasNotValueForType(TLRPC.TL_secureValueTypeTemporaryRegistration.class)) {
             arrayList.add(LocaleController.getString(R.string.ActionBotDocumentTemporaryRegistration));
-            arrayList2.add(TLRPC$TL_secureValueTypeTemporaryRegistration.class);
+            arrayList2.add(TLRPC.TL_secureValueTypeTemporaryRegistration.class);
         }
-        if (hasNotValueForType(TLRPC$TL_secureValueTypeIdentityCard.class)) {
+        if (hasNotValueForType(TLRPC.TL_secureValueTypeIdentityCard.class)) {
             arrayList.add(LocaleController.getString(R.string.ActionBotDocumentIdentityCard));
-            arrayList2.add(TLRPC$TL_secureValueTypeIdentityCard.class);
+            arrayList2.add(TLRPC.TL_secureValueTypeIdentityCard.class);
         }
-        if (hasNotValueForType(TLRPC$TL_secureValueTypeDriverLicense.class)) {
+        if (hasNotValueForType(TLRPC.TL_secureValueTypeDriverLicense.class)) {
             arrayList.add(LocaleController.getString(R.string.ActionBotDocumentDriverLicence));
-            arrayList2.add(TLRPC$TL_secureValueTypeDriverLicense.class);
+            arrayList2.add(TLRPC.TL_secureValueTypeDriverLicense.class);
         }
-        if (hasNotValueForType(TLRPC$TL_secureValueTypeAddress.class)) {
+        if (hasNotValueForType(TLRPC.TL_secureValueTypeAddress.class)) {
             arrayList.add(LocaleController.getString(R.string.ActionBotDocumentAddress));
-            arrayList2.add(TLRPC$TL_secureValueTypeAddress.class);
+            arrayList2.add(TLRPC.TL_secureValueTypeAddress.class);
         }
-        if (hasNotValueForType(TLRPC$TL_secureValueTypeUtilityBill.class)) {
+        if (hasNotValueForType(TLRPC.TL_secureValueTypeUtilityBill.class)) {
             arrayList.add(LocaleController.getString(R.string.ActionBotDocumentUtilityBill));
-            arrayList2.add(TLRPC$TL_secureValueTypeUtilityBill.class);
+            arrayList2.add(TLRPC.TL_secureValueTypeUtilityBill.class);
         }
-        if (hasNotValueForType(TLRPC$TL_secureValueTypeBankStatement.class)) {
+        if (hasNotValueForType(TLRPC.TL_secureValueTypeBankStatement.class)) {
             arrayList.add(LocaleController.getString(R.string.ActionBotDocumentBankStatement));
-            arrayList2.add(TLRPC$TL_secureValueTypeBankStatement.class);
+            arrayList2.add(TLRPC.TL_secureValueTypeBankStatement.class);
         }
-        if (hasNotValueForType(TLRPC$TL_secureValueTypeRentalAgreement.class)) {
+        if (hasNotValueForType(TLRPC.TL_secureValueTypeRentalAgreement.class)) {
             arrayList.add(LocaleController.getString(R.string.ActionBotDocumentRentalAgreement));
-            arrayList2.add(TLRPC$TL_secureValueTypeRentalAgreement.class);
+            arrayList2.add(TLRPC.TL_secureValueTypeRentalAgreement.class);
         }
         if (getParentActivity() == null || arrayList.isEmpty()) {
             return;
@@ -8800,57 +8694,57 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         showDialog(this.chatAttachAlert);
     }
 
-    private void openTypeActivity(TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType, TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2, ArrayList arrayList, final boolean z) {
-        TLRPC$account_Password tLRPC$account_Password;
+    private void openTypeActivity(TLRPC.TL_secureRequiredType tL_secureRequiredType, TLRPC.TL_secureRequiredType tL_secureRequiredType2, ArrayList arrayList, final boolean z) {
+        TLRPC.account_Password account_password;
         HashMap hashMap;
         final int size = arrayList != null ? arrayList.size() : 0;
-        final TLRPC$SecureValueType tLRPC$SecureValueType = tLRPC$TL_secureRequiredType.type;
-        TLRPC$SecureValueType tLRPC$SecureValueType2 = tLRPC$TL_secureRequiredType2 != null ? tLRPC$TL_secureRequiredType2.type : null;
-        int i = tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePersonalDetails ? 1 : tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeAddress ? 2 : tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePhone ? 3 : tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeEmail ? 4 : -1;
+        final TLRPC.SecureValueType secureValueType = tL_secureRequiredType.type;
+        TLRPC.SecureValueType secureValueType2 = tL_secureRequiredType2 != null ? tL_secureRequiredType2.type : null;
+        int i = secureValueType instanceof TLRPC.TL_secureValueTypePersonalDetails ? 1 : secureValueType instanceof TLRPC.TL_secureValueTypeAddress ? 2 : secureValueType instanceof TLRPC.TL_secureValueTypePhone ? 3 : secureValueType instanceof TLRPC.TL_secureValueTypeEmail ? 4 : -1;
         if (i != -1) {
-            HashMap hashMap2 = !z ? (HashMap) this.errorsMap.get(getNameForType(tLRPC$SecureValueType)) : null;
-            HashMap hashMap3 = (HashMap) this.errorsMap.get(getNameForType(tLRPC$SecureValueType2));
-            TLRPC$TL_secureValue valueByType = getValueByType(tLRPC$TL_secureRequiredType, false);
-            TLRPC$TL_secureValue valueByType2 = getValueByType(tLRPC$TL_secureRequiredType2, false);
-            TLRPC$TL_account_authorizationForm tLRPC$TL_account_authorizationForm = this.currentForm;
-            TLRPC$account_Password tLRPC$account_Password2 = this.currentPassword;
-            HashMap hashMap4 = (HashMap) this.typesValues.get(tLRPC$TL_secureRequiredType);
-            if (tLRPC$TL_secureRequiredType2 != null) {
-                tLRPC$account_Password = tLRPC$account_Password2;
-                hashMap = (HashMap) this.typesValues.get(tLRPC$TL_secureRequiredType2);
+            HashMap hashMap2 = !z ? (HashMap) this.errorsMap.get(getNameForType(secureValueType)) : null;
+            HashMap hashMap3 = (HashMap) this.errorsMap.get(getNameForType(secureValueType2));
+            TLRPC.TL_secureValue valueByType = getValueByType(tL_secureRequiredType, false);
+            TLRPC.TL_secureValue valueByType2 = getValueByType(tL_secureRequiredType2, false);
+            TLRPC.TL_account_authorizationForm tL_account_authorizationForm = this.currentForm;
+            TLRPC.account_Password account_password2 = this.currentPassword;
+            HashMap hashMap4 = (HashMap) this.typesValues.get(tL_secureRequiredType);
+            if (tL_secureRequiredType2 != null) {
+                account_password = account_password2;
+                hashMap = (HashMap) this.typesValues.get(tL_secureRequiredType2);
             } else {
-                tLRPC$account_Password = tLRPC$account_Password2;
+                account_password = account_password2;
                 hashMap = null;
             }
             int i2 = i;
-            PassportActivity passportActivity = new PassportActivity(i, tLRPC$TL_account_authorizationForm, tLRPC$account_Password, tLRPC$TL_secureRequiredType, valueByType, tLRPC$TL_secureRequiredType2, valueByType2, hashMap4, hashMap);
+            PassportActivity passportActivity = new PassportActivity(i, tL_account_authorizationForm, account_password, tL_secureRequiredType, valueByType, tL_secureRequiredType2, valueByType2, hashMap4, hashMap);
             passportActivity.delegate = new PassportActivityDelegate() { // from class: org.telegram.ui.PassportActivity.20
 
                 /* JADX INFO: Access modifiers changed from: package-private */
                 /* loaded from: classes4.dex */
                 public class 1 implements RequestDelegate {
                     final /* synthetic */ PassportActivityDelegate val$currentDelegate;
-                    final /* synthetic */ TLRPC$TL_secureRequiredType val$documentRequiredType;
+                    final /* synthetic */ TLRPC.TL_secureRequiredType val$documentRequiredType;
                     final /* synthetic */ ArrayList val$documents;
                     final /* synthetic */ String val$documentsJson;
                     final /* synthetic */ ErrorRunnable val$errorRunnable;
-                    final /* synthetic */ TLRPC$TL_inputSecureValue val$finalFileInputSecureValue;
+                    final /* synthetic */ TLRPC.TL_inputSecureValue val$finalFileInputSecureValue;
                     final /* synthetic */ Runnable val$finishRunnable;
                     final /* synthetic */ SecureDocument val$front;
                     final /* synthetic */ String val$json;
-                    final /* synthetic */ TLRPC$TL_account_saveSecureValue val$req;
-                    final /* synthetic */ TLRPC$TL_secureRequiredType val$requiredType;
+                    final /* synthetic */ TLRPC.TL_account_saveSecureValue val$req;
+                    final /* synthetic */ TLRPC.TL_secureRequiredType val$requiredType;
                     final /* synthetic */ SecureDocument val$reverse;
                     final /* synthetic */ SecureDocument val$selfie;
                     final /* synthetic */ String val$text;
                     final /* synthetic */ ArrayList val$translationDocuments;
 
-                    1(ErrorRunnable errorRunnable, String str, TLRPC$TL_account_saveSecureValue tLRPC$TL_account_saveSecureValue, TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType, TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2, ArrayList arrayList, SecureDocument secureDocument, SecureDocument secureDocument2, SecureDocument secureDocument3, ArrayList arrayList2, String str2, String str3, Runnable runnable, PassportActivityDelegate passportActivityDelegate, TLRPC$TL_inputSecureValue tLRPC$TL_inputSecureValue) {
+                    1(ErrorRunnable errorRunnable, String str, TLRPC.TL_account_saveSecureValue tL_account_saveSecureValue, TLRPC.TL_secureRequiredType tL_secureRequiredType, TLRPC.TL_secureRequiredType tL_secureRequiredType2, ArrayList arrayList, SecureDocument secureDocument, SecureDocument secureDocument2, SecureDocument secureDocument3, ArrayList arrayList2, String str2, String str3, Runnable runnable, PassportActivityDelegate passportActivityDelegate, TLRPC.TL_inputSecureValue tL_inputSecureValue) {
                         this.val$errorRunnable = errorRunnable;
                         this.val$text = str;
-                        this.val$req = tLRPC$TL_account_saveSecureValue;
-                        this.val$documentRequiredType = tLRPC$TL_secureRequiredType;
-                        this.val$requiredType = tLRPC$TL_secureRequiredType2;
+                        this.val$req = tL_account_saveSecureValue;
+                        this.val$documentRequiredType = tL_secureRequiredType;
+                        this.val$requiredType = tL_secureRequiredType2;
                         this.val$documents = arrayList;
                         this.val$selfie = secureDocument;
                         this.val$front = secureDocument2;
@@ -8860,7 +8754,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         this.val$documentsJson = str3;
                         this.val$finishRunnable = runnable;
                         this.val$currentDelegate = passportActivityDelegate;
-                        this.val$finalFileInputSecureValue = tLRPC$TL_inputSecureValue;
+                        this.val$finalFileInputSecureValue = tL_inputSecureValue;
                     }
 
                     /* JADX INFO: Access modifiers changed from: private */
@@ -8876,34 +8770,34 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     /*
                         Code decompiled incorrectly, please refer to instructions dump.
                     */
-                    public /* synthetic */ void lambda$onResult$0(TLRPC$TL_error tLRPC$TL_error, ErrorRunnable errorRunnable, String str, TLRPC$TL_account_saveSecureValue tLRPC$TL_account_saveSecureValue, boolean z, TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType, TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2, TLRPC$TL_secureValue tLRPC$TL_secureValue, TLRPC$TL_secureValue tLRPC$TL_secureValue2, ArrayList arrayList, SecureDocument secureDocument, SecureDocument secureDocument2, SecureDocument secureDocument3, ArrayList arrayList2, String str2, String str3, int i, Runnable runnable) {
+                    public /* synthetic */ void lambda$onResult$0(TLRPC.TL_error tL_error, ErrorRunnable errorRunnable, String str, TLRPC.TL_account_saveSecureValue tL_account_saveSecureValue, boolean z, TLRPC.TL_secureRequiredType tL_secureRequiredType, TLRPC.TL_secureRequiredType tL_secureRequiredType2, TLRPC.TL_secureValue tL_secureValue, TLRPC.TL_secureValue tL_secureValue2, ArrayList arrayList, SecureDocument secureDocument, SecureDocument secureDocument2, SecureDocument secureDocument3, ArrayList arrayList2, String str2, String str3, int i, Runnable runnable) {
                         int size;
                         int i2;
                         int i3;
-                        TLRPC$SecureFile tLRPC$SecureFile;
-                        TLRPC$SecureFile tLRPC$SecureFile2;
-                        TLRPC$SecureFile tLRPC$SecureFile3;
+                        TLRPC.SecureFile secureFile;
+                        TLRPC.SecureFile secureFile2;
+                        TLRPC.SecureFile secureFile3;
                         int size2;
                         int i4;
                         int i5;
-                        if (tLRPC$TL_error != null) {
+                        if (tL_error != null) {
                             if (errorRunnable != null) {
-                                errorRunnable.onError(tLRPC$TL_error.text, str);
+                                errorRunnable.onError(tL_error.text, str);
                             }
-                            AlertsCreator.processError(((BaseFragment) PassportActivity.this).currentAccount, tLRPC$TL_error, PassportActivity.this, tLRPC$TL_account_saveSecureValue, str);
+                            AlertsCreator.processError(((BaseFragment) PassportActivity.this).currentAccount, tL_error, PassportActivity.this, tL_account_saveSecureValue, str);
                             return;
                         }
                         PassportActivity passportActivity = PassportActivity.this;
                         if (!z) {
-                            passportActivity.removeValue(tLRPC$TL_secureRequiredType2);
+                            passportActivity.removeValue(tL_secureRequiredType2);
                             passportActivity = PassportActivity.this;
-                        } else if (tLRPC$TL_secureRequiredType == null) {
-                            passportActivity.removeValue(tLRPC$TL_secureRequiredType2);
-                            if (tLRPC$TL_secureValue != null) {
-                                PassportActivity.this.currentForm.values.add(tLRPC$TL_secureValue);
+                        } else if (tL_secureRequiredType == null) {
+                            passportActivity.removeValue(tL_secureRequiredType2);
+                            if (tL_secureValue != null) {
+                                PassportActivity.this.currentForm.values.add(tL_secureValue);
                             }
-                            if (tLRPC$TL_secureValue2 != null) {
-                                PassportActivity.this.currentForm.values.add(tLRPC$TL_secureValue2);
+                            if (tL_secureValue2 != null) {
+                                PassportActivity.this.currentForm.values.add(tL_secureValue2);
                             }
                             if (arrayList != null && !arrayList.isEmpty()) {
                                 size2 = arrayList.size();
@@ -8911,15 +8805,15 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                 while (i4 < size2) {
                                     SecureDocument secureDocument4 = (SecureDocument) arrayList.get(i4);
                                     if (secureDocument4.inputFile != null) {
-                                        int size3 = tLRPC$TL_secureValue.files.size();
+                                        int size3 = tL_secureValue.files.size();
                                         int i6 = 0;
                                         while (i6 < size3) {
-                                            TLRPC$SecureFile tLRPC$SecureFile4 = (TLRPC$SecureFile) tLRPC$TL_secureValue.files.get(i6);
+                                            TLRPC.SecureFile secureFile4 = tL_secureValue.files.get(i6);
                                             i5 = size2;
-                                            if (tLRPC$SecureFile4 instanceof TLRPC$TL_secureFile) {
-                                                TLRPC$TL_secureFile tLRPC$TL_secureFile = (TLRPC$TL_secureFile) tLRPC$SecureFile4;
-                                                if (Utilities.arraysEquals(secureDocument4.fileSecret, 0, tLRPC$TL_secureFile.secret, 0)) {
-                                                    renameFile(secureDocument4, tLRPC$TL_secureFile);
+                                            if (secureFile4 instanceof TLRPC.TL_secureFile) {
+                                                TLRPC.TL_secureFile tL_secureFile = (TLRPC.TL_secureFile) secureFile4;
+                                                if (Utilities.arraysEquals(secureDocument4.fileSecret, 0, tL_secureFile.secret, 0)) {
+                                                    renameFile(secureDocument4, tL_secureFile);
                                                     break;
                                                 }
                                             }
@@ -8933,29 +8827,29 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                 }
                             }
                             if (secureDocument != null && secureDocument.inputFile != null) {
-                                tLRPC$SecureFile3 = tLRPC$TL_secureValue.selfie;
-                                if (tLRPC$SecureFile3 instanceof TLRPC$TL_secureFile) {
-                                    TLRPC$TL_secureFile tLRPC$TL_secureFile2 = (TLRPC$TL_secureFile) tLRPC$SecureFile3;
-                                    if (Utilities.arraysEquals(secureDocument.fileSecret, 0, tLRPC$TL_secureFile2.secret, 0)) {
-                                        renameFile(secureDocument, tLRPC$TL_secureFile2);
+                                secureFile3 = tL_secureValue.selfie;
+                                if (secureFile3 instanceof TLRPC.TL_secureFile) {
+                                    TLRPC.TL_secureFile tL_secureFile2 = (TLRPC.TL_secureFile) secureFile3;
+                                    if (Utilities.arraysEquals(secureDocument.fileSecret, 0, tL_secureFile2.secret, 0)) {
+                                        renameFile(secureDocument, tL_secureFile2);
                                     }
                                 }
                             }
                             if (secureDocument2 != null && secureDocument2.inputFile != null) {
-                                tLRPC$SecureFile2 = tLRPC$TL_secureValue.front_side;
-                                if (tLRPC$SecureFile2 instanceof TLRPC$TL_secureFile) {
-                                    TLRPC$TL_secureFile tLRPC$TL_secureFile3 = (TLRPC$TL_secureFile) tLRPC$SecureFile2;
-                                    if (Utilities.arraysEquals(secureDocument2.fileSecret, 0, tLRPC$TL_secureFile3.secret, 0)) {
-                                        renameFile(secureDocument2, tLRPC$TL_secureFile3);
+                                secureFile2 = tL_secureValue.front_side;
+                                if (secureFile2 instanceof TLRPC.TL_secureFile) {
+                                    TLRPC.TL_secureFile tL_secureFile3 = (TLRPC.TL_secureFile) secureFile2;
+                                    if (Utilities.arraysEquals(secureDocument2.fileSecret, 0, tL_secureFile3.secret, 0)) {
+                                        renameFile(secureDocument2, tL_secureFile3);
                                     }
                                 }
                             }
                             if (secureDocument3 != null && secureDocument3.inputFile != null) {
-                                tLRPC$SecureFile = tLRPC$TL_secureValue.reverse_side;
-                                if (tLRPC$SecureFile instanceof TLRPC$TL_secureFile) {
-                                    TLRPC$TL_secureFile tLRPC$TL_secureFile4 = (TLRPC$TL_secureFile) tLRPC$SecureFile;
-                                    if (Utilities.arraysEquals(secureDocument3.fileSecret, 0, tLRPC$TL_secureFile4.secret, 0)) {
-                                        renameFile(secureDocument3, tLRPC$TL_secureFile4);
+                                secureFile = tL_secureValue.reverse_side;
+                                if (secureFile instanceof TLRPC.TL_secureFile) {
+                                    TLRPC.TL_secureFile tL_secureFile4 = (TLRPC.TL_secureFile) secureFile;
+                                    if (Utilities.arraysEquals(secureDocument3.fileSecret, 0, tL_secureFile4.secret, 0)) {
+                                        renameFile(secureDocument3, tL_secureFile4);
                                     }
                                 }
                             }
@@ -8965,13 +8859,13 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                 while (i2 < size) {
                                     SecureDocument secureDocument5 = (SecureDocument) arrayList2.get(i2);
                                     if (secureDocument5.inputFile != null) {
-                                        int size4 = tLRPC$TL_secureValue.translation.size();
+                                        int size4 = tL_secureValue.translation.size();
                                         for (int i7 = 0; i7 < size4; i7++) {
-                                            TLRPC$SecureFile tLRPC$SecureFile5 = (TLRPC$SecureFile) tLRPC$TL_secureValue.translation.get(i7);
-                                            if (tLRPC$SecureFile5 instanceof TLRPC$TL_secureFile) {
-                                                TLRPC$TL_secureFile tLRPC$TL_secureFile5 = (TLRPC$TL_secureFile) tLRPC$SecureFile5;
-                                                if (Utilities.arraysEquals(secureDocument5.fileSecret, 0, tLRPC$TL_secureFile5.secret, 0)) {
-                                                    renameFile(secureDocument5, tLRPC$TL_secureFile5);
+                                            TLRPC.SecureFile secureFile5 = tL_secureValue.translation.get(i7);
+                                            if (secureFile5 instanceof TLRPC.TL_secureFile) {
+                                                TLRPC.TL_secureFile tL_secureFile5 = (TLRPC.TL_secureFile) secureFile5;
+                                                if (Utilities.arraysEquals(secureDocument5.fileSecret, 0, tL_secureFile5.secret, 0)) {
+                                                    renameFile(secureDocument5, tL_secureFile5);
                                                     i3 = 1;
                                                     break;
                                                 }
@@ -8982,17 +8876,17 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                     i2 += i3;
                                 }
                             }
-                            PassportActivity.this.setTypeValue(tLRPC$TL_secureRequiredType2, str, str2, tLRPC$TL_secureRequiredType, str3, z, i);
+                            PassportActivity.this.setTypeValue(tL_secureRequiredType2, str, str2, tL_secureRequiredType, str3, z, i);
                             if (runnable == null) {
                                 runnable.run();
                                 return;
                             }
                             return;
                         }
-                        passportActivity.removeValue(tLRPC$TL_secureRequiredType);
-                        if (tLRPC$TL_secureValue != null) {
+                        passportActivity.removeValue(tL_secureRequiredType);
+                        if (tL_secureValue != null) {
                         }
-                        if (tLRPC$TL_secureValue2 != null) {
+                        if (tL_secureValue2 != null) {
                         }
                         if (arrayList != null) {
                             size2 = arrayList.size();
@@ -9001,18 +8895,18 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             }
                         }
                         if (secureDocument != null) {
-                            tLRPC$SecureFile3 = tLRPC$TL_secureValue.selfie;
-                            if (tLRPC$SecureFile3 instanceof TLRPC$TL_secureFile) {
+                            secureFile3 = tL_secureValue.selfie;
+                            if (secureFile3 instanceof TLRPC.TL_secureFile) {
                             }
                         }
                         if (secureDocument2 != null) {
-                            tLRPC$SecureFile2 = tLRPC$TL_secureValue.front_side;
-                            if (tLRPC$SecureFile2 instanceof TLRPC$TL_secureFile) {
+                            secureFile2 = tL_secureValue.front_side;
+                            if (secureFile2 instanceof TLRPC.TL_secureFile) {
                             }
                         }
                         if (secureDocument3 != null) {
-                            tLRPC$SecureFile = tLRPC$TL_secureValue.reverse_side;
-                            if (tLRPC$SecureFile instanceof TLRPC$TL_secureFile) {
+                            secureFile = tL_secureValue.reverse_side;
+                            if (secureFile instanceof TLRPC.TL_secureFile) {
                             }
                         }
                         if (arrayList2 != null) {
@@ -9021,28 +8915,28 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             while (i2 < size) {
                             }
                         }
-                        PassportActivity.this.setTypeValue(tLRPC$TL_secureRequiredType2, str, str2, tLRPC$TL_secureRequiredType, str3, z, i);
+                        PassportActivity.this.setTypeValue(tL_secureRequiredType2, str, str2, tL_secureRequiredType, str3, z, i);
                         if (runnable == null) {
                         }
                     }
 
                     /* JADX INFO: Access modifiers changed from: private */
-                    public /* synthetic */ void lambda$run$1(TLObject tLObject, String str, TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType, PassportActivityDelegate passportActivityDelegate, TLRPC$TL_error tLRPC$TL_error, ErrorRunnable errorRunnable) {
+                    public /* synthetic */ void lambda$run$1(TLObject tLObject, String str, TLRPC.TL_secureRequiredType tL_secureRequiredType, PassportActivityDelegate passportActivityDelegate, TLRPC.TL_error tL_error, ErrorRunnable errorRunnable) {
                         if (tLObject == null) {
-                            PassportActivity.this.showAlertWithText(LocaleController.getString(R.string.PassportEmail), tLRPC$TL_error.text);
+                            PassportActivity.this.showAlertWithText(LocaleController.getString(R.string.PassportEmail), tL_error.text);
                             if (errorRunnable != null) {
-                                errorRunnable.onError(tLRPC$TL_error.text, str);
+                                errorRunnable.onError(tL_error.text, str);
                                 return;
                             }
                             return;
                         }
-                        TLRPC$TL_account_sentEmailCode tLRPC$TL_account_sentEmailCode = (TLRPC$TL_account_sentEmailCode) tLObject;
+                        TLRPC.TL_account_sentEmailCode tL_account_sentEmailCode = (TLRPC.TL_account_sentEmailCode) tLObject;
                         HashMap hashMap = new HashMap();
                         hashMap.put("email", str);
-                        hashMap.put("pattern", tLRPC$TL_account_sentEmailCode.email_pattern);
-                        PassportActivity passportActivity = new PassportActivity(6, PassportActivity.this.currentForm, PassportActivity.this.currentPassword, tLRPC$TL_secureRequiredType, (TLRPC$TL_secureValue) null, (TLRPC$TL_secureRequiredType) null, (TLRPC$TL_secureValue) null, hashMap, (HashMap) null);
+                        hashMap.put("pattern", tL_account_sentEmailCode.email_pattern);
+                        PassportActivity passportActivity = new PassportActivity(6, PassportActivity.this.currentForm, PassportActivity.this.currentPassword, tL_secureRequiredType, (TLRPC.TL_secureValue) null, (TLRPC.TL_secureRequiredType) null, (TLRPC.TL_secureValue) null, hashMap, (HashMap) null);
                         ((BaseFragment) passportActivity).currentAccount = ((BaseFragment) PassportActivity.this).currentAccount;
-                        passportActivity.emailCodeLength = tLRPC$TL_account_sentEmailCode.length;
+                        passportActivity.emailCodeLength = tL_account_sentEmailCode.length;
                         passportActivity.saltedPassword = PassportActivity.this.saltedPassword;
                         passportActivity.secureSecret = PassportActivity.this.secureSecret;
                         passportActivity.delegate = passportActivityDelegate;
@@ -9050,30 +8944,30 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     }
 
                     /* JADX INFO: Access modifiers changed from: private */
-                    public /* synthetic */ void lambda$run$2(final String str, final TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType, final PassportActivityDelegate passportActivityDelegate, final ErrorRunnable errorRunnable, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+                    public /* synthetic */ void lambda$run$2(final String str, final TLRPC.TL_secureRequiredType tL_secureRequiredType, final PassportActivityDelegate passportActivityDelegate, final ErrorRunnable errorRunnable, final TLObject tLObject, final TLRPC.TL_error tL_error) {
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$20$1$$ExternalSyntheticLambda4
                             @Override // java.lang.Runnable
                             public final void run() {
-                                PassportActivity.20.1.this.lambda$run$1(tLObject, str, tLRPC$TL_secureRequiredType, passportActivityDelegate, tLRPC$TL_error, errorRunnable);
+                                PassportActivity.20.1.this.lambda$run$1(tLObject, str, tL_secureRequiredType, passportActivityDelegate, tL_error, errorRunnable);
                             }
                         });
                     }
 
                     /* JADX INFO: Access modifiers changed from: private */
-                    public static /* synthetic */ void lambda$run$3(ErrorRunnable errorRunnable, TLRPC$TL_error tLRPC$TL_error, String str) {
-                        errorRunnable.onError(tLRPC$TL_error.text, str);
+                    public static /* synthetic */ void lambda$run$3(ErrorRunnable errorRunnable, TLRPC.TL_error tL_error, String str) {
+                        errorRunnable.onError(tL_error.text, str);
                     }
 
                     /* JADX INFO: Access modifiers changed from: private */
                     /* renamed from: onResult */
-                    public void lambda$run$4(final TLRPC$TL_error tLRPC$TL_error, final TLRPC$TL_secureValue tLRPC$TL_secureValue, final TLRPC$TL_secureValue tLRPC$TL_secureValue2) {
+                    public void lambda$run$4(final TLRPC.TL_error tL_error, final TLRPC.TL_secureValue tL_secureValue, final TLRPC.TL_secureValue tL_secureValue2) {
                         final ErrorRunnable errorRunnable = this.val$errorRunnable;
                         final String str = this.val$text;
-                        final TLRPC$TL_account_saveSecureValue tLRPC$TL_account_saveSecureValue = this.val$req;
+                        final TLRPC.TL_account_saveSecureValue tL_account_saveSecureValue = this.val$req;
                         20 r15 = 20.this;
                         final boolean z = z;
-                        final TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType = this.val$documentRequiredType;
-                        final TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2 = this.val$requiredType;
+                        final TLRPC.TL_secureRequiredType tL_secureRequiredType = this.val$documentRequiredType;
+                        final TLRPC.TL_secureRequiredType tL_secureRequiredType2 = this.val$requiredType;
                         final ArrayList arrayList = this.val$documents;
                         final SecureDocument secureDocument = this.val$selfie;
                         final SecureDocument secureDocument2 = this.val$front;
@@ -9086,193 +8980,193 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$20$1$$ExternalSyntheticLambda3
                             @Override // java.lang.Runnable
                             public final void run() {
-                                PassportActivity.20.1.this.lambda$onResult$0(tLRPC$TL_error, errorRunnable, str, tLRPC$TL_account_saveSecureValue, z, tLRPC$TL_secureRequiredType, tLRPC$TL_secureRequiredType2, tLRPC$TL_secureValue, tLRPC$TL_secureValue2, arrayList, secureDocument, secureDocument2, secureDocument3, arrayList2, str2, str3, i, runnable);
+                                PassportActivity.20.1.this.lambda$onResult$0(tL_error, errorRunnable, str, tL_account_saveSecureValue, z, tL_secureRequiredType, tL_secureRequiredType2, tL_secureValue, tL_secureValue2, arrayList, secureDocument, secureDocument2, secureDocument3, arrayList2, str2, str3, i, runnable);
                             }
                         });
                     }
 
                     @Override // org.telegram.tgnet.RequestDelegate
-                    public void run(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-                        if (tLRPC$TL_error != null) {
-                            if (tLRPC$TL_error.text.equals("EMAIL_VERIFICATION_NEEDED")) {
-                                TLRPC$TL_account_sendVerifyEmailCode tLRPC$TL_account_sendVerifyEmailCode = new TLRPC$TL_account_sendVerifyEmailCode();
-                                tLRPC$TL_account_sendVerifyEmailCode.purpose = new TLRPC$TL_emailVerifyPurposePassport();
-                                tLRPC$TL_account_sendVerifyEmailCode.email = this.val$text;
+                    public void run(TLObject tLObject, final TLRPC.TL_error tL_error) {
+                        if (tL_error != null) {
+                            if (tL_error.text.equals("EMAIL_VERIFICATION_NEEDED")) {
+                                TLRPC.TL_account_sendVerifyEmailCode tL_account_sendVerifyEmailCode = new TLRPC.TL_account_sendVerifyEmailCode();
+                                tL_account_sendVerifyEmailCode.purpose = new TLRPC.TL_emailVerifyPurposePassport();
+                                tL_account_sendVerifyEmailCode.email = this.val$text;
                                 ConnectionsManager connectionsManager = ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount);
                                 final String str = this.val$text;
-                                final TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType = this.val$requiredType;
+                                final TLRPC.TL_secureRequiredType tL_secureRequiredType = this.val$requiredType;
                                 final PassportActivityDelegate passportActivityDelegate = this.val$currentDelegate;
                                 final ErrorRunnable errorRunnable = this.val$errorRunnable;
-                                connectionsManager.sendRequest(tLRPC$TL_account_sendVerifyEmailCode, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$20$1$$ExternalSyntheticLambda0
+                                connectionsManager.sendRequest(tL_account_sendVerifyEmailCode, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$20$1$$ExternalSyntheticLambda0
                                     @Override // org.telegram.tgnet.RequestDelegate
-                                    public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
-                                        PassportActivity.20.1.this.lambda$run$2(str, tLRPC$TL_secureRequiredType, passportActivityDelegate, errorRunnable, tLObject2, tLRPC$TL_error2);
+                                    public final void run(TLObject tLObject2, TLRPC.TL_error tL_error2) {
+                                        PassportActivity.20.1.this.lambda$run$2(str, tL_secureRequiredType, passportActivityDelegate, errorRunnable, tLObject2, tL_error2);
                                     }
                                 });
                                 return;
-                            } else if (tLRPC$TL_error.text.equals("PHONE_VERIFICATION_NEEDED")) {
+                            } else if (tL_error.text.equals("PHONE_VERIFICATION_NEEDED")) {
                                 final ErrorRunnable errorRunnable2 = this.val$errorRunnable;
                                 final String str2 = this.val$text;
                                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$20$1$$ExternalSyntheticLambda1
                                     @Override // java.lang.Runnable
                                     public final void run() {
-                                        PassportActivity.20.1.lambda$run$3(PassportActivity.ErrorRunnable.this, tLRPC$TL_error, str2);
+                                        PassportActivity.20.1.lambda$run$3(PassportActivity.ErrorRunnable.this, tL_error, str2);
                                     }
                                 });
                                 return;
                             }
                         }
-                        if (tLRPC$TL_error != null || this.val$finalFileInputSecureValue == null) {
-                            lambda$run$4(tLRPC$TL_error, (TLRPC$TL_secureValue) tLObject, null);
+                        if (tL_error != null || this.val$finalFileInputSecureValue == null) {
+                            lambda$run$4(tL_error, (TLRPC.TL_secureValue) tLObject, null);
                             return;
                         }
-                        final TLRPC$TL_secureValue tLRPC$TL_secureValue = (TLRPC$TL_secureValue) tLObject;
-                        TLRPC$TL_account_saveSecureValue tLRPC$TL_account_saveSecureValue = new TLRPC$TL_account_saveSecureValue();
-                        tLRPC$TL_account_saveSecureValue.value = this.val$finalFileInputSecureValue;
-                        tLRPC$TL_account_saveSecureValue.secure_secret_id = PassportActivity.this.secureSecretId;
-                        ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tLRPC$TL_account_saveSecureValue, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$20$1$$ExternalSyntheticLambda2
+                        final TLRPC.TL_secureValue tL_secureValue = (TLRPC.TL_secureValue) tLObject;
+                        TLRPC.TL_account_saveSecureValue tL_account_saveSecureValue = new TLRPC.TL_account_saveSecureValue();
+                        tL_account_saveSecureValue.value = this.val$finalFileInputSecureValue;
+                        tL_account_saveSecureValue.secure_secret_id = PassportActivity.this.secureSecretId;
+                        ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tL_account_saveSecureValue, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$20$1$$ExternalSyntheticLambda2
                             @Override // org.telegram.tgnet.RequestDelegate
-                            public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
-                                PassportActivity.20.1.this.lambda$run$4(tLRPC$TL_secureValue, tLObject2, tLRPC$TL_error2);
+                            public final void run(TLObject tLObject2, TLRPC.TL_error tL_error2) {
+                                PassportActivity.20.1.this.lambda$run$4(tL_secureValue, tLObject2, tL_error2);
                             }
                         });
                     }
                 }
 
-                private TLRPC$InputSecureFile getInputSecureFile(SecureDocument secureDocument) {
+                private TLRPC.InputSecureFile getInputSecureFile(SecureDocument secureDocument) {
                     if (secureDocument.inputFile == null) {
-                        TLRPC$TL_inputSecureFile tLRPC$TL_inputSecureFile = new TLRPC$TL_inputSecureFile();
-                        TLRPC$TL_secureFile tLRPC$TL_secureFile = secureDocument.secureFile;
-                        tLRPC$TL_inputSecureFile.id = tLRPC$TL_secureFile.id;
-                        tLRPC$TL_inputSecureFile.access_hash = tLRPC$TL_secureFile.access_hash;
-                        return tLRPC$TL_inputSecureFile;
+                        TLRPC.TL_inputSecureFile tL_inputSecureFile = new TLRPC.TL_inputSecureFile();
+                        TLRPC.TL_secureFile tL_secureFile = secureDocument.secureFile;
+                        tL_inputSecureFile.id = tL_secureFile.id;
+                        tL_inputSecureFile.access_hash = tL_secureFile.access_hash;
+                        return tL_inputSecureFile;
                     }
-                    TLRPC$TL_inputSecureFileUploaded tLRPC$TL_inputSecureFileUploaded = new TLRPC$TL_inputSecureFileUploaded();
-                    TLRPC$TL_inputFile tLRPC$TL_inputFile = secureDocument.inputFile;
-                    tLRPC$TL_inputSecureFileUploaded.id = tLRPC$TL_inputFile.id;
-                    tLRPC$TL_inputSecureFileUploaded.parts = tLRPC$TL_inputFile.parts;
-                    tLRPC$TL_inputSecureFileUploaded.md5_checksum = tLRPC$TL_inputFile.md5_checksum;
-                    tLRPC$TL_inputSecureFileUploaded.file_hash = secureDocument.fileHash;
-                    tLRPC$TL_inputSecureFileUploaded.secret = secureDocument.fileSecret;
-                    return tLRPC$TL_inputSecureFileUploaded;
+                    TLRPC.TL_inputSecureFileUploaded tL_inputSecureFileUploaded = new TLRPC.TL_inputSecureFileUploaded();
+                    TLRPC.TL_inputFile tL_inputFile = secureDocument.inputFile;
+                    tL_inputSecureFileUploaded.id = tL_inputFile.id;
+                    tL_inputSecureFileUploaded.parts = tL_inputFile.parts;
+                    tL_inputSecureFileUploaded.md5_checksum = tL_inputFile.md5_checksum;
+                    tL_inputSecureFileUploaded.file_hash = secureDocument.fileHash;
+                    tL_inputSecureFileUploaded.secret = secureDocument.fileSecret;
+                    return tL_inputSecureFileUploaded;
                 }
 
                 /* JADX INFO: Access modifiers changed from: private */
-                public void renameFile(SecureDocument secureDocument, TLRPC$TL_secureFile tLRPC$TL_secureFile) {
+                public void renameFile(SecureDocument secureDocument, TLRPC.TL_secureFile tL_secureFile) {
                     File pathToAttach = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(secureDocument);
-                    File pathToAttach2 = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$TL_secureFile);
+                    File pathToAttach2 = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tL_secureFile);
                     pathToAttach.renameTo(pathToAttach2);
-                    ImageLoader.getInstance().replaceImageInCache(secureDocument.secureFile.dc_id + "_" + secureDocument.secureFile.id, tLRPC$TL_secureFile.dc_id + "_" + tLRPC$TL_secureFile.id, null, false);
+                    ImageLoader.getInstance().replaceImageInCache(secureDocument.secureFile.dc_id + "_" + secureDocument.secureFile.id, tL_secureFile.dc_id + "_" + tL_secureFile.id, null, false);
                 }
 
                 @Override // org.telegram.ui.PassportActivity.PassportActivityDelegate
-                public void deleteValue(TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType3, TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType4, ArrayList arrayList2, boolean z2, Runnable runnable, ErrorRunnable errorRunnable) {
-                    PassportActivity.this.deleteValueInternal(tLRPC$TL_secureRequiredType3, tLRPC$TL_secureRequiredType4, arrayList2, z2, runnable, errorRunnable, z);
+                public void deleteValue(TLRPC.TL_secureRequiredType tL_secureRequiredType3, TLRPC.TL_secureRequiredType tL_secureRequiredType4, ArrayList arrayList2, boolean z2, Runnable runnable, ErrorRunnable errorRunnable) {
+                    PassportActivity.this.deleteValueInternal(tL_secureRequiredType3, tL_secureRequiredType4, arrayList2, z2, runnable, errorRunnable, z);
                 }
 
                 @Override // org.telegram.ui.PassportActivity.PassportActivityDelegate
-                public SecureDocument saveFile(TLRPC$TL_secureFile tLRPC$TL_secureFile) {
-                    String str = FileLoader.getDirectory(4) + "/" + tLRPC$TL_secureFile.dc_id + "_" + tLRPC$TL_secureFile.id + ".jpg";
+                public SecureDocument saveFile(TLRPC.TL_secureFile tL_secureFile) {
+                    String str = FileLoader.getDirectory(4) + "/" + tL_secureFile.dc_id + "_" + tL_secureFile.id + ".jpg";
                     EncryptionResult createSecureDocument = PassportActivity.this.createSecureDocument(str);
-                    return new SecureDocument(createSecureDocument.secureDocumentKey, tLRPC$TL_secureFile, str, createSecureDocument.fileHash, createSecureDocument.fileSecret);
+                    return new SecureDocument(createSecureDocument.secureDocumentKey, tL_secureFile, str, createSecureDocument.fileHash, createSecureDocument.fileSecret);
                 }
 
                 /* JADX WARN: Multi-variable type inference failed */
                 @Override // org.telegram.ui.PassportActivity.PassportActivityDelegate
-                public void saveValue(TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType3, String str, String str2, TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType4, String str3, ArrayList arrayList2, SecureDocument secureDocument, ArrayList arrayList3, SecureDocument secureDocument2, SecureDocument secureDocument3, Runnable runnable, ErrorRunnable errorRunnable) {
-                    TLRPC$TL_inputSecureValue tLRPC$TL_inputSecureValue;
-                    TLRPC$TL_securePlainPhone tLRPC$TL_securePlainPhone;
-                    TLRPC$TL_inputSecureValue tLRPC$TL_inputSecureValue2;
+                public void saveValue(TLRPC.TL_secureRequiredType tL_secureRequiredType3, String str, String str2, TLRPC.TL_secureRequiredType tL_secureRequiredType4, String str3, ArrayList arrayList2, SecureDocument secureDocument, ArrayList arrayList3, SecureDocument secureDocument2, SecureDocument secureDocument3, Runnable runnable, ErrorRunnable errorRunnable) {
+                    TLRPC.TL_inputSecureValue tL_inputSecureValue;
+                    TLRPC.TL_securePlainPhone tL_securePlainPhone;
+                    TLRPC.TL_inputSecureValue tL_inputSecureValue2;
                     if (!TextUtils.isEmpty(str2)) {
-                        tLRPC$TL_inputSecureValue = new TLRPC$TL_inputSecureValue();
-                        tLRPC$TL_inputSecureValue.type = tLRPC$TL_secureRequiredType3.type;
-                        tLRPC$TL_inputSecureValue.flags |= 1;
+                        tL_inputSecureValue = new TLRPC.TL_inputSecureValue();
+                        tL_inputSecureValue.type = tL_secureRequiredType3.type;
+                        tL_inputSecureValue.flags |= 1;
                         EncryptionResult encryptData = PassportActivity.this.encryptData(AndroidUtilities.getStringBytes(str2));
-                        TLRPC$TL_secureData tLRPC$TL_secureData = new TLRPC$TL_secureData();
-                        tLRPC$TL_inputSecureValue.data = tLRPC$TL_secureData;
-                        tLRPC$TL_secureData.data = encryptData.encryptedData;
-                        tLRPC$TL_secureData.data_hash = encryptData.fileHash;
-                        tLRPC$TL_secureData.secret = encryptData.fileSecret;
+                        TLRPC.TL_secureData tL_secureData = new TLRPC.TL_secureData();
+                        tL_inputSecureValue.data = tL_secureData;
+                        tL_secureData.data = encryptData.encryptedData;
+                        tL_secureData.data_hash = encryptData.fileHash;
+                        tL_secureData.secret = encryptData.fileSecret;
                     } else if (TextUtils.isEmpty(str)) {
-                        tLRPC$TL_inputSecureValue = null;
+                        tL_inputSecureValue = null;
                     } else {
-                        TLRPC$SecureValueType tLRPC$SecureValueType3 = tLRPC$SecureValueType;
-                        if (tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypeEmail) {
-                            TLRPC$TL_securePlainEmail tLRPC$TL_securePlainEmail = new TLRPC$TL_securePlainEmail();
-                            tLRPC$TL_securePlainEmail.email = str;
-                            tLRPC$TL_securePlainPhone = tLRPC$TL_securePlainEmail;
-                        } else if (!(tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypePhone)) {
+                        TLRPC.SecureValueType secureValueType3 = secureValueType;
+                        if (secureValueType3 instanceof TLRPC.TL_secureValueTypeEmail) {
+                            TLRPC.TL_securePlainEmail tL_securePlainEmail = new TLRPC.TL_securePlainEmail();
+                            tL_securePlainEmail.email = str;
+                            tL_securePlainPhone = tL_securePlainEmail;
+                        } else if (!(secureValueType3 instanceof TLRPC.TL_secureValueTypePhone)) {
                             return;
                         } else {
-                            TLRPC$TL_securePlainPhone tLRPC$TL_securePlainPhone2 = new TLRPC$TL_securePlainPhone();
-                            tLRPC$TL_securePlainPhone2.phone = str;
-                            tLRPC$TL_securePlainPhone = tLRPC$TL_securePlainPhone2;
+                            TLRPC.TL_securePlainPhone tL_securePlainPhone2 = new TLRPC.TL_securePlainPhone();
+                            tL_securePlainPhone2.phone = str;
+                            tL_securePlainPhone = tL_securePlainPhone2;
                         }
-                        TLRPC$TL_inputSecureValue tLRPC$TL_inputSecureValue3 = new TLRPC$TL_inputSecureValue();
-                        tLRPC$TL_inputSecureValue3.type = tLRPC$TL_secureRequiredType3.type;
-                        tLRPC$TL_inputSecureValue3.flags |= 32;
-                        tLRPC$TL_inputSecureValue3.plain_data = tLRPC$TL_securePlainPhone;
-                        tLRPC$TL_inputSecureValue = tLRPC$TL_inputSecureValue3;
+                        TLRPC.TL_inputSecureValue tL_inputSecureValue3 = new TLRPC.TL_inputSecureValue();
+                        tL_inputSecureValue3.type = tL_secureRequiredType3.type;
+                        tL_inputSecureValue3.flags |= 32;
+                        tL_inputSecureValue3.plain_data = tL_securePlainPhone;
+                        tL_inputSecureValue = tL_inputSecureValue3;
                     }
-                    if (!z && tLRPC$TL_inputSecureValue == null) {
+                    if (!z && tL_inputSecureValue == null) {
                         if (errorRunnable != null) {
                             errorRunnable.onError(null, null);
                             return;
                         }
                         return;
                     }
-                    if (tLRPC$TL_secureRequiredType4 != null) {
-                        TLRPC$TL_inputSecureValue tLRPC$TL_inputSecureValue4 = new TLRPC$TL_inputSecureValue();
-                        tLRPC$TL_inputSecureValue4.type = tLRPC$TL_secureRequiredType4.type;
+                    if (tL_secureRequiredType4 != null) {
+                        TLRPC.TL_inputSecureValue tL_inputSecureValue4 = new TLRPC.TL_inputSecureValue();
+                        tL_inputSecureValue4.type = tL_secureRequiredType4.type;
                         if (!TextUtils.isEmpty(str3)) {
-                            tLRPC$TL_inputSecureValue4.flags |= 1;
+                            tL_inputSecureValue4.flags |= 1;
                             EncryptionResult encryptData2 = PassportActivity.this.encryptData(AndroidUtilities.getStringBytes(str3));
-                            TLRPC$TL_secureData tLRPC$TL_secureData2 = new TLRPC$TL_secureData();
-                            tLRPC$TL_inputSecureValue4.data = tLRPC$TL_secureData2;
-                            tLRPC$TL_secureData2.data = encryptData2.encryptedData;
-                            tLRPC$TL_secureData2.data_hash = encryptData2.fileHash;
-                            tLRPC$TL_secureData2.secret = encryptData2.fileSecret;
+                            TLRPC.TL_secureData tL_secureData2 = new TLRPC.TL_secureData();
+                            tL_inputSecureValue4.data = tL_secureData2;
+                            tL_secureData2.data = encryptData2.encryptedData;
+                            tL_secureData2.data_hash = encryptData2.fileHash;
+                            tL_secureData2.secret = encryptData2.fileSecret;
                         }
                         if (secureDocument2 != null) {
-                            tLRPC$TL_inputSecureValue4.front_side = getInputSecureFile(secureDocument2);
-                            tLRPC$TL_inputSecureValue4.flags |= 2;
+                            tL_inputSecureValue4.front_side = getInputSecureFile(secureDocument2);
+                            tL_inputSecureValue4.flags |= 2;
                         }
                         if (secureDocument3 != null) {
-                            tLRPC$TL_inputSecureValue4.reverse_side = getInputSecureFile(secureDocument3);
-                            tLRPC$TL_inputSecureValue4.flags |= 4;
+                            tL_inputSecureValue4.reverse_side = getInputSecureFile(secureDocument3);
+                            tL_inputSecureValue4.flags |= 4;
                         }
                         if (secureDocument != null) {
-                            tLRPC$TL_inputSecureValue4.selfie = getInputSecureFile(secureDocument);
-                            tLRPC$TL_inputSecureValue4.flags |= 8;
+                            tL_inputSecureValue4.selfie = getInputSecureFile(secureDocument);
+                            tL_inputSecureValue4.flags |= 8;
                         }
                         if (arrayList3 != null && !arrayList3.isEmpty()) {
-                            tLRPC$TL_inputSecureValue4.flags |= 64;
+                            tL_inputSecureValue4.flags |= 64;
                             int size2 = arrayList3.size();
                             for (int i3 = 0; i3 < size2; i3++) {
-                                tLRPC$TL_inputSecureValue4.translation.add(getInputSecureFile((SecureDocument) arrayList3.get(i3)));
+                                tL_inputSecureValue4.translation.add(getInputSecureFile((SecureDocument) arrayList3.get(i3)));
                             }
                         }
                         if (arrayList2 != null && !arrayList2.isEmpty()) {
-                            tLRPC$TL_inputSecureValue4.flags |= 16;
+                            tL_inputSecureValue4.flags |= 16;
                             int size3 = arrayList2.size();
                             for (int i4 = 0; i4 < size3; i4++) {
-                                tLRPC$TL_inputSecureValue4.files.add(getInputSecureFile((SecureDocument) arrayList2.get(i4)));
+                                tL_inputSecureValue4.files.add(getInputSecureFile((SecureDocument) arrayList2.get(i4)));
                             }
                         }
                         if (!z) {
-                            tLRPC$TL_inputSecureValue2 = tLRPC$TL_inputSecureValue4;
-                            TLRPC$TL_account_saveSecureValue tLRPC$TL_account_saveSecureValue = new TLRPC$TL_account_saveSecureValue();
-                            tLRPC$TL_account_saveSecureValue.value = tLRPC$TL_inputSecureValue;
-                            tLRPC$TL_account_saveSecureValue.secure_secret_id = PassportActivity.this.secureSecretId;
-                            ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tLRPC$TL_account_saveSecureValue, new 1(errorRunnable, str, tLRPC$TL_account_saveSecureValue, tLRPC$TL_secureRequiredType4, tLRPC$TL_secureRequiredType3, arrayList2, secureDocument, secureDocument2, secureDocument3, arrayList3, str2, str3, runnable, this, tLRPC$TL_inputSecureValue2));
+                            tL_inputSecureValue2 = tL_inputSecureValue4;
+                            TLRPC.TL_account_saveSecureValue tL_account_saveSecureValue = new TLRPC.TL_account_saveSecureValue();
+                            tL_account_saveSecureValue.value = tL_inputSecureValue;
+                            tL_account_saveSecureValue.secure_secret_id = PassportActivity.this.secureSecretId;
+                            ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tL_account_saveSecureValue, new 1(errorRunnable, str, tL_account_saveSecureValue, tL_secureRequiredType4, tL_secureRequiredType3, arrayList2, secureDocument, secureDocument2, secureDocument3, arrayList3, str2, str3, runnable, this, tL_inputSecureValue2));
                         }
-                        tLRPC$TL_inputSecureValue = tLRPC$TL_inputSecureValue4;
+                        tL_inputSecureValue = tL_inputSecureValue4;
                     }
-                    tLRPC$TL_inputSecureValue2 = null;
-                    TLRPC$TL_account_saveSecureValue tLRPC$TL_account_saveSecureValue2 = new TLRPC$TL_account_saveSecureValue();
-                    tLRPC$TL_account_saveSecureValue2.value = tLRPC$TL_inputSecureValue;
-                    tLRPC$TL_account_saveSecureValue2.secure_secret_id = PassportActivity.this.secureSecretId;
-                    ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tLRPC$TL_account_saveSecureValue2, new 1(errorRunnable, str, tLRPC$TL_account_saveSecureValue2, tLRPC$TL_secureRequiredType4, tLRPC$TL_secureRequiredType3, arrayList2, secureDocument, secureDocument2, secureDocument3, arrayList3, str2, str3, runnable, this, tLRPC$TL_inputSecureValue2));
+                    tL_inputSecureValue2 = null;
+                    TLRPC.TL_account_saveSecureValue tL_account_saveSecureValue2 = new TLRPC.TL_account_saveSecureValue();
+                    tL_account_saveSecureValue2.value = tL_inputSecureValue;
+                    tL_account_saveSecureValue2.secure_secret_id = PassportActivity.this.secureSecretId;
+                    ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tL_account_saveSecureValue2, new 1(errorRunnable, str, tL_account_saveSecureValue2, tL_secureRequiredType4, tL_secureRequiredType3, arrayList2, secureDocument, secureDocument2, secureDocument3, arrayList3, str2, str3, runnable, this, tL_inputSecureValue2));
                 }
             };
             passportActivity.currentAccount = this.currentAccount;
@@ -9330,7 +9224,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
         int i = this.uploadingFileType;
         final boolean z = false;
-        if (i != 1 && i != 4 && (this.currentType.type instanceof TLRPC$TL_secureValueTypePersonalDetails)) {
+        if (i != 1 && i != 4 && (this.currentType.type instanceof TLRPC.TL_secureValueTypePersonalDetails)) {
             int i2 = 0;
             while (true) {
                 EditTextBoldCursor[] editTextBoldCursorArr = this.inputFields;
@@ -9354,14 +9248,14 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public TLRPC$TL_secureValue removeValue(TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType) {
-        if (tLRPC$TL_secureRequiredType == null) {
+    public TLRPC.TL_secureValue removeValue(TLRPC.TL_secureRequiredType tL_secureRequiredType) {
+        if (tL_secureRequiredType == null) {
             return null;
         }
         int size = this.currentForm.values.size();
         for (int i = 0; i < size; i++) {
-            if (tLRPC$TL_secureRequiredType.type.getClass() == ((TLRPC$TL_secureValue) this.currentForm.values.get(i)).type.getClass()) {
-                return (TLRPC$TL_secureValue) this.currentForm.values.remove(i);
+            if (tL_secureRequiredType.type.getClass() == this.currentForm.values.get(i).type.getClass()) {
+                return this.currentForm.values.remove(i);
             }
         }
         return null;
@@ -9482,12 +9376,12 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void setTypeValue(TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType, String str, String str2, TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2, String str3, boolean z, int i) {
+    public void setTypeValue(TLRPC.TL_secureRequiredType tL_secureRequiredType, String str, String str2, TLRPC.TL_secureRequiredType tL_secureRequiredType2, String str3, boolean z, int i) {
         boolean z2;
-        TLRPC$TL_secureValue tLRPC$TL_secureValue;
+        TLRPC.TL_secureValue tL_secureValue;
         StringBuilder sb;
         StringBuilder sb2;
-        TLRPC$TL_secureValue tLRPC$TL_secureValue2;
+        TLRPC.TL_secureValue tL_secureValue2;
         TextDetailSecureCell textDetailSecureCell;
         Object obj;
         String[] strArr;
@@ -9513,7 +9407,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         int i5;
         String sb3;
         String string2;
-        TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType3;
+        TLRPC.TL_secureRequiredType tL_secureRequiredType3;
         HashMap hashMap3;
         int i6;
         TextDetailSecureCell textDetailSecureCell2;
@@ -9521,15 +9415,15 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         BufferedReader bufferedReader;
         String str7 = str2;
         String str8 = str3;
-        TextDetailSecureCell textDetailSecureCell3 = (TextDetailSecureCell) this.typesViews.get(tLRPC$TL_secureRequiredType);
+        TextDetailSecureCell textDetailSecureCell3 = (TextDetailSecureCell) this.typesViews.get(tL_secureRequiredType);
         if (textDetailSecureCell3 != null) {
             z2 = true;
         } else if (this.currentActivityType != 8) {
             return;
         } else {
             ArrayList arrayList = new ArrayList();
-            if (tLRPC$TL_secureRequiredType2 != null) {
-                arrayList.add(tLRPC$TL_secureRequiredType2);
+            if (tL_secureRequiredType2 != null) {
+                arrayList.add(tL_secureRequiredType2);
             }
             LinearLayout linearLayout = this.linearLayout2;
             View childAt = linearLayout.getChildAt(linearLayout.getChildCount() - 6);
@@ -9537,16 +9431,16 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 ((TextDetailSecureCell) childAt).setNeedDivider(true);
             }
             z2 = true;
-            textDetailSecureCell3 = addField(getParentActivity(), tLRPC$TL_secureRequiredType, arrayList, true, true);
+            textDetailSecureCell3 = addField(getParentActivity(), tL_secureRequiredType, arrayList, true, true);
             updateManageVisibility();
         }
         TextDetailSecureCell textDetailSecureCell4 = textDetailSecureCell3;
-        HashMap hashMap4 = (HashMap) this.typesValues.get(tLRPC$TL_secureRequiredType);
-        HashMap hashMap5 = tLRPC$TL_secureRequiredType2 != null ? (HashMap) this.typesValues.get(tLRPC$TL_secureRequiredType2) : null;
-        TLRPC$TL_secureValue valueByType = getValueByType(tLRPC$TL_secureRequiredType, z2);
-        TLRPC$TL_secureValue valueByType2 = getValueByType(tLRPC$TL_secureRequiredType2, z2);
+        HashMap hashMap4 = (HashMap) this.typesValues.get(tL_secureRequiredType);
+        HashMap hashMap5 = tL_secureRequiredType2 != null ? (HashMap) this.typesValues.get(tL_secureRequiredType2) : null;
+        TLRPC.TL_secureValue valueByType = getValueByType(tL_secureRequiredType, z2);
+        TLRPC.TL_secureValue valueByType2 = getValueByType(tL_secureRequiredType2, z2);
         if (str7 == null || this.languageMap != null) {
-            tLRPC$TL_secureValue = valueByType;
+            tL_secureValue = valueByType;
             sb = null;
             this.languageMap = null;
         } else {
@@ -9555,7 +9449,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 bufferedReader = new BufferedReader(new InputStreamReader(ApplicationLoader.applicationContext.getResources().getAssets().open("countries.txt")));
             } catch (Exception e) {
                 e = e;
-                tLRPC$TL_secureValue = valueByType;
+                tL_secureValue = valueByType;
             }
             while (true) {
                 String readLine = bufferedReader.readLine();
@@ -9563,10 +9457,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     break;
                 }
                 String[] split = readLine.split(";");
-                tLRPC$TL_secureValue = valueByType;
+                tL_secureValue = valueByType;
                 try {
                     this.languageMap.put(split[1], split[2]);
-                    valueByType = tLRPC$TL_secureValue;
+                    valueByType = tL_secureValue;
                 } catch (Exception e2) {
                     e = e2;
                 }
@@ -9574,33 +9468,33 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 FileLog.e(e);
                 sb = null;
             }
-            tLRPC$TL_secureValue = valueByType;
+            tL_secureValue = valueByType;
             bufferedReader.close();
             sb = null;
         }
         if (str != null) {
-            TLRPC$SecureValueType tLRPC$SecureValueType = tLRPC$TL_secureRequiredType.type;
-            if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePhone) {
+            TLRPC.SecureValueType secureValueType = tL_secureRequiredType.type;
+            if (secureValueType instanceof TLRPC.TL_secureValueTypePhone) {
                 PhoneFormat phoneFormat = PhoneFormat.getInstance();
                 sb3 = phoneFormat.format("+" + str);
                 textDetailSecureCell = textDetailSecureCell4;
-                tLRPC$TL_secureValue2 = valueByType2;
+                tL_secureValue2 = valueByType2;
             } else {
                 textDetailSecureCell = textDetailSecureCell4;
-                tLRPC$TL_secureValue2 = valueByType2;
-                if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeEmail) {
+                tL_secureValue2 = valueByType2;
+                if (secureValueType instanceof TLRPC.TL_secureValueTypeEmail) {
                     sb3 = str;
                 } else {
                     sb3 = null;
                 }
             }
         } else {
-            if (this.currentActivityType == 8 || tLRPC$TL_secureRequiredType2 == null || (TextUtils.isEmpty(str3) && valueByType2 == null)) {
+            if (this.currentActivityType == 8 || tL_secureRequiredType2 == null || (TextUtils.isEmpty(str3) && valueByType2 == null)) {
                 sb2 = sb;
             } else {
                 sb2 = new StringBuilder();
                 if (i > 1) {
-                    string2 = getTextForType(tLRPC$TL_secureRequiredType2.type);
+                    string2 = getTextForType(tL_secureRequiredType2.type);
                 } else if (TextUtils.isEmpty(str3)) {
                     string2 = LocaleController.getString(R.string.PassportDocuments);
                 }
@@ -9608,18 +9502,18 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             }
             if (str7 == null && str8 == null) {
                 textDetailSecureCell = textDetailSecureCell4;
-                tLRPC$TL_secureValue2 = valueByType2;
+                tL_secureValue2 = valueByType2;
             } else if (hashMap4 == null) {
                 return;
             } else {
                 hashMap4.clear();
-                TLRPC$SecureValueType tLRPC$SecureValueType2 = tLRPC$TL_secureRequiredType.type;
+                TLRPC.SecureValueType secureValueType2 = tL_secureRequiredType.type;
                 String str9 = "last_name";
-                tLRPC$TL_secureValue2 = valueByType2;
+                tL_secureValue2 = valueByType2;
                 textDetailSecureCell = textDetailSecureCell4;
-                if (tLRPC$SecureValueType2 instanceof TLRPC$TL_secureValueTypePersonalDetails) {
+                if (secureValueType2 instanceof TLRPC.TL_secureValueTypePersonalDetails) {
                     int i7 = this.currentActivityType;
-                    if ((i7 != 0 || z) && !(i7 == 8 && tLRPC$TL_secureRequiredType2 == null)) {
+                    if ((i7 != 0 || z) && !(i7 == 8 && tL_secureRequiredType2 == null)) {
                         obj = "gender";
                         i5 = 8;
                         strArr2 = null;
@@ -9628,10 +9522,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         i5 = 8;
                         strArr2 = new String[]{"first_name", "middle_name", "last_name", "first_name_native", "middle_name_native", "last_name_native", "birth_date", "gender", "country_code", "residence_country_code"};
                     }
-                    strArr = (i7 == 0 || (i7 == i5 && tLRPC$TL_secureRequiredType2 != null)) ? new String[]{"document_no", "expiry_date"} : null;
+                    strArr = (i7 == 0 || (i7 == i5 && tL_secureRequiredType2 != null)) ? new String[]{"document_no", "expiry_date"} : null;
                 } else {
                     obj = "gender";
-                    if (!(tLRPC$SecureValueType2 instanceof TLRPC$TL_secureValueTypeAddress) || (((i2 = this.currentActivityType) != 0 || z) && !(i2 == 8 && tLRPC$TL_secureRequiredType2 == null))) {
+                    if (!(secureValueType2 instanceof TLRPC.TL_secureValueTypeAddress) || (((i2 = this.currentActivityType) != 0 || z) && !(i2 == 8 && tL_secureRequiredType2 == null))) {
                         strArr = null;
                         strArr2 = null;
                     } else {
@@ -9840,30 +9734,30 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             sb3 = null;
         }
         if (z) {
-            tLRPC$TL_secureRequiredType3 = tLRPC$TL_secureRequiredType;
+            tL_secureRequiredType3 = tL_secureRequiredType;
             hashMap3 = null;
         } else {
-            tLRPC$TL_secureRequiredType3 = tLRPC$TL_secureRequiredType;
-            hashMap3 = (HashMap) this.errorsMap.get(getNameForType(tLRPC$TL_secureRequiredType3.type));
+            tL_secureRequiredType3 = tL_secureRequiredType;
+            hashMap3 = (HashMap) this.errorsMap.get(getNameForType(tL_secureRequiredType3.type));
         }
-        HashMap hashMap6 = tLRPC$TL_secureRequiredType2 != null ? (HashMap) this.errorsMap.get(getNameForType(tLRPC$TL_secureRequiredType2.type)) : null;
+        HashMap hashMap6 = tL_secureRequiredType2 != null ? (HashMap) this.errorsMap.get(getNameForType(tL_secureRequiredType2.type)) : null;
         if ((hashMap3 == null || hashMap3.size() <= 0) && (hashMap6 == null || hashMap6.size() <= 0)) {
-            TLRPC$SecureValueType tLRPC$SecureValueType3 = tLRPC$TL_secureRequiredType3.type;
-            if (tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypePersonalDetails) {
+            TLRPC.SecureValueType secureValueType3 = tL_secureRequiredType3.type;
+            if (secureValueType3 instanceof TLRPC.TL_secureValueTypePersonalDetails) {
                 if (TextUtils.isEmpty(sb3)) {
-                    if (tLRPC$TL_secureRequiredType2 == null) {
+                    if (tL_secureRequiredType2 == null) {
                         i6 = R.string.PassportPersonalDetailsInfo;
                     } else {
                         if (this.currentActivityType != 8) {
                             if (i == 1) {
-                                TLRPC$SecureValueType tLRPC$SecureValueType4 = tLRPC$TL_secureRequiredType2.type;
-                                if (tLRPC$SecureValueType4 instanceof TLRPC$TL_secureValueTypePassport) {
+                                TLRPC.SecureValueType secureValueType4 = tL_secureRequiredType2.type;
+                                if (secureValueType4 instanceof TLRPC.TL_secureValueTypePassport) {
                                     i6 = R.string.PassportIdentityPassport;
-                                } else if (tLRPC$SecureValueType4 instanceof TLRPC$TL_secureValueTypeInternalPassport) {
+                                } else if (secureValueType4 instanceof TLRPC.TL_secureValueTypeInternalPassport) {
                                     i6 = R.string.PassportIdentityInternalPassport;
-                                } else if (tLRPC$SecureValueType4 instanceof TLRPC$TL_secureValueTypeDriverLicense) {
+                                } else if (secureValueType4 instanceof TLRPC.TL_secureValueTypeDriverLicense) {
                                     i6 = R.string.PassportIdentityDriverLicence;
-                                } else if (tLRPC$SecureValueType4 instanceof TLRPC$TL_secureValueTypeIdentityCard) {
+                                } else if (secureValueType4 instanceof TLRPC.TL_secureValueTypeIdentityCard) {
                                     i6 = R.string.PassportIdentityID;
                                 }
                             } else {
@@ -9878,9 +9772,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 }
                 textDetailSecureCell2 = textDetailSecureCell;
                 z3 = false;
-            } else if (tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypeAddress) {
+            } else if (secureValueType3 instanceof TLRPC.TL_secureValueTypeAddress) {
                 if (TextUtils.isEmpty(sb3)) {
-                    if (tLRPC$TL_secureRequiredType2 == null) {
+                    if (tL_secureRequiredType2 == null) {
                         i6 = R.string.PassportAddressNoUploadInfo;
                         sb3 = LocaleController.getString(i6);
                         textDetailSecureCell2 = textDetailSecureCell;
@@ -9888,17 +9782,17 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     } else {
                         if (this.currentActivityType != 8) {
                             if (i == 1) {
-                                TLRPC$SecureValueType tLRPC$SecureValueType5 = tLRPC$TL_secureRequiredType2.type;
-                                if (tLRPC$SecureValueType5 instanceof TLRPC$TL_secureValueTypeRentalAgreement) {
+                                TLRPC.SecureValueType secureValueType5 = tL_secureRequiredType2.type;
+                                if (secureValueType5 instanceof TLRPC.TL_secureValueTypeRentalAgreement) {
                                     i6 = R.string.PassportAddAgreementInfo;
-                                } else if (tLRPC$SecureValueType5 instanceof TLRPC$TL_secureValueTypeUtilityBill) {
+                                } else if (secureValueType5 instanceof TLRPC.TL_secureValueTypeUtilityBill) {
                                     i6 = R.string.PassportAddBillInfo;
-                                } else if (tLRPC$SecureValueType5 instanceof TLRPC$TL_secureValueTypePassportRegistration) {
+                                } else if (secureValueType5 instanceof TLRPC.TL_secureValueTypePassportRegistration) {
                                     i6 = R.string.PassportAddPassportRegistrationInfo;
-                                } else if (tLRPC$SecureValueType5 instanceof TLRPC$TL_secureValueTypeTemporaryRegistration) {
+                                } else if (secureValueType5 instanceof TLRPC.TL_secureValueTypeTemporaryRegistration) {
                                     i6 = R.string.PassportAddTemporaryRegistrationInfo;
                                 } else {
-                                    if (tLRPC$SecureValueType5 instanceof TLRPC$TL_secureValueTypeBankStatement) {
+                                    if (secureValueType5 instanceof TLRPC.TL_secureValueTypeBankStatement) {
                                         i6 = R.string.PassportAddBankInfo;
                                     }
                                     textDetailSecureCell2 = textDetailSecureCell;
@@ -9919,7 +9813,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 }
                 textDetailSecureCell2 = textDetailSecureCell;
                 z3 = false;
-            } else if (tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypePhone) {
+            } else if (secureValueType3 instanceof TLRPC.TL_secureValueTypePhone) {
                 if (TextUtils.isEmpty(sb3)) {
                     i6 = R.string.PassportPhoneInfo;
                     sb3 = LocaleController.getString(i6);
@@ -9927,7 +9821,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 textDetailSecureCell2 = textDetailSecureCell;
                 z3 = false;
             } else {
-                if ((tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypeEmail) && TextUtils.isEmpty(sb3)) {
+                if ((secureValueType3 instanceof TLRPC.TL_secureValueTypeEmail) && TextUtils.isEmpty(sb3)) {
                     i6 = R.string.PassportEmailInfo;
                     sb3 = LocaleController.getString(i6);
                 }
@@ -9935,14 +9829,14 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 z3 = false;
             }
         } else {
-            String str11 = !z ? (String) this.mainErrorsMap.get(getNameForType(tLRPC$TL_secureRequiredType3.type)) : null;
-            sb3 = str11 == null ? (String) this.mainErrorsMap.get(getNameForType(tLRPC$TL_secureRequiredType2.type)) : str11;
+            String str11 = !z ? (String) this.mainErrorsMap.get(getNameForType(tL_secureRequiredType3.type)) : null;
+            sb3 = str11 == null ? (String) this.mainErrorsMap.get(getNameForType(tL_secureRequiredType2.type)) : str11;
             textDetailSecureCell2 = textDetailSecureCell;
             z3 = true;
         }
         textDetailSecureCell2.setValue(sb3);
         textDetailSecureCell2.valueTextView.setTextColor(Theme.getColor(z3 ? Theme.key_text_RedRegular : Theme.key_windowBackgroundWhiteGrayText2));
-        textDetailSecureCell2.setChecked((z3 || this.currentActivityType == 8 || ((!z || tLRPC$TL_secureRequiredType2 == null) && (z || tLRPC$TL_secureValue == null)) || (tLRPC$TL_secureRequiredType2 != null && tLRPC$TL_secureValue2 == null)) ? false : true);
+        textDetailSecureCell2.setChecked((z3 || this.currentActivityType == 8 || ((!z || tL_secureRequiredType2 == null) && (z || tL_secureValue == null)) || (tL_secureRequiredType2 != null && tL_secureValue2 == null)) ? false : true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -10118,47 +10012,47 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 }
             }
         }
-        final TLRPC$TL_account_sendVerifyPhoneCode tLRPC$TL_account_sendVerifyPhoneCode = new TLRPC$TL_account_sendVerifyPhoneCode();
-        tLRPC$TL_account_sendVerifyPhoneCode.phone_number = str;
-        TLRPC$TL_codeSettings tLRPC$TL_codeSettings = new TLRPC$TL_codeSettings();
-        tLRPC$TL_account_sendVerifyPhoneCode.settings = tLRPC$TL_codeSettings;
-        tLRPC$TL_codeSettings.allow_flashcall = z3 && z2;
-        tLRPC$TL_codeSettings.allow_app_hash = PushListenerController.GooglePushListenerServiceProvider.INSTANCE.hasServices();
+        final TLRPC.TL_account_sendVerifyPhoneCode tL_account_sendVerifyPhoneCode = new TLRPC.TL_account_sendVerifyPhoneCode();
+        tL_account_sendVerifyPhoneCode.phone_number = str;
+        TLRPC.TL_codeSettings tL_codeSettings = new TLRPC.TL_codeSettings();
+        tL_account_sendVerifyPhoneCode.settings = tL_codeSettings;
+        tL_codeSettings.allow_flashcall = z3 && z2;
+        tL_codeSettings.allow_app_hash = PushListenerController.GooglePushListenerServiceProvider.INSTANCE.hasServices();
         SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
-        boolean z4 = tLRPC$TL_account_sendVerifyPhoneCode.settings.allow_app_hash;
+        boolean z4 = tL_account_sendVerifyPhoneCode.settings.allow_app_hash;
         SharedPreferences.Editor edit = sharedPreferences.edit();
         (z4 ? edit.putString("sms_hash", BuildVars.getSmsHash()) : edit.remove("sms_hash")).commit();
-        if (tLRPC$TL_account_sendVerifyPhoneCode.settings.allow_flashcall) {
+        if (tL_account_sendVerifyPhoneCode.settings.allow_flashcall) {
             try {
                 String line1Number = telephonyManager.getLine1Number();
                 if (TextUtils.isEmpty(line1Number)) {
-                    TLRPC$TL_codeSettings tLRPC$TL_codeSettings2 = tLRPC$TL_account_sendVerifyPhoneCode.settings;
-                    tLRPC$TL_codeSettings2.unknown_number = true;
-                    tLRPC$TL_codeSettings2.current_number = false;
+                    TLRPC.TL_codeSettings tL_codeSettings2 = tL_account_sendVerifyPhoneCode.settings;
+                    tL_codeSettings2.unknown_number = true;
+                    tL_codeSettings2.current_number = false;
                 } else {
-                    tLRPC$TL_account_sendVerifyPhoneCode.settings.current_number = PhoneNumberUtils.compare(str, line1Number);
-                    TLRPC$TL_codeSettings tLRPC$TL_codeSettings3 = tLRPC$TL_account_sendVerifyPhoneCode.settings;
-                    if (!tLRPC$TL_codeSettings3.current_number) {
-                        tLRPC$TL_codeSettings3.allow_flashcall = false;
+                    tL_account_sendVerifyPhoneCode.settings.current_number = PhoneNumberUtils.compare(str, line1Number);
+                    TLRPC.TL_codeSettings tL_codeSettings3 = tL_account_sendVerifyPhoneCode.settings;
+                    if (!tL_codeSettings3.current_number) {
+                        tL_codeSettings3.allow_flashcall = false;
                     }
                 }
             } catch (Exception e) {
-                tLRPC$TL_account_sendVerifyPhoneCode.settings.allow_flashcall = false;
+                tL_account_sendVerifyPhoneCode.settings.allow_flashcall = false;
                 FileLog.e(e);
             }
         }
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_sendVerifyPhoneCode, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda54
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_sendVerifyPhoneCode, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda54
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                PassportActivity.this.lambda$startPhoneVerification$66(str, passportActivityDelegate, tLRPC$TL_account_sendVerifyPhoneCode, tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                PassportActivity.this.lambda$startPhoneVerification$66(str, passportActivityDelegate, tL_account_sendVerifyPhoneCode, tLObject, tL_error);
             }
         }, 2);
     }
 
     private void updateInterfaceStringsForDocumentType() {
-        TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType = this.currentDocumentsType;
-        if (tLRPC$TL_secureRequiredType != null) {
-            this.actionBar.setTitle(getTextForType(tLRPC$TL_secureRequiredType.type));
+        TLRPC.TL_secureRequiredType tL_secureRequiredType = this.currentDocumentsType;
+        if (tL_secureRequiredType != null) {
+            this.actionBar.setTitle(getTextForType(tL_secureRequiredType.type));
         } else {
             this.actionBar.setTitle(LocaleController.getString(R.string.PassportPersonal));
         }
@@ -10200,8 +10094,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         if (imageView == null) {
             return;
         }
-        TLRPC$account_Password tLRPC$account_Password = this.currentPassword;
-        if (tLRPC$account_Password == null || this.usingSavedPassword != 0) {
+        TLRPC.account_Password account_password = this.currentPassword;
+        if (account_password == null || this.usingSavedPassword != 0) {
             imageView.setVisibility(8);
             this.noPasswordTextView.setVisibility(8);
             this.noPasswordSetTextView.setVisibility(8);
@@ -10212,7 +10106,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             this.passwordInfoRequestTextView.setVisibility(8);
             this.passwordRequestTextView.setVisibility(8);
             this.emptyView.setVisibility(0);
-        } else if (!tLRPC$account_Password.has_password) {
+        } else if (!account_password.has_password) {
             this.passwordRequestTextView.setVisibility(0);
             this.noPasswordImageView.setVisibility(0);
             this.noPasswordTextView.setVisibility(0);
@@ -10237,8 +10131,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             this.passwordInfoRequestTextView.setVisibility(0);
             this.passwordRequestTextView.setLayoutParams(LayoutHelper.createLinear(-1, -2, 0.0f, 0.0f, 0.0f, 0.0f));
             if (this.inputFields != null) {
-                TLRPC$account_Password tLRPC$account_Password2 = this.currentPassword;
-                if (tLRPC$account_Password2 == null || TextUtils.isEmpty(tLRPC$account_Password2.hint)) {
+                TLRPC.account_Password account_password2 = this.currentPassword;
+                if (account_password2 == null || TextUtils.isEmpty(account_password2.hint)) {
                     editTextBoldCursor = this.inputFields[0];
                     string = LocaleController.getString(R.string.LoginPassword);
                 } else {
@@ -10255,7 +10149,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         if (r6.selfieDocument != null) goto L24;
      */
     /* JADX WARN: Code restructure failed: missing block: B:43:0x0060, code lost:
-        if ((r4 instanceof org.telegram.tgnet.TLRPC$TL_secureValueTypeDriverLicense) == false) goto L56;
+        if ((r4 instanceof org.telegram.tgnet.TLRPC.TL_secureValueTypeDriverLicense) == false) goto L56;
      */
     /* JADX WARN: Code restructure failed: missing block: B:55:0x008c, code lost:
         if (r6.frontDocument == null) goto L22;
@@ -10271,7 +10165,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     */
     public void updateUploadText(int i) {
         TextDetailSettingsCell textDetailSettingsCell;
-        TLRPC$SecureValueType tLRPC$SecureValueType;
+        TLRPC.SecureValueType secureValueType;
         String string;
         int i2;
         TextSettingsCell textSettingsCell;
@@ -10300,15 +10194,15 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 if (textDetailSettingsCell2 == null) {
                     return;
                 }
-                TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType = this.currentDocumentsType;
-                if (tLRPC$TL_secureRequiredType != null) {
-                    if (!tLRPC$TL_secureRequiredType.selfie_required) {
-                        TLRPC$SecureValueType tLRPC$SecureValueType2 = tLRPC$TL_secureRequiredType.type;
-                        if (!(tLRPC$SecureValueType2 instanceof TLRPC$TL_secureValueTypeIdentityCard)) {
+                TLRPC.TL_secureRequiredType tL_secureRequiredType = this.currentDocumentsType;
+                if (tL_secureRequiredType != null) {
+                    if (!tL_secureRequiredType.selfie_required) {
+                        TLRPC.SecureValueType secureValueType2 = tL_secureRequiredType.type;
+                        if (!(secureValueType2 instanceof TLRPC.TL_secureValueTypeIdentityCard)) {
                         }
                     }
-                    tLRPC$SecureValueType = tLRPC$TL_secureRequiredType.type;
-                    if (!(tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePassport) || (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeInternalPassport)) {
+                    secureValueType = tL_secureRequiredType.type;
+                    if (!(secureValueType instanceof TLRPC.TL_secureValueTypePassport) || (secureValueType instanceof TLRPC.TL_secureValueTypeInternalPassport)) {
                         string = LocaleController.getString(R.string.PassportMainPage);
                         i2 = R.string.PassportMainPageInfo;
                     } else {
@@ -10319,8 +10213,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     textDetailSettingsCell = this.uploadFrontCell;
                 }
                 z = false;
-                tLRPC$SecureValueType = tLRPC$TL_secureRequiredType.type;
-                if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePassport) {
+                secureValueType = tL_secureRequiredType.type;
+                if (secureValueType instanceof TLRPC.TL_secureValueTypePassport) {
                 }
                 string = LocaleController.getString(R.string.PassportMainPage);
                 i2 = R.string.PassportMainPageInfo;
@@ -10329,8 +10223,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             } else if (i != 3 || this.uploadReverseCell == null) {
                 return;
             } else {
-                TLRPC$SecureValueType tLRPC$SecureValueType3 = this.currentDocumentsType.type;
-                if (!(tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypeIdentityCard) && !(tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypeDriverLicense)) {
+                TLRPC.SecureValueType secureValueType3 = this.currentDocumentsType.type;
+                if (!(secureValueType3 instanceof TLRPC.TL_secureValueTypeIdentityCard) && !(secureValueType3 instanceof TLRPC.TL_secureValueTypeDriverLicense)) {
                     this.reverseLayout.setVisibility(8);
                     this.uploadReverseCell.setVisibility(8);
                     return;
@@ -10478,17 +10372,17 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         editTextBoldCursor.setText((String) obj);
                     }
                     if (objArr[6] == null) {
-                        TLRPC$TL_account_password tLRPC$TL_account_password = new TLRPC$TL_account_password();
-                        this.currentPassword = tLRPC$TL_account_password;
-                        tLRPC$TL_account_password.current_algo = (TLRPC$PasswordKdfAlgo) objArr[1];
-                        tLRPC$TL_account_password.new_secure_algo = (TLRPC$SecurePasswordKdfAlgo) objArr[2];
-                        tLRPC$TL_account_password.secure_random = (byte[]) objArr[3];
-                        tLRPC$TL_account_password.has_recovery = !TextUtils.isEmpty((String) objArr[4]);
-                        TLRPC$account_Password tLRPC$account_Password = this.currentPassword;
-                        tLRPC$account_Password.hint = (String) objArr[5];
-                        tLRPC$account_Password.srp_id = -1L;
+                        TLRPC.TL_account_password tL_account_password = new TLRPC.TL_account_password();
+                        this.currentPassword = tL_account_password;
+                        tL_account_password.current_algo = (TLRPC.PasswordKdfAlgo) objArr[1];
+                        tL_account_password.new_secure_algo = (TLRPC.SecurePasswordKdfAlgo) objArr[2];
+                        tL_account_password.secure_random = (byte[]) objArr[3];
+                        tL_account_password.has_recovery = !TextUtils.isEmpty((String) objArr[4]);
+                        TLRPC.account_Password account_password = this.currentPassword;
+                        account_password.hint = (String) objArr[5];
+                        account_password.srp_id = -1L;
                         byte[] bArr = new byte[256];
-                        tLRPC$account_Password.srp_B = bArr;
+                        account_password.srp_B = bArr;
                         Utilities.random.nextBytes(bArr);
                         EditTextBoldCursor editTextBoldCursor2 = this.inputFields[0];
                         if (editTextBoldCursor2 != null && editTextBoldCursor2.length() > 0) {
@@ -10504,7 +10398,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         String str2 = (String) objArr[0];
         SecureDocument secureDocument = (SecureDocument) this.uploadingDocuments.get(str2);
         if (secureDocument != null) {
-            secureDocument.inputFile = (TLRPC$TL_inputFile) objArr[1];
+            secureDocument.inputFile = (TLRPC.TL_inputFile) objArr[1];
             this.uploadingDocuments.remove(str2);
             if (this.uploadingDocuments.isEmpty() && (actionBarMenuItem = this.doneItem) != null) {
                 actionBarMenuItem.setEnabled(true);

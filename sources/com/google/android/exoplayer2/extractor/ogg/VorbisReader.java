@@ -54,7 +54,7 @@ final class VorbisReader extends StreamReader {
     }
 
     static int readBits(byte b, int i, int i2) {
-        return (b >> i2) & (NotificationCenter.didClearDatabase >>> (8 - i));
+        return (b >> i2) & (NotificationCenter.messagePlayingSpeedChanged >>> (8 - i));
     }
 
     public static boolean verifyBitstreamType(ParsableByteArray parsableByteArray) {

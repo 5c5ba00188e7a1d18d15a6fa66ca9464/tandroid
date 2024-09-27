@@ -2,7 +2,6 @@ package com.google.android.gms.internal.clearcut;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.ConnectionsManager;
 /* JADX INFO: Access modifiers changed from: package-private */
@@ -179,7 +178,7 @@ public final class zzed {
             this.zzny = this.zznh.next();
             int next = this.zznh.next();
             this.zznz = next;
-            int i2 = next & NotificationCenter.didClearDatabase;
+            int i2 = next & NotificationCenter.messagePlayingSpeedChanged;
             this.zzoa = i2;
             int i3 = this.zzny;
             if (i3 < this.zznr) {
@@ -319,7 +318,7 @@ public final class zzed {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final boolean zzdi() {
-        return (this.zznz & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
+        return (this.zznz & 512) != 0;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

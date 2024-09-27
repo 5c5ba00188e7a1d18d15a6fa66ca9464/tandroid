@@ -178,12 +178,12 @@ public class WebmEncoder {
             mediaEntity.H = i3;
             if (i2 > 512) {
                 mediaEntity.H = (int) ((i3 / i2) * 512.0f);
-                mediaEntity.W = LiteMode.FLAG_CALLS_ANIMATIONS;
+                mediaEntity.W = 512;
             }
             int i4 = mediaEntity.H;
             if (i4 > 512) {
                 mediaEntity.W = (int) ((mediaEntity.W / i4) * 512.0f);
-                mediaEntity.H = LiteMode.FLAG_CALLS_ANIMATIONS;
+                mediaEntity.H = 512;
             }
             byte b = mediaEntity.subType;
             if ((b & 1) != 0) {
@@ -198,7 +198,7 @@ public class WebmEncoder {
                 mediaEntity.framesPerDraw = mediaEntity.metadata[1] / this.fps;
             } else if ((b & 4) != 0) {
                 mediaEntity.looped = false;
-                mediaEntity.animatedFileDrawable = new AnimatedFileDrawable(new File(mediaEntity.text), true, 0L, 0, null, null, null, 0L, UserConfig.selectedAccount, true, LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS, null);
+                mediaEntity.animatedFileDrawable = new AnimatedFileDrawable(new File(mediaEntity.text), true, 0L, 0, null, null, null, 0L, UserConfig.selectedAccount, true, 512, 512, null);
                 mediaEntity.framesPerDraw = animatedFileDrawable.getFps() / this.fps;
                 mediaEntity.currentFrame = 1.0f;
                 mediaEntity.animatedFileDrawable.getNextFrame(true);

@@ -649,7 +649,7 @@ public final class zzdi implements zzdp {
                 iArr[i63] = i64;
                 i63++;
             }
-            int i73 = charAt25 & NotificationCenter.didClearDatabase;
+            int i73 = charAt25 & NotificationCenter.messagePlayingSpeedChanged;
             if (i73 >= 51) {
                 int i74 = i16 + 1;
                 int charAt26 = zzd.charAt(i16);
@@ -824,7 +824,7 @@ public final class zzdi implements zzdp {
             int i97 = i64 + 1;
             iArr2[i64] = charAt24;
             int i98 = i64 + 2;
-            iArr2[i97] = i24 | ((charAt25 & 256) != 0 ? 268435456 : 0) | ((charAt25 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0 ? 536870912 : 0) | (i73 << 20);
+            iArr2[i97] = i24 | ((charAt25 & 256) != 0 ? 268435456 : 0) | ((charAt25 & 512) != 0 ? 536870912 : 0) | (i73 << 20);
             i64 += 3;
             iArr2[i98] = (i23 << 20) | i20;
             i2 = i21;
@@ -1916,7 +1916,7 @@ public final class zzdi implements zzdp {
     }
 
     private static int zzx(int i) {
-        return (i >>> 20) & NotificationCenter.didClearDatabase;
+        return (i >>> 20) & NotificationCenter.messagePlayingSpeedChanged;
     }
 
     private final int zzy(int i) {

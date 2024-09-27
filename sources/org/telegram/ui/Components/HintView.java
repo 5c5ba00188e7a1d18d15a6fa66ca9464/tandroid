@@ -23,7 +23,7 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
@@ -629,7 +629,7 @@ public class HintView extends FrameLayout {
                     this.textView.setText(str);
                 }
                 measure(View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE));
-                TLRPC$User currentUser = chatMessageCell.getCurrentUser();
+                TLRPC.User currentUser = chatMessageCell.getCurrentUser();
                 if (currentUser == null || currentUser.id != 0) {
                     dp = i6 + AndroidUtilities.dp(22.0f);
                     if (!messageObject.isOutOwner() && chatMessageCell.isDrawNameLayout()) {

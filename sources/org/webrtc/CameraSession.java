@@ -29,7 +29,7 @@ public interface CameraSession {
                     if (rotation != 3) {
                         return 0;
                     }
-                    return NotificationCenter.onActivityResultReceived;
+                    return NotificationCenter.onDatabaseOpened;
                 }
                 return NotificationCenter.updateBotMenuButton;
             }

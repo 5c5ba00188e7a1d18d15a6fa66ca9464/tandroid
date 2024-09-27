@@ -24,11 +24,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$MessagePeerReaction;
-import org.telegram.tgnet.TLRPC$TL_availableReaction;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -661,7 +657,7 @@ public class ReactionsEffectOverlay {
             AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
             if (animatedEmojiDrawable != null) {
                 animatedEmojiDrawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                this.animatedEmojiDrawable.setAlpha(NotificationCenter.didClearDatabase);
+                this.animatedEmojiDrawable.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                 this.animatedEmojiDrawable.draw(canvas);
             } else {
                 AnimatedEmojiEffect animatedEmojiEffect = this.emojiEffect;
@@ -736,7 +732,7 @@ public class ReactionsEffectOverlay {
     /* JADX WARN: Type inference failed for: r15v15 */
     /* JADX WARN: Type inference failed for: r15v16 */
     /* JADX WARN: Type inference failed for: r15v4 */
-    /* JADX WARN: Type inference failed for: r15v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r15v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r15v6 */
     /* JADX WARN: Type inference failed for: r15v7 */
     /*
@@ -767,7 +763,7 @@ public class ReactionsEffectOverlay {
         boolean z2;
         String str;
         Random random;
-        TLRPC$User tLRPC$User;
+        TLRPC.User user;
         this.holderView = null;
         this.fragment = baseFragment;
         this.isStories = z;
@@ -813,32 +809,32 @@ public class ReactionsEffectOverlay {
         float f8 = 0.8f;
         if (i2 == 1) {
             Random random2 = new Random();
-            ArrayList arrayList = (chatMessageCell2 == null || chatMessageCell.getMessageObject().messageOwner.reactions == null) ? null : chatMessageCell.getMessageObject().messageOwner.reactions.recent_reactions;
+            ArrayList<TLRPC.MessagePeerReaction> arrayList = (chatMessageCell2 == null || chatMessageCell.getMessageObject().messageOwner.reactions == null) ? null : chatMessageCell.getMessageObject().messageOwner.reactions.recent_reactions;
             if (arrayList != null && chatActivity != null && chatActivity.getDialogId() < j) {
                 int i11 = 0;
                 while (i11 < arrayList.size()) {
-                    if (this.reaction.equals(((TLRPC$MessagePeerReaction) arrayList.get(i11)).reaction) && ((TLRPC$MessagePeerReaction) arrayList.get(i11)).unread) {
+                    if (this.reaction.equals(arrayList.get(i11).reaction) && arrayList.get(i11).unread) {
                         AvatarDrawable avatarDrawable = new AvatarDrawable();
                         ImageReceiver imageReceiver = new ImageReceiver();
-                        long peerId = MessageObject.getPeerId(((TLRPC$MessagePeerReaction) arrayList.get(i11)).peer_id);
+                        long peerId = MessageObject.getPeerId(arrayList.get(i11).peer_id);
                         if (peerId < j) {
-                            TLRPC$Chat chat = MessagesController.getInstance(i).getChat(Long.valueOf(-peerId));
+                            TLRPC.Chat chat = MessagesController.getInstance(i).getChat(Long.valueOf(-peerId));
                             if (chat != null) {
                                 avatarDrawable.setInfo(i, chat);
-                                tLRPC$User = chat;
+                                user = chat;
                             }
                         } else {
-                            TLRPC$User user = MessagesController.getInstance(i).getUser(Long.valueOf(peerId));
-                            if (user != null) {
-                                avatarDrawable.setInfo(i, user);
-                                tLRPC$User = user;
+                            TLRPC.User user2 = MessagesController.getInstance(i).getUser(Long.valueOf(peerId));
+                            if (user2 != null) {
+                                avatarDrawable.setInfo(i, user2);
+                                user = user2;
                             }
                             random = random2;
                             i11++;
                             random2 = random;
                             f8 = 0.8f;
                         }
-                        imageReceiver.setForUserOrChat(tLRPC$User, avatarDrawable);
+                        imageReceiver.setForUserOrChat(user, avatarDrawable);
                         AvatarParticle avatarParticle = new AvatarParticle(this, null);
                         avatarParticle.imageReceiver = imageReceiver;
                         avatarParticle.fromX = 0.5f;
@@ -992,17 +988,17 @@ public class ReactionsEffectOverlay {
         this.emojiImageView = animationView2;
         AnimationView animationView3 = new AnimationView(context);
         this.emojiStaticImageView = animationView3;
-        TLRPC$TL_availableReaction tLRPC$TL_availableReaction = visibleReaction.emojicon != null ? MediaDataController.getInstance(i).getReactionsMap().get(this.reaction.emojicon) : null;
-        if (tLRPC$TL_availableReaction == null && visibleReaction.documentId == j) {
+        TLRPC.TL_availableReaction tL_availableReaction = visibleReaction.emojicon != null ? MediaDataController.getInstance(i).getReactionsMap().get(this.reaction.emojicon) : null;
+        if (tL_availableReaction == null && visibleReaction.documentId == j) {
             this.dismissed = true;
             return;
         }
-        if (tLRPC$TL_availableReaction != null) {
+        if (tL_availableReaction != null) {
             i5 = i2;
             i6 = 2;
             if (i5 != 2) {
                 if ((i5 == 1 && LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_CHAT)) || i5 == 0) {
-                    TLRPC$Document tLRPC$Document = i5 == 1 ? tLRPC$TL_availableReaction.around_animation : tLRPC$TL_availableReaction.effect_animation;
+                    TLRPC.Document document = i5 == 1 ? tL_availableReaction.around_animation : tL_availableReaction.effect_animation;
                     if (i5 == 1) {
                         str = getFilterForAroundAnimation();
                     } else {
@@ -1018,7 +1014,7 @@ public class ReactionsEffectOverlay {
                     sb2.append(this.messageId);
                     sb2.append("_");
                     imageReceiver5.setUniqKeyPrefix(sb2.toString());
-                    animationView.setImage(ImageLocation.getForDocument(tLRPC$Document), str2, (ImageLocation) null, (String) null, 0, (Object) null);
+                    animationView.setImage(ImageLocation.getForDocument(document), str2, (ImageLocation) null, (String) null, 0, (Object) null);
                     z2 = false;
                     animationView.getImageReceiver().setAutoRepeat(0);
                     animationView.getImageReceiver().setAllowStartAnimation(false);
@@ -1035,7 +1031,7 @@ public class ReactionsEffectOverlay {
                 r15 = 0;
             }
             if (i5 == 2) {
-                TLRPC$Document tLRPC$Document2 = z ? tLRPC$TL_availableReaction.select_animation : tLRPC$TL_availableReaction.appear_animation;
+                TLRPC.Document document2 = z ? tL_availableReaction.select_animation : tL_availableReaction.appear_animation;
                 ImageReceiver imageReceiver6 = animationView2.getImageReceiver();
                 StringBuilder sb3 = new StringBuilder();
                 int i19 = uniqPrefix;
@@ -1045,13 +1041,13 @@ public class ReactionsEffectOverlay {
                 sb3.append(this.messageId);
                 sb3.append("_");
                 imageReceiver6.setUniqKeyPrefix(sb3.toString());
-                forDocument = ImageLocation.getForDocument(tLRPC$Document2);
+                forDocument = ImageLocation.getForDocument(document2);
                 sb = new StringBuilder();
                 i9 = i15;
             } else {
                 i9 = i15;
                 if (i5 == 0) {
-                    TLRPC$Document tLRPC$Document3 = tLRPC$TL_availableReaction.activate_animation;
+                    TLRPC.Document document3 = tL_availableReaction.activate_animation;
                     ImageReceiver imageReceiver7 = animationView2.getImageReceiver();
                     StringBuilder sb4 = new StringBuilder();
                     int i20 = uniqPrefix;
@@ -1061,7 +1057,7 @@ public class ReactionsEffectOverlay {
                     sb4.append(this.messageId);
                     sb4.append("_");
                     imageReceiver7.setUniqKeyPrefix(sb4.toString());
-                    forDocument = ImageLocation.getForDocument(tLRPC$Document3);
+                    forDocument = ImageLocation.getForDocument(document3);
                     sb = new StringBuilder();
                 }
             }
@@ -1125,8 +1121,8 @@ public class ReactionsEffectOverlay {
         ((FrameLayout.LayoutParams) animationView2.getLayoutParams()).topMargin = i22;
         ((FrameLayout.LayoutParams) animationView2.getLayoutParams()).leftMargin = i21;
         if (i5 != 1 && !z) {
-            if (tLRPC$TL_availableReaction != null) {
-                animationView3.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.center_icon), "40_40_lastreactframe", null, "webp", tLRPC$TL_availableReaction, 1);
+            if (tL_availableReaction != null) {
+                animationView3.getImageReceiver().setImage(ImageLocation.getForDocument(tL_availableReaction.center_icon), "40_40_lastreactframe", null, "webp", tL_availableReaction, 1);
             }
             frameLayout.addView(animationView3);
             animationView3.getLayoutParams().width = i14;

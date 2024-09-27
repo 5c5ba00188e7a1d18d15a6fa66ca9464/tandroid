@@ -6,13 +6,14 @@ import java.util.LinkedList;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.Utilities;
+import org.telegram.tgnet.TLRPC;
 /* loaded from: classes3.dex */
 public class NativeByteBuffer extends AbstractSerializedData {
-    private static final ThreadLocal<LinkedList<NativeByteBuffer>> addressWrappers = new ThreadLocal() { // from class: org.telegram.tgnet.NativeByteBuffer.1
+    private static final ThreadLocal<LinkedList<NativeByteBuffer>> addressWrappers = new ThreadLocal<LinkedList<NativeByteBuffer>>() { // from class: org.telegram.tgnet.NativeByteBuffer.1
         /* JADX INFO: Access modifiers changed from: protected */
         @Override // java.lang.ThreadLocal
-        public LinkedList initialValue() {
-            return new LinkedList();
+        public LinkedList<NativeByteBuffer> initialValue() {
+            return new LinkedList<>();
         }
     };
     protected long address;
@@ -93,6 +94,7 @@ public class NativeByteBuffer extends AbstractSerializedData {
         return b >= 0 ? b : b + 256;
     }
 
+    @Override // org.telegram.tgnet.AbstractSerializedData
     public int getPosition() {
         return this.buffer.position();
     }
@@ -110,6 +112,7 @@ public class NativeByteBuffer extends AbstractSerializedData {
         }
     }
 
+    @Override // org.telegram.tgnet.AbstractSerializedData
     public int length() {
         return !this.justCalc ? this.buffer.position() : this.len;
     }
@@ -249,6 +252,7 @@ public class NativeByteBuffer extends AbstractSerializedData {
         }
     }
 
+    @Override // org.telegram.tgnet.AbstractSerializedData
     public void readBytes(byte[] bArr, boolean z) {
         try {
             this.buffer.get(bArr);
@@ -263,6 +267,7 @@ public class NativeByteBuffer extends AbstractSerializedData {
         }
     }
 
+    @Override // org.telegram.tgnet.AbstractSerializedData
     public byte[] readData(int i, boolean z) {
         byte[] bArr = new byte[i];
         readBytes(bArr, z);
@@ -390,6 +395,7 @@ public class NativeByteBuffer extends AbstractSerializedData {
         }
     }
 
+    @Override // org.telegram.tgnet.AbstractSerializedData
     public void skip(int i) {
         if (i == 0) {
             return;
@@ -407,7 +413,7 @@ public class NativeByteBuffer extends AbstractSerializedData {
         if (this.justCalc) {
             this.len += 4;
         } else {
-            writeInt32(z ? -1720552011 : -1132882121);
+            writeInt32(z ? TLRPC.TL_boolTrue.constructor : TLRPC.TL_boolFalse.constructor);
         }
     }
 
@@ -427,6 +433,7 @@ public class NativeByteBuffer extends AbstractSerializedData {
         }
     }
 
+    @Override // org.telegram.tgnet.AbstractSerializedData
     public void writeByte(int i) {
         writeByte((byte) i);
     }
@@ -477,6 +484,7 @@ public class NativeByteBuffer extends AbstractSerializedData {
         }
     }
 
+    @Override // org.telegram.tgnet.AbstractSerializedData
     public void writeByteArray(byte[] bArr, int i, int i2) {
         int i3;
         ByteBuffer byteBuffer;
@@ -576,6 +584,7 @@ public class NativeByteBuffer extends AbstractSerializedData {
         this.buffer.put(nativeByteBuffer.buffer);
     }
 
+    @Override // org.telegram.tgnet.AbstractSerializedData
     public void writeBytes(byte[] bArr) {
         try {
             if (this.justCalc) {
@@ -591,6 +600,7 @@ public class NativeByteBuffer extends AbstractSerializedData {
         }
     }
 
+    @Override // org.telegram.tgnet.AbstractSerializedData
     public void writeBytes(byte[] bArr, int i, int i2) {
         try {
             if (this.justCalc) {

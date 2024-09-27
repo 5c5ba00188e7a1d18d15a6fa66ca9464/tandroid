@@ -41,30 +41,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.WebFile;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$BotInlineMessage;
-import org.telegram.tgnet.TLRPC$BotInlineResult;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$DocumentAttribute;
-import org.telegram.tgnet.TLRPC$GeoPoint;
-import org.telegram.tgnet.TLRPC$MessageMedia;
-import org.telegram.tgnet.TLRPC$Peer;
-import org.telegram.tgnet.TLRPC$Photo;
-import org.telegram.tgnet.TLRPC$PhotoSize;
-import org.telegram.tgnet.TLRPC$TL_botInlineMessageMediaGeo;
-import org.telegram.tgnet.TLRPC$TL_botInlineMessageMediaVenue;
-import org.telegram.tgnet.TLRPC$TL_document;
-import org.telegram.tgnet.TLRPC$TL_documentAttributeAudio;
-import org.telegram.tgnet.TLRPC$TL_documentAttributeFilename;
-import org.telegram.tgnet.TLRPC$TL_documentAttributeImageSize;
-import org.telegram.tgnet.TLRPC$TL_documentAttributeVideo;
-import org.telegram.tgnet.TLRPC$TL_message;
-import org.telegram.tgnet.TLRPC$TL_messageMediaDocument;
-import org.telegram.tgnet.TLRPC$TL_peerUser;
-import org.telegram.tgnet.TLRPC$TL_photo;
-import org.telegram.tgnet.TLRPC$TL_webDocument;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$VideoSize;
-import org.telegram.tgnet.TLRPC$WebDocument;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ContextLinkCell;
 import org.telegram.ui.Components.AnimationProperties;
@@ -91,18 +68,18 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
     private int currentAccount;
     private int currentDate;
     private MessageObject currentMessageObject;
-    private TLRPC$PhotoSize currentPhotoObject;
+    private TLRPC.PhotoSize currentPhotoObject;
     private ContextLinkCellDelegate delegate;
     private StaticLayout descriptionLayout;
     private int descriptionY;
-    private TLRPC$Document documentAttach;
+    private TLRPC.Document documentAttach;
     private int documentAttachType;
     private boolean drawLinkImageView;
     boolean fileExist;
     String fileName;
     private float imageScale;
-    private TLRPC$User inlineBot;
-    private TLRPC$BotInlineResult inlineResult;
+    private TLRPC.User inlineBot;
+    private TLRPC.BotInlineResult inlineResult;
     private boolean isForceGif;
     private boolean isKeyboard;
     private LetterDrawable letterDrawable;
@@ -113,7 +90,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
     private boolean needDivider;
     private boolean needShadow;
     private Object parentObject;
-    private TLRPC$Photo photoAttach;
+    private TLRPC.Photo photoAttach;
     private RadialProgress2 radialProgress;
     int resolveFileNameId;
     boolean resolvingFileName;
@@ -164,7 +141,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                     str2 = FileLoader.getAttachFileName(ContextLinkCell.this.documentAttach);
                     file = FileLoader.getInstance(ContextLinkCell.this.currentAccount).getPathToAttach(ContextLinkCell.this.documentAttach);
                 } else {
-                    if (ContextLinkCell.this.inlineResult.content instanceof TLRPC$TL_webDocument) {
+                    if (ContextLinkCell.this.inlineResult.content instanceof TLRPC.TL_webDocument) {
                         StringBuilder sb = new StringBuilder();
                         sb.append(Utilities.MD5(ContextLinkCell.this.inlineResult.content.url));
                         sb.append(".");
@@ -180,26 +157,26 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
             } else {
                 if (ContextLinkCell.this.mediaWebpage) {
                     if (ContextLinkCell.this.inlineResult != null) {
-                        if (ContextLinkCell.this.inlineResult.document instanceof TLRPC$TL_document) {
+                        if (ContextLinkCell.this.inlineResult.document instanceof TLRPC.TL_document) {
                             attachFileName = FileLoader.getAttachFileName(ContextLinkCell.this.inlineResult.document);
                             fileLoader = FileLoader.getInstance(ContextLinkCell.this.currentAccount);
                             tLObject = ContextLinkCell.this.inlineResult.document;
-                        } else if (ContextLinkCell.this.inlineResult.photo instanceof TLRPC$TL_photo) {
+                        } else if (ContextLinkCell.this.inlineResult.photo instanceof TLRPC.TL_photo) {
                             ContextLinkCell contextLinkCell = ContextLinkCell.this;
                             contextLinkCell.currentPhotoObject = FileLoader.getClosestPhotoSizeWithSize(contextLinkCell.inlineResult.photo.sizes, AndroidUtilities.getPhotoSize(), true);
                             attachFileName = FileLoader.getAttachFileName(ContextLinkCell.this.currentPhotoObject);
                             fileLoader = FileLoader.getInstance(ContextLinkCell.this.currentAccount);
                             tLObject = ContextLinkCell.this.currentPhotoObject;
                         } else {
-                            if (ContextLinkCell.this.inlineResult.content instanceof TLRPC$TL_webDocument) {
+                            if (ContextLinkCell.this.inlineResult.content instanceof TLRPC.TL_webDocument) {
                                 attachFileName = Utilities.MD5(ContextLinkCell.this.inlineResult.content.url) + "." + ImageLoader.getHttpUrlExtension(ContextLinkCell.this.inlineResult.content.url, FileLoader.getMimeTypePart(ContextLinkCell.this.inlineResult.content.mime_type));
                                 file4 = new File(FileLoader.getDirectory(4), attachFileName);
-                                if (ContextLinkCell.this.documentAttachType == 2 && (ContextLinkCell.this.inlineResult.thumb instanceof TLRPC$TL_webDocument) && "video/mp4".equals(ContextLinkCell.this.inlineResult.thumb.mime_type)) {
+                                if (ContextLinkCell.this.documentAttachType == 2 && (ContextLinkCell.this.inlineResult.thumb instanceof TLRPC.TL_webDocument) && "video/mp4".equals(ContextLinkCell.this.inlineResult.thumb.mime_type)) {
                                     file3 = file4;
                                     attachFileName = null;
                                 }
                             } else {
-                                if (ContextLinkCell.this.inlineResult.thumb instanceof TLRPC$TL_webDocument) {
+                                if (ContextLinkCell.this.inlineResult.thumb instanceof TLRPC.TL_webDocument) {
                                     attachFileName = Utilities.MD5(ContextLinkCell.this.inlineResult.thumb.url) + "." + ImageLoader.getHttpUrlExtension(ContextLinkCell.this.inlineResult.thumb.url, FileLoader.getMimeTypePart(ContextLinkCell.this.inlineResult.thumb.mime_type));
                                     file4 = new File(FileLoader.getDirectory(4), attachFileName);
                                 }
@@ -312,7 +289,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                     this.radialProgress.setProgress(0.0f, false);
                     if (this.documentAttach != null) {
                         FileLoader.getInstance(this.currentAccount).loadFile(this.documentAttach, this.inlineResult, 1, 0);
-                    } else if (this.inlineResult.content instanceof TLRPC$TL_webDocument) {
+                    } else if (this.inlineResult.content instanceof TLRPC.TL_webDocument) {
                         FileLoader.getInstance(this.currentAccount).loadFile(WebFile.createWithWebDocument(this.inlineResult.content), 3, 1);
                     }
                 } else if (i3 != 4) {
@@ -320,7 +297,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                 } else {
                     if (this.documentAttach != null) {
                         FileLoader.getInstance(this.currentAccount).cancelLoadFile(this.documentAttach);
-                    } else if (this.inlineResult.content instanceof TLRPC$TL_webDocument) {
+                    } else if (this.inlineResult.content instanceof TLRPC.TL_webDocument) {
                         FileLoader.getInstance(this.currentAccount).cancelLoadFile(WebFile.createWithWebDocument(this.inlineResult.content));
                     }
                     i = 2;
@@ -369,9 +346,9 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         int i;
         this.currentMessageObject = null;
         this.documentAttachType = 0;
-        TLRPC$Document tLRPC$Document = this.documentAttach;
-        if (tLRPC$Document != null) {
-            if (MessageObject.isGifDocument(tLRPC$Document)) {
+        TLRPC.Document document = this.documentAttach;
+        if (document != null) {
+            if (MessageObject.isGifDocument(document)) {
                 i = 2;
             } else if (MessageObject.isStickerDocument(this.documentAttach) || MessageObject.isAnimatedStickerDocument(this.documentAttach, true)) {
                 i = 6;
@@ -382,13 +359,13 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
             }
             this.documentAttachType = i;
         } else {
-            TLRPC$BotInlineResult tLRPC$BotInlineResult = this.inlineResult;
-            if (tLRPC$BotInlineResult != null) {
-                if (tLRPC$BotInlineResult.photo != null) {
+            TLRPC.BotInlineResult botInlineResult = this.inlineResult;
+            if (botInlineResult != null) {
+                if (botInlineResult.photo != null) {
                     i = 7;
                     this.documentAttachType = i;
                 } else {
-                    if (!tLRPC$BotInlineResult.type.equals(MediaStreamTrack.AUDIO_TRACK_KIND)) {
+                    if (!botInlineResult.type.equals(MediaStreamTrack.AUDIO_TRACK_KIND)) {
                     }
                     this.documentAttachType = 5;
                 }
@@ -396,69 +373,69 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         }
         int i2 = this.documentAttachType;
         if (i2 == 3 || i2 == 5) {
-            TLRPC$TL_message tLRPC$TL_message = new TLRPC$TL_message();
-            tLRPC$TL_message.out = true;
-            tLRPC$TL_message.id = -Utilities.random.nextInt();
-            tLRPC$TL_message.peer_id = new TLRPC$TL_peerUser();
-            TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
-            tLRPC$TL_message.from_id = tLRPC$TL_peerUser;
-            TLRPC$Peer tLRPC$Peer = tLRPC$TL_message.peer_id;
+            TLRPC.TL_message tL_message = new TLRPC.TL_message();
+            tL_message.out = true;
+            tL_message.id = -Utilities.random.nextInt();
+            tL_message.peer_id = new TLRPC.TL_peerUser();
+            TLRPC.TL_peerUser tL_peerUser = new TLRPC.TL_peerUser();
+            tL_message.from_id = tL_peerUser;
+            TLRPC.Peer peer = tL_message.peer_id;
             long clientUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
-            tLRPC$TL_peerUser.user_id = clientUserId;
-            tLRPC$Peer.user_id = clientUserId;
-            tLRPC$TL_message.date = (int) (System.currentTimeMillis() / 1000);
-            tLRPC$TL_message.message = "";
-            TLRPC$TL_messageMediaDocument tLRPC$TL_messageMediaDocument = new TLRPC$TL_messageMediaDocument();
-            tLRPC$TL_message.media = tLRPC$TL_messageMediaDocument;
-            tLRPC$TL_messageMediaDocument.flags |= 3;
-            tLRPC$TL_messageMediaDocument.document = new TLRPC$TL_document();
-            TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$TL_message.media;
-            tLRPC$MessageMedia.document.file_reference = new byte[0];
-            tLRPC$TL_message.flags |= 768;
-            TLRPC$Document tLRPC$Document2 = this.documentAttach;
-            if (tLRPC$Document2 != null) {
-                tLRPC$MessageMedia.document = tLRPC$Document2;
-                tLRPC$TL_message.attachPath = "";
+            tL_peerUser.user_id = clientUserId;
+            peer.user_id = clientUserId;
+            tL_message.date = (int) (System.currentTimeMillis() / 1000);
+            tL_message.message = "";
+            TLRPC.TL_messageMediaDocument tL_messageMediaDocument = new TLRPC.TL_messageMediaDocument();
+            tL_message.media = tL_messageMediaDocument;
+            tL_messageMediaDocument.flags |= 3;
+            tL_messageMediaDocument.document = new TLRPC.TL_document();
+            TLRPC.MessageMedia messageMedia = tL_message.media;
+            messageMedia.document.file_reference = new byte[0];
+            tL_message.flags |= 768;
+            TLRPC.Document document2 = this.documentAttach;
+            if (document2 != null) {
+                messageMedia.document = document2;
+                tL_message.attachPath = "";
             } else {
                 String httpUrlExtension = ImageLoader.getHttpUrlExtension(this.inlineResult.content.url, this.documentAttachType == 5 ? "mp3" : "ogg");
-                TLRPC$Document tLRPC$Document3 = tLRPC$TL_message.media.document;
-                tLRPC$Document3.id = 0L;
-                tLRPC$Document3.access_hash = 0L;
-                tLRPC$Document3.date = tLRPC$TL_message.date;
-                tLRPC$Document3.mime_type = "audio/" + httpUrlExtension;
-                TLRPC$Document tLRPC$Document4 = tLRPC$TL_message.media.document;
-                tLRPC$Document4.size = 0L;
-                tLRPC$Document4.dc_id = 0;
-                TLRPC$TL_documentAttributeAudio tLRPC$TL_documentAttributeAudio = new TLRPC$TL_documentAttributeAudio();
-                tLRPC$TL_documentAttributeAudio.duration = MessageObject.getInlineResultDuration(this.inlineResult);
-                TLRPC$BotInlineResult tLRPC$BotInlineResult2 = this.inlineResult;
-                String str = tLRPC$BotInlineResult2.title;
+                TLRPC.Document document3 = tL_message.media.document;
+                document3.id = 0L;
+                document3.access_hash = 0L;
+                document3.date = tL_message.date;
+                document3.mime_type = "audio/" + httpUrlExtension;
+                TLRPC.Document document4 = tL_message.media.document;
+                document4.size = 0L;
+                document4.dc_id = 0;
+                TLRPC.TL_documentAttributeAudio tL_documentAttributeAudio = new TLRPC.TL_documentAttributeAudio();
+                tL_documentAttributeAudio.duration = MessageObject.getInlineResultDuration(this.inlineResult);
+                TLRPC.BotInlineResult botInlineResult2 = this.inlineResult;
+                String str = botInlineResult2.title;
                 if (str == null) {
                     str = "";
                 }
-                tLRPC$TL_documentAttributeAudio.title = str;
-                String str2 = tLRPC$BotInlineResult2.description;
-                tLRPC$TL_documentAttributeAudio.performer = str2 != null ? str2 : "";
-                tLRPC$TL_documentAttributeAudio.flags |= 3;
+                tL_documentAttributeAudio.title = str;
+                String str2 = botInlineResult2.description;
+                tL_documentAttributeAudio.performer = str2 != null ? str2 : "";
+                tL_documentAttributeAudio.flags |= 3;
                 if (this.documentAttachType == 3) {
-                    tLRPC$TL_documentAttributeAudio.voice = true;
+                    tL_documentAttributeAudio.voice = true;
                 }
-                tLRPC$TL_message.media.document.attributes.add(tLRPC$TL_documentAttributeAudio);
-                TLRPC$TL_documentAttributeFilename tLRPC$TL_documentAttributeFilename = new TLRPC$TL_documentAttributeFilename();
+                tL_message.media.document.attributes.add(tL_documentAttributeAudio);
+                TLRPC.TL_documentAttributeFilename tL_documentAttributeFilename = new TLRPC.TL_documentAttributeFilename();
                 StringBuilder sb = new StringBuilder();
                 sb.append(Utilities.MD5(this.inlineResult.content.url));
                 sb.append(".");
                 sb.append(ImageLoader.getHttpUrlExtension(this.inlineResult.content.url, this.documentAttachType == 5 ? "mp3" : "ogg"));
-                tLRPC$TL_documentAttributeFilename.file_name = sb.toString();
-                tLRPC$TL_message.media.document.attributes.add(tLRPC$TL_documentAttributeFilename);
+                tL_documentAttributeFilename.file_name = sb.toString();
+                tL_message.media.document.attributes.add(tL_documentAttributeFilename);
                 File directory = FileLoader.getDirectory(4);
                 StringBuilder sb2 = new StringBuilder();
                 sb2.append(Utilities.MD5(this.inlineResult.content.url));
                 sb2.append(".");
                 sb2.append(ImageLoader.getHttpUrlExtension(this.inlineResult.content.url, this.documentAttachType == 5 ? "mp3" : "ogg"));
-                tLRPC$TL_message.attachPath = new File(directory, sb2.toString()).getAbsolutePath();
+                tL_message.attachPath = new File(directory, sb2.toString()).getAbsolutePath();
             }
-            this.currentMessageObject = new MessageObject(this.currentAccount, tLRPC$TL_message, false, true);
+            this.currentMessageObject = new MessageObject(this.currentAccount, tL_message, false, true);
         }
     }
 
@@ -468,7 +445,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         }
     }
 
-    public TLRPC$BotInlineResult getBotInlineResult() {
+    public TLRPC.BotInlineResult getBotInlineResult() {
         return this.inlineResult;
     }
 
@@ -476,11 +453,11 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         return this.currentDate;
     }
 
-    public TLRPC$Document getDocument() {
+    public TLRPC.Document getDocument() {
         return this.documentAttach;
     }
 
-    public TLRPC$User getInlineBot() {
+    public TLRPC.User getInlineBot() {
         return this.inlineBot;
     }
 
@@ -501,7 +478,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         return this.linkImageView;
     }
 
-    public TLRPC$BotInlineResult getResult() {
+    public TLRPC.BotInlineResult getResult() {
         return this.inlineResult;
     }
 
@@ -549,7 +526,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         float measuredHeight2;
         Paint paint;
         int i;
-        TLRPC$BotInlineResult tLRPC$BotInlineResult;
+        TLRPC.BotInlineResult botInlineResult;
         LetterDrawable letterDrawable;
         int i2;
         CheckBox2 checkBox2 = this.checkBox;
@@ -579,7 +556,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         if (!this.mediaWebpage) {
             if (!this.drawLinkImageView || PhotoViewer.isShowingImage(this.inlineResult)) {
                 letterDrawable = this.letterDrawable;
-                i2 = NotificationCenter.didClearDatabase;
+                i2 = NotificationCenter.messagePlayingSpeedChanged;
             } else {
                 letterDrawable = this.letterDrawable;
                 i2 = (int) ((1.0f - this.linkImageView.getCurrentAlpha()) * 255.0f);
@@ -590,12 +567,12 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                 this.radialProgress.setProgressColor(Theme.getColor(this.buttonPressed ? Theme.key_chat_inAudioSelectedProgress : Theme.key_chat_inAudioProgress, this.resourcesProvider));
                 this.radialProgress.draw(canvas);
             } else {
-                TLRPC$BotInlineResult tLRPC$BotInlineResult2 = this.inlineResult;
-                if (tLRPC$BotInlineResult2 == null || !tLRPC$BotInlineResult2.type.equals("file")) {
-                    TLRPC$BotInlineResult tLRPC$BotInlineResult3 = this.inlineResult;
-                    if (tLRPC$BotInlineResult3 == null || !(tLRPC$BotInlineResult3.type.equals(MediaStreamTrack.AUDIO_TRACK_KIND) || this.inlineResult.type.equals("voice"))) {
-                        TLRPC$BotInlineResult tLRPC$BotInlineResult4 = this.inlineResult;
-                        if (tLRPC$BotInlineResult4 == null || !(tLRPC$BotInlineResult4.type.equals("venue") || this.inlineResult.type.equals("geo"))) {
+                TLRPC.BotInlineResult botInlineResult2 = this.inlineResult;
+                if (botInlineResult2 == null || !botInlineResult2.type.equals("file")) {
+                    TLRPC.BotInlineResult botInlineResult3 = this.inlineResult;
+                    if (botInlineResult3 == null || !(botInlineResult3.type.equals(MediaStreamTrack.AUDIO_TRACK_KIND) || this.inlineResult.type.equals("voice"))) {
+                        TLRPC.BotInlineResult botInlineResult4 = this.inlineResult;
+                        if (botInlineResult4 == null || !(botInlineResult4.type.equals("venue") || this.inlineResult.type.equals("geo"))) {
                             this.letterDrawable.draw(canvas);
                         } else {
                             int intrinsicWidth = Theme.chat_inlineResultLocation.getIntrinsicWidth();
@@ -627,7 +604,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
             }
             if (this.drawLinkImageView) {
                 if (this.inlineResult != null) {
-                    this.linkImageView.setVisible(!PhotoViewer.isShowingImage(tLRPC$BotInlineResult), false);
+                    this.linkImageView.setVisible(!PhotoViewer.isShowingImage(botInlineResult), false);
                 }
                 canvas.save();
                 float f = this.imageScale;
@@ -665,10 +642,10 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
             }
             return;
         }
-        TLRPC$BotInlineResult tLRPC$BotInlineResult5 = this.inlineResult;
-        if (tLRPC$BotInlineResult5 != null) {
-            TLRPC$BotInlineMessage tLRPC$BotInlineMessage = tLRPC$BotInlineResult5.send_message;
-            if ((tLRPC$BotInlineMessage instanceof TLRPC$TL_botInlineMessageMediaGeo) || (tLRPC$BotInlineMessage instanceof TLRPC$TL_botInlineMessageMediaVenue)) {
+        TLRPC.BotInlineResult botInlineResult5 = this.inlineResult;
+        if (botInlineResult5 != null) {
+            TLRPC.BotInlineMessage botInlineMessage = botInlineResult5.send_message;
+            if ((botInlineMessage instanceof TLRPC.TL_botInlineMessageMediaGeo) || (botInlineMessage instanceof TLRPC.TL_botInlineMessageMediaVenue)) {
                 int intrinsicWidth4 = Theme.chat_inlineResultLocation.getIntrinsicWidth();
                 int intrinsicHeight4 = Theme.chat_inlineResultLocation.getIntrinsicHeight();
                 int imageX4 = (int) (this.linkImageView.getImageX() + ((this.linkImageView.getImageWidth() - intrinsicWidth4) / 2.0f));
@@ -835,15 +812,15 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         ArrayList arrayList;
         ArrayList arrayList2;
         ArrayList arrayList3;
-        TLRPC$Document tLRPC$Document;
-        TLRPC$PhotoSize closestPhotoSizeWithSize;
+        TLRPC.Document document;
+        TLRPC.PhotoSize closestPhotoSizeWithSize;
         String str;
-        TLRPC$BotInlineResult tLRPC$BotInlineResult;
+        TLRPC.BotInlineResult botInlineResult;
         String str2;
         WebFile webFile;
         int i3;
         int i4;
-        TLRPC$PhotoSize tLRPC$PhotoSize;
+        TLRPC.PhotoSize photoSize;
         String str3;
         String str4;
         ImageLocation forWebFile;
@@ -864,10 +841,10 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         float f;
         int dp;
         CheckBox2 checkBox2;
-        TLRPC$TL_webDocument tLRPC$TL_webDocument;
-        TLRPC$BotInlineMessage tLRPC$BotInlineMessage;
+        TLRPC.TL_webDocument tL_webDocument;
+        TLRPC.BotInlineMessage botInlineMessage;
         String str9;
-        TLRPC$BotInlineResult tLRPC$BotInlineResult2;
+        TLRPC.BotInlineResult botInlineResult2;
         String str10;
         ArrayList arrayList4;
         String str11;
@@ -890,13 +867,13 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         if (this.documentAttach != null) {
             arrayList2 = new ArrayList(this.documentAttach.thumbs);
         } else {
-            TLRPC$BotInlineResult tLRPC$BotInlineResult3 = this.inlineResult;
-            if (tLRPC$BotInlineResult3 == null || tLRPC$BotInlineResult3.photo == null) {
+            TLRPC.BotInlineResult botInlineResult3 = this.inlineResult;
+            if (botInlineResult3 == null || botInlineResult3.photo == null) {
                 arrayList = null;
-                if (!this.mediaWebpage || (tLRPC$BotInlineResult2 = this.inlineResult) == null) {
+                if (!this.mediaWebpage || (botInlineResult2 = this.inlineResult) == null) {
                     arrayList3 = arrayList;
                 } else {
-                    if (tLRPC$BotInlineResult2.title != null) {
+                    if (botInlineResult2.title != null) {
                         try {
                             arrayList4 = arrayList;
                         } catch (Exception e) {
@@ -914,13 +891,13 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                             }
                             if (this.inlineResult.url != null) {
                             }
-                            tLRPC$Document = this.documentAttach;
-                            if (tLRPC$Document == null) {
+                            document = this.documentAttach;
+                            if (document == null) {
                             }
                             closestPhotoSizeWithSize = null;
                             str = null;
-                            tLRPC$BotInlineResult = this.inlineResult;
-                            if (tLRPC$BotInlineResult != null) {
+                            botInlineResult = this.inlineResult;
+                            if (botInlineResult != null) {
                             }
                             if (this.documentAttach != null) {
                             }
@@ -928,8 +905,8 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                             i4 = 0;
                             if (i3 != 0) {
                             }
-                            tLRPC$PhotoSize = this.currentPhotoObject;
-                            if (tLRPC$PhotoSize != null) {
+                            photoSize = this.currentPhotoObject;
+                            if (photoSize != null) {
                             }
                             if (i3 != 0) {
                             }
@@ -983,13 +960,13 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                             FileLog.e(e);
                             if (this.inlineResult.url != null) {
                             }
-                            tLRPC$Document = this.documentAttach;
-                            if (tLRPC$Document == null) {
+                            document = this.documentAttach;
+                            if (document == null) {
                             }
                             closestPhotoSizeWithSize = null;
                             str = null;
-                            tLRPC$BotInlineResult = this.inlineResult;
-                            if (tLRPC$BotInlineResult != null) {
+                            botInlineResult = this.inlineResult;
+                            if (botInlineResult != null) {
                             }
                             if (this.documentAttach != null) {
                             }
@@ -997,8 +974,8 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                             i4 = 0;
                             if (i3 != 0) {
                             }
-                            tLRPC$PhotoSize = this.currentPhotoObject;
-                            if (tLRPC$PhotoSize != null) {
+                            photoSize = this.currentPhotoObject;
+                            if (photoSize != null) {
                             }
                             if (i3 != 0) {
                             }
@@ -1036,72 +1013,72 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                         }
                     }
                 }
-                tLRPC$Document = this.documentAttach;
-                if (tLRPC$Document == null) {
-                    if (!this.isForceGif && !MessageObject.isGifDocument(tLRPC$Document)) {
+                document = this.documentAttach;
+                if (document == null) {
+                    if (!this.isForceGif && !MessageObject.isGifDocument(document)) {
                         if (MessageObject.isStickerDocument(this.documentAttach) || MessageObject.isAnimatedStickerDocument(this.documentAttach, true)) {
                             this.currentPhotoObject = FileLoader.getClosestPhotoSizeWithSize(this.documentAttach.thumbs, 90);
                             str = "webp";
                             closestPhotoSizeWithSize = null;
-                            tLRPC$BotInlineResult = this.inlineResult;
-                            if (tLRPC$BotInlineResult != null) {
-                                if ((tLRPC$BotInlineResult.content instanceof TLRPC$TL_webDocument) && (str9 = tLRPC$BotInlineResult.type) != null) {
+                            botInlineResult = this.inlineResult;
+                            if (botInlineResult != null) {
+                                if ((botInlineResult.content instanceof TLRPC.TL_webDocument) && (str9 = botInlineResult.type) != null) {
                                     if (str9.startsWith("gif")) {
-                                        TLRPC$WebDocument tLRPC$WebDocument = this.inlineResult.thumb;
-                                        tLRPC$TL_webDocument = (TLRPC$TL_webDocument) (((tLRPC$WebDocument instanceof TLRPC$TL_webDocument) && "video/mp4".equals(tLRPC$WebDocument.mime_type)) ? this.inlineResult.thumb : this.inlineResult.content);
+                                        TLRPC.WebDocument webDocument = this.inlineResult.thumb;
+                                        tL_webDocument = (TLRPC.TL_webDocument) (((webDocument instanceof TLRPC.TL_webDocument) && "video/mp4".equals(webDocument.mime_type)) ? this.inlineResult.thumb : this.inlineResult.content);
                                         this.documentAttachType = 2;
                                     } else if (this.inlineResult.type.equals("photo")) {
-                                        TLRPC$BotInlineResult tLRPC$BotInlineResult4 = this.inlineResult;
-                                        TLRPC$WebDocument tLRPC$WebDocument2 = tLRPC$BotInlineResult4.thumb;
-                                        tLRPC$TL_webDocument = tLRPC$WebDocument2 instanceof TLRPC$TL_webDocument ? (TLRPC$TL_webDocument) tLRPC$WebDocument2 : (TLRPC$TL_webDocument) tLRPC$BotInlineResult4.content;
+                                        TLRPC.BotInlineResult botInlineResult4 = this.inlineResult;
+                                        TLRPC.WebDocument webDocument2 = botInlineResult4.thumb;
+                                        tL_webDocument = webDocument2 instanceof TLRPC.TL_webDocument ? (TLRPC.TL_webDocument) webDocument2 : (TLRPC.TL_webDocument) botInlineResult4.content;
                                     }
-                                    if (tLRPC$TL_webDocument == null) {
-                                        TLRPC$WebDocument tLRPC$WebDocument3 = this.inlineResult.thumb;
-                                        if (tLRPC$WebDocument3 instanceof TLRPC$TL_webDocument) {
-                                            tLRPC$TL_webDocument = (TLRPC$TL_webDocument) tLRPC$WebDocument3;
+                                    if (tL_webDocument == null) {
+                                        TLRPC.WebDocument webDocument3 = this.inlineResult.thumb;
+                                        if (webDocument3 instanceof TLRPC.TL_webDocument) {
+                                            tL_webDocument = (TLRPC.TL_webDocument) webDocument3;
                                         }
                                     }
-                                    if (tLRPC$TL_webDocument == null && this.currentPhotoObject == null && closestPhotoSizeWithSize == null) {
-                                        tLRPC$BotInlineMessage = this.inlineResult.send_message;
-                                        if (!(tLRPC$BotInlineMessage instanceof TLRPC$TL_botInlineMessageMediaVenue) || (tLRPC$BotInlineMessage instanceof TLRPC$TL_botInlineMessageMediaGeo)) {
-                                            TLRPC$GeoPoint tLRPC$GeoPoint = tLRPC$BotInlineMessage.geo;
-                                            double d = tLRPC$GeoPoint.lat;
-                                            double d2 = tLRPC$GeoPoint._long;
+                                    if (tL_webDocument == null && this.currentPhotoObject == null && closestPhotoSizeWithSize == null) {
+                                        botInlineMessage = this.inlineResult.send_message;
+                                        if (!(botInlineMessage instanceof TLRPC.TL_botInlineMessageMediaVenue) || (botInlineMessage instanceof TLRPC.TL_botInlineMessageMediaGeo)) {
+                                            TLRPC.GeoPoint geoPoint = botInlineMessage.geo;
+                                            double d = geoPoint.lat;
+                                            double d2 = geoPoint._long;
                                             if (MessagesController.getInstance(this.currentAccount).mapProvider != 2) {
                                                 webFile = WebFile.createWithGeoPoint(this.inlineResult.send_message.geo, 72, 72, 15, Math.min(2, (int) Math.ceil(AndroidUtilities.density)));
                                                 str2 = null;
-                                                if (tLRPC$TL_webDocument != null) {
-                                                    webFile = WebFile.createWithWebDocument(tLRPC$TL_webDocument);
+                                                if (tL_webDocument != null) {
+                                                    webFile = WebFile.createWithWebDocument(tL_webDocument);
                                                 }
                                             } else {
                                                 str2 = AndroidUtilities.formapMapUrl(this.currentAccount, d, d2, 72, 72, true, 15, -1);
                                                 webFile = null;
-                                                if (tLRPC$TL_webDocument != null) {
+                                                if (tL_webDocument != null) {
                                                 }
                                             }
                                         }
                                     }
                                     str2 = null;
                                     webFile = null;
-                                    if (tLRPC$TL_webDocument != null) {
+                                    if (tL_webDocument != null) {
                                     }
                                 }
-                                tLRPC$TL_webDocument = null;
-                                if (tLRPC$TL_webDocument == null) {
+                                tL_webDocument = null;
+                                if (tL_webDocument == null) {
                                 }
-                                if (tLRPC$TL_webDocument == null) {
-                                    tLRPC$BotInlineMessage = this.inlineResult.send_message;
-                                    if (!(tLRPC$BotInlineMessage instanceof TLRPC$TL_botInlineMessageMediaVenue)) {
+                                if (tL_webDocument == null) {
+                                    botInlineMessage = this.inlineResult.send_message;
+                                    if (!(botInlineMessage instanceof TLRPC.TL_botInlineMessageMediaVenue)) {
                                     }
-                                    TLRPC$GeoPoint tLRPC$GeoPoint2 = tLRPC$BotInlineMessage.geo;
-                                    double d3 = tLRPC$GeoPoint2.lat;
-                                    double d22 = tLRPC$GeoPoint2._long;
+                                    TLRPC.GeoPoint geoPoint2 = botInlineMessage.geo;
+                                    double d3 = geoPoint2.lat;
+                                    double d22 = geoPoint2._long;
                                     if (MessagesController.getInstance(this.currentAccount).mapProvider != 2) {
                                     }
                                 }
                                 str2 = null;
                                 webFile = null;
-                                if (tLRPC$TL_webDocument != null) {
+                                if (tL_webDocument != null) {
                                 }
                             } else {
                                 str2 = null;
@@ -1109,10 +1086,10 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                             }
                             if (this.documentAttach != null) {
                                 for (int i9 = 0; i9 < this.documentAttach.attributes.size(); i9++) {
-                                    TLRPC$DocumentAttribute tLRPC$DocumentAttribute = this.documentAttach.attributes.get(i9);
-                                    if ((tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeImageSize) || (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeVideo)) {
-                                        i3 = tLRPC$DocumentAttribute.w;
-                                        i4 = tLRPC$DocumentAttribute.h;
+                                    TLRPC.DocumentAttribute documentAttribute = this.documentAttach.attributes.get(i9);
+                                    if ((documentAttribute instanceof TLRPC.TL_documentAttributeImageSize) || (documentAttribute instanceof TLRPC.TL_documentAttributeVideo)) {
+                                        i3 = documentAttribute.w;
+                                        i4 = documentAttribute.h;
                                         break;
                                     }
                                 }
@@ -1120,17 +1097,17 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                             i3 = 0;
                             i4 = 0;
                             if (i3 != 0 || i4 == 0) {
-                                tLRPC$PhotoSize = this.currentPhotoObject;
-                                if (tLRPC$PhotoSize != null) {
+                                photoSize = this.currentPhotoObject;
+                                if (photoSize != null) {
                                     if (closestPhotoSizeWithSize != null) {
                                         closestPhotoSizeWithSize.size = -1;
                                     }
-                                    i3 = tLRPC$PhotoSize.w;
-                                    i4 = tLRPC$PhotoSize.h;
+                                    i3 = photoSize.w;
+                                    i4 = photoSize.h;
                                 } else {
-                                    TLRPC$BotInlineResult tLRPC$BotInlineResult5 = this.inlineResult;
-                                    if (tLRPC$BotInlineResult5 != null) {
-                                        int[] inlineResultWidthAndHeight = MessageObject.getInlineResultWidthAndHeight(tLRPC$BotInlineResult5);
+                                    TLRPC.BotInlineResult botInlineResult5 = this.inlineResult;
+                                    if (botInlineResult5 != null) {
+                                        int[] inlineResultWidthAndHeight = MessageObject.getInlineResultWidthAndHeight(botInlineResult5);
                                         int i10 = inlineResultWidthAndHeight[0];
                                         i4 = inlineResultWidthAndHeight[1];
                                         i3 = i10;
@@ -1164,9 +1141,9 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                                 }
                                 this.linkImageView.setAspectFit(this.documentAttachType == 6);
                                 if (this.documentAttachType == 2) {
-                                    TLRPC$Document tLRPC$Document2 = this.documentAttach;
-                                    if (tLRPC$Document2 != null) {
-                                        TLRPC$VideoSize documentVideoThumb = MessageObject.getDocumentVideoThumb(tLRPC$Document2);
+                                    TLRPC.Document document2 = this.documentAttach;
+                                    if (document2 != null) {
+                                        TLRPC.VideoSize documentVideoThumb = MessageObject.getDocumentVideoThumb(document2);
                                         if (documentVideoThumb != null) {
                                             ImageReceiver imageReceiver3 = this.linkImageView;
                                             forWebFile = ImageLocation.getForDocument(documentVideoThumb, this.documentAttach);
@@ -1217,16 +1194,16 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                                         if (MessageObject.canAutoplayAnimatedSticker(this.documentAttach)) {
                                             ImageReceiver imageReceiver6 = this.linkImageView;
                                             forWebFile = ImageLocation.getForDocument(this.documentAttach);
-                                            TLRPC$PhotoSize tLRPC$PhotoSize2 = this.currentPhotoObject;
+                                            TLRPC.PhotoSize photoSize2 = this.currentPhotoObject;
                                             if (svgThumb != null) {
                                                 str6 = "80_80";
                                                 i6 = 0;
                                                 imageReceiver2 = imageReceiver6;
-                                                j2 = tLRPC$PhotoSize2.size;
+                                                j2 = photoSize2.size;
                                                 str7 = str;
                                                 obj2 = this.parentObject;
                                             } else {
-                                                forPhoto = ImageLocation.getForDocument(tLRPC$PhotoSize2, this.documentAttach);
+                                                forPhoto = ImageLocation.getForDocument(photoSize2, this.documentAttach);
                                                 str5 = "80_80";
                                                 i5 = 0;
                                                 imageReceiver = imageReceiver6;
@@ -1235,8 +1212,8 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                                                 imageReceiver.setImage(forWebFile, str5, forPhoto, str3, j, str, obj3, i5);
                                             }
                                         } else {
-                                            TLRPC$Document tLRPC$Document3 = this.documentAttach;
-                                            if (tLRPC$Document3 == null) {
+                                            TLRPC.Document document3 = this.documentAttach;
+                                            if (document3 == null) {
                                                 ImageReceiver imageReceiver7 = this.linkImageView;
                                                 forWebFile = ImageLocation.getForPhoto(this.currentPhotoObject, this.photoAttach);
                                                 forPhoto = ImageLocation.getForPhoto(closestPhotoSizeWithSize, this.photoAttach);
@@ -1248,7 +1225,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                                                 j = j3;
                                             } else if (svgThumb != null) {
                                                 ImageReceiver imageReceiver8 = this.linkImageView;
-                                                forWebFile = ImageLocation.getForDocument(this.currentPhotoObject, tLRPC$Document3);
+                                                forWebFile = ImageLocation.getForDocument(this.currentPhotoObject, document3);
                                                 i6 = 0;
                                                 imageReceiver2 = imageReceiver8;
                                                 str6 = str4;
@@ -1257,7 +1234,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                                                 obj2 = this.parentObject;
                                             } else {
                                                 ImageReceiver imageReceiver9 = this.linkImageView;
-                                                forWebFile = ImageLocation.getForDocument(this.currentPhotoObject, tLRPC$Document3);
+                                                forWebFile = ImageLocation.getForDocument(this.currentPhotoObject, document3);
                                                 forPhoto = ImageLocation.getForPhoto(closestPhotoSizeWithSize, this.photoAttach);
                                                 long j4 = this.currentPhotoObject.size;
                                                 obj = this.parentObject;
@@ -1348,16 +1325,16 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                     }
                     this.currentPhotoObject = FileLoader.getClosestPhotoSizeWithSize(this.documentAttach.thumbs, 90);
                 } else {
-                    TLRPC$BotInlineResult tLRPC$BotInlineResult6 = this.inlineResult;
-                    if (tLRPC$BotInlineResult6 != null && tLRPC$BotInlineResult6.photo != null) {
+                    TLRPC.BotInlineResult botInlineResult6 = this.inlineResult;
+                    if (botInlineResult6 != null && botInlineResult6.photo != null) {
                         this.currentPhotoObject = FileLoader.getClosestPhotoSizeWithSize(arrayList3, AndroidUtilities.getPhotoSize(), true);
                         closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList3, 80);
                     }
                 }
                 closestPhotoSizeWithSize = null;
                 str = null;
-                tLRPC$BotInlineResult = this.inlineResult;
-                if (tLRPC$BotInlineResult != null) {
+                botInlineResult = this.inlineResult;
+                if (botInlineResult != null) {
                 }
                 if (this.documentAttach != null) {
                 }
@@ -1365,8 +1342,8 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                 i4 = 0;
                 if (i3 != 0) {
                 }
-                tLRPC$PhotoSize = this.currentPhotoObject;
-                if (tLRPC$PhotoSize != null) {
+                photoSize = this.currentPhotoObject;
+                if (photoSize != null) {
                 }
                 if (i3 != 0) {
                 }
@@ -1398,13 +1375,13 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         if (this.mediaWebpage) {
         }
         arrayList3 = arrayList;
-        tLRPC$Document = this.documentAttach;
-        if (tLRPC$Document == null) {
+        document = this.documentAttach;
+        if (document == null) {
         }
         closestPhotoSizeWithSize = null;
         str = null;
-        tLRPC$BotInlineResult = this.inlineResult;
-        if (tLRPC$BotInlineResult != null) {
+        botInlineResult = this.inlineResult;
+        if (botInlineResult != null) {
         }
         if (this.documentAttach != null) {
         }
@@ -1412,8 +1389,8 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         i4 = 0;
         if (i3 != 0) {
         }
-        tLRPC$PhotoSize = this.currentPhotoObject;
-        if (tLRPC$PhotoSize != null) {
+        photoSize = this.currentPhotoObject;
+        if (photoSize != null) {
         }
         if (i3 != 0) {
         }
@@ -1466,7 +1443,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
 
     @Override // android.view.View
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        TLRPC$WebDocument tLRPC$WebDocument;
+        TLRPC.WebDocument webDocument;
         if (this.mediaWebpage || this.delegate == null || this.inlineResult == null) {
             return super.onTouchEvent(motionEvent);
         }
@@ -1499,8 +1476,8 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
             }
             z = false;
         } else {
-            TLRPC$BotInlineResult tLRPC$BotInlineResult = this.inlineResult;
-            if (tLRPC$BotInlineResult != null && (tLRPC$WebDocument = tLRPC$BotInlineResult.content) != null && !TextUtils.isEmpty(tLRPC$WebDocument.url)) {
+            TLRPC.BotInlineResult botInlineResult = this.inlineResult;
+            if (botInlineResult != null && (webDocument = botInlineResult.content) != null && !TextUtils.isEmpty(webDocument.url)) {
                 if (motionEvent.getAction() == 0) {
                     if (this.letterDrawable.getBounds().contains(x, y)) {
                         this.buttonPressed = true;
@@ -1575,13 +1552,13 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         this.delegate = contextLinkCellDelegate;
     }
 
-    public void setGif(TLRPC$Document tLRPC$Document, Object obj, int i, boolean z) {
+    public void setGif(TLRPC.Document document, Object obj, int i, boolean z) {
         this.needDivider = z;
         this.needShadow = false;
         this.currentDate = i;
         this.inlineResult = null;
         this.parentObject = obj;
-        this.documentAttach = tLRPC$Document;
+        this.documentAttach = document;
         this.photoAttach = null;
         this.mediaWebpage = true;
         this.isForceGif = true;
@@ -1595,23 +1572,23 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         updateButtonState(false, false);
     }
 
-    public void setGif(TLRPC$Document tLRPC$Document, boolean z) {
-        setGif(tLRPC$Document, "gif" + tLRPC$Document, 0, z);
+    public void setGif(TLRPC.Document document, boolean z) {
+        setGif(document, "gif" + document, 0, z);
     }
 
     public void setIsKeyboard(boolean z) {
         this.isKeyboard = z;
     }
 
-    public void setLink(TLRPC$BotInlineResult tLRPC$BotInlineResult, TLRPC$User tLRPC$User, boolean z, boolean z2, boolean z3, boolean z4) {
+    public void setLink(TLRPC.BotInlineResult botInlineResult, TLRPC.User user, boolean z, boolean z2, boolean z3, boolean z4) {
         this.needDivider = z2;
         this.needShadow = z3;
-        this.inlineBot = tLRPC$User;
-        this.inlineResult = tLRPC$BotInlineResult;
-        this.parentObject = tLRPC$BotInlineResult;
-        if (tLRPC$BotInlineResult != null) {
-            this.documentAttach = tLRPC$BotInlineResult.document;
-            this.photoAttach = tLRPC$BotInlineResult.photo;
+        this.inlineBot = user;
+        this.inlineResult = botInlineResult;
+        this.parentObject = botInlineResult;
+        if (botInlineResult != null) {
+            this.documentAttach = botInlineResult.document;
+            this.photoAttach = botInlineResult.photo;
         } else {
             this.documentAttach = null;
             this.photoAttach = null;

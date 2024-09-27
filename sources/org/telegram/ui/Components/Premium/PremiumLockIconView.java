@@ -20,6 +20,7 @@ import org.telegram.ui.Components.Premium.StarParticlesView;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
 /* loaded from: classes3.dex */
 public class PremiumLockIconView extends ImageView {
+    public static int TYPE_GIFT_LOCK = 3;
     public static int TYPE_REACTIONS = 0;
     public static int TYPE_REACTIONS_LOCK = 2;
     public static int TYPE_STICKERS_PREMIUM_LOCKED = 1;
@@ -68,8 +69,13 @@ public class PremiumLockIconView extends ImageView {
                 this.iconScale = 0.8f;
                 this.paint.setColor(Theme.getColor(Theme.key_windowBackgroundGray));
                 return;
+            } else if (i == TYPE_GIFT_LOCK) {
+                setScaleType(ImageView.ScaleType.CENTER);
+                setImageResource(R.drawable.msg_archive_hide);
+                return;
+            } else {
+                return;
             }
-            return;
         }
         StarParticlesView.Drawable drawable = new StarParticlesView.Drawable(5);
         this.starParticles = drawable;
@@ -103,7 +109,7 @@ public class PremiumLockIconView extends ImageView {
         if (this.wasDrawn) {
             Paint paint = this.paint;
             this.oldShaderPaint = paint;
-            paint.setAlpha(NotificationCenter.didClearDatabase);
+            paint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
             this.shaderCrossfadeProgress = 0.0f;
         }
         this.paint = new Paint(1);
@@ -208,7 +214,7 @@ public class PremiumLockIconView extends ImageView {
                         this.oldShaderPaint = null;
                     }
                     invalidate();
-                    this.paint.setAlpha(NotificationCenter.didClearDatabase);
+                    this.paint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                 }
             }
             canvas.drawCircle(measuredWidth, measuredHeight, measuredWidth, this.paint);

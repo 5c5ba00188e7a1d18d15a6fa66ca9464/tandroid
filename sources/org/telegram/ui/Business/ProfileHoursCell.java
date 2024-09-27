@@ -21,9 +21,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
-import org.telegram.tgnet.TLRPC$TL_businessWeeklyOpen;
-import org.telegram.tgnet.TLRPC$TL_businessWorkHours;
-import org.telegram.tgnet.TLRPC$TL_timezone;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.ClickableAnimatedTextView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
@@ -207,7 +205,7 @@ public abstract class ProfileHoursCell extends LinearLayout {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void set(TLRPC$TL_businessWorkHours tLRPC$TL_businessWorkHours, boolean z, boolean z2, boolean z3) {
+    public void set(TLRPC.TL_businessWorkHours tL_businessWorkHours, boolean z, boolean z2, boolean z3) {
         boolean z4;
         ArrayList[] arrayListArr;
         boolean z5;
@@ -220,10 +218,10 @@ public abstract class ProfileHoursCell extends LinearLayout {
         boolean z6 = z;
         this.expanded = z6;
         this.needDivider = z3;
-        if (tLRPC$TL_businessWorkHours == null) {
+        if (tL_businessWorkHours == null) {
             return;
         }
-        boolean is24x7 = OpeningHoursActivity.is24x7(tLRPC$TL_businessWorkHours);
+        boolean is24x7 = OpeningHoursActivity.is24x7(tL_businessWorkHours);
         if (is24x7) {
             this.expanded = false;
             z6 = false;
@@ -231,7 +229,7 @@ public abstract class ProfileHoursCell extends LinearLayout {
         int i5 = 8;
         this.arrowView.setVisibility(is24x7 ? 8 : 0);
         this.todayTimeTextContainer2.setTranslationX(is24x7 ? AndroidUtilities.dp(11.0f) : 0.0f);
-        TLRPC$TL_timezone findTimezone = TimezonesController.getInstance(UserConfig.selectedAccount).findTimezone(tLRPC$TL_businessWorkHours.timezone_id);
+        TLRPC.TL_timezone findTimezone = TimezonesController.getInstance(UserConfig.selectedAccount).findTimezone(tL_businessWorkHours.timezone_id);
         Calendar calendar = Calendar.getInstance();
         int offset = ((calendar.getTimeZone().getOffset(System.currentTimeMillis()) / 1000) - (findTimezone == null ? 0 : findTimezone.utc_offset)) / 60;
         ClickableAnimatedTextView clickableAnimatedTextView = this.switchText;
@@ -288,17 +286,17 @@ public abstract class ProfileHoursCell extends LinearLayout {
             clickableAnimatedTextView2.setText(LocaleController.getString(z7 ? R.string.BusinessHoursProfileSwitchMy : R.string.BusinessHoursProfileSwitchLocal), (LocaleController.isRTL || this.firstAfterAttach) ? false : true);
         }
         this.firstAfterAttach = false;
-        ArrayList[] daysHours = OpeningHoursActivity.getDaysHours(new ArrayList(tLRPC$TL_businessWorkHours.weekly_open));
+        ArrayList[] daysHours = OpeningHoursActivity.getDaysHours(new ArrayList(tL_businessWorkHours.weekly_open));
         int i9 = 7;
         int i10 = (calendar.get(7) + 5) % 7;
         int i11 = calendar.get(11);
         int i12 = calendar.get(12);
-        ArrayList adaptWeeklyOpen = OpeningHoursActivity.adaptWeeklyOpen(tLRPC$TL_businessWorkHours.weekly_open, offset);
+        ArrayList adaptWeeklyOpen = OpeningHoursActivity.adaptWeeklyOpen(tL_businessWorkHours.weekly_open, offset);
         int i13 = i12 + (i11 * 60) + (i10 * 1440);
         for (int i14 = 0; i14 < adaptWeeklyOpen.size(); i14++) {
-            TLRPC$TL_businessWeeklyOpen tLRPC$TL_businessWeeklyOpen = (TLRPC$TL_businessWeeklyOpen) adaptWeeklyOpen.get(i14);
-            int i15 = tLRPC$TL_businessWeeklyOpen.start_minute;
-            if ((i13 >= i15 && i13 <= tLRPC$TL_businessWeeklyOpen.end_minute) || (((i3 = i13 + 10080) >= i15 && i3 <= tLRPC$TL_businessWeeklyOpen.end_minute) || (i13 - 10080 >= i15 && i4 <= tLRPC$TL_businessWeeklyOpen.end_minute))) {
+            TLRPC.TL_businessWeeklyOpen tL_businessWeeklyOpen = (TLRPC.TL_businessWeeklyOpen) adaptWeeklyOpen.get(i14);
+            int i15 = tL_businessWeeklyOpen.start_minute;
+            if ((i13 >= i15 && i13 <= tL_businessWeeklyOpen.end_minute) || (((i3 = i13 + 10080) >= i15 && i3 <= tL_businessWeeklyOpen.end_minute) || (i13 - 10080 >= i15 && i4 <= tL_businessWeeklyOpen.end_minute))) {
                 z4 = true;
                 break;
             }
@@ -343,7 +341,7 @@ public abstract class ProfileHoursCell extends LinearLayout {
                                     i2 = -1;
                                     break;
                                 }
-                                i2 = ((TLRPC$TL_businessWeeklyOpen) adaptWeeklyOpen.get(i22)).start_minute;
+                                i2 = ((TLRPC.TL_businessWeeklyOpen) adaptWeeklyOpen.get(i22)).start_minute;
                                 if (i13 < i2) {
                                     break;
                                 }
@@ -351,7 +349,7 @@ public abstract class ProfileHoursCell extends LinearLayout {
                                 z6 = z5;
                             }
                             if (i2 == -1 && !adaptWeeklyOpen.isEmpty()) {
-                                i2 = ((TLRPC$TL_businessWeeklyOpen) adaptWeeklyOpen.get(0)).start_minute;
+                                i2 = ((TLRPC.TL_businessWeeklyOpen) adaptWeeklyOpen.get(0)).start_minute;
                             }
                             if (i2 != -1) {
                                 int i23 = i2 < i13 ? i2 + (10080 - i13) : i2 - i13;

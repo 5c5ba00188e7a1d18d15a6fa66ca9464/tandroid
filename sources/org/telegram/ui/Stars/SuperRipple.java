@@ -67,11 +67,11 @@ public class SuperRipple extends ISuperRipple {
         updateProperties();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0090  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0092  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x009a  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00b1  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x00b3  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0091  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x0093  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x009b  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x00b2  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x00b4  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

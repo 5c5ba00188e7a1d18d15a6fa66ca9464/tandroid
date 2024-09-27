@@ -3,20 +3,19 @@ package org.telegram.messenger;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 /* loaded from: classes3.dex */
 public class AutoMessageHeardReceiver extends BroadcastReceiver {
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$onReceive$0(AccountInstance accountInstance, TLRPC$User tLRPC$User, int i, long j, int i2) {
-        accountInstance.getMessagesController().putUser(tLRPC$User, true);
+    public static /* synthetic */ void lambda$onReceive$0(AccountInstance accountInstance, TLRPC.User user, int i, long j, int i2) {
+        accountInstance.getMessagesController().putUser(user, true);
         MessagesController.getInstance(i).markDialogAsRead(j, i2, i2, 0, false, 0L, 0, true, 0);
         MessagesController.getInstance(i).markReactionsAsRead(j, 0L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onReceive$1(final AccountInstance accountInstance, final long j, final int i, final int i2) {
-        final TLRPC$User userSync = accountInstance.getMessagesStorage().getUserSync(j);
+        final TLRPC.User userSync = accountInstance.getMessagesStorage().getUserSync(j);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AutoMessageHeardReceiver$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
@@ -26,15 +25,15 @@ public class AutoMessageHeardReceiver extends BroadcastReceiver {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$onReceive$2(AccountInstance accountInstance, TLRPC$Chat tLRPC$Chat, int i, long j, int i2) {
-        accountInstance.getMessagesController().putChat(tLRPC$Chat, true);
+    public static /* synthetic */ void lambda$onReceive$2(AccountInstance accountInstance, TLRPC.Chat chat, int i, long j, int i2) {
+        accountInstance.getMessagesController().putChat(chat, true);
         MessagesController.getInstance(i).markDialogAsRead(j, i2, i2, 0, false, 0L, 0, true, 0);
         MessagesController.getInstance(i).markReactionsAsRead(j, 0L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onReceive$3(final AccountInstance accountInstance, final long j, final int i, final int i2) {
-        final TLRPC$Chat chatSync = accountInstance.getMessagesStorage().getChatSync(-j);
+        final TLRPC.Chat chatSync = accountInstance.getMessagesStorage().getChatSync(-j);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AutoMessageHeardReceiver$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {

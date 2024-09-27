@@ -42,7 +42,6 @@ import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.GenericProvider;
-import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
@@ -192,10 +191,8 @@ public class RecyclerListView extends RecyclerView {
         float viewAlpha;
         float visibilityAlpha;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public FastScroll(Context context, int i) {
             super(context);
-            RecyclerListView.this = r8;
             this.usePadding = true;
             this.rect = new RectF();
             this.paint = new Paint(1);
@@ -207,10 +204,6 @@ public class RecyclerListView extends RecyclerView {
             this.radii = new float[8];
             this.positionWithOffset = new int[2];
             this.hideFloatingDateRunnable = new Runnable() { // from class: org.telegram.ui.Components.RecyclerListView.FastScroll.1
-                {
-                    FastScroll.this = this;
-                }
-
                 @Override // java.lang.Runnable
                 public void run() {
                     if (FastScroll.this.pressed) {
@@ -233,21 +226,22 @@ public class RecyclerListView extends RecyclerView {
                 this.letterPaint.setTypeface(AndroidUtilities.bold());
                 Paint paint = this.paint2;
                 int i2 = Theme.key_windowBackgroundWhite;
-                paint.setColor(Theme.getColor(i2, r8.resourcesProvider));
+                paint.setColor(Theme.getColor(i2, RecyclerListView.this.resourcesProvider));
                 Drawable mutate = ContextCompat.getDrawable(context, R.drawable.calendar_date).mutate();
                 this.fastScrollBackgroundDrawable = mutate;
-                mutate.setColorFilter(new PorterDuffColorFilter(ColorUtils.blendARGB(Theme.getColor(i2, r8.resourcesProvider), -1, 0.1f), PorterDuff.Mode.MULTIPLY));
+                mutate.setColorFilter(new PorterDuffColorFilter(ColorUtils.blendARGB(Theme.getColor(i2, RecyclerListView.this.resourcesProvider), -1, 0.1f), PorterDuff.Mode.MULTIPLY));
             }
             for (int i3 = 0; i3 < 8; i3++) {
                 this.radii[i3] = AndroidUtilities.dp(44.0f);
             }
-            this.scrollX = AndroidUtilities.dp(this.isRtl ? 10.0f : (i == 0 ? NotificationCenter.httpFileDidFailedLoad : NotificationCenter.locationPermissionDenied) - 15);
+            this.scrollX = AndroidUtilities.dp(this.isRtl ? 10.0f : (i == 0 ? NotificationCenter.httpFileDidFailedLoad : NotificationCenter.goingToPreviewTheme) - 15);
             updateColors();
             setFocusableInTouchMode(true);
             this.touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
             this.fastScrollShadowDrawable = ContextCompat.getDrawable(context, R.drawable.fast_scroll_shadow);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void getCurrentLetter(boolean z) {
             RecyclerView.LayoutManager layoutManager = RecyclerListView.this.getLayoutManager();
             if (layoutManager instanceof LinearLayoutManager) {
@@ -316,6 +310,7 @@ public class RecyclerListView extends RecyclerView {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void updateColors() {
             TextPaint textPaint;
             int i;
@@ -358,20 +353,20 @@ public class RecyclerListView extends RecyclerView {
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:159:0x01f2, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:29:0x01f2, code lost:
             if (r15[6] == r8) goto L87;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:164:0x0202, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:34:0x0202, code lost:
             if (r15[4] == r8) goto L78;
          */
-        /* JADX WARN: Removed duplicated region for block: B:166:0x0206  */
-        /* JADX WARN: Removed duplicated region for block: B:167:0x0212  */
-        /* JADX WARN: Removed duplicated region for block: B:170:0x0229  */
-        /* JADX WARN: Removed duplicated region for block: B:171:0x022f  */
-        /* JADX WARN: Removed duplicated region for block: B:174:0x0234  */
-        /* JADX WARN: Removed duplicated region for block: B:175:0x0237  */
-        /* JADX WARN: Removed duplicated region for block: B:180:0x025d  */
-        /* JADX WARN: Removed duplicated region for block: B:182:0x0261  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x0206  */
+        /* JADX WARN: Removed duplicated region for block: B:37:0x0212  */
+        /* JADX WARN: Removed duplicated region for block: B:40:0x0229  */
+        /* JADX WARN: Removed duplicated region for block: B:41:0x022f  */
+        /* JADX WARN: Removed duplicated region for block: B:44:0x0234  */
+        /* JADX WARN: Removed duplicated region for block: B:45:0x0237  */
+        /* JADX WARN: Removed duplicated region for block: B:50:0x025d  */
+        /* JADX WARN: Removed duplicated region for block: B:52:0x0261  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -599,10 +594,10 @@ public class RecyclerListView extends RecyclerView {
             this.arrowPath.close();
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:119:0x0082, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:33:0x0082, code lost:
             if (r8 > 1.0f) goto L28;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:165:0x0159, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:79:0x0159, code lost:
             if (r0 <= (org.telegram.messenger.AndroidUtilities.dp(30.0f) + r8)) goto L80;
          */
         @Override // android.view.View
@@ -770,10 +765,10 @@ public class RecyclerListView extends RecyclerView {
         private float x;
         private float y;
 
-        /* JADX WARN: Code restructure failed: missing block: B:34:0x0053, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:13:0x0053, code lost:
             if (java.lang.Math.sqrt((r2 * r2) + (r3 * r3)) > r6) goto L14;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:39:0x0061, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:18:0x0061, code lost:
             if (r7.getAction() != 3) goto L15;
          */
         @Override // android.view.View.OnTouchListener
@@ -873,16 +868,12 @@ public class RecyclerListView extends RecyclerView {
         void onMove(float f, float f2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class RecyclerListViewItemClickListener implements RecyclerView.OnItemTouchListener {
         public RecyclerListViewItemClickListener(Context context) {
-            RecyclerListView.this = r3;
-            r3.gestureDetector = new GestureDetectorFixDoubleTap(context, new GestureDetectorFixDoubleTap.OnGestureListener() { // from class: org.telegram.ui.Components.RecyclerListView.RecyclerListViewItemClickListener.1
+            RecyclerListView.this.gestureDetector = new GestureDetectorFixDoubleTap(context, new GestureDetectorFixDoubleTap.OnGestureListener() { // from class: org.telegram.ui.Components.RecyclerListView.RecyclerListViewItemClickListener.1
                 private View doubleTapView;
-
-                {
-                    RecyclerListViewItemClickListener.this = this;
-                }
 
                 private void onPressItem(final View view, MotionEvent motionEvent) {
                     if (view != null) {
@@ -906,10 +897,6 @@ public class RecyclerListView extends RecyclerView {
                             }
                         }
                         AndroidUtilities.runOnUIThread(RecyclerListView.this.clickRunnable = new Runnable() { // from class: org.telegram.ui.Components.RecyclerListView.RecyclerListViewItemClickListener.1.1
-                            {
-                                1.this = this;
-                            }
-
                             @Override // java.lang.Runnable
                             public void run() {
                                 if (this == RecyclerListView.this.clickRunnable) {
@@ -1011,9 +998,10 @@ public class RecyclerListView extends RecyclerView {
                     return false;
                 }
             });
-            r3.gestureDetector.setIsLongpressEnabled(false);
+            RecyclerListView.this.gestureDetector.setIsLongpressEnabled(false);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onInterceptTouchEvent$0(float f, float f2) {
             if (RecyclerListView.this.selectChildRunnable == null || RecyclerListView.this.currentChildView == null) {
                 return;
@@ -1290,10 +1278,6 @@ public class RecyclerListView extends RecyclerView {
             updateHashes();
             if (z) {
                 DiffUtil.calculateDiff(new DiffUtil.Callback() { // from class: org.telegram.ui.Components.RecyclerListView.SectionsAdapter.1
-                    {
-                        SectionsAdapter.this = this;
-                    }
-
                     @Override // androidx.recyclerview.widget.DiffUtil.Callback
                     public boolean areContentsTheSame(int i, int i2) {
                         return areItemsTheSame(i, i2);
@@ -1385,10 +1369,6 @@ public class RecyclerListView extends RecyclerView {
         this.lastY = Float.MAX_VALUE;
         this.accessibilityEnabled = true;
         this.accessibilityDelegate = new View.AccessibilityDelegate() { // from class: org.telegram.ui.Components.RecyclerListView.1
-            {
-                RecyclerListView.this = this;
-            }
-
             @Override // android.view.View.AccessibilityDelegate
             public void onInitializeAccessibilityNodeInfo(View view, AccessibilityNodeInfo accessibilityNodeInfo) {
                 super.onInitializeAccessibilityNodeInfo(view, accessibilityNodeInfo);
@@ -1399,10 +1379,6 @@ public class RecyclerListView extends RecyclerView {
         };
         this.resetSelectorOnChanged = true;
         this.observer = new RecyclerView.AdapterDataObserver() { // from class: org.telegram.ui.Components.RecyclerListView.2
-            {
-                RecyclerListView.this = this;
-            }
-
             @Override // androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
             public void onChanged() {
                 RecyclerListView.this.checkIfEmpty(true);
@@ -1431,10 +1407,6 @@ public class RecyclerListView extends RecyclerView {
             }
         };
         this.scroller = new Runnable() { // from class: org.telegram.ui.Components.RecyclerListView.6
-            {
-                RecyclerListView.this = this;
-            }
-
             @Override // java.lang.Runnable
             public void run() {
                 int dp;
@@ -1482,10 +1454,6 @@ public class RecyclerListView extends RecyclerView {
             FileLog.e(th);
         }
         super.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.RecyclerListView.3
-            {
-                RecyclerListView.this = this;
-            }
-
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
             public void onScrollStateChanged(RecyclerView recyclerView, int i) {
                 RecyclerListView.this.checkStopHeavyOperations(i);
@@ -1558,6 +1526,7 @@ public class RecyclerListView extends RecyclerView {
         AndroidUtilities.cancelRunOnUIThread(this.scroller);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkIfEmpty(boolean z) {
         ViewPropertyAnimator listener;
         if (this.isHidden) {
@@ -1598,10 +1567,6 @@ public class RecyclerListView extends RecyclerView {
                     alpha.scaleY(0.7f).scaleX(0.7f);
                 }
                 listener = alpha.setDuration(150L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.RecyclerListView.4
-                    {
-                        RecyclerListView.this = this;
-                    }
-
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
                         if (RecyclerListView.this.emptyView != null) {
@@ -1621,20 +1586,21 @@ public class RecyclerListView extends RecyclerView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkStopHeavyOperations(int i) {
-        Integer valueOf = Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS);
         if (i == 0) {
             if (this.stoppedAllHeavyOperations) {
                 this.stoppedAllHeavyOperations = false;
-                NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.startAllHeavyOperations, valueOf);
+                NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.startAllHeavyOperations, 512);
             }
         } else if (this.stoppedAllHeavyOperations || !this.allowStopHeaveOperations) {
         } else {
             this.stoppedAllHeavyOperations = true;
-            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.stopAllHeavyOperations, valueOf);
+            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.stopAllHeavyOperations, 512);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean chekMultiselect(float f, float f2) {
         int measuredHeight = getMeasuredHeight();
         int[] iArr = this.listPaddings;
@@ -1702,10 +1668,10 @@ public class RecyclerListView extends RecyclerView {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(6:8|(1:10)(4:18|(1:20)|13|14)|11|12|13|14) */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x0027, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0027, code lost:
         r5 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x0039, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x0039, code lost:
         org.telegram.messenger.FileLog.e(r5);
      */
     /*
@@ -1749,6 +1715,7 @@ public class RecyclerListView extends RecyclerView {
         return sectionHeaderView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void highlightRowInternal(IntReturnCallback intReturnCallback, int i, boolean z) {
         Runnable runnable = this.removeHighlighSelectionRunnable;
         if (runnable != null) {
@@ -1797,6 +1764,7 @@ public class RecyclerListView extends RecyclerView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$highlightRowInternal$0() {
         this.removeHighlighSelectionRunnable = null;
         this.pendingHighlightPosition = null;
@@ -1814,6 +1782,7 @@ public class RecyclerListView extends RecyclerView {
         this.selectorDrawable.setState(StateSet.NOTHING);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void positionSelector(int i, View view) {
         positionSelector(i, view, false, -1.0f, -1.0f, false);
     }
@@ -1859,6 +1828,7 @@ public class RecyclerListView extends RecyclerView {
         this.selectorDrawable.setHotspot(f, f2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void removeSelection(View view, MotionEvent motionEvent) {
         if (view == null || this.selectorRect.isEmpty()) {
             return;
@@ -1904,6 +1874,7 @@ public class RecyclerListView extends RecyclerView {
         AndroidUtilities.runOnUIThread(this.scroller);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateSelectorState() {
         Drawable drawable = this.selectorDrawable;
         if (drawable == null || !drawable.isStateful()) {
@@ -1921,10 +1892,6 @@ public class RecyclerListView extends RecyclerView {
     public void addOverlayView(View view, FrameLayout.LayoutParams layoutParams) {
         if (this.overlayContainer == null) {
             this.overlayContainer = new FrameLayout(getContext()) { // from class: org.telegram.ui.Components.RecyclerListView.5
-                {
-                    RecyclerListView.this = this;
-                }
-
                 @Override // android.view.View, android.view.ViewParent
                 public void requestLayout() {
                     super.requestLayout();
@@ -1943,10 +1910,12 @@ public class RecyclerListView extends RecyclerView {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public boolean allowSelectChildAtPosition(View view) {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public boolean canHighlightChildAt(View view, float f, float f2) {
         return true;
     }
@@ -2183,16 +2152,17 @@ public class RecyclerListView extends RecyclerView {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:236:0x0241, code lost:
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Code restructure failed: missing block: B:108:0x0241, code lost:
         if (r1 > r2) goto L116;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:241:0x024f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:113:0x024f, code lost:
         if (r1 < r2) goto L116;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:242:0x0251, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:114:0x0251, code lost:
         r9.pinnedHeaderShadowAlpha = r2;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:243:0x0253, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:115:0x0253, code lost:
         invalidate();
      */
     @Override // android.view.ViewGroup, android.view.View
@@ -2323,6 +2293,7 @@ public class RecyclerListView extends RecyclerView {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void drawItemBackground(Canvas canvas, int i, int i2, int i3) {
         int i4 = ConnectionsManager.DEFAULT_DATACENTER_ID;
         int i5 = Integer.MIN_VALUE;
@@ -2342,6 +2313,7 @@ public class RecyclerListView extends RecyclerView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void drawSectionBackground(Canvas canvas, int i, int i2, int i3) {
         if (i2 < i) {
             return;
@@ -2368,6 +2340,7 @@ public class RecyclerListView extends RecyclerView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void drawSectionBackgroundExclusive(Canvas canvas, int i, int i2, int i3) {
         int y;
         int i4 = ConnectionsManager.DEFAULT_DATACENTER_ID;
@@ -2489,16 +2462,19 @@ public class RecyclerListView extends RecyclerView {
         return this.selectorRect;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public int getThemedColor(int i) {
         return Theme.getColor(i, this.resourcesProvider);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public Drawable getThemedDrawable(String str) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
         Drawable drawable = resourcesProvider != null ? resourcesProvider.getDrawable(str) : null;
         return drawable != null ? drawable : Theme.getThemeDrawable(str);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public Paint getThemedPaint(String str) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
         Paint paint = resourcesProvider != null ? resourcesProvider.getPaint(str) : null;
@@ -2581,6 +2557,7 @@ public class RecyclerListView extends RecyclerView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -2611,6 +2588,7 @@ public class RecyclerListView extends RecyclerView {
         super.onChildAttachedToWindow(view);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onChildPressed(View view, float f, float f2, boolean z) {
         if (this.disableHighlightState || view == null) {
             return;
@@ -2618,6 +2596,7 @@ public class RecyclerListView extends RecyclerView {
         view.setPressed(z);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
@@ -2630,7 +2609,7 @@ public class RecyclerListView extends RecyclerView {
         }
         if (this.stoppedAllHeavyOperations) {
             this.stoppedAllHeavyOperations = false;
-            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.startAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
+            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.startAllHeavyOperations, 512);
         }
     }
 
@@ -2646,6 +2625,7 @@ public class RecyclerListView extends RecyclerView {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
     public void onLayout(boolean z, int i, int i2, int i3, int i4) {
         super.onLayout(z, i, i2, i3, i4);
@@ -2670,6 +2650,7 @@ public class RecyclerListView extends RecyclerView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.recyclerview.widget.RecyclerView, android.view.View
     public void onMeasure(int i, int i2) {
         super.onMeasure(i, i2);
@@ -2683,6 +2664,7 @@ public class RecyclerListView extends RecyclerView {
         this.touchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.recyclerview.widget.RecyclerView, android.view.View
     public void onSizeChanged(int i, int i2, int i3, int i4) {
         View view;
@@ -2975,8 +2957,8 @@ public class RecyclerListView extends RecyclerView {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0047  */
-    /* JADX WARN: Removed duplicated region for block: B:57:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0047  */
+    /* JADX WARN: Removed duplicated region for block: B:28:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

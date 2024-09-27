@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.tgnet.TLRPC$Document;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class StickerSetLinkIcon extends Drawable {
@@ -17,7 +17,7 @@ public class StickerSetLinkIcon extends Drawable {
     private final int count;
     private final AnimatedEmojiDrawable[] drawables;
     public final boolean out;
-    public int alpha = NotificationCenter.didClearDatabase;
+    public int alpha = NotificationCenter.messagePlayingSpeedChanged;
     private final RectF rect = new RectF();
     private boolean hit = false;
 
@@ -29,11 +29,11 @@ public class StickerSetLinkIcon extends Drawable {
         this.count = min;
         this.drawables = new AnimatedEmojiDrawable[min];
         if (!arrayList.isEmpty()) {
-            MessageObject.isAnimatedEmoji((TLRPC$Document) arrayList.get(0));
+            MessageObject.isAnimatedEmoji((TLRPC.Document) arrayList.get(0));
         }
         int i2 = max < 2 ? 1 : 0;
         for (int i3 = 0; i3 < this.count; i3++) {
-            this.drawables[i3] = AnimatedEmojiDrawable.make(i, i2, (TLRPC$Document) arrayList.get(i3));
+            this.drawables[i3] = AnimatedEmojiDrawable.make(i, i2, (TLRPC.Document) arrayList.get(i3));
         }
     }
 
@@ -100,8 +100,8 @@ public class StickerSetLinkIcon extends Drawable {
                 if (i >= animatedEmojiDrawableArr.length) {
                     return true;
                 }
-                TLRPC$Document document = animatedEmojiDrawableArr[i].getDocument();
-                if ((document == null ? 0L : document.id) != ((TLRPC$Document) arrayList.get(i)).id) {
+                TLRPC.Document document = animatedEmojiDrawableArr[i].getDocument();
+                if ((document == null ? 0L : document.id) != ((TLRPC.Document) arrayList.get(i)).id) {
                     return false;
                 }
                 i++;

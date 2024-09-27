@@ -31,18 +31,7 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.VideoEditedInfo;
-import org.telegram.tgnet.TLRPC$BotInlineResult;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$DocumentAttribute;
-import org.telegram.tgnet.TLRPC$FileLocation;
-import org.telegram.tgnet.TLRPC$Photo;
-import org.telegram.tgnet.TLRPC$PhotoSize;
-import org.telegram.tgnet.TLRPC$TL_document;
-import org.telegram.tgnet.TLRPC$TL_documentAttributeImageSize;
-import org.telegram.tgnet.TLRPC$TL_documentAttributeVideo;
-import org.telegram.tgnet.TLRPC$TL_inlineBotSwitchPM;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Adapters.MentionsAdapter;
@@ -98,10 +87,10 @@ public abstract class MentionsContainerView extends BlurredFrameLayout implement
             public static void $default$addEmojiToRecent(Delegate delegate, String str) {
             }
 
-            public static void $default$onStickerSelected(Delegate delegate, TLRPC$TL_document tLRPC$TL_document, String str, Object obj) {
+            public static void $default$onStickerSelected(Delegate delegate, TLRPC.TL_document tL_document, String str, Object obj) {
             }
 
-            public static void $default$sendBotInlineResult(Delegate delegate, TLRPC$BotInlineResult tLRPC$BotInlineResult, boolean z, int i) {
+            public static void $default$sendBotInlineResult(Delegate delegate, TLRPC.BotInlineResult botInlineResult, boolean z, int i) {
             }
         }
 
@@ -109,11 +98,11 @@ public abstract class MentionsContainerView extends BlurredFrameLayout implement
 
         Paint.FontMetricsInt getFontMetrics();
 
-        void onStickerSelected(TLRPC$TL_document tLRPC$TL_document, String str, Object obj);
+        void onStickerSelected(TLRPC.TL_document tL_document, String str, Object obj);
 
         void replaceText(int i, int i2, CharSequence charSequence, boolean z);
 
-        void sendBotInlineResult(TLRPC$BotInlineResult tLRPC$BotInlineResult, boolean z, int i);
+        void sendBotInlineResult(TLRPC.BotInlineResult botInlineResult, boolean z, int i);
     }
 
     /* loaded from: classes3.dex */
@@ -299,7 +288,7 @@ public abstract class MentionsContainerView extends BlurredFrameLayout implement
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC$FileLocation tLRPC$FileLocation, int i, boolean z) {
+            public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i, boolean z) {
                 ImageReceiver imageReceiver;
                 if (i >= 0 && i < MentionsContainerView.this.botContextResults.size()) {
                     int childCount = MentionsContainerView.this.getListView().getChildCount();
@@ -337,7 +326,7 @@ public abstract class MentionsContainerView extends BlurredFrameLayout implement
                 if (i < 0 || i >= MentionsContainerView.this.botContextResults.size()) {
                     return;
                 }
-                MentionsContainerView.this.delegate.sendBotInlineResult((TLRPC$BotInlineResult) MentionsContainerView.this.botContextResults.get(i), z, i2);
+                MentionsContainerView.this.delegate.sendBotInlineResult((TLRPC.BotInlineResult) MentionsContainerView.this.botContextResults.get(i), z, i2);
             }
         };
         this.baseFragment = baseFragment;
@@ -383,8 +372,8 @@ public abstract class MentionsContainerView extends BlurredFrameLayout implement
 
             @Override // org.telegram.ui.Components.ExtendedGridLayoutManager
             protected Size getSizeForItem(int i) {
-                TLRPC$PhotoSize closestPhotoSizeWithSize;
-                TLRPC$DocumentAttribute tLRPC$DocumentAttribute;
+                TLRPC.PhotoSize closestPhotoSizeWithSize;
+                TLRPC.DocumentAttribute documentAttribute;
                 Size size = this.size;
                 int i2 = 0;
                 size.full = false;
@@ -403,46 +392,46 @@ public abstract class MentionsContainerView extends BlurredFrameLayout implement
                 size3.width = 0.0f;
                 size3.height = 0.0f;
                 Object item = MentionsContainerView.this.adapter.getItem(i);
-                if (item instanceof TLRPC$BotInlineResult) {
-                    TLRPC$BotInlineResult tLRPC$BotInlineResult = (TLRPC$BotInlineResult) item;
-                    TLRPC$Document tLRPC$Document = tLRPC$BotInlineResult.document;
-                    if (tLRPC$Document != null) {
-                        TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
+                if (item instanceof TLRPC.BotInlineResult) {
+                    TLRPC.BotInlineResult botInlineResult = (TLRPC.BotInlineResult) item;
+                    TLRPC.Document document = botInlineResult.document;
+                    if (document != null) {
+                        TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 90);
                         Size size4 = this.size;
                         size4.width = closestPhotoSizeWithSize2 != null ? closestPhotoSizeWithSize2.w : 100.0f;
                         size4.height = closestPhotoSizeWithSize2 != null ? closestPhotoSizeWithSize2.h : 100.0f;
-                        while (i2 < tLRPC$BotInlineResult.document.attributes.size()) {
-                            tLRPC$DocumentAttribute = tLRPC$BotInlineResult.document.attributes.get(i2);
-                            if (!(tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeImageSize) && !(tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeVideo)) {
+                        while (i2 < botInlineResult.document.attributes.size()) {
+                            documentAttribute = botInlineResult.document.attributes.get(i2);
+                            if (!(documentAttribute instanceof TLRPC.TL_documentAttributeImageSize) && !(documentAttribute instanceof TLRPC.TL_documentAttributeVideo)) {
                                 i2++;
                             }
                             Size size5 = this.size;
-                            size5.width = tLRPC$DocumentAttribute.w;
-                            size5.height = tLRPC$DocumentAttribute.h;
+                            size5.width = documentAttribute.w;
+                            size5.height = documentAttribute.h;
                         }
-                    } else if (tLRPC$BotInlineResult.content != null) {
-                        while (i2 < tLRPC$BotInlineResult.content.attributes.size()) {
-                            tLRPC$DocumentAttribute = (TLRPC$DocumentAttribute) tLRPC$BotInlineResult.content.attributes.get(i2);
-                            if (!(tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeImageSize) && !(tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeVideo)) {
+                    } else if (botInlineResult.content != null) {
+                        while (i2 < botInlineResult.content.attributes.size()) {
+                            documentAttribute = botInlineResult.content.attributes.get(i2);
+                            if (!(documentAttribute instanceof TLRPC.TL_documentAttributeImageSize) && !(documentAttribute instanceof TLRPC.TL_documentAttributeVideo)) {
                                 i2++;
                             }
                             Size size52 = this.size;
-                            size52.width = tLRPC$DocumentAttribute.w;
-                            size52.height = tLRPC$DocumentAttribute.h;
+                            size52.width = documentAttribute.w;
+                            size52.height = documentAttribute.h;
                         }
-                    } else if (tLRPC$BotInlineResult.thumb != null) {
-                        while (i2 < tLRPC$BotInlineResult.thumb.attributes.size()) {
-                            tLRPC$DocumentAttribute = (TLRPC$DocumentAttribute) tLRPC$BotInlineResult.thumb.attributes.get(i2);
-                            if (!(tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeImageSize) && !(tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeVideo)) {
+                    } else if (botInlineResult.thumb != null) {
+                        while (i2 < botInlineResult.thumb.attributes.size()) {
+                            documentAttribute = botInlineResult.thumb.attributes.get(i2);
+                            if (!(documentAttribute instanceof TLRPC.TL_documentAttributeImageSize) && !(documentAttribute instanceof TLRPC.TL_documentAttributeVideo)) {
                                 i2++;
                             }
                             Size size522 = this.size;
-                            size522.width = tLRPC$DocumentAttribute.w;
-                            size522.height = tLRPC$DocumentAttribute.h;
+                            size522.width = documentAttribute.w;
+                            size522.height = documentAttribute.h;
                         }
                     } else {
-                        TLRPC$Photo tLRPC$Photo = tLRPC$BotInlineResult.photo;
-                        if (tLRPC$Photo != null && (closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, AndroidUtilities.photoSize.intValue())) != null) {
+                        TLRPC.Photo photo = botInlineResult.photo;
+                        if (photo != null && (closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, AndroidUtilities.photoSize.intValue())) != null) {
                             Size size6 = this.size;
                             size6.width = closestPhotoSizeWithSize.w;
                             size6.height = closestPhotoSizeWithSize.h;
@@ -465,10 +454,10 @@ public abstract class MentionsContainerView extends BlurredFrameLayout implement
                 }
                 int i2 = i - 1;
                 Object item = MentionsContainerView.this.adapter.getItem(i2);
-                if (item instanceof TLRPC$TL_inlineBotSwitchPM) {
+                if (item instanceof TLRPC.TL_inlineBotSwitchPM) {
                     return 100;
                 }
-                if (item instanceof TLRPC$Document) {
+                if (item instanceof TLRPC.Document) {
                     return 20;
                 }
                 if (MentionsContainerView.this.adapter.getBotContextSwitch() != null || MentionsContainerView.this.adapter.getBotWebViewSwitch() != null) {
@@ -512,8 +501,8 @@ public abstract class MentionsContainerView extends BlurredFrameLayout implement
             }
 
             @Override // org.telegram.ui.Adapters.MentionsAdapter.MentionsAdapterDelegate
-            public void onContextClick(TLRPC$BotInlineResult tLRPC$BotInlineResult) {
-                MentionsContainerView.this.onContextClick(tLRPC$BotInlineResult);
+            public void onContextClick(TLRPC.BotInlineResult botInlineResult) {
+                MentionsContainerView.this.onContextClick(botInlineResult);
             }
 
             @Override // org.telegram.ui.Adapters.MentionsAdapter.MentionsAdapterDelegate
@@ -591,15 +580,15 @@ public abstract class MentionsContainerView extends BlurredFrameLayout implement
         Object item = getAdapter().getItem(i2);
         int resultStartPosition = getAdapter().getResultStartPosition();
         int resultLength = getAdapter().getResultLength();
-        if (item instanceof TLRPC$TL_document) {
+        if (item instanceof TLRPC.TL_document) {
             if (view instanceof StickerCell) {
                 ((StickerCell) view).getSendAnimationData();
             }
-            TLRPC$TL_document tLRPC$TL_document = (TLRPC$TL_document) item;
-            delegate.onStickerSelected(tLRPC$TL_document, MessageObject.findAnimatedEmojiEmoticon(tLRPC$TL_document), getAdapter().getItemParent(i2));
+            TLRPC.TL_document tL_document = (TLRPC.TL_document) item;
+            delegate.onStickerSelected(tL_document, MessageObject.findAnimatedEmojiEmoticon(tL_document), getAdapter().getItemParent(i2));
         } else {
-            if (item instanceof TLRPC$Chat) {
-                publicUsername = ChatObject.getPublicUsername((TLRPC$Chat) item);
+            if (item instanceof TLRPC.Chat) {
+                publicUsername = ChatObject.getPublicUsername((TLRPC.Chat) item);
                 if (publicUsername != null) {
                     sb = new StringBuilder();
                     sb.append("@");
@@ -607,18 +596,18 @@ public abstract class MentionsContainerView extends BlurredFrameLayout implement
                     sb.append(" ");
                     charSequence = sb.toString();
                 }
-            } else if (item instanceof TLRPC$User) {
-                TLRPC$User tLRPC$User = (TLRPC$User) item;
-                if (UserObject.getPublicUsername(tLRPC$User) != null) {
+            } else if (item instanceof TLRPC.User) {
+                TLRPC.User user = (TLRPC.User) item;
+                if (UserObject.getPublicUsername(user) != null) {
                     sb = new StringBuilder();
                     sb.append("@");
-                    publicUsername = UserObject.getPublicUsername(tLRPC$User);
+                    publicUsername = UserObject.getPublicUsername(user);
                     sb.append(publicUsername);
                     sb.append(" ");
                     charSequence = sb.toString();
                 } else {
-                    SpannableString spannableString = new SpannableString(UserObject.getFirstName(tLRPC$User, false) + " ");
-                    spannableString.setSpan(new URLSpanUserMention("" + tLRPC$User.id, 3), 0, spannableString.length(), 33);
+                    SpannableString spannableString = new SpannableString(UserObject.getFirstName(user, false) + " ");
+                    spannableString.setSpan(new URLSpanUserMention("" + user.id, 3), 0, spannableString.length(), 33);
                     delegate.replaceText(resultStartPosition, resultLength, spannableString, false);
                 }
             } else if (item instanceof String) {
@@ -635,7 +624,7 @@ public abstract class MentionsContainerView extends BlurredFrameLayout implement
                             fontMetricsInt = null;
                         }
                         long parseLong = Long.parseLong(str.substring(9));
-                        TLRPC$Document findDocument = AnimatedEmojiDrawable.findDocument(UserConfig.selectedAccount, parseLong);
+                        TLRPC.Document findDocument = AnimatedEmojiDrawable.findDocument(UserConfig.selectedAccount, parseLong);
                         SpannableString spannableString2 = new SpannableString(MessageObject.findAnimatedEmojiEmoticon(findDocument));
                         spannableString2.setSpan(findDocument != null ? new AnimatedEmojiSpan(findDocument, fontMetricsInt) : new AnimatedEmojiSpan(parseLong, fontMetricsInt), 0, spannableString2.length(), 33);
                         delegate.replaceText(resultStartPosition, resultLength, spannableString2, false);
@@ -647,10 +636,10 @@ public abstract class MentionsContainerView extends BlurredFrameLayout implement
             }
             delegate.replaceText(resultStartPosition, resultLength, charSequence, false);
         }
-        if (item instanceof TLRPC$BotInlineResult) {
-            TLRPC$BotInlineResult tLRPC$BotInlineResult = (TLRPC$BotInlineResult) item;
-            if ((!tLRPC$BotInlineResult.type.equals("photo") || (tLRPC$BotInlineResult.photo == null && tLRPC$BotInlineResult.content == null)) && ((!tLRPC$BotInlineResult.type.equals("gif") || (tLRPC$BotInlineResult.document == null && tLRPC$BotInlineResult.content == null)) && (!tLRPC$BotInlineResult.type.equals(MediaStreamTrack.VIDEO_TRACK_KIND) || tLRPC$BotInlineResult.document == null))) {
-                delegate.sendBotInlineResult(tLRPC$BotInlineResult, true, 0);
+        if (item instanceof TLRPC.BotInlineResult) {
+            TLRPC.BotInlineResult botInlineResult = (TLRPC.BotInlineResult) item;
+            if ((!botInlineResult.type.equals("photo") || (botInlineResult.photo == null && botInlineResult.content == null)) && ((!botInlineResult.type.equals("gif") || (botInlineResult.document == null && botInlineResult.content == null)) && (!botInlineResult.type.equals(MediaStreamTrack.VIDEO_TRACK_KIND) || botInlineResult.document == null))) {
+                delegate.sendBotInlineResult(botInlineResult, true, 0);
                 return;
             }
             ArrayList arrayList = new ArrayList(getAdapter().getSearchResultBotContext());
@@ -905,7 +894,7 @@ public abstract class MentionsContainerView extends BlurredFrameLayout implement
     protected void onClose() {
     }
 
-    protected void onContextClick(TLRPC$BotInlineResult tLRPC$BotInlineResult) {
+    protected void onContextClick(TLRPC.BotInlineResult botInlineResult) {
     }
 
     protected void onContextSearch(boolean z) {

@@ -42,9 +42,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$RestrictionReason;
-import org.telegram.tgnet.TLRPC$TL_userContact_old2;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -61,7 +59,7 @@ public class PhonebookShareAlert extends BottomSheet {
     private View actionBarShadow;
     private Paint backgroundPaint;
     private TextView buttonTextView;
-    private TLRPC$User currentUser;
+    private TLRPC.User currentUser;
     private ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate delegate;
     private boolean inLayout;
     private boolean isImport;
@@ -313,12 +311,12 @@ public class PhonebookShareAlert extends BottomSheet {
         }
     }
 
-    public PhonebookShareAlert(BaseFragment baseFragment, ContactsController.Contact contact, TLRPC$User tLRPC$User, Uri uri, File file, String str, String str2) {
-        this(baseFragment, contact, tLRPC$User, uri, file, (String) null, str, str2);
+    public PhonebookShareAlert(BaseFragment baseFragment, ContactsController.Contact contact, TLRPC.User user, Uri uri, File file, String str, String str2) {
+        this(baseFragment, contact, user, uri, file, (String) null, str, str2);
     }
 
-    public PhonebookShareAlert(BaseFragment baseFragment, ContactsController.Contact contact, TLRPC$User tLRPC$User, Uri uri, File file, String str, String str2, String str3) {
-        this(baseFragment, contact, tLRPC$User, uri, file, str, str2, str3, null);
+    public PhonebookShareAlert(BaseFragment baseFragment, ContactsController.Contact contact, TLRPC.User user, Uri uri, File file, String str, String str2, String str3) {
+        this(baseFragment, contact, user, uri, file, str, str2, str3, null);
     }
 
     /* JADX WARN: Removed duplicated region for block: B:45:0x0127  */
@@ -331,12 +329,12 @@ public class PhonebookShareAlert extends BottomSheet {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public PhonebookShareAlert(BaseFragment baseFragment, ContactsController.Contact contact, TLRPC$User tLRPC$User, Uri uri, File file, String str, String str2, String str3, final Theme.ResourcesProvider resourcesProvider) {
+    public PhonebookShareAlert(BaseFragment baseFragment, ContactsController.Contact contact, TLRPC.User user, Uri uri, File file, String str, String str2, String str3, final Theme.ResourcesProvider resourcesProvider) {
         super(baseFragment.getParentActivity(), false, resourcesProvider);
-        ArrayList<TLRPC$User> loadVCardFromStream;
+        ArrayList<TLRPC.User> loadVCardFromStream;
         String str4;
         String str5;
-        ArrayList arrayList;
+        ArrayList<TLRPC.RestrictionReason> arrayList;
         int itemCount;
         final int i;
         ActionBar actionBar;
@@ -381,7 +379,7 @@ public class PhonebookShareAlert extends BottomSheet {
             }
             loadVCardFromStream = null;
         }
-        TLRPC$User tLRPC$User2 = (tLRPC$User != null || contact == null) ? tLRPC$User : contact.user;
+        TLRPC.User user2 = (user != null || contact == null) ? user : contact.user;
         if (loadVCardFromStream != null) {
             for (int i4 = 0; i4 < arrayList3.size(); i4++) {
                 AndroidUtilities.VcardItem vcardItem3 = (AndroidUtilities.VcardItem) arrayList3.get(i4);
@@ -399,31 +397,31 @@ public class PhonebookShareAlert extends BottomSheet {
                 arrayList2.add(vcardItem3);
             }
             if (!loadVCardFromStream.isEmpty()) {
-                TLRPC$User tLRPC$User3 = loadVCardFromStream.get(0);
-                arrayList = tLRPC$User3.restriction_reason;
+                TLRPC.User user3 = loadVCardFromStream.get(0);
+                arrayList = user3.restriction_reason;
                 if (TextUtils.isEmpty(str2)) {
-                    str4 = tLRPC$User3.first_name;
-                    str5 = tLRPC$User3.last_name;
+                    str4 = user3.first_name;
+                    str5 = user3.last_name;
                 } else {
                     str4 = str2;
                     str5 = str3;
                 }
-                TLRPC$TL_userContact_old2 tLRPC$TL_userContact_old2 = new TLRPC$TL_userContact_old2();
-                this.currentUser = tLRPC$TL_userContact_old2;
-                if (tLRPC$User2 == null) {
-                    tLRPC$TL_userContact_old2.id = tLRPC$User2.id;
-                    tLRPC$TL_userContact_old2.access_hash = tLRPC$User2.access_hash;
-                    tLRPC$TL_userContact_old2.photo = tLRPC$User2.photo;
-                    tLRPC$TL_userContact_old2.status = tLRPC$User2.status;
-                    tLRPC$TL_userContact_old2.first_name = tLRPC$User2.first_name;
-                    tLRPC$TL_userContact_old2.last_name = tLRPC$User2.last_name;
-                    tLRPC$TL_userContact_old2.phone = tLRPC$User2.phone;
+                TLRPC.TL_userContact_old2 tL_userContact_old2 = new TLRPC.TL_userContact_old2();
+                this.currentUser = tL_userContact_old2;
+                if (user2 == null) {
+                    tL_userContact_old2.id = user2.id;
+                    tL_userContact_old2.access_hash = user2.access_hash;
+                    tL_userContact_old2.photo = user2.photo;
+                    tL_userContact_old2.status = user2.status;
+                    tL_userContact_old2.first_name = user2.first_name;
+                    tL_userContact_old2.last_name = user2.last_name;
+                    tL_userContact_old2.phone = user2.phone;
                     if (arrayList != null) {
-                        tLRPC$TL_userContact_old2.restriction_reason = arrayList;
+                        tL_userContact_old2.restriction_reason = arrayList;
                     }
                 } else {
-                    tLRPC$TL_userContact_old2.first_name = str4;
-                    tLRPC$TL_userContact_old2.last_name = str5;
+                    tL_userContact_old2.first_name = str4;
+                    tL_userContact_old2.last_name = str5;
                 }
                 this.parentFragment = baseFragment;
                 final Activity parentActivity = baseFragment.getParentActivity();
@@ -650,9 +648,9 @@ public class PhonebookShareAlert extends BottomSheet {
         str4 = str2;
         str5 = str3;
         arrayList = null;
-        TLRPC$TL_userContact_old2 tLRPC$TL_userContact_old22 = new TLRPC$TL_userContact_old2();
-        this.currentUser = tLRPC$TL_userContact_old22;
-        if (tLRPC$User2 == null) {
+        TLRPC.TL_userContact_old2 tL_userContact_old22 = new TLRPC.TL_userContact_old2();
+        this.currentUser = tL_userContact_old22;
+        if (user2 == null) {
         }
         this.parentFragment = baseFragment;
         final Context parentActivity2 = baseFragment.getParentActivity();
@@ -847,8 +845,8 @@ public class PhonebookShareAlert extends BottomSheet {
         });
     }
 
-    public PhonebookShareAlert(BaseFragment baseFragment, ContactsController.Contact contact, TLRPC$User tLRPC$User, Uri uri, File file, String str, String str2, Theme.ResourcesProvider resourcesProvider) {
-        this(baseFragment, contact, tLRPC$User, uri, file, null, str, str2, resourcesProvider);
+    public PhonebookShareAlert(BaseFragment baseFragment, ContactsController.Contact contact, TLRPC.User user, Uri uri, File file, String str, String str2, Theme.ResourcesProvider resourcesProvider) {
+        this(baseFragment, contact, user, uri, file, null, str, str2, resourcesProvider);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1361,10 +1359,10 @@ public class PhonebookShareAlert extends BottomSheet {
         }
         if (this.currentUser.restriction_reason.isEmpty()) {
             Locale locale = Locale.US;
-            TLRPC$User tLRPC$User = this.currentUser;
-            sb = new StringBuilder(String.format(locale, "BEGIN:VCARD\nVERSION:3.0\nFN:%1$s\nEND:VCARD", ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name)));
+            TLRPC.User user = this.currentUser;
+            sb = new StringBuilder(String.format(locale, "BEGIN:VCARD\nVERSION:3.0\nFN:%1$s\nEND:VCARD", ContactsController.formatName(user.first_name, user.last_name)));
         } else {
-            sb = new StringBuilder(((TLRPC$RestrictionReason) this.currentUser.restriction_reason.get(0)).text);
+            sb = new StringBuilder(this.currentUser.restriction_reason.get(0).text);
         }
         int lastIndexOf = sb.lastIndexOf("END:VCARD");
         if (lastIndexOf >= 0) {
@@ -1372,9 +1370,9 @@ public class PhonebookShareAlert extends BottomSheet {
             for (int size = this.phones.size() - 1; size >= 0; size--) {
                 AndroidUtilities.VcardItem vcardItem = (AndroidUtilities.VcardItem) this.phones.get(size);
                 if (vcardItem.checked) {
-                    TLRPC$User tLRPC$User2 = this.currentUser;
-                    if (tLRPC$User2.phone == null) {
-                        tLRPC$User2.phone = vcardItem.getValue(false);
+                    TLRPC.User user2 = this.currentUser;
+                    if (user2.phone == null) {
+                        user2.phone = vcardItem.getValue(false);
                     }
                     for (int i = 0; i < vcardItem.vcardData.size(); i++) {
                         sb.insert(lastIndexOf, vcardItem.vcardData.get(i) + "\n");
@@ -1390,11 +1388,11 @@ public class PhonebookShareAlert extends BottomSheet {
                 }
             }
             this.currentUser.restriction_reason.clear();
-            TLRPC$RestrictionReason tLRPC$RestrictionReason = new TLRPC$RestrictionReason();
-            tLRPC$RestrictionReason.text = sb.toString();
-            tLRPC$RestrictionReason.reason = "";
-            tLRPC$RestrictionReason.platform = "";
-            this.currentUser.restriction_reason.add(tLRPC$RestrictionReason);
+            TLRPC.RestrictionReason restrictionReason = new TLRPC.RestrictionReason();
+            restrictionReason.text = sb.toString();
+            restrictionReason.reason = "";
+            restrictionReason.platform = "";
+            this.currentUser.restriction_reason.add(restrictionReason);
         }
         BaseFragment baseFragment = this.parentFragment;
         if ((baseFragment instanceof ChatActivity) && ((ChatActivity) baseFragment).isInScheduleMode()) {

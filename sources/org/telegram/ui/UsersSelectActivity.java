@@ -48,9 +48,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$Dialog;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -140,14 +138,14 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                         this.usersStartRow = 5;
                         boolean z2 = UsersSelectActivity.this.type != 2;
                         boolean z3 = UsersSelectActivity.this.type != 2;
-                        ArrayList<TLRPC$Dialog> allDialogs = UsersSelectActivity.this.getMessagesController().getAllDialogs();
+                        ArrayList<TLRPC.Dialog> allDialogs = UsersSelectActivity.this.getMessagesController().getAllDialogs();
                         size = allDialogs.size();
                         z = false;
                         for (i = 0; i < size; i++) {
-                            TLRPC$Dialog tLRPC$Dialog = allDialogs.get(i);
-                            if (!DialogObject.isEncryptedDialog(tLRPC$Dialog.id)) {
-                                if (DialogObject.isUserDialog(tLRPC$Dialog.id)) {
-                                    TLRPC$User user = UsersSelectActivity.this.getMessagesController().getUser(Long.valueOf(tLRPC$Dialog.id));
+                            TLRPC.Dialog dialog = allDialogs.get(i);
+                            if (!DialogObject.isEncryptedDialog(dialog.id)) {
+                                if (DialogObject.isUserDialog(dialog.id)) {
+                                    TLRPC.User user = UsersSelectActivity.this.getMessagesController().getUser(Long.valueOf(dialog.id));
                                     if (user != null && ((UsersSelectActivity.this.allowSelf || !UserObject.isUserSelf(user)) && (!user.bot || z2))) {
                                         this.contacts.add(user);
                                         if (UserObject.isUserSelf(user)) {
@@ -155,7 +153,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                                         }
                                     }
                                 } else {
-                                    TLRPC$Chat chat = UsersSelectActivity.this.getMessagesController().getChat(Long.valueOf(-tLRPC$Dialog.id));
+                                    TLRPC.Chat chat = UsersSelectActivity.this.getMessagesController().getChat(Long.valueOf(-dialog.id));
                                     if (z3 && chat != null) {
                                         this.contacts.add(chat);
                                     }
@@ -202,7 +200,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                 }
                 if (UsersSelectActivity.this.type != 2) {
                 }
-                ArrayList<TLRPC$Dialog> allDialogs2 = UsersSelectActivity.this.getMessagesController().getAllDialogs();
+                ArrayList<TLRPC.Dialog> allDialogs2 = UsersSelectActivity.this.getMessagesController().getAllDialogs();
                 size = allDialogs2.size();
                 z = false;
                 while (i < size) {
@@ -245,7 +243,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             }
             if (UsersSelectActivity.this.type != 2) {
             }
-            ArrayList<TLRPC$Dialog> allDialogs22 = UsersSelectActivity.this.getMessagesController().getAllDialogs();
+            ArrayList<TLRPC.Dialog> allDialogs22 = UsersSelectActivity.this.getMessagesController().getAllDialogs();
             size = allDialogs22.size();
             z = false;
             while (i < size) {
@@ -330,20 +328,20 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             while (i3 < this.contacts.size()) {
                 TLObject tLObject = (TLObject) this.contacts.get(i3);
                 String[] strArr2 = new String[3];
-                boolean z3 = tLObject instanceof TLRPC$User;
+                boolean z3 = tLObject instanceof TLRPC.User;
                 if (z3) {
-                    TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
-                    strArr2[c] = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name).toLowerCase();
-                    str2 = UserObject.getPublicUsername(tLRPC$User);
-                    if (UserObject.isReplyUser(tLRPC$User)) {
+                    TLRPC.User user = (TLRPC.User) tLObject;
+                    strArr2[c] = ContactsController.formatName(user.first_name, user.last_name).toLowerCase();
+                    str2 = UserObject.getPublicUsername(user);
+                    if (UserObject.isReplyUser(user)) {
                         strArr2[2] = LocaleController.getString(R.string.RepliesTitle).toLowerCase();
-                    } else if (UserObject.isUserSelf(tLRPC$User)) {
+                    } else if (UserObject.isUserSelf(user)) {
                         if (UsersSelectActivity.this.allowSelf) {
                             strArr2[2] = LocaleController.getString(R.string.SavedMessages).toLowerCase();
                         }
                         i = i2;
                         str3 = str4;
-                    } else if (tLRPC$User.bot) {
+                    } else if (user.bot) {
                     }
                     String translitString2 = LocaleController.getInstance().getTranslitString(strArr2[c]);
                     strArr2[c2] = translitString2;
@@ -382,10 +380,10 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                         if (c3 != 0) {
                             if (c3 == 1) {
                                 if (z3) {
-                                    TLRPC$User tLRPC$User2 = (TLRPC$User) tLObject;
-                                    generateSearchName = AndroidUtilities.generateSearchName(tLRPC$User2.first_name, tLRPC$User2.last_name, str5);
+                                    TLRPC.User user2 = (TLRPC.User) tLObject;
+                                    generateSearchName = AndroidUtilities.generateSearchName(user2.first_name, user2.last_name, str5);
                                 } else {
-                                    generateSearchName = AndroidUtilities.generateSearchName(((TLRPC$Chat) tLObject).title, null, str5);
+                                    generateSearchName = AndroidUtilities.generateSearchName(((TLRPC.Chat) tLObject).title, null, str5);
                                 }
                                 arrayList2.add(generateSearchName);
                                 str3 = null;
@@ -403,9 +401,9 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                     i = i2;
                     str3 = str4;
                 } else {
-                    TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) tLObject;
-                    strArr2[c] = tLRPC$Chat.title.toLowerCase();
-                    str2 = tLRPC$Chat.username;
+                    TLRPC.Chat chat = (TLRPC.Chat) tLObject;
+                    strArr2[c] = chat.title.toLowerCase();
+                    str2 = chat.username;
                 }
                 i3++;
                 str4 = str3;
@@ -582,7 +580,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                 int size3 = this.searchAdapterHelper.getLocalServerSearch().size();
                 obj = (i < 0 || i >= size) ? (i < size || i >= size3 + size) ? (i <= size + size3 || i >= (size2 + size) + size3) ? null : this.searchAdapterHelper.getGlobalSearch().get((i - size) - size3) : this.searchAdapterHelper.getLocalServerSearch().get(i - size) : this.searchResult.get(i);
                 if (obj != null) {
-                    String publicUsername = obj instanceof TLRPC$User ? ((TLRPC$User) obj).username : ChatObject.getPublicUsername((TLRPC$Chat) obj);
+                    String publicUsername = obj instanceof TLRPC.User ? ((TLRPC.User) obj).username : ChatObject.getPublicUsername((TLRPC.Chat) obj);
                     if (i < size) {
                         charSequence = (CharSequence) this.searchResultNames.get(i);
                         if (charSequence != null && !TextUtils.isEmpty(publicUsername)) {
@@ -617,10 +615,10 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                             r7 = publicUsername;
                         }
                     }
-                    j = !(obj instanceof TLRPC$User) ? ((TLRPC$User) obj).id : obj instanceof TLRPC$Chat ? -((TLRPC$Chat) obj).id : 0L;
+                    j = !(obj instanceof TLRPC.User) ? ((TLRPC.User) obj).id : obj instanceof TLRPC.Chat ? -((TLRPC.Chat) obj).id : 0L;
                     if (UsersSelectActivity.this.type != 2) {
                         if (UsersSelectActivity.this.type != 0) {
-                            int i3 = UsersSelectActivity.this.getMessagesController().dialogs_dict.get(j) != null ? ((TLRPC$Dialog) UsersSelectActivity.this.getMessagesController().dialogs_dict.get(j)).ttl_period : 0;
+                            int i3 = UsersSelectActivity.this.getMessagesController().dialogs_dict.get(j) != null ? ((TLRPC.Dialog) UsersSelectActivity.this.getMessagesController().dialogs_dict.get(j)).ttl_period : 0;
                             if (i3 > 0) {
                                 spannableStringBuilder3 = new SpannableStringBuilder();
                                 spannableStringBuilder3.append((CharSequence) "d");
@@ -636,8 +634,8 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                                 z = false;
                             }
                             spannableStringBuilder2 = spannableStringBuilder3;
-                            if (obj instanceof TLRPC$Chat) {
-                                z2 = ChatObject.canUserDoAdminAction((TLRPC$Chat) obj, 13);
+                            if (obj instanceof TLRPC.Chat) {
+                                z2 = ChatObject.canUserDoAdminAction((TLRPC.Chat) obj, 13);
                                 spannableStringBuilder = spannableStringBuilder3;
                                 groupCreateUserCell.setAlpha(!z2 ? 1.0f : 0.5f);
                                 groupCreateUserCell.setObject(obj, charSequence, spannableStringBuilder);
@@ -743,7 +741,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                 obj = this.contacts.get(i - i5);
             }
             charSequence = null;
-            if (!(obj instanceof TLRPC$User)) {
+            if (!(obj instanceof TLRPC.User)) {
             }
             if (UsersSelectActivity.this.type != 2) {
             }
@@ -1186,7 +1184,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                             break;
                     }
                 } else {
-                    j = object instanceof TLRPC$User ? ((TLRPC$User) object).id : object instanceof TLRPC$Chat ? -((TLRPC$Chat) object).id : 0L;
+                    j = object instanceof TLRPC.User ? ((TLRPC.User) object).id : object instanceof TLRPC.Chat ? -((TLRPC.Chat) object).id : 0L;
                 }
                 if (j != 0) {
                     groupCreateUserCell.setChecked(this.selectedContacts.indexOfKey(j) >= 0, true);
@@ -1272,14 +1270,14 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                     }
                     this.filterFlags = !groupCreateUserCell.isChecked() ? this.filterFlags & (i2 ^ (-1)) : this.filterFlags | i2;
                 }
-            } else if (object instanceof TLRPC$User) {
-                j = ((TLRPC$User) object).id;
-            } else if (!(object instanceof TLRPC$Chat)) {
+            } else if (object instanceof TLRPC.User) {
+                j = ((TLRPC.User) object).id;
+            } else if (!(object instanceof TLRPC.Chat)) {
                 return;
             } else {
-                TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) object;
-                j = -tLRPC$Chat.id;
-                if (this.type == 1 && !ChatObject.canUserDoAdminAction(tLRPC$Chat, 13)) {
+                TLRPC.Chat chat = (TLRPC.Chat) object;
+                j = -chat.id;
+                if (this.type == 1 && !ChatObject.canUserDoAdminAction(chat, 13)) {
                     BulletinFactory.of(this).createErrorBulletin(LocaleController.getString(R.string.NeedAdminRightForSetAutoDeleteTimer)).show();
                     return;
                 }
@@ -1293,10 +1291,10 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                 showDialog(limitReachedBottomSheet);
                 return;
             } else {
-                if (object instanceof TLRPC$User) {
-                    MessagesController.getInstance(this.currentAccount).putUser((TLRPC$User) object, !this.searching);
-                } else if (object instanceof TLRPC$Chat) {
-                    MessagesController.getInstance(this.currentAccount).putChat((TLRPC$Chat) object, !this.searching);
+                if (object instanceof TLRPC.User) {
+                    MessagesController.getInstance(this.currentAccount).putUser((TLRPC.User) object, !this.searching);
+                } else if (object instanceof TLRPC.Chat) {
+                    MessagesController.getInstance(this.currentAccount).putChat((TLRPC.Chat) object, !this.searching);
                 }
                 GroupCreateSpan groupCreateSpan = new GroupCreateSpan(this.editText.getContext(), object);
                 this.spansContainer.addSpan(groupCreateSpan, true);

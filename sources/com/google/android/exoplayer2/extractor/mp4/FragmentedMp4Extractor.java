@@ -35,7 +35,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
@@ -206,12 +205,12 @@ public class FragmentedMp4Extractor implements Extractor {
                     byte[] data = this.scratch.getData();
                     data[0] = 0;
                     data[1] = 1;
-                    data[2] = (byte) ((i2 >> 8) & NotificationCenter.didClearDatabase);
-                    data[3] = (byte) (i2 & NotificationCenter.didClearDatabase);
-                    data[4] = (byte) ((i >> 24) & NotificationCenter.didClearDatabase);
-                    data[5] = (byte) ((i >> 16) & NotificationCenter.didClearDatabase);
-                    data[6] = (byte) ((i >> 8) & NotificationCenter.didClearDatabase);
-                    data[7] = (byte) (i & NotificationCenter.didClearDatabase);
+                    data[2] = (byte) ((i2 >> 8) & NotificationCenter.messagePlayingSpeedChanged);
+                    data[3] = (byte) (i2 & NotificationCenter.messagePlayingSpeedChanged);
+                    data[4] = (byte) ((i >> 24) & NotificationCenter.messagePlayingSpeedChanged);
+                    data[5] = (byte) ((i >> 16) & NotificationCenter.messagePlayingSpeedChanged);
+                    data[6] = (byte) ((i >> 8) & NotificationCenter.messagePlayingSpeedChanged);
+                    data[7] = (byte) (i & NotificationCenter.messagePlayingSpeedChanged);
                     this.output.sampleData(this.scratch, 8, 1);
                     return i3 + 9;
                 }
@@ -224,8 +223,8 @@ public class FragmentedMp4Extractor implements Extractor {
                     byte[] data2 = this.scratch.getData();
                     parsableByteArray3.readBytes(data2, 0, i4);
                     int i5 = (((data2[2] & 255) << 8) | (data2[3] & 255)) + i2;
-                    data2[2] = (byte) ((i5 >> 8) & NotificationCenter.didClearDatabase);
-                    data2[3] = (byte) (i5 & NotificationCenter.didClearDatabase);
+                    data2[2] = (byte) ((i5 >> 8) & NotificationCenter.messagePlayingSpeedChanged);
+                    data2[3] = (byte) (i5 & NotificationCenter.messagePlayingSpeedChanged);
                     parsableByteArray3 = this.scratch;
                 }
                 this.output.sampleData(parsableByteArray3, i4, 1);
@@ -707,7 +706,7 @@ public class FragmentedMp4Extractor implements Extractor {
         }
         parsableByteArray2.skipBytes(1);
         int readUnsignedByte = parsableByteArray2.readUnsignedByte();
-        int i3 = (readUnsignedByte & NotificationCenter.locationPermissionDenied) >> 4;
+        int i3 = (readUnsignedByte & NotificationCenter.goingToPreviewTheme) >> 4;
         int i4 = readUnsignedByte & 15;
         boolean z = parsableByteArray2.readUnsignedByte() == 1;
         if (z) {
@@ -909,7 +908,7 @@ public class FragmentedMp4Extractor implements Extractor {
             i9 = parsableByteArray.readInt();
         }
         boolean z7 = (parseFullAtomFlags & 256) != 0;
-        boolean z8 = (parseFullAtomFlags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
+        boolean z8 = (parseFullAtomFlags & 512) != 0;
         boolean z9 = (parseFullAtomFlags & 1024) != 0;
         boolean z10 = (parseFullAtomFlags & 2048) != 0;
         long[] jArr2 = track.editListDurations;

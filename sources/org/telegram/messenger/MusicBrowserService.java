@@ -34,12 +34,7 @@ import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.audioinfo.AudioInfo;
 import org.telegram.tgnet.NativeByteBuffer;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$ChatPhoto;
-import org.telegram.tgnet.TLRPC$FileLocation;
-import org.telegram.tgnet.TLRPC$Message;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$UserProfilePhoto;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.LaunchActivity;
 /* loaded from: classes3.dex */
 public class MusicBrowserService extends MediaBrowserService implements NotificationCenter.NotificationCenterDelegate {
@@ -135,19 +130,19 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
                 MusicBrowserService.this.createMediaSession();
                 MusicBrowserService.this.mediaSession.setQueue(arrayList2);
                 if (parseLong > 0) {
-                    TLRPC$User tLRPC$User = (TLRPC$User) MusicBrowserService.this.users.get(parseLong);
-                    if (tLRPC$User != null) {
+                    TLRPC.User user = (TLRPC.User) MusicBrowserService.this.users.get(parseLong);
+                    if (user != null) {
                         mediaSession = MusicBrowserService.this.mediaSession;
-                        str2 = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
+                        str2 = ContactsController.formatName(user.first_name, user.last_name);
                     } else {
                         mediaSession = MusicBrowserService.this.mediaSession;
                         str2 = "DELETED USER";
                     }
                 } else {
-                    TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) MusicBrowserService.this.chats.get(-parseLong);
-                    if (tLRPC$Chat != null) {
+                    TLRPC.Chat chat = (TLRPC.Chat) MusicBrowserService.this.chats.get(-parseLong);
+                    if (chat != null) {
                         mediaSession = MusicBrowserService.this.mediaSession;
-                        str2 = tLRPC$Chat.title;
+                        str2 = chat.title;
                     } else {
                         mediaSession = MusicBrowserService.this.mediaSession;
                         str2 = "DELETED CHAT";
@@ -171,8 +166,8 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
             for (int i = 0; i < MusicBrowserService.this.dialogs.size(); i++) {
                 long longValue = ((Long) MusicBrowserService.this.dialogs.get(i)).longValue();
                 if (DialogObject.isUserDialog(longValue)) {
-                    TLRPC$User tLRPC$User = (TLRPC$User) MusicBrowserService.this.users.get(longValue);
-                    if (tLRPC$User != null && (((str3 = tLRPC$User.first_name) != null && str3.startsWith(lowerCase)) || ((str4 = tLRPC$User.last_name) != null && str4.startsWith(lowerCase)))) {
+                    TLRPC.User user = (TLRPC.User) MusicBrowserService.this.users.get(longValue);
+                    if (user != null && (((str3 = user.first_name) != null && str3.startsWith(lowerCase)) || ((str4 = user.last_name) != null && str4.startsWith(lowerCase)))) {
                         sb = new StringBuilder();
                         sb.append(longValue);
                         sb.append("_");
@@ -181,8 +176,8 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
                         return;
                     }
                 } else {
-                    TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) MusicBrowserService.this.chats.get(-longValue);
-                    if (tLRPC$Chat != null && (str2 = tLRPC$Chat.title) != null && str2.toLowerCase().contains(lowerCase)) {
+                    TLRPC.Chat chat = (TLRPC.Chat) MusicBrowserService.this.chats.get(-longValue);
+                    if (chat != null && (str2 = chat.title) != null && str2.toLowerCase().contains(lowerCase)) {
                         sb = new StringBuilder();
                         sb.append(longValue);
                         sb.append("_");
@@ -363,10 +358,10 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
                 this.mediaSession.setQueue(arrayList2);
                 long j2 = this.lastSelectedDialog;
                 if (j2 > 0) {
-                    TLRPC$User tLRPC$User = (TLRPC$User) this.users.get(j2);
-                    if (tLRPC$User != null) {
+                    TLRPC.User user = (TLRPC.User) this.users.get(j2);
+                    if (user != null) {
                         mediaSession2 = this.mediaSession;
-                        str3 = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
+                        str3 = ContactsController.formatName(user.first_name, user.last_name);
                         mediaSession2.setQueueTitle(str3);
                     } else {
                         mediaSession = this.mediaSession;
@@ -374,10 +369,10 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
                         mediaSession.setQueueTitle(str2);
                     }
                 } else {
-                    TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) this.chats.get(-j2);
-                    if (tLRPC$Chat != null) {
+                    TLRPC.Chat chat = (TLRPC.Chat) this.chats.get(-j2);
+                    if (chat != null) {
                         mediaSession2 = this.mediaSession;
-                        str3 = tLRPC$Chat.title;
+                        str3 = chat.title;
                         mediaSession2.setQueueTitle(str3);
                     } else {
                         mediaSession = this.mediaSession;
@@ -428,7 +423,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
                 while (queryFinalized2.next()) {
                     NativeByteBuffer byteBufferValue = queryFinalized2.byteBufferValue(1);
                     if (byteBufferValue != null) {
-                        TLRPC$Message TLdeserialize = TLRPC$Message.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
+                        TLRPC.Message TLdeserialize = TLRPC.Message.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
                         TLdeserialize.readAttachPath(byteBufferValue, UserConfig.getInstance(this.currentAccount).clientUserId);
                         byteBufferValue.reuse();
                         if (MessageObject.isMusicMessage(TLdeserialize)) {
@@ -456,19 +451,19 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
                 }
                 queryFinalized2.dispose();
                 if (!arrayList2.isEmpty()) {
-                    ArrayList<TLRPC$User> arrayList6 = new ArrayList<>();
+                    ArrayList<TLRPC.User> arrayList6 = new ArrayList<>();
                     messagesStorage.getUsersInternal(arrayList2, arrayList6);
                     for (int i = 0; i < arrayList6.size(); i++) {
-                        TLRPC$User tLRPC$User = arrayList6.get(i);
-                        this.users.put(tLRPC$User.id, tLRPC$User);
+                        TLRPC.User user = arrayList6.get(i);
+                        this.users.put(user.id, user);
                     }
                 }
                 if (!arrayList3.isEmpty()) {
-                    ArrayList<TLRPC$Chat> arrayList7 = new ArrayList<>();
+                    ArrayList<TLRPC.Chat> arrayList7 = new ArrayList<>();
                     messagesStorage.getChatsInternal(TextUtils.join(",", arrayList3), arrayList7);
                     for (int i2 = 0; i2 < arrayList7.size(); i2++) {
-                        TLRPC$Chat tLRPC$Chat = arrayList7.get(i2);
-                        this.chats.put(tLRPC$Chat.id, tLRPC$Chat);
+                        TLRPC.Chat chat = arrayList7.get(i2);
+                        this.chats.put(chat.id, chat);
                     }
                 }
             }
@@ -484,10 +479,10 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:13:0x0060, code lost:
-        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_fileLocationUnavailable) == false) goto L13;
+        if ((r1 instanceof org.telegram.tgnet.TLRPC.TL_fileLocationUnavailable) == false) goto L13;
      */
     /* JADX WARN: Code restructure failed: missing block: B:22:0x0081, code lost:
-        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_fileLocationUnavailable) == false) goto L13;
+        if ((r1 instanceof org.telegram.tgnet.TLRPC.TL_fileLocationUnavailable) == false) goto L13;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -498,7 +493,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         MediaDescription build;
         MediaDescription.Builder mediaId2;
         String str2;
-        TLRPC$FileLocation tLRPC$FileLocation;
+        TLRPC.FileLocation fileLocation;
         MediaDescription build2;
         ArrayList arrayList = new ArrayList();
         int i2 = 0;
@@ -508,38 +503,38 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
                 mediaId2 = new MediaDescription.Builder().setMediaId("__CHAT_" + longValue);
                 Bitmap bitmap = null;
                 if (DialogObject.isUserDialog(longValue)) {
-                    TLRPC$User tLRPC$User = (TLRPC$User) this.users.get(longValue);
-                    if (tLRPC$User != null) {
-                        mediaId2.setTitle(ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name));
-                        TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto = tLRPC$User.photo;
-                        if (tLRPC$UserProfilePhoto != null) {
-                            tLRPC$FileLocation = tLRPC$UserProfilePhoto.photo_small;
+                    TLRPC.User user = (TLRPC.User) this.users.get(longValue);
+                    if (user != null) {
+                        mediaId2.setTitle(ContactsController.formatName(user.first_name, user.last_name));
+                        TLRPC.UserProfilePhoto userProfilePhoto = user.photo;
+                        if (userProfilePhoto != null) {
+                            fileLocation = userProfilePhoto.photo_small;
                         }
-                        tLRPC$FileLocation = null;
+                        fileLocation = null;
                     } else {
                         str2 = "DELETED USER";
                         mediaId2.setTitle(str2);
-                        tLRPC$FileLocation = null;
+                        fileLocation = null;
                     }
                 } else {
-                    TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) this.chats.get(-longValue);
-                    if (tLRPC$Chat != null) {
-                        mediaId2.setTitle(tLRPC$Chat.title);
-                        TLRPC$ChatPhoto tLRPC$ChatPhoto = tLRPC$Chat.photo;
-                        if (tLRPC$ChatPhoto != null) {
-                            tLRPC$FileLocation = tLRPC$ChatPhoto.photo_small;
+                    TLRPC.Chat chat = (TLRPC.Chat) this.chats.get(-longValue);
+                    if (chat != null) {
+                        mediaId2.setTitle(chat.title);
+                        TLRPC.ChatPhoto chatPhoto = chat.photo;
+                        if (chatPhoto != null) {
+                            fileLocation = chatPhoto.photo_small;
                         }
-                        tLRPC$FileLocation = null;
+                        fileLocation = null;
                     } else {
                         str2 = "DELETED CHAT";
                         mediaId2.setTitle(str2);
-                        tLRPC$FileLocation = null;
+                        fileLocation = null;
                     }
                 }
-                if (tLRPC$FileLocation != null && (bitmap = createRoundBitmap(FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$FileLocation, true))) != null) {
+                if (fileLocation != null && (bitmap = createRoundBitmap(FileLoader.getInstance(this.currentAccount).getPathToAttach(fileLocation, true))) != null) {
                     mediaId2.setIconBitmap(bitmap);
                 }
-                if (tLRPC$FileLocation == null || bitmap == null) {
+                if (fileLocation == null || bitmap == null) {
                     mediaId2.setIconUri(Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/drawable/contact_blue"));
                 }
                 build2 = mediaId2.build();

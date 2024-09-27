@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes3.dex */
-public abstract class ExtendedGridLayoutManager extends GridLayoutManager {
+public class ExtendedGridLayoutManager extends GridLayoutManager {
     private int calculatedWidth;
     private final boolean firstRowFullWidth;
     private int firstRowMax;
@@ -178,7 +178,9 @@ public abstract class ExtendedGridLayoutManager extends GridLayoutManager {
         return this.rowsCount;
     }
 
-    protected abstract Size getSizeForItem(int i);
+    protected Size getSizeForItem(int i) {
+        return new Size(100.0f, 100.0f);
+    }
 
     public int getSpanSizeForItem(int i) {
         checkLayout();

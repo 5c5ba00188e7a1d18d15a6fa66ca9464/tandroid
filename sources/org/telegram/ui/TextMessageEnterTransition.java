@@ -35,9 +35,7 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
-import org.telegram.tgnet.TLRPC$MessageMedia;
-import org.telegram.tgnet.TLRPC$TL_messageMediaGame;
-import org.telegram.tgnet.TLRPC$TL_messageMediaInvoice;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
@@ -522,13 +520,13 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         if (android.text.TextUtils.isEmpty(r5.caption) != false) goto L254;
      */
     /* JADX WARN: Code restructure failed: missing block: B:110:0x0488, code lost:
-        if ((org.telegram.messenger.MessageObject.getMedia(r46.currentMessageObject.replyMessageObject.messageOwner) instanceof org.telegram.tgnet.TLRPC$TL_messageMediaInvoice) != false) goto L254;
+        if ((org.telegram.messenger.MessageObject.getMedia(r46.currentMessageObject.replyMessageObject.messageOwner) instanceof org.telegram.tgnet.TLRPC.TL_messageMediaInvoice) != false) goto L254;
      */
     /* JADX WARN: Code restructure failed: missing block: B:86:0x040d, code lost:
         if (android.text.TextUtils.isEmpty(r5.caption) != false) goto L234;
      */
     /* JADX WARN: Code restructure failed: missing block: B:90:0x0429, code lost:
-        if ((org.telegram.messenger.MessageObject.getMedia(r46.currentMessageObject.replyMessageObject.messageOwner) instanceof org.telegram.tgnet.TLRPC$TL_messageMediaInvoice) != false) goto L234;
+        if ((org.telegram.messenger.MessageObject.getMedia(r46.currentMessageObject.replyMessageObject.messageOwner) instanceof org.telegram.tgnet.TLRPC.TL_messageMediaInvoice) != false) goto L234;
      */
     /* JADX WARN: Removed duplicated region for block: B:115:0x049c  */
     /* JADX WARN: Removed duplicated region for block: B:133:0x04ff  */
@@ -627,7 +625,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
             f = interpolation2;
             f2 = f25;
             f3 = interpolation;
-            canvas.saveLayerAlpha(0.0f, Math.max(0.0f, top), this.container.getMeasuredWidth(), this.container.getMeasuredHeight(), NotificationCenter.didClearDatabase, 31);
+            canvas.saveLayerAlpha(0.0f, Math.max(0.0f, top), this.container.getMeasuredWidth(), this.container.getMeasuredHeight(), NotificationCenter.messagePlayingSpeedChanged, 31);
         } else {
             i = measuredHeight;
             f = interpolation2;
@@ -662,7 +660,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                 shadowDrawable.setAlpha((int) (f6 * 255.0f));
                 shadowDrawable.setBounds((int) backgroundDrawableLeft, (int) y3, backgroundDrawableRight, (int) y4);
                 shadowDrawable.draw(canvas);
-                shadowDrawable.setAlpha(NotificationCenter.didClearDatabase);
+                shadowDrawable.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
             }
             currentBackgroundDrawable.setAlpha((int) (f7 * 255.0f));
             currentBackgroundDrawable.setBounds((int) backgroundDrawableLeft, (int) y3, backgroundDrawableRight, (int) y4);
@@ -670,7 +668,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
             currentBackgroundDrawable.draw(canvas);
             z = false;
             currentBackgroundDrawable.setDrawFullBubble(false);
-            currentBackgroundDrawable.setAlpha(NotificationCenter.didClearDatabase);
+            currentBackgroundDrawable.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
         } else {
             f4 = f3;
             f5 = x;
@@ -736,8 +734,8 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                             if (this.currentMessageObject.hasValidReplyMessageObject()) {
                                 MessageObject messageObject2 = this.currentMessageObject.replyMessageObject;
                                 if (messageObject2.type == 0 || !TextUtils.isEmpty(messageObject2.caption)) {
-                                    TLRPC$MessageMedia tLRPC$MessageMedia = this.currentMessageObject.replyMessageObject.messageOwner.media;
-                                    if (!(tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaGame) && !(tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaInvoice)) {
+                                    TLRPC.MessageMedia messageMedia = this.currentMessageObject.replyMessageObject.messageOwner.media;
+                                    if (!(messageMedia instanceof TLRPC.TL_messageMediaGame) && !(messageMedia instanceof TLRPC.TL_messageMediaInvoice)) {
                                         i4 = Theme.key_chat_outReplyMessageText;
                                         themedColor2 = getThemedColor(i4);
                                     }
@@ -757,7 +755,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                                     MessageObject messageObject4 = this.currentMessageObject.replyMessageObject;
                                     if (messageObject4.type != 0) {
                                     }
-                                    if (!(MessageObject.getMedia(this.currentMessageObject.replyMessageObject.messageOwner) instanceof TLRPC$TL_messageMediaGame)) {
+                                    if (!(MessageObject.getMedia(this.currentMessageObject.replyMessageObject.messageOwner) instanceof TLRPC.TL_messageMediaGame)) {
                                     }
                                 }
                                 if (!this.messageView.isReplyQuote) {
@@ -785,7 +783,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                                 MessageObject messageObject6 = this.currentMessageObject.replyMessageObject;
                                 if (messageObject6.type != 0) {
                                 }
-                                if (!(MessageObject.getMedia(this.currentMessageObject.replyMessageObject.messageOwner) instanceof TLRPC$TL_messageMediaGame)) {
+                                if (!(MessageObject.getMedia(this.currentMessageObject.replyMessageObject.messageOwner) instanceof TLRPC.TL_messageMediaGame)) {
                                 }
                             }
                             if (!this.messageView.isReplyQuote) {

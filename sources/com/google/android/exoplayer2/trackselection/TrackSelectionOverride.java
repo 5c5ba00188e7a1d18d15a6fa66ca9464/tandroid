@@ -25,6 +25,10 @@ public final class TrackSelectionOverride implements Bundleable {
         }
     };
 
+    public TrackSelectionOverride(TrackGroup trackGroup, int i) {
+        this(trackGroup, ImmutableList.of((Object) Integer.valueOf(i)));
+    }
+
     public TrackSelectionOverride(TrackGroup trackGroup, List list) {
         if (!list.isEmpty() && (((Integer) Collections.min(list)).intValue() < 0 || ((Integer) Collections.max(list)).intValue() >= trackGroup.length)) {
             throw new IndexOutOfBoundsException();

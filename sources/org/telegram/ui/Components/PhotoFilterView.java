@@ -1037,7 +1037,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         FrameLayout frameLayout5 = new FrameLayout(context);
         this.blurLayout = frameLayout5;
         frameLayout5.setVisibility(4);
-        this.toolsView.addView(this.blurLayout, LayoutHelper.createFrame(NotificationCenter.userEmojiStatusUpdated, 60.0f, 1, 0.0f, (z2 ? 0 : 40) + 40, 0.0f, 0.0f));
+        this.toolsView.addView(this.blurLayout, LayoutHelper.createFrame(NotificationCenter.billingConfirmPurchaseError, 60.0f, 1, 0.0f, (z2 ? 0 : 40) + 40, 0.0f, 0.0f));
         TextView textView5 = new TextView(context);
         this.blurOffButton = textView5;
         textView5.setCompoundDrawablePadding(AndroidUtilities.dp(2.0f));

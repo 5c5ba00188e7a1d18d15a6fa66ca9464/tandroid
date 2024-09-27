@@ -17,8 +17,7 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.MessageObject;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$PageBlock;
-import org.telegram.tgnet.TLRPC$PhotoSize;
+import org.telegram.tgnet.TLRPC;
 /* loaded from: classes3.dex */
 public class GroupedPhotosListView extends View implements GestureDetector.OnGestureListener {
     private boolean animateAllLine;
@@ -162,7 +161,7 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
                 freeReceiver.setImageCoords(i7, this.itemY, this.itemWidth, this.itemHeight);
                 if (this.currentObjects.get(0) instanceof MessageObject) {
                     obj2 = this.currentObjects.get(i2);
-                } else if (this.currentObjects.get(0) instanceof TLRPC$PageBlock) {
+                } else if (this.currentObjects.get(0) instanceof TLRPC.PageBlock) {
                     obj2 = this.delegate.getParentObject();
                 } else {
                     obj2 = "avatar_" + this.delegate.getAvatarsDialogId();
@@ -184,7 +183,7 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
                 freeReceiver2.setImageCoords(i9, this.itemY, this.itemWidth, this.itemHeight);
                 if (this.currentObjects.get(0) instanceof MessageObject) {
                     obj = this.currentObjects.get(i3);
-                } else if (this.currentObjects.get(0) instanceof TLRPC$PageBlock) {
+                } else if (this.currentObjects.get(0) instanceof TLRPC.PageBlock) {
                     obj = this.delegate.getParentObject();
                 } else {
                     obj = "avatar_" + this.delegate.getAvatarsDialogId();
@@ -292,7 +291,7 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
             if (imagesArr != null && !imagesArr.isEmpty()) {
                 i8 = imagesArr.indexOf((MessageObject) obj);
             } else if (pageBlockArr != null && !pageBlockArr.isEmpty()) {
-                i8 = pageBlockArr.indexOf((TLRPC$PageBlock) obj);
+                i8 = pageBlockArr.indexOf((TLRPC.PageBlock) obj);
             } else if (imagesArrLocations != null && !imagesArrLocations.isEmpty()) {
                 i8 = imagesArrLocations.indexOf((ImageLocation) obj);
             }
@@ -318,7 +317,7 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
     /* JADX WARN: Removed duplicated region for block: B:130:0x0265  */
     /* JADX WARN: Removed duplicated region for block: B:221:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r3v12 */
-    /* JADX WARN: Type inference failed for: r3v13, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v13, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r3v21 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -327,7 +326,7 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
         ArrayList arrayList;
         boolean z;
         ImageLocation imageLocation;
-        TLRPC$PageBlock tLRPC$PageBlock;
+        TLRPC.PageBlock pageBlock;
         boolean z2;
         int i;
         ?? r3;
@@ -360,8 +359,8 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
                 i2 = 0;
                 imageLocation = null;
             } else {
-                TLRPC$PageBlock tLRPC$PageBlock2 = (TLRPC$PageBlock) pageBlockArr.get(currentIndex);
-                long j = tLRPC$PageBlock2.groupId;
+                TLRPC.PageBlock pageBlock2 = (TLRPC.PageBlock) pageBlockArr.get(currentIndex);
+                long j = pageBlock2.groupId;
                 if (j != this.currentGroupId) {
                     this.currentGroupId = j;
                     z = true;
@@ -373,27 +372,27 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
                     int size2 = pageBlockArr.size();
                     int i3 = currentIndex;
                     i2 = 0;
-                    TLRPC$PageBlock tLRPC$PageBlock3 = tLRPC$PageBlock2;
+                    TLRPC.PageBlock pageBlock3 = pageBlock2;
                     while (true) {
                         if (i3 >= size2) {
-                            tLRPC$PageBlock = tLRPC$PageBlock3;
+                            pageBlock = pageBlock3;
                             break;
                         }
-                        tLRPC$PageBlock = tLRPC$PageBlock3;
-                        if (((TLRPC$PageBlock) pageBlockArr.get(i3)).groupId != this.currentGroupId) {
+                        pageBlock = pageBlock3;
+                        if (((TLRPC.PageBlock) pageBlockArr.get(i3)).groupId != this.currentGroupId) {
                             break;
                         }
                         i2++;
                         i3++;
-                        tLRPC$PageBlock3 = tLRPC$PageBlock;
+                        pageBlock3 = pageBlock;
                     }
-                    for (int i4 = currentIndex - 1; i4 >= 0 && ((TLRPC$PageBlock) pageBlockArr.get(i4)).groupId == this.currentGroupId; i4--) {
+                    for (int i4 = currentIndex - 1; i4 >= 0 && ((TLRPC.PageBlock) pageBlockArr.get(i4)).groupId == this.currentGroupId; i4--) {
                         i2++;
                     }
-                    imageLocation = tLRPC$PageBlock;
+                    imageLocation = pageBlock;
                 } else {
                     i2 = 0;
-                    imageLocation = tLRPC$PageBlock2;
+                    imageLocation = pageBlock2;
                 }
             }
         } else {
@@ -568,23 +567,23 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
                 if (pageBlockArr != null && !pageBlockArr.isEmpty() && this.currentGroupId != 0) {
                     int size4 = pageBlockArr.size();
                     for (int i11 = i10; i11 < size4; i11++) {
-                        TLRPC$PageBlock tLRPC$PageBlock4 = (TLRPC$PageBlock) pageBlockArr.get(i11);
-                        if (tLRPC$PageBlock4.groupId != this.currentGroupId) {
+                        TLRPC.PageBlock pageBlock4 = (TLRPC.PageBlock) pageBlockArr.get(i11);
+                        if (pageBlock4.groupId != this.currentGroupId) {
                             break;
                         }
-                        this.currentObjects.add(tLRPC$PageBlock4);
-                        this.currentPhotos.add(ImageLocation.getForObject(tLRPC$PageBlock4.thumb, tLRPC$PageBlock4.thumbObject));
+                        this.currentObjects.add(pageBlock4);
+                        this.currentPhotos.add(ImageLocation.getForObject(pageBlock4.thumb, pageBlock4.thumbObject));
                     }
                     this.currentImage = 0;
                     this.animateToItem = -1;
                     this.animateToItemFast = false;
                     for (int i12 = i10 - 1; i12 >= 0; i12--) {
-                        TLRPC$PageBlock tLRPC$PageBlock5 = (TLRPC$PageBlock) pageBlockArr.get(i12);
-                        if (tLRPC$PageBlock5.groupId != this.currentGroupId) {
+                        TLRPC.PageBlock pageBlock5 = (TLRPC.PageBlock) pageBlockArr.get(i12);
+                        if (pageBlock5.groupId != this.currentGroupId) {
                             break;
                         }
-                        this.currentObjects.add(0, tLRPC$PageBlock5);
-                        this.currentPhotos.add(0, ImageLocation.getForObject(tLRPC$PageBlock5.thumb, tLRPC$PageBlock5.thumbObject));
+                        this.currentObjects.add(0, pageBlock5);
+                        this.currentPhotos.add(0, ImageLocation.getForObject(pageBlock5.thumb, pageBlock5.thumbObject));
                         this.currentImage++;
                     }
                 }
@@ -682,8 +681,8 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
         int ceil;
         int i4;
         int param;
-        TLRPC$PhotoSize tLRPC$PhotoSize;
-        TLRPC$PhotoSize tLRPC$PhotoSize2;
+        TLRPC.PhotoSize photoSize;
+        TLRPC.PhotoSize photoSize2;
         if (this.hasPhotos || !this.imagesToDraw.isEmpty()) {
             float f = this.drawAlpha;
             if (!this.animateBackground) {
@@ -699,7 +698,7 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
             int i6 = (int) (this.itemWidth * 2.0f);
             int dp = AndroidUtilities.dp(8.0f);
             ImageLocation imageLocation = (ImageLocation) this.currentPhotos.get(this.currentImage);
-            int min = Math.min(i6, (imageLocation == null || (tLRPC$PhotoSize2 = imageLocation.photoSize) == null) ? this.itemHeight : Math.max(this.itemWidth, (int) (tLRPC$PhotoSize2.w * (this.itemHeight / tLRPC$PhotoSize2.h))));
+            int min = Math.min(i6, (imageLocation == null || (photoSize2 = imageLocation.photoSize) == null) ? this.itemHeight : Math.max(this.itemWidth, (int) (photoSize2.w * (this.itemHeight / photoSize2.h))));
             float f2 = dp * 2;
             float f3 = this.currentItemProgress;
             int i7 = (int) (f2 * f3);
@@ -709,7 +708,7 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
                 i2 = this.itemWidth;
             } else {
                 ImageLocation imageLocation2 = (ImageLocation) this.currentPhotos.get(this.nextImage);
-                i2 = (imageLocation2 == null || (tLRPC$PhotoSize = imageLocation2.photoSize) == null) ? this.itemHeight : Math.max(this.itemWidth, (int) (tLRPC$PhotoSize.w * (this.itemHeight / tLRPC$PhotoSize.h)));
+                i2 = (imageLocation2 == null || (photoSize = imageLocation2.photoSize) == null) ? this.itemHeight : Math.max(this.itemWidth, (int) (photoSize.w * (this.itemHeight / photoSize.h)));
             }
             int min2 = Math.min(i6, i2);
             float f4 = this.nextItemProgress;
@@ -932,7 +931,7 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
                         return true;
                     }
                 } else if (pageBlockArr != null && !pageBlockArr.isEmpty()) {
-                    indexOf = pageBlockArr.indexOf((TLRPC$PageBlock) this.currentObjects.get(param));
+                    indexOf = pageBlockArr.indexOf((TLRPC.PageBlock) this.currentObjects.get(param));
                     if (currentIndex == indexOf) {
                         return true;
                     }

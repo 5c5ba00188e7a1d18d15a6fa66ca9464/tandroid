@@ -19,8 +19,7 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$TL_availableReaction;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -98,9 +97,9 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
                 } catch (Exception unused) {
                 }
             }
-            TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(((BaseFragment) ReactionsDoubleTapManageActivity.this).currentAccount).getReactionsMap().get(doubleTapReaction);
-            if (tLRPC$TL_availableReaction != null) {
-                this.imageDrawable.set(tLRPC$TL_availableReaction.static_icon, z);
+            TLRPC.TL_availableReaction tL_availableReaction = MediaDataController.getInstance(((BaseFragment) ReactionsDoubleTapManageActivity.this).currentAccount).getReactionsMap().get(doubleTapReaction);
+            if (tL_availableReaction != null) {
+                this.imageDrawable.set(tL_availableReaction.static_icon, z);
             }
         }
 
@@ -205,8 +204,8 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
                 if (getItemViewType(i) != 1) {
                     return;
                 }
-                TLRPC$TL_availableReaction tLRPC$TL_availableReaction = (TLRPC$TL_availableReaction) ReactionsDoubleTapManageActivity.this.getAvailableReactions().get(i - ReactionsDoubleTapManageActivity.this.reactionsStartRow);
-                ((AvailableReactionCell) viewHolder.itemView).bind(tLRPC$TL_availableReaction, tLRPC$TL_availableReaction.reaction.contains(MediaDataController.getInstance(((BaseFragment) ReactionsDoubleTapManageActivity.this).currentAccount).getDoubleTapReaction()), ((BaseFragment) ReactionsDoubleTapManageActivity.this).currentAccount);
+                TLRPC.TL_availableReaction tL_availableReaction = (TLRPC.TL_availableReaction) ReactionsDoubleTapManageActivity.this.getAvailableReactions().get(i - ReactionsDoubleTapManageActivity.this.reactionsStartRow);
+                ((AvailableReactionCell) viewHolder.itemView).bind(tL_availableReaction, tL_availableReaction.reaction.contains(MediaDataController.getInstance(((BaseFragment) ReactionsDoubleTapManageActivity.this).currentAccount).getDoubleTapReaction()), ((BaseFragment) ReactionsDoubleTapManageActivity.this).currentAccount);
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -341,7 +340,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
                 int i4 = i2;
                 selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(this, getContext(), false, Integer.valueOf(i), 2, null) { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity.3
                     @Override // org.telegram.ui.SelectAnimatedEmojiDialog
-                    protected void onEmojiSelected(View view, Long l, TLRPC$Document tLRPC$Document, Integer num) {
+                    protected void onEmojiSelected(View view, Long l, TLRPC.Document document, Integer num) {
                         if (l == null) {
                             return;
                         }
@@ -381,7 +380,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
                 ArrayList arrayList = new ArrayList(20);
                 for (i3 = 0; i3 < availableReactions.size(); i3++) {
                     ReactionsLayoutInBubble.VisibleReaction visibleReaction = new ReactionsLayoutInBubble.VisibleReaction();
-                    visibleReaction.emojicon = ((TLRPC$TL_availableReaction) availableReactions.get(i3)).reaction;
+                    visibleReaction.emojicon = ((TLRPC.TL_availableReaction) availableReactions.get(i3)).reaction;
                     arrayList.add(visibleReaction);
                 }
                 selectAnimatedEmojiDialog.setRecentReactions(arrayList);
@@ -410,7 +409,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         int i42 = i2;
         selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(this, getContext(), false, Integer.valueOf(i), 2, null) { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity.3
             @Override // org.telegram.ui.SelectAnimatedEmojiDialog
-            protected void onEmojiSelected(View view, Long l, TLRPC$Document tLRPC$Document, Integer num) {
+            protected void onEmojiSelected(View view, Long l, TLRPC.Document document, Integer num) {
                 if (l == null) {
                     return;
                 }

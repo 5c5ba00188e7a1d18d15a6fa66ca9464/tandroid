@@ -61,23 +61,7 @@ import org.telegram.messenger.VideoEditedInfo;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$BotInlineResult;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$DocumentAttribute;
-import org.telegram.tgnet.TLRPC$FileLocation;
-import org.telegram.tgnet.TLRPC$InputPeer;
-import org.telegram.tgnet.TLRPC$Photo;
-import org.telegram.tgnet.TLRPC$PhotoSize;
-import org.telegram.tgnet.TLRPC$TL_contacts_resolveUsername;
-import org.telegram.tgnet.TLRPC$TL_contacts_resolvedPeer;
-import org.telegram.tgnet.TLRPC$TL_documentAttributeImageSize;
-import org.telegram.tgnet.TLRPC$TL_documentAttributeVideo;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_inputPeerEmpty;
-import org.telegram.tgnet.TLRPC$TL_messages_getInlineBotResults;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$WebDocument;
-import org.telegram.tgnet.TLRPC$messages_BotResults;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
@@ -187,7 +171,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
 
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC$FileLocation tLRPC$FileLocation, int i, boolean z) {
+        public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i, boolean z) {
             PhotoAttachPhotoCell cellForIndex = PhotoPickerActivity.this.getCellForIndex(i);
             if (cellForIndex != null) {
                 BackupImageView imageView = cellForIndex.getImageView();
@@ -223,7 +207,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
 
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public ImageReceiver.BitmapHolder getThumbForPhoto(MessageObject messageObject, TLRPC$FileLocation tLRPC$FileLocation, int i) {
+        public ImageReceiver.BitmapHolder getThumbForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i) {
             PhotoAttachPhotoCell cellForIndex = PhotoPickerActivity.this.getCellForIndex(i);
             if (cellForIndex != null) {
                 return cellForIndex.getImageView().getImageReceiver().getBitmapSafe();
@@ -387,7 +371,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
 
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public void willSwitchFromPhoto(MessageObject messageObject, TLRPC$FileLocation tLRPC$FileLocation, int i) {
+        public void willSwitchFromPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i) {
             int childCount = PhotoPickerActivity.this.listView.getChildCount();
             for (int i2 = 0; i2 < childCount; i2++) {
                 View childAt = PhotoPickerActivity.this.listView.getChildAt(i2);
@@ -812,7 +796,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                     }
 
                     private void checkSlowMode() {
-                        TLRPC$Chat currentChat;
+                        TLRPC.Chat currentChat;
                         if (!PhotoPickerActivity.this.allowOrder || PhotoPickerActivity.this.chatActivity == null || (currentChat = PhotoPickerActivity.this.chatActivity.getCurrentChat()) == null || ChatObject.hasAdminRights(currentChat) || !currentChat.slowmode_enabled || PhotoPickerActivity.this.alertOnlyOnce == 2) {
                             return;
                         }
@@ -1139,7 +1123,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         ChatActivity chatActivity = this.chatActivity;
         if (chatActivity != null && this.maxSelectedPhotos != 1) {
             chatActivity.getCurrentChat();
-            TLRPC$User currentUser = this.chatActivity.getCurrentUser();
+            TLRPC.User currentUser = this.chatActivity.getCurrentUser();
             if (this.sendPopupLayout == null) {
                 ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(getParentActivity());
                 this.sendPopupLayout = actionBarPopupWindowLayout;
@@ -1226,16 +1210,16 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
     }
 
     public /* synthetic */ void lambda$searchBotUser$8(TLObject tLObject, boolean z) {
-        TLRPC$TL_contacts_resolvedPeer tLRPC$TL_contacts_resolvedPeer = (TLRPC$TL_contacts_resolvedPeer) tLObject;
-        MessagesController.getInstance(this.currentAccount).putUsers(tLRPC$TL_contacts_resolvedPeer.users, false);
-        MessagesController.getInstance(this.currentAccount).putChats(tLRPC$TL_contacts_resolvedPeer.chats, false);
-        MessagesStorage.getInstance(this.currentAccount).putUsersAndChats(tLRPC$TL_contacts_resolvedPeer.users, tLRPC$TL_contacts_resolvedPeer.chats, true, true);
+        TLRPC.TL_contacts_resolvedPeer tL_contacts_resolvedPeer = (TLRPC.TL_contacts_resolvedPeer) tLObject;
+        MessagesController.getInstance(this.currentAccount).putUsers(tL_contacts_resolvedPeer.users, false);
+        MessagesController.getInstance(this.currentAccount).putChats(tL_contacts_resolvedPeer.chats, false);
+        MessagesStorage.getInstance(this.currentAccount).putUsersAndChats(tL_contacts_resolvedPeer.users, tL_contacts_resolvedPeer.chats, true, true);
         String str = this.lastSearchImageString;
         this.lastSearchImageString = null;
         searchImages(z, str, "", false);
     }
 
-    public /* synthetic */ void lambda$searchBotUser$9(final boolean z, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$searchBotUser$9(final boolean z, final TLObject tLObject, TLRPC.TL_error tL_error) {
         if (tLObject != null) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PhotoPickerActivity$$ExternalSyntheticLambda12
                 @Override // java.lang.Runnable
@@ -1246,79 +1230,79 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    public /* synthetic */ void lambda$searchImages$10(String str, int i, TLObject tLObject, boolean z, TLRPC$User tLRPC$User) {
+    public /* synthetic */ void lambda$searchImages$10(String str, int i, TLObject tLObject, boolean z, TLRPC.User user) {
         int i2;
-        TLRPC$Photo tLRPC$Photo;
-        TLRPC$PhotoSize closestPhotoSizeWithSize;
+        TLRPC.Photo photo;
+        TLRPC.PhotoSize closestPhotoSizeWithSize;
         addToRecentSearches(str);
         if (i != this.lastSearchToken) {
             return;
         }
         int size = this.searchResult.size();
         if (tLObject != null) {
-            TLRPC$messages_BotResults tLRPC$messages_BotResults = (TLRPC$messages_BotResults) tLObject;
-            this.nextImagesSearchOffset = tLRPC$messages_BotResults.next_offset;
-            int size2 = tLRPC$messages_BotResults.results.size();
+            TLRPC.messages_BotResults messages_botresults = (TLRPC.messages_BotResults) tLObject;
+            this.nextImagesSearchOffset = messages_botresults.next_offset;
+            int size2 = messages_botresults.results.size();
             i2 = 0;
             for (int i3 = 0; i3 < size2; i3++) {
-                TLRPC$BotInlineResult tLRPC$BotInlineResult = (TLRPC$BotInlineResult) tLRPC$messages_BotResults.results.get(i3);
-                if ((z || "photo".equals(tLRPC$BotInlineResult.type)) && ((!z || "gif".equals(tLRPC$BotInlineResult.type)) && !this.searchResultKeys.containsKey(tLRPC$BotInlineResult.id))) {
+                TLRPC.BotInlineResult botInlineResult = messages_botresults.results.get(i3);
+                if ((z || "photo".equals(botInlineResult.type)) && ((!z || "gif".equals(botInlineResult.type)) && !this.searchResultKeys.containsKey(botInlineResult.id))) {
                     MediaController.SearchImage searchImage = new MediaController.SearchImage();
-                    if (z && tLRPC$BotInlineResult.document != null) {
-                        for (int i4 = 0; i4 < tLRPC$BotInlineResult.document.attributes.size(); i4++) {
-                            TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$BotInlineResult.document.attributes.get(i4);
-                            if ((tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeImageSize) || (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeVideo)) {
-                                searchImage.width = tLRPC$DocumentAttribute.w;
-                                searchImage.height = tLRPC$DocumentAttribute.h;
+                    if (z && botInlineResult.document != null) {
+                        for (int i4 = 0; i4 < botInlineResult.document.attributes.size(); i4++) {
+                            TLRPC.DocumentAttribute documentAttribute = botInlineResult.document.attributes.get(i4);
+                            if ((documentAttribute instanceof TLRPC.TL_documentAttributeImageSize) || (documentAttribute instanceof TLRPC.TL_documentAttributeVideo)) {
+                                searchImage.width = documentAttribute.w;
+                                searchImage.height = documentAttribute.h;
                                 break;
                             }
                         }
-                        searchImage.document = tLRPC$BotInlineResult.document;
+                        searchImage.document = botInlineResult.document;
                         searchImage.size = 0;
-                        TLRPC$Photo tLRPC$Photo2 = tLRPC$BotInlineResult.photo;
-                        if (tLRPC$Photo2 != null && (closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo2.sizes, this.itemSize, true)) != null) {
-                            tLRPC$BotInlineResult.document.thumbs.add(closestPhotoSizeWithSize);
-                            tLRPC$BotInlineResult.document.flags |= 1;
+                        TLRPC.Photo photo2 = botInlineResult.photo;
+                        if (photo2 != null && (closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(photo2.sizes, this.itemSize, true)) != null) {
+                            botInlineResult.document.thumbs.add(closestPhotoSizeWithSize);
+                            botInlineResult.document.flags |= 1;
                         }
-                    } else if (!z && (tLRPC$Photo = tLRPC$BotInlineResult.photo) != null) {
-                        TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, AndroidUtilities.getPhotoSize());
-                        TLRPC$PhotoSize closestPhotoSizeWithSize3 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$BotInlineResult.photo.sizes, 320);
+                    } else if (!z && (photo = botInlineResult.photo) != null) {
+                        TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, AndroidUtilities.getPhotoSize());
+                        TLRPC.PhotoSize closestPhotoSizeWithSize3 = FileLoader.getClosestPhotoSizeWithSize(botInlineResult.photo.sizes, 320);
                         if (closestPhotoSizeWithSize2 != null) {
                             searchImage.width = closestPhotoSizeWithSize2.w;
                             searchImage.height = closestPhotoSizeWithSize2.h;
                             searchImage.photoSize = closestPhotoSizeWithSize2;
-                            searchImage.photo = tLRPC$BotInlineResult.photo;
+                            searchImage.photo = botInlineResult.photo;
                             searchImage.size = closestPhotoSizeWithSize2.size;
                             searchImage.thumbPhotoSize = closestPhotoSizeWithSize3;
                         }
-                    } else if (tLRPC$BotInlineResult.content != null) {
+                    } else if (botInlineResult.content != null) {
                         int i5 = 0;
                         while (true) {
-                            if (i5 >= tLRPC$BotInlineResult.content.attributes.size()) {
+                            if (i5 >= botInlineResult.content.attributes.size()) {
                                 break;
                             }
-                            TLRPC$DocumentAttribute tLRPC$DocumentAttribute2 = (TLRPC$DocumentAttribute) tLRPC$BotInlineResult.content.attributes.get(i5);
-                            if (tLRPC$DocumentAttribute2 instanceof TLRPC$TL_documentAttributeImageSize) {
-                                searchImage.width = tLRPC$DocumentAttribute2.w;
-                                searchImage.height = tLRPC$DocumentAttribute2.h;
+                            TLRPC.DocumentAttribute documentAttribute2 = botInlineResult.content.attributes.get(i5);
+                            if (documentAttribute2 instanceof TLRPC.TL_documentAttributeImageSize) {
+                                searchImage.width = documentAttribute2.w;
+                                searchImage.height = documentAttribute2.h;
                                 break;
                             }
                             i5++;
                         }
-                        TLRPC$WebDocument tLRPC$WebDocument = tLRPC$BotInlineResult.thumb;
-                        searchImage.thumbUrl = tLRPC$WebDocument != null ? tLRPC$WebDocument.url : null;
-                        TLRPC$WebDocument tLRPC$WebDocument2 = tLRPC$BotInlineResult.content;
-                        searchImage.imageUrl = tLRPC$WebDocument2.url;
-                        searchImage.size = z ? 0 : tLRPC$WebDocument2.size;
+                        TLRPC.WebDocument webDocument = botInlineResult.thumb;
+                        searchImage.thumbUrl = webDocument != null ? webDocument.url : null;
+                        TLRPC.WebDocument webDocument2 = botInlineResult.content;
+                        searchImage.imageUrl = webDocument2.url;
+                        searchImage.size = z ? 0 : webDocument2.size;
                     }
-                    searchImage.id = tLRPC$BotInlineResult.id;
+                    searchImage.id = botInlineResult.id;
                     searchImage.type = z ? 1 : 0;
-                    searchImage.inlineResult = tLRPC$BotInlineResult;
+                    searchImage.inlineResult = botInlineResult;
                     HashMap<String, String> hashMap = new HashMap<>();
                     searchImage.params = hashMap;
-                    hashMap.put("id", tLRPC$BotInlineResult.id);
-                    searchImage.params.put("query_id", "" + tLRPC$messages_BotResults.query_id);
-                    searchImage.params.put("bot_name", UserObject.getPublicUsername(tLRPC$User));
+                    hashMap.put("id", botInlineResult.id);
+                    searchImage.params.put("query_id", "" + messages_botresults.query_id);
+                    searchImage.params.put("bot_name", UserObject.getPublicUsername(user));
                     this.searchResult.add(searchImage);
                     this.searchResultKeys.put(searchImage.id, searchImage);
                     i2++;
@@ -1339,11 +1323,11 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    public /* synthetic */ void lambda$searchImages$11(final String str, final int i, final boolean z, final TLRPC$User tLRPC$User, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$searchImages$11(final String str, final int i, final boolean z, final TLRPC.User user, final TLObject tLObject, TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PhotoPickerActivity$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
-                PhotoPickerActivity.this.lambda$searchImages$10(str, i, tLObject, z, tLRPC$User);
+                PhotoPickerActivity.this.lambda$searchImages$10(str, i, tLObject, z, user);
             }
         });
     }
@@ -1409,19 +1393,19 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             return;
         }
         this.searchingUser = true;
-        TLRPC$TL_contacts_resolveUsername tLRPC$TL_contacts_resolveUsername = new TLRPC$TL_contacts_resolveUsername();
+        TLRPC.TL_contacts_resolveUsername tL_contacts_resolveUsername = new TLRPC.TL_contacts_resolveUsername();
         MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
-        tLRPC$TL_contacts_resolveUsername.username = z ? messagesController.gifSearchBot : messagesController.imageSearchBot;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.ui.PhotoPickerActivity$$ExternalSyntheticLambda7
+        tL_contacts_resolveUsername.username = z ? messagesController.gifSearchBot : messagesController.imageSearchBot;
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.ui.PhotoPickerActivity$$ExternalSyntheticLambda7
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                PhotoPickerActivity.this.lambda$searchBotUser$9(z, tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                PhotoPickerActivity.this.lambda$searchBotUser$9(z, tLObject, tL_error);
             }
         });
     }
 
     public void searchImages(final boolean z, final String str, String str2, boolean z2) {
-        TLRPC$InputPeer tLRPC$TL_inputPeerEmpty;
+        TLRPC.InputPeer tL_inputPeerEmpty;
         if (this.searching) {
             this.searching = false;
             if (this.imageReqId != 0) {
@@ -1434,32 +1418,32 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
         MessagesController messagesController2 = MessagesController.getInstance(this.currentAccount);
         TLObject userOrChat = messagesController.getUserOrChat(z ? messagesController2.gifSearchBot : messagesController2.imageSearchBot);
-        if (!(userOrChat instanceof TLRPC$User)) {
+        if (!(userOrChat instanceof TLRPC.User)) {
             if (z2) {
                 searchBotUser(z);
                 return;
             }
             return;
         }
-        final TLRPC$User tLRPC$User = (TLRPC$User) userOrChat;
-        TLRPC$TL_messages_getInlineBotResults tLRPC$TL_messages_getInlineBotResults = new TLRPC$TL_messages_getInlineBotResults();
-        tLRPC$TL_messages_getInlineBotResults.query = str == null ? "" : str;
-        tLRPC$TL_messages_getInlineBotResults.bot = MessagesController.getInstance(this.currentAccount).getInputUser(tLRPC$User);
-        tLRPC$TL_messages_getInlineBotResults.offset = str2;
+        final TLRPC.User user = (TLRPC.User) userOrChat;
+        TLRPC.TL_messages_getInlineBotResults tL_messages_getInlineBotResults = new TLRPC.TL_messages_getInlineBotResults();
+        tL_messages_getInlineBotResults.query = str == null ? "" : str;
+        tL_messages_getInlineBotResults.bot = MessagesController.getInstance(this.currentAccount).getInputUser(user);
+        tL_messages_getInlineBotResults.offset = str2;
         ChatActivity chatActivity = this.chatActivity;
         if (chatActivity != null) {
             long dialogId = chatActivity.getDialogId();
-            tLRPC$TL_inputPeerEmpty = DialogObject.isEncryptedDialog(dialogId) ? new TLRPC$TL_inputPeerEmpty() : getMessagesController().getInputPeer(dialogId);
+            tL_inputPeerEmpty = DialogObject.isEncryptedDialog(dialogId) ? new TLRPC.TL_inputPeerEmpty() : getMessagesController().getInputPeer(dialogId);
         } else {
-            tLRPC$TL_inputPeerEmpty = new TLRPC$TL_inputPeerEmpty();
+            tL_inputPeerEmpty = new TLRPC.TL_inputPeerEmpty();
         }
-        tLRPC$TL_messages_getInlineBotResults.peer = tLRPC$TL_inputPeerEmpty;
+        tL_messages_getInlineBotResults.peer = tL_inputPeerEmpty;
         final int i = this.lastSearchToken + 1;
         this.lastSearchToken = i;
-        this.imageReqId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getInlineBotResults, new RequestDelegate() { // from class: org.telegram.ui.PhotoPickerActivity$$ExternalSyntheticLambda5
+        this.imageReqId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_messages_getInlineBotResults, new RequestDelegate() { // from class: org.telegram.ui.PhotoPickerActivity$$ExternalSyntheticLambda5
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                PhotoPickerActivity.this.lambda$searchImages$11(str, i, z, tLRPC$User, tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                PhotoPickerActivity.this.lambda$searchImages$11(str, i, z, user, tLObject, tL_error);
             }
         });
         ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(this.imageReqId, this.classGuid);

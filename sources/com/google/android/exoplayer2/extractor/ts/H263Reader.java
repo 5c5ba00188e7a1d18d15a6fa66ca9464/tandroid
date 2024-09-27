@@ -70,7 +70,7 @@ public final class H263Reader implements ElementaryStreamReader {
                     if (i3 != 2) {
                         i4 = 4;
                         if (i3 == 3) {
-                            if ((i & NotificationCenter.locationPermissionDenied) == 32) {
+                            if ((i & NotificationCenter.goingToPreviewTheme) == 32) {
                                 this.volStartPosition = this.length;
                                 this.state = i4;
                             }

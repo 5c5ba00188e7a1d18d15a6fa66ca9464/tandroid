@@ -41,10 +41,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
-import org.telegram.tgnet.TLRPC$Reaction;
-import org.telegram.tgnet.TLRPC$TL_messages_savedReactionsTags;
-import org.telegram.tgnet.TLRPC$TL_reactionCount;
-import org.telegram.tgnet.TLRPC$TL_savedReactionTag;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.AlertDialogDecor;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -220,10 +217,10 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
             ReactionsLayoutInBubble.VisibleReaction visibleReaction = this.lastReaction;
             boolean z = visibleReaction == null || !visibleReaction.equals(item.reaction);
             if (z) {
-                TLRPC$TL_reactionCount tLRPC$TL_reactionCount = new TLRPC$TL_reactionCount();
-                tLRPC$TL_reactionCount.reaction = item.reaction.toTLReaction();
-                tLRPC$TL_reactionCount.count = item.count;
-                ReactionsLayoutInBubble.ReactionButton reactionButton2 = new ReactionsLayoutInBubble.ReactionButton(null, SearchTagsList.this.currentAccount, this, tLRPC$TL_reactionCount, false, true, SearchTagsList.this.resourcesProvider) { // from class: org.telegram.ui.Components.SearchTagsList.TagButton.1
+                TLRPC.TL_reactionCount tL_reactionCount = new TLRPC.TL_reactionCount();
+                tL_reactionCount.reaction = item.reaction.toTLReaction();
+                tL_reactionCount.count = item.count;
+                ReactionsLayoutInBubble.ReactionButton reactionButton2 = new ReactionsLayoutInBubble.ReactionButton(null, SearchTagsList.this.currentAccount, this, tL_reactionCount, false, true, SearchTagsList.this.resourcesProvider) { // from class: org.telegram.ui.Components.SearchTagsList.TagButton.1
                     @Override // org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble.ReactionButton
                     protected boolean drawCounter() {
                         return this.count > 0 || this.hasName || this.counterDrawable.countChangeProgress != 1.0f;
@@ -616,13 +613,13 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$openRenameTagAlert$5(EditTextBoldCursor editTextBoldCursor, int i, TLRPC$Reaction tLRPC$Reaction, DialogInterface dialogInterface, int i2) {
+    public static /* synthetic */ void lambda$openRenameTagAlert$5(EditTextBoldCursor editTextBoldCursor, int i, TLRPC.Reaction reaction, DialogInterface dialogInterface, int i2) {
         String obj = editTextBoldCursor.getText().toString();
         if (obj.length() > 12) {
             AndroidUtilities.shakeView(editTextBoldCursor);
             return;
         }
-        MessagesController.getInstance(i).renameSavedReactionTag(ReactionsLayoutInBubble.VisibleReaction.fromTL(tLRPC$Reaction), obj);
+        MessagesController.getInstance(i).renameSavedReactionTag(ReactionsLayoutInBubble.VisibleReaction.fromTL(reaction), obj);
         dialogInterface.dismiss();
     }
 
@@ -670,7 +667,7 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
     /* JADX WARN: Type inference failed for: r1v14 */
     /* JADX WARN: Type inference failed for: r1v15, types: [boolean] */
     /* JADX WARN: Type inference failed for: r1v20 */
-    public static void openRenameTagAlert(Context context, final int i, final TLRPC$Reaction tLRPC$Reaction, final Theme.ResourcesProvider resourcesProvider, boolean z) {
+    public static void openRenameTagAlert(Context context, final int i, final TLRPC.Reaction reaction, final Theme.ResourcesProvider resourcesProvider, boolean z) {
         ?? r1;
         BaseFragment lastFragment = LaunchActivity.getLastFragment();
         Activity findActivity = AndroidUtilities.findActivity(context);
@@ -678,8 +675,8 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
         boolean z2 = lastFragment != null && (lastFragment.getFragmentView() instanceof SizeNotifierFrameLayout) && ((SizeNotifierFrameLayout) lastFragment.getFragmentView()).measureKeyboardHeight() > AndroidUtilities.dp(20.0f) && !z;
         final ?? r14 = new AlertDialog[1];
         ?? builder = z2 ? new AlertDialogDecor.Builder(context, resourcesProvider) : new AlertDialog.Builder(context, resourcesProvider);
-        String savedTagName = MessagesController.getInstance(i).getSavedTagName(tLRPC$Reaction);
-        builder.setTitle(new SpannableStringBuilder(ReactionsLayoutInBubble.VisibleReaction.fromTL(tLRPC$Reaction).toCharSequence(20)).append((CharSequence) "  ").append((CharSequence) LocaleController.getString(TextUtils.isEmpty(savedTagName) ? R.string.SavedTagLabelTag : R.string.SavedTagRenameTag)));
+        String savedTagName = MessagesController.getInstance(i).getSavedTagName(reaction);
+        builder.setTitle(new SpannableStringBuilder(ReactionsLayoutInBubble.VisibleReaction.fromTL(reaction).toCharSequence(20)).append((CharSequence) "  ").append((CharSequence) LocaleController.getString(TextUtils.isEmpty(savedTagName) ? R.string.SavedTagLabelTag : R.string.SavedTagRenameTag)));
         final EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context) { // from class: org.telegram.ui.Components.SearchTagsList.4
             AnimatedTextView.AnimatedTextDrawable limit;
             AnimatedColor limitColor = new AnimatedColor(this);
@@ -740,7 +737,7 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
                         AndroidUtilities.shakeView(EditTextBoldCursor.this);
                         return true;
                     }
-                    MessagesController.getInstance(i).renameSavedReactionTag(ReactionsLayoutInBubble.VisibleReaction.fromTL(tLRPC$Reaction), obj);
+                    MessagesController.getInstance(i).renameSavedReactionTag(ReactionsLayoutInBubble.VisibleReaction.fromTL(reaction), obj);
                     AlertDialog alertDialog = r14[0];
                     if (alertDialog != null) {
                         alertDialog.dismiss();
@@ -787,7 +784,7 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
         builder.setPositiveButton(LocaleController.getString(R.string.Save), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda8
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i3) {
-                SearchTagsList.lambda$openRenameTagAlert$5(EditTextBoldCursor.this, i, tLRPC$Reaction, dialogInterface, i3);
+                SearchTagsList.lambda$openRenameTagAlert$5(EditTextBoldCursor.this, i, reaction, dialogInterface, i3);
             }
         });
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda9
@@ -1023,16 +1020,16 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
         this.oldItems.addAll(this.items);
         this.items.clear();
         MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
-        TLRPC$TL_messages_savedReactionsTags savedReactionTags = messagesController.getSavedReactionTags(this.topicId);
+        TLRPC.TL_messages_savedReactionsTags savedReactionTags = messagesController.getSavedReactionTags(this.topicId);
         if (savedReactionTags != null) {
             z2 = false;
             for (int i = 0; i < savedReactionTags.tags.size(); i++) {
-                TLRPC$TL_savedReactionTag tLRPC$TL_savedReactionTag = (TLRPC$TL_savedReactionTag) savedReactionTags.tags.get(i);
-                ReactionsLayoutInBubble.VisibleReaction fromTL = ReactionsLayoutInBubble.VisibleReaction.fromTL(tLRPC$TL_savedReactionTag.reaction);
+                TLRPC.TL_savedReactionTag tL_savedReactionTag = savedReactionTags.tags.get(i);
+                ReactionsLayoutInBubble.VisibleReaction fromTL = ReactionsLayoutInBubble.VisibleReaction.fromTL(tL_savedReactionTag.reaction);
                 if (!hashSet.contains(Long.valueOf(fromTL.hash))) {
                     long j = this.topicId;
-                    if (j == 0 || tLRPC$TL_savedReactionTag.count > 0) {
-                        Item item = Item.get(fromTL, tLRPC$TL_savedReactionTag.count, j != 0 ? messagesController.getSavedTagName(tLRPC$TL_savedReactionTag.reaction) : tLRPC$TL_savedReactionTag.title);
+                    if (j == 0 || tL_savedReactionTag.count > 0) {
+                        Item item = Item.get(fromTL, tL_savedReactionTag.count, j != 0 ? messagesController.getSavedTagName(tL_savedReactionTag.reaction) : tL_savedReactionTag.title);
                         if (item.hash() == this.chosen) {
                             z2 = true;
                         }

@@ -42,7 +42,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.browser.Browser;
-import org.telegram.tgnet.TLRPC$WebPage;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.PhotoViewerWebView;
 import org.telegram.ui.PhotoViewer;
@@ -51,7 +51,7 @@ public abstract class PhotoViewerWebView extends FrameLayout {
     private float bufferedPosition;
     private int currentAccount;
     private int currentPosition;
-    private TLRPC$WebPage currentWebpage;
+    private TLRPC.WebPage currentWebpage;
     private String currentYoutubeId;
     private TextView errorButton;
     private LinearLayout errorLayout;
@@ -670,15 +670,15 @@ public abstract class PhotoViewerWebView extends FrameLayout {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void init(int i, TLRPC$WebPage tLRPC$WebPage) {
+    public void init(int i, TLRPC.WebPage webPage) {
         int intValue;
         InputStream open;
         ByteArrayOutputStream byteArrayOutputStream;
         byte[] bArr;
         int read;
-        this.currentWebpage = tLRPC$WebPage;
-        this.currentYoutubeId = WebPlayerView.getYouTubeVideoId(tLRPC$WebPage.embed_url);
-        String str = tLRPC$WebPage.url;
+        this.currentWebpage = webPage;
+        this.currentYoutubeId = WebPlayerView.getYouTubeVideoId(webPage.embed_url);
+        String str = webPage.url;
         requestLayout();
         try {
             if (this.currentYoutubeId != null) {
@@ -736,7 +736,7 @@ public abstract class PhotoViewerWebView extends FrameLayout {
             } else {
                 HashMap hashMap = new HashMap();
                 hashMap.put("Referer", "messenger.telegram.org");
-                this.webView.loadUrl(tLRPC$WebPage.embed_url, hashMap);
+                this.webView.loadUrl(webPage.embed_url, hashMap);
             }
         } catch (Exception e2) {
             FileLog.e(e2);
@@ -778,12 +778,12 @@ public abstract class PhotoViewerWebView extends FrameLayout {
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
         if (this.webView.getParent() == this) {
-            TLRPC$WebPage tLRPC$WebPage = this.currentWebpage;
-            int i3 = tLRPC$WebPage.embed_width;
+            TLRPC.WebPage webPage = this.currentWebpage;
+            int i3 = webPage.embed_width;
             if (i3 == 0) {
                 i3 = 100;
             }
-            int i4 = tLRPC$WebPage.embed_height;
+            int i4 = webPage.embed_height;
             int i5 = i4 != 0 ? i4 : 100;
             int size = View.MeasureSpec.getSize(i);
             int size2 = View.MeasureSpec.getSize(i2);
@@ -816,8 +816,8 @@ public abstract class PhotoViewerWebView extends FrameLayout {
             }
             this.progressBarBlackBackground.setVisibility(0);
             WebView webView = this.webView;
-            TLRPC$WebPage tLRPC$WebPage = this.currentWebpage;
-            if (PipVideoOverlay.show(isInAppOnly, (Activity) getContext(), this, webView, tLRPC$WebPage.embed_width, tLRPC$WebPage.embed_height, false)) {
+            TLRPC.WebPage webPage = this.currentWebpage;
+            if (PipVideoOverlay.show(isInAppOnly, (Activity) getContext(), this, webView, webPage.embed_width, webPage.embed_height, false)) {
                 PipVideoOverlay.setPhotoViewer(PhotoViewer.getInstance());
             }
             return true;

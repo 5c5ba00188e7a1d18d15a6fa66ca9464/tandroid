@@ -49,7 +49,7 @@ public class MenuDrawable extends Drawable {
         this.rotateToBack = true;
         this.interpolator = new DecelerateInterpolator();
         this.rect = new RectF();
-        this.alpha = NotificationCenter.didClearDatabase;
+        this.alpha = NotificationCenter.messagePlayingSpeedChanged;
         this.paint.setStrokeWidth(AndroidUtilities.dp(2.0f));
         this.backPaint.setStrokeWidth(AndroidUtilities.density * 1.66f);
         this.backPaint.setStrokeCap(Paint.Cap.ROUND);

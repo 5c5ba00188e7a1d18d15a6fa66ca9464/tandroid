@@ -17,12 +17,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$DocumentAttribute;
-import org.telegram.tgnet.TLRPC$TL_document;
-import org.telegram.tgnet.TLRPC$TL_documentAttributeAudio;
-import org.telegram.tgnet.TLRPC$TL_documentAttributeFilename;
-import org.telegram.tgnet.TLRPC$TL_documentAttributeVideo;
+import org.telegram.tgnet.TLRPC;
 import org.webrtc.MediaStreamTrack;
 /* loaded from: classes3.dex */
 public class FileStreamLoadOperation extends BaseDataSource implements FileLoadOperationStream {
@@ -33,7 +28,8 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
     private int currentAccount;
     File currentFile;
     private long currentOffset;
-    private TLRPC$Document document;
+    private boolean customLength;
+    private TLRPC.Document document;
     private RandomAccessFile file;
     private FileLoadOperation loadOperation;
     private boolean opened;
@@ -60,38 +56,38 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
         return 3;
     }
 
-    public static int getStreamPrioriy(TLRPC$Document tLRPC$Document) {
+    public static int getStreamPrioriy(TLRPC.Document document) {
         Integer num;
-        if (tLRPC$Document == null || (num = priorityMap.get(Long.valueOf(tLRPC$Document.id))) == null) {
+        if (document == null || (num = priorityMap.get(Long.valueOf(document.id))) == null) {
             return 3;
         }
         return num.intValue();
     }
 
-    public static Uri prepareUri(int i, TLRPC$Document tLRPC$Document, Object obj) {
-        String attachFileName = FileLoader.getAttachFileName(tLRPC$Document);
-        File pathToAttach = FileLoader.getInstance(i).getPathToAttach(tLRPC$Document);
+    public static Uri prepareUri(int i, TLRPC.Document document, Object obj) {
+        String attachFileName = FileLoader.getAttachFileName(document);
+        File pathToAttach = FileLoader.getInstance(i).getPathToAttach(document);
         if (pathToAttach == null || !pathToAttach.exists()) {
             try {
                 StringBuilder sb = new StringBuilder();
                 sb.append("?account=");
                 sb.append(i);
                 sb.append("&id=");
-                sb.append(tLRPC$Document.id);
+                sb.append(document.id);
                 sb.append("&hash=");
-                sb.append(tLRPC$Document.access_hash);
+                sb.append(document.access_hash);
                 sb.append("&dc=");
-                sb.append(tLRPC$Document.dc_id);
+                sb.append(document.dc_id);
                 sb.append("&size=");
-                sb.append(tLRPC$Document.size);
+                sb.append(document.size);
                 sb.append("&mime=");
-                sb.append(URLEncoder.encode(tLRPC$Document.mime_type, "UTF-8"));
+                sb.append(URLEncoder.encode(document.mime_type, "UTF-8"));
                 sb.append("&rid=");
                 sb.append(FileLoader.getInstance(i).getFileReference(obj));
                 sb.append("&name=");
-                sb.append(URLEncoder.encode(FileLoader.getDocumentFileName(tLRPC$Document), "UTF-8"));
+                sb.append(URLEncoder.encode(FileLoader.getDocumentFileName(document), "UTF-8"));
                 sb.append("&reference=");
-                byte[] bArr = tLRPC$Document.file_reference;
+                byte[] bArr = document.file_reference;
                 if (bArr == null) {
                     bArr = new byte[0];
                 }
@@ -106,9 +102,9 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
         return Uri.fromFile(pathToAttach);
     }
 
-    public static void setPriorityForDocument(TLRPC$Document tLRPC$Document, int i) {
-        if (tLRPC$Document != null) {
-            priorityMap.put(Long.valueOf(tLRPC$Document.id), Integer.valueOf(i));
+    public static void setPriorityForDocument(TLRPC.Document document, int i) {
+        if (document != null) {
+            priorityMap.put(Long.valueOf(document.id), Integer.valueOf(i));
         }
     }
 
@@ -155,53 +151,58 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
     @Override // org.telegram.messenger.FileLoadOperationStream
     public void newDataAvailable() {
         CountDownLatch countDownLatch = this.countDownLatch;
+        this.countDownLatch = null;
         if (countDownLatch != null) {
             countDownLatch.countDown();
-            this.countDownLatch = null;
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x011a  */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0129  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0161  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x011c  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x011e  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0124  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0133  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x016e  */
     @Override // com.google.android.exoplayer2.upstream.DataSource
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public long open(DataSpec dataSpec) {
-        ArrayList<TLRPC$DocumentAttribute> arrayList;
-        TLRPC$DocumentAttribute tLRPC$TL_documentAttributeAudio;
+        ArrayList<TLRPC.DocumentAttribute> arrayList;
+        TLRPC.DocumentAttribute tL_documentAttributeAudio;
         long j;
+        boolean z;
         this.uri = dataSpec.uri;
         transferInitializing(dataSpec);
         int intValue = Utilities.parseInt((CharSequence) this.uri.getQueryParameter("account")).intValue();
         this.currentAccount = intValue;
         this.parentObject = FileLoader.getInstance(intValue).getParentObject(Utilities.parseInt((CharSequence) this.uri.getQueryParameter("rid")).intValue());
-        TLRPC$TL_document tLRPC$TL_document = new TLRPC$TL_document();
-        this.document = tLRPC$TL_document;
-        tLRPC$TL_document.access_hash = Utilities.parseLong(this.uri.getQueryParameter("hash")).longValue();
+        TLRPC.TL_document tL_document = new TLRPC.TL_document();
+        this.document = tL_document;
+        tL_document.access_hash = Utilities.parseLong(this.uri.getQueryParameter("hash")).longValue();
         this.document.id = Utilities.parseLong(this.uri.getQueryParameter("id")).longValue();
         this.document.size = Utilities.parseLong(this.uri.getQueryParameter("size")).longValue();
         this.document.dc_id = Utilities.parseInt((CharSequence) this.uri.getQueryParameter("dc")).intValue();
         this.document.mime_type = this.uri.getQueryParameter("mime");
         this.document.file_reference = Utilities.hexToBytes(this.uri.getQueryParameter("reference"));
-        TLRPC$TL_documentAttributeFilename tLRPC$TL_documentAttributeFilename = new TLRPC$TL_documentAttributeFilename();
-        tLRPC$TL_documentAttributeFilename.file_name = this.uri.getQueryParameter("name");
-        this.document.attributes.add(tLRPC$TL_documentAttributeFilename);
+        TLRPC.TL_documentAttributeFilename tL_documentAttributeFilename = new TLRPC.TL_documentAttributeFilename();
+        tL_documentAttributeFilename.file_name = this.uri.getQueryParameter("name");
+        this.document.attributes.add(tL_documentAttributeFilename);
         if (!this.document.mime_type.startsWith(MediaStreamTrack.VIDEO_TRACK_KIND)) {
             if (this.document.mime_type.startsWith(MediaStreamTrack.AUDIO_TRACK_KIND)) {
                 arrayList = this.document.attributes;
-                tLRPC$TL_documentAttributeAudio = new TLRPC$TL_documentAttributeAudio();
+                tL_documentAttributeAudio = new TLRPC.TL_documentAttributeAudio();
             }
             allStreams.put(Long.valueOf(this.document.id), this);
             FileLoader fileLoader = FileLoader.getInstance(this.currentAccount);
-            TLRPC$Document tLRPC$Document = this.document;
+            TLRPC.Document document = this.document;
             Object obj = this.parentObject;
             long j2 = dataSpec.position;
             this.currentOffset = j2;
-            this.loadOperation = fileLoader.loadStreamFile(this, tLRPC$Document, null, obj, j2, false, getCurrentPriority());
+            this.loadOperation = fileLoader.loadStreamFile(this, document, null, obj, j2, false, getCurrentPriority());
             j = dataSpec.length;
-            if (j == -1) {
+            z = j == -1;
+            this.customLength = z;
+            if (!z) {
                 j = this.document.size - dataSpec.position;
             }
             this.bytesRemaining = j;
@@ -217,7 +218,7 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
                             RandomAccessFile randomAccessFile = new RandomAccessFile(this.currentFile, "r");
                             this.file = randomAccessFile;
                             randomAccessFile.seek(this.currentOffset);
-                            if (this.loadOperation.isFinished()) {
+                            if (this.loadOperation.isFinished() && !this.customLength) {
                                 this.bytesRemaining = this.currentFile.length() - this.currentOffset;
                             }
                         } catch (Throwable unused) {
@@ -229,53 +230,59 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
             throw new EOFException();
         }
         arrayList = this.document.attributes;
-        tLRPC$TL_documentAttributeAudio = new TLRPC$TL_documentAttributeVideo();
-        arrayList.add(tLRPC$TL_documentAttributeAudio);
+        tL_documentAttributeAudio = new TLRPC.TL_documentAttributeVideo();
+        arrayList.add(tL_documentAttributeAudio);
         allStreams.put(Long.valueOf(this.document.id), this);
         FileLoader fileLoader2 = FileLoader.getInstance(this.currentAccount);
-        TLRPC$Document tLRPC$Document2 = this.document;
+        TLRPC.Document document2 = this.document;
         Object obj2 = this.parentObject;
         long j22 = dataSpec.position;
         this.currentOffset = j22;
-        this.loadOperation = fileLoader2.loadStreamFile(this, tLRPC$Document2, null, obj2, j22, false, getCurrentPriority());
+        this.loadOperation = fileLoader2.loadStreamFile(this, document2, null, obj2, j22, false, getCurrentPriority());
         j = dataSpec.length;
         if (j == -1) {
+        }
+        this.customLength = z;
+        if (!z) {
         }
         this.bytesRemaining = j;
         if (j < 0) {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0031 A[Catch: Exception -> 0x001c, TryCatch #0 {Exception -> 0x001c, blocks: (B:14:0x0017, B:21:0x0023, B:23:0x0031, B:25:0x0054, B:26:0x0059, B:28:0x005d, B:29:0x0063, B:31:0x006d, B:33:0x0075, B:35:0x0079, B:36:0x008d, B:39:0x0094, B:19:0x001f, B:46:0x00c0, B:49:0x00c5, B:51:0x00cb), top: B:57:0x0017 }] */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0079 A[Catch: Exception -> 0x001c, TryCatch #0 {Exception -> 0x001c, blocks: (B:14:0x0017, B:21:0x0023, B:23:0x0031, B:25:0x0054, B:26:0x0059, B:28:0x005d, B:29:0x0063, B:31:0x006d, B:33:0x0075, B:35:0x0079, B:36:0x008d, B:39:0x0094, B:19:0x001f, B:46:0x00c0, B:49:0x00c5, B:51:0x00cb), top: B:57:0x0017 }] */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0091 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0098 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0015 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0038 A[Catch: Exception -> 0x0023, TryCatch #2 {Exception -> 0x0023, blocks: (B:13:0x001e, B:20:0x002a, B:22:0x0038, B:24:0x005c, B:25:0x0061, B:27:0x0065, B:28:0x006b, B:30:0x0075, B:32:0x007d, B:34:0x0081, B:35:0x0095, B:38:0x009c, B:18:0x0026, B:48:0x00cc, B:51:0x00d1, B:53:0x00db, B:56:0x00e0), top: B:66:0x001e }] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0081 A[Catch: Exception -> 0x0023, TryCatch #2 {Exception -> 0x0023, blocks: (B:13:0x001e, B:20:0x002a, B:22:0x0038, B:24:0x005c, B:25:0x0061, B:27:0x0065, B:28:0x006b, B:30:0x0075, B:32:0x007d, B:34:0x0081, B:35:0x0095, B:38:0x009c, B:18:0x0026, B:48:0x00cc, B:51:0x00d1, B:53:0x00db, B:56:0x00e0), top: B:66:0x001e }] */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0099 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x00a0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x00c9 A[SYNTHETIC] */
     @Override // com.google.android.exoplayer2.upstream.DataReader
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public int read(byte[] bArr, int i, int i2) {
+        int i3;
         File currentFileFast;
         RandomAccessFile randomAccessFile;
         RandomAccessFile randomAccessFile2;
-        if (i2 == 0) {
+        int i4 = i2;
+        System.currentTimeMillis();
+        if (i4 == 0) {
             return 0;
         }
         long j = this.bytesRemaining;
-        if (j == 0) {
+        if (j <= 0) {
             return -1;
         }
-        if (j < i2) {
-            i2 = (int) j;
+        if (j < i4) {
+            i4 = (int) j;
         }
-        int i3 = 0;
+        int i5 = 0;
         while (true) {
-            if (i3 == 0) {
+            if (i5 == 0) {
                 try {
                     if (!this.opened) {
                     }
-                    i3 = (int) this.loadOperation.getDownloadedLengthFromOffset(this.currentOffset, i2)[0];
+                    i3 = (int) this.loadOperation.getDownloadedLengthFromOffset(this.currentOffset, i4)[0];
                     if (i3 == 0) {
                         this.countDownLatch = new CountDownLatch(1);
                         FileLoadOperation loadStreamFile = FileLoader.getInstance(this.currentAccount).loadStreamFile(this, this.document, null, this.parentObject, this.currentOffset, false, getCurrentPriority());
@@ -308,13 +315,14 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
                                 RandomAccessFile randomAccessFile3 = new RandomAccessFile(this.currentFile, "r");
                                 this.file = randomAccessFile3;
                                 randomAccessFile3.seek(this.currentOffset);
-                                if (this.loadOperation.isFinished()) {
+                                if (this.loadOperation.isFinished() && !this.customLength) {
                                     this.bytesRemaining = this.currentFile.length() - this.currentOffset;
                                 }
                             } catch (Throwable unused2) {
                             }
                         }
                     }
+                    i5 = i3;
                 } catch (Exception e) {
                     throw new IOException(e);
                 }
@@ -323,7 +331,7 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
             if (randomAccessFile2 != null) {
                 break;
             }
-            i3 = (int) this.loadOperation.getDownloadedLengthFromOffset(this.currentOffset, i2)[0];
+            i3 = (int) this.loadOperation.getDownloadedLengthFromOffset(this.currentOffset, i4)[0];
             if (i3 == 0) {
             }
             currentFileFast = this.loadOperation.getCurrentFileFast();
@@ -337,9 +345,14 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
             this.currentFile = currentFileFast;
             if (currentFileFast == null) {
             }
+            i5 = i3;
         }
         if (this.opened) {
-            int read = randomAccessFile2.read(bArr, i, i3);
+            int read = randomAccessFile2.read(bArr, i, i5);
+            if (read == -1) {
+                this.bytesRemaining = 0L;
+                return -1;
+            }
             if (read > 0) {
                 long j2 = read;
                 this.currentOffset += j2;

@@ -54,7 +54,7 @@ public class FilledTabsView extends View {
         RectF rectF = AndroidUtilities.rectTmp;
         rectF.set(f, dp2, dp + f, dp3);
         canvas.drawRoundRect(rectF, AndroidUtilities.dp(15.0f), AndroidUtilities.dp(15.0f), this.backgroundPaint);
-        canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.didClearDatabase, 31);
+        canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.messagePlayingSpeedChanged, 31);
         float dp4 = f + AndroidUtilities.dp(14.0f);
         int i2 = 0;
         while (true) {

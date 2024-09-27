@@ -23,7 +23,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.voip.VoIPService;
-import org.telegram.tgnet.TLRPC$TL_groupCallParticipant;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class GroupCallPipButton extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, VoIPService.StateListener {
@@ -229,8 +229,8 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
             setState(2);
             return;
         }
-        TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant = (TLRPC$TL_groupCallParticipant) sharedInstance.groupCall.participants.get(sharedInstance.getSelfId());
-        if (tLRPC$TL_groupCallParticipant == null || tLRPC$TL_groupCallParticipant.can_self_unmute || !tLRPC$TL_groupCallParticipant.muted || ChatObject.canManageCalls(sharedInstance.getChat())) {
+        TLRPC.TL_groupCallParticipant tL_groupCallParticipant = (TLRPC.TL_groupCallParticipant) sharedInstance.groupCall.participants.get(sharedInstance.getSelfId());
+        if (tL_groupCallParticipant == null || tL_groupCallParticipant.can_self_unmute || !tL_groupCallParticipant.muted || ChatObject.canManageCalls(sharedInstance.getChat())) {
             setState(sharedInstance.isMicMute() ? 1 : 0);
             return;
         }
@@ -454,7 +454,7 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
                                                 } else if (i == 1) {
                                                     paint = this.paint;
                                                 } else {
-                                                    this.paint.setAlpha(NotificationCenter.didClearDatabase);
+                                                    this.paint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                                                     canvas.save();
                                                     canvas.scale(f6, f6, measuredWidth, measuredHeight);
                                                     canvas.drawCircle(measuredWidth, measuredHeight, AndroidUtilities.dp(32.0f), this.paint);

@@ -47,7 +47,7 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.VideoEditedInfo;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$FileLocation;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -194,7 +194,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
         /* JADX WARN: Removed duplicated region for block: B:227:0x07dd  */
         /* JADX WARN: Removed duplicated region for block: B:236:0x081c A[LOOP:2: B:235:0x081a->B:236:0x081c, LOOP_END] */
         /* JADX WARN: Type inference failed for: r14v17 */
-        /* JADX WARN: Type inference failed for: r14v19, types: [boolean, int] */
+        /* JADX WARN: Type inference failed for: r14v19, types: [int, boolean] */
         /* JADX WARN: Type inference failed for: r14v2 */
         /* JADX WARN: Type inference failed for: r14v20 */
         /*
@@ -806,7 +806,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
             }
 
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-            public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC$FileLocation tLRPC$FileLocation, int i, boolean z) {
+            public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i, boolean z) {
                 MediaController.PhotoEntry photoEntry;
                 ArrayList arrayList;
                 PhotoViewer.PlaceProviderObject placeProviderObject = null;

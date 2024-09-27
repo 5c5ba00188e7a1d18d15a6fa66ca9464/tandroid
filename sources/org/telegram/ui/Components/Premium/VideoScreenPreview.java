@@ -25,7 +25,6 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageReceiver;
-import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
@@ -33,9 +32,7 @@ import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.video.VideoPlayerHolderBase;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$TL_help_premiumPromo;
-import org.telegram.tgnet.TLRPC$TL_photoStrippedSize;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.Premium.HelloParticles;
@@ -52,7 +49,7 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
     boolean attached;
     CellFlickerDrawable.DrawableInterface cellFlickerDrawable;
     int currentAccount;
-    private TLRPC$Document document;
+    private TLRPC.Document document;
     File file;
     boolean firstFrameRendered;
     boolean fromTop;
@@ -189,7 +186,7 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
         if ((file != null && file.exists()) || SharedConfig.streamMedia) {
             File file2 = this.file;
             if (file2 != null && file2.exists()) {
-                if ((NotificationCenter.getGlobalInstance().getCurrentHeavyOperationFlags() & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
+                if ((NotificationCenter.getGlobalInstance().getCurrentHeavyOperationFlags() & 512) != 0) {
                     Runnable runnable = this.nextCheck;
                     if (runnable != null) {
                         AndroidUtilities.cancelRunOnUIThread(runnable);
@@ -231,8 +228,8 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setVideo$1(TLRPC$Document tLRPC$Document) {
-        final File pathToAttach = FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$Document);
+    public /* synthetic */ void lambda$setVideo$1(TLRPC.Document document) {
+        final File pathToAttach = FileLoader.getInstance(this.currentAccount).getPathToAttach(document);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
@@ -333,7 +330,7 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
     }
 
     private void setVideo() {
-        TLRPC$TL_help_premiumPromo premiumPromo = MediaDataController.getInstance(this.currentAccount).getPremiumPromo();
+        TLRPC.TL_help_premiumPromo premiumPromo = MediaDataController.getInstance(this.currentAccount).getPremiumPromo();
         String featureTypeToServerString = PremiumPreviewFragment.featureTypeToServerString(this.type);
         if (premiumPromo != null) {
             int i = 0;
@@ -341,18 +338,18 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
                 if (i >= premiumPromo.video_sections.size()) {
                     i = -1;
                     break;
-                } else if (((String) premiumPromo.video_sections.get(i)).equals(featureTypeToServerString)) {
+                } else if (premiumPromo.video_sections.get(i).equals(featureTypeToServerString)) {
                     break;
                 } else {
                     i++;
                 }
             }
             if (i >= 0) {
-                final TLRPC$Document tLRPC$Document = (TLRPC$Document) premiumPromo.videos.get(i);
+                final TLRPC.Document document = premiumPromo.videos.get(i);
                 CombinedDrawable combinedDrawable = null;
-                for (int i2 = 0; i2 < tLRPC$Document.thumbs.size(); i2++) {
-                    if (tLRPC$Document.thumbs.get(i2) instanceof TLRPC$TL_photoStrippedSize) {
-                        this.roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), ImageLoader.getStrippedPhotoBitmap(tLRPC$Document.thumbs.get(i2).bytes, "b"));
+                for (int i2 = 0; i2 < document.thumbs.size(); i2++) {
+                    if (document.thumbs.get(i2) instanceof TLRPC.TL_photoStrippedSize) {
+                        this.roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), ImageLoader.getStrippedPhotoBitmap(document.thumbs.get(i2).bytes, "b"));
                         CellFlickerDrawable cellFlickerDrawable = new CellFlickerDrawable();
                         cellFlickerDrawable.repeatProgress = 4.0f;
                         cellFlickerDrawable.progress = 3.5f;
@@ -373,14 +370,14 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
                         combinedDrawable.setFullsize(true);
                     }
                 }
-                this.attachFileName = FileLoader.getAttachFileName(tLRPC$Document);
+                this.attachFileName = FileLoader.getAttachFileName(document);
                 this.imageReceiver.setImage(null, null, combinedDrawable, null, premiumPromo, 1);
-                FileLoader.getInstance(this.currentAccount).loadFile(tLRPC$Document, premiumPromo, 3, 0);
-                this.document = tLRPC$Document;
+                FileLoader.getInstance(this.currentAccount).loadFile(document, premiumPromo, 3, 0);
+                this.document = document;
                 Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        VideoScreenPreview.this.lambda$setVideo$1(tLRPC$Document);
+                        VideoScreenPreview.this.lambda$setVideo$1(document);
                     }
                 });
             }

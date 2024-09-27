@@ -348,7 +348,7 @@ public final class Mp3Extractor implements Extractor {
         int i;
         int i2;
         int frameSize;
-        int i3 = z ? LiteMode.FLAG_CHAT_SCALE : 131072;
+        int i3 = z ? 32768 : 131072;
         extractorInput.resetPeekPosition();
         if (extractorInput.getPosition() == 0) {
             Metadata peekId3Data = this.id3Peeker.peekId3Data(extractorInput, (this.flags & 8) == 0 ? null : REQUIRED_ID3_FRAME_PREDICATE);

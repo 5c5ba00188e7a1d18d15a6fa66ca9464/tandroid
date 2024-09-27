@@ -2,6 +2,7 @@ package com.google.android.exoplayer2;
 
 import com.google.android.exoplayer2.source.ClippingMediaPeriod;
 import com.google.android.exoplayer2.source.EmptySampleStream;
+import com.google.android.exoplayer2.source.LoadingInfo;
 import com.google.android.exoplayer2.source.MediaPeriod;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.SampleStream;
@@ -174,9 +175,9 @@ final class MediaPeriodHolder {
         }
     }
 
-    public void continueLoading(long j) {
+    public void continueLoading(long j, float f, long j2) {
         Assertions.checkState(isLoadingMediaPeriod());
-        this.mediaPeriod.continueLoading(toPeriodTime(j));
+        this.mediaPeriod.continueLoading(new LoadingInfo.Builder().setPlaybackPositionUs(toPeriodTime(j)).setPlaybackSpeed(f).setLastRebufferRealtimeMs(j2).build());
     }
 
     public long getBufferedPositionUs() {
@@ -250,6 +251,13 @@ final class MediaPeriodHolder {
     public TrackSelectorResult selectTracks(float f, Timeline timeline) {
         ExoTrackSelection[] exoTrackSelectionArr;
         TrackSelectorResult selectTracks = this.trackSelector.selectTracks(this.rendererCapabilities, getTrackGroups(), this.info.id, timeline);
+        for (int i = 0; i < selectTracks.length; i++) {
+            boolean z = true;
+            if (!selectTracks.isRendererEnabled(i) ? selectTracks.selections[i] != null : selectTracks.selections[i] == null && this.rendererCapabilities[i].getTrackType() != -2) {
+                z = false;
+            }
+            Assertions.checkState(z);
+        }
         for (ExoTrackSelection exoTrackSelection : selectTracks.selections) {
             if (exoTrackSelection != null) {
                 exoTrackSelection.onPlaybackSpeed(f);

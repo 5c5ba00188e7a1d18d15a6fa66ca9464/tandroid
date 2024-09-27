@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.tgnet.TLRPC;
 /* loaded from: classes3.dex */
 public class SerializedData extends AbstractSerializedData {
     private DataInputStream in;
@@ -133,6 +134,12 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
+    @Override // org.telegram.tgnet.AbstractSerializedData
+    public int getPosition() {
+        return this.len;
+    }
+
+    @Override // org.telegram.tgnet.AbstractSerializedData
     public int length() {
         return !this.justCalc ? this.isOut ? this.outbuf.size() : this.inbuf.available() : this.len;
     }
@@ -212,6 +219,29 @@ public class SerializedData extends AbstractSerializedData {
     @Override // org.telegram.tgnet.AbstractSerializedData
     public NativeByteBuffer readByteBuffer(boolean z) {
         return null;
+    }
+
+    @Override // org.telegram.tgnet.AbstractSerializedData
+    public void readBytes(byte[] bArr, boolean z) {
+        try {
+            this.in.read(bArr);
+            this.len += bArr.length;
+        } catch (Exception e) {
+            if (z) {
+                throw new RuntimeException("read bytes error", e);
+            }
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.e("read bytes error");
+                FileLog.e(e);
+            }
+        }
+    }
+
+    @Override // org.telegram.tgnet.AbstractSerializedData
+    public byte[] readData(int i, boolean z) {
+        byte[] bArr = new byte[i];
+        readBytes(bArr, z);
+        return bArr;
     }
 
     @Override // org.telegram.tgnet.AbstractSerializedData
@@ -334,6 +364,31 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
+    protected void set(byte[] bArr) {
+        this.isOut = false;
+        this.inbuf = new ByteArrayInputStream(bArr);
+        this.in = new DataInputStream(this.inbuf);
+    }
+
+    @Override // org.telegram.tgnet.AbstractSerializedData
+    public void skip(int i) {
+        if (i == 0) {
+            return;
+        }
+        if (this.justCalc) {
+            this.len += i;
+            return;
+        }
+        DataInputStream dataInputStream = this.in;
+        if (dataInputStream != null) {
+            try {
+                dataInputStream.skipBytes(i);
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+    }
+
     public byte[] toByteArray() {
         return this.outbuf.toByteArray();
     }
@@ -343,7 +398,7 @@ public class SerializedData extends AbstractSerializedData {
         if (this.justCalc) {
             this.len += 4;
         } else {
-            writeInt32(z ? -1720552011 : -1132882121);
+            writeInt32(z ? TLRPC.TL_boolTrue.constructor : TLRPC.TL_boolFalse.constructor);
         }
     }
 
@@ -363,6 +418,7 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
+    @Override // org.telegram.tgnet.AbstractSerializedData
     public void writeByte(int i) {
         try {
             if (this.justCalc) {
@@ -397,7 +453,7 @@ public class SerializedData extends AbstractSerializedData {
                 i = this.len + 4;
                 this.len = i;
             } else {
-                this.out.write(NotificationCenter.screenStateChanged);
+                this.out.write(NotificationCenter.closeSearchByActiveAction);
                 this.out.write(bArr.length);
                 this.out.write(bArr.length >> 8);
                 dataOutputStream = this.out;
@@ -424,10 +480,77 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:17:0x003e A[Catch: Exception -> 0x0010, TryCatch #0 {Exception -> 0x0010, blocks: (B:4:0x0006, B:6:0x000a, B:15:0x003a, B:17:0x003e, B:22:0x004e, B:24:0x0053, B:26:0x0057, B:27:0x005e, B:18:0x0044, B:9:0x0012, B:14:0x0038, B:10:0x0016, B:12:0x001a, B:13:0x0035), top: B:33:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0044 A[Catch: Exception -> 0x0010, TryCatch #0 {Exception -> 0x0010, blocks: (B:4:0x0006, B:6:0x000a, B:15:0x003a, B:17:0x003e, B:22:0x004e, B:24:0x0053, B:26:0x0057, B:27:0x005e, B:18:0x0044, B:9:0x0012, B:14:0x0038, B:10:0x0016, B:12:0x001a, B:13:0x0035), top: B:33:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x004b  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x004d  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0053 A[Catch: Exception -> 0x0010, TryCatch #0 {Exception -> 0x0010, blocks: (B:4:0x0006, B:6:0x000a, B:15:0x003a, B:17:0x003e, B:22:0x004e, B:24:0x0053, B:26:0x0057, B:27:0x005e, B:18:0x0044, B:9:0x0012, B:14:0x0038, B:10:0x0016, B:12:0x001a, B:13:0x0035), top: B:33:0x0004 }] */
+    @Override // org.telegram.tgnet.AbstractSerializedData
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void writeByteArray(byte[] bArr, int i, int i2) {
+        int i3;
+        int i4;
+        try {
+            if (i2 > 253) {
+                if (this.justCalc) {
+                    i3 = this.len + 4;
+                    this.len = i3;
+                    if (this.justCalc) {
+                    }
+                    if (i2 > 253) {
+                    }
+                    while ((i2 + i4) % 4 != 0) {
+                    }
+                }
+                this.out.write(NotificationCenter.closeSearchByActiveAction);
+                this.out.write(i2);
+                this.out.write(i2 >> 8);
+                this.out.write(i2 >> 16);
+                if (this.justCalc) {
+                }
+                if (i2 > 253) {
+                }
+                while ((i2 + i4) % 4 != 0) {
+                }
+            } else if (this.justCalc) {
+                i3 = this.len + 1;
+                this.len = i3;
+                if (this.justCalc) {
+                }
+                if (i2 > 253) {
+                }
+                while ((i2 + i4) % 4 != 0) {
+                }
+            } else {
+                this.out.write(i2);
+                if (this.justCalc) {
+                    this.out.write(bArr, i, i2);
+                } else {
+                    this.len += i2;
+                }
+                for (i4 = i2 > 253 ? 1 : 4; (i2 + i4) % 4 != 0; i4++) {
+                    if (this.justCalc) {
+                        this.len++;
+                    } else {
+                        this.out.write(0);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.e("write byte array error");
+                FileLog.e(e);
+            }
+        }
+    }
+
     @Override // org.telegram.tgnet.AbstractSerializedData
     public void writeByteBuffer(NativeByteBuffer nativeByteBuffer) {
     }
 
+    @Override // org.telegram.tgnet.AbstractSerializedData
     public void writeBytes(byte[] bArr) {
         try {
             if (this.justCalc) {
@@ -443,6 +566,7 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
+    @Override // org.telegram.tgnet.AbstractSerializedData
     public void writeBytes(byte[] bArr, int i, int i2) {
         try {
             if (this.justCalc) {

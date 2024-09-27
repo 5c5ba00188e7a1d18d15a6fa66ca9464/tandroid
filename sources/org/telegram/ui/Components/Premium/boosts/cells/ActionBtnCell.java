@@ -36,7 +36,7 @@ public class ActionBtnCell extends FrameLayout {
         super.dispatchDraw(canvas);
         if (this.drawDivider) {
             this.dividerPaint.setColor(Theme.getColor(Theme.key_windowBackgroundGray, this.resourcesProvider));
-            this.dividerPaint.setAlpha(NotificationCenter.didClearDatabase);
+            this.dividerPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
             canvas.drawRect(0.0f, 0.0f, getWidth(), 1.0f, this.dividerPaint);
         }
     }

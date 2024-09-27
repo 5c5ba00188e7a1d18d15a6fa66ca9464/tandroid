@@ -36,13 +36,8 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$ChatFull;
-import org.telegram.tgnet.TLRPC$ChatParticipant;
-import org.telegram.tgnet.TLRPC$EncryptedChat;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$UserFull;
-import org.telegram.tgnet.tl.TL_stories$StoryItem;
+import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -70,8 +65,8 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
     private ButtonWithCounterView button;
     private FrameLayout buttonContainer;
     private ActionBarMenuSubItem calendarItem;
-    private TLRPC$ChatFull currentChatInfo;
-    private TLRPC$UserFull currentUserInfo;
+    private TLRPC.ChatFull currentChatInfo;
+    private TLRPC.UserFull currentUserInfo;
     private ActionBarMenuItem deleteItem;
     private long dialogId;
     private boolean filterPhotos;
@@ -124,9 +119,9 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
             } else if (MediaActivity.this.actionModeMessageObjects != null) {
                 final ArrayList arrayList = new ArrayList();
                 for (int i2 = 0; i2 < MediaActivity.this.actionModeMessageObjects.size(); i2++) {
-                    TL_stories$StoryItem tL_stories$StoryItem = ((MessageObject) MediaActivity.this.actionModeMessageObjects.valueAt(i2)).storyItem;
-                    if (tL_stories$StoryItem != null) {
-                        arrayList.add(tL_stories$StoryItem);
+                    TL_stories.StoryItem storyItem = ((MessageObject) MediaActivity.this.actionModeMessageObjects.valueAt(i2)).storyItem;
+                    if (storyItem != null) {
+                        arrayList.add(storyItem);
                     }
                 }
                 if (arrayList.isEmpty()) {
@@ -201,9 +196,9 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         if (this.actionModeMessageObjects != null) {
             i = 0;
             for (int i2 = 0; i2 < this.actionModeMessageObjects.size(); i2++) {
-                TL_stories$StoryItem tL_stories$StoryItem = ((MessageObject) this.actionModeMessageObjects.valueAt(i2)).storyItem;
-                if (tL_stories$StoryItem != null) {
-                    arrayList.add(tL_stories$StoryItem);
+                TL_stories.StoryItem storyItem = ((MessageObject) this.actionModeMessageObjects.valueAt(i2)).storyItem;
+                if (storyItem != null) {
+                    arrayList.add(storyItem);
                     i++;
                 }
             }
@@ -219,9 +214,9 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         }
         final boolean[] zArr = new boolean[arrayList.size()];
         for (int i3 = 0; i3 < arrayList.size(); i3++) {
-            TL_stories$StoryItem tL_stories$StoryItem2 = (TL_stories$StoryItem) arrayList.get(i3);
-            zArr[i3] = tL_stories$StoryItem2.pinned;
-            tL_stories$StoryItem2.pinned = z;
+            TL_stories.StoryItem storyItem2 = (TL_stories.StoryItem) arrayList.get(i3);
+            zArr[i3] = storyItem2.pinned;
+            storyItem2.pinned = z;
         }
         getMessagesController().getStoriesController().updateStoriesInLists(this.dialogId, arrayList);
         final boolean[] zArr2 = {false};
@@ -322,7 +317,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         zArr[0] = true;
         AndroidUtilities.cancelRunOnUIThread(this.applyBulletin);
         for (int i = 0; i < arrayList.size(); i++) {
-            ((TL_stories$StoryItem) arrayList.get(i)).pinned = zArr2[i];
+            ((TL_stories.StoryItem) arrayList.get(i)).pinned = zArr2[i];
         }
         getMessagesController().getStoriesController().updateStoriesInLists(this.dialogId, arrayList);
     }
@@ -601,7 +596,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
     /* JADX WARN: Removed duplicated region for block: B:91:0x04ff  */
     /* JADX WARN: Removed duplicated region for block: B:95:0x051d  */
     /* JADX WARN: Type inference failed for: r5v13 */
-    /* JADX WARN: Type inference failed for: r5v14, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r5v14, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r5v15 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -618,11 +613,11 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         int i3;
         AvatarDrawable avatarDrawable;
         SimpleTextView simpleTextView;
-        TLRPC$User tLRPC$User;
-        TLRPC$User user;
+        TLRPC.User user;
+        TLRPC.User user2;
         int i4;
         SimpleTextView simpleTextView2;
-        TLRPC$Chat tLRPC$Chat;
+        TLRPC.Chat chat;
         SimpleTextView simpleTextView3;
         ActionBarMenuItem actionBarMenuItem;
         ActionBar actionBar = this.actionBar;
@@ -900,7 +895,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
             }
 
             @Override // org.telegram.ui.Components.SharedMediaLayout.Delegate
-            public TLRPC$Chat getCurrentChat() {
+            public TLRPC.Chat getCurrentChat() {
                 return null;
             }
 
@@ -915,7 +910,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
             }
 
             @Override // org.telegram.ui.Components.SharedMediaLayout.Delegate
-            public boolean onMemberClick(TLRPC$ChatParticipant tLRPC$ChatParticipant, boolean z2, boolean z3, View view) {
+            public boolean onMemberClick(TLRPC.ChatParticipant chatParticipant, boolean z2, boolean z3, View view) {
                 return false;
             }
 
@@ -980,8 +975,9 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 return MediaActivity.this.type == 1 || MediaActivity.this.type == 2;
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SharedMediaLayout
-            protected void onActionModeSelectedUpdate(SparseArray sparseArray) {
+            public void onActionModeSelectedUpdate(SparseArray sparseArray) {
                 int size = sparseArray.size();
                 MediaActivity.this.actionModeMessageObjects = sparseArray;
                 if (MediaActivity.this.type == 1 || MediaActivity.this.type == 2) {
@@ -1003,14 +999,16 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 AndroidUtilities.updateViewVisibilityAnimated(frameLayout2, !z2, 0.95f, true);
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SharedMediaLayout
-            protected void onSelectedTabChanged() {
+            public void onSelectedTabChanged() {
                 super.onSelectedTabChanged();
                 MediaActivity.this.updateMediaCount();
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SharedMediaLayout
-            protected void onTabProgress(float f) {
+            public void onTabProgress(float f) {
                 if (MediaActivity.this.type != 1) {
                     return;
                 }
@@ -1032,6 +1030,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 }
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             /* JADX WARN: Removed duplicated region for block: B:26:0x005d  */
             /* JADX WARN: Removed duplicated region for block: B:27:0x0060  */
             /* JADX WARN: Removed duplicated region for block: B:30:0x007a  */
@@ -1048,7 +1047,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            protected void showActionMode(final boolean z2) {
+            public void showActionMode(final boolean z2) {
                 FrameLayout frameLayout6;
                 if (MediaActivity.this.type == 0) {
                     super.showActionMode(z2);
@@ -1253,43 +1252,43 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                             avatarDrawable = avatarDrawable2;
                             if (this.topicId == 0 || j != getUserConfig().getClientUserId()) {
                                 if (DialogObject.isEncryptedDialog(j)) {
-                                    TLRPC$EncryptedChat encryptedChat = getMessagesController().getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(j)));
-                                    if (encryptedChat != null && (user = getMessagesController().getUser(Long.valueOf(encryptedChat.user_id))) != null) {
+                                    TLRPC.EncryptedChat encryptedChat = getMessagesController().getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(j)));
+                                    if (encryptedChat != null && (user2 = getMessagesController().getUser(Long.valueOf(encryptedChat.user_id))) != null) {
                                         simpleTextView = this.nameTextView[r5];
-                                        tLRPC$User = user;
-                                        simpleTextView.setText(ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name));
-                                        avatarDrawable.setInfo(this.currentAccount, tLRPC$User);
-                                        tLRPC$Chat = tLRPC$User;
+                                        user = user2;
+                                        simpleTextView.setText(ContactsController.formatName(user.first_name, user.last_name));
+                                        avatarDrawable.setInfo(this.currentAccount, user);
+                                        chat = user;
                                     }
-                                    tLRPC$Chat = null;
+                                    chat = null;
                                 } else {
                                     if (DialogObject.isUserDialog(j)) {
-                                        TLRPC$User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j));
-                                        if (user2 != null) {
-                                            if (user2.self) {
+                                        TLRPC.User user3 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j));
+                                        if (user3 != null) {
+                                            if (user3.self) {
                                                 this.nameTextView[r5].setText(LocaleController.getString(R.string.SavedMessages));
                                                 avatarDrawable.setAvatarType(1);
                                                 f = 0.8f;
                                                 avatarDrawable.setScaleSize(f);
                                             } else {
                                                 simpleTextView = this.nameTextView[r5];
-                                                tLRPC$User = user2;
-                                                simpleTextView.setText(ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name));
-                                                avatarDrawable.setInfo(this.currentAccount, tLRPC$User);
-                                                tLRPC$Chat = tLRPC$User;
+                                                user = user3;
+                                                simpleTextView.setText(ContactsController.formatName(user.first_name, user.last_name));
+                                                avatarDrawable.setInfo(this.currentAccount, user);
+                                                chat = user;
                                             }
                                         }
                                     } else {
-                                        TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j));
-                                        if (chat != null) {
-                                            this.nameTextView[r5].setText(chat.title);
-                                            avatarDrawable.setInfo(this.currentAccount, chat);
-                                            tLRPC$Chat = chat;
+                                        TLRPC.Chat chat2 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j));
+                                        if (chat2 != null) {
+                                            this.nameTextView[r5].setText(chat2.title);
+                                            avatarDrawable.setInfo(this.currentAccount, chat2);
+                                            chat = chat2;
                                         }
                                     }
-                                    tLRPC$Chat = null;
+                                    chat = null;
                                 }
-                                this.avatarImageView.setImage(ImageLocation.getForUserOrChat(tLRPC$Chat, 1), "50_50", avatarDrawable, tLRPC$Chat);
+                                this.avatarImageView.setImage(ImageLocation.getForUserOrChat(chat, 1), "50_50", avatarDrawable, chat);
                                 simpleTextView3 = this.nameTextView[r5];
                                 if (simpleTextView3 != null && TextUtils.isEmpty(simpleTextView3.getText())) {
                                     this.nameTextView[r5].setText(LocaleController.getString(R.string.SharedContentTitle));
@@ -1325,8 +1324,8 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                         }
                         avatarDrawable.setAvatarType(i4);
                         avatarDrawable.setScaleSize(f);
-                        tLRPC$Chat = null;
-                        this.avatarImageView.setImage(ImageLocation.getForUserOrChat(tLRPC$Chat, 1), "50_50", avatarDrawable, tLRPC$Chat);
+                        chat = null;
+                        this.avatarImageView.setImage(ImageLocation.getForUserOrChat(chat, 1), "50_50", avatarDrawable, chat);
                         simpleTextView3 = this.nameTextView[r5];
                         if (simpleTextView3 != null) {
                             this.nameTextView[r5].setText(LocaleController.getString(R.string.SharedContentTitle));
@@ -1361,8 +1360,8 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                     simpleTextView2.setText(LocaleController.getString("ProfileStoriesArchive"));
                 }
                 avatarDrawable = avatarDrawable2;
-                tLRPC$Chat = null;
-                this.avatarImageView.setImage(ImageLocation.getForUserOrChat(tLRPC$Chat, 1), "50_50", avatarDrawable, tLRPC$Chat);
+                chat = null;
+                this.avatarImageView.setImage(ImageLocation.getForUserOrChat(chat, 1), "50_50", avatarDrawable, chat);
                 simpleTextView3 = this.nameTextView[r5];
                 if (simpleTextView3 != null) {
                 }
@@ -1409,8 +1408,8 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         if (i3 != 3) {
         }
         avatarDrawable = avatarDrawable2;
-        tLRPC$Chat = null;
-        this.avatarImageView.setImage(ImageLocation.getForUserOrChat(tLRPC$Chat, 1), "50_50", avatarDrawable, tLRPC$Chat);
+        chat = null;
+        this.avatarImageView.setImage(ImageLocation.getForUserOrChat(chat, 1), "50_50", avatarDrawable, chat);
         simpleTextView3 = this.nameTextView[r5];
         if (simpleTextView3 != null) {
         }
@@ -1436,11 +1435,11 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.userInfoDidLoad && ((Long) objArr[0]).longValue() == this.dialogId) {
-            TLRPC$UserFull tLRPC$UserFull = (TLRPC$UserFull) objArr[1];
-            this.currentUserInfo = tLRPC$UserFull;
+            TLRPC.UserFull userFull = (TLRPC.UserFull) objArr[1];
+            this.currentUserInfo = userFull;
             SharedMediaLayout sharedMediaLayout = this.sharedMediaLayout;
             if (sharedMediaLayout != null) {
-                sharedMediaLayout.setUserInfo(tLRPC$UserFull);
+                sharedMediaLayout.setUserInfo(userFull);
             }
         }
     }
@@ -1531,7 +1530,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         getNotificationCenter().addObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
         getNotificationCenter().addObserver(this, NotificationCenter.storiesEnabledUpdate);
         if (DialogObject.isUserDialog(this.dialogId) && this.topicId == 0) {
-            TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.dialogId));
+            TLRPC.User user = getMessagesController().getUser(Long.valueOf(this.dialogId));
             if (UserObject.isUserSelf(user)) {
                 getMessagesController().loadUserInfo(user, false, this.classGuid);
                 this.currentUserInfo = getMessagesController().getUserFull(this.dialogId);
@@ -1570,7 +1569,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         }));
     }
 
-    public void setChatInfo(TLRPC$ChatFull tLRPC$ChatFull) {
-        this.currentChatInfo = tLRPC$ChatFull;
+    public void setChatInfo(TLRPC.ChatFull chatFull) {
+        this.currentChatInfo = chatFull;
     }
 }

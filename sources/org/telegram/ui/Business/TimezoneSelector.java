@@ -15,7 +15,7 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
-import org.telegram.tgnet.TLRPC$TL_timezone;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -50,16 +50,16 @@ public class TimezoneSelector extends BaseFragment implements NotificationCenter
         }
         boolean z2 = true;
         while (i < timezonesController.getTimezones().size()) {
-            TLRPC$TL_timezone tLRPC$TL_timezone = (TLRPC$TL_timezone) timezonesController.getTimezones().get(i);
+            TLRPC.TL_timezone tL_timezone = (TLRPC.TL_timezone) timezonesController.getTimezones().get(i);
             if (z) {
-                String replace = AndroidUtilities.translitSafe(tLRPC$TL_timezone.name).toLowerCase().replace("/", " ");
+                String replace = AndroidUtilities.translitSafe(tL_timezone.name).toLowerCase().replace("/", " ");
                 String lowerCase = AndroidUtilities.translitSafe(this.query).toLowerCase();
                 StringBuilder sb = new StringBuilder();
                 sb.append(" ");
                 sb.append(lowerCase);
                 i = (replace.contains(sb.toString()) || replace.startsWith(lowerCase)) ? 0 : i + 1;
             }
-            arrayList.add(UItem.asRadio(i, timezonesController.getTimezoneName(tLRPC$TL_timezone, false), timezonesController.getTimezoneOffsetName(tLRPC$TL_timezone)).setChecked(TextUtils.equals(tLRPC$TL_timezone.id, this.currentTimezone)).setEnabled(!this.useSystem || z));
+            arrayList.add(UItem.asRadio(i, timezonesController.getTimezoneName(tL_timezone, false), timezonesController.getTimezoneOffsetName(tL_timezone)).setChecked(TextUtils.equals(tL_timezone.id, this.currentTimezone)).setEnabled(!this.useSystem || z));
             z2 = false;
         }
         arrayList.add(z2 ? UItem.asCustom(this.emptyView) : UItem.asShadow(null));
@@ -88,7 +88,7 @@ public class TimezoneSelector extends BaseFragment implements NotificationCenter
                 return;
             }
             this.useSystem = false;
-            String str2 = ((TLRPC$TL_timezone) timezonesController.getTimezones().get(uItem.id)).id;
+            String str2 = ((TLRPC.TL_timezone) timezonesController.getTimezones().get(uItem.id)).id;
             this.currentTimezone = str2;
             Utilities.Callback callback2 = this.whenTimezoneSelected;
             if (callback2 != null) {

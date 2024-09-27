@@ -406,8 +406,20 @@ public class DefaultTrackSelector extends MappingTrackSelector {
             }
 
             @Override // com.google.android.exoplayer2.trackselection.TrackSelectionParameters.Builder
+            public Builder addOverride(TrackSelectionOverride trackSelectionOverride) {
+                super.addOverride(trackSelectionOverride);
+                return this;
+            }
+
+            @Override // com.google.android.exoplayer2.trackselection.TrackSelectionParameters.Builder
             public Parameters build() {
                 return new Parameters(this);
+            }
+
+            @Override // com.google.android.exoplayer2.trackselection.TrackSelectionParameters.Builder
+            public Builder clearOverrides() {
+                super.clearOverrides();
+                return this;
             }
 
             /* JADX INFO: Access modifiers changed from: protected */

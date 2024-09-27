@@ -2,7 +2,6 @@ package androidx.biometric;
 
 import android.os.Build;
 import androidx.biometric.BiometricPrompt;
-import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 abstract class AuthenticatorUtils {
@@ -16,13 +15,13 @@ abstract class AuthenticatorUtils {
         if (promptInfo.getAllowedAuthenticators() != 0) {
             return promptInfo.getAllowedAuthenticators();
         }
-        int i = cryptoObject != null ? 15 : NotificationCenter.didClearDatabase;
+        int i = cryptoObject != null ? 15 : NotificationCenter.messagePlayingSpeedChanged;
         return promptInfo.isDeviceCredentialAllowed() ? 32768 | i : i;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean isDeviceCredentialAllowed(int i) {
-        return (i & LiteMode.FLAG_CHAT_SCALE) != 0;
+        return (i & 32768) != 0;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -47,6 +46,6 @@ abstract class AuthenticatorUtils {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean isWeakBiometricAllowed(int i) {
-        return (i & NotificationCenter.didClearDatabase) == 255;
+        return (i & NotificationCenter.messagePlayingSpeedChanged) == 255;
     }
 }

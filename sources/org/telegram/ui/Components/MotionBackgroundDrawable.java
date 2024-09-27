@@ -112,7 +112,7 @@ public class MotionBackgroundDrawable extends Drawable {
         this.patternBounds = new android.graphics.Rect();
         this.patternAlpha = 1.0f;
         this.backgroundAlpha = 1.0f;
-        this.alpha = NotificationCenter.didClearDatabase;
+        this.alpha = NotificationCenter.messagePlayingSpeedChanged;
         this.indeterminateSpeedScale = 1.0f;
         this.bitmapWidth = 60;
         this.bitmapHeight = 80;
@@ -143,7 +143,7 @@ public class MotionBackgroundDrawable extends Drawable {
         this.patternBounds = new android.graphics.Rect();
         this.patternAlpha = 1.0f;
         this.backgroundAlpha = 1.0f;
-        this.alpha = NotificationCenter.didClearDatabase;
+        this.alpha = NotificationCenter.messagePlayingSpeedChanged;
         this.indeterminateSpeedScale = 1.0f;
         this.bitmapWidth = 60;
         this.bitmapHeight = 80;
@@ -395,7 +395,7 @@ public class MotionBackgroundDrawable extends Drawable {
                     if (this.invalidateLegacy) {
                         this.rect.set(0.0f, 0.0f, bitmap2.getWidth(), this.legacyBitmap.getHeight());
                         int alpha2 = this.paint.getAlpha();
-                        this.paint.setAlpha(NotificationCenter.didClearDatabase);
+                        this.paint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                         this.legacyCanvas.drawBitmap(this.currentBitmap, (android.graphics.Rect) null, this.rect, this.paint);
                         this.paint.setAlpha(alpha2);
                         float width5 = this.patternBitmap.getWidth();
@@ -600,7 +600,7 @@ public class MotionBackgroundDrawable extends Drawable {
                     if (this.invalidateLegacy) {
                         this.rect.set(0.0f, 0.0f, bitmap2.getWidth(), this.legacyBitmap.getHeight());
                         int alpha = this.paint.getAlpha();
-                        this.paint.setAlpha(NotificationCenter.didClearDatabase);
+                        this.paint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                         this.legacyCanvas.drawBitmap(this.currentBitmap, (android.graphics.Rect) null, this.rect, this.paint);
                         this.paint.setAlpha(alpha);
                         float width5 = this.patternBitmap.getWidth();

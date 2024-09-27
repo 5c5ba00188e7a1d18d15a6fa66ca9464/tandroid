@@ -14,7 +14,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
-import org.telegram.messenger.LiteMode;
 import org.telegram.tgnet.ConnectionsManager;
 import sun.misc.Unsafe;
 /* loaded from: classes2.dex */
@@ -126,7 +125,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                     if (k2 < i3 || (kVarArr = this.a) == null || (length2 = kVarArr.length) >= 1073741824) {
                         return;
                     }
-                    int numberOfLeadingZeros = Integer.numberOfLeadingZeros(length2) | LiteMode.FLAG_CHAT_SCALE;
+                    int numberOfLeadingZeros = Integer.numberOfLeadingZeros(length2) | 32768;
                     int i4 = h;
                     if (i3 < 0) {
                         if ((i3 >>> i4) != numberOfLeadingZeros || i3 == numberOfLeadingZeros + 1 || i3 == numberOfLeadingZeros + g || (kVarArr2 = this.b) == null || this.transferIndex <= 0) {
@@ -439,7 +438,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                     int i17 = i10;
                     if (!unsafe2.compareAndSwapInt(this, j3, i16, i16 - 1)) {
                         i10 = i17;
-                    } else if (i16 - 2 != ((Integer.numberOfLeadingZeros(length) | LiteMode.FLAG_CHAT_SCALE) << h)) {
+                    } else if (i16 - 2 != ((Integer.numberOfLeadingZeros(length) | 32768) << h)) {
                         return;
                     } else {
                         i10 = length;
@@ -639,7 +638,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                 return;
             } else {
                 if (kVarArr2 == this.a) {
-                    int numberOfLeadingZeros = Integer.numberOfLeadingZeros(length) | LiteMode.FLAG_CHAT_SCALE;
+                    int numberOfLeadingZeros = Integer.numberOfLeadingZeros(length) | 32768;
                     int i5 = h;
                     if (i3 < 0) {
                         if ((i3 >>> i5) != numberOfLeadingZeros || i3 == numberOfLeadingZeros + 1 || i3 == numberOfLeadingZeros + g || (kVarArr = this.b) == null || this.transferIndex <= 0) {
@@ -1211,7 +1210,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         if (!(kVar instanceof f) || (kVarArr2 = ((f) kVar).e) == null) {
             return this.a;
         }
-        int numberOfLeadingZeros = Integer.numberOfLeadingZeros(kVarArr.length) | LiteMode.FLAG_CHAT_SCALE;
+        int numberOfLeadingZeros = Integer.numberOfLeadingZeros(kVarArr.length) | 32768;
         while (true) {
             if (kVarArr2 != this.b || this.a != kVarArr || (i2 = this.sizeCtl) >= 0 || (i2 >>> h) != numberOfLeadingZeros || i2 == numberOfLeadingZeros + 1 || i2 == g + numberOfLeadingZeros || this.transferIndex <= 0) {
                 break;

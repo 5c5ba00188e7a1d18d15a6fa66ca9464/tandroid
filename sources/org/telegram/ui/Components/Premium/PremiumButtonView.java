@@ -268,7 +268,7 @@ public class PremiumButtonView extends FrameLayout implements Loadable {
                     this.inc = z;
                 }
                 if (this.drawGradient) {
-                    this.paintOverlayPaint.setAlpha(NotificationCenter.didClearDatabase);
+                    this.paintOverlayPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                     f = this.radius;
                     paint = this.paintOverlayPaint;
                 } else {

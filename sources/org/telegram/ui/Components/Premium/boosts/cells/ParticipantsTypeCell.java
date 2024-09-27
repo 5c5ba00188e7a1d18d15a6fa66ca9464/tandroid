@@ -5,8 +5,7 @@ import java.util.List;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$TL_help_country;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
@@ -34,11 +33,11 @@ public class ParticipantsTypeCell extends BaseCell {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void setType(int i, boolean z, boolean z2, List list, TLRPC$Chat tLRPC$Chat) {
+    public void setType(int i, boolean z, boolean z2, List list, TLRPC.Chat chat) {
         SimpleTextView simpleTextView;
         String formatString;
         this.selectedType = i;
-        boolean isChannelAndNotMegaGroup = ChatObject.isChannelAndNotMegaGroup(tLRPC$Chat);
+        boolean isChannelAndNotMegaGroup = ChatObject.isChannelAndNotMegaGroup(chat);
         if (i != TYPE_ALL) {
             if (i == TYPE_NEW) {
                 simpleTextView = this.titleTextView;
@@ -47,7 +46,7 @@ public class ParticipantsTypeCell extends BaseCell {
             this.radioButton.setChecked(z, false);
             setDivider(z2);
             this.subtitleTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlue2, this.resourcesProvider));
-            setSubtitle(withArrow(list.size() != 0 ? LocaleController.getString(R.string.BoostingFromAllCountries) : list.size() <= 3 ? list.size() == 1 ? LocaleController.formatString("BoostingFromAllCountries1", R.string.BoostingFromAllCountries1, ((TLRPC$TL_help_country) list.get(0)).default_name) : list.size() == 2 ? LocaleController.formatString("BoostingFromAllCountries2", R.string.BoostingFromAllCountries2, ((TLRPC$TL_help_country) list.get(0)).default_name, ((TLRPC$TL_help_country) list.get(1)).default_name) : LocaleController.formatString("BoostingFromAllCountries3", R.string.BoostingFromAllCountries3, ((TLRPC$TL_help_country) list.get(0)).default_name, ((TLRPC$TL_help_country) list.get(1)).default_name, ((TLRPC$TL_help_country) list.get(2)).default_name) : LocaleController.formatPluralString("BoostingFromCountriesCount", list.size(), new Object[0])));
+            setSubtitle(withArrow(list.size() != 0 ? LocaleController.getString(R.string.BoostingFromAllCountries) : list.size() <= 3 ? list.size() == 1 ? LocaleController.formatString("BoostingFromAllCountries1", R.string.BoostingFromAllCountries1, ((TLRPC.TL_help_country) list.get(0)).default_name) : list.size() == 2 ? LocaleController.formatString("BoostingFromAllCountries2", R.string.BoostingFromAllCountries2, ((TLRPC.TL_help_country) list.get(0)).default_name, ((TLRPC.TL_help_country) list.get(1)).default_name) : LocaleController.formatString("BoostingFromAllCountries3", R.string.BoostingFromAllCountries3, ((TLRPC.TL_help_country) list.get(0)).default_name, ((TLRPC.TL_help_country) list.get(1)).default_name, ((TLRPC.TL_help_country) list.get(2)).default_name) : LocaleController.formatPluralString("BoostingFromCountriesCount", list.size(), new Object[0])));
         }
         simpleTextView = this.titleTextView;
         formatString = LocaleController.formatString(isChannelAndNotMegaGroup ? R.string.BoostingAllSubscribers : R.string.BoostingAllMembers, new Object[0]);
@@ -55,6 +54,6 @@ public class ParticipantsTypeCell extends BaseCell {
         this.radioButton.setChecked(z, false);
         setDivider(z2);
         this.subtitleTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlue2, this.resourcesProvider));
-        setSubtitle(withArrow(list.size() != 0 ? LocaleController.getString(R.string.BoostingFromAllCountries) : list.size() <= 3 ? list.size() == 1 ? LocaleController.formatString("BoostingFromAllCountries1", R.string.BoostingFromAllCountries1, ((TLRPC$TL_help_country) list.get(0)).default_name) : list.size() == 2 ? LocaleController.formatString("BoostingFromAllCountries2", R.string.BoostingFromAllCountries2, ((TLRPC$TL_help_country) list.get(0)).default_name, ((TLRPC$TL_help_country) list.get(1)).default_name) : LocaleController.formatString("BoostingFromAllCountries3", R.string.BoostingFromAllCountries3, ((TLRPC$TL_help_country) list.get(0)).default_name, ((TLRPC$TL_help_country) list.get(1)).default_name, ((TLRPC$TL_help_country) list.get(2)).default_name) : LocaleController.formatPluralString("BoostingFromCountriesCount", list.size(), new Object[0])));
+        setSubtitle(withArrow(list.size() != 0 ? LocaleController.getString(R.string.BoostingFromAllCountries) : list.size() <= 3 ? list.size() == 1 ? LocaleController.formatString("BoostingFromAllCountries1", R.string.BoostingFromAllCountries1, ((TLRPC.TL_help_country) list.get(0)).default_name) : list.size() == 2 ? LocaleController.formatString("BoostingFromAllCountries2", R.string.BoostingFromAllCountries2, ((TLRPC.TL_help_country) list.get(0)).default_name, ((TLRPC.TL_help_country) list.get(1)).default_name) : LocaleController.formatString("BoostingFromAllCountries3", R.string.BoostingFromAllCountries3, ((TLRPC.TL_help_country) list.get(0)).default_name, ((TLRPC.TL_help_country) list.get(1)).default_name, ((TLRPC.TL_help_country) list.get(2)).default_name) : LocaleController.formatPluralString("BoostingFromCountriesCount", list.size(), new Object[0])));
     }
 }

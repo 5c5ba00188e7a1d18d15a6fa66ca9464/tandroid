@@ -109,7 +109,7 @@ public class AlertDialog extends AppCompatDialog implements DialogInterface {
     }
 
     static int resolveDialogTheme(Context context, int i) {
-        if (((i >>> 24) & NotificationCenter.didClearDatabase) >= 1) {
+        if (((i >>> 24) & NotificationCenter.messagePlayingSpeedChanged) >= 1) {
             return i;
         }
         TypedValue typedValue = new TypedValue();

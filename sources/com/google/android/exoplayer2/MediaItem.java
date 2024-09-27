@@ -109,11 +109,6 @@ public final class MediaItem implements Bundleable {
             return new MediaItem(str2, buildClippingProperties, playbackProperties, build, mediaMetadata, this.requestMetadata);
         }
 
-        public Builder setCustomCacheKey(String str) {
-            this.customCacheKey = str;
-            return this;
-        }
-
         public Builder setLiveConfiguration(LiveConfiguration liveConfiguration) {
             this.liveConfiguration = liveConfiguration.buildUpon();
             return this;
@@ -541,6 +536,7 @@ public final class MediaItem implements Bundleable {
     public static class LocalConfiguration {
         public final String customCacheKey;
         public final DrmConfiguration drmConfiguration;
+        public long imageDurationMs;
         public final String mimeType;
         public final List streamKeys;
         public final ImmutableList subtitleConfigurations;
@@ -549,6 +545,7 @@ public final class MediaItem implements Bundleable {
         public final Uri uri;
 
         private LocalConfiguration(Uri uri, String str, DrmConfiguration drmConfiguration, AdsConfiguration adsConfiguration, List list, String str2, ImmutableList immutableList, Object obj) {
+            this.imageDurationMs = -9223372036854775807L;
             this.uri = uri;
             this.mimeType = str;
             this.drmConfiguration = drmConfiguration;

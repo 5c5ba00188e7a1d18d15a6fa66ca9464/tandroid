@@ -34,9 +34,9 @@ public abstract class Ac4Util {
         data[1] = 64;
         data[2] = -1;
         data[3] = -1;
-        data[4] = (byte) ((i >> 16) & NotificationCenter.didClearDatabase);
-        data[5] = (byte) ((i >> 8) & NotificationCenter.didClearDatabase);
-        data[6] = (byte) (i & NotificationCenter.didClearDatabase);
+        data[4] = (byte) ((i >> 16) & NotificationCenter.messagePlayingSpeedChanged);
+        data[5] = (byte) ((i >> 8) & NotificationCenter.messagePlayingSpeedChanged);
+        data[6] = (byte) (i & NotificationCenter.messagePlayingSpeedChanged);
     }
 
     public static Format parseAc4AnnexEFormat(ParsableByteArray parsableByteArray, String str, String str2, DrmInitData drmInitData) {

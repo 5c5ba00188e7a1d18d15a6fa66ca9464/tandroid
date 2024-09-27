@@ -30,7 +30,8 @@ public class ImageReceiverSpan extends ReplacementSpan {
             ImageReceiverSpan.this.imageReceiver.onDetachedFromWindow();
         }
     };
-    private int shadowPaintAlpha = NotificationCenter.didClearDatabase;
+    private boolean shadowEnabled = true;
+    private int shadowPaintAlpha = NotificationCenter.messagePlayingSpeedChanged;
 
     public ImageReceiverSpan(View view, int i, float f) {
         this.currentAccount = i;
@@ -46,7 +47,7 @@ public class ImageReceiverSpan extends ReplacementSpan {
 
     @Override // android.text.style.ReplacementSpan
     public void draw(Canvas canvas, CharSequence charSequence, int i, int i2, float f, int i3, int i4, int i5, Paint paint) {
-        if (this.shadowPaintAlpha != paint.getAlpha()) {
+        if (this.shadowEnabled && this.shadowPaintAlpha != paint.getAlpha()) {
             Paint paint2 = this.shadowPaint;
             int alpha = paint.getAlpha();
             this.shadowPaintAlpha = alpha;
@@ -55,13 +56,19 @@ public class ImageReceiverSpan extends ReplacementSpan {
         }
         float f2 = this.translateX + f;
         float dp = (this.translateY + ((i3 + i5) / 2.0f)) - (AndroidUtilities.dp(this.sz) / 2.0f);
-        RectF rectF = AndroidUtilities.rectTmp;
-        rectF.set(f2, dp, AndroidUtilities.dp(this.sz) + f2, AndroidUtilities.dp(this.sz) + dp);
-        float f3 = this.radius;
-        canvas.drawRoundRect(rectF, f3, f3, this.shadowPaint);
+        if (this.shadowEnabled) {
+            RectF rectF = AndroidUtilities.rectTmp;
+            rectF.set(f2, dp, AndroidUtilities.dp(this.sz) + f2, AndroidUtilities.dp(this.sz) + dp);
+            float f3 = this.radius;
+            canvas.drawRoundRect(rectF, f3, f3, this.shadowPaint);
+        }
         this.imageReceiver.setImageCoords(f2, dp, AndroidUtilities.dp(this.sz), AndroidUtilities.dp(this.sz));
         this.imageReceiver.setAlpha(paint.getAlpha() / 255.0f);
         this.imageReceiver.draw(canvas);
+    }
+
+    public void enableShadow(boolean z) {
+        this.shadowEnabled = z;
     }
 
     @Override // android.text.style.ReplacementSpan
@@ -100,5 +107,10 @@ public class ImageReceiverSpan extends ReplacementSpan {
 
     public void setSize(float f) {
         this.sz = f;
+    }
+
+    public void translate(float f, float f2) {
+        this.translateX = f;
+        this.translateY = f2;
     }
 }

@@ -24,6 +24,7 @@ import androidx.core.graphics.PathParser;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import org.telegram.messenger.NotificationCenter;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 /* loaded from: classes.dex */
@@ -410,7 +411,7 @@ public abstract class AnimatorInflaterCompat {
     }
 
     private static void parseAnimatorFromTypeArray(ValueAnimator valueAnimator, TypedArray typedArray, TypedArray typedArray2, float f, XmlPullParser xmlPullParser) {
-        long namedInt = TypedArrayUtils.getNamedInt(typedArray, xmlPullParser, "duration", 1, 300);
+        long namedInt = TypedArrayUtils.getNamedInt(typedArray, xmlPullParser, "duration", 1, NotificationCenter.storiesReadUpdated);
         long namedInt2 = TypedArrayUtils.getNamedInt(typedArray, xmlPullParser, "startOffset", 2, 0);
         int namedInt3 = TypedArrayUtils.getNamedInt(typedArray, xmlPullParser, "valueType", 7, 4);
         if (TypedArrayUtils.hasAttribute(xmlPullParser, "valueFrom") && TypedArrayUtils.hasAttribute(xmlPullParser, "valueTo")) {

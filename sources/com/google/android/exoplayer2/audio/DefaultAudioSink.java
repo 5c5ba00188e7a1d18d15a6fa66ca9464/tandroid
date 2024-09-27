@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
-import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
 /* loaded from: classes.dex */
 public final class DefaultAudioSink implements AudioSink {
@@ -713,7 +712,7 @@ public final class DefaultAudioSink implements AudioSink {
                 }
                 return Ac3Util.parseTrueHdSyncframeAudioSampleCount(byteBuffer, findTrueHdSyncframeOffset) * 16;
             case 15:
-                return LiteMode.FLAG_CALLS_ANIMATIONS;
+                return 512;
             case 16:
                 return 1024;
             case 17:

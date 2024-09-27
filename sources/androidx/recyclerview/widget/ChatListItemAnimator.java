@@ -410,7 +410,7 @@ public abstract class ChatListItemAnimator extends DefaultItemAnimator {
                 arrayList6.addAll(this.mPendingAdditions);
                 this.mPendingAdditions.clear();
                 this.alphaEnterDelay = 0L;
-                Collections.sort(arrayList6, new Comparator() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda7
+                Collections.sort(arrayList6, new Comparator() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda6
                     @Override // java.util.Comparator
                     public final int compare(Object obj, Object obj2) {
                         int lambda$runAlphaEnterTransition$1;
@@ -505,7 +505,6 @@ public abstract class ChatListItemAnimator extends DefaultItemAnimator {
     /* JADX WARN: Removed duplicated region for block: B:40:0x0230  */
     /* JADX WARN: Removed duplicated region for block: B:43:0x023c  */
     /* JADX WARN: Removed duplicated region for block: B:44:0x024a  */
-    @Override // androidx.recyclerview.widget.DefaultItemAnimator
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -558,7 +557,7 @@ public abstract class ChatListItemAnimator extends DefaultItemAnimator {
                 chatMessageCell2.getTransitionParams().animateDrawingTimeAlpha = true;
                 chatMessageCell2.getPhotoImage().setImageCoords(imageX2 + f, imageX2 + f2, width, height);
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda0
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda7
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                         ChatListItemAnimator.lambda$animateAddImpl$7(ChatMessageCell.this, imageX2, f, imageY2, f2, width, imageWidth, height, imageHeight, valueAnimator);
@@ -1292,7 +1291,7 @@ public abstract class ChatListItemAnimator extends DefaultItemAnimator {
                 final boolean z4 = z3;
                 transitionParams = transitionParams3;
                 chatMessageCell = chatMessageCell3;
-                ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda2
+                ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda1
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                         ChatListItemAnimator.lambda$animateMoveImpl$2(ChatListItemAnimator.MoveInfoExtended.this, transitionParams3, z4, f, hasCaptionLayout, chatMessageCell, iArr, viewHolder, valueAnimator);
@@ -1327,7 +1326,7 @@ public abstract class ChatListItemAnimator extends DefaultItemAnimator {
                 }
                 transitionParams2.toDeltaRight = animationOffsetX;
                 chatMessageCell2 = chatMessageCell;
-                ofFloat3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda3
+                ofFloat3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda2
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                         ChatListItemAnimator.lambda$animateMoveImpl$3(ChatListItemAnimator.MoveInfoExtended.this, transitionParams2, chatMessageCell2, valueAnimator);
@@ -1348,7 +1347,7 @@ public abstract class ChatListItemAnimator extends DefaultItemAnimator {
                 final float f3 = currentMessagesGroup.hasCaption ? 1.0f : 0.0f;
                 final boolean z5 = f2 != f3;
                 final MoveInfoExtended moveInfoExtended3 = moveInfoExtended;
-                ofFloat4.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda4
+                ofFloat4.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda3
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                         ChatListItemAnimator.lambda$animateMoveImpl$4(MessageObject.GroupedMessages.TransitionParams.this, moveInfoExtended3, z5, f2, f3, recyclerListView, valueAnimator);
@@ -1366,7 +1365,7 @@ public abstract class ChatListItemAnimator extends DefaultItemAnimator {
             }
             if (moveInfoExtended.animatePinnedBottom) {
                 ValueAnimator ofFloat5 = ValueAnimator.ofFloat(0.0f, 1.0f);
-                ofFloat5.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda5
+                ofFloat5.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda4
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                         ChatListItemAnimator.lambda$animateMoveImpl$5(ChatMessageCell.TransitionParams.this, chatMessageCell2, valueAnimator);
@@ -1377,7 +1376,7 @@ public abstract class ChatListItemAnimator extends DefaultItemAnimator {
             if (moveInfoExtended.animateChangeInternal) {
                 ValueAnimator ofFloat6 = ValueAnimator.ofFloat(0.0f, 1.0f);
                 transitionParams2.animateChange = true;
-                ofFloat6.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda6
+                ofFloat6.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda5
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                         ChatListItemAnimator.lambda$animateMoveImpl$6(ChatMessageCell.TransitionParams.this, chatMessageCell2, valueAnimator);
@@ -1812,7 +1811,7 @@ public abstract class ChatListItemAnimator extends DefaultItemAnimator {
                 runAlphaEnterTransition();
             }
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda1
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     ChatListItemAnimator.this.lambda$runPendingAnimations$0(valueAnimator);

@@ -3161,7 +3161,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 int blue2 = Color.blue(iArr[i2]);
                 int i3 = size;
                 int alpha2 = Color.alpha(iArr[i2]);
-                int argb = Color.argb(Math.min((int) NotificationCenter.didClearDatabase, (int) (alpha2 + ((alpha - alpha2) * f))), Math.min((int) NotificationCenter.didClearDatabase, (int) (red2 + ((red - red2) * f))), Math.min((int) NotificationCenter.didClearDatabase, (int) (green2 + ((green - green2) * f))), Math.min((int) NotificationCenter.didClearDatabase, (int) (blue2 + ((blue - blue2) * f))));
+                int argb = Color.argb(Math.min((int) NotificationCenter.messagePlayingSpeedChanged, (int) (alpha2 + ((alpha - alpha2) * f))), Math.min((int) NotificationCenter.messagePlayingSpeedChanged, (int) (red2 + ((red - red2) * f))), Math.min((int) NotificationCenter.messagePlayingSpeedChanged, (int) (green2 + ((green - green2) * f))), Math.min((int) NotificationCenter.messagePlayingSpeedChanged, (int) (blue2 + ((blue - blue2) * f))));
                 ThemeDescription themeDescription = (ThemeDescription) arrayList.get(i2);
                 themeDescription.setAnimatedColor(argb);
                 themeDescription.setColor(argb, false, false);

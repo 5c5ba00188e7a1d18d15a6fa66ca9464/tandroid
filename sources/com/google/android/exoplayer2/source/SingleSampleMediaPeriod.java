@@ -178,7 +178,7 @@ public final class SingleSampleMediaPeriod implements MediaPeriod, Loader.Callba
     }
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
-    public boolean continueLoading(long j) {
+    public boolean continueLoading(LoadingInfo loadingInfo) {
         if (this.loadingFinished || this.loader.isLoading() || this.loader.hasFatalError()) {
             return false;
         }

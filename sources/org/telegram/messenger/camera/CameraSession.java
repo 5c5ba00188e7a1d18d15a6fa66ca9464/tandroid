@@ -94,7 +94,7 @@ public class CameraSession {
             } else if (rotation == 2) {
                 i = NotificationCenter.updateBotMenuButton;
             } else if (rotation == 3) {
-                i = NotificationCenter.onActivityResultReceived;
+                i = NotificationCenter.onDatabaseOpened;
             }
         }
         int i2 = cameraInfo.facing;
@@ -102,7 +102,7 @@ public class CameraSession {
         if (i2 == 1) {
             int i4 = (360 - ((i3 + i) % 360)) % 360;
             if (!z && i4 == 90) {
-                i4 = NotificationCenter.onActivityResultReceived;
+                i4 = NotificationCenter.onDatabaseOpened;
             }
             if (!z && "Huawei".equals(Build.MANUFACTURER) && "angler".equals(Build.PRODUCT) && i4 == 270) {
                 return 90;
@@ -272,10 +272,10 @@ public class CameraSession {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x00bc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x00be, code lost:
         if (r3.getSupportedFocusModes().contains("auto") != false) goto L24;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x00e8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x00ea, code lost:
         if (((360 - r7.displayOrientation) % 360) == r4) goto L36;
      */
     /*
@@ -525,9 +525,9 @@ public class CameraSession {
         configurePhotoCamera();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0050  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0056  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0060  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0051  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0057  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0061  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -550,7 +550,7 @@ public class CameraSession {
                     } else if (i3 == 2) {
                         i = NotificationCenter.updateBotMenuButton;
                     } else if (i3 == 3) {
-                        i = NotificationCenter.onActivityResultReceived;
+                        i = NotificationCenter.onDatabaseOpened;
                     }
                     cameraInfo = this.info;
                     if (cameraInfo.orientation % 90 != 0) {

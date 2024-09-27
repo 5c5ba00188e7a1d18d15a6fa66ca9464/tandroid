@@ -40,13 +40,9 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.TranslateController;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$InputMedia;
-import org.telegram.tgnet.TLRPC$MessageMedia;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.tl.TL_bots$botPreviewMedia;
-import org.telegram.tgnet.tl.TL_bots$deletePreviewMedia;
-import org.telegram.tgnet.tl.TL_stories$StoryItem;
-import org.telegram.tgnet.tl.TL_stories$TL_storyItem;
+import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_bots;
+import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.SharedPhotoVideoCell;
@@ -265,7 +261,7 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
                     return false;
                 }
                 if (storiesList instanceof StoriesController.BotPreviewsList) {
-                    TLRPC$User user = MessagesController.getInstance(BotPreviewsEditContainer.this.currentAccount).getUser(Long.valueOf(BotPreviewsEditContainer.this.bot_id));
+                    TLRPC.User user = MessagesController.getInstance(BotPreviewsEditContainer.this.currentAccount).getUser(Long.valueOf(BotPreviewsEditContainer.this.bot_id));
                     return user != null && user.bot && user.bot_has_main_app && user.bot_can_edit;
                 } else if (i < 0 || i >= storiesList.messageObjects.size()) {
                     return false;
@@ -290,12 +286,12 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
             @Override // org.telegram.ui.Components.RecyclerListView.FastScrollAdapter
             public String getLetter(int i) {
                 MessageObject messageObject;
-                TL_stories$StoryItem tL_stories$StoryItem;
+                TL_stories.StoryItem storyItem;
                 StoriesController.StoriesList storiesList = this.storiesList;
-                if (storiesList == null || i < 0 || i >= storiesList.messageObjects.size() || (messageObject = (MessageObject) this.storiesList.messageObjects.get(i)) == null || (tL_stories$StoryItem = messageObject.storyItem) == null) {
+                if (storiesList == null || i < 0 || i >= storiesList.messageObjects.size() || (messageObject = (MessageObject) this.storiesList.messageObjects.get(i)) == null || (storyItem = messageObject.storyItem) == null) {
                     return null;
                 }
-                return LocaleController.formatYearMont(tL_stories$StoryItem.date, true);
+                return LocaleController.formatYearMont(storyItem.date, true);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.FastScrollAdapter
@@ -376,12 +372,12 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
                         StoriesController.UploadingStory uploadingStory = (StoriesController.UploadingStory) this.uploadingStories.get(i);
                         sharedPhotoVideoCell2.isStoryPinned = false;
                         if (uploadingStory.sharedMessageObject == null) {
-                            TL_stories$TL_storyItem tL_stories$TL_storyItem = new TL_stories$TL_storyItem();
+                            TL_stories.TL_storyItem tL_storyItem = new TL_stories.TL_storyItem();
                             int m = FactCheckController$Key$$ExternalSyntheticBackport0.m(uploadingStory.random_id);
-                            tL_stories$TL_storyItem.messageId = m;
-                            tL_stories$TL_storyItem.id = m;
-                            tL_stories$TL_storyItem.attachPath = uploadingStory.firstFramePath;
-                            MessageObject messageObject = new MessageObject(this.storiesList.currentAccount, tL_stories$TL_storyItem) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.StoriesAdapter.1
+                            tL_storyItem.messageId = m;
+                            tL_storyItem.id = m;
+                            tL_storyItem.attachPath = uploadingStory.firstFramePath;
+                            MessageObject messageObject = new MessageObject(this.storiesList.currentAccount, tL_storyItem) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.StoriesAdapter.1
                                 @Override // org.telegram.messenger.MessageObject
                                 public float getProgress() {
                                     return this.uploadingStory.progress;
@@ -1554,7 +1550,7 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
         updateLangs(false);
     }
 
-    public static void edit(int i, long j, String str, TLRPC$InputMedia tLRPC$InputMedia, TL_bots$botPreviewMedia tL_bots$botPreviewMedia) {
+    public static void edit(int i, long j, String str, TLRPC.InputMedia inputMedia, TL_bots.botPreviewMedia botpreviewmedia) {
         LongSparseArray longSparseArray;
         BotPreviewsEditContainer botPreviewsEditContainer;
         LongSparseArray longSparseArray2;
@@ -1563,7 +1559,7 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
             StoriesController.BotPreviewsList botPreviewsList = (StoriesController.BotPreviewsList) longSparseArray2.get(j);
             if (botPreviewsList.currentAccount == i) {
                 if (TextUtils.equals(botPreviewsList.lang_code, str)) {
-                    botPreviewsList.edit(tLRPC$InputMedia, tL_bots$botPreviewMedia);
+                    botPreviewsList.edit(inputMedia, botpreviewmedia);
                 } else if (!TextUtils.isEmpty(str) && !botPreviewsList.lang_codes.contains(str)) {
                     botPreviewsList.lang_codes.add(str);
                     botPreviewsList.notifyUpdate();
@@ -1577,7 +1573,7 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
         for (int i2 = 0; i2 < botPreviewsEditContainer.langLists.size(); i2++) {
             StoriesController.BotPreviewsList botPreviewsList2 = (StoriesController.BotPreviewsList) botPreviewsEditContainer.langLists.get(i2);
             if (botPreviewsList2.currentAccount == i && TextUtils.equals(botPreviewsList2.lang_code, str)) {
-                botPreviewsList2.edit(tLRPC$InputMedia, tL_bots$botPreviewMedia);
+                botPreviewsList2.edit(inputMedia, botpreviewmedia);
             }
         }
     }
@@ -1630,7 +1626,7 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
         this.viewPager.setTranslationY(AndroidUtilities.lerp(0, AndroidUtilities.dp(42.0f), this.tabsAlpha));
     }
 
-    public static void push(int i, long j, String str, TL_bots$botPreviewMedia tL_bots$botPreviewMedia) {
+    public static void push(int i, long j, String str, TL_bots.botPreviewMedia botpreviewmedia) {
         LongSparseArray longSparseArray;
         BotPreviewsEditContainer botPreviewsEditContainer;
         LongSparseArray longSparseArray2;
@@ -1639,7 +1635,7 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
             StoriesController.BotPreviewsList botPreviewsList = (StoriesController.BotPreviewsList) longSparseArray2.get(j);
             if (botPreviewsList.currentAccount == i) {
                 if (TextUtils.equals(botPreviewsList.lang_code, str)) {
-                    botPreviewsList.push(tL_bots$botPreviewMedia);
+                    botPreviewsList.push(botpreviewmedia);
                 } else if (!TextUtils.isEmpty(str) && !botPreviewsList.lang_codes.contains(str)) {
                     botPreviewsList.lang_codes.add(str);
                     botPreviewsList.notifyUpdate();
@@ -1653,7 +1649,7 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
         for (int i2 = 0; i2 < botPreviewsEditContainer.langLists.size(); i2++) {
             StoriesController.BotPreviewsList botPreviewsList2 = (StoriesController.BotPreviewsList) botPreviewsEditContainer.langLists.get(i2);
             if (botPreviewsList2.currentAccount == i && TextUtils.equals(botPreviewsList2.lang_code, str)) {
-                botPreviewsList2.push(tL_bots$botPreviewMedia);
+                botPreviewsList2.push(botpreviewmedia);
             }
         }
     }
@@ -1816,13 +1812,13 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
             }
 
             @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
-            public /* synthetic */ void didSelectBot(TLRPC$User tLRPC$User) {
-                ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$didSelectBot(this, tLRPC$User);
+            public /* synthetic */ void didSelectBot(TLRPC.User user) {
+                ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$didSelectBot(this, user);
             }
 
             @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
             public /* synthetic */ void doOnIdle(Runnable runnable) {
-                runnable.run();
+                ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$doOnIdle(this, runnable);
             }
 
             @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
@@ -1861,7 +1857,7 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
 
     public void deleteLang(String str) {
         StoriesController.BotPreviewsList botPreviewsList;
-        TLRPC$MessageMedia tLRPC$MessageMedia;
+        TLRPC.MessageMedia messageMedia;
         if (TextUtils.isEmpty(str)) {
             return;
         }
@@ -1880,16 +1876,16 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
             i++;
         }
         if (botPreviewsList != null) {
-            TL_bots$deletePreviewMedia tL_bots$deletePreviewMedia = new TL_bots$deletePreviewMedia();
-            tL_bots$deletePreviewMedia.bot = MessagesController.getInstance(this.currentAccount).getInputUser(this.bot_id);
-            tL_bots$deletePreviewMedia.lang_code = str;
+            TL_bots.deletePreviewMedia deletepreviewmedia = new TL_bots.deletePreviewMedia();
+            deletepreviewmedia.bot = MessagesController.getInstance(this.currentAccount).getInputUser(this.bot_id);
+            deletepreviewmedia.lang_code = str;
             for (int i2 = 0; i2 < botPreviewsList.messageObjects.size(); i2++) {
-                TL_stories$StoryItem tL_stories$StoryItem = ((MessageObject) botPreviewsList.messageObjects.get(i2)).storyItem;
-                if (tL_stories$StoryItem != null && (tLRPC$MessageMedia = tL_stories$StoryItem.media) != null) {
-                    tL_bots$deletePreviewMedia.media.add(MessagesController.toInputMedia(tLRPC$MessageMedia));
+                TL_stories.StoryItem storyItem = ((MessageObject) botPreviewsList.messageObjects.get(i2)).storyItem;
+                if (storyItem != null && (messageMedia = storyItem.media) != null) {
+                    deletepreviewmedia.media.add(MessagesController.toInputMedia(messageMedia));
                 }
             }
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_bots$deletePreviewMedia, null);
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(deletepreviewmedia, null);
         }
         updateLangs(true);
         this.tabsView.scrollToTab(-1, 0);
@@ -1945,7 +1941,7 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
     public String getBotPreviewsSubtitle() {
         int i;
         int i2;
-        TLRPC$MessageMedia tLRPC$MessageMedia;
+        TLRPC.MessageMedia messageMedia;
         StringBuilder sb = new StringBuilder();
         View currentView = this.viewPager.getCurrentView();
         if (currentView instanceof BotPreviewsEditLangContainer) {
@@ -1955,9 +1951,9 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
                 i2 = 0;
                 for (int i3 = 0; i3 < botPreviewsList.messageObjects.size(); i3++) {
                     MessageObject messageObject = (MessageObject) botPreviewsList.messageObjects.get(i3);
-                    TL_stories$StoryItem tL_stories$StoryItem = messageObject.storyItem;
-                    if (tL_stories$StoryItem != null && (tLRPC$MessageMedia = tL_stories$StoryItem.media) != null) {
-                        if (MessageObject.isVideoDocument(tLRPC$MessageMedia.document)) {
+                    TL_stories.StoryItem storyItem = messageObject.storyItem;
+                    if (storyItem != null && (messageMedia = storyItem.media) != null) {
+                        if (MessageObject.isVideoDocument(messageMedia.document)) {
                             i2++;
                         } else if (messageObject.storyItem.media.photo != null) {
                             i++;

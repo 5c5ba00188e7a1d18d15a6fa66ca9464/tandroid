@@ -73,15 +73,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ResultCallback;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$PrivacyRule;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_exportedContactToken;
-import org.telegram.tgnet.TLRPC$TL_privacyValueAllowAll;
-import org.telegram.tgnet.TLRPC$TL_privacyValueAllowContacts;
-import org.telegram.tgnet.TLRPC$TL_privacyValueDisallowAll;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$WallPaper;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.EmojiThemes;
 import org.telegram.ui.ActionBar.INavigationLayout;
@@ -250,7 +242,7 @@ public class QrActivity extends BaseFragment {
                 int i3 = height;
                 RectF rectF = AndroidUtilities.rectTmp;
                 rectF.set(0.0f, 0.0f, getWidth(), getHeight());
-                canvas.saveLayerAlpha(rectF, NotificationCenter.didClearDatabase, 31);
+                canvas.saveLayerAlpha(rectF, NotificationCenter.messagePlayingSpeedChanged, 31);
                 int i4 = width2 + 16;
                 int i5 = i3 + 16;
                 canvas.drawRect(i4, i5, (getWidth() - width2) - 16, (((getWidth() + i3) - width2) - width2) - 16, this.bitmapGradientPaint);
@@ -275,12 +267,12 @@ public class QrActivity extends BaseFragment {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$3(TLRPC$TL_exportedContactToken tLRPC$TL_exportedContactToken) {
-            if (tLRPC$TL_exportedContactToken == null) {
+        public /* synthetic */ void lambda$new$3(TLRPC.TL_exportedContactToken tL_exportedContactToken) {
+            if (tL_exportedContactToken == null) {
                 return;
             }
             int i = this.linkExpires;
-            if (i != 0 && i < tLRPC$TL_exportedContactToken.expires) {
+            if (i != 0 && i < tL_exportedContactToken.expires) {
                 try {
                     Vibrator vibrator = (Vibrator) getContext().getSystemService("vibrator");
                     if (vibrator != null) {
@@ -293,16 +285,16 @@ public class QrActivity extends BaseFragment {
                     }
                 }
             }
-            this.linkExpires = tLRPC$TL_exportedContactToken.expires;
-            setData(tLRPC$TL_exportedContactToken.url, null, false, true);
+            this.linkExpires = tL_exportedContactToken.expires;
+            setData(tL_exportedContactToken.url, null, false, true);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$4(final TLRPC$TL_exportedContactToken tLRPC$TL_exportedContactToken) {
+        public /* synthetic */ void lambda$new$4(final TLRPC.TL_exportedContactToken tL_exportedContactToken) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.QrActivity$QrView$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
-                    QrActivity.QrView.this.lambda$new$3(tLRPC$TL_exportedContactToken);
+                    QrActivity.QrView.this.lambda$new$3(tL_exportedContactToken);
                 }
             });
         }
@@ -336,7 +328,7 @@ public class QrActivity extends BaseFragment {
                     MessagesController.getInstance(UserConfig.selectedAccount).requestContactToken(this.linkExpires == 0 ? 750L : 1750L, new Utilities.Callback() { // from class: org.telegram.ui.QrActivity$QrView$$ExternalSyntheticLambda6
                         @Override // org.telegram.messenger.Utilities.Callback
                         public final void run(Object obj) {
-                            QrActivity.QrView.this.lambda$new$4((TLRPC$TL_exportedContactToken) obj);
+                            QrActivity.QrView.this.lambda$new$4((TLRPC.TL_exportedContactToken) obj);
                         }
                     });
                 }
@@ -620,7 +612,7 @@ public class QrActivity extends BaseFragment {
                 if (z) {
                     RectF rectF = AndroidUtilities.rectTmp;
                     rectF.set(0.0f, 0.0f, getWidth(), getHeight());
-                    canvas.saveLayerAlpha(rectF, NotificationCenter.didClearDatabase, 31);
+                    canvas.saveLayerAlpha(rectF, NotificationCenter.messagePlayingSpeedChanged, 31);
                 }
                 Bitmap bitmap2 = this.oldContentBitmap;
                 if (bitmap2 != null) {
@@ -633,7 +625,7 @@ public class QrActivity extends BaseFragment {
                     canvas.save();
                     canvas.translate(0.0f, (-dp) + ((getHeight() + dp) * (1.0f - f)));
                     Paint paint = this.crossfadeToPaint;
-                    i = NotificationCenter.didClearDatabase;
+                    i = NotificationCenter.messagePlayingSpeedChanged;
                     canvas.drawRect(0.0f, 0.0f, getWidth(), getHeight() + dp, paint);
                     canvas.restore();
                     canvas.restore();
@@ -680,7 +672,7 @@ public class QrActivity extends BaseFragment {
                     return;
                 }
             }
-            i = NotificationCenter.didClearDatabase;
+            i = NotificationCenter.messagePlayingSpeedChanged;
             if (f > 0.0f) {
             }
             if (this.hasTimer) {
@@ -740,7 +732,7 @@ public class QrActivity extends BaseFragment {
             this.username = str2;
             this.isPhone = z;
             if (z2) {
-                TLRPC$TL_exportedContactToken cachedContactToken = MessagesController.getInstance(UserConfig.selectedAccount).getCachedContactToken();
+                TLRPC.TL_exportedContactToken cachedContactToken = MessagesController.getInstance(UserConfig.selectedAccount).getCachedContactToken();
                 if (cachedContactToken != null) {
                     this.link = cachedContactToken.url;
                     this.linkExpires = cachedContactToken.expires;
@@ -1539,8 +1531,8 @@ public class QrActivity extends BaseFragment {
                 }
 
                 @Override // org.telegram.tgnet.ResultCallback
-                public void onError(TLRPC$TL_error tLRPC$TL_error) {
-                    Toast.makeText(QrActivity.this.getParentActivity(), tLRPC$TL_error.text, 0).show();
+                public void onError(TLRPC.TL_error tL_error) {
+                    Toast.makeText(QrActivity.this.getParentActivity(), tL_error.text, 0).show();
                 }
             }, true);
         } else {
@@ -1689,7 +1681,7 @@ public class QrActivity extends BaseFragment {
         MotionBackgroundDrawable motionBackgroundDrawable = this.currMotionDrawable;
         this.prevMotionDrawable = motionBackgroundDrawable;
         motionBackgroundDrawable.setIndeterminateAnimation(false);
-        this.prevMotionDrawable.setAlpha(NotificationCenter.didClearDatabase);
+        this.prevMotionDrawable.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
         MotionBackgroundDrawable motionBackgroundDrawable2 = new MotionBackgroundDrawable();
         this.currMotionDrawable = motionBackgroundDrawable2;
         motionBackgroundDrawable2.setCallback(this.backgroundView);
@@ -1702,7 +1694,7 @@ public class QrActivity extends BaseFragment {
             this.currMotionDrawable.posAnimationProgress = motionBackgroundDrawable3.posAnimationProgress;
         }
         this.qrView.setPosAnimationProgress(this.currMotionDrawable.posAnimationProgress);
-        TLRPC$WallPaper wallpaper = this.currentTheme.getWallpaper(z2 ? 1 : 0);
+        TLRPC.WallPaper wallpaper = this.currentTheme.getWallpaper(z2 ? 1 : 0);
         if (wallpaper != null) {
             this.currMotionDrawable.setPatternBitmap(wallpaper.settings.intensity);
             final long elapsedRealtime = SystemClock.elapsedRealtime();
@@ -1718,8 +1710,8 @@ public class QrActivity extends BaseFragment {
                 }
 
                 @Override // org.telegram.tgnet.ResultCallback
-                public /* synthetic */ void onError(TLRPC$TL_error tLRPC$TL_error) {
-                    ResultCallback.-CC.$default$onError(this, tLRPC$TL_error);
+                public /* synthetic */ void onError(TLRPC.TL_error tL_error) {
+                    ResultCallback.-CC.$default$onError(this, tL_error);
                 }
             });
         } else {
@@ -1743,7 +1735,7 @@ public class QrActivity extends BaseFragment {
                 this.prevQrColors = iArr2;
                 System.arraycopy(iArr, 0, iArr2, 0, 4);
             }
-            this.currMotionDrawable.setAlpha(NotificationCenter.didClearDatabase);
+            this.currMotionDrawable.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
             this.currMotionDrawable.setBackgroundAlpha(0.0f);
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             this.patternAlphaAnimator = ofFloat;
@@ -1875,34 +1867,34 @@ public class QrActivity extends BaseFragment {
 
     private boolean phoneIsPublic() {
         char c;
-        ArrayList<TLRPC$PrivacyRule> privacyRules = ContactsController.getInstance(this.currentAccount).getPrivacyRules(6);
+        ArrayList<TLRPC.PrivacyRule> privacyRules = ContactsController.getInstance(this.currentAccount).getPrivacyRules(6);
         if (privacyRules == null) {
             return false;
         }
         for (int i = 0; i < privacyRules.size(); i++) {
-            TLRPC$PrivacyRule tLRPC$PrivacyRule = privacyRules.get(i);
-            if (tLRPC$PrivacyRule instanceof TLRPC$TL_privacyValueAllowAll) {
+            TLRPC.PrivacyRule privacyRule = privacyRules.get(i);
+            if (privacyRule instanceof TLRPC.TL_privacyValueAllowAll) {
                 c = 0;
                 break;
-            } else if (tLRPC$PrivacyRule instanceof TLRPC$TL_privacyValueDisallowAll) {
+            } else if (privacyRule instanceof TLRPC.TL_privacyValueDisallowAll) {
                 break;
-            } else if (tLRPC$PrivacyRule instanceof TLRPC$TL_privacyValueAllowContacts) {
+            } else if (privacyRule instanceof TLRPC.TL_privacyValueAllowContacts) {
                 c = 1;
                 break;
             }
         }
         c = 2;
         if (c == 2) {
-            ArrayList<TLRPC$PrivacyRule> privacyRules2 = ContactsController.getInstance(this.currentAccount).getPrivacyRules(7);
+            ArrayList<TLRPC.PrivacyRule> privacyRules2 = ContactsController.getInstance(this.currentAccount).getPrivacyRules(7);
             if (privacyRules2 == null || privacyRules2.size() == 0) {
                 return true;
             }
             for (int i2 = 0; i2 < privacyRules2.size(); i2++) {
-                TLRPC$PrivacyRule tLRPC$PrivacyRule2 = privacyRules2.get(i2);
-                if (tLRPC$PrivacyRule2 instanceof TLRPC$TL_privacyValueAllowAll) {
+                TLRPC.PrivacyRule privacyRule2 = privacyRules2.get(i2);
+                if (privacyRule2 instanceof TLRPC.TL_privacyValueAllowAll) {
                     return true;
                 }
-                if ((tLRPC$PrivacyRule2 instanceof TLRPC$TL_privacyValueDisallowAll) || (tLRPC$PrivacyRule2 instanceof TLRPC$TL_privacyValueAllowContacts)) {
+                if ((privacyRule2 instanceof TLRPC.TL_privacyValueDisallowAll) || (privacyRule2 instanceof TLRPC.TL_privacyValueAllowContacts)) {
                     return false;
                 }
             }
@@ -1918,7 +1910,7 @@ public class QrActivity extends BaseFragment {
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
-        TLRPC$Chat chat;
+        TLRPC.Chat chat;
         String publicUsername;
         String str;
         AvatarDrawable avatarDrawable;
@@ -2027,7 +2019,7 @@ public class QrActivity extends BaseFragment {
         this.backgroundView = view;
         frameLayout.addView(view);
         if (this.userId != 0) {
-            TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.userId));
+            TLRPC.User user = getMessagesController().getUser(Long.valueOf(this.userId));
             if (user != null) {
                 publicUsername = UserObject.getPublicUsername(user);
                 if (publicUsername == null) {

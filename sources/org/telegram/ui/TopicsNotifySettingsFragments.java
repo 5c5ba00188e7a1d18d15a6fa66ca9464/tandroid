@@ -18,11 +18,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$TL_account_updateNotifySettings;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_forumTopic;
-import org.telegram.tgnet.TLRPC$TL_inputNotifyForumTopic;
-import org.telegram.tgnet.TLRPC$TL_inputPeerNotifySettings;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BackDrawable;
@@ -56,15 +52,15 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
         /* JADX INFO: Access modifiers changed from: package-private */
         /* loaded from: classes4.dex */
         public class 1 implements ProfileNotificationsActivity.ProfileNotificationsActivityDelegate {
-            final /* synthetic */ TLRPC$TL_forumTopic val$topic;
+            final /* synthetic */ TLRPC.TL_forumTopic val$topic;
 
-            1(TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
-                this.val$topic = tLRPC$TL_forumTopic;
+            1(TLRPC.TL_forumTopic tL_forumTopic) {
+                this.val$topic = tL_forumTopic;
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$didRemoveException$0(TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
-                TopicsNotifySettingsFragments.this.exceptionsTopics.remove(Integer.valueOf(tLRPC$TL_forumTopic.id));
+            public /* synthetic */ void lambda$didRemoveException$0(TLRPC.TL_forumTopic tL_forumTopic) {
+                TopicsNotifySettingsFragments.this.exceptionsTopics.remove(Integer.valueOf(tL_forumTopic.id));
                 TopicsNotifySettingsFragments.this.updateRows();
             }
 
@@ -75,11 +71,11 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
             @Override // org.telegram.ui.ProfileNotificationsActivity.ProfileNotificationsActivityDelegate
             public void didRemoveException(long j) {
                 TopicsNotifySettingsFragments.this.removeException(this.val$topic.id);
-                final TLRPC$TL_forumTopic tLRPC$TL_forumTopic = this.val$topic;
+                final TLRPC.TL_forumTopic tL_forumTopic = this.val$topic;
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TopicsNotifySettingsFragments$2$1$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        TopicsNotifySettingsFragments.2.1.this.lambda$didRemoveException$0(tLRPC$TL_forumTopic);
+                        TopicsNotifySettingsFragments.2.1.this.lambda$didRemoveException$0(tL_forumTopic);
                     }
                 }, 300L);
             }
@@ -89,22 +85,22 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onItemClick$0(TLRPC$TL_forumTopic tLRPC$TL_forumTopic, NotificationsSettingsActivity.NotificationException notificationException) {
-            TopicsNotifySettingsFragments.this.exceptionsTopics.add(Integer.valueOf(tLRPC$TL_forumTopic.id));
+        public /* synthetic */ void lambda$onItemClick$0(TLRPC.TL_forumTopic tL_forumTopic, NotificationsSettingsActivity.NotificationException notificationException) {
+            TopicsNotifySettingsFragments.this.exceptionsTopics.add(Integer.valueOf(tL_forumTopic.id));
             TopicsNotifySettingsFragments.this.updateRows();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onItemClick$1(final TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
+        public /* synthetic */ void lambda$onItemClick$1(final TLRPC.TL_forumTopic tL_forumTopic) {
             Bundle bundle = new Bundle();
             bundle.putLong("dialog_id", TopicsNotifySettingsFragments.this.dialogId);
-            bundle.putLong("topic_id", tLRPC$TL_forumTopic.id);
+            bundle.putLong("topic_id", tL_forumTopic.id);
             bundle.putBoolean("exception", true);
             ProfileNotificationsActivity profileNotificationsActivity = new ProfileNotificationsActivity(bundle);
             profileNotificationsActivity.setDelegate(new ProfileNotificationsActivity.ProfileNotificationsActivityDelegate() { // from class: org.telegram.ui.TopicsNotifySettingsFragments$2$$ExternalSyntheticLambda2
                 @Override // org.telegram.ui.ProfileNotificationsActivity.ProfileNotificationsActivityDelegate
                 public final void didCreateNewException(NotificationsSettingsActivity.NotificationException notificationException) {
-                    TopicsNotifySettingsFragments.2.this.lambda$onItemClick$0(tLRPC$TL_forumTopic, notificationException);
+                    TopicsNotifySettingsFragments.2.this.lambda$onItemClick$0(tL_forumTopic, notificationException);
                 }
 
                 @Override // org.telegram.ui.ProfileNotificationsActivity.ProfileNotificationsActivityDelegate
@@ -135,20 +131,20 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
                 topicsFragment.setExcludeTopics(TopicsNotifySettingsFragments.this.exceptionsTopics);
                 topicsFragment.setOnTopicSelectedListener(new TopicsFragment.OnTopicSelectedListener() { // from class: org.telegram.ui.TopicsNotifySettingsFragments$2$$ExternalSyntheticLambda0
                     @Override // org.telegram.ui.TopicsFragment.OnTopicSelectedListener
-                    public final void onTopicSelected(TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
-                        TopicsNotifySettingsFragments.2.this.lambda$onItemClick$1(tLRPC$TL_forumTopic);
+                    public final void onTopicSelected(TLRPC.TL_forumTopic tL_forumTopic) {
+                        TopicsNotifySettingsFragments.2.this.lambda$onItemClick$1(tL_forumTopic);
                     }
                 });
                 TopicsNotifySettingsFragments.this.presentFragment(topicsFragment);
             }
             if (((Item) TopicsNotifySettingsFragments.this.items.get(i)).viewType == 2) {
-                TLRPC$TL_forumTopic tLRPC$TL_forumTopic = ((Item) TopicsNotifySettingsFragments.this.items.get(i)).topic;
+                TLRPC.TL_forumTopic tL_forumTopic = ((Item) TopicsNotifySettingsFragments.this.items.get(i)).topic;
                 Bundle bundle2 = new Bundle();
                 bundle2.putLong("dialog_id", TopicsNotifySettingsFragments.this.dialogId);
-                bundle2.putLong("topic_id", tLRPC$TL_forumTopic.id);
+                bundle2.putLong("topic_id", tL_forumTopic.id);
                 bundle2.putBoolean("exception", false);
                 ProfileNotificationsActivity profileNotificationsActivity = new ProfileNotificationsActivity(bundle2);
-                profileNotificationsActivity.setDelegate(new 1(tLRPC$TL_forumTopic));
+                profileNotificationsActivity.setDelegate(new 1(tL_forumTopic));
                 TopicsNotifySettingsFragments.this.presentFragment(profileNotificationsActivity);
             }
             if (((Item) TopicsNotifySettingsFragments.this.items.get(i)).viewType == 4) {
@@ -245,15 +241,15 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes4.dex */
     public class Item extends AdapterWithDiffUtils.Item {
-        final TLRPC$TL_forumTopic topic;
+        final TLRPC.TL_forumTopic topic;
 
-        private Item(int i, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
+        private Item(int i, TLRPC.TL_forumTopic tL_forumTopic) {
             super(i, false);
-            this.topic = tLRPC$TL_forumTopic;
+            this.topic = tL_forumTopic;
         }
 
         public boolean equals(Object obj) {
-            TLRPC$TL_forumTopic tLRPC$TL_forumTopic;
+            TLRPC.TL_forumTopic tL_forumTopic;
             if (this == obj) {
                 return true;
             }
@@ -264,8 +260,8 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
             if (this.viewType != item.viewType) {
                 return false;
             }
-            TLRPC$TL_forumTopic tLRPC$TL_forumTopic2 = this.topic;
-            return tLRPC$TL_forumTopic2 == null || (tLRPC$TL_forumTopic = item.topic) == null || tLRPC$TL_forumTopic2.id == tLRPC$TL_forumTopic.id;
+            TLRPC.TL_forumTopic tL_forumTopic2 = this.topic;
+            return tL_forumTopic2 == null || (tL_forumTopic = item.topic) == null || tL_forumTopic2.id == tL_forumTopic.id;
         }
     }
 
@@ -280,22 +276,22 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$removeException$0(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$removeException$0(TLObject tLObject, TLRPC.TL_error tL_error) {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public void removeException(int i) {
         getNotificationsController().getNotificationsSettingsFacade().clearPreference(this.dialogId, i);
-        TLRPC$TL_account_updateNotifySettings tLRPC$TL_account_updateNotifySettings = new TLRPC$TL_account_updateNotifySettings();
-        tLRPC$TL_account_updateNotifySettings.settings = new TLRPC$TL_inputPeerNotifySettings();
-        TLRPC$TL_inputNotifyForumTopic tLRPC$TL_inputNotifyForumTopic = new TLRPC$TL_inputNotifyForumTopic();
-        tLRPC$TL_inputNotifyForumTopic.peer = getMessagesController().getInputPeer(this.dialogId);
-        tLRPC$TL_inputNotifyForumTopic.top_msg_id = i;
-        tLRPC$TL_account_updateNotifySettings.peer = tLRPC$TL_inputNotifyForumTopic;
-        getConnectionsManager().sendRequest(tLRPC$TL_account_updateNotifySettings, new RequestDelegate() { // from class: org.telegram.ui.TopicsNotifySettingsFragments$$ExternalSyntheticLambda0
+        TLRPC.TL_account_updateNotifySettings tL_account_updateNotifySettings = new TLRPC.TL_account_updateNotifySettings();
+        tL_account_updateNotifySettings.settings = new TLRPC.TL_inputPeerNotifySettings();
+        TLRPC.TL_inputNotifyForumTopic tL_inputNotifyForumTopic = new TLRPC.TL_inputNotifyForumTopic();
+        tL_inputNotifyForumTopic.peer = getMessagesController().getInputPeer(this.dialogId);
+        tL_inputNotifyForumTopic.top_msg_id = i;
+        tL_account_updateNotifySettings.peer = tL_inputNotifyForumTopic;
+        getConnectionsManager().sendRequest(tL_account_updateNotifySettings, new RequestDelegate() { // from class: org.telegram.ui.TopicsNotifySettingsFragments$$ExternalSyntheticLambda0
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                TopicsNotifySettingsFragments.lambda$removeException$0(tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                TopicsNotifySettingsFragments.lambda$removeException$0(tLObject, tL_error);
             }
         });
     }
@@ -312,7 +308,7 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
         }
         this.items.clear();
         this.items.add(new Item(1, null));
-        ArrayList<TLRPC$TL_forumTopic> topics = getMessagesController().getTopicsController().getTopics(-this.dialogId);
+        ArrayList<TLRPC.TL_forumTopic> topics = getMessagesController().getTopicsController().getTopics(-this.dialogId);
         if (topics != null) {
             int i2 = 0;
             while (i < topics.size()) {

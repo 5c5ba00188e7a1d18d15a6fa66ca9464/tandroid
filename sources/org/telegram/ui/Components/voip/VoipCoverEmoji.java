@@ -11,7 +11,7 @@ import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 /* loaded from: classes3.dex */
@@ -37,12 +37,12 @@ public class VoipCoverEmoji {
     private int alpha = 0;
     private float scale = 0.0f;
 
-    public VoipCoverEmoji(TLRPC$User tLRPC$User, final View view, int i) {
+    public VoipCoverEmoji(TLRPC.User user, final View view, int i) {
         this.parent = view;
         this.size = i;
-        boolean isEnabled = LiteMode.isEnabled(LiteMode.FLAG_CALLS_ANIMATIONS);
+        boolean isEnabled = LiteMode.isEnabled(512);
         this.allowAnimations = isEnabled;
-        long profileEmojiId = UserObject.getProfileEmojiId(tLRPC$User);
+        long profileEmojiId = UserObject.getProfileEmojiId(user);
         if (!isEnabled || profileEmojiId == 0) {
             return;
         }
@@ -154,7 +154,7 @@ public class VoipCoverEmoji {
         long j2 = (long) NotificationCenter.updateBotMenuButton;
         ofFloat.setStartDelay(j2);
         ofFloat.start();
-        ValueAnimator ofInt = ValueAnimator.ofInt(0, NotificationCenter.didClearDatabase, NotificationCenter.didClearDatabase);
+        ValueAnimator ofInt = ValueAnimator.ofInt(0, NotificationCenter.messagePlayingSpeedChanged, NotificationCenter.messagePlayingSpeedChanged);
         ofInt.setInterpolator(CubicBezierInterpolator.DEFAULT);
         ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoipCoverEmoji$$ExternalSyntheticLambda2
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener

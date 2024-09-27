@@ -11,6 +11,7 @@ import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.drm.DrmInitData;
 import com.google.android.exoplayer2.extractor.mp4.PsshAtomUtil;
 import com.google.android.exoplayer2.metadata.emsg.EventMessage;
+import com.google.android.exoplayer2.source.Label;
 import com.google.android.exoplayer2.source.dash.manifest.SegmentBase;
 import com.google.android.exoplayer2.upstream.ParsingLoadable;
 import com.google.android.exoplayer2.util.Assertions;
@@ -275,16 +276,23 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
                 }
                 c = 65535;
                 break;
+            case 3094034:
+                if (lowerCase.equals("f800")) {
+                    c = 2;
+                    break;
+                }
+                c = 65535;
+                break;
             case 3094035:
                 if (lowerCase.equals("f801")) {
-                    c = 2;
+                    c = 3;
                     break;
                 }
                 c = 65535;
                 break;
             case 3133436:
                 if (lowerCase.equals("fa01")) {
-                    c = 3;
+                    c = 4;
                     break;
                 }
                 c = 65535;
@@ -299,8 +307,10 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
             case 1:
                 return 2;
             case 2:
-                return 6;
+                return 5;
             case 3:
+                return 6;
+            case 4:
                 return 8;
             default:
                 return -1;
@@ -413,8 +423,8 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         return str2;
     }
 
-    protected AdaptationSet buildAdaptationSet(int i, int i2, List list, List list2, List list3, List list4) {
-        return new AdaptationSet(i, i2, list, list2, list3, list4);
+    protected AdaptationSet buildAdaptationSet(long j, int i, List list, List list2, List list3, List list4) {
+        return new AdaptationSet(j, i, list, list2, list3, list4);
     }
 
     protected EventMessage buildEvent(String str, String str2, long j, long j2, byte[] bArr) {
@@ -469,21 +479,21 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         return new RangedUri(str, j, j2);
     }
 
-    protected Representation buildRepresentation(RepresentationInfo representationInfo, String str, String str2, ArrayList arrayList, ArrayList arrayList2) {
+    protected Representation buildRepresentation(RepresentationInfo representationInfo, String str, List list, String str2, ArrayList arrayList, ArrayList arrayList2) {
         Format.Builder buildUpon = representationInfo.format.buildUpon();
-        if (str != null) {
+        if (str != null && list.isEmpty()) {
             buildUpon.setLabel(str);
         }
         String str3 = representationInfo.drmSchemeType;
-        if (str3 != null) {
-            str2 = str3;
+        if (str3 == null) {
+            str3 = str2;
         }
         ArrayList arrayList3 = representationInfo.drmSchemeDatas;
         arrayList3.addAll(arrayList);
         if (!arrayList3.isEmpty()) {
             fillInClearKeyInformation(arrayList3);
             filterRedundantIncompleteSchemeDatas(arrayList3);
-            buildUpon.setDrmInitData(new DrmInitData(str2, arrayList3));
+            buildUpon.setDrmInitData(new DrmInitData(str3, arrayList3));
         }
         ArrayList arrayList4 = representationInfo.inbandEventStreams;
         arrayList4.addAll(arrayList2);
@@ -524,16 +534,14 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:71:0x030d A[LOOP:0: B:3:0x007c->B:71:0x030d, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x02ce A[EDGE_INSN: B:72:0x02ce->B:65:0x02ce ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x0351 A[LOOP:0: B:3:0x007f->B:74:0x0351, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x0310 A[EDGE_INSN: B:75:0x0310->B:68:0x0310 ?: BREAK  , SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected AdaptationSet parseAdaptationSet(XmlPullParser xmlPullParser, List list, SegmentBase segmentBase, long j, long j2, long j3, long j4, long j5, boolean z) {
-        long j6;
-        ArrayList arrayList;
         Object obj;
-        long j7;
+        ArrayList arrayList;
         ArrayList arrayList2;
         ArrayList arrayList3;
         ArrayList arrayList4;
@@ -543,35 +551,40 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         String str;
         String str2;
         ArrayList arrayList8;
-        int i;
+        long j6;
         ArrayList arrayList9;
+        long j7;
+        int i;
+        ArrayList arrayList10;
+        ArrayList arrayList11;
         long parseAvailabilityTimeOffsetUs;
+        int i2;
+        ArrayList arrayList12;
         DashManifestParser dashManifestParser = this;
         XmlPullParser xmlPullParser2 = xmlPullParser;
-        int parseInt = parseInt(xmlPullParser2, "id", -1);
+        long parseLong = parseLong(xmlPullParser2, "id", -1L);
         int parseContentType = parseContentType(xmlPullParser);
         String attributeValue = xmlPullParser2.getAttributeValue(null, "mimeType");
         String attributeValue2 = xmlPullParser2.getAttributeValue(null, "codecs");
-        int parseInt2 = parseInt(xmlPullParser2, "width", -1);
-        int parseInt3 = parseInt(xmlPullParser2, "height", -1);
+        int parseInt = parseInt(xmlPullParser2, "width", -1);
+        int parseInt2 = parseInt(xmlPullParser2, "height", -1);
         float parseFrameRate = parseFrameRate(xmlPullParser2, -1.0f);
-        int parseInt4 = parseInt(xmlPullParser2, "audioSamplingRate", -1);
+        int parseInt3 = parseInt(xmlPullParser2, "audioSamplingRate", -1);
         String str3 = "lang";
         String attributeValue3 = xmlPullParser2.getAttributeValue(null, "lang");
         String attributeValue4 = xmlPullParser2.getAttributeValue(null, "label");
-        ArrayList arrayList10 = new ArrayList();
-        ArrayList arrayList11 = new ArrayList();
-        ArrayList arrayList12 = new ArrayList();
         ArrayList arrayList13 = new ArrayList();
         ArrayList arrayList14 = new ArrayList();
         ArrayList arrayList15 = new ArrayList();
         ArrayList arrayList16 = new ArrayList();
         ArrayList arrayList17 = new ArrayList();
+        ArrayList arrayList18 = new ArrayList();
+        ArrayList arrayList19 = new ArrayList();
+        ArrayList arrayList20 = new ArrayList();
+        ArrayList arrayList21 = new ArrayList();
         SegmentBase.SingleSegmentBase singleSegmentBase = segmentBase;
-        int i2 = parseContentType;
         String str4 = attributeValue3;
-        String str5 = attributeValue4;
-        String str6 = null;
+        String str5 = null;
         int i3 = -1;
         boolean z2 = false;
         long j8 = j2;
@@ -583,178 +596,233 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
                     j8 = dashManifestParser.parseAvailabilityTimeOffsetUs(xmlPullParser2, j8);
                     z2 = true;
                 }
-                j6 = j9;
-                arrayList = arrayList11;
-                arrayList17.addAll(dashManifestParser.parseBaseUrl(xmlPullParser2, list, z));
+                arrayList21.addAll(dashManifestParser.parseBaseUrl(xmlPullParser2, list, z));
+                j8 = j8;
+                arrayList9 = arrayList20;
+                arrayList2 = arrayList19;
+                arrayList3 = arrayList18;
+                arrayList4 = arrayList17;
+                arrayList5 = arrayList16;
+                arrayList7 = arrayList14;
+                str = str3;
+                arrayList11 = arrayList13;
             } else {
-                j6 = j9;
-                arrayList = arrayList11;
+                long j10 = j8;
+                ArrayList arrayList22 = arrayList13;
                 if (XmlPullParserUtil.isStartTag(xmlPullParser2, "ContentProtection")) {
                     Pair parseContentProtection = parseContentProtection(xmlPullParser);
                     Object obj2 = parseContentProtection.first;
                     if (obj2 != null) {
-                        str6 = (String) obj2;
+                        str5 = (String) obj2;
                     }
                     Object obj3 = parseContentProtection.second;
                     if (obj3 != null) {
-                        arrayList10.add((DrmInitData.SchemeData) obj3);
+                        arrayList14.add((DrmInitData.SchemeData) obj3);
                     }
+                    arrayList9 = arrayList20;
+                    arrayList2 = arrayList19;
+                    arrayList3 = arrayList18;
+                    arrayList4 = arrayList17;
+                    arrayList5 = arrayList16;
+                    arrayList7 = arrayList14;
+                    str = str3;
+                    arrayList11 = arrayList22;
+                    j8 = j10;
                 } else {
                     if (XmlPullParserUtil.isStartTag(xmlPullParser2, "ContentComponent")) {
-                        str2 = checkLanguageConsistency(str4, xmlPullParser2.getAttributeValue(null, str3));
+                        String checkLanguageConsistency = checkLanguageConsistency(str4, xmlPullParser2.getAttributeValue(null, str3));
+                        parseContentType = checkContentTypeConsistency(parseContentType, parseContentType(xmlPullParser));
+                        str2 = checkLanguageConsistency;
                         obj = null;
-                        j7 = j8;
-                        arrayList2 = arrayList17;
-                        arrayList8 = arrayList16;
-                        arrayList3 = arrayList15;
-                        arrayList4 = arrayList14;
-                        arrayList5 = arrayList13;
-                        arrayList6 = arrayList12;
-                        arrayList7 = arrayList10;
+                        arrayList = arrayList21;
+                        arrayList9 = arrayList20;
+                        arrayList2 = arrayList19;
+                        arrayList3 = arrayList18;
+                        arrayList4 = arrayList17;
+                        arrayList5 = arrayList16;
+                        arrayList10 = arrayList15;
+                        arrayList7 = arrayList14;
                         str = str3;
-                        i = checkContentTypeConsistency(i2, parseContentType(xmlPullParser));
-                        arrayList9 = arrayList;
+                        arrayList11 = arrayList22;
+                        j8 = j10;
                     } else {
-                        int i4 = i2;
-                        String str7 = str4;
+                        String str6 = str4;
                         if (XmlPullParserUtil.isStartTag(xmlPullParser2, "Role")) {
-                            arrayList13.add(parseDescriptor(xmlPullParser2, "Role"));
+                            arrayList17.add(parseDescriptor(xmlPullParser2, "Role"));
                         } else if (XmlPullParserUtil.isStartTag(xmlPullParser2, "AudioChannelConfiguration")) {
                             i3 = parseAudioChannelConfiguration(xmlPullParser);
+                            obj = null;
+                            arrayList = arrayList21;
+                            arrayList2 = arrayList19;
+                            arrayList3 = arrayList18;
+                            arrayList4 = arrayList17;
+                            arrayList5 = arrayList16;
+                            arrayList10 = arrayList15;
+                            arrayList7 = arrayList14;
+                            str = str3;
+                            str2 = str6;
+                            j8 = j10;
+                            arrayList9 = arrayList20;
+                            arrayList11 = arrayList22;
                         } else if (XmlPullParserUtil.isStartTag(xmlPullParser2, "Accessibility")) {
-                            arrayList12.add(parseDescriptor(xmlPullParser2, "Accessibility"));
+                            arrayList16.add(parseDescriptor(xmlPullParser2, "Accessibility"));
                         } else if (XmlPullParserUtil.isStartTag(xmlPullParser2, "EssentialProperty")) {
-                            arrayList14.add(parseDescriptor(xmlPullParser2, "EssentialProperty"));
+                            arrayList18.add(parseDescriptor(xmlPullParser2, "EssentialProperty"));
                         } else if (XmlPullParserUtil.isStartTag(xmlPullParser2, "SupplementalProperty")) {
-                            arrayList15.add(parseDescriptor(xmlPullParser2, "SupplementalProperty"));
-                        } else if (XmlPullParserUtil.isStartTag(xmlPullParser2, "Representation")) {
-                            j7 = j8;
-                            arrayList2 = arrayList17;
-                            arrayList3 = arrayList15;
-                            arrayList4 = arrayList14;
-                            arrayList5 = arrayList13;
-                            arrayList6 = arrayList12;
-                            arrayList7 = arrayList10;
-                            str = str3;
-                            obj = null;
-                            str2 = str7;
-                            RepresentationInfo parseRepresentation = parseRepresentation(xmlPullParser, !arrayList17.isEmpty() ? arrayList17 : list, attributeValue, attributeValue2, parseInt2, parseInt3, parseFrameRate, i3, parseInt4, str7, arrayList5, arrayList6, arrayList4, arrayList3, singleSegmentBase, j4, j, j7, j6, j5, z);
-                            int checkContentTypeConsistency = checkContentTypeConsistency(i4, MimeTypes.getTrackType(parseRepresentation.format.sampleMimeType));
-                            arrayList8 = arrayList16;
-                            arrayList8.add(parseRepresentation);
-                            xmlPullParser2 = xmlPullParser;
-                            i = checkContentTypeConsistency;
-                            arrayList9 = arrayList;
+                            arrayList19.add(parseDescriptor(xmlPullParser2, "SupplementalProperty"));
                         } else {
-                            obj = null;
-                            j7 = j8;
-                            arrayList2 = arrayList17;
-                            arrayList3 = arrayList15;
-                            arrayList4 = arrayList14;
-                            arrayList5 = arrayList13;
-                            arrayList6 = arrayList12;
-                            arrayList7 = arrayList10;
-                            str = str3;
-                            str2 = str7;
-                            arrayList8 = arrayList16;
-                            if (XmlPullParserUtil.isStartTag(xmlPullParser, "SegmentBase")) {
-                                singleSegmentBase = parseSegmentBase(xmlPullParser, (SegmentBase.SingleSegmentBase) singleSegmentBase);
-                                i = i4;
-                                arrayList9 = arrayList;
-                                j9 = j6;
-                                xmlPullParser2 = xmlPullParser;
-                            } else {
-                                if (XmlPullParserUtil.isStartTag(xmlPullParser, "SegmentList")) {
-                                    parseAvailabilityTimeOffsetUs = parseAvailabilityTimeOffsetUs(xmlPullParser, j6);
-                                    i = i4;
-                                    singleSegmentBase = parseSegmentList(xmlPullParser, (SegmentBase.SegmentList) singleSegmentBase, j4, j, j7, parseAvailabilityTimeOffsetUs, j5);
-                                    xmlPullParser2 = xmlPullParser;
+                            if (XmlPullParserUtil.isStartTag(xmlPullParser2, "Representation")) {
+                                if (arrayList21.isEmpty()) {
+                                    i2 = parseContentType;
+                                    arrayList12 = list;
                                 } else {
-                                    j9 = j6;
-                                    i = i4;
-                                    if (XmlPullParserUtil.isStartTag(xmlPullParser, "SegmentTemplate")) {
+                                    i2 = parseContentType;
+                                    arrayList12 = arrayList21;
+                                }
+                                arrayList = arrayList21;
+                                arrayList2 = arrayList19;
+                                arrayList3 = arrayList18;
+                                arrayList4 = arrayList17;
+                                arrayList5 = arrayList16;
+                                arrayList6 = arrayList15;
+                                arrayList7 = arrayList14;
+                                arrayList8 = arrayList22;
+                                str = str3;
+                                obj = null;
+                                str2 = str6;
+                                RepresentationInfo parseRepresentation = parseRepresentation(xmlPullParser, arrayList12, attributeValue, attributeValue2, parseInt, parseInt2, parseFrameRate, i3, parseInt3, str6, arrayList4, arrayList5, arrayList3, arrayList2, singleSegmentBase, j4, j, j10, j9, j5, z);
+                                int checkContentTypeConsistency = checkContentTypeConsistency(i2, MimeTypes.getTrackType(parseRepresentation.format.sampleMimeType));
+                                arrayList9 = arrayList20;
+                                arrayList9.add(parseRepresentation);
+                                xmlPullParser2 = xmlPullParser;
+                                parseAvailabilityTimeOffsetUs = j9;
+                                parseContentType = checkContentTypeConsistency;
+                                j8 = j10;
+                            } else {
+                                int i4 = parseContentType;
+                                obj = null;
+                                arrayList = arrayList21;
+                                arrayList2 = arrayList19;
+                                arrayList3 = arrayList18;
+                                arrayList4 = arrayList17;
+                                arrayList5 = arrayList16;
+                                arrayList6 = arrayList15;
+                                arrayList7 = arrayList14;
+                                str = str3;
+                                str2 = str6;
+                                arrayList8 = arrayList22;
+                                j6 = j10;
+                                arrayList9 = arrayList20;
+                                if (XmlPullParserUtil.isStartTag(xmlPullParser, "SegmentBase")) {
+                                    parseAvailabilityTimeOffsetUs = j9;
+                                    singleSegmentBase = parseSegmentBase(xmlPullParser, (SegmentBase.SingleSegmentBase) singleSegmentBase);
+                                    parseContentType = i4;
+                                    j8 = j6;
+                                    arrayList10 = arrayList6;
+                                    arrayList11 = arrayList8;
+                                    xmlPullParser2 = xmlPullParser;
+                                    if (!XmlPullParserUtil.isEndTag(xmlPullParser2, "AdaptationSet")) {
+                                        break;
+                                    }
+                                    arrayList15 = arrayList10;
+                                    arrayList13 = arrayList11;
+                                    arrayList20 = arrayList9;
+                                    j9 = parseAvailabilityTimeOffsetUs;
+                                    arrayList21 = arrayList;
+                                    arrayList19 = arrayList2;
+                                    arrayList18 = arrayList3;
+                                    arrayList17 = arrayList4;
+                                    arrayList16 = arrayList5;
+                                    arrayList14 = arrayList7;
+                                    str3 = str;
+                                    str4 = str2;
+                                    dashManifestParser = this;
+                                } else {
+                                    if (XmlPullParserUtil.isStartTag(xmlPullParser, "SegmentList")) {
                                         parseAvailabilityTimeOffsetUs = parseAvailabilityTimeOffsetUs(xmlPullParser, j9);
+                                        i = i4;
+                                        singleSegmentBase = parseSegmentList(xmlPullParser, (SegmentBase.SegmentList) singleSegmentBase, j4, j, j6, parseAvailabilityTimeOffsetUs, j5);
                                         xmlPullParser2 = xmlPullParser;
-                                        singleSegmentBase = parseSegmentTemplate(xmlPullParser, (SegmentBase.SegmentTemplate) singleSegmentBase, arrayList3, j4, j, j7, parseAvailabilityTimeOffsetUs, j5);
                                     } else {
-                                        xmlPullParser2 = xmlPullParser;
-                                        if (XmlPullParserUtil.isStartTag(xmlPullParser2, "InbandEventStream")) {
-                                            arrayList9 = arrayList;
-                                            arrayList9.add(parseDescriptor(xmlPullParser2, "InbandEventStream"));
+                                        j7 = j9;
+                                        i = i4;
+                                        if (XmlPullParserUtil.isStartTag(xmlPullParser, "SegmentTemplate")) {
+                                            parseAvailabilityTimeOffsetUs = parseAvailabilityTimeOffsetUs(xmlPullParser, j7);
+                                            xmlPullParser2 = xmlPullParser;
+                                            singleSegmentBase = parseSegmentTemplate(xmlPullParser, (SegmentBase.SegmentTemplate) singleSegmentBase, arrayList2, j4, j, j6, parseAvailabilityTimeOffsetUs, j5);
                                         } else {
-                                            arrayList9 = arrayList;
-                                            if (XmlPullParserUtil.isStartTag(xmlPullParser2, "Label")) {
-                                                str5 = parseLabel(xmlPullParser);
-                                            } else if (XmlPullParserUtil.isStartTag(xmlPullParser)) {
-                                                parseAdaptationSetChild(xmlPullParser);
+                                            xmlPullParser2 = xmlPullParser;
+                                            if (XmlPullParserUtil.isStartTag(xmlPullParser2, "InbandEventStream")) {
+                                                arrayList10 = arrayList6;
+                                                arrayList10.add(parseDescriptor(xmlPullParser2, "InbandEventStream"));
+                                                arrayList11 = arrayList8;
+                                            } else {
+                                                arrayList10 = arrayList6;
+                                                if (XmlPullParserUtil.isStartTag(xmlPullParser2, "Label")) {
+                                                    arrayList11 = arrayList8;
+                                                    arrayList11.add(parseLabel(xmlPullParser));
+                                                } else {
+                                                    arrayList11 = arrayList8;
+                                                    if (XmlPullParserUtil.isStartTag(xmlPullParser)) {
+                                                        parseAdaptationSetChild(xmlPullParser);
+                                                    }
+                                                }
+                                            }
+                                            parseAvailabilityTimeOffsetUs = j7;
+                                            j8 = j6;
+                                            parseContentType = i;
+                                            if (!XmlPullParserUtil.isEndTag(xmlPullParser2, "AdaptationSet")) {
                                             }
                                         }
                                     }
+                                    j8 = j6;
+                                    parseContentType = i;
                                 }
-                                j9 = parseAvailabilityTimeOffsetUs;
-                                arrayList9 = arrayList;
                             }
+                            arrayList10 = arrayList6;
+                            arrayList11 = arrayList8;
                             if (!XmlPullParserUtil.isEndTag(xmlPullParser2, "AdaptationSet")) {
-                                break;
                             }
-                            arrayList11 = arrayList9;
-                            arrayList16 = arrayList8;
-                            arrayList17 = arrayList2;
-                            arrayList15 = arrayList3;
-                            j8 = j7;
-                            arrayList14 = arrayList4;
-                            arrayList13 = arrayList5;
-                            arrayList12 = arrayList6;
-                            arrayList10 = arrayList7;
-                            str3 = str;
-                            i2 = i;
-                            str4 = str2;
-                            dashManifestParser = this;
                         }
+                        i = parseContentType;
                         obj = null;
-                        j7 = j8;
-                        arrayList2 = arrayList17;
-                        arrayList3 = arrayList15;
-                        arrayList4 = arrayList14;
-                        arrayList5 = arrayList13;
-                        arrayList6 = arrayList12;
-                        arrayList7 = arrayList10;
+                        arrayList = arrayList21;
+                        arrayList2 = arrayList19;
+                        arrayList3 = arrayList18;
+                        arrayList4 = arrayList17;
+                        arrayList5 = arrayList16;
+                        arrayList10 = arrayList15;
+                        arrayList7 = arrayList14;
                         str = str3;
-                        i = i4;
-                        str2 = str7;
-                        arrayList9 = arrayList;
-                        j9 = j6;
-                        arrayList8 = arrayList16;
+                        str2 = str6;
+                        j6 = j10;
+                        j7 = j9;
+                        arrayList9 = arrayList20;
+                        arrayList11 = arrayList22;
+                        parseAvailabilityTimeOffsetUs = j7;
+                        j8 = j6;
+                        parseContentType = i;
                         if (!XmlPullParserUtil.isEndTag(xmlPullParser2, "AdaptationSet")) {
                         }
                     }
-                    j9 = j6;
+                    parseAvailabilityTimeOffsetUs = j9;
                     if (!XmlPullParserUtil.isEndTag(xmlPullParser2, "AdaptationSet")) {
                     }
                 }
             }
-            j9 = j6;
-            j7 = j8;
-            arrayList8 = arrayList16;
-            arrayList4 = arrayList14;
-            arrayList5 = arrayList13;
-            arrayList6 = arrayList12;
-            arrayList7 = arrayList10;
-            str = str3;
-            arrayList9 = arrayList;
-            i = i2;
             str2 = str4;
             obj = null;
-            arrayList2 = arrayList17;
-            arrayList3 = arrayList15;
+            parseAvailabilityTimeOffsetUs = j9;
+            arrayList = arrayList21;
+            arrayList10 = arrayList15;
             if (!XmlPullParserUtil.isEndTag(xmlPullParser2, "AdaptationSet")) {
             }
         }
-        ArrayList arrayList18 = new ArrayList(arrayList8.size());
-        for (int i5 = 0; i5 < arrayList8.size(); i5++) {
-            arrayList18.add(buildRepresentation((RepresentationInfo) arrayList8.get(i5), str5, str6, arrayList7, arrayList9));
+        ArrayList arrayList23 = new ArrayList(arrayList9.size());
+        for (int i5 = 0; i5 < arrayList9.size(); i5++) {
+            arrayList23.add(buildRepresentation((RepresentationInfo) arrayList9.get(i5), attributeValue4, arrayList11, str5, arrayList7, arrayList10));
         }
-        return buildAdaptationSet(parseInt, i, arrayList18, arrayList6, arrayList4, arrayList3);
+        return buildAdaptationSet(parseLong, parseContentType, arrayList23, arrayList5, arrayList3, arrayList2);
     }
 
     protected void parseAdaptationSetChild(XmlPullParser xmlPullParser) {
@@ -885,9 +953,7 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         return arrayList;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:49:0x00b5  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x00bc  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x011a  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x0126  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -964,6 +1030,7 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
                         bArr2 = PsshAtomUtil.buildPsshAtom(uuid, uuidArr, null);
                         break;
                     } else {
+                        Log.w("MpdParser", "Ignoring <ContentProtection> with schemeIdUri=\"urn:mpeg:dash:mp4protection:2011\" (ClearKey) due to missing required default_KID attribute.");
                         uuid = null;
                         uuid2 = uuid;
                         bArr = uuid2;
@@ -974,10 +1041,10 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
             }
             do {
                 xmlPullParser.next();
-                if (!XmlPullParserUtil.isStartTag(xmlPullParser, "clearkey:Laurl") && xmlPullParser.next() == 4) {
+                if ((!XmlPullParserUtil.isStartTag(xmlPullParser, "clearkey:Laurl") || XmlPullParserUtil.isStartTag(xmlPullParser, "dashif:Laurl")) && xmlPullParser.next() == 4) {
                     bArr = xmlPullParser.getText();
                     bArr2 = bArr2;
-                } else if (!XmlPullParserUtil.isStartTag(xmlPullParser, "ms:laurl")) {
+                } else if (XmlPullParserUtil.isStartTag(xmlPullParser, "ms:laurl")) {
                     bArr = xmlPullParser.getAttributeValue(null, "licenseUrl");
                     bArr2 = bArr2;
                 } else if (bArr2 == null && XmlPullParserUtil.isStartTagIgnorePrefix(xmlPullParser, "pssh") && xmlPullParser.next() == 4) {
@@ -1011,10 +1078,10 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         bArr2 = uuid2;
         do {
             xmlPullParser.next();
-            if (!XmlPullParserUtil.isStartTag(xmlPullParser, "clearkey:Laurl")) {
+            if (XmlPullParserUtil.isStartTag(xmlPullParser, "clearkey:Laurl")) {
             }
-            if (!XmlPullParserUtil.isStartTag(xmlPullParser, "ms:laurl")) {
-            }
+            bArr = xmlPullParser.getText();
+            bArr2 = bArr2;
         } while (!XmlPullParserUtil.isEndTag(xmlPullParser, "ContentProtection"));
         return Pair.create(str, uuid != null ? new DrmInitData.SchemeData(uuid, bArr, "video/mp4", bArr2) : null);
     }
@@ -1113,7 +1180,7 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         long parseLong = parseLong(xmlPullParser, "timescale", 1L);
         long parseLong2 = parseLong(xmlPullParser, "presentationTimeOffset", 0L);
         ArrayList arrayList2 = new ArrayList();
-        ByteArrayOutputStream byteArrayOutputStream2 = new ByteArrayOutputStream(LiteMode.FLAG_CALLS_ANIMATIONS);
+        ByteArrayOutputStream byteArrayOutputStream2 = new ByteArrayOutputStream(512);
         while (true) {
             xmlPullParser.next();
             if (XmlPullParserUtil.isStartTag(xmlPullParser, "Event")) {
@@ -1149,8 +1216,8 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         return parseRangedUrl(xmlPullParser, "sourceURL", "range");
     }
 
-    protected String parseLabel(XmlPullParser xmlPullParser) {
-        return parseText(xmlPullParser, "Label");
+    protected Label parseLabel(XmlPullParser xmlPullParser) {
+        return new Label(xmlPullParser.getAttributeValue(null, "lang"), parseText(xmlPullParser, "Label"));
     }
 
     /* JADX WARN: Removed duplicated region for block: B:76:0x01b6  */
@@ -1714,7 +1781,7 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
             case 5:
                 return 128;
             case 1:
-                return LiteMode.FLAG_CALLS_ANIMATIONS;
+                return 512;
             case 2:
                 return 2048;
             case 4:
@@ -2004,7 +2071,7 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         }
         switch (c) {
             case 0:
-                return LiteMode.FLAG_CALLS_ANIMATIONS;
+                return 512;
             case 1:
                 return 2048;
             case 2:

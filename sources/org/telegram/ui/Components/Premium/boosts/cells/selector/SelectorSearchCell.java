@@ -35,7 +35,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
-import org.telegram.tgnet.TLRPC$TL_help_country;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.CubicBezierInterpolator;
@@ -555,7 +555,7 @@ public abstract class SelectorSearchCell extends ScrollView {
     protected void dispatchDraw(Canvas canvas) {
         int scrollY;
         float scrollY2 = getScrollY();
-        canvas.saveLayerAlpha(0.0f, scrollY2, getWidth(), getHeight() + scrollY, NotificationCenter.didClearDatabase, 31);
+        canvas.saveLayerAlpha(0.0f, scrollY2, getWidth(), getHeight() + scrollY, NotificationCenter.messagePlayingSpeedChanged, 31);
         super.dispatchDraw(canvas);
         canvas.save();
         float f = this.topGradientAlpha.set(canScrollVertically(-1));
@@ -634,7 +634,7 @@ public abstract class SelectorSearchCell extends ScrollView {
     }
 
     public void updateSpans(boolean z, final HashSet hashSet, final Runnable runnable, List list) {
-        TLRPC$TL_help_country tLRPC$TL_help_country;
+        TLRPC.TL_help_country tL_help_country;
         MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
         ArrayList arrayList = new ArrayList();
         ArrayList arrayList2 = new ArrayList();
@@ -655,16 +655,16 @@ public abstract class SelectorSearchCell extends ScrollView {
                     if (list != null) {
                         Iterator it2 = list.iterator();
                         while (it2.hasNext()) {
-                            TLRPC$TL_help_country tLRPC$TL_help_country2 = (TLRPC$TL_help_country) it2.next();
-                            if (tLRPC$TL_help_country2.default_name.hashCode() == longValue) {
-                                tLRPC$TL_help_country = tLRPC$TL_help_country2;
+                            TLRPC.TL_help_country tL_help_country2 = (TLRPC.TL_help_country) it2.next();
+                            if (tL_help_country2.default_name.hashCode() == longValue) {
+                                tL_help_country = tL_help_country2;
                                 break;
                             }
                         }
                     }
-                    tLRPC$TL_help_country = user;
-                    if (tLRPC$TL_help_country != null) {
-                        GroupCreateSpan groupCreateSpan2 = new GroupCreateSpan(getContext(), tLRPC$TL_help_country, null, true, this.resourcesProvider);
+                    tL_help_country = user;
+                    if (tL_help_country != null) {
+                        GroupCreateSpan groupCreateSpan2 = new GroupCreateSpan(getContext(), tL_help_country, null, true, this.resourcesProvider);
                         groupCreateSpan2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell$$ExternalSyntheticLambda1
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view) {

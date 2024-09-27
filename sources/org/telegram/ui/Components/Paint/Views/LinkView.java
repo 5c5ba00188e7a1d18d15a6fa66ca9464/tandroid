@@ -10,7 +10,7 @@ import android.graphics.RectF;
 import android.view.ViewGroup;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.tgnet.tl.TL_stories$MediaArea;
+import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Paint.Views.EntityView;
 import org.telegram.ui.Components.Paint.Views.LinkPreview;
@@ -23,7 +23,7 @@ public class LinkView extends EntityView {
     private boolean hasColor;
     public LinkPreview.WebPagePreview link;
     public final LinkPreview marker;
-    public TL_stories$MediaArea mediaArea;
+    public TL_stories.MediaArea mediaArea;
 
     /* loaded from: classes3.dex */
     public class TextViewSelectionView extends EntityView.SelectionView {
@@ -85,7 +85,7 @@ public class LinkView extends EntityView {
             canvas.drawCircle(dp, f11, (dpf2 - AndroidUtilities.dp(1.0f)) + 1.0f, this.dotPaint);
             canvas.drawCircle(f2, f11, dpf2, this.dotStrokePaint);
             canvas.drawCircle(f2, f11, (dpf2 - AndroidUtilities.dp(1.0f)) + 1.0f, this.dotPaint);
-            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.didClearDatabase, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.messagePlayingSpeedChanged, 31);
             float f12 = dp + min2;
             float f13 = f3 - min2;
             canvas.drawLine(dp, f12, dp, f13, this.paint);
@@ -110,12 +110,12 @@ public class LinkView extends EntityView {
         }
     }
 
-    public LinkView(Context context, Point point, int i, LinkPreview.WebPagePreview webPagePreview, TL_stories$MediaArea tL_stories$MediaArea, float f, int i2, int i3) {
+    public LinkView(Context context, Point point, int i, LinkPreview.WebPagePreview webPagePreview, TL_stories.MediaArea mediaArea, float f, int i2, int i3) {
         super(context, point);
         LinkPreview linkPreview = new LinkPreview(context, f);
         this.marker = linkPreview;
         linkPreview.setMaxWidth(i2);
-        setLink(i, webPagePreview, tL_stories$MediaArea);
+        setLink(i, webPagePreview, mediaArea);
         this.currentType = i3;
         linkPreview.setType(i3, this.currentColor);
         addView(linkPreview, LayoutHelper.createFrame(-2, -2, 51));
@@ -202,9 +202,9 @@ public class LinkView extends EntityView {
         this.currentColor = i;
     }
 
-    public void setLink(int i, LinkPreview.WebPagePreview webPagePreview, TL_stories$MediaArea tL_stories$MediaArea) {
+    public void setLink(int i, LinkPreview.WebPagePreview webPagePreview, TL_stories.MediaArea mediaArea) {
         this.link = webPagePreview;
-        this.mediaArea = tL_stories$MediaArea;
+        this.mediaArea = mediaArea;
         this.marker.set(i, webPagePreview);
         updateSelectionView();
     }

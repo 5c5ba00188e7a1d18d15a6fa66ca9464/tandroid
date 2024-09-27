@@ -5,7 +5,6 @@ import java.security.AccessController;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
-import org.telegram.messenger.LiteMode;
 /* loaded from: classes2.dex */
 public abstract class f {
     private static final CopyOnWriteArrayList a;
@@ -14,7 +13,7 @@ public abstract class f {
     static {
         CopyOnWriteArrayList copyOnWriteArrayList = new CopyOnWriteArrayList();
         a = copyOnWriteArrayList;
-        b = new ConcurrentHashMap(LiteMode.FLAG_CALLS_ANIMATIONS, 0.75f, 2);
+        b = new ConcurrentHashMap(512, 0.75f, 2);
         ArrayList arrayList = new ArrayList();
         AccessController.doPrivileged(new d(arrayList));
         copyOnWriteArrayList.addAll(arrayList);

@@ -11,7 +11,7 @@ import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 /* loaded from: classes3.dex */
 public class VoIpCoverView extends View {
@@ -37,17 +37,17 @@ public class VoIpCoverView extends View {
     private VoipCoverEmoji[] voipCoverEmojiLeft;
     private VoipCoverEmoji[] voipCoverEmojiRight;
 
-    public VoIpCoverView(Context context, TLRPC$User tLRPC$User, VoIPBackgroundProvider voIPBackgroundProvider) {
+    public VoIpCoverView(Context context, TLRPC.User user, VoIPBackgroundProvider voIPBackgroundProvider) {
         super(context);
         Paint paint = new Paint(1);
         this.saveLayerPaint = paint;
         this.bgRect = new Rect();
-        boolean isEnabled = LiteMode.isEnabled(LiteMode.FLAG_CALLS_ANIMATIONS);
+        boolean isEnabled = LiteMode.isEnabled(512);
         this.allowAnimations = isEnabled;
         this.backgroundProvider = voIPBackgroundProvider;
         if (isEnabled) {
-            this.voipCoverEmojiLeft = new VoipCoverEmoji[]{new VoipCoverEmoji(tLRPC$User, this, AndroidUtilities.dp(32.0f)), new VoipCoverEmoji(tLRPC$User, this, AndroidUtilities.dp(28.0f)), new VoipCoverEmoji(tLRPC$User, this, AndroidUtilities.dp(35.0f)), new VoipCoverEmoji(tLRPC$User, this, AndroidUtilities.dp(28.0f)), new VoipCoverEmoji(tLRPC$User, this, AndroidUtilities.dp(26.0f))};
-            this.voipCoverEmojiRight = new VoipCoverEmoji[]{new VoipCoverEmoji(tLRPC$User, this, AndroidUtilities.dp(32.0f)), new VoipCoverEmoji(tLRPC$User, this, AndroidUtilities.dp(28.0f)), new VoipCoverEmoji(tLRPC$User, this, AndroidUtilities.dp(35.0f)), new VoipCoverEmoji(tLRPC$User, this, AndroidUtilities.dp(28.0f)), new VoipCoverEmoji(tLRPC$User, this, AndroidUtilities.dp(26.0f))};
+            this.voipCoverEmojiLeft = new VoipCoverEmoji[]{new VoipCoverEmoji(user, this, AndroidUtilities.dp(32.0f)), new VoipCoverEmoji(user, this, AndroidUtilities.dp(28.0f)), new VoipCoverEmoji(user, this, AndroidUtilities.dp(35.0f)), new VoipCoverEmoji(user, this, AndroidUtilities.dp(28.0f)), new VoipCoverEmoji(user, this, AndroidUtilities.dp(26.0f))};
+            this.voipCoverEmojiRight = new VoipCoverEmoji[]{new VoipCoverEmoji(user, this, AndroidUtilities.dp(32.0f)), new VoipCoverEmoji(user, this, AndroidUtilities.dp(28.0f)), new VoipCoverEmoji(user, this, AndroidUtilities.dp(35.0f)), new VoipCoverEmoji(user, this, AndroidUtilities.dp(28.0f)), new VoipCoverEmoji(user, this, AndroidUtilities.dp(26.0f))};
             voIPBackgroundProvider.attach(this);
             setLayerType(2, null);
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
@@ -153,14 +153,14 @@ public class VoIpCoverView extends View {
                 voipCoverEmoji2.onDraw(canvas);
             }
             int alpha = this.backgroundProvider.getDarkPaint().getAlpha();
-            this.saveLayerPaint.setAlpha(NotificationCenter.didClearDatabase);
+            this.saveLayerPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
             canvas.saveLayer(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), this.saveLayerPaint, 31);
-            this.backgroundProvider.getDarkPaint().setAlpha(NotificationCenter.didClearDatabase);
+            this.backgroundProvider.getDarkPaint().setAlpha(NotificationCenter.messagePlayingSpeedChanged);
             canvas.drawRect(this.bgRect, this.backgroundProvider.getDarkPaint());
             this.backgroundProvider.getDarkPaint().setAlpha(alpha);
             if (this.backgroundProvider.isReveal()) {
                 int alpha2 = this.backgroundProvider.getRevealDarkPaint().getAlpha();
-                this.backgroundProvider.getRevealDarkPaint().setAlpha(NotificationCenter.didClearDatabase);
+                this.backgroundProvider.getRevealDarkPaint().setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                 canvas.drawRect(this.bgRect, this.backgroundProvider.getRevealDarkPaint());
                 this.backgroundProvider.getRevealDarkPaint().setAlpha(alpha2);
             }

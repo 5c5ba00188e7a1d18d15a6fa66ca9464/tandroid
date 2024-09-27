@@ -1120,7 +1120,7 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser {
             return 0;
         }
         String[] split = Util.split(parseOptionalStringAttr, ",");
-        int i = Util.contains(split, "public.accessibility.describes-video") ? LiteMode.FLAG_CALLS_ANIMATIONS : 0;
+        int i = Util.contains(split, "public.accessibility.describes-video") ? 512 : 0;
         if (Util.contains(split, "public.accessibility.transcribes-spoken-dialog")) {
             i |= LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
         }

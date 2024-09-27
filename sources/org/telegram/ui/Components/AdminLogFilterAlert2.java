@@ -12,9 +12,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
-import org.telegram.tgnet.TLRPC$ChannelParticipant;
-import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventsFilter;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.CheckBoxCell;
@@ -28,7 +26,7 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
     private UniversalAdapter adapter;
     private final SelectorBtnCell buttonContainer;
     private ArrayList currentAdmins;
-    private TLRPC$TL_channelAdminLogEventsFilter currentFilter;
+    private TLRPC.TL_channelAdminLogEventsFilter currentFilter;
     private AdminLogFilterAlertDelegate delegate;
     private boolean isMegagroup;
     private boolean sectionMembersExpanded;
@@ -38,12 +36,12 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
 
     /* loaded from: classes3.dex */
     public interface AdminLogFilterAlertDelegate {
-        void didSelectRights(TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter, LongSparseArray longSparseArray);
+        void didSelectRights(TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter, LongSparseArray longSparseArray);
     }
 
-    public AdminLogFilterAlert2(BaseFragment baseFragment, TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter, LongSparseArray longSparseArray, boolean z) {
+    public AdminLogFilterAlert2(BaseFragment baseFragment, TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter, LongSparseArray longSparseArray, boolean z) {
         super(baseFragment.getContext(), baseFragment, false, false, false, true, BottomSheetWithRecyclerListView.ActionBarType.SLIDING, baseFragment.getResourceProvider());
-        this.currentFilter = new TLRPC$TL_channelAdminLogEventsFilter();
+        this.currentFilter = new TLRPC.TL_channelAdminLogEventsFilter();
         this.sectionMembersExpanded = false;
         this.sectionSettingsExpanded = false;
         this.sectionMessagesExpanded = false;
@@ -51,42 +49,42 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
         fixNavigationBar();
         setSlidingActionBar();
         setShowHandle(true);
-        if (tLRPC$TL_channelAdminLogEventsFilter != null) {
-            TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter2 = this.currentFilter;
-            tLRPC$TL_channelAdminLogEventsFilter2.join = tLRPC$TL_channelAdminLogEventsFilter.join;
-            tLRPC$TL_channelAdminLogEventsFilter2.leave = tLRPC$TL_channelAdminLogEventsFilter.leave;
-            tLRPC$TL_channelAdminLogEventsFilter2.invite = tLRPC$TL_channelAdminLogEventsFilter.invite;
-            tLRPC$TL_channelAdminLogEventsFilter2.ban = tLRPC$TL_channelAdminLogEventsFilter.ban;
-            tLRPC$TL_channelAdminLogEventsFilter2.unban = tLRPC$TL_channelAdminLogEventsFilter.unban;
-            tLRPC$TL_channelAdminLogEventsFilter2.kick = tLRPC$TL_channelAdminLogEventsFilter.kick;
-            tLRPC$TL_channelAdminLogEventsFilter2.unkick = tLRPC$TL_channelAdminLogEventsFilter.unkick;
-            tLRPC$TL_channelAdminLogEventsFilter2.promote = tLRPC$TL_channelAdminLogEventsFilter.promote;
-            tLRPC$TL_channelAdminLogEventsFilter2.demote = tLRPC$TL_channelAdminLogEventsFilter.demote;
-            tLRPC$TL_channelAdminLogEventsFilter2.info = tLRPC$TL_channelAdminLogEventsFilter.info;
-            tLRPC$TL_channelAdminLogEventsFilter2.settings = tLRPC$TL_channelAdminLogEventsFilter.settings;
-            tLRPC$TL_channelAdminLogEventsFilter2.pinned = tLRPC$TL_channelAdminLogEventsFilter.pinned;
-            tLRPC$TL_channelAdminLogEventsFilter2.edit = tLRPC$TL_channelAdminLogEventsFilter.edit;
-            tLRPC$TL_channelAdminLogEventsFilter2.delete = tLRPC$TL_channelAdminLogEventsFilter.delete;
-            tLRPC$TL_channelAdminLogEventsFilter2.group_call = tLRPC$TL_channelAdminLogEventsFilter.group_call;
-            tLRPC$TL_channelAdminLogEventsFilter2.invites = tLRPC$TL_channelAdminLogEventsFilter.invites;
+        if (tL_channelAdminLogEventsFilter != null) {
+            TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter2 = this.currentFilter;
+            tL_channelAdminLogEventsFilter2.join = tL_channelAdminLogEventsFilter.join;
+            tL_channelAdminLogEventsFilter2.leave = tL_channelAdminLogEventsFilter.leave;
+            tL_channelAdminLogEventsFilter2.invite = tL_channelAdminLogEventsFilter.invite;
+            tL_channelAdminLogEventsFilter2.ban = tL_channelAdminLogEventsFilter.ban;
+            tL_channelAdminLogEventsFilter2.unban = tL_channelAdminLogEventsFilter.unban;
+            tL_channelAdminLogEventsFilter2.kick = tL_channelAdminLogEventsFilter.kick;
+            tL_channelAdminLogEventsFilter2.unkick = tL_channelAdminLogEventsFilter.unkick;
+            tL_channelAdminLogEventsFilter2.promote = tL_channelAdminLogEventsFilter.promote;
+            tL_channelAdminLogEventsFilter2.demote = tL_channelAdminLogEventsFilter.demote;
+            tL_channelAdminLogEventsFilter2.info = tL_channelAdminLogEventsFilter.info;
+            tL_channelAdminLogEventsFilter2.settings = tL_channelAdminLogEventsFilter.settings;
+            tL_channelAdminLogEventsFilter2.pinned = tL_channelAdminLogEventsFilter.pinned;
+            tL_channelAdminLogEventsFilter2.edit = tL_channelAdminLogEventsFilter.edit;
+            tL_channelAdminLogEventsFilter2.delete = tL_channelAdminLogEventsFilter.delete;
+            tL_channelAdminLogEventsFilter2.group_call = tL_channelAdminLogEventsFilter.group_call;
+            tL_channelAdminLogEventsFilter2.invites = tL_channelAdminLogEventsFilter.invites;
         } else {
-            TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter3 = this.currentFilter;
-            tLRPC$TL_channelAdminLogEventsFilter3.join = true;
-            tLRPC$TL_channelAdminLogEventsFilter3.leave = true;
-            tLRPC$TL_channelAdminLogEventsFilter3.invite = true;
-            tLRPC$TL_channelAdminLogEventsFilter3.ban = true;
-            tLRPC$TL_channelAdminLogEventsFilter3.unban = true;
-            tLRPC$TL_channelAdminLogEventsFilter3.kick = true;
-            tLRPC$TL_channelAdminLogEventsFilter3.unkick = true;
-            tLRPC$TL_channelAdminLogEventsFilter3.promote = true;
-            tLRPC$TL_channelAdminLogEventsFilter3.demote = true;
-            tLRPC$TL_channelAdminLogEventsFilter3.info = true;
-            tLRPC$TL_channelAdminLogEventsFilter3.settings = true;
-            tLRPC$TL_channelAdminLogEventsFilter3.pinned = true;
-            tLRPC$TL_channelAdminLogEventsFilter3.edit = true;
-            tLRPC$TL_channelAdminLogEventsFilter3.delete = true;
-            tLRPC$TL_channelAdminLogEventsFilter3.group_call = true;
-            tLRPC$TL_channelAdminLogEventsFilter3.invites = true;
+            TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter3 = this.currentFilter;
+            tL_channelAdminLogEventsFilter3.join = true;
+            tL_channelAdminLogEventsFilter3.leave = true;
+            tL_channelAdminLogEventsFilter3.invite = true;
+            tL_channelAdminLogEventsFilter3.ban = true;
+            tL_channelAdminLogEventsFilter3.unban = true;
+            tL_channelAdminLogEventsFilter3.kick = true;
+            tL_channelAdminLogEventsFilter3.unkick = true;
+            tL_channelAdminLogEventsFilter3.promote = true;
+            tL_channelAdminLogEventsFilter3.demote = true;
+            tL_channelAdminLogEventsFilter3.info = true;
+            tL_channelAdminLogEventsFilter3.settings = true;
+            tL_channelAdminLogEventsFilter3.pinned = true;
+            tL_channelAdminLogEventsFilter3.edit = true;
+            tL_channelAdminLogEventsFilter3.delete = true;
+            tL_channelAdminLogEventsFilter3.group_call = true;
+            tL_channelAdminLogEventsFilter3.invites = true;
         }
         if (longSparseArray != null) {
             this.selectedAdmins = longSparseArray.clone();
@@ -154,18 +152,18 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
         if (i != 0) {
             if (i != 1) {
                 sb = new StringBuilder();
-                TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter = this.currentFilter;
-                sb.append((tLRPC$TL_channelAdminLogEventsFilter.delete ? 1 : 0) + (tLRPC$TL_channelAdminLogEventsFilter.edit ? 1 : 0) + (tLRPC$TL_channelAdminLogEventsFilter.pinned ? 1 : 0));
+                TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter = this.currentFilter;
+                sb.append((tL_channelAdminLogEventsFilter.delete ? 1 : 0) + (tL_channelAdminLogEventsFilter.edit ? 1 : 0) + (tL_channelAdminLogEventsFilter.pinned ? 1 : 0));
             } else {
                 sb = new StringBuilder();
-                TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter2 = this.currentFilter;
-                sb.append(((tLRPC$TL_channelAdminLogEventsFilter2.info || tLRPC$TL_channelAdminLogEventsFilter2.settings) ? 1 : 1) + (tLRPC$TL_channelAdminLogEventsFilter2.invites ? 1 : 0) + (tLRPC$TL_channelAdminLogEventsFilter2.group_call ? 1 : 0));
+                TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter2 = this.currentFilter;
+                sb.append(((tL_channelAdminLogEventsFilter2.info || tL_channelAdminLogEventsFilter2.settings) ? 1 : 1) + (tL_channelAdminLogEventsFilter2.invites ? 1 : 0) + (tL_channelAdminLogEventsFilter2.group_call ? 1 : 0));
             }
             sb.append("/3");
         } else {
             sb = new StringBuilder();
-            TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter3 = this.currentFilter;
-            sb.append(((tLRPC$TL_channelAdminLogEventsFilter3.promote || tLRPC$TL_channelAdminLogEventsFilter3.demote) ? 1 : 0) + ((this.isMegagroup && (tLRPC$TL_channelAdminLogEventsFilter3.kick || tLRPC$TL_channelAdminLogEventsFilter3.ban || tLRPC$TL_channelAdminLogEventsFilter3.unkick || tLRPC$TL_channelAdminLogEventsFilter3.unban)) ? 1 : 0) + ((tLRPC$TL_channelAdminLogEventsFilter3.invite || tLRPC$TL_channelAdminLogEventsFilter3.join) ? 1 : 1) + (tLRPC$TL_channelAdminLogEventsFilter3.leave ? 1 : 0));
+            TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter3 = this.currentFilter;
+            sb.append(((tL_channelAdminLogEventsFilter3.promote || tL_channelAdminLogEventsFilter3.demote) ? 1 : 0) + ((this.isMegagroup && (tL_channelAdminLogEventsFilter3.kick || tL_channelAdminLogEventsFilter3.ban || tL_channelAdminLogEventsFilter3.unkick || tL_channelAdminLogEventsFilter3.unban)) ? 1 : 0) + ((tL_channelAdminLogEventsFilter3.invite || tL_channelAdminLogEventsFilter3.join) ? 1 : 1) + (tL_channelAdminLogEventsFilter3.leave ? 1 : 0));
             sb.append("/");
             sb.append(this.isMegagroup ? 4 : 3);
         }
@@ -192,8 +190,8 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view) {
-        TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter = this.currentFilter;
-        if (tLRPC$TL_channelAdminLogEventsFilter.join && tLRPC$TL_channelAdminLogEventsFilter.leave && tLRPC$TL_channelAdminLogEventsFilter.invite && tLRPC$TL_channelAdminLogEventsFilter.ban && tLRPC$TL_channelAdminLogEventsFilter.unban && tLRPC$TL_channelAdminLogEventsFilter.kick && tLRPC$TL_channelAdminLogEventsFilter.unkick && tLRPC$TL_channelAdminLogEventsFilter.promote && tLRPC$TL_channelAdminLogEventsFilter.demote && tLRPC$TL_channelAdminLogEventsFilter.info && tLRPC$TL_channelAdminLogEventsFilter.settings && tLRPC$TL_channelAdminLogEventsFilter.pinned && tLRPC$TL_channelAdminLogEventsFilter.edit && tLRPC$TL_channelAdminLogEventsFilter.delete && tLRPC$TL_channelAdminLogEventsFilter.group_call && tLRPC$TL_channelAdminLogEventsFilter.invites) {
+        TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter = this.currentFilter;
+        if (tL_channelAdminLogEventsFilter.join && tL_channelAdminLogEventsFilter.leave && tL_channelAdminLogEventsFilter.invite && tL_channelAdminLogEventsFilter.ban && tL_channelAdminLogEventsFilter.unban && tL_channelAdminLogEventsFilter.kick && tL_channelAdminLogEventsFilter.unkick && tL_channelAdminLogEventsFilter.promote && tL_channelAdminLogEventsFilter.demote && tL_channelAdminLogEventsFilter.info && tL_channelAdminLogEventsFilter.settings && tL_channelAdminLogEventsFilter.pinned && tL_channelAdminLogEventsFilter.edit && tL_channelAdminLogEventsFilter.delete && tL_channelAdminLogEventsFilter.group_call && tL_channelAdminLogEventsFilter.invites) {
             this.currentFilter = null;
         }
         LongSparseArray longSparseArray = this.selectedAdmins;
@@ -228,35 +226,35 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
         }
         arrayList.add(UItem.asHeader(LocaleController.getString(R.string.EventLogFilterByActions)));
         UItem asRoundGroupCheckbox = UItem.asRoundGroupCheckbox(2, LocaleController.getString(this.isMegagroup ? R.string.EventLogFilterSectionMembers : R.string.EventLogFilterSectionSubscribers), getGroupCount(0));
-        TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter = this.currentFilter;
-        arrayList.add(asRoundGroupCheckbox.setChecked(tLRPC$TL_channelAdminLogEventsFilter.promote || tLRPC$TL_channelAdminLogEventsFilter.demote || (this.isMegagroup && (tLRPC$TL_channelAdminLogEventsFilter.kick || tLRPC$TL_channelAdminLogEventsFilter.ban || tLRPC$TL_channelAdminLogEventsFilter.unkick || tLRPC$TL_channelAdminLogEventsFilter.unban)) || tLRPC$TL_channelAdminLogEventsFilter.invite || tLRPC$TL_channelAdminLogEventsFilter.join || tLRPC$TL_channelAdminLogEventsFilter.leave).setCollapsed(!this.sectionMembersExpanded).setClickCallback(getGroupClick(0)));
+        TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter = this.currentFilter;
+        arrayList.add(asRoundGroupCheckbox.setChecked(tL_channelAdminLogEventsFilter.promote || tL_channelAdminLogEventsFilter.demote || (this.isMegagroup && (tL_channelAdminLogEventsFilter.kick || tL_channelAdminLogEventsFilter.ban || tL_channelAdminLogEventsFilter.unkick || tL_channelAdminLogEventsFilter.unban)) || tL_channelAdminLogEventsFilter.invite || tL_channelAdminLogEventsFilter.join || tL_channelAdminLogEventsFilter.leave).setCollapsed(!this.sectionMembersExpanded).setClickCallback(getGroupClick(0)));
         if (this.sectionMembersExpanded) {
             UItem pad = UItem.asRoundCheckbox(3, LocaleController.getString(R.string.EventLogFilterSectionAdmin)).pad();
-            TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter2 = this.currentFilter;
-            arrayList.add(pad.setChecked(tLRPC$TL_channelAdminLogEventsFilter2.promote || tLRPC$TL_channelAdminLogEventsFilter2.demote));
+            TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter2 = this.currentFilter;
+            arrayList.add(pad.setChecked(tL_channelAdminLogEventsFilter2.promote || tL_channelAdminLogEventsFilter2.demote));
             if (this.isMegagroup) {
                 UItem pad2 = UItem.asRoundCheckbox(4, LocaleController.getString(R.string.EventLogFilterNewRestrictions)).pad();
-                TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter3 = this.currentFilter;
-                arrayList.add(pad2.setChecked(tLRPC$TL_channelAdminLogEventsFilter3.kick || tLRPC$TL_channelAdminLogEventsFilter3.ban || tLRPC$TL_channelAdminLogEventsFilter3.unkick || tLRPC$TL_channelAdminLogEventsFilter3.unban));
+                TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter3 = this.currentFilter;
+                arrayList.add(pad2.setChecked(tL_channelAdminLogEventsFilter3.kick || tL_channelAdminLogEventsFilter3.ban || tL_channelAdminLogEventsFilter3.unkick || tL_channelAdminLogEventsFilter3.unban));
             }
             UItem pad3 = UItem.asRoundCheckbox(5, LocaleController.getString(this.isMegagroup ? R.string.EventLogFilterNewMembers : R.string.EventLogFilterNewSubscribers)).pad();
-            TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter4 = this.currentFilter;
-            arrayList.add(pad3.setChecked(tLRPC$TL_channelAdminLogEventsFilter4.invite || tLRPC$TL_channelAdminLogEventsFilter4.join));
+            TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter4 = this.currentFilter;
+            arrayList.add(pad3.setChecked(tL_channelAdminLogEventsFilter4.invite || tL_channelAdminLogEventsFilter4.join));
             arrayList.add(UItem.asRoundCheckbox(6, LocaleController.getString(this.isMegagroup ? R.string.EventLogFilterLeavingMembers2 : R.string.EventLogFilterLeavingSubscribers2)).pad().setChecked(this.currentFilter.leave));
         }
         UItem asRoundGroupCheckbox2 = UItem.asRoundGroupCheckbox(7, LocaleController.getString(this.isMegagroup ? R.string.EventLogFilterSectionGroupSettings : R.string.EventLogFilterSectionChannelSettings), getGroupCount(1));
-        TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter5 = this.currentFilter;
-        arrayList.add(asRoundGroupCheckbox2.setChecked(tLRPC$TL_channelAdminLogEventsFilter5.info || tLRPC$TL_channelAdminLogEventsFilter5.settings || tLRPC$TL_channelAdminLogEventsFilter5.invites || tLRPC$TL_channelAdminLogEventsFilter5.group_call).setCollapsed(!this.sectionSettingsExpanded).setClickCallback(getGroupClick(1)));
+        TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter5 = this.currentFilter;
+        arrayList.add(asRoundGroupCheckbox2.setChecked(tL_channelAdminLogEventsFilter5.info || tL_channelAdminLogEventsFilter5.settings || tL_channelAdminLogEventsFilter5.invites || tL_channelAdminLogEventsFilter5.group_call).setCollapsed(!this.sectionSettingsExpanded).setClickCallback(getGroupClick(1)));
         if (this.sectionSettingsExpanded) {
             UItem pad4 = UItem.asRoundCheckbox(8, LocaleController.getString(this.isMegagroup ? R.string.EventLogFilterGroupInfo : R.string.EventLogFilterChannelInfo)).pad();
-            TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter6 = this.currentFilter;
-            arrayList.add(pad4.setChecked(tLRPC$TL_channelAdminLogEventsFilter6.info || tLRPC$TL_channelAdminLogEventsFilter6.settings));
+            TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter6 = this.currentFilter;
+            arrayList.add(pad4.setChecked(tL_channelAdminLogEventsFilter6.info || tL_channelAdminLogEventsFilter6.settings));
             arrayList.add(UItem.asRoundCheckbox(9, LocaleController.getString(R.string.EventLogFilterInvites)).pad().setChecked(this.currentFilter.invites));
             arrayList.add(UItem.asRoundCheckbox(10, LocaleController.getString(R.string.EventLogFilterCalls)).pad().setChecked(this.currentFilter.group_call));
         }
         UItem asRoundGroupCheckbox3 = UItem.asRoundGroupCheckbox(11, LocaleController.getString(R.string.EventLogFilterSectionMessages), getGroupCount(2));
-        TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter7 = this.currentFilter;
-        arrayList.add(asRoundGroupCheckbox3.setChecked(tLRPC$TL_channelAdminLogEventsFilter7.delete || tLRPC$TL_channelAdminLogEventsFilter7.edit || tLRPC$TL_channelAdminLogEventsFilter7.pinned).setCollapsed(!this.sectionMessagesExpanded).setClickCallback(getGroupClick(2)));
+        TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter7 = this.currentFilter;
+        arrayList.add(asRoundGroupCheckbox3.setChecked(tL_channelAdminLogEventsFilter7.delete || tL_channelAdminLogEventsFilter7.edit || tL_channelAdminLogEventsFilter7.pinned).setCollapsed(!this.sectionMessagesExpanded).setClickCallback(getGroupClick(2)));
         if (this.sectionMessagesExpanded) {
             arrayList.add(UItem.asRoundCheckbox(12, LocaleController.getString(R.string.EventLogFilterDeletedMessages)).pad().setChecked(this.currentFilter.delete));
             arrayList.add(UItem.asRoundCheckbox(13, LocaleController.getString(R.string.EventLogFilterEditedMessages)).pad().setChecked(this.currentFilter.edit));
@@ -271,7 +269,7 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
         arrayList.add(asRoundCheckbox.setChecked(size >= (arrayList2 == null ? 0 : arrayList2.size())));
         if (this.currentAdmins != null) {
             for (int i = 0; i < this.currentAdmins.size(); i++) {
-                long peerDialogId = DialogObject.getPeerDialogId(((TLRPC$ChannelParticipant) this.currentAdmins.get(i)).peer);
+                long peerDialogId = DialogObject.getPeerDialogId(((TLRPC.ChannelParticipant) this.currentAdmins.get(i)).peer);
                 UItem pad5 = UItem.asUserCheckbox((-1) - i, MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(peerDialogId))).pad();
                 LongSparseArray longSparseArray2 = this.selectedAdmins;
                 arrayList.add(pad5.setChecked(longSparseArray2 != null && longSparseArray2.containsKey(peerDialogId)));
@@ -311,9 +309,9 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
     */
     public void onClick(UItem uItem, View view, float f) {
         boolean z;
-        TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter;
+        TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter;
         boolean isChecked;
-        TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter2;
+        TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter2;
         boolean isChecked2;
         ArrayList arrayList;
         if (uItem == null) {
@@ -331,59 +329,59 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
                 switch (uItem.id) {
                     case 2:
                         if (!z) {
-                            TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter3 = this.currentFilter;
+                            TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter3 = this.currentFilter;
                             boolean isChecked3 = checkBoxCell.isChecked();
-                            tLRPC$TL_channelAdminLogEventsFilter3.leave = isChecked3;
-                            tLRPC$TL_channelAdminLogEventsFilter3.join = isChecked3;
-                            tLRPC$TL_channelAdminLogEventsFilter3.invite = isChecked3;
-                            tLRPC$TL_channelAdminLogEventsFilter3.demote = isChecked3;
-                            tLRPC$TL_channelAdminLogEventsFilter3.promote = isChecked3;
+                            tL_channelAdminLogEventsFilter3.leave = isChecked3;
+                            tL_channelAdminLogEventsFilter3.join = isChecked3;
+                            tL_channelAdminLogEventsFilter3.invite = isChecked3;
+                            tL_channelAdminLogEventsFilter3.demote = isChecked3;
+                            tL_channelAdminLogEventsFilter3.promote = isChecked3;
                             break;
                         } else {
                             this.sectionMembersExpanded = !this.sectionMembersExpanded;
                             break;
                         }
                     case 3:
-                        TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter4 = this.currentFilter;
+                        TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter4 = this.currentFilter;
                         boolean isChecked4 = checkBoxCell.isChecked();
-                        tLRPC$TL_channelAdminLogEventsFilter4.demote = isChecked4;
-                        tLRPC$TL_channelAdminLogEventsFilter4.promote = isChecked4;
+                        tL_channelAdminLogEventsFilter4.demote = isChecked4;
+                        tL_channelAdminLogEventsFilter4.promote = isChecked4;
                         break;
                     case 4:
-                        TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter5 = this.currentFilter;
+                        TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter5 = this.currentFilter;
                         boolean isChecked5 = checkBoxCell.isChecked();
-                        tLRPC$TL_channelAdminLogEventsFilter5.unban = isChecked5;
-                        tLRPC$TL_channelAdminLogEventsFilter5.unkick = isChecked5;
-                        tLRPC$TL_channelAdminLogEventsFilter5.ban = isChecked5;
-                        tLRPC$TL_channelAdminLogEventsFilter5.kick = isChecked5;
+                        tL_channelAdminLogEventsFilter5.unban = isChecked5;
+                        tL_channelAdminLogEventsFilter5.unkick = isChecked5;
+                        tL_channelAdminLogEventsFilter5.ban = isChecked5;
+                        tL_channelAdminLogEventsFilter5.kick = isChecked5;
                         break;
                     case 5:
-                        TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter6 = this.currentFilter;
+                        TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter6 = this.currentFilter;
                         boolean isChecked6 = checkBoxCell.isChecked();
-                        tLRPC$TL_channelAdminLogEventsFilter6.join = isChecked6;
-                        tLRPC$TL_channelAdminLogEventsFilter6.invite = isChecked6;
+                        tL_channelAdminLogEventsFilter6.join = isChecked6;
+                        tL_channelAdminLogEventsFilter6.invite = isChecked6;
                         break;
                     case 6:
                         this.currentFilter.leave = checkBoxCell.isChecked();
                         break;
                     case 7:
                         if (!z) {
-                            tLRPC$TL_channelAdminLogEventsFilter = this.currentFilter;
+                            tL_channelAdminLogEventsFilter = this.currentFilter;
                             isChecked = checkBoxCell.isChecked();
-                            tLRPC$TL_channelAdminLogEventsFilter.group_call = isChecked;
-                            tLRPC$TL_channelAdminLogEventsFilter.invites = isChecked;
-                            tLRPC$TL_channelAdminLogEventsFilter.settings = isChecked;
-                            tLRPC$TL_channelAdminLogEventsFilter.info = isChecked;
+                            tL_channelAdminLogEventsFilter.group_call = isChecked;
+                            tL_channelAdminLogEventsFilter.invites = isChecked;
+                            tL_channelAdminLogEventsFilter.settings = isChecked;
+                            tL_channelAdminLogEventsFilter.info = isChecked;
                             break;
                         } else {
                             this.sectionSettingsExpanded = !this.sectionSettingsExpanded;
                             break;
                         }
                     case 8:
-                        tLRPC$TL_channelAdminLogEventsFilter = this.currentFilter;
+                        tL_channelAdminLogEventsFilter = this.currentFilter;
                         isChecked = checkBoxCell.isChecked();
-                        tLRPC$TL_channelAdminLogEventsFilter.settings = isChecked;
-                        tLRPC$TL_channelAdminLogEventsFilter.info = isChecked;
+                        tL_channelAdminLogEventsFilter.settings = isChecked;
+                        tL_channelAdminLogEventsFilter.info = isChecked;
                         break;
                     case 9:
                         this.currentFilter.invites = checkBoxCell.isChecked();
@@ -393,20 +391,20 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
                         break;
                     case 11:
                         if (!z) {
-                            tLRPC$TL_channelAdminLogEventsFilter2 = this.currentFilter;
+                            tL_channelAdminLogEventsFilter2 = this.currentFilter;
                             isChecked2 = checkBoxCell.isChecked();
-                            tLRPC$TL_channelAdminLogEventsFilter2.pinned = isChecked2;
-                            tLRPC$TL_channelAdminLogEventsFilter2.edit = isChecked2;
-                            tLRPC$TL_channelAdminLogEventsFilter2.delete = isChecked2;
+                            tL_channelAdminLogEventsFilter2.pinned = isChecked2;
+                            tL_channelAdminLogEventsFilter2.edit = isChecked2;
+                            tL_channelAdminLogEventsFilter2.delete = isChecked2;
                             break;
                         } else {
                             this.sectionMessagesExpanded = !this.sectionMessagesExpanded;
                             break;
                         }
                     case 12:
-                        tLRPC$TL_channelAdminLogEventsFilter2 = this.currentFilter;
+                        tL_channelAdminLogEventsFilter2 = this.currentFilter;
                         isChecked2 = checkBoxCell.isChecked();
-                        tLRPC$TL_channelAdminLogEventsFilter2.delete = isChecked2;
+                        tL_channelAdminLogEventsFilter2.delete = isChecked2;
                         break;
                     case 13:
                         this.currentFilter.edit = checkBoxCell.isChecked();
@@ -422,7 +420,7 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
                         if (checkBoxCell.isChecked() && (arrayList = this.currentAdmins) != null) {
                             Iterator it = arrayList.iterator();
                             while (it.hasNext()) {
-                                long peerDialogId = DialogObject.getPeerDialogId(((TLRPC$ChannelParticipant) it.next()).peer);
+                                long peerDialogId = DialogObject.getPeerDialogId(((TLRPC.ChannelParticipant) it.next()).peer);
                                 this.selectedAdmins.put(peerDialogId, MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(peerDialogId)));
                             }
                             break;
@@ -446,8 +444,8 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
             if (i3 < 0 || i3 >= this.currentAdmins.size()) {
                 return;
             }
-            long peerDialogId2 = DialogObject.getPeerDialogId(((TLRPC$ChannelParticipant) this.currentAdmins.get(i3)).peer);
-            TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(peerDialogId2));
+            long peerDialogId2 = DialogObject.getPeerDialogId(((TLRPC.ChannelParticipant) this.currentAdmins.get(i3)).peer);
+            TLRPC.User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(peerDialogId2));
             if (this.selectedAdmins == null) {
                 this.selectedAdmins = new LongSparseArray();
             }
@@ -479,7 +477,7 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
             this.selectedAdmins = new LongSparseArray();
             Iterator it = this.currentAdmins.iterator();
             while (it.hasNext()) {
-                long peerDialogId = DialogObject.getPeerDialogId(((TLRPC$ChannelParticipant) it.next()).peer);
+                long peerDialogId = DialogObject.getPeerDialogId(((TLRPC.ChannelParticipant) it.next()).peer);
                 this.selectedAdmins.put(peerDialogId, MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(peerDialogId)));
             }
         }

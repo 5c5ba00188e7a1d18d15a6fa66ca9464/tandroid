@@ -270,11 +270,11 @@ public class CounterView extends View {
                     if (this.countAnimationStableLayout != null) {
                         canvas.save();
                         canvas.translate(this.countLeft, dp + AndroidUtilities.dp(4.0f));
-                        this.textPaint.setAlpha(NotificationCenter.didClearDatabase);
+                        this.textPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                         this.countAnimationStableLayout.draw(canvas);
                         canvas.restore();
                     }
-                    this.textPaint.setAlpha(NotificationCenter.didClearDatabase);
+                    this.textPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                 }
                 staticLayout.draw(canvas);
                 canvas.restore();
@@ -282,7 +282,7 @@ public class CounterView extends View {
                 }
                 if (this.countAnimationStableLayout != null) {
                 }
-                this.textPaint.setAlpha(NotificationCenter.didClearDatabase);
+                this.textPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
             }
             canvas.restore();
         }

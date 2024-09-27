@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.view.View;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +19,7 @@ public class UniversalRecyclerView extends RecyclerListView {
     public final UniversalAdapter adapter;
     private boolean doNotDetachViews;
     private ItemTouchHelper itemTouchHelper;
-    public final LinearLayoutManager layoutManager;
+    public LinearLayoutManager layoutManager;
     private boolean reorderingAllowed;
 
     /* loaded from: classes3.dex */
@@ -76,44 +77,69 @@ public class UniversalRecyclerView extends RecyclerListView {
         this(context, i, i2, false, callback2, callback5, callback5Return, resourcesProvider);
     }
 
-    public UniversalRecyclerView(Context context, int i, int i2, boolean z, Utilities.Callback2 callback2, final Utilities.Callback5 callback5, final Utilities.Callback5Return callback5Return, Theme.ResourcesProvider resourcesProvider) {
+    public UniversalRecyclerView(Context context, int i, int i2, boolean z, Utilities.Callback2 callback2, Utilities.Callback5 callback5, Utilities.Callback5Return callback5Return, Theme.ResourcesProvider resourcesProvider) {
+        this(context, i, i2, z, callback2, callback5, callback5Return, resourcesProvider, -1);
+    }
+
+    public UniversalRecyclerView(Context context, int i, int i2, boolean z, Utilities.Callback2 callback2, final Utilities.Callback5 callback5, final Utilities.Callback5Return callback5Return, Theme.ResourcesProvider resourcesProvider, int i3) {
         super(context, resourcesProvider);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, false) { // from class: org.telegram.ui.Components.UniversalRecyclerView.1
-            /* JADX INFO: Access modifiers changed from: protected */
-            @Override // androidx.recyclerview.widget.LinearLayoutManager
-            public int getExtraLayoutSpace(RecyclerView.State state) {
-                return UniversalRecyclerView.this.doNotDetachViews ? AndroidUtilities.displaySize.y : super.getExtraLayoutSpace(state);
-            }
-        };
-        this.layoutManager = linearLayoutManager;
-        setLayoutManager(linearLayoutManager);
+        if (i3 == -1) {
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, false) { // from class: org.telegram.ui.Components.UniversalRecyclerView.1
+                /* JADX INFO: Access modifiers changed from: protected */
+                @Override // androidx.recyclerview.widget.LinearLayoutManager
+                public int getExtraLayoutSpace(RecyclerView.State state) {
+                    return UniversalRecyclerView.this.doNotDetachViews ? AndroidUtilities.displaySize.y : super.getExtraLayoutSpace(state);
+                }
+            };
+            this.layoutManager = linearLayoutManager;
+            setLayoutManager(linearLayoutManager);
+        } else {
+            final ExtendedGridLayoutManager extendedGridLayoutManager = new ExtendedGridLayoutManager(context, i3) { // from class: org.telegram.ui.Components.UniversalRecyclerView.2
+                /* JADX INFO: Access modifiers changed from: protected */
+                @Override // androidx.recyclerview.widget.LinearLayoutManager
+                public int getExtraLayoutSpace(RecyclerView.State state) {
+                    return UniversalRecyclerView.this.doNotDetachViews ? AndroidUtilities.displaySize.y : super.getExtraLayoutSpace(state);
+                }
+            };
+            extendedGridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.Components.UniversalRecyclerView.3
+                @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
+                public int getSpanSize(int i4) {
+                    UItem item;
+                    int i5;
+                    UniversalAdapter universalAdapter = UniversalRecyclerView.this.adapter;
+                    return (universalAdapter == null || (item = universalAdapter.getItem(i4)) == null || (i5 = item.spanCount) == -1) ? extendedGridLayoutManager.getSpanCount() : i5;
+                }
+            });
+            this.layoutManager = extendedGridLayoutManager;
+            setLayoutManager(extendedGridLayoutManager);
+        }
         UniversalAdapter universalAdapter = new UniversalAdapter(this, context, i, i2, z, callback2, resourcesProvider);
         this.adapter = universalAdapter;
         setAdapter(universalAdapter);
         if (callback5 != null) {
             setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.Components.UniversalRecyclerView$$ExternalSyntheticLambda0
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-                public /* synthetic */ boolean hasDoubleTap(View view, int i3) {
-                    return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i3);
+                public /* synthetic */ boolean hasDoubleTap(View view, int i4) {
+                    return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i4);
                 }
 
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-                public /* synthetic */ void onDoubleTap(View view, int i3, float f, float f2) {
-                    RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i3, f, f2);
+                public /* synthetic */ void onDoubleTap(View view, int i4, float f, float f2) {
+                    RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i4, f, f2);
                 }
 
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-                public final void onItemClick(View view, int i3, float f, float f2) {
-                    UniversalRecyclerView.this.lambda$new$0(callback5, view, i3, f, f2);
+                public final void onItemClick(View view, int i4, float f, float f2) {
+                    UniversalRecyclerView.this.lambda$new$0(callback5, view, i4, f, f2);
                 }
             });
         }
         if (callback5Return != null) {
             setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListenerExtended() { // from class: org.telegram.ui.Components.UniversalRecyclerView$$ExternalSyntheticLambda1
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListenerExtended
-                public final boolean onItemClick(View view, int i3, float f, float f2) {
+                public final boolean onItemClick(View view, int i4, float f, float f2) {
                     boolean lambda$new$1;
-                    lambda$new$1 = UniversalRecyclerView.this.lambda$new$1(callback5Return, view, i3, f, f2);
+                    lambda$new$1 = UniversalRecyclerView.this.lambda$new$1(callback5Return, view, i4, f, f2);
                     return lambda$new$1;
                 }
 
@@ -128,7 +154,7 @@ public class UniversalRecyclerView extends RecyclerListView {
                 }
             });
         }
-        DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator() { // from class: org.telegram.ui.Components.UniversalRecyclerView.2
+        DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator() { // from class: org.telegram.ui.Components.UniversalRecyclerView.4
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
             public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
@@ -241,5 +267,32 @@ public class UniversalRecyclerView extends RecyclerListView {
         this.itemTouchHelper = itemTouchHelper;
         itemTouchHelper.attachToRecyclerView(this);
         this.adapter.listenReorder(callback2);
+    }
+
+    public void setSpanCount(int i) {
+        LinearLayoutManager linearLayoutManager = this.layoutManager;
+        if (linearLayoutManager instanceof ExtendedGridLayoutManager) {
+            ((ExtendedGridLayoutManager) linearLayoutManager).setSpanCount(i);
+        } else if (!(linearLayoutManager instanceof LinearLayoutManager) || i == -1) {
+        } else {
+            final ExtendedGridLayoutManager extendedGridLayoutManager = new ExtendedGridLayoutManager(getContext(), i) { // from class: org.telegram.ui.Components.UniversalRecyclerView.5
+                /* JADX INFO: Access modifiers changed from: protected */
+                @Override // androidx.recyclerview.widget.LinearLayoutManager
+                public int getExtraLayoutSpace(RecyclerView.State state) {
+                    return UniversalRecyclerView.this.doNotDetachViews ? AndroidUtilities.displaySize.y : super.getExtraLayoutSpace(state);
+                }
+            };
+            extendedGridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.Components.UniversalRecyclerView.6
+                @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
+                public int getSpanSize(int i2) {
+                    UItem item;
+                    int i3;
+                    UniversalAdapter universalAdapter = UniversalRecyclerView.this.adapter;
+                    return (universalAdapter == null || (item = universalAdapter.getItem(i2)) == null || (i3 = item.spanCount) == -1) ? extendedGridLayoutManager.getSpanCount() : i3;
+                }
+            });
+            this.layoutManager = extendedGridLayoutManager;
+            setLayoutManager(extendedGridLayoutManager);
+        }
     }
 }

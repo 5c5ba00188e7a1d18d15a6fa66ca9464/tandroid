@@ -27,10 +27,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$TL_contact;
-import org.telegram.tgnet.TLRPC$TL_topPeer;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.BottomSheetWithRecyclerListView;
@@ -303,7 +300,7 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(int i, View view, int i2, float f, float f2) {
         if (view instanceof SelectorUserCell) {
-            TLRPC$User user = ((SelectorUserCell) view).getUser();
+            TLRPC.User user = ((SelectorUserCell) view).getUser();
             long j = user.id;
             if (this.selectedIds.contains(Long.valueOf(j))) {
                 this.selectedIds.remove(Long.valueOf(j));
@@ -354,9 +351,9 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
             return;
         }
         ArrayList arrayList = new ArrayList();
-        for (TLRPC$User tLRPC$User : this.allSelectedObjects.values()) {
-            if (this.selectedIds.contains(Long.valueOf(tLRPC$User.id))) {
-                arrayList.add(Long.valueOf(tLRPC$User.id));
+        for (TLRPC.User user : this.allSelectedObjects.values()) {
+            if (this.selectedIds.contains(Long.valueOf(user.id))) {
+                arrayList.add(Long.valueOf(user.id));
             }
         }
         this.selectorListener.onUserSelected(arrayList);
@@ -419,9 +416,9 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
                     SelectorAdapter.Item item = (SelectorAdapter.Item) this.items.get(i4);
                     SelectorUserCell selectorUserCell = (SelectorUserCell) childAt;
                     selectorUserCell.setChecked(item.checked, z);
-                    TLRPC$Chat tLRPC$Chat = item.chat;
+                    TLRPC.Chat chat = item.chat;
                     float f = 1.0f;
-                    if (tLRPC$Chat != null && this.selectorAdapter.getParticipantsCount(tLRPC$Chat) > 200) {
+                    if (chat != null && this.selectorAdapter.getParticipantsCount(chat) > 200) {
                         f = 0.3f;
                     }
                     selectorUserCell.setCheckboxAlpha(f, z);
@@ -524,9 +521,9 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
         this.items.clear();
         if (isSearching()) {
             i2 = 0;
-            for (TLRPC$User tLRPC$User : this.foundedUsers) {
+            for (TLRPC.User user : this.foundedUsers) {
                 i2 += AndroidUtilities.dp(56.0f);
-                this.items.add(SelectorAdapter.Item.asUser(tLRPC$User, this.selectedIds.contains(Long.valueOf(tLRPC$User.id))));
+                this.items.add(SelectorAdapter.Item.asUser(user, this.selectedIds.contains(Long.valueOf(user.id))));
             }
         } else {
             if (this.hints.isEmpty()) {
@@ -534,11 +531,11 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
             } else {
                 ArrayList arrayList = new ArrayList();
                 i = 0;
-                for (TLRPC$TL_topPeer tLRPC$TL_topPeer : this.hints) {
-                    TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tLRPC$TL_topPeer.peer.user_id));
-                    if (!user.self && !user.bot && !UserObject.isService(user.id) && !UserObject.isDeleted(user)) {
+                for (TLRPC.TL_topPeer tL_topPeer : this.hints) {
+                    TLRPC.User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tL_topPeer.peer.user_id));
+                    if (!user2.self && !user2.bot && !UserObject.isService(user2.id) && !UserObject.isDeleted(user2)) {
                         i += AndroidUtilities.dp(56.0f);
-                        arrayList.add(SelectorAdapter.Item.asUser(user, this.selectedIds.contains(Long.valueOf(user.id))));
+                        arrayList.add(SelectorAdapter.Item.asUser(user2, this.selectedIds.contains(Long.valueOf(user2.id))));
                     }
                 }
                 if (!arrayList.isEmpty()) {
@@ -549,11 +546,11 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
             }
             for (String str : this.contactsLetters) {
                 ArrayList arrayList2 = new ArrayList();
-                for (TLRPC$TL_contact tLRPC$TL_contact : (List) this.contactsMap.get(str)) {
-                    if (tLRPC$TL_contact.user_id != UserConfig.getInstance(this.currentAccount).getClientUserId()) {
+                for (TLRPC.TL_contact tL_contact : (List) this.contactsMap.get(str)) {
+                    if (tL_contact.user_id != UserConfig.getInstance(this.currentAccount).getClientUserId()) {
                         i += AndroidUtilities.dp(56.0f);
-                        TLRPC$User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tLRPC$TL_contact.user_id));
-                        arrayList2.add(SelectorAdapter.Item.asUser(user2, this.selectedIds.contains(Long.valueOf(user2.id))));
+                        TLRPC.User user3 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tL_contact.user_id));
+                        arrayList2.add(SelectorAdapter.Item.asUser(user3, this.selectedIds.contains(Long.valueOf(user3.id))));
                     }
                 }
                 if (!arrayList2.isEmpty()) {

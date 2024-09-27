@@ -1523,7 +1523,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         int i3 = createOverrideAppConfiguration.uiMode & 48;
         LocaleListCompat configurationLocales = getConfigurationLocales(configuration);
         LocaleListCompat configurationLocales2 = localeListCompat == null ? null : getConfigurationLocales(createOverrideAppConfiguration);
-        int i4 = i2 != i3 ? LiteMode.FLAG_CALLS_ANIMATIONS : 0;
+        int i4 = i2 != i3 ? 512 : 0;
         if (configurationLocales2 != null && !configurationLocales.equals(configurationLocales2)) {
             i4 |= 8196;
         }

@@ -156,7 +156,7 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
                 for (int i = 0; i < length; i++) {
                     Network network = allNetworks[i];
                     if (hasInternetCapability(network) && networkInfo != null && networkInfo.getType() == activeNetworkInfo.getType()) {
-                        if (j != NetworkMonitorAutoDetect.INVALID_NET_ID) {
+                        if (j != -1) {
                             throw new RuntimeException("Multiple connected networks of same type are not supported.");
                         }
                         j = NetworkMonitorAutoDetect.networkToNetId(network);
@@ -164,7 +164,7 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
                 }
                 return j;
             }
-            return NetworkMonitorAutoDetect.INVALID_NET_ID;
+            return -1L;
         }
 
         NetworkChangeDetector.IPAddress[] getIPAddresses(LinkProperties linkProperties) {

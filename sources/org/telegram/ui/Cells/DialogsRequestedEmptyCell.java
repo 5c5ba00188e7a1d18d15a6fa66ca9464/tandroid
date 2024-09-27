@@ -11,18 +11,13 @@ import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.ImageLocation;
-import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$RequestPeerType;
-import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
-import org.telegram.tgnet.TLRPC$TL_requestPeerTypeBroadcast;
-import org.telegram.tgnet.TLRPC$TL_requestPeerTypeChat;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
@@ -121,22 +116,22 @@ public abstract class DialogsRequestedEmptyCell extends LinearLayout implements 
     }
 
     private void updateSticker() {
-        TLRPC$TL_messages_stickerSet stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME);
+        TLRPC.TL_messages_stickerSet stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME);
         if (stickerSetByName == null) {
             stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME);
         }
-        TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = stickerSetByName;
-        TLRPC$Document tLRPC$Document = (tLRPC$TL_messages_stickerSet == null || 1 >= tLRPC$TL_messages_stickerSet.documents.size()) ? null : (TLRPC$Document) tLRPC$TL_messages_stickerSet.documents.get(1);
-        if (tLRPC$Document == null) {
-            MediaDataController.getInstance(this.currentAccount).loadStickersByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME, false, tLRPC$TL_messages_stickerSet == null);
+        TLRPC.TL_messages_stickerSet tL_messages_stickerSet = stickerSetByName;
+        TLRPC.Document document = (tL_messages_stickerSet == null || 1 >= tL_messages_stickerSet.documents.size()) ? null : tL_messages_stickerSet.documents.get(1);
+        if (document == null) {
+            MediaDataController.getInstance(this.currentAccount).loadStickersByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME, false, tL_messages_stickerSet == null);
             this.stickerView.getImageReceiver().clearImage();
             return;
         }
-        SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document.thumbs, Theme.key_windowBackgroundGray, 0.2f);
+        SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(document.thumbs, Theme.key_windowBackgroundGray, 0.2f);
         if (svgThumb != null) {
-            svgThumb.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
+            svgThumb.overrideWidthAndHeight(512, 512);
         }
-        this.stickerView.setImage(ImageLocation.getForDocument(tLRPC$Document), "130_130", "tgs", svgThumb, tLRPC$TL_messages_stickerSet);
+        this.stickerView.setImage(ImageLocation.getForDocument(document), "130_130", "tgs", svgThumb, tL_messages_stickerSet);
         this.stickerView.getImageReceiver().setAutoRepeat(2);
     }
 
@@ -161,16 +156,16 @@ public abstract class DialogsRequestedEmptyCell extends LinearLayout implements 
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.diceStickersDidLoad);
     }
 
-    public void set(TLRPC$RequestPeerType tLRPC$RequestPeerType) {
+    public void set(TLRPC.RequestPeerType requestPeerType) {
         TextView textView;
         int i;
-        if (tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeBroadcast) {
+        if (requestPeerType instanceof TLRPC.TL_requestPeerTypeBroadcast) {
             this.titleView.setText(LocaleController.getString(R.string.NoSuchChannels));
             this.subtitleView.setText(LocaleController.getString(R.string.NoSuchChannelsInfo));
             this.buttonView.setVisibility(0);
             textView = this.buttonView;
             i = R.string.CreateChannelForThis;
-        } else if (!(tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeChat)) {
+        } else if (!(requestPeerType instanceof TLRPC.TL_requestPeerTypeChat)) {
             this.titleView.setText(LocaleController.getString(R.string.NoSuchUsers));
             this.subtitleView.setText(LocaleController.getString(R.string.NoSuchUsersInfo));
             this.buttonView.setVisibility(8);

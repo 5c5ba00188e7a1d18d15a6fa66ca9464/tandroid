@@ -78,8 +78,8 @@ public class EmuDetector {
         return checkTelephony() || checkFiles(GENY_FILES, EmulatorTypes.GENY) || checkFiles(ANDY_FILES, EmulatorTypes.ANDY) || checkFiles(NOX_FILES, EmulatorTypes.NOX) || checkFiles(BLUE_FILES, EmulatorTypes.BLUE) || checkQEmuDrivers() || checkFiles(PIPES, EmulatorTypes.PIPES) || checkIp() || (checkQEmuProps() && checkFiles(X86_FILES, EmulatorTypes.X86));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:44:0x00dc A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00dd  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x00de A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00df  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

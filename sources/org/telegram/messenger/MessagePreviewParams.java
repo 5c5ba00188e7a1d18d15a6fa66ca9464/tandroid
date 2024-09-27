@@ -13,23 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import org.telegram.messenger.MessageObject;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$Message;
-import org.telegram.tgnet.TLRPC$MessageEntity;
-import org.telegram.tgnet.TLRPC$MessageFwdHeader;
-import org.telegram.tgnet.TLRPC$MessageMedia;
-import org.telegram.tgnet.TLRPC$MessageReplyHeader;
-import org.telegram.tgnet.TLRPC$TL_message;
-import org.telegram.tgnet.TLRPC$TL_messageEntitySpoiler;
-import org.telegram.tgnet.TLRPC$TL_messageFwdHeader;
-import org.telegram.tgnet.TLRPC$TL_messageMediaPoll;
-import org.telegram.tgnet.TLRPC$TL_messageMediaWebPage;
-import org.telegram.tgnet.TLRPC$TL_messageReplyHeader;
-import org.telegram.tgnet.TLRPC$TL_peerUser;
-import org.telegram.tgnet.TLRPC$TL_pollAnswerVoters;
-import org.telegram.tgnet.TLRPC$TL_pollResults;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$WebPage;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.MessagePreviewView;
 /* loaded from: classes3.dex */
@@ -44,7 +28,7 @@ public class MessagePreviewParams {
     public boolean hideForwardSendersName;
     public boolean isSecret;
     public boolean isVideo;
-    public TLRPC$WebPage linkMedia;
+    public TLRPC.WebPage linkMedia;
     public Messages linkMessage;
     public boolean multipleUsers;
     public boolean noforwards;
@@ -54,7 +38,7 @@ public class MessagePreviewParams {
     public int quoteStart;
     public Messages replyMessage;
     public boolean singleLink;
-    public TLRPC$WebPage webpage;
+    public TLRPC.WebPage webpage;
     public boolean webpagePhoto;
     public boolean webpageSmall;
     public boolean webpageTop;
@@ -68,7 +52,7 @@ public class MessagePreviewParams {
         public boolean hasText;
         public ArrayList<MessageObject> messages;
         private Boolean out;
-        public ArrayList<TLRPC$TL_pollAnswerVoters> pollChosenAnswers;
+        public ArrayList<TLRPC.TL_pollAnswerVoters> pollChosenAnswers;
         public ArrayList<MessageObject> previewMessages;
         public SparseBooleanArray selectedIds;
         private int type;
@@ -94,10 +78,10 @@ public class MessagePreviewParams {
                 }
                 MessageObject previewMessage = MessagePreviewParams.this.toPreviewMessage(messageObject, bool, i);
                 if (!this.hasSpoilers) {
-                    Iterator it = previewMessage.messageOwner.entities.iterator();
+                    Iterator<TLRPC.MessageEntity> it = previewMessage.messageOwner.entities.iterator();
                     while (true) {
                         if (it.hasNext()) {
-                            if (((TLRPC$MessageEntity) it.next()) instanceof TLRPC$TL_messageEntitySpoiler) {
+                            if (it.next() instanceof TLRPC.TL_messageEntitySpoiler) {
                                 this.hasSpoilers = true;
                                 break;
                             }
@@ -117,31 +101,31 @@ public class MessagePreviewParams {
                 }
                 this.previewMessages.add(i2, previewMessage);
                 if (messageObject.isPoll()) {
-                    TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll = (TLRPC$TL_messageMediaPoll) messageObject.messageOwner.media;
+                    TLRPC.TL_messageMediaPoll tL_messageMediaPoll = (TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media;
                     PreviewMediaPoll previewMediaPoll = new PreviewMediaPoll();
-                    previewMediaPoll.poll = tLRPC$TL_messageMediaPoll.poll;
-                    previewMediaPoll.provider = tLRPC$TL_messageMediaPoll.provider;
-                    TLRPC$TL_pollResults tLRPC$TL_pollResults = new TLRPC$TL_pollResults();
-                    previewMediaPoll.results = tLRPC$TL_pollResults;
-                    int i4 = tLRPC$TL_messageMediaPoll.results.total_voters;
-                    tLRPC$TL_pollResults.total_voters = i4;
+                    previewMediaPoll.poll = tL_messageMediaPoll.poll;
+                    previewMediaPoll.provider = tL_messageMediaPoll.provider;
+                    TLRPC.TL_pollResults tL_pollResults = new TLRPC.TL_pollResults();
+                    previewMediaPoll.results = tL_pollResults;
+                    int i4 = tL_messageMediaPoll.results.total_voters;
+                    tL_pollResults.total_voters = i4;
                     previewMediaPoll.totalVotersCached = i4;
                     previewMessage.messageOwner.media = previewMediaPoll;
                     if (messageObject.canUnvote()) {
-                        int size = tLRPC$TL_messageMediaPoll.results.results.size();
+                        int size = tL_messageMediaPoll.results.results.size();
                         for (int i5 = 0; i5 < size; i5++) {
-                            TLRPC$TL_pollAnswerVoters tLRPC$TL_pollAnswerVoters = (TLRPC$TL_pollAnswerVoters) tLRPC$TL_messageMediaPoll.results.results.get(i5);
-                            if (tLRPC$TL_pollAnswerVoters.chosen) {
-                                TLRPC$TL_pollAnswerVoters tLRPC$TL_pollAnswerVoters2 = new TLRPC$TL_pollAnswerVoters();
-                                tLRPC$TL_pollAnswerVoters2.chosen = tLRPC$TL_pollAnswerVoters.chosen;
-                                tLRPC$TL_pollAnswerVoters2.correct = tLRPC$TL_pollAnswerVoters.correct;
-                                tLRPC$TL_pollAnswerVoters2.flags = tLRPC$TL_pollAnswerVoters.flags;
-                                tLRPC$TL_pollAnswerVoters2.option = tLRPC$TL_pollAnswerVoters.option;
-                                tLRPC$TL_pollAnswerVoters2.voters = tLRPC$TL_pollAnswerVoters.voters;
-                                this.pollChosenAnswers.add(tLRPC$TL_pollAnswerVoters2);
-                                previewMediaPoll.results.results.add(tLRPC$TL_pollAnswerVoters2);
+                            TLRPC.TL_pollAnswerVoters tL_pollAnswerVoters = tL_messageMediaPoll.results.results.get(i5);
+                            if (tL_pollAnswerVoters.chosen) {
+                                TLRPC.TL_pollAnswerVoters tL_pollAnswerVoters2 = new TLRPC.TL_pollAnswerVoters();
+                                tL_pollAnswerVoters2.chosen = tL_pollAnswerVoters.chosen;
+                                tL_pollAnswerVoters2.correct = tL_pollAnswerVoters.correct;
+                                tL_pollAnswerVoters2.flags = tL_pollAnswerVoters.flags;
+                                tL_pollAnswerVoters2.option = tL_pollAnswerVoters.option;
+                                tL_pollAnswerVoters2.voters = tL_pollAnswerVoters.voters;
+                                this.pollChosenAnswers.add(tL_pollAnswerVoters2);
+                                previewMediaPoll.results.results.add(tL_pollAnswerVoters2);
                             } else {
-                                previewMediaPoll.results.results.add(tLRPC$TL_pollAnswerVoters);
+                                previewMediaPoll.results.results.add(tL_pollAnswerVoters);
                             }
                         }
                     }
@@ -211,7 +195,7 @@ public class MessagePreviewParams {
     }
 
     /* loaded from: classes3.dex */
-    public static class PreviewMediaPoll extends TLRPC$TL_messageMediaPoll {
+    public static class PreviewMediaPoll extends TLRPC.TL_messageMediaPoll {
         public int totalVotersCached;
     }
 
@@ -276,69 +260,69 @@ public class MessagePreviewParams {
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public MessageObject toPreviewMessage(MessageObject messageObject, Boolean bool, final int i) {
-        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader;
+        TLRPC.MessageFwdHeader messageFwdHeader;
         MessageObject messageObject2;
-        TLRPC$TL_message tLRPC$TL_message = new TLRPC$TL_message();
-        tLRPC$TL_message.date = i != 1 ? ConnectionsManager.getInstance(messageObject.currentAccount).getCurrentTime() : messageObject.messageOwner.date;
-        TLRPC$Message tLRPC$Message = messageObject.messageOwner;
-        tLRPC$TL_message.id = tLRPC$Message.id;
-        tLRPC$TL_message.grouped_id = tLRPC$Message.grouped_id;
-        tLRPC$TL_message.peer_id = tLRPC$Message.peer_id;
-        tLRPC$TL_message.from_id = tLRPC$Message.from_id;
-        tLRPC$TL_message.message = tLRPC$Message.message;
-        tLRPC$TL_message.media = tLRPC$Message.media;
-        tLRPC$TL_message.action = tLRPC$Message.action;
-        tLRPC$TL_message.edit_date = 0;
-        ArrayList arrayList = tLRPC$Message.entities;
+        TLRPC.TL_message tL_message = new TLRPC.TL_message();
+        tL_message.date = i != 1 ? ConnectionsManager.getInstance(messageObject.currentAccount).getCurrentTime() : messageObject.messageOwner.date;
+        TLRPC.Message message = messageObject.messageOwner;
+        tL_message.id = message.id;
+        tL_message.grouped_id = message.grouped_id;
+        tL_message.peer_id = message.peer_id;
+        tL_message.from_id = message.from_id;
+        tL_message.message = message.message;
+        tL_message.media = message.media;
+        tL_message.action = message.action;
+        tL_message.edit_date = 0;
+        ArrayList<TLRPC.MessageEntity> arrayList = message.entities;
         if (arrayList != null) {
-            tLRPC$TL_message.entities.addAll(arrayList);
+            tL_message.entities.addAll(arrayList);
         }
         boolean booleanValue = bool == null ? messageObject.messageOwner.out : bool.booleanValue();
-        tLRPC$TL_message.out = booleanValue;
+        tL_message.out = booleanValue;
         if (booleanValue) {
-            TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
-            tLRPC$TL_message.from_id = tLRPC$TL_peerUser;
-            tLRPC$TL_peerUser.user_id = UserConfig.getInstance(messageObject.currentAccount).getClientUserId();
+            TLRPC.TL_peerUser tL_peerUser = new TLRPC.TL_peerUser();
+            tL_message.from_id = tL_peerUser;
+            tL_peerUser.user_id = UserConfig.getInstance(messageObject.currentAccount).getClientUserId();
         }
-        tLRPC$TL_message.unread = false;
-        TLRPC$Message tLRPC$Message2 = messageObject.messageOwner;
-        tLRPC$TL_message.via_bot_id = tLRPC$Message2.via_bot_id;
-        tLRPC$TL_message.reply_markup = tLRPC$Message2.reply_markup;
-        tLRPC$TL_message.post = tLRPC$Message2.post;
-        tLRPC$TL_message.legacy = tLRPC$Message2.legacy;
-        tLRPC$TL_message.restriction_reason = tLRPC$Message2.restriction_reason;
-        TLRPC$Message tLRPC$Message3 = tLRPC$Message2.replyMessage;
-        tLRPC$TL_message.replyMessage = tLRPC$Message3;
-        if (tLRPC$Message3 == null && (messageObject2 = messageObject.replyMessageObject) != null) {
-            tLRPC$TL_message.replyMessage = messageObject2.messageOwner;
+        tL_message.unread = false;
+        TLRPC.Message message2 = messageObject.messageOwner;
+        tL_message.via_bot_id = message2.via_bot_id;
+        tL_message.reply_markup = message2.reply_markup;
+        tL_message.post = message2.post;
+        tL_message.legacy = message2.legacy;
+        tL_message.restriction_reason = message2.restriction_reason;
+        TLRPC.Message message3 = message2.replyMessage;
+        tL_message.replyMessage = message3;
+        if (message3 == null && (messageObject2 = messageObject.replyMessageObject) != null) {
+            tL_message.replyMessage = messageObject2.messageOwner;
         }
-        tLRPC$TL_message.reply_to = tLRPC$Message2.reply_to;
-        tLRPC$TL_message.invert_media = tLRPC$Message2.invert_media;
+        tL_message.reply_to = message2.reply_to;
+        tL_message.invert_media = message2.invert_media;
         if (i == 0) {
             long clientUserId = UserConfig.getInstance(messageObject.currentAccount).getClientUserId();
             if (!this.isSecret) {
-                TLRPC$Message tLRPC$Message4 = messageObject.messageOwner;
-                tLRPC$MessageFwdHeader = tLRPC$Message4.fwd_from;
-                if (tLRPC$MessageFwdHeader == null) {
-                    long j = tLRPC$Message4.from_id.user_id;
-                    if (j == 0 || tLRPC$Message4.dialog_id != clientUserId || j != clientUserId) {
-                        tLRPC$MessageFwdHeader = new TLRPC$TL_messageFwdHeader();
-                        tLRPC$MessageFwdHeader.from_id = messageObject.messageOwner.from_id;
+                TLRPC.Message message4 = messageObject.messageOwner;
+                messageFwdHeader = message4.fwd_from;
+                if (messageFwdHeader == null) {
+                    long j = message4.from_id.user_id;
+                    if (j == 0 || message4.dialog_id != clientUserId || j != clientUserId) {
+                        messageFwdHeader = new TLRPC.TL_messageFwdHeader();
+                        messageFwdHeader.from_id = messageObject.messageOwner.from_id;
                     }
                 }
-                if (tLRPC$MessageFwdHeader != null) {
-                    tLRPC$TL_message.fwd_from = tLRPC$MessageFwdHeader;
-                    tLRPC$TL_message.flags |= 4;
+                if (messageFwdHeader != null) {
+                    tL_message.fwd_from = messageFwdHeader;
+                    tL_message.flags |= 4;
                 }
             }
-            tLRPC$MessageFwdHeader = null;
-            if (tLRPC$MessageFwdHeader != null) {
+            messageFwdHeader = null;
+            if (messageFwdHeader != null) {
             }
         }
-        MessageObject messageObject3 = new MessageObject(messageObject.currentAccount, tLRPC$TL_message, true, false) { // from class: org.telegram.messenger.MessagePreviewParams.1
+        MessageObject messageObject3 = new MessageObject(messageObject.currentAccount, tL_message, true, false) { // from class: org.telegram.messenger.MessagePreviewParams.1
             @Override // org.telegram.messenger.MessageObject
-            public void generateLayout(TLRPC$User tLRPC$User) {
-                super.generateLayout(tLRPC$User);
+            public void generateLayout(TLRPC.User user) {
+                super.generateLayout(user);
                 if (i == 2) {
                     MessagePreviewParams.this.checkCurrentLink(this);
                 }
@@ -362,11 +346,11 @@ public class MessagePreviewParams {
     }
 
     public void checkCurrentLink(MessageObject messageObject) {
-        TLRPC$WebPage tLRPC$WebPage;
+        TLRPC.WebPage webPage;
         this.currentLink = null;
         if (messageObject != null) {
             CharSequence charSequence = messageObject.messageText;
-            if (!(charSequence instanceof Spanned) || (tLRPC$WebPage = this.webpage) == null || tLRPC$WebPage.url == null) {
+            if (!(charSequence instanceof Spanned) || (webPage = this.webpage) == null || webPage.url == null) {
                 return;
             }
             Spanned spanned = (Spanned) charSequence;
@@ -444,7 +428,7 @@ public class MessagePreviewParams {
 
     public void updateForward(ArrayList<MessageObject> arrayList, long j) {
         long j2;
-        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader;
+        TLRPC.MessageFwdHeader messageFwdHeader;
         this.hasCaption = false;
         this.hasSenders = false;
         this.isSecret = DialogObject.isEncryptedDialog(j);
@@ -459,8 +443,8 @@ public class MessagePreviewParams {
             if (!TextUtils.isEmpty(messageObject.caption)) {
                 this.hasCaption = true;
             }
-            if (!this.isSecret && (tLRPC$MessageFwdHeader = messageObject.messageOwner.fwd_from) != null && tLRPC$MessageFwdHeader.from_id == null && !arrayList2.contains(tLRPC$MessageFwdHeader.from_name)) {
-                arrayList2.add(tLRPC$MessageFwdHeader.from_name);
+            if (!this.isSecret && (messageFwdHeader = messageObject.messageOwner.fwd_from) != null && messageFwdHeader.from_id == null && !arrayList2.contains(messageFwdHeader.from_name)) {
+                arrayList2.add(messageFwdHeader.from_name);
             }
         }
         Boolean bool = Boolean.TRUE;
@@ -476,7 +460,7 @@ public class MessagePreviewParams {
             if (messageObject2.isFromUser()) {
                 j2 = messageObject2.messageOwner.from_id.user_id;
             } else {
-                TLRPC$Chat chat = MessagesController.getInstance(messageObject2.currentAccount).getChat(Long.valueOf(messageObject2.messageOwner.peer_id.channel_id));
+                TLRPC.Chat chat = MessagesController.getInstance(messageObject2.currentAccount).getChat(Long.valueOf(messageObject2.messageOwner.peer_id.channel_id));
                 j2 = -((ChatObject.isChannel(chat) && chat.megagroup && messageObject2.isForwardedChannelPost()) ? messageObject2.messageOwner.fwd_from.from_id : messageObject2.messageOwner.peer_id).channel_id;
             }
             if (!arrayList3.contains(Long.valueOf(j2))) {
@@ -503,75 +487,75 @@ public class MessagePreviewParams {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void updateLink(int i, TLRPC$WebPage tLRPC$WebPage, CharSequence charSequence, MessageObject messageObject, ChatActivity.ReplyQuote replyQuote, MessageObject messageObject2) {
+    public void updateLink(int i, TLRPC.WebPage webPage, CharSequence charSequence, MessageObject messageObject, ChatActivity.ReplyQuote replyQuote, MessageObject messageObject2) {
         boolean z;
-        TLRPC$Message tLRPC$Message;
-        TLRPC$MessageMedia tLRPC$MessageMedia;
-        TLRPC$Message tLRPC$Message2;
-        TLRPC$MessageMedia tLRPC$MessageMedia2;
-        TLRPC$Message tLRPC$Message3;
+        TLRPC.Message message;
+        TLRPC.MessageMedia messageMedia;
+        TLRPC.Message message2;
+        TLRPC.MessageMedia messageMedia2;
+        TLRPC.Message message3;
         MessagePreviewView messagePreviewView;
         boolean z2 = false;
         this.hasMedia = false;
         this.isVideo = false;
         this.singleLink = true;
-        boolean z3 = this.webpage != tLRPC$WebPage;
-        this.webpage = tLRPC$WebPage;
+        boolean z3 = this.webpage != webPage;
+        this.webpage = webPage;
         if (!TextUtils.isEmpty(charSequence) || this.webpage != null) {
             if (charSequence == null) {
                 charSequence = "";
             }
             Messages messages = this.linkMessage;
             boolean z4 = messages == null || z3;
-            if (messages == null && messageObject2 != null && (tLRPC$Message3 = messageObject2.messageOwner) != null) {
-                this.webpageTop = tLRPC$Message3.invert_media;
-                TLRPC$MessageMedia tLRPC$MessageMedia3 = tLRPC$Message3.media;
-                if (tLRPC$MessageMedia3 != null && tLRPC$MessageMedia3.force_small_media) {
+            if (messages == null && messageObject2 != null && (message3 = messageObject2.messageOwner) != null) {
+                this.webpageTop = message3.invert_media;
+                TLRPC.MessageMedia messageMedia3 = message3.media;
+                if (messageMedia3 != null && messageMedia3.force_small_media) {
                     this.webpageSmall = true;
                 }
             }
-            TLRPC$TL_message tLRPC$TL_message = new TLRPC$TL_message();
+            TLRPC.TL_message tL_message = new TLRPC.TL_message();
             CharSequence[] charSequenceArr = {new SpannableStringBuilder(AndroidUtilities.getTrimmedString(charSequence))};
-            TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
-            tLRPC$TL_message.peer_id = tLRPC$TL_peerUser;
-            tLRPC$TL_peerUser.user_id = UserConfig.getInstance(i).getClientUserId();
-            TLRPC$TL_peerUser tLRPC$TL_peerUser2 = new TLRPC$TL_peerUser();
-            tLRPC$TL_message.from_id = tLRPC$TL_peerUser2;
-            tLRPC$TL_peerUser2.user_id = UserConfig.getInstance(i).getClientUserId();
-            tLRPC$TL_message.entities = MediaDataController.getInstance(i).getEntities(charSequenceArr, true);
-            tLRPC$TL_message.message = charSequenceArr[0].toString();
-            tLRPC$TL_message.invert_media = this.webpageTop;
-            if (tLRPC$WebPage != null) {
-                tLRPC$TL_message.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
-                TLRPC$TL_messageMediaWebPage tLRPC$TL_messageMediaWebPage = new TLRPC$TL_messageMediaWebPage();
-                tLRPC$TL_message.media = tLRPC$TL_messageMediaWebPage;
-                tLRPC$TL_messageMediaWebPage.webpage = tLRPC$WebPage;
+            TLRPC.TL_peerUser tL_peerUser = new TLRPC.TL_peerUser();
+            tL_message.peer_id = tL_peerUser;
+            tL_peerUser.user_id = UserConfig.getInstance(i).getClientUserId();
+            TLRPC.TL_peerUser tL_peerUser2 = new TLRPC.TL_peerUser();
+            tL_message.from_id = tL_peerUser2;
+            tL_peerUser2.user_id = UserConfig.getInstance(i).getClientUserId();
+            tL_message.entities = MediaDataController.getInstance(i).getEntities(charSequenceArr, true);
+            tL_message.message = charSequenceArr[0].toString();
+            tL_message.invert_media = this.webpageTop;
+            if (webPage != null) {
+                tL_message.flags |= 512;
+                TLRPC.TL_messageMediaWebPage tL_messageMediaWebPage = new TLRPC.TL_messageMediaWebPage();
+                tL_message.media = tL_messageMediaWebPage;
+                tL_messageMediaWebPage.webpage = webPage;
                 boolean z5 = this.webpageSmall;
-                tLRPC$TL_messageMediaWebPage.force_large_media = !z5;
-                tLRPC$TL_messageMediaWebPage.force_small_media = z5;
-                this.hasMedia = tLRPC$WebPage.photo != null;
-                this.isVideo = MessageObject.isVideoDocument(tLRPC$WebPage.document);
+                tL_messageMediaWebPage.force_large_media = !z5;
+                tL_messageMediaWebPage.force_small_media = z5;
+                this.hasMedia = webPage.photo != null;
+                this.isVideo = MessageObject.isVideoDocument(webPage.document);
             } else {
                 this.hasMedia = false;
             }
-            tLRPC$TL_message.out = true;
-            tLRPC$TL_message.unread = false;
+            tL_message.out = true;
+            tL_message.unread = false;
             if (messageObject != null) {
-                tLRPC$TL_message.replyMessage = messageObject.messageOwner;
-                TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader = new TLRPC$TL_messageReplyHeader();
-                tLRPC$TL_message.reply_to = tLRPC$TL_messageReplyHeader;
+                tL_message.replyMessage = messageObject.messageOwner;
+                TLRPC.TL_messageReplyHeader tL_messageReplyHeader = new TLRPC.TL_messageReplyHeader();
+                tL_message.reply_to = tL_messageReplyHeader;
                 if (replyQuote != null) {
-                    tLRPC$TL_messageReplyHeader.quote_text = replyQuote.getText();
-                    TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader = tLRPC$TL_message.reply_to;
-                    tLRPC$MessageReplyHeader.flags |= 64;
-                    tLRPC$MessageReplyHeader.quote_entities = replyQuote.getEntities();
-                    TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader2 = tLRPC$TL_message.reply_to;
-                    if (tLRPC$MessageReplyHeader2.quote_entities != null) {
-                        tLRPC$MessageReplyHeader2.flags |= 128;
+                    tL_messageReplyHeader.quote_text = replyQuote.getText();
+                    TLRPC.MessageReplyHeader messageReplyHeader = tL_message.reply_to;
+                    messageReplyHeader.flags |= 64;
+                    messageReplyHeader.quote_entities = replyQuote.getEntities();
+                    TLRPC.MessageReplyHeader messageReplyHeader2 = tL_message.reply_to;
+                    if (messageReplyHeader2.quote_entities != null) {
+                        messageReplyHeader2.flags |= 128;
                     }
                 }
             }
-            Messages messages2 = new Messages(this, Boolean.TRUE, 2, new MessageObject(i, tLRPC$TL_message, true, false));
+            Messages messages2 = new Messages(this, Boolean.TRUE, 2, new MessageObject(i, tL_message, true, false));
             this.linkMessage = messages2;
             if (!messages2.messages.isEmpty()) {
                 MessageObject messageObject3 = this.linkMessage.messages.get(0);
@@ -585,19 +569,19 @@ public class MessagePreviewParams {
                         z = true;
                     }
                     this.hasMedia = messageObject3.hasLinkMediaToMakeSmall();
-                    if (!z4 && messageObject2 != null && (tLRPC$Message2 = messageObject2.messageOwner) != null && (tLRPC$MessageMedia2 = tLRPC$Message2.media) != null) {
-                        if (tLRPC$MessageMedia2.force_small_media || (messageObject3.isLinkMediaSmall() && !messageObject2.messageOwner.media.force_large_media)) {
+                    if (!z4 && messageObject2 != null && (message2 = messageObject2.messageOwner) != null && (messageMedia2 = message2.media) != null) {
+                        if (messageMedia2.force_small_media || (messageObject3.isLinkMediaSmall() && !messageObject2.messageOwner.media.force_large_media)) {
                             z2 = true;
                         }
                         this.webpageSmall = z2;
                     } else if (z4) {
                         this.webpageSmall = messageObject3.isLinkMediaSmall();
                     }
-                    tLRPC$Message = messageObject3.messageOwner;
-                    if (tLRPC$Message != null && (tLRPC$MessageMedia = tLRPC$Message.media) != null) {
+                    message = messageObject3.messageOwner;
+                    if (message != null && (messageMedia = message.media) != null) {
                         boolean z6 = this.webpageSmall;
-                        tLRPC$MessageMedia.force_large_media = !z6;
-                        tLRPC$MessageMedia.force_small_media = z6;
+                        messageMedia.force_large_media = !z6;
+                        messageMedia.force_small_media = z6;
                     }
                     messagePreviewView = this.previewView;
                     if (messagePreviewView != null) {
@@ -617,11 +601,11 @@ public class MessagePreviewParams {
                 }
                 if (z4) {
                 }
-                tLRPC$Message = messageObject3.messageOwner;
-                if (tLRPC$Message != null) {
+                message = messageObject3.messageOwner;
+                if (message != null) {
                     boolean z62 = this.webpageSmall;
-                    tLRPC$MessageMedia.force_large_media = !z62;
-                    tLRPC$MessageMedia.force_small_media = z62;
+                    messageMedia.force_large_media = !z62;
+                    messageMedia.force_small_media = z62;
                 }
                 messagePreviewView = this.previewView;
                 if (messagePreviewView != null) {

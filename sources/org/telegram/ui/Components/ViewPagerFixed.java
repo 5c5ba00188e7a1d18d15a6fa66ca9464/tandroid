@@ -47,8 +47,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_messages_updateDialogFiltersOrder;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ViewPagerFixed;
@@ -358,7 +357,7 @@ public class ViewPagerFixed extends FrameLayout {
                     int measuredHeight = (getMeasuredHeight() - AndroidUtilities.dp(20.0f)) / 2;
                     if (this.currentTab.id == Integer.MAX_VALUE || ((!TabsView.this.isEditing && TabsView.this.editingStartAnimationProgress == 0.0f) || str != null)) {
                         paint = TabsView.this.counterPaint;
-                        i11 = NotificationCenter.didClearDatabase;
+                        i11 = NotificationCenter.messagePlayingSpeedChanged;
                     } else {
                         paint = TabsView.this.counterPaint;
                         i11 = (int) (TabsView.this.editingStartAnimationProgress * 255.0f);
@@ -647,7 +646,7 @@ public class ViewPagerFixed extends FrameLayout {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public static /* synthetic */ void lambda$setIsEditing$2(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        public static /* synthetic */ void lambda$setIsEditing$2(TLObject tLObject, TLRPC.TL_error tL_error) {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -1085,17 +1084,17 @@ public class ViewPagerFixed extends FrameLayout {
                 return;
             }
             MessagesStorage.getInstance(UserConfig.selectedAccount).saveDialogFiltersOrder();
-            TLRPC$TL_messages_updateDialogFiltersOrder tLRPC$TL_messages_updateDialogFiltersOrder = new TLRPC$TL_messages_updateDialogFiltersOrder();
+            TLRPC.TL_messages_updateDialogFiltersOrder tL_messages_updateDialogFiltersOrder = new TLRPC.TL_messages_updateDialogFiltersOrder();
             ArrayList<MessagesController.DialogFilter> arrayList = MessagesController.getInstance(UserConfig.selectedAccount).dialogFilters;
             int size = arrayList.size();
             for (int i = 0; i < size; i++) {
                 arrayList.get(i);
-                tLRPC$TL_messages_updateDialogFiltersOrder.order.add(Integer.valueOf(arrayList.get(i).id));
+                tL_messages_updateDialogFiltersOrder.order.add(Integer.valueOf(arrayList.get(i).id));
             }
-            ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_updateDialogFiltersOrder, new RequestDelegate() { // from class: org.telegram.ui.Components.ViewPagerFixed$TabsView$$ExternalSyntheticLambda0
+            ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tL_messages_updateDialogFiltersOrder, new RequestDelegate() { // from class: org.telegram.ui.Components.ViewPagerFixed$TabsView$$ExternalSyntheticLambda0
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ViewPagerFixed.TabsView.lambda$setIsEditing$2(tLObject, tLRPC$TL_error);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    ViewPagerFixed.TabsView.lambda$setIsEditing$2(tLObject, tL_error);
                 }
             });
             this.orderChanged = false;
@@ -1255,6 +1254,7 @@ public class ViewPagerFixed extends FrameLayout {
                 getParent().requestDisallowInterceptTouchEvent(true);
                 this.maybeStartTracking = false;
                 this.startedTracking = true;
+                onStartTracking();
                 this.startedTrackingX = (int) (motionEvent.getX() + this.additionalOffset);
                 TabsView tabsView = this.tabsView;
                 if (tabsView != null) {
@@ -1612,6 +1612,9 @@ public class ViewPagerFixed extends FrameLayout {
     protected void onScrollEnd() {
     }
 
+    public void onStartTracking() {
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
     public void onTabAnimationUpdate(boolean z) {
     }
@@ -1628,20 +1631,20 @@ public class ViewPagerFixed extends FrameLayout {
         return onTouchEventInternal(motionEvent);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:159:0x02a6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:159:0x02a9, code lost:
         if (r6.getX() > (r11.viewPages[0].getMeasuredWidth() >> 1)) goto L183;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:163:0x02c0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:163:0x02c3, code lost:
         if (r11.viewPages[0].getX() < (r11.viewPages[0].getMeasuredWidth() >> 1)) goto L183;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:170:0x02ec, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:170:0x02ef, code lost:
         if (java.lang.Math.abs(r5) < java.lang.Math.abs(r6)) goto L183;
      */
-    /* JADX WARN: Removed duplicated region for block: B:176:0x02f7  */
-    /* JADX WARN: Removed duplicated region for block: B:184:0x036a  */
-    /* JADX WARN: Removed duplicated region for block: B:197:0x03ef  */
-    /* JADX WARN: Removed duplicated region for block: B:204:0x0450  */
-    /* JADX WARN: Removed duplicated region for block: B:205:0x0460  */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x02fa  */
+    /* JADX WARN: Removed duplicated region for block: B:184:0x036d  */
+    /* JADX WARN: Removed duplicated region for block: B:197:0x03f2  */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x0453  */
+    /* JADX WARN: Removed duplicated region for block: B:205:0x0463  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1667,6 +1670,7 @@ public class ViewPagerFixed extends FrameLayout {
             }
             if (motionEvent != null && motionEvent.getAction() == 0 && checkTabsAnimationInProgress()) {
                 this.startedTracking = true;
+                onStartTracking();
                 this.startedTrackingPointerId = motionEvent.getPointerId(0);
                 int x = (int) motionEvent.getX();
                 this.startedTrackingX = x;

@@ -39,15 +39,7 @@ import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$TL_account_updateBirthday;
-import org.telegram.tgnet.TLRPC$TL_birthday;
-import org.telegram.tgnet.TLRPC$TL_boolTrue;
-import org.telegram.tgnet.TLRPC$TL_contact;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_topPeer;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$UserFull;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -66,6 +58,7 @@ import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorHeaderCe
 import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell;
 import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorUserCell;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.Gifts.GiftSheet;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PrivacyControlActivity;
 import org.telegram.ui.ProfileActivity;
@@ -128,16 +121,16 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
         this.type = i;
         this.birthdays = birthdayState;
         if (birthdayState != null && !birthdayState.today.isEmpty() && i == 0) {
-            Iterator<TLRPC$User> it = this.birthdays.today.iterator();
+            Iterator<TLRPC.User> it = this.birthdays.today.iterator();
             while (it.hasNext()) {
-                TLRPC$User next = it.next();
+                TLRPC.User next = it.next();
                 this.selectedIds.add(Long.valueOf(next.id));
                 this.allSelectedObjects.put(Long.valueOf(next.id), next);
             }
         }
         this.userId = j;
         if (j != 0 && !this.selectedIds.contains(Long.valueOf(j))) {
-            TLRPC$User user = baseFragment.getMessagesController().getUser(Long.valueOf(j));
+            TLRPC.User user = baseFragment.getMessagesController().getUser(Long.valueOf(j));
             this.selectedIds.add(Long.valueOf(user.id));
             this.allSelectedObjects.put(Long.valueOf(user.id), user);
         }
@@ -179,7 +172,7 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
                 UserSelectorBottomSheet.this.onSearch((String) obj);
             }
         });
-        selectorSearchCell.setHintText(LocaleController.getString((!this.selectedIds.isEmpty() || i == 1) ? R.string.Search : R.string.GiftPremiumUsersSearchHint), false);
+        selectorSearchCell.setHintText(LocaleController.getString((!this.selectedIds.isEmpty() || i == 1 || i == 2) ? R.string.Search : R.string.GiftPremiumUsersSearchHint), false);
         View view = new View(getContext()) { // from class: org.telegram.ui.Components.Premium.boosts.UserSelectorBottomSheet.6
             @Override // android.view.View
             protected void onDraw(Canvas canvas) {
@@ -289,7 +282,7 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
         initHints(false);
         updateList(false, true);
         fixNavigationBar();
-        if (i == 0) {
+        if (i == 0 || i == 2) {
             BoostRepository.loadGiftOptions(null, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.UserSelectorBottomSheet$$ExternalSyntheticLambda8
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
@@ -309,16 +302,16 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
         int i2 = 0;
         final boolean z2 = true;
         while (it.hasNext()) {
-            TLRPC$User tLRPC$User = (TLRPC$User) it.next();
-            if (tLRPC$User != null && !tLRPC$User.bot && !UserObject.isService(tLRPC$User.id)) {
-                long j = tLRPC$User.id;
+            TLRPC.User user = (TLRPC.User) it.next();
+            if (user != null && !user.bot && !UserObject.isService(user.id)) {
+                long j = user.id;
                 if (j != this.userId) {
                     if (!this.selectedIds.contains(Long.valueOf(j))) {
                         z2 = false;
                     }
                     i2++;
                     i += AndroidUtilities.dp(56.0f);
-                    arrayList3.add(SelectorAdapter.Item.asUser(tLRPC$User, this.selectedIds.contains(Long.valueOf(tLRPC$User.id))).withOptions(openOptions(tLRPC$User)));
+                    arrayList3.add(SelectorAdapter.Item.asUser(user, this.selectedIds.contains(Long.valueOf(user.id))).withOptions(openOptions(user)));
                 }
             }
         }
@@ -342,7 +335,8 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
 
     private void checkEditTextHint() {
         Runnable runnable;
-        if (!this.selectedIds.isEmpty() || this.type == 1) {
+        int i;
+        if (!this.selectedIds.isEmpty() || (i = this.type) == 1 || i == 2) {
             if (this.isHintSearchText) {
                 return;
             }
@@ -451,17 +445,17 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
         if (z) {
             Iterator it = arrayList.iterator();
             while (it.hasNext()) {
-                TLRPC$User tLRPC$User = (TLRPC$User) it.next();
-                this.selectedIds.remove(Long.valueOf(tLRPC$User.id));
-                this.allSelectedObjects.remove(Long.valueOf(tLRPC$User.id));
+                TLRPC.User user = (TLRPC.User) it.next();
+                this.selectedIds.remove(Long.valueOf(user.id));
+                this.allSelectedObjects.remove(Long.valueOf(user.id));
             }
         } else {
             Iterator it2 = arrayList.iterator();
             while (it2.hasNext()) {
-                TLRPC$User tLRPC$User2 = (TLRPC$User) it2.next();
-                if (!this.selectedIds.contains(Long.valueOf(tLRPC$User2.id))) {
-                    this.selectedIds.add(Long.valueOf(tLRPC$User2.id));
-                    this.allSelectedObjects.put(Long.valueOf(tLRPC$User2.id), tLRPC$User2);
+                TLRPC.User user2 = (TLRPC.User) it2.next();
+                if (!this.selectedIds.contains(Long.valueOf(user2.id))) {
+                    this.selectedIds.add(Long.valueOf(user2.id));
+                    this.allSelectedObjects.put(Long.valueOf(user2.id), user2);
                 }
             }
         }
@@ -524,7 +518,8 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
         if (view instanceof TextCell) {
             openBirthdaySetup();
         } else if (view instanceof SelectorUserCell) {
-            TLRPC$User user = ((SelectorUserCell) view).getUser();
+            TLRPC.User user = ((SelectorUserCell) view).getUser();
+            long j = user.id;
             if (i == 1) {
                 SelectorSearchCell selectorSearchCell = this.searchField;
                 if (selectorSearchCell != null) {
@@ -535,29 +530,30 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
                     giftStarsSheet.makeAttached(this.attachedFragment);
                 }
                 giftStarsSheet.show();
-                return;
-            }
-            long j = user.id;
-            if (this.selectedIds.contains(Long.valueOf(j))) {
-                this.selectedIds.remove(Long.valueOf(j));
+            } else if (i == 0 || i == 2) {
+                new GiftSheet(getContext(), this.currentAccount, j, BoostRepository.filterGiftOptionsByBilling(BoostRepository.filterGiftOptions(this.paymentOptions, 1)), new UserSelectorBottomSheet$$ExternalSyntheticLambda3(this)).show();
             } else {
-                this.selectedIds.add(Long.valueOf(j));
-                this.allSelectedObjects.put(Long.valueOf(j), user);
-            }
-            if (this.selectedIds.size() == 11) {
-                this.selectedIds.remove(Long.valueOf(j));
-                showMaximumUsersToast();
-                return;
-            }
-            checkEditTextHint();
-            this.searchField.updateSpans(true, this.selectedIds, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.UserSelectorBottomSheet$$ExternalSyntheticLambda15
-                @Override // java.lang.Runnable
-                public final void run() {
-                    UserSelectorBottomSheet.this.lambda$new$4();
+                if (this.selectedIds.contains(Long.valueOf(j))) {
+                    this.selectedIds.remove(Long.valueOf(j));
+                } else {
+                    this.selectedIds.add(Long.valueOf(j));
+                    this.allSelectedObjects.put(Long.valueOf(j), user);
                 }
-            }, null);
-            updateList(true, true);
-            clearSearchAfterSelect();
+                if (this.selectedIds.size() == 11) {
+                    this.selectedIds.remove(Long.valueOf(j));
+                    showMaximumUsersToast();
+                    return;
+                }
+                checkEditTextHint();
+                this.searchField.updateSpans(true, this.selectedIds, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.UserSelectorBottomSheet$$ExternalSyntheticLambda15
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        UserSelectorBottomSheet.this.lambda$new$4();
+                    }
+                }, null);
+                updateList(true, true);
+                clearSearchAfterSelect();
+            }
         }
     }
 
@@ -571,22 +567,28 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
     public /* synthetic */ void lambda$new$7(List list) {
         this.paymentOptions.clear();
         this.paymentOptions.addAll(list);
+        if (this.actionButton.isLoading()) {
+            this.actionButton.setLoading(false);
+            if (this.recyclerListView.isAttachedToWindow()) {
+                next();
+            }
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openBirthdaySetup$18(TLObject tLObject, TLRPC$UserFull tLRPC$UserFull, TLRPC$TL_birthday tLRPC$TL_birthday, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$openBirthdaySetup$18(TLObject tLObject, TLRPC.UserFull userFull, TLRPC.TL_birthday tL_birthday, TLRPC.TL_error tL_error) {
         Bulletin createSimpleBulletin;
         String str;
-        if (tLObject instanceof TLRPC$TL_boolTrue) {
+        if (tLObject instanceof TLRPC.TL_boolTrue) {
             createSimpleBulletin = BulletinFactory.of(this.bulletinContainer, this.resourcesProvider).createSimpleBulletin(R.raw.contact_check, LocaleController.getString(R.string.PrivacyBirthdaySetDone)).setDuration(5000);
         } else {
-            if (tLRPC$UserFull != null) {
-                int i = tLRPC$UserFull.flags2;
-                tLRPC$UserFull.flags2 = tLRPC$TL_birthday == null ? i & (-33) : i | 32;
-                tLRPC$UserFull.birthday = tLRPC$TL_birthday;
-                MessagesStorage.getInstance(this.currentAccount).updateUserInfo(tLRPC$UserFull, false);
+            if (userFull != null) {
+                int i = userFull.flags2;
+                userFull.flags2 = tL_birthday == null ? i & (-33) : i | 32;
+                userFull.birthday = tL_birthday;
+                MessagesStorage.getInstance(this.currentAccount).updateUserInfo(userFull, false);
             }
-            if (tLRPC$TL_error != null && (str = tLRPC$TL_error.text) != null && str.startsWith("FLOOD_WAIT_")) {
+            if (tL_error != null && (str = tL_error.text) != null && str.startsWith("FLOOD_WAIT_")) {
                 if (getContext() != null) {
                     new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString(R.string.PrivacyBirthdayTooOftenTitle)).setMessage(LocaleController.getString(R.string.PrivacyBirthdayTooOftenMessage)).setPositiveButton(LocaleController.getString(R.string.OK), null).show();
                     return;
@@ -599,30 +601,30 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openBirthdaySetup$19(final TLRPC$UserFull tLRPC$UserFull, final TLRPC$TL_birthday tLRPC$TL_birthday, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$openBirthdaySetup$19(final TLRPC.UserFull userFull, final TLRPC.TL_birthday tL_birthday, final TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.UserSelectorBottomSheet$$ExternalSyntheticLambda23
             @Override // java.lang.Runnable
             public final void run() {
-                UserSelectorBottomSheet.this.lambda$openBirthdaySetup$18(tLObject, tLRPC$UserFull, tLRPC$TL_birthday, tLRPC$TL_error);
+                UserSelectorBottomSheet.this.lambda$openBirthdaySetup$18(tLObject, userFull, tL_birthday, tL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openBirthdaySetup$20(TLRPC$TL_birthday tLRPC$TL_birthday) {
-        TLRPC$TL_account_updateBirthday tLRPC$TL_account_updateBirthday = new TLRPC$TL_account_updateBirthday();
-        tLRPC$TL_account_updateBirthday.flags |= 1;
-        tLRPC$TL_account_updateBirthday.birthday = tLRPC$TL_birthday;
-        final TLRPC$UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(UserConfig.getInstance(this.currentAccount).getClientUserId());
-        final TLRPC$TL_birthday tLRPC$TL_birthday2 = userFull != null ? userFull.birthday : null;
+    public /* synthetic */ void lambda$openBirthdaySetup$20(TLRPC.TL_birthday tL_birthday) {
+        TLRPC.TL_account_updateBirthday tL_account_updateBirthday = new TLRPC.TL_account_updateBirthday();
+        tL_account_updateBirthday.flags |= 1;
+        tL_account_updateBirthday.birthday = tL_birthday;
+        final TLRPC.UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(UserConfig.getInstance(this.currentAccount).getClientUserId());
+        final TLRPC.TL_birthday tL_birthday2 = userFull != null ? userFull.birthday : null;
         if (userFull != null) {
             userFull.flags2 |= 32;
-            userFull.birthday = tLRPC$TL_birthday;
+            userFull.birthday = tL_birthday;
         }
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_updateBirthday, new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.UserSelectorBottomSheet$$ExternalSyntheticLambda22
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_updateBirthday, new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.UserSelectorBottomSheet$$ExternalSyntheticLambda22
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                UserSelectorBottomSheet.this.lambda$openBirthdaySetup$19(userFull, tLRPC$TL_birthday2, tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                UserSelectorBottomSheet.this.lambda$openBirthdaySetup$19(userFull, tL_birthday2, tLObject, tL_error);
             }
         }, 1024);
         MessagesController.getInstance(this.currentAccount).invalidateContentSettings();
@@ -643,38 +645,38 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openOptions$12(TLRPC$User tLRPC$User) {
+    public /* synthetic */ void lambda$openOptions$12(TLRPC.User user) {
         BaseFragment baseFragment = getBaseFragment();
-        if (tLRPC$User == null || baseFragment == null) {
+        if (user == null || baseFragment == null) {
             return;
         }
         Bundle bundle = new Bundle();
-        bundle.putLong("user_id", tLRPC$User.id);
+        bundle.putLong("user_id", user.id);
         baseFragment.presentFragment(new ChatActivity(bundle));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openOptions$13(TLRPC$User tLRPC$User) {
+    public /* synthetic */ void lambda$openOptions$13(TLRPC.User user) {
         BaseFragment baseFragment = getBaseFragment();
-        if (tLRPC$User == null || baseFragment == null) {
+        if (user == null || baseFragment == null) {
             return;
         }
         Bundle bundle = new Bundle();
-        bundle.putLong("user_id", tLRPC$User.id);
+        bundle.putLong("user_id", user.id);
         baseFragment.presentFragment(new ProfileActivity(bundle));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openOptions$14(final TLRPC$User tLRPC$User, View view) {
+    public /* synthetic */ void lambda$openOptions$14(final TLRPC.User user, View view) {
         ItemOptions.makeOptions(this.container, this.resourcesProvider, (View) view.getParent()).add(R.drawable.profile_discuss, LocaleController.getString(R.string.SendMessage), new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.UserSelectorBottomSheet$$ExternalSyntheticLambda17
             @Override // java.lang.Runnable
             public final void run() {
-                UserSelectorBottomSheet.this.lambda$openOptions$12(tLRPC$User);
+                UserSelectorBottomSheet.this.lambda$openOptions$12(user);
             }
         }).add(R.drawable.msg_openprofile, LocaleController.getString(R.string.OpenProfile), new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.UserSelectorBottomSheet$$ExternalSyntheticLambda18
             @Override // java.lang.Runnable
             public final void run() {
-                UserSelectorBottomSheet.this.lambda$openOptions$13(tLRPC$User);
+                UserSelectorBottomSheet.this.lambda$openOptions$13(user);
             }
         }).show();
     }
@@ -716,20 +718,29 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
     }
 
     private void next() {
-        if (this.selectedIds.size() == 0 || this.paymentOptions.isEmpty()) {
+        if (this.selectedIds.size() == 0) {
+            return;
+        }
+        if (this.paymentOptions.isEmpty()) {
+            this.actionButton.setLoading(true);
             return;
         }
         ArrayList arrayList = new ArrayList();
-        for (TLRPC$User tLRPC$User : this.allSelectedObjects.values()) {
-            if (this.selectedIds.contains(Long.valueOf(tLRPC$User.id))) {
-                arrayList.add(tLRPC$User);
+        for (TLRPC.User user : this.allSelectedObjects.values()) {
+            if (this.selectedIds.contains(Long.valueOf(user.id))) {
+                arrayList.add(user);
             }
         }
         AndroidUtilities.hideKeyboard(this.searchField.getEditText());
         if (this.type == 1) {
             return;
         }
-        PremiumPreviewGiftToUsersBottomSheet.show(arrayList, BoostRepository.filterGiftOptionsByBilling(BoostRepository.filterGiftOptions(this.paymentOptions, arrayList.size())));
+        List filterGiftOptionsByBilling = BoostRepository.filterGiftOptionsByBilling(BoostRepository.filterGiftOptions(this.paymentOptions, arrayList.size()));
+        if (arrayList.size() == 1) {
+            new GiftSheet(getContext(), this.currentAccount, ((TLRPC.User) arrayList.get(0)).id, filterGiftOptionsByBilling, new UserSelectorBottomSheet$$ExternalSyntheticLambda3(this)).show();
+        } else {
+            PremiumPreviewGiftToUsersBottomSheet.show(arrayList, filterGiftOptionsByBilling);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -768,7 +779,7 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
         AlertsCreator.createBirthdayPickerDialog(getContext(), LocaleController.getString(R.string.EditProfileBirthdayTitle), LocaleController.getString(R.string.EditProfileBirthdayButton), null, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.UserSelectorBottomSheet$$ExternalSyntheticLambda19
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                UserSelectorBottomSheet.this.lambda$openBirthdaySetup$20((TLRPC$TL_birthday) obj);
+                UserSelectorBottomSheet.this.lambda$openBirthdaySetup$20((TLRPC.TL_birthday) obj);
             }
         }, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.UserSelectorBottomSheet$$ExternalSyntheticLambda20
             @Override // java.lang.Runnable
@@ -823,9 +834,9 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
                 SelectorAdapter.Item item = (SelectorAdapter.Item) this.items.get(childAdapterPosition2);
                 SelectorUserCell selectorUserCell = (SelectorUserCell) childAt;
                 selectorUserCell.setChecked(item.checked, z);
-                TLRPC$Chat tLRPC$Chat = item.chat;
+                TLRPC.Chat chat = item.chat;
                 float f = 1.0f;
-                if (tLRPC$Chat != null && this.selectorAdapter.getParticipantsCount(tLRPC$Chat) > 200) {
+                if (chat != null && this.selectorAdapter.getParticipantsCount(chat) > 200) {
                     f = 0.3f;
                 }
                 selectorUserCell.setCheckboxAlpha(f, z);
@@ -847,7 +858,7 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     protected RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView) {
-        SelectorAdapter selectorAdapter = new SelectorAdapter(getContext(), getType() != 1, this.resourcesProvider);
+        SelectorAdapter selectorAdapter = new SelectorAdapter(getContext(), false, this.resourcesProvider);
         this.selectorAdapter = selectorAdapter;
         selectorAdapter.setGreenSelector(true);
         return this.selectorAdapter;
@@ -902,7 +913,7 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     protected CharSequence getTitle() {
-        return LocaleController.getString(getType() == 1 ? R.string.GiftStarsTitle : R.string.GiftTelegramPremiumTitle);
+        return LocaleController.getString(getType() == 1 ? R.string.GiftStarsTitle : (getType() != 2 || MessagesController.getInstance(this.currentAccount).stargiftsBlocked) ? R.string.GiftTelegramPremiumTitle : R.string.GiftTelegramPremiumOrStarsTitle);
     }
 
     protected abstract int getType();
@@ -939,11 +950,11 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
         this.recyclerListView.setTranslationY(((this.headerView.getMeasuredHeight() + this.searchField.getMeasuredHeight()) + this.sectionCell.getMeasuredHeight()) - AndroidUtilities.dp(8.0f));
     }
 
-    public View.OnClickListener openOptions(final TLRPC$User tLRPC$User) {
+    public View.OnClickListener openOptions(final TLRPC.User user) {
         return new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.UserSelectorBottomSheet$$ExternalSyntheticLambda11
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                UserSelectorBottomSheet.this.lambda$openOptions$14(tLRPC$User, view);
+                UserSelectorBottomSheet.this.lambda$openOptions$14(user, view);
             }
         };
     }
@@ -970,14 +981,14 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
         this.items.clear();
         if (isSearching()) {
             i2 = 0;
-            for (TLRPC$User tLRPC$User : this.foundedUsers) {
-                if (tLRPC$User != null && !tLRPC$User.bot && !UserObject.isService(tLRPC$User.id)) {
+            for (TLRPC.User user : this.foundedUsers) {
+                if (user != null && !user.bot && !UserObject.isService(user.id)) {
                     i2 += AndroidUtilities.dp(56.0f);
-                    this.items.add(SelectorAdapter.Item.asUser(tLRPC$User, this.selectedIds.contains(Long.valueOf(tLRPC$User.id))).withOptions(openOptions(tLRPC$User)));
+                    this.items.add(SelectorAdapter.Item.asUser(user, this.selectedIds.contains(Long.valueOf(user.id))).withOptions(openOptions(user)));
                 }
             }
         } else {
-            TLRPC$UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(UserConfig.getInstance(this.currentAccount).getClientUserId());
+            TLRPC.UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(UserConfig.getInstance(this.currentAccount).getClientUserId());
             if (userFull == null) {
                 MessagesController.getInstance(this.currentAccount).loadFullUser(UserConfig.getInstance(this.currentAccount).getCurrentUser(), 0, true);
             }
@@ -997,16 +1008,16 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
             SelectorAdapter.Item item = null;
             if (!this.hints.isEmpty()) {
                 ArrayList arrayList2 = new ArrayList();
-                for (TLRPC$TL_topPeer tLRPC$TL_topPeer : this.hints) {
-                    TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tLRPC$TL_topPeer.peer.user_id));
-                    if (user != null) {
-                        long j = user.id;
-                        if (j != this.userId && !user.self && !user.bot && !UserObject.isService(j) && !UserObject.isDeleted(user) && ((birthdayState2 = this.birthdays) == null || !birthdayState2.contains(user.id))) {
-                            if (this.selectedIds.contains(Long.valueOf(user.id))) {
-                                arrayList.add(Long.valueOf(user.id));
+                for (TLRPC.TL_topPeer tL_topPeer : this.hints) {
+                    TLRPC.User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tL_topPeer.peer.user_id));
+                    if (user2 != null) {
+                        long j = user2.id;
+                        if (j != this.userId && !user2.self && !user2.bot && !UserObject.isService(j) && !UserObject.isDeleted(user2) && ((birthdayState2 = this.birthdays) == null || !birthdayState2.contains(user2.id))) {
+                            if (this.selectedIds.contains(Long.valueOf(user2.id))) {
+                                arrayList.add(Long.valueOf(user2.id));
                             }
                             i += AndroidUtilities.dp(56.0f);
-                            arrayList2.add(SelectorAdapter.Item.asUser(user, this.selectedIds.contains(Long.valueOf(user.id))).withOptions(openOptions(user)));
+                            arrayList2.add(SelectorAdapter.Item.asUser(user2, this.selectedIds.contains(Long.valueOf(user2.id))).withOptions(openOptions(user2)));
                         }
                     }
                 }
@@ -1019,17 +1030,17 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
             }
             for (String str : this.contactsLetters) {
                 ArrayList arrayList3 = new ArrayList();
-                for (TLRPC$TL_contact tLRPC$TL_contact : (List) this.contactsMap.get(str)) {
+                for (TLRPC.TL_contact tL_contact : (List) this.contactsMap.get(str)) {
                     long clientUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
-                    long j2 = tLRPC$TL_contact.user_id;
+                    long j2 = tL_contact.user_id;
                     if (j2 != clientUserId && j2 != this.userId && ((birthdayState = this.birthdays) == null || !birthdayState.contains(j2))) {
-                        TLRPC$User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tLRPC$TL_contact.user_id));
-                        if (user2 != null && !user2.bot && !UserObject.isService(user2.id)) {
+                        TLRPC.User user3 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tL_contact.user_id));
+                        if (user3 != null && !user3.bot && !UserObject.isService(user3.id)) {
                             i += AndroidUtilities.dp(56.0f);
-                            if (this.selectedIds.contains(Long.valueOf(user2.id))) {
-                                arrayList.add(Long.valueOf(user2.id));
+                            if (this.selectedIds.contains(Long.valueOf(user3.id))) {
+                                arrayList.add(Long.valueOf(user3.id));
                             }
-                            arrayList3.add(SelectorAdapter.Item.asUser(user2, this.selectedIds.contains(Long.valueOf(user2.id))).withOptions(openOptions(user2)));
+                            arrayList3.add(SelectorAdapter.Item.asUser(user3, this.selectedIds.contains(Long.valueOf(user3.id))).withOptions(openOptions(user3)));
                         }
                     }
                 }

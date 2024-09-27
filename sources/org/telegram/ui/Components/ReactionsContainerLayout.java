@@ -60,26 +60,8 @@ import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$ChatFull;
-import org.telegram.tgnet.TLRPC$ChatReactions;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$Message;
-import org.telegram.tgnet.TLRPC$Reaction;
-import org.telegram.tgnet.TLRPC$ReactionCount;
-import org.telegram.tgnet.TLRPC$TL_availableEffect;
-import org.telegram.tgnet.TLRPC$TL_availableReaction;
-import org.telegram.tgnet.TLRPC$TL_chatReactionsAll;
-import org.telegram.tgnet.TLRPC$TL_chatReactionsNone;
-import org.telegram.tgnet.TLRPC$TL_chatReactionsSome;
-import org.telegram.tgnet.TLRPC$TL_messageReactions;
-import org.telegram.tgnet.TLRPC$TL_messages_savedReactionsTags;
-import org.telegram.tgnet.TLRPC$TL_reactionCustomEmoji;
-import org.telegram.tgnet.TLRPC$TL_reactionEmoji;
-import org.telegram.tgnet.TLRPC$TL_reactionPaid;
-import org.telegram.tgnet.TLRPC$TL_savedReactionTag;
-import org.telegram.tgnet.TLRPC$messages_AvailableEffects;
-import org.telegram.tgnet.tl.TL_stories$StoryItem;
+import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LinkSpanDrawable;
@@ -119,6 +101,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     public float bubblesOffset;
     ValueAnimator cancelPressedAnimation;
     private float cancelPressedProgress;
+    public boolean channelReactions;
     ChatScrimPopupContainerLayout chatScrimPopupContainerLayout;
     private boolean clicked;
     private int currentAccount;
@@ -956,32 +939,32 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             } else {
                 ReactionsLayoutInBubble.VisibleReaction visibleReaction2 = this.currentReaction;
                 if (visibleReaction2.isEffect) {
-                    TLRPC$Document effectDocument = MessagesController.getInstance(ReactionsContainerLayout.this.currentAccount).getEffectDocument(this.currentReaction.documentId);
+                    TLRPC.Document effectDocument = MessagesController.getInstance(ReactionsContainerLayout.this.currentAccount).getEffectDocument(this.currentReaction.documentId);
                     this.loopImageView.getImageReceiver().setImage(ImageLocation.getForDocument(effectDocument), "60_60_firstframe", null, null, this.hasEnterAnimation ? null : DocumentObject.getSvgThumb(effectDocument, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f), 0L, "tgs", this.currentReaction, 0);
                 } else if (visibleReaction2.emojicon != null) {
-                    TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(ReactionsContainerLayout.this.currentAccount).getReactionsMap().get(this.currentReaction.emojicon);
-                    if (tLRPC$TL_availableReaction != null) {
-                        SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.activate_animation, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f);
+                    TLRPC.TL_availableReaction tL_availableReaction = MediaDataController.getInstance(ReactionsContainerLayout.this.currentAccount).getReactionsMap().get(this.currentReaction.emojicon);
+                    if (tL_availableReaction != null) {
+                        SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tL_availableReaction.activate_animation, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f);
                         if (LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS) && ReactionsContainerLayout.this.type != 4) {
-                            this.enterImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.appear_animation), "30_30_nolimit", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
+                            this.enterImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tL_availableReaction.appear_animation), "30_30_nolimit", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
                             imageReceiver = this.loopImageView.getImageReceiver();
-                            forDocument = ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation);
+                            forDocument = ImageLocation.getForDocument(tL_availableReaction.select_animation);
                             String str2 = "60_60_pcache";
                         } else if (SharedConfig.getDevicePerformanceClass() <= 0 || ReactionsContainerLayout.this.type == 4) {
                             imageReceiver = this.loopImageView.getImageReceiver();
-                            forDocument = ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation);
+                            forDocument = ImageLocation.getForDocument(tL_availableReaction.select_animation);
                         } else {
-                            this.enterImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.appear_animation), "30_30_nolimit", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
+                            this.enterImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tL_availableReaction.appear_animation), "30_30_nolimit", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
                             imageReceiver = this.loopImageView.getImageReceiver();
-                            forDocument = ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation);
+                            forDocument = ImageLocation.getForDocument(tL_availableReaction.select_animation);
                         }
                         imageReceiver2.setImage(imageLocation, str, null, null, svgDrawable, 0L, "tgs", this.currentReaction, 0);
                         if (this.enterImageView.getImageReceiver().getLottieAnimation() != null) {
                             this.enterImageView.getImageReceiver().getLottieAnimation().setCurrentFrame(0, false, true);
                         }
-                        this.pressedBackupImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_pcache", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
+                        this.pressedBackupImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tL_availableReaction.select_animation), "60_60_pcache", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
                         this.preloadImageReceiver.setAllowStartLottieAnimation(false);
-                        MediaDataController.getInstance(ReactionsContainerLayout.this.currentAccount).preloadImage(this.preloadImageReceiver, ImageLocation.getForDocument(tLRPC$TL_availableReaction.around_animation), ReactionsEffectOverlay.getFilterForAroundAnimation());
+                        MediaDataController.getInstance(ReactionsContainerLayout.this.currentAccount).preloadImage(this.preloadImageReceiver, ImageLocation.getForDocument(tL_availableReaction.around_animation), ReactionsEffectOverlay.getFilterForAroundAnimation());
                     }
                     PremiumLockIconView premiumLockIconView = this.lockIconView;
                     if (premiumLockIconView != null) {
@@ -1692,8 +1675,8 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             canvas.drawCircle(width2, lerp, f3, this.bgPaint);
         }
         canvas.restore();
-        this.shadow.setAlpha(NotificationCenter.didClearDatabase);
-        this.bgPaint.setAlpha(NotificationCenter.didClearDatabase);
+        this.shadow.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
+        this.bgPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
     }
 
     private void fillRecentReactionsList(List list) {
@@ -1714,7 +1697,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                     }
                 }
             }
-            List<TLRPC$TL_availableReaction> enabledReactionsList = MediaDataController.getInstance(this.currentAccount).getEnabledReactionsList();
+            List<TLRPC.TL_availableReaction> enabledReactionsList = MediaDataController.getInstance(this.currentAccount).getEnabledReactionsList();
             while (i2 < enabledReactionsList.size()) {
                 ReactionsLayoutInBubble.VisibleReaction fromEmojicon = ReactionsLayoutInBubble.VisibleReaction.fromEmojicon(enabledReactionsList.get(i2));
                 if (!hashSet.contains(fromEmojicon)) {
@@ -1729,14 +1712,14 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             }
         } else if (!this.allReactionsAvailable || i == 4) {
             if (i != 3) {
-                List<TLRPC$TL_availableReaction> enabledReactionsList2 = MediaDataController.getInstance(this.currentAccount).getEnabledReactionsList();
+                List<TLRPC.TL_availableReaction> enabledReactionsList2 = MediaDataController.getInstance(this.currentAccount).getEnabledReactionsList();
                 while (i2 < enabledReactionsList2.size()) {
                     list.add(ReactionsLayoutInBubble.VisibleReaction.fromEmojicon(enabledReactionsList2.get(i2)));
                     i2++;
                 }
                 return;
             }
-            ArrayList<TLRPC$Reaction> savedReactions = MediaDataController.getInstance(this.currentAccount).getSavedReactions();
+            ArrayList<TLRPC.Reaction> savedReactions = MediaDataController.getInstance(this.currentAccount).getSavedReactions();
             int i4 = 0;
             while (i2 < savedReactions.size()) {
                 ReactionsLayoutInBubble.VisibleReaction fromTL = ReactionsLayoutInBubble.VisibleReaction.fromTL(savedReactions.get(i2));
@@ -1751,10 +1734,10 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 i2++;
             }
         } else if (i == 5) {
-            TLRPC$messages_AvailableEffects availableEffects = MessagesController.getInstance(this.currentAccount).getAvailableEffects();
+            TLRPC.messages_AvailableEffects availableEffects = MessagesController.getInstance(this.currentAccount).getAvailableEffects();
             if (availableEffects != null) {
                 while (i2 < availableEffects.effects.size()) {
-                    ReactionsLayoutInBubble.VisibleReaction fromTL2 = ReactionsLayoutInBubble.VisibleReaction.fromTL((TLRPC$TL_availableEffect) availableEffects.effects.get(i2));
+                    ReactionsLayoutInBubble.VisibleReaction fromTL2 = ReactionsLayoutInBubble.VisibleReaction.fromTL(availableEffects.effects.get(i2));
                     if (!hashSet.contains(fromTL2)) {
                         hashSet.add(fromTL2);
                         list.add(fromTL2);
@@ -1763,12 +1746,12 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 }
             }
         } else {
-            ArrayList<TLRPC$Reaction> savedReactions2 = i == 3 ? MediaDataController.getInstance(this.currentAccount).getSavedReactions() : MediaDataController.getInstance(this.currentAccount).getTopReactions();
+            ArrayList<TLRPC.Reaction> savedReactions2 = i == 3 ? MediaDataController.getInstance(this.currentAccount).getSavedReactions() : MediaDataController.getInstance(this.currentAccount).getTopReactions();
             if (this.type == 3) {
-                TLRPC$TL_messages_savedReactionsTags savedReactionTags = MessagesController.getInstance(this.currentAccount).getSavedReactionTags(0L);
+                TLRPC.TL_messages_savedReactionsTags savedReactionTags = MessagesController.getInstance(this.currentAccount).getSavedReactionTags(0L);
                 if (savedReactionTags != null) {
                     for (int i5 = 0; i5 < savedReactionTags.tags.size(); i5++) {
-                        ReactionsLayoutInBubble.VisibleReaction fromTL3 = ReactionsLayoutInBubble.VisibleReaction.fromTL(((TLRPC$TL_savedReactionTag) savedReactionTags.tags.get(i5)).reaction);
+                        ReactionsLayoutInBubble.VisibleReaction fromTL3 = ReactionsLayoutInBubble.VisibleReaction.fromTL(savedReactionTags.tags.get(i5).reaction);
                         if (!hashSet.contains(fromTL3)) {
                             hashSet.add(fromTL3);
                             list.add(fromTL3);
@@ -1792,7 +1775,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 }
             }
             if (this.type != 3 || UserConfig.getInstance(this.currentAccount).isPremium()) {
-                ArrayList<TLRPC$Reaction> recentReactions = MediaDataController.getInstance(this.currentAccount).getRecentReactions();
+                ArrayList<TLRPC.Reaction> recentReactions = MediaDataController.getInstance(this.currentAccount).getRecentReactions();
                 for (int i8 = 0; i8 < recentReactions.size(); i8++) {
                     ReactionsLayoutInBubble.VisibleReaction fromTL6 = ReactionsLayoutInBubble.VisibleReaction.fromTL(recentReactions.get(i8));
                     if (!hashSet.contains(fromTL6)) {
@@ -1800,7 +1783,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                         list.add(fromTL6);
                     }
                 }
-                List<TLRPC$TL_availableReaction> enabledReactionsList3 = MediaDataController.getInstance(this.currentAccount).getEnabledReactionsList();
+                List<TLRPC.TL_availableReaction> enabledReactionsList3 = MediaDataController.getInstance(this.currentAccount).getEnabledReactionsList();
                 while (i2 < enabledReactionsList3.size()) {
                     ReactionsLayoutInBubble.VisibleReaction fromEmojicon2 = ReactionsLayoutInBubble.VisibleReaction.fromEmojicon(enabledReactionsList3.get(i2));
                     if (!hashSet.contains(fromEmojicon2)) {
@@ -1828,7 +1811,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     }
 
     public static HashSet getInclusiveReactions(ArrayList arrayList) {
-        TLRPC$TL_messageReactions tLRPC$TL_messageReactions;
+        TLRPC.TL_messageReactions tL_messageReactions;
         LongSparseArray longSparseArray = new LongSparseArray();
         HashSet hashSet = new HashSet();
         int i = 0;
@@ -1836,10 +1819,10 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         while (i < arrayList.size()) {
             MessageObject messageObject = (MessageObject) arrayList.get(i);
             hashSet.clear();
-            if (messageObject != null && (tLRPC$TL_messageReactions = messageObject.messageOwner.reactions) != null && tLRPC$TL_messageReactions.results != null) {
+            if (messageObject != null && (tL_messageReactions = messageObject.messageOwner.reactions) != null && tL_messageReactions.results != null) {
                 for (int i2 = 0; i2 < messageObject.messageOwner.reactions.results.size(); i2++) {
-                    if (((TLRPC$ReactionCount) messageObject.messageOwner.reactions.results.get(i2)).chosen) {
-                        ReactionsLayoutInBubble.VisibleReaction fromTL = ReactionsLayoutInBubble.VisibleReaction.fromTL(((TLRPC$ReactionCount) messageObject.messageOwner.reactions.results.get(i2)).reaction);
+                    if (messageObject.messageOwner.reactions.results.get(i2).chosen) {
+                        ReactionsLayoutInBubble.VisibleReaction fromTL = ReactionsLayoutInBubble.VisibleReaction.fromTL(messageObject.messageOwner.reactions.results.get(i2).reaction);
                         if (z || longSparseArray.indexOfKey(fromTL.hash) >= 0) {
                             hashSet.add(Long.valueOf(fromTL.hash));
                             longSparseArray.put(fromTL.hash, fromTL);
@@ -2062,8 +2045,8 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 return;
             }
         }
-        TLRPC$ChatFull tLRPC$ChatFull = (TLRPC$ChatFull) objArr[0];
-        if (tLRPC$ChatFull.id != this.waitingLoadingChatId || getVisibility() == 0 || (tLRPC$ChatFull.available_reactions instanceof TLRPC$TL_chatReactionsNone)) {
+        TLRPC.ChatFull chatFull = (TLRPC.ChatFull) objArr[0];
+        if (chatFull.id != this.waitingLoadingChatId || getVisibility() == 0 || (chatFull.available_reactions instanceof TLRPC.TL_chatReactionsNone)) {
             return;
         }
         setMessage(this.messageObject, null, true);
@@ -2214,7 +2197,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                         f7 = width2;
                         f6 = f12;
                         i = 5;
-                        this.delegate.drawRoundRect(canvas, this.rect, this.radius, getX(), getY(), NotificationCenter.didClearDatabase, false);
+                        this.delegate.drawRoundRect(canvas, this.rect, this.radius, getX(), getY(), NotificationCenter.messagePlayingSpeedChanged, false);
                     } else {
                         RectF rectF = this.rect;
                         float f14 = this.radius;
@@ -2362,7 +2345,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                     }
                 }
                 canvas.restoreToCount(save3);
-                drawBubbles(canvas, f, max2, f2, NotificationCenter.didClearDatabase);
+                drawBubbles(canvas, f, max2, f2, NotificationCenter.messagePlayingSpeedChanged);
                 invalidate();
             }
         }
@@ -2446,7 +2429,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         if (!showCustomEmojiReaction) {
         }
         canvas.restoreToCount(save32);
-        drawBubbles(canvas, f, max2, f2, NotificationCenter.didClearDatabase);
+        drawBubbles(canvas, f, max2, f2, NotificationCenter.messagePlayingSpeedChanged);
         invalidate();
     }
 
@@ -2460,7 +2443,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
 
     public void drawBubbles(Canvas canvas) {
         float max = (Math.max(0.25f, Math.min(this.transitionProgress, 1.0f)) - 0.25f) / 0.75f;
-        drawBubbles(canvas, this.bigCircleRadius * max, max, this.smallCircleRadius * max, this.type == 5 ? NotificationCenter.didClearDatabase : (int) (Utilities.clamp(this.customEmojiReactionsEnterProgress / 0.2f, 1.0f, 0.0f) * (1.0f - this.customEmojiReactionsEnterProgress) * 255.0f));
+        drawBubbles(canvas, this.bigCircleRadius * max, max, this.smallCircleRadius * max, this.type == 5 ? NotificationCenter.messagePlayingSpeedChanged : (int) (Utilities.clamp(this.customEmojiReactionsEnterProgress / 0.2f, 1.0f, 0.0f) * (1.0f - this.customEmojiReactionsEnterProgress) * 255.0f));
     }
 
     public float expandSize() {
@@ -2488,7 +2471,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     }
 
     public String getSelectedEmoji() {
-        TLRPC$Document findDocument;
+        TLRPC.Document findDocument;
         if (this.selectedReactions.isEmpty()) {
             return "";
         }
@@ -2770,31 +2753,32 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         ((FrameLayout.LayoutParams) this.recyclerListView.getLayoutParams()).topMargin = AndroidUtilities.dp(20.0f);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:200:0x0133  */
-    /* JADX WARN: Removed duplicated region for block: B:230:0x01a5  */
+    /* JADX WARN: Removed duplicated region for block: B:216:0x015b  */
+    /* JADX WARN: Removed duplicated region for block: B:246:0x01cd  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void setMessage(MessageObject messageObject, TLRPC$ChatFull tLRPC$ChatFull, boolean z) {
+    public void setMessage(MessageObject messageObject, TLRPC.ChatFull chatFull, boolean z) {
         int i;
-        TLRPC$TL_messageReactions tLRPC$TL_messageReactions;
-        TLRPC$Message tLRPC$Message;
-        TLRPC$TL_messageReactions tLRPC$TL_messageReactions2;
+        TLRPC.TL_messageReactions tL_messageReactions;
+        TLRPC.Message message;
+        TLRPC.TL_messageReactions tL_messageReactions2;
         this.messageObject = messageObject;
-        if (messageObject == null || (tLRPC$Message = messageObject.messageOwner) == null || (tLRPC$TL_messageReactions2 = tLRPC$Message.reactions) == null) {
+        if (messageObject == null || (message = messageObject.messageOwner) == null || (tL_messageReactions2 = message.reactions) == null) {
             i = 0;
         } else {
-            Iterator it = tLRPC$TL_messageReactions2.results.iterator();
+            Iterator<TLRPC.ReactionCount> it = tL_messageReactions2.results.iterator();
             i = 0;
             while (it.hasNext()) {
-                if (!(((TLRPC$ReactionCount) it.next()).reaction instanceof TLRPC$TL_reactionPaid)) {
+                if (!(it.next().reaction instanceof TLRPC.TL_reactionPaid)) {
                     i++;
                 }
             }
         }
         this.hitLimit = this.type == 0 && this.messageObject != null && i >= MessagesController.getInstance(this.currentAccount).getChatMaxUniqReactions(this.messageObject.getDialogId());
+        this.channelReactions = this.type == 0 && this.messageObject != null && ChatObject.isChannelAndNotMegaGroup(MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-this.messageObject.getDialogId())));
         ArrayList arrayList = new ArrayList();
-        if (messageObject != null && messageObject.isForwardedChannelPost() && (tLRPC$ChatFull = MessagesController.getInstance(this.currentAccount).getChatFull(-messageObject.getFromChatId())) == null) {
+        if (messageObject != null && messageObject.isForwardedChannelPost() && (chatFull = MessagesController.getInstance(this.currentAccount).getChatFull(-messageObject.getFromChatId())) == null) {
             this.waitingLoadingChatId = -messageObject.getFromChatId();
             MessagesController.getInstance(this.currentAccount).loadFullChat(-messageObject.getFromChatId(), 0, true);
             setVisibility(4);
@@ -2808,32 +2792,32 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             if (i2 != 5) {
                 if (this.hitLimit) {
                     this.allReactionsAvailable = false;
-                    if (tLRPC$ChatFull != null && tLRPC$ChatFull.paid_reactions_available) {
+                    if (chatFull != null && chatFull.paid_reactions_available) {
                         this.hasStar = true;
                         arrayList.add(ReactionsLayoutInBubble.VisibleReaction.asStar());
                     }
-                    Iterator it2 = this.messageObject.messageOwner.reactions.results.iterator();
+                    Iterator<TLRPC.ReactionCount> it2 = this.messageObject.messageOwner.reactions.results.iterator();
                     while (it2.hasNext()) {
-                        arrayList.add(ReactionsLayoutInBubble.VisibleReaction.fromTL(((TLRPC$ReactionCount) it2.next()).reaction));
+                        arrayList.add(ReactionsLayoutInBubble.VisibleReaction.fromTL(it2.next().reaction));
                     }
-                } else if (tLRPC$ChatFull != null) {
-                    if (tLRPC$ChatFull.paid_reactions_available) {
+                } else if (chatFull != null) {
+                    if (chatFull.paid_reactions_available) {
                         this.hasStar = true;
                         arrayList.add(ReactionsLayoutInBubble.VisibleReaction.asStar());
                     }
-                    TLRPC$ChatReactions tLRPC$ChatReactions = tLRPC$ChatFull.available_reactions;
-                    if (tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsAll) {
-                        TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(tLRPC$ChatFull.id));
+                    TLRPC.ChatReactions chatReactions = chatFull.available_reactions;
+                    if (chatReactions instanceof TLRPC.TL_chatReactionsAll) {
+                        TLRPC.Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(chatFull.id));
                         if (chat == null || ChatObject.isChannelAndNotMegaGroup(chat)) {
                             this.allReactionsAvailable = false;
                         }
-                    } else if (tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsSome) {
-                        Iterator it3 = ((TLRPC$TL_chatReactionsSome) tLRPC$ChatReactions).reactions.iterator();
+                    } else if (chatReactions instanceof TLRPC.TL_chatReactionsSome) {
+                        Iterator<TLRPC.Reaction> it3 = ((TLRPC.TL_chatReactionsSome) chatReactions).reactions.iterator();
                         while (it3.hasNext()) {
-                            TLRPC$Reaction tLRPC$Reaction = (TLRPC$Reaction) it3.next();
-                            for (TLRPC$TL_availableReaction tLRPC$TL_availableReaction : MediaDataController.getInstance(this.currentAccount).getEnabledReactionsList()) {
-                                if (((tLRPC$Reaction instanceof TLRPC$TL_reactionEmoji) && tLRPC$TL_availableReaction.reaction.equals(((TLRPC$TL_reactionEmoji) tLRPC$Reaction).emoticon)) || (tLRPC$Reaction instanceof TLRPC$TL_reactionCustomEmoji)) {
-                                    arrayList.add(ReactionsLayoutInBubble.VisibleReaction.fromTL(tLRPC$Reaction));
+                            TLRPC.Reaction next = it3.next();
+                            for (TLRPC.TL_availableReaction tL_availableReaction : MediaDataController.getInstance(this.currentAccount).getEnabledReactionsList()) {
+                                if (((next instanceof TLRPC.TL_reactionEmoji) && tL_availableReaction.reaction.equals(((TLRPC.TL_reactionEmoji) next).emoticon)) || (next instanceof TLRPC.TL_reactionCustomEmoji)) {
+                                    arrayList.add(ReactionsLayoutInBubble.VisibleReaction.fromTL(next));
                                     break;
                                 }
                                 while (r6.hasNext()) {
@@ -2851,12 +2835,12 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                     this.showExpandableReactions = true;
                 }
                 setVisibleReactionsList(arrayList, z);
-                if (messageObject != null || (tLRPC$TL_messageReactions = messageObject.messageOwner.reactions) == null || tLRPC$TL_messageReactions.results == null) {
+                if (messageObject != null || (tL_messageReactions = messageObject.messageOwner.reactions) == null || tL_messageReactions.results == null) {
                     return;
                 }
                 for (int i3 = 0; i3 < messageObject.messageOwner.reactions.results.size(); i3++) {
-                    if (((TLRPC$ReactionCount) messageObject.messageOwner.reactions.results.get(i3)).chosen) {
-                        this.selectedReactions.add(ReactionsLayoutInBubble.VisibleReaction.fromTL(((TLRPC$ReactionCount) messageObject.messageOwner.reactions.results.get(i3)).reaction));
+                    if (messageObject.messageOwner.reactions.results.get(i3).chosen) {
+                        this.selectedReactions.add(ReactionsLayoutInBubble.VisibleReaction.fromTL(messageObject.messageOwner.reactions.results.get(i3).reaction));
                     }
                 }
                 return;
@@ -2944,14 +2928,14 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     }
 
     public void setSelectedReactions(ArrayList<MessageObject> arrayList) {
-        TLRPC$TL_messageReactions tLRPC$TL_messageReactions;
+        TLRPC.TL_messageReactions tL_messageReactions;
         this.selectedReactions.clear();
         for (int i = 0; i < arrayList.size(); i++) {
             MessageObject messageObject = arrayList.get(i);
-            if (messageObject != null && (tLRPC$TL_messageReactions = messageObject.messageOwner.reactions) != null && tLRPC$TL_messageReactions.results != null) {
+            if (messageObject != null && (tL_messageReactions = messageObject.messageOwner.reactions) != null && tL_messageReactions.results != null) {
                 for (int i2 = 0; i2 < messageObject.messageOwner.reactions.results.size(); i2++) {
-                    if (((TLRPC$ReactionCount) messageObject.messageOwner.reactions.results.get(i2)).chosen) {
-                        this.selectedReactions.add(ReactionsLayoutInBubble.VisibleReaction.fromTL(((TLRPC$ReactionCount) messageObject.messageOwner.reactions.results.get(i2)).reaction));
+                    if (messageObject.messageOwner.reactions.results.get(i2).chosen) {
+                        this.selectedReactions.add(ReactionsLayoutInBubble.VisibleReaction.fromTL(messageObject.messageOwner.reactions.results.get(i2).reaction));
                     }
                 }
             }
@@ -2987,11 +2971,11 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         }
     }
 
-    public void setStoryItem(TL_stories$StoryItem tL_stories$StoryItem) {
-        TLRPC$Reaction tLRPC$Reaction;
+    public void setStoryItem(TL_stories.StoryItem storyItem) {
+        TLRPC.Reaction reaction;
         this.selectedReactions.clear();
-        if (tL_stories$StoryItem != null && (tLRPC$Reaction = tL_stories$StoryItem.sent_reaction) != null) {
-            this.selectedReactions.add(ReactionsLayoutInBubble.VisibleReaction.fromTL(tLRPC$Reaction));
+        if (storyItem != null && (reaction = storyItem.sent_reaction) != null) {
+            this.selectedReactions.add(ReactionsLayoutInBubble.VisibleReaction.fromTL(reaction));
         }
         this.listAdapter.notifyDataSetChanged();
     }

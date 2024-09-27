@@ -40,17 +40,8 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_payments_checkedGiftCode;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.tl.TL_stories$Boost;
-import org.telegram.tgnet.tl.TL_stories$PrepaidGiveaway;
-import org.telegram.tgnet.tl.TL_stories$TL_premium_boostsList;
-import org.telegram.tgnet.tl.TL_stories$TL_premium_boostsStatus;
-import org.telegram.tgnet.tl.TL_stories$TL_premium_getBoostsList;
-import org.telegram.tgnet.tl.TL_stories$TL_prepaidGiveaway;
-import org.telegram.tgnet.tl.TL_stories$TL_prepaidStarsGiveaway;
+import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.BoostsActivity;
@@ -80,10 +71,10 @@ import org.telegram.ui.Stars.StarsIntroActivity;
 import org.telegram.ui.StatisticActivity;
 /* loaded from: classes4.dex */
 public class BoostsActivity extends GradientHeaderActivity implements NotificationCenter.NotificationCenterDelegate {
-    private TL_stories$TL_premium_boostsStatus boostsStatus;
+    private TL_stories.TL_premium_boostsStatus boostsStatus;
     private ScrollSlidingTextTabStrip boostsTabs;
     private ChannelBoostsController.CanApplyBoost canApplyBoost;
-    private final TLRPC$Chat currentChat;
+    private final TLRPC.Chat currentChat;
     private final long dialogId;
     private boolean hasBoostsNext;
     private boolean hasGiftsNext;
@@ -148,11 +139,11 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
                 overviewCell.setPadding(AndroidUtilities.dp(23.0f), overviewCell.getPaddingTop(), AndroidUtilities.dp(23.0f), overviewCell.getPaddingBottom());
             } else {
                 if (viewHolder.getItemViewType() == 5) {
-                    TL_stories$Boost tL_stories$Boost = ((ItemInternal) BoostsActivity.this.items.get(i)).booster;
-                    TLRPC$User user = MessagesController.getInstance(BoostsActivity.this.currentAccount).getUser(Long.valueOf(tL_stories$Boost.user_id));
+                    TL_stories.Boost boost = ((ItemInternal) BoostsActivity.this.items.get(i)).booster;
+                    TLRPC.User user = MessagesController.getInstance(BoostsActivity.this.currentAccount).getUser(Long.valueOf(boost.user_id));
                     GiftedUserCell giftedUserCell = (GiftedUserCell) viewHolder.itemView;
-                    giftedUserCell.setData(user, ContactsController.formatName(user), tL_stories$Boost.multiplier > 1 ? LocaleController.formatString("BoostsExpireOn", R.string.BoostsExpireOn, LocaleController.formatDate(tL_stories$Boost.expires)) : LocaleController.formatString("BoostExpireOn", R.string.BoostExpireOn, LocaleController.formatDate(tL_stories$Boost.expires)), 0, !((ItemInternal) BoostsActivity.this.items.get(i)).isLast);
-                    giftedUserCell.setStatus(tL_stories$Boost);
+                    giftedUserCell.setData(user, ContactsController.formatName(user), boost.multiplier > 1 ? LocaleController.formatString("BoostsExpireOn", R.string.BoostsExpireOn, LocaleController.formatDate(boost.expires)) : LocaleController.formatString("BoostExpireOn", R.string.BoostExpireOn, LocaleController.formatDate(boost.expires)), 0, !((ItemInternal) BoostsActivity.this.items.get(i)).isLast);
+                    giftedUserCell.setStatus(boost);
                     giveawayCell = giftedUserCell;
                 } else if (viewHolder.getItemViewType() == 6) {
                     TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
@@ -185,28 +176,28 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
                     return;
                 } else {
                     ItemInternal itemInternal = (ItemInternal) BoostsActivity.this.items.get(i);
-                    TL_stories$PrepaidGiveaway tL_stories$PrepaidGiveaway = itemInternal.prepaidGiveaway;
+                    TL_stories.PrepaidGiveaway prepaidGiveaway = itemInternal.prepaidGiveaway;
                     GiveawayCell giveawayCell2 = (GiveawayCell) viewHolder.itemView;
-                    if (tL_stories$PrepaidGiveaway instanceof TL_stories$TL_prepaidGiveaway) {
-                        String formatPluralString = LocaleController.formatPluralString("BoostingTelegramPremiumCountPlural", tL_stories$PrepaidGiveaway.quantity, new Object[0]);
-                        String formatPluralString2 = LocaleController.formatPluralString("BoostingSubscriptionsCountPlural", tL_stories$PrepaidGiveaway.quantity, LocaleController.formatPluralString("PrepaidGiveawayMonths", ((TL_stories$TL_prepaidGiveaway) tL_stories$PrepaidGiveaway).months, new Object[0]));
+                    if (prepaidGiveaway instanceof TL_stories.TL_prepaidGiveaway) {
+                        String formatPluralString = LocaleController.formatPluralString("BoostingTelegramPremiumCountPlural", prepaidGiveaway.quantity, new Object[0]);
+                        String formatPluralString2 = LocaleController.formatPluralString("BoostingSubscriptionsCountPlural", prepaidGiveaway.quantity, LocaleController.formatPluralString("PrepaidGiveawayMonths", ((TL_stories.TL_prepaidGiveaway) prepaidGiveaway).months, new Object[0]));
                         z = itemInternal.isLast;
                         str = formatPluralString2;
                         str2 = formatPluralString;
                     } else {
-                        if (tL_stories$PrepaidGiveaway instanceof TL_stories$TL_prepaidStarsGiveaway) {
-                            TL_stories$TL_prepaidStarsGiveaway tL_stories$TL_prepaidStarsGiveaway = (TL_stories$TL_prepaidStarsGiveaway) tL_stories$PrepaidGiveaway;
-                            String formatPluralStringComma = LocaleController.formatPluralStringComma("BoostingStarsCountPlural", (int) tL_stories$TL_prepaidStarsGiveaway.stars);
-                            String formatPluralString3 = LocaleController.formatPluralString("AmongWinners", tL_stories$TL_prepaidStarsGiveaway.quantity, new Object[0]);
+                        if (prepaidGiveaway instanceof TL_stories.TL_prepaidStarsGiveaway) {
+                            TL_stories.TL_prepaidStarsGiveaway tL_prepaidStarsGiveaway = (TL_stories.TL_prepaidStarsGiveaway) prepaidGiveaway;
+                            String formatPluralStringComma = LocaleController.formatPluralStringComma("BoostingStarsCountPlural", (int) tL_prepaidStarsGiveaway.stars);
+                            String formatPluralString3 = LocaleController.formatPluralString("AmongWinners", tL_prepaidStarsGiveaway.quantity, new Object[0]);
                             z = itemInternal.isLast;
                             str = formatPluralString3;
                             str2 = formatPluralStringComma;
                         }
-                        giveawayCell2.setImage(tL_stories$PrepaidGiveaway);
+                        giveawayCell2.setImage(prepaidGiveaway);
                         giveawayCell = giveawayCell2;
                     }
-                    giveawayCell2.setData(tL_stories$PrepaidGiveaway, str2, str, 0, !z);
-                    giveawayCell2.setImage(tL_stories$PrepaidGiveaway);
+                    giveawayCell2.setData(prepaidGiveaway, str2, str, 0, !z);
+                    giveawayCell2.setImage(prepaidGiveaway);
                     giveawayCell = giveawayCell2;
                 }
                 giveawayCell.setAvatarPadding(5);
@@ -481,9 +472,9 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes4.dex */
     public class ItemInternal extends AdapterWithDiffUtils.Item {
-        TL_stories$Boost booster;
+        TL_stories.Boost booster;
         boolean isLast;
-        TL_stories$PrepaidGiveaway prepaidGiveaway;
+        TL_stories.PrepaidGiveaway prepaidGiveaway;
         int tab;
         String title;
 
@@ -492,16 +483,16 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
             this.title = str;
         }
 
-        public ItemInternal(int i, TL_stories$Boost tL_stories$Boost, boolean z, int i2) {
+        public ItemInternal(int i, TL_stories.Boost boost, boolean z, int i2) {
             super(i, true);
-            this.booster = tL_stories$Boost;
+            this.booster = boost;
             this.isLast = z;
             this.tab = i2;
         }
 
-        public ItemInternal(int i, TL_stories$PrepaidGiveaway tL_stories$PrepaidGiveaway, boolean z) {
+        public ItemInternal(int i, TL_stories.PrepaidGiveaway prepaidGiveaway, boolean z) {
             super(i, true);
-            this.prepaidGiveaway = tL_stories$PrepaidGiveaway;
+            this.prepaidGiveaway = prepaidGiveaway;
             this.isLast = z;
         }
 
@@ -510,7 +501,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
         }
 
         public boolean equals(Object obj) {
-            TL_stories$PrepaidGiveaway tL_stories$PrepaidGiveaway;
+            TL_stories.PrepaidGiveaway prepaidGiveaway;
             if (this == obj) {
                 return true;
             }
@@ -518,15 +509,15 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
                 return false;
             }
             ItemInternal itemInternal = (ItemInternal) obj;
-            TL_stories$PrepaidGiveaway tL_stories$PrepaidGiveaway2 = this.prepaidGiveaway;
-            if (tL_stories$PrepaidGiveaway2 != null && (tL_stories$PrepaidGiveaway = itemInternal.prepaidGiveaway) != null) {
-                return tL_stories$PrepaidGiveaway2.id == tL_stories$PrepaidGiveaway.id && this.isLast == itemInternal.isLast;
+            TL_stories.PrepaidGiveaway prepaidGiveaway2 = this.prepaidGiveaway;
+            if (prepaidGiveaway2 != null && (prepaidGiveaway = itemInternal.prepaidGiveaway) != null) {
+                return prepaidGiveaway2.id == prepaidGiveaway.id && this.isLast == itemInternal.isLast;
             }
-            TL_stories$Boost tL_stories$Boost = this.booster;
-            if (tL_stories$Boost == null || itemInternal.booster == null) {
+            TL_stories.Boost boost = this.booster;
+            if (boost == null || itemInternal.booster == null) {
                 return true;
             }
-            return tL_stories$Boost.id.hashCode() == itemInternal.booster.id.hashCode() && this.isLast == itemInternal.isLast && this.tab == itemInternal.tab;
+            return boost.id.hashCode() == itemInternal.booster.id.hashCode() && this.isLast == itemInternal.isLast && this.tab == itemInternal.tab;
         }
 
         public int hashCode() {
@@ -548,26 +539,26 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
     public /* synthetic */ void lambda$createView$12(Context context, View view, int i) {
         if (view instanceof GiftedUserCell) {
             GiftedUserCell giftedUserCell = (GiftedUserCell) view;
-            TL_stories$Boost boost = giftedUserCell.getBoost();
+            TL_stories.Boost boost = giftedUserCell.getBoost();
             boolean z = boost.giveaway;
             if (!z || boost.stars <= 0) {
                 boolean z2 = boost.gift;
                 if (((z2 || z) && boost.user_id >= 0) || boost.unclaimed) {
-                    TLRPC$TL_payments_checkedGiftCode tLRPC$TL_payments_checkedGiftCode = new TLRPC$TL_payments_checkedGiftCode();
-                    tLRPC$TL_payments_checkedGiftCode.giveaway_msg_id = boost.giveaway_msg_id;
-                    tLRPC$TL_payments_checkedGiftCode.to_id = boost.user_id;
-                    tLRPC$TL_payments_checkedGiftCode.from_id = MessagesController.getInstance(UserConfig.selectedAccount).getPeer(-this.currentChat.id);
+                    TLRPC.TL_payments_checkedGiftCode tL_payments_checkedGiftCode = new TLRPC.TL_payments_checkedGiftCode();
+                    tL_payments_checkedGiftCode.giveaway_msg_id = boost.giveaway_msg_id;
+                    tL_payments_checkedGiftCode.to_id = boost.user_id;
+                    tL_payments_checkedGiftCode.from_id = MessagesController.getInstance(UserConfig.selectedAccount).getPeer(-this.currentChat.id);
                     int i2 = boost.date;
-                    tLRPC$TL_payments_checkedGiftCode.date = i2;
-                    tLRPC$TL_payments_checkedGiftCode.via_giveaway = boost.giveaway;
-                    tLRPC$TL_payments_checkedGiftCode.months = ((boost.expires - i2) / 30) / 86400;
+                    tL_payments_checkedGiftCode.date = i2;
+                    tL_payments_checkedGiftCode.via_giveaway = boost.giveaway;
+                    tL_payments_checkedGiftCode.months = ((boost.expires - i2) / 30) / 86400;
                     if (boost.unclaimed) {
-                        tLRPC$TL_payments_checkedGiftCode.to_id = -1L;
-                        tLRPC$TL_payments_checkedGiftCode.flags = -1;
+                        tL_payments_checkedGiftCode.to_id = -1L;
+                        tL_payments_checkedGiftCode.flags = -1;
                     } else {
-                        tLRPC$TL_payments_checkedGiftCode.boost = boost;
+                        tL_payments_checkedGiftCode.boost = boost;
                     }
-                    new GiftInfoBottomSheet(this, false, true, tLRPC$TL_payments_checkedGiftCode, boost.used_gift_slug).show();
+                    new GiftInfoBottomSheet(this, false, true, tL_payments_checkedGiftCode, boost.used_gift_slug).show();
                 } else if (z && boost.user_id == -1) {
                     Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getParentActivity(), getResourceProvider());
                     lottieLayout.setAnimation(R.raw.chats_infotip, 36, 36, new String[0]);
@@ -605,11 +596,11 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
         }
         if (tLObject != null) {
             this.limitBoosts = 20;
-            TL_stories$TL_premium_boostsList tL_stories$TL_premium_boostsList = (TL_stories$TL_premium_boostsList) tLObject;
+            TL_stories.TL_premium_boostsList tL_premium_boostsList = (TL_stories.TL_premium_boostsList) tLObject;
             boolean z = false;
-            MessagesController.getInstance(this.currentAccount).putUsers(tL_stories$TL_premium_boostsList.users, false);
-            this.lastBoostsOffset = tL_stories$TL_premium_boostsList.next_offset;
-            this.boosters.addAll(tL_stories$TL_premium_boostsList.boosts);
+            MessagesController.getInstance(this.currentAccount).putUsers(tL_premium_boostsList.users, false);
+            this.lastBoostsOffset = tL_premium_boostsList.next_offset;
+            this.boosters.addAll(tL_premium_boostsList.boosts);
             Iterator it = this.boosters.iterator();
             int i = 0;
             while (true) {
@@ -617,18 +608,18 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
                 if (!it.hasNext()) {
                     break;
                 }
-                int i3 = ((TL_stories$Boost) it.next()).multiplier;
+                int i3 = ((TL_stories.Boost) it.next()).multiplier;
                 if (i3 > 0) {
                     i2 = i3;
                 }
                 i += i2;
             }
-            this.nextBoostRemaining = Math.max(0, tL_stories$TL_premium_boostsList.count - i);
-            if (!TextUtils.isEmpty(tL_stories$TL_premium_boostsList.next_offset) && this.nextBoostRemaining > 0) {
+            this.nextBoostRemaining = Math.max(0, tL_premium_boostsList.count - i);
+            if (!TextUtils.isEmpty(tL_premium_boostsList.next_offset) && this.nextBoostRemaining > 0) {
                 z = true;
             }
             this.hasBoostsNext = z;
-            this.totalBoosts = tL_stories$TL_premium_boostsList.count;
+            this.totalBoosts = tL_premium_boostsList.count;
             if (runnable != null) {
                 runnable.run();
             }
@@ -636,7 +627,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadOnlyBoosts$9(final CountDownLatch countDownLatch, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$loadOnlyBoosts$9(final CountDownLatch countDownLatch, final Runnable runnable, final TLObject tLObject, TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.BoostsActivity$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
@@ -652,11 +643,11 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
         }
         if (tLObject != null) {
             this.limitGifts = 20;
-            TL_stories$TL_premium_boostsList tL_stories$TL_premium_boostsList = (TL_stories$TL_premium_boostsList) tLObject;
+            TL_stories.TL_premium_boostsList tL_premium_boostsList = (TL_stories.TL_premium_boostsList) tLObject;
             boolean z = false;
-            MessagesController.getInstance(this.currentAccount).putUsers(tL_stories$TL_premium_boostsList.users, false);
-            this.lastGiftsOffset = tL_stories$TL_premium_boostsList.next_offset;
-            this.gifts.addAll(tL_stories$TL_premium_boostsList.boosts);
+            MessagesController.getInstance(this.currentAccount).putUsers(tL_premium_boostsList.users, false);
+            this.lastGiftsOffset = tL_premium_boostsList.next_offset;
+            this.gifts.addAll(tL_premium_boostsList.boosts);
             Iterator it = this.gifts.iterator();
             int i = 0;
             while (true) {
@@ -664,18 +655,18 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
                 if (!it.hasNext()) {
                     break;
                 }
-                int i3 = ((TL_stories$Boost) it.next()).multiplier;
+                int i3 = ((TL_stories.Boost) it.next()).multiplier;
                 if (i3 > 0) {
                     i2 = i3;
                 }
                 i += i2;
             }
-            this.nextGiftsRemaining = Math.max(0, tL_stories$TL_premium_boostsList.count - i);
-            if (!TextUtils.isEmpty(tL_stories$TL_premium_boostsList.next_offset) && this.nextGiftsRemaining > 0) {
+            this.nextGiftsRemaining = Math.max(0, tL_premium_boostsList.count - i);
+            if (!TextUtils.isEmpty(tL_premium_boostsList.next_offset) && this.nextGiftsRemaining > 0) {
                 z = true;
             }
             this.hasGiftsNext = z;
-            this.totalGifts = tL_stories$TL_premium_boostsList.count;
+            this.totalGifts = tL_premium_boostsList.count;
             if (runnable != null) {
                 runnable.run();
             }
@@ -683,7 +674,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadOnlyGifts$11(final CountDownLatch countDownLatch, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$loadOnlyGifts$11(final CountDownLatch countDownLatch, final Runnable runnable, final TLObject tLObject, TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.BoostsActivity$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
@@ -693,8 +684,8 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadStatistic$0(TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus) {
-        this.boostsStatus = tL_stories$TL_premium_boostsStatus;
+    public /* synthetic */ void lambda$loadStatistic$0(TL_stories.TL_premium_boostsStatus tL_premium_boostsStatus) {
+        this.boostsStatus = tL_premium_boostsStatus;
         loadCanApplyBoosts();
         this.progressLayout.animate().cancel();
         this.progressLayout.animate().alpha(0.0f).setDuration(100L).setStartDelay(0L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.BoostsActivity.2
@@ -709,11 +700,11 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadStatistic$1(final TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus) {
+    public /* synthetic */ void lambda$loadStatistic$1(final TL_stories.TL_premium_boostsStatus tL_premium_boostsStatus) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.BoostsActivity$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
-                BoostsActivity.this.lambda$loadStatistic$0(tL_stories$TL_premium_boostsStatus);
+                BoostsActivity.this.lambda$loadStatistic$0(tL_premium_boostsStatus);
             }
         });
     }
@@ -776,28 +767,28 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
     }
 
     private void loadOnlyBoosts(final CountDownLatch countDownLatch, final Runnable runnable) {
-        TL_stories$TL_premium_getBoostsList tL_stories$TL_premium_getBoostsList = new TL_stories$TL_premium_getBoostsList();
-        tL_stories$TL_premium_getBoostsList.limit = this.limitBoosts;
-        tL_stories$TL_premium_getBoostsList.offset = this.lastBoostsOffset;
-        tL_stories$TL_premium_getBoostsList.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_premium_getBoostsList, new RequestDelegate() { // from class: org.telegram.ui.BoostsActivity$$ExternalSyntheticLambda10
+        TL_stories.TL_premium_getBoostsList tL_premium_getBoostsList = new TL_stories.TL_premium_getBoostsList();
+        tL_premium_getBoostsList.limit = this.limitBoosts;
+        tL_premium_getBoostsList.offset = this.lastBoostsOffset;
+        tL_premium_getBoostsList.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_premium_getBoostsList, new RequestDelegate() { // from class: org.telegram.ui.BoostsActivity$$ExternalSyntheticLambda10
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                BoostsActivity.this.lambda$loadOnlyBoosts$9(countDownLatch, runnable, tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                BoostsActivity.this.lambda$loadOnlyBoosts$9(countDownLatch, runnable, tLObject, tL_error);
             }
         }, 2);
     }
 
     private void loadOnlyGifts(final CountDownLatch countDownLatch, final Runnable runnable) {
-        TL_stories$TL_premium_getBoostsList tL_stories$TL_premium_getBoostsList = new TL_stories$TL_premium_getBoostsList();
-        tL_stories$TL_premium_getBoostsList.limit = this.limitGifts;
-        tL_stories$TL_premium_getBoostsList.gifts = true;
-        tL_stories$TL_premium_getBoostsList.offset = this.lastGiftsOffset;
-        tL_stories$TL_premium_getBoostsList.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_premium_getBoostsList, new RequestDelegate() { // from class: org.telegram.ui.BoostsActivity$$ExternalSyntheticLambda7
+        TL_stories.TL_premium_getBoostsList tL_premium_getBoostsList = new TL_stories.TL_premium_getBoostsList();
+        tL_premium_getBoostsList.limit = this.limitGifts;
+        tL_premium_getBoostsList.gifts = true;
+        tL_premium_getBoostsList.offset = this.lastGiftsOffset;
+        tL_premium_getBoostsList.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_premium_getBoostsList, new RequestDelegate() { // from class: org.telegram.ui.BoostsActivity$$ExternalSyntheticLambda7
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                BoostsActivity.this.lambda$loadOnlyGifts$11(countDownLatch, runnable, tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                BoostsActivity.this.lambda$loadOnlyGifts$11(countDownLatch, runnable, tLObject, tL_error);
             }
         }, 2);
     }
@@ -809,7 +800,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
             getMessagesController().getBoostsController().getBoostsStats(this.dialogId, new Consumer() { // from class: org.telegram.ui.BoostsActivity$$ExternalSyntheticLambda1
                 @Override // com.google.android.exoplayer2.util.Consumer
                 public final void accept(Object obj) {
-                    BoostsActivity.this.lambda$loadStatistic$1((TL_stories$TL_premium_boostsStatus) obj);
+                    BoostsActivity.this.lambda$loadStatistic$1((TL_stories.TL_premium_boostsStatus) obj);
                 }
             });
             return;
@@ -865,9 +856,9 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
         if (this.limitPreviewView.getParent() != null) {
             ((ViewGroup) this.limitPreviewView.getParent()).removeView(this.limitPreviewView);
         }
-        TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus = this.boostsStatus;
-        if (tL_stories$TL_premium_boostsStatus != null) {
-            this.limitPreviewView.setBoosts(tL_stories$TL_premium_boostsStatus, false);
+        TL_stories.TL_premium_boostsStatus tL_premium_boostsStatus = this.boostsStatus;
+        if (tL_premium_boostsStatus != null) {
+            this.limitPreviewView.setBoosts(tL_premium_boostsStatus, false);
             if (z) {
                 this.limitPreviewView.setAlpha(0.0f);
                 this.limitPreviewView.animate().alpha(1.0f).start();
@@ -895,7 +886,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
             @Override // android.view.View
             protected void onDraw(Canvas canvas) {
                 this.drawable.setBounds(0, 0, getWidth(), getHeight());
-                this.drawable.setAlpha(NotificationCenter.didClearDatabase);
+                this.drawable.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                 this.drawable.draw(canvas);
                 invalidate();
                 super.onDraw(canvas);
@@ -928,13 +919,13 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i != NotificationCenter.boostByChannelCreated) {
             if (i == NotificationCenter.chatWasBoostedByUser && this.dialogId == ((Long) objArr[2]).longValue()) {
-                this.boostsStatus = (TL_stories$TL_premium_boostsStatus) objArr[0];
+                this.boostsStatus = (TL_stories.TL_premium_boostsStatus) objArr[0];
                 this.canApplyBoost = (ChannelBoostsController.CanApplyBoost) objArr[1];
                 return;
             }
             return;
         }
-        TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) objArr[0];
+        TLRPC.Chat chat = (TLRPC.Chat) objArr[0];
         boolean booleanValue = ((Boolean) objArr[1]).booleanValue();
         List fragmentStack = getParentLayout().getFragmentStack();
         BaseFragment baseFragment = fragmentStack.size() >= 2 ? (BaseFragment) fragmentStack.get(fragmentStack.size() - 2) : null;
@@ -946,7 +937,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
         if (!booleanValue) {
             finishFragment();
             if ((baseFragment2 instanceof ProfileActivity) || (baseFragment2 instanceof ChatActivity)) {
-                BoostDialogs.showBulletin(baseFragment2, tLRPC$Chat, false);
+                BoostDialogs.showBulletin(baseFragment2, chat, false);
                 return;
             }
             return;
@@ -957,10 +948,10 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
         }
         finishFragment();
         if (baseFragment3 instanceof ChatActivity) {
-            BoostDialogs.showBulletin(baseFragment3, tLRPC$Chat, true);
+            BoostDialogs.showBulletin(baseFragment3, chat, true);
         }
         if (baseFragment2 instanceof ChatActivity) {
-            BoostDialogs.showBulletin(baseFragment2, tLRPC$Chat, true);
+            BoostDialogs.showBulletin(baseFragment2, chat, true);
         }
     }
 
@@ -978,8 +969,8 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
         super.onFragmentDestroy();
     }
 
-    public void setBoostsStatus(TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus) {
-        this.boostsStatus = tL_stories$TL_premium_boostsStatus;
+    public void setBoostsStatus(TL_stories.TL_premium_boostsStatus tL_premium_boostsStatus) {
+        this.boostsStatus = tL_premium_boostsStatus;
         loadCanApplyBoosts();
     }
 
@@ -1003,7 +994,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
                 this.items.add(new ItemInternal(12, LocaleController.getString(R.string.BoostingPreparedGiveaways)));
                 int i = 0;
                 while (i < this.boostsStatus.prepaid_giveaways.size()) {
-                    this.items.add(new ItemInternal(11, (TL_stories$PrepaidGiveaway) this.boostsStatus.prepaid_giveaways.get(i), i == this.boostsStatus.prepaid_giveaways.size() - 1));
+                    this.items.add(new ItemInternal(11, this.boostsStatus.prepaid_giveaways.get(i), i == this.boostsStatus.prepaid_giveaways.size() - 1));
                     i++;
                 }
                 this.items.add(new ItemInternal(6, LocaleController.getString(R.string.BoostingSelectPaidGiveaway)));
@@ -1017,7 +1008,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
                 } else {
                     int i2 = 0;
                     while (i2 < this.boosters.size()) {
-                        this.items.add(new ItemInternal(5, (TL_stories$Boost) this.boosters.get(i2), i2 == this.boosters.size() - 1 && !this.hasBoostsNext, this.selectedTab));
+                        this.items.add(new ItemInternal(5, (TL_stories.Boost) this.boosters.get(i2), i2 == this.boosters.size() - 1 && !this.hasBoostsNext, this.selectedTab));
                         i2++;
                     }
                     if (this.hasBoostsNext) {
@@ -1038,7 +1029,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
             } else {
                 int i3 = 0;
                 while (i3 < this.gifts.size()) {
-                    this.items.add(new ItemInternal(5, (TL_stories$Boost) this.gifts.get(i3), i3 == this.gifts.size() - 1 && !this.hasGiftsNext, this.selectedTab));
+                    this.items.add(new ItemInternal(5, (TL_stories.Boost) this.gifts.get(i3), i3 == this.gifts.size() - 1 && !this.hasGiftsNext, this.selectedTab));
                     i3++;
                 }
                 if (this.hasGiftsNext) {

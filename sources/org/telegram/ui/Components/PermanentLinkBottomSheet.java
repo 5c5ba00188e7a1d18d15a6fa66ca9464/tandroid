@@ -20,11 +20,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$ChatFull;
-import org.telegram.tgnet.TLRPC$TL_chatInviteExported;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_messages_exportChatInvite;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
@@ -37,7 +33,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
     private final long chatId;
     private BaseFragment fragment;
     private final RLottieImageView imageView;
-    TLRPC$TL_chatInviteExported invite;
+    TLRPC.TL_chatInviteExported invite;
     private final LinkActionView linkActionView;
     boolean linkGenerating;
     private final RLottieDrawable linkIcon;
@@ -45,9 +41,9 @@ public class PermanentLinkBottomSheet extends BottomSheet {
     private final TextView subtitle;
     private final TextView titleView;
 
-    public PermanentLinkBottomSheet(Context context, boolean z, final BaseFragment baseFragment, final TLRPC$ChatFull tLRPC$ChatFull, long j, boolean z2) {
+    public PermanentLinkBottomSheet(Context context, boolean z, final BaseFragment baseFragment, final TLRPC.ChatFull chatFull, long j, boolean z2) {
         super(context, z);
-        TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported;
+        TLRPC.TL_chatInviteExported tL_chatInviteExported;
         this.chatId = j;
         setAllowNestedScroll(true);
         setApplyBottomPadding(false);
@@ -134,7 +130,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                PermanentLinkBottomSheet.this.lambda$new$2(tLRPC$ChatFull, baseFragment, view);
+                PermanentLinkBottomSheet.this.lambda$new$2(chatFull, baseFragment, view);
             }
         });
         linearLayout.addView(rLottieImageView, LayoutHelper.createLinear(90, 90, 1, 0, 33, 0, 0));
@@ -146,14 +142,14 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         nestedScrollView.setVerticalScrollBarEnabled(false);
         nestedScrollView.addView(frameLayout);
         setCustomView(nestedScrollView);
-        TLRPC$Chat chat = MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(j));
+        TLRPC.Chat chat = MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(j));
         if (chat != null && ChatObject.isPublic(chat)) {
             linkActionView.setLink("https://t.me/" + ChatObject.getPublicUsername(chat));
             textView3.setVisibility(8);
-        } else if (tLRPC$ChatFull == null || (tLRPC$TL_chatInviteExported = tLRPC$ChatFull.exported_invite) == null) {
+        } else if (chatFull == null || (tL_chatInviteExported = chatFull.exported_invite) == null) {
             generateLink(false);
         } else {
-            linkActionView.setLink(tLRPC$TL_chatInviteExported.link);
+            linkActionView.setLink(tL_chatInviteExported.link);
         }
         updateColors();
     }
@@ -163,22 +159,22 @@ public class PermanentLinkBottomSheet extends BottomSheet {
             return;
         }
         this.linkGenerating = true;
-        TLRPC$TL_messages_exportChatInvite tLRPC$TL_messages_exportChatInvite = new TLRPC$TL_messages_exportChatInvite();
-        tLRPC$TL_messages_exportChatInvite.legacy_revoke_permanent = true;
-        tLRPC$TL_messages_exportChatInvite.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(-this.chatId);
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_exportChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda5
+        TLRPC.TL_messages_exportChatInvite tL_messages_exportChatInvite = new TLRPC.TL_messages_exportChatInvite();
+        tL_messages_exportChatInvite.legacy_revoke_permanent = true;
+        tL_messages_exportChatInvite.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(-this.chatId);
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_messages_exportChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda5
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                PermanentLinkBottomSheet.this.lambda$generateLink$4(z, tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                PermanentLinkBottomSheet.this.lambda$generateLink$4(z, tLObject, tL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$generateLink$3(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, boolean z) {
-        if (tLRPC$TL_error == null) {
-            this.invite = (TLRPC$TL_chatInviteExported) tLObject;
-            TLRPC$ChatFull chatFull = MessagesController.getInstance(this.currentAccount).getChatFull(this.chatId);
+    public /* synthetic */ void lambda$generateLink$3(TLRPC.TL_error tL_error, TLObject tLObject, boolean z) {
+        if (tL_error == null) {
+            this.invite = (TLRPC.TL_chatInviteExported) tLObject;
+            TLRPC.ChatFull chatFull = MessagesController.getInstance(this.currentAccount).getChatFull(this.chatId);
             if (chatFull != null) {
                 chatFull.exported_invite = this.invite;
             }
@@ -195,11 +191,11 @@ public class PermanentLinkBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$generateLink$4(final boolean z, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$generateLink$4(final boolean z, final TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
-                PermanentLinkBottomSheet.this.lambda$generateLink$3(tLRPC$TL_error, tLObject, z);
+                PermanentLinkBottomSheet.this.lambda$generateLink$3(tL_error, tLObject, z);
             }
         });
     }
@@ -215,9 +211,9 @@ public class PermanentLinkBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$2(TLRPC$ChatFull tLRPC$ChatFull, BaseFragment baseFragment, View view) {
-        ManageLinksActivity manageLinksActivity = new ManageLinksActivity(tLRPC$ChatFull.id, 0L, 0);
-        manageLinksActivity.setInfo(tLRPC$ChatFull, tLRPC$ChatFull.exported_invite);
+    public /* synthetic */ void lambda$new$2(TLRPC.ChatFull chatFull, BaseFragment baseFragment, View view) {
+        ManageLinksActivity manageLinksActivity = new ManageLinksActivity(chatFull.id, 0L, 0);
+        manageLinksActivity.setInfo(chatFull, chatFull.exported_invite);
         baseFragment.presentFragment(manageLinksActivity);
         dismiss();
     }

@@ -13,13 +13,13 @@ public class ArgbEvaluator implements TypeEvaluator {
     @Override // android.animation.TypeEvaluator
     public Object evaluate(float f, Object obj, Object obj2) {
         int intValue = ((Integer) obj).intValue();
-        float f2 = ((intValue >> 24) & NotificationCenter.didClearDatabase) / 255.0f;
+        float f2 = ((intValue >> 24) & NotificationCenter.messagePlayingSpeedChanged) / 255.0f;
         int intValue2 = ((Integer) obj2).intValue();
-        float pow = (float) Math.pow(((intValue >> 16) & NotificationCenter.didClearDatabase) / 255.0f, 2.2d);
-        float pow2 = (float) Math.pow(((intValue >> 8) & NotificationCenter.didClearDatabase) / 255.0f, 2.2d);
-        float pow3 = (float) Math.pow((intValue & NotificationCenter.didClearDatabase) / 255.0f, 2.2d);
-        float pow4 = (float) Math.pow(((intValue2 >> 16) & NotificationCenter.didClearDatabase) / 255.0f, 2.2d);
-        float pow5 = pow3 + (f * (((float) Math.pow((intValue2 & NotificationCenter.didClearDatabase) / 255.0f, 2.2d)) - pow3));
-        return Integer.valueOf((Math.round(((float) Math.pow(pow + ((pow4 - pow) * f), 0.45454545454545453d)) * 255.0f) << 16) | (Math.round((f2 + (((((intValue2 >> 24) & NotificationCenter.didClearDatabase) / 255.0f) - f2) * f)) * 255.0f) << 24) | (Math.round(((float) Math.pow(pow2 + ((((float) Math.pow(((intValue2 >> 8) & NotificationCenter.didClearDatabase) / 255.0f, 2.2d)) - pow2) * f), 0.45454545454545453d)) * 255.0f) << 8) | Math.round(((float) Math.pow(pow5, 0.45454545454545453d)) * 255.0f));
+        float pow = (float) Math.pow(((intValue >> 16) & NotificationCenter.messagePlayingSpeedChanged) / 255.0f, 2.2d);
+        float pow2 = (float) Math.pow(((intValue >> 8) & NotificationCenter.messagePlayingSpeedChanged) / 255.0f, 2.2d);
+        float pow3 = (float) Math.pow((intValue & NotificationCenter.messagePlayingSpeedChanged) / 255.0f, 2.2d);
+        float pow4 = (float) Math.pow(((intValue2 >> 16) & NotificationCenter.messagePlayingSpeedChanged) / 255.0f, 2.2d);
+        float pow5 = pow3 + (f * (((float) Math.pow((intValue2 & NotificationCenter.messagePlayingSpeedChanged) / 255.0f, 2.2d)) - pow3));
+        return Integer.valueOf((Math.round(((float) Math.pow(pow + ((pow4 - pow) * f), 0.45454545454545453d)) * 255.0f) << 16) | (Math.round((f2 + (((((intValue2 >> 24) & NotificationCenter.messagePlayingSpeedChanged) / 255.0f) - f2) * f)) * 255.0f) << 24) | (Math.round(((float) Math.pow(pow2 + ((((float) Math.pow(((intValue2 >> 8) & NotificationCenter.messagePlayingSpeedChanged) / 255.0f, 2.2d)) - pow2) * f), 0.45454545454545453d)) * 255.0f) << 8) | Math.round(((float) Math.pow(pow5, 0.45454545454545453d)) * 255.0f));
     }
 }

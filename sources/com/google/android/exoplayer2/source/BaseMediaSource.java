@@ -48,18 +48,12 @@ public abstract class BaseMediaSource implements MediaSource {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public final MediaSourceEventListener.EventDispatcher createEventDispatcher(int i, MediaSource.MediaPeriodId mediaPeriodId, long j) {
-        return this.eventDispatcher.withParameters(i, mediaPeriodId, j);
+        return this.eventDispatcher.withParameters(i, mediaPeriodId);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
     public final MediaSourceEventListener.EventDispatcher createEventDispatcher(MediaSource.MediaPeriodId mediaPeriodId) {
-        return this.eventDispatcher.withParameters(0, mediaPeriodId, 0L);
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final MediaSourceEventListener.EventDispatcher createEventDispatcher(MediaSource.MediaPeriodId mediaPeriodId, long j) {
-        Assertions.checkNotNull(mediaPeriodId);
-        return this.eventDispatcher.withParameters(0, mediaPeriodId, j);
+        return this.eventDispatcher.withParameters(0, mediaPeriodId);
     }
 
     @Override // com.google.android.exoplayer2.source.MediaSource

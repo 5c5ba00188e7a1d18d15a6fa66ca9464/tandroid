@@ -23,11 +23,7 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ResultCallback;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_photoStrippedSize;
-import org.telegram.tgnet.TLRPC$WallPaper;
-import org.telegram.tgnet.TLRPC$WallPaperSettings;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.EmojiThemes;
 import org.telegram.ui.Components.BackgroundGradientDrawable;
 import org.telegram.ui.Components.MotionBackgroundDrawable;
@@ -40,8 +36,8 @@ public class ChatBackgroundDrawable extends Drawable {
     MotionBackgroundDrawable motionBackgroundDrawable;
     View parent;
     private final boolean themeIsDark;
-    final TLRPC$WallPaper wallpaper;
-    int alpha = NotificationCenter.didClearDatabase;
+    final TLRPC.WallPaper wallpaper;
+    int alpha = NotificationCenter.messagePlayingSpeedChanged;
     ImageReceiver imageReceiver = new ImageReceiver() { // from class: org.telegram.ui.ChatBackgroundDrawable.1
         @Override // org.telegram.messenger.ImageReceiver
         public void invalidate() {
@@ -53,29 +49,29 @@ public class ChatBackgroundDrawable extends Drawable {
     };
     private final ArrayList attachedViews = new ArrayList();
 
-    public ChatBackgroundDrawable(final TLRPC$WallPaper tLRPC$WallPaper, boolean z, boolean z2) {
-        TLRPC$WallPaperSettings tLRPC$WallPaperSettings;
+    public ChatBackgroundDrawable(final TLRPC.WallPaper wallPaper, boolean z, boolean z2) {
+        TLRPC.WallPaperSettings wallPaperSettings;
         String str;
         ImageReceiver imageReceiver;
         ImageLocation forDocument;
-        TLRPC$WallPaperSettings tLRPC$WallPaperSettings2;
+        TLRPC.WallPaperSettings wallPaperSettings2;
         this.imageReceiver.setInvalidateAll(true);
-        boolean z3 = tLRPC$WallPaper.pattern;
+        boolean z3 = wallPaper.pattern;
         this.isPattern = z3;
-        this.wallpaper = tLRPC$WallPaper;
+        this.wallpaper = wallPaper;
         this.themeIsDark = z;
-        if (z && ((tLRPC$WallPaper.document != null || tLRPC$WallPaper.uploadingImage != null) && !z3 && (tLRPC$WallPaperSettings2 = tLRPC$WallPaper.settings) != null)) {
-            this.dimAmount = tLRPC$WallPaperSettings2.intensity / 100.0f;
+        if (z && ((wallPaper.document != null || wallPaper.uploadingImage != null) && !z3 && (wallPaperSettings2 = wallPaper.settings) != null)) {
+            this.dimAmount = wallPaperSettings2.intensity / 100.0f;
         }
-        if ((z3 || tLRPC$WallPaper.document == null) && (tLRPC$WallPaperSettings = tLRPC$WallPaper.settings) != null && tLRPC$WallPaperSettings.second_background_color != 0 && tLRPC$WallPaperSettings.third_background_color != 0) {
+        if ((z3 || wallPaper.document == null) && (wallPaperSettings = wallPaper.settings) != null && wallPaperSettings.second_background_color != 0 && wallPaperSettings.third_background_color != 0) {
             MotionBackgroundDrawable motionBackgroundDrawable = new MotionBackgroundDrawable();
             this.motionBackgroundDrawable = motionBackgroundDrawable;
-            TLRPC$WallPaperSettings tLRPC$WallPaperSettings3 = tLRPC$WallPaper.settings;
-            motionBackgroundDrawable.setColors(tLRPC$WallPaperSettings3.background_color, tLRPC$WallPaperSettings3.second_background_color, tLRPC$WallPaperSettings3.third_background_color, tLRPC$WallPaperSettings3.fourth_background_color);
-            EmojiThemes.loadWallpaperImage(UserConfig.selectedAccount, tLRPC$WallPaper.id, tLRPC$WallPaper, new ResultCallback() { // from class: org.telegram.ui.ChatBackgroundDrawable$$ExternalSyntheticLambda0
+            TLRPC.WallPaperSettings wallPaperSettings3 = wallPaper.settings;
+            motionBackgroundDrawable.setColors(wallPaperSettings3.background_color, wallPaperSettings3.second_background_color, wallPaperSettings3.third_background_color, wallPaperSettings3.fourth_background_color);
+            EmojiThemes.loadWallpaperImage(UserConfig.selectedAccount, wallPaper.id, wallPaper, new ResultCallback() { // from class: org.telegram.ui.ChatBackgroundDrawable$$ExternalSyntheticLambda0
                 @Override // org.telegram.tgnet.ResultCallback
                 public final void onComplete(Object obj) {
-                    ChatBackgroundDrawable.this.lambda$new$0(tLRPC$WallPaper, (Pair) obj);
+                    ChatBackgroundDrawable.this.lambda$new$0(wallPaper, (Pair) obj);
                 }
 
                 @Override // org.telegram.tgnet.ResultCallback
@@ -84,8 +80,8 @@ public class ChatBackgroundDrawable extends Drawable {
                 }
 
                 @Override // org.telegram.tgnet.ResultCallback
-                public /* synthetic */ void onError(TLRPC$TL_error tLRPC$TL_error) {
-                    ResultCallback.-CC.$default$onError(this, tLRPC$TL_error);
+                public /* synthetic */ void onError(TLRPC.TL_error tL_error) {
+                    ResultCallback.-CC.$default$onError(this, tL_error);
                 }
             });
             return;
@@ -99,23 +95,23 @@ public class ChatBackgroundDrawable extends Drawable {
         } else {
             str = ((int) (min / AndroidUtilities.density)) + "_" + ((int) (max / AndroidUtilities.density)) + "_wallpaper";
         }
-        String str2 = (str + tLRPC$WallPaper.id) + hash(tLRPC$WallPaper.settings);
-        Drawable createThumb = createThumb(tLRPC$WallPaper);
-        String str3 = tLRPC$WallPaper.uploadingImage;
+        String str2 = (str + wallPaper.id) + hash(wallPaper.settings);
+        Drawable createThumb = createThumb(wallPaper);
+        String str3 = wallPaper.uploadingImage;
         if (str3 != null) {
             imageReceiver = this.imageReceiver;
             forDocument = ImageLocation.getForPath(str3);
         } else {
-            TLRPC$Document tLRPC$Document = tLRPC$WallPaper.document;
-            if (tLRPC$Document == null) {
+            TLRPC.Document document = wallPaper.document;
+            if (document == null) {
                 this.imageReceiver.setImageBitmap(createThumb);
                 return;
             } else {
                 imageReceiver = this.imageReceiver;
-                forDocument = ImageLocation.getForDocument(tLRPC$Document);
+                forDocument = ImageLocation.getForDocument(document);
             }
         }
-        imageReceiver.setImage(forDocument, str2, createThumb, null, tLRPC$WallPaper, 1);
+        imageReceiver.setImage(forDocument, str2, createThumb, null, wallPaper, 1);
     }
 
     private static Drawable bitmapDrawableOf(Drawable drawable) {
@@ -126,43 +122,43 @@ public class ChatBackgroundDrawable extends Drawable {
         return new BitmapDrawable(createBitmap);
     }
 
-    public static Drawable createThumb(TLRPC$WallPaper tLRPC$WallPaper) {
+    public static Drawable createThumb(TLRPC.WallPaper wallPaper) {
         ColorDrawable colorDrawable;
         Drawable bitmapDrawableOf;
-        Drawable drawable = tLRPC$WallPaper.thumbDrawable;
+        Drawable drawable = wallPaper.thumbDrawable;
         if (drawable != null) {
             return drawable;
         }
-        if (tLRPC$WallPaper.stripedThumb != null) {
-            return new BitmapDrawable(tLRPC$WallPaper.stripedThumb);
+        if (wallPaper.stripedThumb != null) {
+            return new BitmapDrawable(wallPaper.stripedThumb);
         }
-        if (tLRPC$WallPaper.pattern && tLRPC$WallPaper.settings == null) {
+        if (wallPaper.pattern && wallPaper.settings == null) {
             return new ColorDrawable(-16777216);
         }
-        if (tLRPC$WallPaper.document != null) {
+        if (wallPaper.document != null) {
             bitmapDrawableOf = null;
-            while (r2 < tLRPC$WallPaper.document.thumbs.size()) {
-                if (tLRPC$WallPaper.document.thumbs.get(r2) instanceof TLRPC$TL_photoStrippedSize) {
-                    bitmapDrawableOf = new BitmapDrawable(ImageLoader.getStrippedPhotoBitmap(tLRPC$WallPaper.document.thumbs.get(r2).bytes, "b"));
+            while (r2 < wallPaper.document.thumbs.size()) {
+                if (wallPaper.document.thumbs.get(r2) instanceof TLRPC.TL_photoStrippedSize) {
+                    bitmapDrawableOf = new BitmapDrawable(ImageLoader.getStrippedPhotoBitmap(wallPaper.document.thumbs.get(r2).bytes, "b"));
                 }
                 r2++;
             }
         } else {
-            TLRPC$WallPaperSettings tLRPC$WallPaperSettings = tLRPC$WallPaper.settings;
-            if (tLRPC$WallPaperSettings == null || tLRPC$WallPaperSettings.intensity < 0) {
+            TLRPC.WallPaperSettings wallPaperSettings = wallPaper.settings;
+            if (wallPaperSettings == null || wallPaperSettings.intensity < 0) {
                 colorDrawable = new ColorDrawable(-16777216);
-            } else if (tLRPC$WallPaperSettings.second_background_color == 0) {
-                colorDrawable = new ColorDrawable(ColorUtils.setAlphaComponent(tLRPC$WallPaper.settings.background_color, NotificationCenter.didClearDatabase));
+            } else if (wallPaperSettings.second_background_color == 0) {
+                colorDrawable = new ColorDrawable(ColorUtils.setAlphaComponent(wallPaper.settings.background_color, NotificationCenter.messagePlayingSpeedChanged));
             } else {
-                int i = tLRPC$WallPaperSettings.third_background_color;
-                int alphaComponent = ColorUtils.setAlphaComponent(tLRPC$WallPaperSettings.background_color, NotificationCenter.didClearDatabase);
+                int i = wallPaperSettings.third_background_color;
+                int alphaComponent = ColorUtils.setAlphaComponent(wallPaperSettings.background_color, NotificationCenter.messagePlayingSpeedChanged);
                 if (i == 0) {
-                    bitmapDrawableOf = bitmapDrawableOf(new GradientDrawable(BackgroundGradientDrawable.getGradientOrientation(tLRPC$WallPaper.settings.rotation), new int[]{alphaComponent, ColorUtils.setAlphaComponent(tLRPC$WallPaper.settings.second_background_color, NotificationCenter.didClearDatabase)}));
+                    bitmapDrawableOf = bitmapDrawableOf(new GradientDrawable(BackgroundGradientDrawable.getGradientOrientation(wallPaper.settings.rotation), new int[]{alphaComponent, ColorUtils.setAlphaComponent(wallPaper.settings.second_background_color, NotificationCenter.messagePlayingSpeedChanged)}));
                 } else {
-                    int alphaComponent2 = ColorUtils.setAlphaComponent(tLRPC$WallPaper.settings.second_background_color, NotificationCenter.didClearDatabase);
-                    int alphaComponent3 = ColorUtils.setAlphaComponent(tLRPC$WallPaper.settings.third_background_color, NotificationCenter.didClearDatabase);
-                    int i2 = tLRPC$WallPaper.settings.fourth_background_color;
-                    r2 = i2 != 0 ? ColorUtils.setAlphaComponent(i2, NotificationCenter.didClearDatabase) : 0;
+                    int alphaComponent2 = ColorUtils.setAlphaComponent(wallPaper.settings.second_background_color, NotificationCenter.messagePlayingSpeedChanged);
+                    int alphaComponent3 = ColorUtils.setAlphaComponent(wallPaper.settings.third_background_color, NotificationCenter.messagePlayingSpeedChanged);
+                    int i2 = wallPaper.settings.fourth_background_color;
+                    r2 = i2 != 0 ? ColorUtils.setAlphaComponent(i2, NotificationCenter.messagePlayingSpeedChanged) : 0;
                     MotionBackgroundDrawable motionBackgroundDrawable = new MotionBackgroundDrawable();
                     motionBackgroundDrawable.setColors(alphaComponent, alphaComponent2, alphaComponent3, r2);
                     bitmapDrawableOf = new BitmapDrawable(motionBackgroundDrawable.getBitmap());
@@ -170,29 +166,29 @@ public class ChatBackgroundDrawable extends Drawable {
             }
             bitmapDrawableOf = bitmapDrawableOf(colorDrawable);
         }
-        tLRPC$WallPaper.thumbDrawable = bitmapDrawableOf;
+        wallPaper.thumbDrawable = bitmapDrawableOf;
         return bitmapDrawableOf;
     }
 
-    public static Drawable getOrCreate(Drawable drawable, TLRPC$WallPaper tLRPC$WallPaper, boolean z) {
-        TLRPC$WallPaperSettings tLRPC$WallPaperSettings;
-        TLRPC$WallPaperSettings tLRPC$WallPaperSettings2;
+    public static Drawable getOrCreate(Drawable drawable, TLRPC.WallPaper wallPaper, boolean z) {
+        TLRPC.WallPaperSettings wallPaperSettings;
+        TLRPC.WallPaperSettings wallPaperSettings2;
         if (drawable instanceof ChatBackgroundDrawable) {
             ChatBackgroundDrawable chatBackgroundDrawable = (ChatBackgroundDrawable) drawable;
-            String str = tLRPC$WallPaper.uploadingImage;
+            String str = wallPaper.uploadingImage;
             if (str != null) {
-                if (str.equals(chatBackgroundDrawable.wallpaper.uploadingImage) && ((tLRPC$WallPaperSettings2 = tLRPC$WallPaper.settings) == null || chatBackgroundDrawable.wallpaper.settings == null || tLRPC$WallPaperSettings2.intensity <= 0 || chatBackgroundDrawable.themeIsDark == z)) {
+                if (str.equals(chatBackgroundDrawable.wallpaper.uploadingImage) && ((wallPaperSettings2 = wallPaper.settings) == null || chatBackgroundDrawable.wallpaper.settings == null || wallPaperSettings2.intensity <= 0 || chatBackgroundDrawable.themeIsDark == z)) {
                     return chatBackgroundDrawable;
                 }
-            } else if (tLRPC$WallPaper.id == chatBackgroundDrawable.wallpaper.id && TextUtils.equals(hash(tLRPC$WallPaper.settings), hash(chatBackgroundDrawable.wallpaper.settings)) && (tLRPC$WallPaper.document == null || tLRPC$WallPaper.pattern || (tLRPC$WallPaperSettings = tLRPC$WallPaper.settings) == null || tLRPC$WallPaperSettings.intensity <= 0 || chatBackgroundDrawable.themeIsDark == z)) {
+            } else if (wallPaper.id == chatBackgroundDrawable.wallpaper.id && TextUtils.equals(hash(wallPaper.settings), hash(chatBackgroundDrawable.wallpaper.settings)) && (wallPaper.document == null || wallPaper.pattern || (wallPaperSettings = wallPaper.settings) == null || wallPaperSettings.intensity <= 0 || chatBackgroundDrawable.themeIsDark == z)) {
                 return chatBackgroundDrawable;
             }
         }
-        return new ChatBackgroundDrawable(tLRPC$WallPaper, z, false);
+        return new ChatBackgroundDrawable(wallPaper, z, false);
     }
 
-    public static String hash(TLRPC$WallPaperSettings tLRPC$WallPaperSettings) {
-        return tLRPC$WallPaperSettings == null ? "" : String.valueOf(Objects.hash(Boolean.valueOf(tLRPC$WallPaperSettings.blur), Boolean.valueOf(tLRPC$WallPaperSettings.motion), Integer.valueOf(tLRPC$WallPaperSettings.intensity), Integer.valueOf(tLRPC$WallPaperSettings.background_color), Integer.valueOf(tLRPC$WallPaperSettings.second_background_color), Integer.valueOf(tLRPC$WallPaperSettings.third_background_color), Integer.valueOf(tLRPC$WallPaperSettings.fourth_background_color)));
+    public static String hash(TLRPC.WallPaperSettings wallPaperSettings) {
+        return wallPaperSettings == null ? "" : String.valueOf(Objects.hash(Boolean.valueOf(wallPaperSettings.blur), Boolean.valueOf(wallPaperSettings.motion), Integer.valueOf(wallPaperSettings.intensity), Integer.valueOf(wallPaperSettings.background_color), Integer.valueOf(wallPaperSettings.second_background_color), Integer.valueOf(wallPaperSettings.third_background_color), Integer.valueOf(wallPaperSettings.fourth_background_color)));
     }
 
     private boolean isAttached() {
@@ -200,8 +196,8 @@ public class ChatBackgroundDrawable extends Drawable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$0(TLRPC$WallPaper tLRPC$WallPaper, Pair pair) {
-        this.motionBackgroundDrawable.setPatternBitmap(tLRPC$WallPaper.settings.intensity, (Bitmap) pair.second);
+    public /* synthetic */ void lambda$new$0(TLRPC.WallPaper wallPaper, Pair pair) {
+        this.motionBackgroundDrawable.setPatternBitmap(wallPaper.settings.intensity, (Bitmap) pair.second);
         View view = this.parent;
         if (view != null) {
             view.invalidate();

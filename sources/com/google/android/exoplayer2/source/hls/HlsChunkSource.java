@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.SeekParameters;
 import com.google.android.exoplayer2.analytics.PlayerId;
 import com.google.android.exoplayer2.source.BehindLiveWindowException;
+import com.google.android.exoplayer2.source.LoadingInfo;
 import com.google.android.exoplayer2.source.TrackGroup;
 import com.google.android.exoplayer2.source.chunk.BaseMediaChunkIterator;
 import com.google.android.exoplayer2.source.chunk.Chunk;
@@ -16,6 +17,8 @@ import com.google.android.exoplayer2.source.hls.playlist.HlsMediaPlaylist;
 import com.google.android.exoplayer2.source.hls.playlist.HlsPlaylistTracker;
 import com.google.android.exoplayer2.trackselection.BaseTrackSelection;
 import com.google.android.exoplayer2.trackselection.ExoTrackSelection;
+import com.google.android.exoplayer2.upstream.CmcdConfiguration;
+import com.google.android.exoplayer2.upstream.CmcdData$Factory;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.upstream.TransferListener;
@@ -38,7 +41,7 @@ class HlsChunkSource {
     private final HlsExtractorFactory extractorFactory;
     private IOException fatalError;
     private boolean independentSegments;
-    private boolean isTimestampMaster;
+    private boolean isPrimaryTimestampSource;
     private final DataSource mediaDataSource;
     private final List muxedCaptionFormats;
     private final PlayerId playerId;
@@ -46,9 +49,11 @@ class HlsChunkSource {
     private final HlsPlaylistTracker playlistTracker;
     private final Uri[] playlistUrls;
     private boolean seenExpectedPlaylistError;
+    private final long timestampAdjusterInitializationTimeoutMs;
     private final TimestampAdjusterProvider timestampAdjusterProvider;
     private final TrackGroup trackGroup;
     private ExoTrackSelection trackSelection;
+    private long lastChunkRequestRealtimeMs = -9223372036854775807L;
     private final FullSegmentEncryptionKeyCache keyCache = new FullSegmentEncryptionKeyCache(4);
     private byte[] scratchSpace = Util.EMPTY_BYTE_ARRAY;
     private long liveEdgeInPeriodTimeUs = -9223372036854775807L;
@@ -144,9 +149,9 @@ class HlsChunkSource {
         @Override // com.google.android.exoplayer2.trackselection.ExoTrackSelection
         public void updateSelectedTrack(long j, long j2, long j3, List list, MediaChunkIterator[] mediaChunkIteratorArr) {
             long elapsedRealtime = SystemClock.elapsedRealtime();
-            if (isBlacklisted(this.selectedIndex, elapsedRealtime)) {
+            if (isTrackExcluded(this.selectedIndex, elapsedRealtime)) {
                 for (int i = this.length - 1; i >= 0; i--) {
-                    if (!isBlacklisted(i, elapsedRealtime)) {
+                    if (!isTrackExcluded(i, elapsedRealtime)) {
                         this.selectedIndex = i;
                         return;
                     }
@@ -172,12 +177,13 @@ class HlsChunkSource {
         }
     }
 
-    public HlsChunkSource(HlsExtractorFactory hlsExtractorFactory, HlsPlaylistTracker hlsPlaylistTracker, Uri[] uriArr, Format[] formatArr, HlsDataSourceFactory hlsDataSourceFactory, TransferListener transferListener, TimestampAdjusterProvider timestampAdjusterProvider, List list, PlayerId playerId) {
+    public HlsChunkSource(HlsExtractorFactory hlsExtractorFactory, HlsPlaylistTracker hlsPlaylistTracker, Uri[] uriArr, Format[] formatArr, HlsDataSourceFactory hlsDataSourceFactory, TransferListener transferListener, TimestampAdjusterProvider timestampAdjusterProvider, long j, List list, PlayerId playerId, CmcdConfiguration cmcdConfiguration) {
         this.extractorFactory = hlsExtractorFactory;
         this.playlistTracker = hlsPlaylistTracker;
         this.playlistUrls = uriArr;
         this.playlistFormats = formatArr;
         this.timestampAdjusterProvider = timestampAdjusterProvider;
+        this.timestampAdjusterInitializationTimeoutMs = j;
         this.muxedCaptionFormats = list;
         this.playerId = playerId;
         DataSource createDataSource = hlsDataSourceFactory.createDataSource(1);
@@ -194,6 +200,10 @@ class HlsChunkSource {
             }
         }
         this.trackSelection = new InitializationTrackSelection(this.trackGroup, Ints.toArray(arrayList));
+    }
+
+    private void deactivatePlaylistForSelectedTrack() {
+        this.playlistTracker.deactivatePlaylistForPlayback(this.playlistUrls[this.trackSelection.getSelectedIndexInTrackGroup()]);
     }
 
     private static Uri getFullEncryptionKeyUri(HlsMediaPlaylist hlsMediaPlaylist, HlsMediaPlaylist.SegmentBase segmentBase) {
@@ -302,7 +312,7 @@ class HlsChunkSource {
         return Collections.unmodifiableList(arrayList);
     }
 
-    private Chunk maybeCreateEncryptionChunkFor(Uri uri, int i) {
+    private Chunk maybeCreateEncryptionChunkFor(Uri uri, int i, boolean z, CmcdData$Factory cmcdData$Factory) {
         if (uri == null) {
             return null;
         }
@@ -387,15 +397,22 @@ class HlsChunkSource {
         return Util.areEqual(Uri.parse(UriUtil.resolve(hlsMediaPlaylist.baseUri, part.url)), hlsMediaChunk.dataSpec.uri) ? 1 : 2;
     }
 
-    public void getNextChunk(long j, long j2, List list, boolean z, HlsChunkHolder hlsChunkHolder) {
+    public void getNextChunk(LoadingInfo loadingInfo, long j, List list, boolean z, HlsChunkHolder hlsChunkHolder) {
+        int indexOf;
+        LoadingInfo loadingInfo2;
         HlsMediaPlaylist hlsMediaPlaylist;
-        long j3;
-        Uri uri;
-        int i;
+        long j2;
         HlsMediaChunk hlsMediaChunk = list.isEmpty() ? null : (HlsMediaChunk) Iterables.getLast(list);
-        int indexOf = hlsMediaChunk == null ? -1 : this.trackGroup.indexOf(hlsMediaChunk.trackFormat);
-        long j4 = j2 - j;
-        long resolveTimeToLiveEdgeUs = resolveTimeToLiveEdgeUs(j);
+        if (hlsMediaChunk == null) {
+            loadingInfo2 = loadingInfo;
+            indexOf = -1;
+        } else {
+            indexOf = this.trackGroup.indexOf(hlsMediaChunk.trackFormat);
+            loadingInfo2 = loadingInfo;
+        }
+        long j3 = loadingInfo2.playbackPositionUs;
+        long j4 = j - j3;
+        long resolveTimeToLiveEdgeUs = resolveTimeToLiveEdgeUs(j3);
         if (hlsMediaChunk != null && !this.independentSegments) {
             long durationUs = hlsMediaChunk.getDurationUs();
             j4 = Math.max(0L, j4 - durationUs);
@@ -403,40 +420,38 @@ class HlsChunkSource {
                 resolveTimeToLiveEdgeUs = Math.max(0L, resolveTimeToLiveEdgeUs - durationUs);
             }
         }
-        this.trackSelection.updateSelectedTrack(j, j4, resolveTimeToLiveEdgeUs, list, createMediaChunkIterators(hlsMediaChunk, j2));
+        this.trackSelection.updateSelectedTrack(j3, j4, resolveTimeToLiveEdgeUs, list, createMediaChunkIterators(hlsMediaChunk, j));
         int selectedIndexInTrackGroup = this.trackSelection.getSelectedIndexInTrackGroup();
         boolean z2 = indexOf != selectedIndexInTrackGroup;
-        Uri uri2 = this.playlistUrls[selectedIndexInTrackGroup];
-        if (!this.playlistTracker.isSnapshotValid(uri2)) {
-            hlsChunkHolder.playlistUrl = uri2;
-            this.seenExpectedPlaylistError &= uri2.equals(this.expectedPlaylistUrl);
-            this.expectedPlaylistUrl = uri2;
+        Uri uri = this.playlistUrls[selectedIndexInTrackGroup];
+        if (!this.playlistTracker.isSnapshotValid(uri)) {
+            hlsChunkHolder.playlistUrl = uri;
+            this.seenExpectedPlaylistError &= uri.equals(this.expectedPlaylistUrl);
+            this.expectedPlaylistUrl = uri;
             return;
         }
-        HlsMediaPlaylist playlistSnapshot = this.playlistTracker.getPlaylistSnapshot(uri2, true);
+        HlsMediaPlaylist playlistSnapshot = this.playlistTracker.getPlaylistSnapshot(uri, true);
         Assertions.checkNotNull(playlistSnapshot);
         this.independentSegments = playlistSnapshot.hasIndependentSegments;
         updateLiveEdgeTimeUs(playlistSnapshot);
         long initialStartTimeUs = playlistSnapshot.startTimeUs - this.playlistTracker.getInitialStartTimeUs();
-        Pair nextMediaSequenceAndPartIndex = getNextMediaSequenceAndPartIndex(hlsMediaChunk, z2, playlistSnapshot, initialStartTimeUs, j2);
+        Uri uri2 = uri;
+        Pair nextMediaSequenceAndPartIndex = getNextMediaSequenceAndPartIndex(hlsMediaChunk, z2, playlistSnapshot, initialStartTimeUs, j);
         long longValue = ((Long) nextMediaSequenceAndPartIndex.first).longValue();
         int intValue = ((Integer) nextMediaSequenceAndPartIndex.second).intValue();
         if (longValue >= playlistSnapshot.mediaSequence || hlsMediaChunk == null || !z2) {
             hlsMediaPlaylist = playlistSnapshot;
-            j3 = initialStartTimeUs;
-            uri = uri2;
-            i = selectedIndexInTrackGroup;
+            j2 = initialStartTimeUs;
         } else {
-            Uri uri3 = this.playlistUrls[indexOf];
-            HlsMediaPlaylist playlistSnapshot2 = this.playlistTracker.getPlaylistSnapshot(uri3, true);
+            uri2 = this.playlistUrls[indexOf];
+            HlsMediaPlaylist playlistSnapshot2 = this.playlistTracker.getPlaylistSnapshot(uri2, true);
             Assertions.checkNotNull(playlistSnapshot2);
-            j3 = playlistSnapshot2.startTimeUs - this.playlistTracker.getInitialStartTimeUs();
-            Pair nextMediaSequenceAndPartIndex2 = getNextMediaSequenceAndPartIndex(hlsMediaChunk, false, playlistSnapshot2, j3, j2);
+            j2 = playlistSnapshot2.startTimeUs - this.playlistTracker.getInitialStartTimeUs();
+            Pair nextMediaSequenceAndPartIndex2 = getNextMediaSequenceAndPartIndex(hlsMediaChunk, false, playlistSnapshot2, j2, j);
             longValue = ((Long) nextMediaSequenceAndPartIndex2.first).longValue();
             intValue = ((Integer) nextMediaSequenceAndPartIndex2.second).intValue();
-            i = indexOf;
-            uri = uri3;
             hlsMediaPlaylist = playlistSnapshot2;
+            selectedIndexInTrackGroup = indexOf;
         }
         if (longValue < hlsMediaPlaylist.mediaSequence) {
             this.fatalError = new BehindLiveWindowException();
@@ -445,9 +460,9 @@ class HlsChunkSource {
         SegmentBaseHolder nextSegmentHolder = getNextSegmentHolder(hlsMediaPlaylist, longValue, intValue);
         if (nextSegmentHolder == null) {
             if (!hlsMediaPlaylist.hasEndTag) {
-                hlsChunkHolder.playlistUrl = uri;
-                this.seenExpectedPlaylistError &= uri.equals(this.expectedPlaylistUrl);
-                this.expectedPlaylistUrl = uri;
+                hlsChunkHolder.playlistUrl = uri2;
+                this.seenExpectedPlaylistError &= uri2.equals(this.expectedPlaylistUrl);
+                this.expectedPlaylistUrl = uri2;
                 return;
             } else if (z || hlsMediaPlaylist.segments.isEmpty()) {
                 hlsChunkHolder.endOfStream = true;
@@ -458,23 +473,24 @@ class HlsChunkSource {
         }
         this.seenExpectedPlaylistError = false;
         this.expectedPlaylistUrl = null;
+        this.lastChunkRequestRealtimeMs = SystemClock.elapsedRealtime();
         Uri fullEncryptionKeyUri = getFullEncryptionKeyUri(hlsMediaPlaylist, nextSegmentHolder.segmentBase.initializationSegment);
-        Chunk maybeCreateEncryptionChunkFor = maybeCreateEncryptionChunkFor(fullEncryptionKeyUri, i);
+        Chunk maybeCreateEncryptionChunkFor = maybeCreateEncryptionChunkFor(fullEncryptionKeyUri, selectedIndexInTrackGroup, true, null);
         hlsChunkHolder.chunk = maybeCreateEncryptionChunkFor;
         if (maybeCreateEncryptionChunkFor != null) {
             return;
         }
         Uri fullEncryptionKeyUri2 = getFullEncryptionKeyUri(hlsMediaPlaylist, nextSegmentHolder.segmentBase);
-        Chunk maybeCreateEncryptionChunkFor2 = maybeCreateEncryptionChunkFor(fullEncryptionKeyUri2, i);
+        Chunk maybeCreateEncryptionChunkFor2 = maybeCreateEncryptionChunkFor(fullEncryptionKeyUri2, selectedIndexInTrackGroup, false, null);
         hlsChunkHolder.chunk = maybeCreateEncryptionChunkFor2;
         if (maybeCreateEncryptionChunkFor2 != null) {
             return;
         }
-        boolean shouldSpliceIn = HlsMediaChunk.shouldSpliceIn(hlsMediaChunk, uri, hlsMediaPlaylist, nextSegmentHolder, j3);
+        boolean shouldSpliceIn = HlsMediaChunk.shouldSpliceIn(hlsMediaChunk, uri2, hlsMediaPlaylist, nextSegmentHolder, j2);
         if (shouldSpliceIn && nextSegmentHolder.isPreload) {
             return;
         }
-        hlsChunkHolder.chunk = HlsMediaChunk.createInstance(this.extractorFactory, this.mediaDataSource, this.playlistFormats[i], j3, hlsMediaPlaylist, nextSegmentHolder, uri, this.muxedCaptionFormats, this.trackSelection.getSelectionReason(), this.trackSelection.getSelectionData(), this.isTimestampMaster, this.timestampAdjusterProvider, hlsMediaChunk, this.keyCache.get(fullEncryptionKeyUri2), this.keyCache.get(fullEncryptionKeyUri), shouldSpliceIn, this.playerId);
+        hlsChunkHolder.chunk = HlsMediaChunk.createInstance(this.extractorFactory, this.mediaDataSource, this.playlistFormats[selectedIndexInTrackGroup], j2, hlsMediaPlaylist, nextSegmentHolder, uri2, this.muxedCaptionFormats, this.trackSelection.getSelectionReason(), this.trackSelection.getSelectionData(), this.isPrimaryTimestampSource, this.timestampAdjusterProvider, this.timestampAdjusterInitializationTimeoutMs, hlsMediaChunk, this.keyCache.get(fullEncryptionKeyUri2), this.keyCache.get(fullEncryptionKeyUri), shouldSpliceIn, this.playerId, null);
     }
 
     public int getPreferredQueueSize(long j, List list) {
@@ -489,9 +505,13 @@ class HlsChunkSource {
         return this.trackSelection;
     }
 
+    public boolean hasIndependentSegments() {
+        return this.independentSegments;
+    }
+
     public boolean maybeExcludeTrack(Chunk chunk, long j) {
         ExoTrackSelection exoTrackSelection = this.trackSelection;
-        return exoTrackSelection.blacklist(exoTrackSelection.indexOf(this.trackGroup.indexOf(chunk.trackFormat)), j);
+        return exoTrackSelection.excludeTrack(exoTrackSelection.indexOf(this.trackGroup.indexOf(chunk.trackFormat)), j);
     }
 
     public void maybeThrowError() {
@@ -536,18 +556,20 @@ class HlsChunkSource {
             return true;
         }
         this.seenExpectedPlaylistError |= uri.equals(this.expectedPlaylistUrl);
-        return j == -9223372036854775807L || (this.trackSelection.blacklist(indexOf, j) && this.playlistTracker.excludeMediaPlaylist(uri, j));
+        return j == -9223372036854775807L || (this.trackSelection.excludeTrack(indexOf, j) && this.playlistTracker.excludeMediaPlaylist(uri, j));
     }
 
     public void reset() {
+        deactivatePlaylistForSelectedTrack();
         this.fatalError = null;
     }
 
-    public void setIsTimestampMaster(boolean z) {
-        this.isTimestampMaster = z;
+    public void setIsPrimaryTimestampSource(boolean z) {
+        this.isPrimaryTimestampSource = z;
     }
 
     public void setTrackSelection(ExoTrackSelection exoTrackSelection) {
+        deactivatePlaylistForSelectedTrack();
         this.trackSelection = exoTrackSelection;
     }
 

@@ -34,10 +34,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$TL_forumTopic;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$UserStatus;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedFloat;
@@ -69,7 +66,7 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
     public final Theme.ResourcesProvider resourcesProvider;
     private final SimpleTextView topicTextView;
     private boolean topicWasVisible;
-    private TLRPC$User user;
+    private TLRPC.User user;
 
     /* loaded from: classes4.dex */
     public static class RepostStoryDrawable extends Drawable {
@@ -82,7 +79,7 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
         public RepostStoryDrawable(Context context, View view, boolean z, Theme.ResourcesProvider resourcesProvider) {
             Paint paint = new Paint(1);
             this.paint = paint;
-            this.alpha = NotificationCenter.didClearDatabase;
+            this.alpha = NotificationCenter.messagePlayingSpeedChanged;
             LinearGradient linearGradient = new LinearGradient(0.0f, 0.0f, AndroidUtilities.dp(56.0f), AndroidUtilities.dp(56.0f), new int[]{Theme.getColor(Theme.key_stories_circle1, resourcesProvider), Theme.getColor(Theme.key_stories_circle2, resourcesProvider)}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP);
             this.gradient = linearGradient;
             paint.setShader(linearGradient);
@@ -263,12 +260,12 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected boolean drawChild(Canvas canvas, View view, long j) {
-        TLRPC$User tLRPC$User;
+        TLRPC.User user;
         boolean z;
-        TLRPC$UserStatus tLRPC$UserStatus;
+        TLRPC.UserStatus userStatus;
         Drawable drawable;
         boolean drawChild = super.drawChild(canvas, view, j);
-        if (view == this.imageView && this.currentType != 2 && (tLRPC$User = this.user) != null && !MessagesController.isSupportUser(tLRPC$User)) {
+        if (view == this.imageView && this.currentType != 2 && (user = this.user) != null && !MessagesController.isSupportUser(user)) {
             long elapsedRealtime = SystemClock.elapsedRealtime();
             long j2 = elapsedRealtime - this.lastUpdateTime;
             if (j2 > 17) {
@@ -300,8 +297,8 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
                 canvas.restore();
             } else {
                 if (!this.premiumBlocked) {
-                    TLRPC$User tLRPC$User2 = this.user;
-                    if (!tLRPC$User2.self && !tLRPC$User2.bot && (((tLRPC$UserStatus = tLRPC$User2.status) != null && tLRPC$UserStatus.expires > ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) || MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(this.user.id)))) {
+                    TLRPC.User user2 = this.user;
+                    if (!user2.self && !user2.bot && (((userStatus = user2.status) != null && userStatus.expires > ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) || MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(this.user.id)))) {
                         z = true;
                         if (!z || this.onlineProgress != 0.0f) {
                             int bottom2 = this.imageView.getBottom() - AndroidUtilities.dp(6.0f);
@@ -445,10 +442,10 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
                     if (charSequence != null) {
                         textView = this.nameTextView;
                     } else {
-                        TLRPC$User tLRPC$User = this.user;
-                        if (tLRPC$User != null) {
+                        TLRPC.User user = this.user;
+                        if (user != null) {
                             textView = this.nameTextView;
-                            charSequence = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
+                            charSequence = ContactsController.formatName(user.first_name, user.last_name);
                         } else {
                             this.nameTextView.setText("");
                             this.imageView.setForUserOrChat(this.user, this.avatarDrawable);
@@ -468,7 +465,7 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
                 this.user = null;
                 this.premiumBlocked = false;
                 this.premiumBlockedT.set(0.0f, true);
-                TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j));
+                TLRPC.Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j));
                 if (charSequence != null) {
                     this.nameTextView.setText(charSequence);
                 } else {
@@ -494,9 +491,9 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
         this.checkBox.setChecked(z, false);
     }
 
-    public void setTopic(TLRPC$TL_forumTopic tLRPC$TL_forumTopic, boolean z) {
+    public void setTopic(TLRPC.TL_forumTopic tL_forumTopic, boolean z) {
         boolean z2 = this.topicWasVisible;
-        boolean z3 = tLRPC$TL_forumTopic != null;
+        boolean z3 = tL_forumTopic != null;
         if (z2 == z3 && z) {
             return;
         }
@@ -508,7 +505,7 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
         }
         if (z3) {
             SimpleTextView simpleTextView2 = this.topicTextView;
-            simpleTextView2.setText(ForumUtilities.getTopicSpannedName(tLRPC$TL_forumTopic, simpleTextView2.getTextPaint(), false));
+            simpleTextView2.setText(ForumUtilities.getTopicSpannedName(tL_forumTopic, simpleTextView2.getTextPaint(), false));
             this.topicTextView.requestLayout();
         }
         if (z) {

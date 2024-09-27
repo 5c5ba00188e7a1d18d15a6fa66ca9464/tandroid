@@ -429,9 +429,13 @@ public interface Player {
 
     boolean isCurrentMediaItemSeekable();
 
+    boolean isPlaying();
+
     boolean isPlayingAd();
 
     void pause();
+
+    void play();
 
     void prepare();
 

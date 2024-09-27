@@ -159,7 +159,7 @@ public final class TsExtractor implements Extractor {
                                 arrayList = arrayList2;
                                 i3 = 89;
                             } else if (readUnsignedByte == 111) {
-                                i3 = NotificationCenter.webRtcMicAmplitudeEvent;
+                                i3 = NotificationCenter.didClearDatabase;
                             }
                         }
                         i3 = NotificationCenter.fileUploadFailed;
@@ -280,10 +280,6 @@ public final class TsExtractor implements Extractor {
 
     public TsExtractor(int i, int i2, int i3) {
         this(i, new TimestampAdjuster(0L), new DefaultTsPayloadReaderFactory(i2), i3);
-    }
-
-    public TsExtractor(int i, TimestampAdjuster timestampAdjuster, TsPayloadReader.Factory factory) {
-        this(i, timestampAdjuster, factory, 112800);
     }
 
     public TsExtractor(int i, TimestampAdjuster timestampAdjuster, TsPayloadReader.Factory factory, int i2) {

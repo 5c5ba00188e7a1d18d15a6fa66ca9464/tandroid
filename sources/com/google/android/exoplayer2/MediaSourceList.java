@@ -129,7 +129,7 @@ public final class MediaSourceList {
         public void onDownstreamFormatChanged(int i, MediaSource.MediaPeriodId mediaPeriodId, final MediaLoadData mediaLoadData) {
             final Pair eventParameters = getEventParameters(i, mediaPeriodId);
             if (eventParameters != null) {
-                MediaSourceList.this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.MediaSourceList$ForwardingEventListener$$ExternalSyntheticLambda1
+                MediaSourceList.this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.MediaSourceList$ForwardingEventListener$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaSourceList.ForwardingEventListener.this.lambda$onDownstreamFormatChanged$5(eventParameters, mediaLoadData);
@@ -155,7 +155,7 @@ public final class MediaSourceList {
         public void onDrmKeysRemoved(int i, MediaSource.MediaPeriodId mediaPeriodId) {
             final Pair eventParameters = getEventParameters(i, mediaPeriodId);
             if (eventParameters != null) {
-                MediaSourceList.this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.MediaSourceList$ForwardingEventListener$$ExternalSyntheticLambda10
+                MediaSourceList.this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.MediaSourceList$ForwardingEventListener$$ExternalSyntheticLambda8
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaSourceList.ForwardingEventListener.this.lambda$onDrmKeysRemoved$10(eventParameters);
@@ -168,7 +168,7 @@ public final class MediaSourceList {
         public void onDrmKeysRestored(int i, MediaSource.MediaPeriodId mediaPeriodId) {
             final Pair eventParameters = getEventParameters(i, mediaPeriodId);
             if (eventParameters != null) {
-                MediaSourceList.this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.MediaSourceList$ForwardingEventListener$$ExternalSyntheticLambda9
+                MediaSourceList.this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.MediaSourceList$ForwardingEventListener$$ExternalSyntheticLambda7
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaSourceList.ForwardingEventListener.this.lambda$onDrmKeysRestored$9(eventParameters);
@@ -186,7 +186,7 @@ public final class MediaSourceList {
         public void onDrmSessionAcquired(int i, MediaSource.MediaPeriodId mediaPeriodId, final int i2) {
             final Pair eventParameters = getEventParameters(i, mediaPeriodId);
             if (eventParameters != null) {
-                MediaSourceList.this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.MediaSourceList$ForwardingEventListener$$ExternalSyntheticLambda5
+                MediaSourceList.this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.MediaSourceList$ForwardingEventListener$$ExternalSyntheticLambda4
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaSourceList.ForwardingEventListener.this.lambda$onDrmSessionAcquired$6(eventParameters, i2);
@@ -199,7 +199,7 @@ public final class MediaSourceList {
         public void onDrmSessionManagerError(int i, MediaSource.MediaPeriodId mediaPeriodId, final Exception exc) {
             final Pair eventParameters = getEventParameters(i, mediaPeriodId);
             if (eventParameters != null) {
-                MediaSourceList.this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.MediaSourceList$ForwardingEventListener$$ExternalSyntheticLambda3
+                MediaSourceList.this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.MediaSourceList$ForwardingEventListener$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaSourceList.ForwardingEventListener.this.lambda$onDrmSessionManagerError$8(eventParameters, exc);
@@ -212,7 +212,7 @@ public final class MediaSourceList {
         public void onDrmSessionReleased(int i, MediaSource.MediaPeriodId mediaPeriodId) {
             final Pair eventParameters = getEventParameters(i, mediaPeriodId);
             if (eventParameters != null) {
-                MediaSourceList.this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.MediaSourceList$ForwardingEventListener$$ExternalSyntheticLambda2
+                MediaSourceList.this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.MediaSourceList$ForwardingEventListener$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaSourceList.ForwardingEventListener.this.lambda$onDrmSessionReleased$11(eventParameters);
@@ -225,7 +225,7 @@ public final class MediaSourceList {
         public void onLoadCanceled(int i, MediaSource.MediaPeriodId mediaPeriodId, final LoadEventInfo loadEventInfo, final MediaLoadData mediaLoadData) {
             final Pair eventParameters = getEventParameters(i, mediaPeriodId);
             if (eventParameters != null) {
-                MediaSourceList.this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.MediaSourceList$ForwardingEventListener$$ExternalSyntheticLambda6
+                MediaSourceList.this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.MediaSourceList$ForwardingEventListener$$ExternalSyntheticLambda9
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaSourceList.ForwardingEventListener.this.lambda$onLoadCanceled$2(eventParameters, loadEventInfo, mediaLoadData);
@@ -238,7 +238,7 @@ public final class MediaSourceList {
         public void onLoadCompleted(int i, MediaSource.MediaPeriodId mediaPeriodId, final LoadEventInfo loadEventInfo, final MediaLoadData mediaLoadData) {
             final Pair eventParameters = getEventParameters(i, mediaPeriodId);
             if (eventParameters != null) {
-                MediaSourceList.this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.MediaSourceList$ForwardingEventListener$$ExternalSyntheticLambda0
+                MediaSourceList.this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.MediaSourceList$ForwardingEventListener$$ExternalSyntheticLambda6
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaSourceList.ForwardingEventListener.this.lambda$onLoadCompleted$1(eventParameters, loadEventInfo, mediaLoadData);
@@ -251,7 +251,7 @@ public final class MediaSourceList {
         public void onLoadError(int i, MediaSource.MediaPeriodId mediaPeriodId, final LoadEventInfo loadEventInfo, final MediaLoadData mediaLoadData, final IOException iOException, final boolean z) {
             final Pair eventParameters = getEventParameters(i, mediaPeriodId);
             if (eventParameters != null) {
-                MediaSourceList.this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.MediaSourceList$ForwardingEventListener$$ExternalSyntheticLambda7
+                MediaSourceList.this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.MediaSourceList$ForwardingEventListener$$ExternalSyntheticLambda10
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaSourceList.ForwardingEventListener.this.lambda$onLoadError$3(eventParameters, loadEventInfo, mediaLoadData, iOException, z);
@@ -264,7 +264,7 @@ public final class MediaSourceList {
         public void onLoadStarted(int i, MediaSource.MediaPeriodId mediaPeriodId, final LoadEventInfo loadEventInfo, final MediaLoadData mediaLoadData) {
             final Pair eventParameters = getEventParameters(i, mediaPeriodId);
             if (eventParameters != null) {
-                MediaSourceList.this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.MediaSourceList$ForwardingEventListener$$ExternalSyntheticLambda4
+                MediaSourceList.this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.MediaSourceList$ForwardingEventListener$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaSourceList.ForwardingEventListener.this.lambda$onLoadStarted$0(eventParameters, loadEventInfo, mediaLoadData);
@@ -277,7 +277,7 @@ public final class MediaSourceList {
         public void onUpstreamDiscarded(int i, MediaSource.MediaPeriodId mediaPeriodId, final MediaLoadData mediaLoadData) {
             final Pair eventParameters = getEventParameters(i, mediaPeriodId);
             if (eventParameters != null) {
-                MediaSourceList.this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.MediaSourceList$ForwardingEventListener$$ExternalSyntheticLambda8
+                MediaSourceList.this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.MediaSourceList$ForwardingEventListener$$ExternalSyntheticLambda5
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaSourceList.ForwardingEventListener.this.lambda$onUpstreamDiscarded$4(eventParameters, mediaLoadData);

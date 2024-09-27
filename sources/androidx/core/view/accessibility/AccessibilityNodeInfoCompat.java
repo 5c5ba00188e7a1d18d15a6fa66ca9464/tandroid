@@ -61,13 +61,13 @@ public class AccessibilityNodeInfoCompat {
         public static final AccessibilityActionCompat ACTION_ACCESSIBILITY_FOCUS = new AccessibilityActionCompat(64, null);
         public static final AccessibilityActionCompat ACTION_CLEAR_ACCESSIBILITY_FOCUS = new AccessibilityActionCompat(128, null);
         public static final AccessibilityActionCompat ACTION_NEXT_AT_MOVEMENT_GRANULARITY = new AccessibilityActionCompat(256, null, AccessibilityViewCommand.MoveAtGranularityArguments.class);
-        public static final AccessibilityActionCompat ACTION_PREVIOUS_AT_MOVEMENT_GRANULARITY = new AccessibilityActionCompat(LiteMode.FLAG_CALLS_ANIMATIONS, null, AccessibilityViewCommand.MoveAtGranularityArguments.class);
+        public static final AccessibilityActionCompat ACTION_PREVIOUS_AT_MOVEMENT_GRANULARITY = new AccessibilityActionCompat(512, null, AccessibilityViewCommand.MoveAtGranularityArguments.class);
         public static final AccessibilityActionCompat ACTION_NEXT_HTML_ELEMENT = new AccessibilityActionCompat(1024, null, AccessibilityViewCommand.MoveHtmlArguments.class);
         public static final AccessibilityActionCompat ACTION_PREVIOUS_HTML_ELEMENT = new AccessibilityActionCompat(2048, null, AccessibilityViewCommand.MoveHtmlArguments.class);
         public static final AccessibilityActionCompat ACTION_SCROLL_FORWARD = new AccessibilityActionCompat(LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM, null);
         public static final AccessibilityActionCompat ACTION_SCROLL_BACKWARD = new AccessibilityActionCompat(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM, null);
         public static final AccessibilityActionCompat ACTION_COPY = new AccessibilityActionCompat(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM, null);
-        public static final AccessibilityActionCompat ACTION_PASTE = new AccessibilityActionCompat(LiteMode.FLAG_CHAT_SCALE, null);
+        public static final AccessibilityActionCompat ACTION_PASTE = new AccessibilityActionCompat(32768, null);
         public static final AccessibilityActionCompat ACTION_CUT = new AccessibilityActionCompat(65536, null);
         public static final AccessibilityActionCompat ACTION_SET_SELECTION = new AccessibilityActionCompat(131072, null, AccessibilityViewCommand.SetSelectionArguments.class);
         public static final AccessibilityActionCompat ACTION_EXPAND = new AccessibilityActionCompat(262144, null);
@@ -459,7 +459,7 @@ public class AccessibilityNodeInfoCompat {
                         return "ACTION_CLEAR_ACCESSIBILITY_FOCUS";
                     case 256:
                         return "ACTION_NEXT_AT_MOVEMENT_GRANULARITY";
-                    case LiteMode.FLAG_CALLS_ANIMATIONS /* 512 */:
+                    case 512:
                         return "ACTION_PREVIOUS_AT_MOVEMENT_GRANULARITY";
                     case 1024:
                         return "ACTION_NEXT_HTML_ELEMENT";
@@ -471,7 +471,7 @@ public class AccessibilityNodeInfoCompat {
                         return "ACTION_SCROLL_BACKWARD";
                     case LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM /* 16384 */:
                         return "ACTION_COPY";
-                    case LiteMode.FLAG_CHAT_SCALE /* 32768 */:
+                    case 32768:
                         return "ACTION_PASTE";
                     case 65536:
                         return "ACTION_CUT";

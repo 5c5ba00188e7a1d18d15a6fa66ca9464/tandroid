@@ -76,8 +76,18 @@ public abstract class BasePlayer implements Player {
     }
 
     @Override // com.google.android.exoplayer2.Player
+    public final boolean isPlaying() {
+        return getPlaybackState() == 3 && getPlayWhenReady() && getPlaybackSuppressionReason() == 0;
+    }
+
+    @Override // com.google.android.exoplayer2.Player
     public final void pause() {
         setPlayWhenReady(false);
+    }
+
+    @Override // com.google.android.exoplayer2.Player
+    public final void play() {
+        setPlayWhenReady(true);
     }
 
     public abstract void seekTo(int i, long j, int i2, boolean z);

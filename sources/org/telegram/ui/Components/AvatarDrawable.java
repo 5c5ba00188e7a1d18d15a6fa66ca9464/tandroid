@@ -25,9 +25,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$ChatInvite;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class AvatarDrawable extends Drawable {
@@ -64,26 +62,26 @@ public class AvatarDrawable extends Drawable {
         this((Theme.ResourcesProvider) null);
     }
 
-    public AvatarDrawable(TLRPC$Chat tLRPC$Chat) {
-        this(tLRPC$Chat, false);
+    public AvatarDrawable(TLRPC.Chat chat) {
+        this(chat, false);
     }
 
-    public AvatarDrawable(TLRPC$Chat tLRPC$Chat, boolean z) {
+    public AvatarDrawable(TLRPC.Chat chat, boolean z) {
         this();
         this.isProfile = z;
-        setInfo(tLRPC$Chat);
+        setInfo(chat);
     }
 
-    public AvatarDrawable(TLRPC$User tLRPC$User) {
-        this(tLRPC$User, false);
+    public AvatarDrawable(TLRPC.User user) {
+        this(user, false);
     }
 
-    public AvatarDrawable(TLRPC$User tLRPC$User, boolean z) {
+    public AvatarDrawable(TLRPC.User user, boolean z) {
         this();
         this.isProfile = z;
-        if (tLRPC$User != null) {
-            setInfo(tLRPC$User.id, tLRPC$User.first_name, tLRPC$User.last_name, null);
-            this.drawDeleted = UserObject.isDeleted(tLRPC$User);
+        if (user != null) {
+            setInfo(user.id, user.first_name, user.last_name, null);
+            this.drawDeleted = UserObject.isDeleted(user);
         }
     }
 
@@ -93,7 +91,7 @@ public class AvatarDrawable extends Drawable {
         this.roundRadius = -1;
         this.drawAvatarBackground = true;
         this.rotate45Background = false;
-        this.alpha = NotificationCenter.didClearDatabase;
+        this.alpha = NotificationCenter.messagePlayingSpeedChanged;
         this.resourcesProvider = resourcesProvider;
         TextPaint textPaint = new TextPaint(1);
         this.namePaint = textPaint;
@@ -288,7 +286,7 @@ public class AvatarDrawable extends Drawable {
                 if (i9 != 255) {
                     drawable2.setAlpha(i9);
                     drawable2.draw(canvas);
-                    drawable2.setAlpha(NotificationCenter.didClearDatabase);
+                    drawable2.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                 }
                 drawable2.draw(canvas);
             }
@@ -525,33 +523,33 @@ public class AvatarDrawable extends Drawable {
     }
 
     public void setInfo(int i, TLObject tLObject) {
-        if (tLObject instanceof TLRPC$User) {
-            setInfo(i, (TLRPC$User) tLObject);
-        } else if (tLObject instanceof TLRPC$Chat) {
-            setInfo(i, (TLRPC$Chat) tLObject);
-        } else if (tLObject instanceof TLRPC$ChatInvite) {
-            setInfo(i, (TLRPC$ChatInvite) tLObject);
+        if (tLObject instanceof TLRPC.User) {
+            setInfo(i, (TLRPC.User) tLObject);
+        } else if (tLObject instanceof TLRPC.Chat) {
+            setInfo(i, (TLRPC.Chat) tLObject);
+        } else if (tLObject instanceof TLRPC.ChatInvite) {
+            setInfo(i, (TLRPC.ChatInvite) tLObject);
         }
     }
 
-    public void setInfo(int i, TLRPC$Chat tLRPC$Chat) {
-        if (tLRPC$Chat != null) {
-            setInfo(tLRPC$Chat.id, tLRPC$Chat.title, null, null, tLRPC$Chat.color != null ? Integer.valueOf(ChatObject.getColorId(tLRPC$Chat)) : null, ChatObject.getPeerColorForAvatar(i, tLRPC$Chat));
+    public void setInfo(int i, TLRPC.Chat chat) {
+        if (chat != null) {
+            setInfo(chat.id, chat.title, null, null, chat.color != null ? Integer.valueOf(ChatObject.getColorId(chat)) : null, ChatObject.getPeerColorForAvatar(i, chat));
         }
     }
 
-    public void setInfo(int i, TLRPC$ChatInvite tLRPC$ChatInvite) {
-        if (tLRPC$ChatInvite != null) {
-            String str = tLRPC$ChatInvite.title;
-            TLRPC$Chat tLRPC$Chat = tLRPC$ChatInvite.chat;
-            setInfo(0L, str, null, null, (tLRPC$Chat == null || tLRPC$Chat.color == null) ? null : Integer.valueOf(ChatObject.getColorId(tLRPC$Chat)), ChatObject.getPeerColorForAvatar(i, tLRPC$ChatInvite.chat));
+    public void setInfo(int i, TLRPC.ChatInvite chatInvite) {
+        if (chatInvite != null) {
+            String str = chatInvite.title;
+            TLRPC.Chat chat = chatInvite.chat;
+            setInfo(0L, str, null, null, (chat == null || chat.color == null) ? null : Integer.valueOf(ChatObject.getColorId(chat)), ChatObject.getPeerColorForAvatar(i, chatInvite.chat));
         }
     }
 
-    public void setInfo(int i, TLRPC$User tLRPC$User) {
-        if (tLRPC$User != null) {
-            setInfo(tLRPC$User.id, tLRPC$User.first_name, tLRPC$User.last_name, null, tLRPC$User.color != null ? Integer.valueOf(UserObject.getColorId(tLRPC$User)) : null, UserObject.getPeerColorForAvatar(i, tLRPC$User));
-            this.drawDeleted = UserObject.isDeleted(tLRPC$User);
+    public void setInfo(int i, TLRPC.User user) {
+        if (user != null) {
+            setInfo(user.id, user.first_name, user.last_name, null, user.color != null ? Integer.valueOf(UserObject.getColorId(user)) : null, UserObject.getPeerColorForAvatar(i, user));
+            this.drawDeleted = UserObject.isDeleted(user);
         }
     }
 
@@ -625,25 +623,25 @@ public class AvatarDrawable extends Drawable {
     }
 
     public void setInfo(TLObject tLObject) {
-        if (tLObject instanceof TLRPC$User) {
-            setInfo((TLRPC$User) tLObject);
-        } else if (tLObject instanceof TLRPC$Chat) {
-            setInfo((TLRPC$Chat) tLObject);
-        } else if (tLObject instanceof TLRPC$ChatInvite) {
-            setInfo((TLRPC$ChatInvite) tLObject);
+        if (tLObject instanceof TLRPC.User) {
+            setInfo((TLRPC.User) tLObject);
+        } else if (tLObject instanceof TLRPC.Chat) {
+            setInfo((TLRPC.Chat) tLObject);
+        } else if (tLObject instanceof TLRPC.ChatInvite) {
+            setInfo((TLRPC.ChatInvite) tLObject);
         }
     }
 
-    public void setInfo(TLRPC$Chat tLRPC$Chat) {
-        setInfo(UserConfig.selectedAccount, tLRPC$Chat);
+    public void setInfo(TLRPC.Chat chat) {
+        setInfo(UserConfig.selectedAccount, chat);
     }
 
-    public void setInfo(TLRPC$ChatInvite tLRPC$ChatInvite) {
-        setInfo(UserConfig.selectedAccount, tLRPC$ChatInvite);
+    public void setInfo(TLRPC.ChatInvite chatInvite) {
+        setInfo(UserConfig.selectedAccount, chatInvite);
     }
 
-    public void setInfo(TLRPC$User tLRPC$User) {
-        setInfo(UserConfig.selectedAccount, tLRPC$User);
+    public void setInfo(TLRPC.User user) {
+        setInfo(UserConfig.selectedAccount, user);
     }
 
     public void setPeerColor(int i) {

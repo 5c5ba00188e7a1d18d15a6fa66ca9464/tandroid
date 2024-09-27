@@ -373,7 +373,7 @@ final class zzgd implements zzgp {
                 i13 = charAt5;
                 i14 = i68;
             }
-            int i72 = charAt24 & NotificationCenter.didClearDatabase;
+            int i72 = charAt24 & NotificationCenter.messagePlayingSpeedChanged;
             int i73 = charAt2;
             if ((charAt24 & 1024) != 0) {
                 iArr[i62] = i63;
@@ -541,7 +541,7 @@ final class zzgd implements zzgp {
             int i90 = i63 + 1;
             iArr2[i63] = charAt23;
             int i91 = i63 + 2;
-            iArr2[i90] = ((charAt24 & 256) != 0 ? 268435456 : 0) | ((charAt24 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0 ? 536870912 : 0) | (i72 << 20) | objectFieldOffset;
+            iArr2[i90] = ((charAt24 & 256) != 0 ? 268435456 : 0) | ((charAt24 & 512) != 0 ? 536870912 : 0) | (i72 << 20) | objectFieldOffset;
             i63 += 3;
             iArr2[i91] = i17 | (i19 << 20);
             zzd = str;

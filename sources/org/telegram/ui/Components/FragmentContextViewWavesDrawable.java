@@ -17,7 +17,7 @@ import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.voip.VoIPService;
-import org.telegram.tgnet.TLRPC$TL_groupCallParticipant;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class FragmentContextViewWavesDrawable {
@@ -127,7 +127,7 @@ public class FragmentContextViewWavesDrawable {
             if (i3 != 0 && i3 != 1 && i3 != 3) {
                 paint.setShader(null);
                 blendARGB = Theme.getColor(Theme.key_voipgroup_topPanelGray);
-            } else if (LiteMode.isEnabled(LiteMode.FLAG_CALLS_ANIMATIONS)) {
+            } else if (LiteMode.isEnabled(512)) {
                 paint.setShader(this.shader);
                 return;
             } else {
@@ -353,7 +353,7 @@ public class FragmentContextViewWavesDrawable {
                             this.lineBlobDrawable1.update(this.amplitude, 0.7f);
                             this.lineBlobDrawable2.update(this.amplitude, 0.7f);
                         }
-                        if (LiteMode.isEnabled(LiteMode.FLAG_CALLS_ANIMATIONS)) {
+                        if (LiteMode.isEnabled(512)) {
                             this.paint.setAlpha((int) (76.0f * f18));
                             float dp = AndroidUtilities.dp(6.0f) * this.amplitude2;
                             float dp2 = AndroidUtilities.dp(6.0f) * this.amplitude2;
@@ -368,7 +368,7 @@ public class FragmentContextViewWavesDrawable {
                             i3 = (int) (255.0f * f18);
                         } else {
                             paint = this.paint;
-                            i3 = NotificationCenter.didClearDatabase;
+                            i3 = NotificationCenter.messagePlayingSpeedChanged;
                         }
                         paint.setAlpha(i3);
                         if (i2 == 1 && z3) {
@@ -419,7 +419,7 @@ public class FragmentContextViewWavesDrawable {
 
     public void updateState(boolean z) {
         int i;
-        TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant;
+        TLRPC.TL_groupCallParticipant tL_groupCallParticipant;
         VoIPService sharedInstance = VoIPService.getSharedInstance();
         if (sharedInstance != null) {
             int callState = sharedInstance.getCallState();
@@ -428,7 +428,7 @@ public class FragmentContextViewWavesDrawable {
                 return;
             }
             ChatObject.Call call = sharedInstance.groupCall;
-            if (call == null || (((tLRPC$TL_groupCallParticipant = (TLRPC$TL_groupCallParticipant) call.participants.get(sharedInstance.getSelfId())) == null || tLRPC$TL_groupCallParticipant.can_self_unmute || !tLRPC$TL_groupCallParticipant.muted || ChatObject.canManageCalls(sharedInstance.getChat())) && !sharedInstance.groupCall.call.rtmp_stream)) {
+            if (call == null || (((tL_groupCallParticipant = (TLRPC.TL_groupCallParticipant) call.participants.get(sharedInstance.getSelfId())) == null || tL_groupCallParticipant.can_self_unmute || !tL_groupCallParticipant.muted || ChatObject.canManageCalls(sharedInstance.getChat())) && !sharedInstance.groupCall.call.rtmp_stream)) {
                 i = sharedInstance.isMicMute();
             } else {
                 sharedInstance.setMicMute(true, false, false);

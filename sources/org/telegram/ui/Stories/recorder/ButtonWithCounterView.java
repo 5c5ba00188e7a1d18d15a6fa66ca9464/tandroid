@@ -82,7 +82,7 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
         this.countScale = 1.0f;
         this.enabledT = 1.0f;
         this.enabled = true;
-        this.globalAlpha = NotificationCenter.didClearDatabase;
+        this.globalAlpha = NotificationCenter.messagePlayingSpeedChanged;
         this.subTextAlpha = NotificationCenter.storyQualityUpdate;
         this.filled = z;
         this.resourcesProvider = resourcesProvider;

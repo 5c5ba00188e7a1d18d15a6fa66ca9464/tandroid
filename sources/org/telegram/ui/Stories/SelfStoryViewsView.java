@@ -23,7 +23,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
-import org.telegram.tgnet.tl.TL_stories$StoryItem;
+import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.AdjustPanLayoutHelper;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
@@ -188,11 +188,11 @@ public class SelfStoryViewsView extends FrameLayout {
 
     /* loaded from: classes4.dex */
     public class StoryItemInternal {
-        public TL_stories$StoryItem storyItem;
+        public TL_stories.StoryItem storyItem;
         public StoriesController.UploadingStory uploadingStory;
 
-        public StoryItemInternal(TL_stories$StoryItem tL_stories$StoryItem) {
-            this.storyItem = tL_stories$StoryItem;
+        public StoryItemInternal(TL_stories.StoryItem storyItem) {
+            this.storyItem = storyItem;
         }
 
         public StoryItemInternal(StoriesController.UploadingStory uploadingStory) {
@@ -376,7 +376,7 @@ public class SelfStoryViewsView extends FrameLayout {
         return null;
     }
 
-    public TL_stories$StoryItem getSelectedStory() {
+    public TL_stories.StoryItem getSelectedStory() {
         int closestPosition = this.selfStoriesPreviewView.getClosestPosition();
         if (closestPosition < 0 || closestPosition >= this.storyItems.size()) {
             return null;
@@ -417,7 +417,7 @@ public class SelfStoryViewsView extends FrameLayout {
         this.storyItems.clear();
         this.dialogId = j;
         for (int i2 = 0; i2 < arrayList.size(); i2++) {
-            this.storyItems.add(new StoryItemInternal((TL_stories$StoryItem) arrayList.get(i2)));
+            this.storyItems.add(new StoryItemInternal((TL_stories.StoryItem) arrayList.get(i2)));
         }
         ArrayList uploadingStories = MessagesController.getInstance(this.storyViewer.currentAccount).storiesController.getUploadingStories(UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId());
         if (uploadingStories != null) {

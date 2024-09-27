@@ -368,22 +368,22 @@ public class ThemeEditorView {
                                     intValue = 0;
                                 } else if (intValue > 255) {
                                     EditTextBoldCursor editTextBoldCursor3 = ColorPicker.this.colorEditText[i];
-                                    editTextBoldCursor3.setText("" + NotificationCenter.didClearDatabase);
+                                    editTextBoldCursor3.setText("" + NotificationCenter.messagePlayingSpeedChanged);
                                     ColorPicker.this.colorEditText[i].setSelection(ColorPicker.this.colorEditText[i].length());
-                                    intValue = NotificationCenter.didClearDatabase;
+                                    intValue = NotificationCenter.messagePlayingSpeedChanged;
                                 }
                                 int color = ColorPicker.this.getColor();
                                 int i5 = i;
                                 if (i5 == 2) {
                                     i2 = color & (-256);
-                                    i3 = intValue & NotificationCenter.didClearDatabase;
+                                    i3 = intValue & NotificationCenter.messagePlayingSpeedChanged;
                                 } else if (i5 == 1) {
                                     i2 = color & (-65281);
-                                    i3 = (intValue & NotificationCenter.didClearDatabase) << 8;
+                                    i3 = (intValue & NotificationCenter.messagePlayingSpeedChanged) << 8;
                                 } else if (i5 != 0) {
                                     if (i5 == 3) {
                                         i2 = color & 16777215;
-                                        i3 = (intValue & NotificationCenter.didClearDatabase) << 24;
+                                        i3 = (intValue & NotificationCenter.messagePlayingSpeedChanged) << 24;
                                     }
                                     ColorPicker.this.setColor(color);
                                     for (i4 = 0; i4 < ThemeEditorView.this.currentThemeDesription.size(); i4++) {
@@ -392,7 +392,7 @@ public class ThemeEditorView {
                                     EditorAlert.this.ignoreTextChange = false;
                                 } else {
                                     i2 = color & (-16711681);
-                                    i3 = (intValue & NotificationCenter.didClearDatabase) << 16;
+                                    i3 = (intValue & NotificationCenter.messagePlayingSpeedChanged) << 16;
                                 }
                                 color = i2 | i3;
                                 ColorPicker.this.setColor(color);
@@ -445,22 +445,22 @@ public class ThemeEditorView {
                                 intValue = 0;
                             } else if (intValue > 255) {
                                 EditTextBoldCursor editTextBoldCursor3 = ColorPicker.this.colorEditText[i];
-                                editTextBoldCursor3.setText("" + NotificationCenter.didClearDatabase);
+                                editTextBoldCursor3.setText("" + NotificationCenter.messagePlayingSpeedChanged);
                                 ColorPicker.this.colorEditText[i].setSelection(ColorPicker.this.colorEditText[i].length());
-                                intValue = NotificationCenter.didClearDatabase;
+                                intValue = NotificationCenter.messagePlayingSpeedChanged;
                             }
                             int color = ColorPicker.this.getColor();
                             int i5 = i;
                             if (i5 == 2) {
                                 i2 = color & (-256);
-                                i3 = intValue & NotificationCenter.didClearDatabase;
+                                i3 = intValue & NotificationCenter.messagePlayingSpeedChanged;
                             } else if (i5 == 1) {
                                 i2 = color & (-65281);
-                                i3 = (intValue & NotificationCenter.didClearDatabase) << 8;
+                                i3 = (intValue & NotificationCenter.messagePlayingSpeedChanged) << 8;
                             } else if (i5 != 0) {
                                 if (i5 == 3) {
                                     i2 = color & 16777215;
-                                    i3 = (intValue & NotificationCenter.didClearDatabase) << 24;
+                                    i3 = (intValue & NotificationCenter.messagePlayingSpeedChanged) << 24;
                                 }
                                 ColorPicker.this.setColor(color);
                                 for (i4 = 0; i4 < ThemeEditorView.this.currentThemeDesription.size(); i4++) {
@@ -469,7 +469,7 @@ public class ThemeEditorView {
                                 EditorAlert.this.ignoreTextChange = false;
                             } else {
                                 i2 = color & (-16711681);
-                                i3 = (intValue & NotificationCenter.didClearDatabase) << 16;
+                                i3 = (intValue & NotificationCenter.messagePlayingSpeedChanged) << 16;
                             }
                             color = i2 | i3;
                             ColorPicker.this.setColor(color);
@@ -1803,8 +1803,8 @@ public class ThemeEditorView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0110  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0179  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0111  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x017b  */
     /* JADX WARN: Removed duplicated region for block: B:60:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

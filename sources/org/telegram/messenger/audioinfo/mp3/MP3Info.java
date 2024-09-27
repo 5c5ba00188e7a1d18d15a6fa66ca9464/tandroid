@@ -167,7 +167,7 @@ public class MP3Info extends AudioInfo {
         i2 = 0;
         i = -1;
         if (i != -1) {
-            if (i2 == 255 && (i & NotificationCenter.didReceiveSmsCode) == 224) {
+            if (i2 == 255 && (i & NotificationCenter.wallpapersDidLoad) == 224) {
                 mP3Input.mark(2);
                 int read = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
                 if (read != -1) {
@@ -193,7 +193,7 @@ public class MP3Info extends AudioInfo {
                                     int read3 = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
                                     int read4 = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
                                     if (read3 != -1 && read4 != -1) {
-                                        if (read3 == 255 && (read4 & NotificationCenter.screenStateChanged) == (i & NotificationCenter.screenStateChanged)) {
+                                        if (read3 == 255 && (read4 & NotificationCenter.closeSearchByActiveAction) == (i & NotificationCenter.closeSearchByActiveAction)) {
                                             int read5 = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
                                             int read6 = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
                                             if (read5 != -1 && read6 != -1) {
@@ -234,7 +234,7 @@ public class MP3Info extends AudioInfo {
         int read = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
         int read2 = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
         if (read != -1 && read2 != -1) {
-            if (read == 255 && (read2 & NotificationCenter.didReceiveSmsCode) == 224) {
+            if (read == 255 && (read2 & NotificationCenter.wallpapersDidLoad) == 224) {
                 int read3 = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
                 int read4 = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
                 if (read3 != -1 && read4 != -1) {

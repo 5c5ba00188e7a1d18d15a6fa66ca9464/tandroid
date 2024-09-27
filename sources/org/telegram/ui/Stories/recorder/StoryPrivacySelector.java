@@ -14,8 +14,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.SerializedData;
-import org.telegram.tgnet.TLRPC$InputUser;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet;
 /* loaded from: classes4.dex */
 public abstract class StoryPrivacySelector extends View {
@@ -73,7 +72,7 @@ public abstract class StoryPrivacySelector extends View {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$getSaved$5(MessagesStorage messagesStorage, HashSet hashSet, final int i) {
-        final ArrayList<TLRPC$User> users = messagesStorage.getUsers(new ArrayList<>(hashSet));
+        final ArrayList<TLRPC.User> users = messagesStorage.getUsers(new ArrayList<>(hashSet));
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacySelector$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
@@ -88,7 +87,7 @@ public abstract class StoryPrivacySelector extends View {
             int readInt322 = abstractSerializedData.readInt32(true);
             ArrayList arrayList = new ArrayList(readInt322);
             for (int i = 0; i < readInt322; i++) {
-                arrayList.add(TLRPC$InputUser.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(true), true));
+                arrayList.add(TLRPC.InputUser.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(true), true));
             }
             if (abstractSerializedData.readInt32(true) == 481674261) {
                 int readInt323 = abstractSerializedData.readInt32(true);
@@ -146,23 +145,23 @@ public abstract class StoryPrivacySelector extends View {
 
     private static void write(AbstractSerializedData abstractSerializedData, StoryPrivacyBottomSheet.StoryPrivacy storyPrivacy) {
         abstractSerializedData.writeInt32(storyPrivacy.type);
-        abstractSerializedData.writeInt32(481674261);
+        abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
         abstractSerializedData.writeInt32(storyPrivacy.selectedInputUsers.size());
         Iterator it = storyPrivacy.selectedInputUsers.iterator();
         while (it.hasNext()) {
-            ((TLRPC$InputUser) it.next()).serializeToStream(abstractSerializedData);
+            ((TLRPC.InputUser) it.next()).serializeToStream(abstractSerializedData);
         }
-        abstractSerializedData.writeInt32(481674261);
+        abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
         abstractSerializedData.writeInt32(storyPrivacy.selectedUserIds.size());
         Iterator it2 = storyPrivacy.selectedUserIds.iterator();
         while (it2.hasNext()) {
             abstractSerializedData.writeInt64(((Long) it2.next()).longValue());
         }
-        abstractSerializedData.writeInt32(481674261);
+        abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
         abstractSerializedData.writeInt32(storyPrivacy.selectedUserIdsByGroup.size());
         for (Map.Entry entry : storyPrivacy.selectedUserIdsByGroup.entrySet()) {
             abstractSerializedData.writeInt64(((Long) entry.getKey()).longValue());
-            abstractSerializedData.writeInt32(481674261);
+            abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
             abstractSerializedData.writeInt32(((ArrayList) entry.getValue()).size());
             Iterator it3 = ((ArrayList) entry.getValue()).iterator();
             while (it3.hasNext()) {

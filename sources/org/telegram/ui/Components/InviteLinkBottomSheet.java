@@ -46,26 +46,8 @@ import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$ChannelParticipant;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$ChatFull;
-import org.telegram.tgnet.TLRPC$ChatParticipant;
-import org.telegram.tgnet.TLRPC$TL_channelParticipantCreator;
-import org.telegram.tgnet.TLRPC$TL_chatChannelParticipant;
-import org.telegram.tgnet.TLRPC$TL_chatInviteExported;
-import org.telegram.tgnet.TLRPC$TL_chatInviteImporter;
-import org.telegram.tgnet.TLRPC$TL_chatParticipantCreator;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_inputUserEmpty;
-import org.telegram.tgnet.TLRPC$TL_messages_chatInviteImporters;
-import org.telegram.tgnet.TLRPC$TL_messages_deleteExportedChatInvite;
-import org.telegram.tgnet.TLRPC$TL_messages_editExportedChatInvite;
-import org.telegram.tgnet.TLRPC$TL_messages_exportedChatInviteReplaced;
-import org.telegram.tgnet.TLRPC$TL_messages_getChatInviteImporters;
-import org.telegram.tgnet.TLRPC$TL_starsSubscriptionPricing;
-import org.telegram.tgnet.TLRPC$TL_users_getUsers;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$Vector;
+import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stars;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
@@ -108,8 +90,8 @@ public class InviteLinkBottomSheet extends BottomSheet {
     BaseFragment fragment;
     boolean hasMore;
     private boolean ignoreLayout;
-    TLRPC$ChatFull info;
-    TLRPC$TL_chatInviteExported invite;
+    TLRPC.ChatFull info;
+    TLRPC.TL_chatInviteExported invite;
     InviteDelegate inviteDelegate;
     private boolean isChannel;
     public boolean isNeedReopen;
@@ -149,49 +131,49 @@ public class InviteLinkBottomSheet extends BottomSheet {
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$removeLink$2(TLRPC$TL_error tLRPC$TL_error) {
+            public /* synthetic */ void lambda$removeLink$2(TLRPC.TL_error tL_error) {
                 InviteLinkBottomSheet inviteLinkBottomSheet;
                 InviteDelegate inviteDelegate;
-                if (tLRPC$TL_error != null || (inviteDelegate = (inviteLinkBottomSheet = InviteLinkBottomSheet.this).inviteDelegate) == null) {
+                if (tL_error != null || (inviteDelegate = (inviteLinkBottomSheet = InviteLinkBottomSheet.this).inviteDelegate) == null) {
                     return;
                 }
                 inviteDelegate.onLinkDeleted(inviteLinkBottomSheet.invite);
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$removeLink$3(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+            public /* synthetic */ void lambda$removeLink$3(TLObject tLObject, final TLRPC.TL_error tL_error) {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$2$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
-                        InviteLinkBottomSheet.Adapter.2.this.lambda$removeLink$2(tLRPC$TL_error);
+                        InviteLinkBottomSheet.Adapter.2.this.lambda$removeLink$2(tL_error);
                     }
                 });
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$revokeLink$0(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
-                if (tLRPC$TL_error == null) {
-                    if (tLObject instanceof TLRPC$TL_messages_exportedChatInviteReplaced) {
-                        TLRPC$TL_messages_exportedChatInviteReplaced tLRPC$TL_messages_exportedChatInviteReplaced = (TLRPC$TL_messages_exportedChatInviteReplaced) tLObject;
+            public /* synthetic */ void lambda$revokeLink$0(TLRPC.TL_error tL_error, TLObject tLObject) {
+                if (tL_error == null) {
+                    if (tLObject instanceof TLRPC.TL_messages_exportedChatInviteReplaced) {
+                        TLRPC.TL_messages_exportedChatInviteReplaced tL_messages_exportedChatInviteReplaced = (TLRPC.TL_messages_exportedChatInviteReplaced) tLObject;
                         InviteLinkBottomSheet inviteLinkBottomSheet = InviteLinkBottomSheet.this;
-                        TLRPC$ChatFull tLRPC$ChatFull = inviteLinkBottomSheet.info;
-                        if (tLRPC$ChatFull != null) {
-                            tLRPC$ChatFull.exported_invite = (TLRPC$TL_chatInviteExported) tLRPC$TL_messages_exportedChatInviteReplaced.new_invite;
+                        TLRPC.ChatFull chatFull = inviteLinkBottomSheet.info;
+                        if (chatFull != null) {
+                            chatFull.exported_invite = (TLRPC.TL_chatInviteExported) tL_messages_exportedChatInviteReplaced.new_invite;
                         }
                         InviteDelegate inviteDelegate = inviteLinkBottomSheet.inviteDelegate;
                         if (inviteDelegate != null) {
-                            inviteDelegate.permanentLinkReplaced(inviteLinkBottomSheet.invite, tLRPC$ChatFull.exported_invite);
+                            inviteDelegate.permanentLinkReplaced(inviteLinkBottomSheet.invite, chatFull.exported_invite);
                             return;
                         }
                         return;
                     }
                     InviteLinkBottomSheet inviteLinkBottomSheet2 = InviteLinkBottomSheet.this;
-                    TLRPC$ChatFull tLRPC$ChatFull2 = inviteLinkBottomSheet2.info;
-                    if (tLRPC$ChatFull2 != null) {
-                        int i = tLRPC$ChatFull2.invitesCount - 1;
-                        tLRPC$ChatFull2.invitesCount = i;
+                    TLRPC.ChatFull chatFull2 = inviteLinkBottomSheet2.info;
+                    if (chatFull2 != null) {
+                        int i = chatFull2.invitesCount - 1;
+                        chatFull2.invitesCount = i;
                         if (i < 0) {
-                            tLRPC$ChatFull2.invitesCount = 0;
+                            chatFull2.invitesCount = 0;
                         }
                         MessagesStorage.getInstance(((BottomSheet) inviteLinkBottomSheet2).currentAccount).saveChatLinksCount(InviteLinkBottomSheet.this.chatId, InviteLinkBottomSheet.this.info.invitesCount);
                     }
@@ -204,11 +186,11 @@ public class InviteLinkBottomSheet extends BottomSheet {
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$revokeLink$1(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+            public /* synthetic */ void lambda$revokeLink$1(final TLObject tLObject, final TLRPC.TL_error tL_error) {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$2$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
-                        InviteLinkBottomSheet.Adapter.2.this.lambda$revokeLink$0(tLRPC$TL_error, tLObject);
+                        InviteLinkBottomSheet.Adapter.2.this.lambda$revokeLink$0(tL_error, tLObject);
                     }
                 });
             }
@@ -228,19 +210,19 @@ public class InviteLinkBottomSheet extends BottomSheet {
                         }
 
                         @Override // org.telegram.ui.LinkEditActivity.Callback
-                        public void onLinkEdited(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, TLObject tLObject) {
+                        public void onLinkEdited(TLRPC.TL_chatInviteExported tL_chatInviteExported, TLObject tLObject) {
                             InviteDelegate inviteDelegate = InviteLinkBottomSheet.this.inviteDelegate;
                             if (inviteDelegate != null) {
-                                inviteDelegate.onLinkEdited(tLRPC$TL_chatInviteExported);
+                                inviteDelegate.onLinkEdited(tL_chatInviteExported);
                             }
                         }
 
                         @Override // org.telegram.ui.LinkEditActivity.Callback
-                        public void onLinkRemoved(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
+                        public void onLinkRemoved(TLRPC.TL_chatInviteExported tL_chatInviteExported) {
                         }
 
                         @Override // org.telegram.ui.LinkEditActivity.Callback
-                        public void revokeLink(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
+                        public void revokeLink(TLRPC.TL_chatInviteExported tL_chatInviteExported) {
                         }
                     });
                     InviteLinkBottomSheet.this.fragment.presentFragment(linkEditActivity);
@@ -255,14 +237,14 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 if (baseFragment instanceof ManageLinksActivity) {
                     ((ManageLinksActivity) baseFragment).deleteLink(inviteLinkBottomSheet.invite);
                 } else {
-                    TLRPC$TL_messages_deleteExportedChatInvite tLRPC$TL_messages_deleteExportedChatInvite = new TLRPC$TL_messages_deleteExportedChatInvite();
+                    TLRPC.TL_messages_deleteExportedChatInvite tL_messages_deleteExportedChatInvite = new TLRPC.TL_messages_deleteExportedChatInvite();
                     InviteLinkBottomSheet inviteLinkBottomSheet2 = InviteLinkBottomSheet.this;
-                    tLRPC$TL_messages_deleteExportedChatInvite.link = inviteLinkBottomSheet2.invite.link;
-                    tLRPC$TL_messages_deleteExportedChatInvite.peer = MessagesController.getInstance(((BottomSheet) inviteLinkBottomSheet2).currentAccount).getInputPeer(-InviteLinkBottomSheet.this.chatId);
-                    ConnectionsManager.getInstance(((BottomSheet) InviteLinkBottomSheet.this).currentAccount).sendRequest(tLRPC$TL_messages_deleteExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$2$$ExternalSyntheticLambda1
+                    tL_messages_deleteExportedChatInvite.link = inviteLinkBottomSheet2.invite.link;
+                    tL_messages_deleteExportedChatInvite.peer = MessagesController.getInstance(((BottomSheet) inviteLinkBottomSheet2).currentAccount).getInputPeer(-InviteLinkBottomSheet.this.chatId);
+                    ConnectionsManager.getInstance(((BottomSheet) InviteLinkBottomSheet.this).currentAccount).sendRequest(tL_messages_deleteExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$2$$ExternalSyntheticLambda1
                         @Override // org.telegram.tgnet.RequestDelegate
-                        public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                            InviteLinkBottomSheet.Adapter.2.this.lambda$removeLink$3(tLObject, tLRPC$TL_error);
+                        public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                            InviteLinkBottomSheet.Adapter.2.this.lambda$removeLink$3(tLObject, tL_error);
                         }
                     });
                 }
@@ -276,15 +258,15 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 if (baseFragment instanceof ManageLinksActivity) {
                     ((ManageLinksActivity) baseFragment).revokeLink(inviteLinkBottomSheet.invite);
                 } else {
-                    TLRPC$TL_messages_editExportedChatInvite tLRPC$TL_messages_editExportedChatInvite = new TLRPC$TL_messages_editExportedChatInvite();
+                    TLRPC.TL_messages_editExportedChatInvite tL_messages_editExportedChatInvite = new TLRPC.TL_messages_editExportedChatInvite();
                     InviteLinkBottomSheet inviteLinkBottomSheet2 = InviteLinkBottomSheet.this;
-                    tLRPC$TL_messages_editExportedChatInvite.link = inviteLinkBottomSheet2.invite.link;
-                    tLRPC$TL_messages_editExportedChatInvite.revoked = true;
-                    tLRPC$TL_messages_editExportedChatInvite.peer = MessagesController.getInstance(((BottomSheet) inviteLinkBottomSheet2).currentAccount).getInputPeer(-InviteLinkBottomSheet.this.chatId);
-                    ConnectionsManager.getInstance(((BottomSheet) InviteLinkBottomSheet.this).currentAccount).sendRequest(tLRPC$TL_messages_editExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$2$$ExternalSyntheticLambda0
+                    tL_messages_editExportedChatInvite.link = inviteLinkBottomSheet2.invite.link;
+                    tL_messages_editExportedChatInvite.revoked = true;
+                    tL_messages_editExportedChatInvite.peer = MessagesController.getInstance(((BottomSheet) inviteLinkBottomSheet2).currentAccount).getInputPeer(-InviteLinkBottomSheet.this.chatId);
+                    ConnectionsManager.getInstance(((BottomSheet) InviteLinkBottomSheet.this).currentAccount).sendRequest(tL_messages_editExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$2$$ExternalSyntheticLambda0
                         @Override // org.telegram.tgnet.RequestDelegate
-                        public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                            InviteLinkBottomSheet.Adapter.2.this.lambda$revokeLink$1(tLObject, tLRPC$TL_error);
+                        public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                            InviteLinkBottomSheet.Adapter.2.this.lambda$revokeLink$1(tLObject, tL_error);
                         }
                     });
                 }
@@ -352,10 +334,10 @@ public class InviteLinkBottomSheet extends BottomSheet {
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:90:0x0253, code lost:
-            if ((r0 instanceof org.telegram.tgnet.TLRPC$TL_channelParticipantAdmin) != false) goto L86;
+            if ((r0 instanceof org.telegram.tgnet.TLRPC.TL_channelParticipantAdmin) != false) goto L86;
          */
         /* JADX WARN: Code restructure failed: missing block: B:97:0x0263, code lost:
-            if ((r0 instanceof org.telegram.tgnet.TLRPC$TL_chatParticipantAdmin) != false) goto L86;
+            if ((r0 instanceof org.telegram.tgnet.TLRPC.TL_chatParticipantAdmin) != false) goto L86;
          */
         /* JADX WARN: Code restructure failed: missing block: B:98:0x0265, code lost:
             r0 = org.telegram.messenger.R.string.ChannelAdmin;
@@ -369,11 +351,11 @@ public class InviteLinkBottomSheet extends BottomSheet {
             int i2;
             int i3;
             int i4;
-            TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter;
+            TLRPC.TL_chatInviteImporter tL_chatInviteImporter;
             long j;
-            TLRPC$ChatParticipant tLRPC$ChatParticipant;
+            TLRPC.ChatParticipant chatParticipant;
             String str;
-            TLRPC$TL_starsSubscriptionPricing tLRPC$TL_starsSubscriptionPricing;
+            TL_stars.TL_starsSubscriptionPricing tL_starsSubscriptionPricing;
             int i5;
             String formatString;
             int i6;
@@ -396,11 +378,11 @@ public class InviteLinkBottomSheet extends BottomSheet {
                         graySectionCell.setText(formatPluralString);
                         graySectionCell.setRightText(null);
                     }
-                    TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = inviteLinkBottomSheet.invite;
-                    int i7 = tLRPC$TL_chatInviteExported.usage;
-                    graySectionCell.setText(i7 > 0 ? LocaleController.formatPluralString("PeopleJoined", i7, new Object[0]) : LocaleController.getString(tLRPC$TL_chatInviteExported.subscription_pricing != null ? R.string.NoOneSubscribed : R.string.NoOneJoined));
-                    TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2 = InviteLinkBottomSheet.this.invite;
-                    if (!tLRPC$TL_chatInviteExported2.expired && !tLRPC$TL_chatInviteExported2.revoked && (i2 = tLRPC$TL_chatInviteExported2.usage_limit) > 0 && (i3 = tLRPC$TL_chatInviteExported2.usage) > 0) {
+                    TLRPC.TL_chatInviteExported tL_chatInviteExported = inviteLinkBottomSheet.invite;
+                    int i7 = tL_chatInviteExported.usage;
+                    graySectionCell.setText(i7 > 0 ? LocaleController.formatPluralString("PeopleJoined", i7, new Object[0]) : LocaleController.getString(tL_chatInviteExported.subscription_pricing != null ? R.string.NoOneSubscribed : R.string.NoOneJoined));
+                    TLRPC.TL_chatInviteExported tL_chatInviteExported2 = InviteLinkBottomSheet.this.invite;
+                    if (!tL_chatInviteExported2.expired && !tL_chatInviteExported2.revoked && (i2 = tL_chatInviteExported2.usage_limit) > 0 && (i3 = tL_chatInviteExported2.usage) > 0) {
                         graySectionCell.setRightText(LocaleController.formatPluralString("PeopleJoinedRemaining", i2 - i3, new Object[0]));
                         return;
                     }
@@ -416,7 +398,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 InviteLinkBottomSheet inviteLinkBottomSheet2 = InviteLinkBottomSheet.this;
                 if (i == inviteLinkBottomSheet2.creatorRow) {
                     j = inviteLinkBottomSheet2.invite.admin_id;
-                    tLRPC$TL_chatInviteImporter = null;
+                    tL_chatInviteImporter = null;
                 } else {
                     int i8 = inviteLinkBottomSheet2.joinedStartRow;
                     ArrayList arrayList = inviteLinkBottomSheet2.joinedUsers;
@@ -430,55 +412,55 @@ public class InviteLinkBottomSheet extends BottomSheet {
                         arrayList = inviteLinkBottomSheet2.requestedUsers;
                         i8 = i10;
                     }
-                    tLRPC$TL_chatInviteImporter = (TLRPC$TL_chatInviteImporter) arrayList.get(i - i8);
-                    j = tLRPC$TL_chatInviteImporter.user_id;
+                    tL_chatInviteImporter = (TLRPC.TL_chatInviteImporter) arrayList.get(i - i8);
+                    j = tL_chatInviteImporter.user_id;
                 }
-                TLRPC$User tLRPC$User = (TLRPC$User) InviteLinkBottomSheet.this.users.get(Long.valueOf(j));
-                TLRPC$ChatFull tLRPC$ChatFull = InviteLinkBottomSheet.this.info;
-                if (tLRPC$ChatFull != null && tLRPC$ChatFull.participants != null) {
+                TLRPC.User user = (TLRPC.User) InviteLinkBottomSheet.this.users.get(Long.valueOf(j));
+                TLRPC.ChatFull chatFull = InviteLinkBottomSheet.this.info;
+                if (chatFull != null && chatFull.participants != null) {
                     for (int i11 = 0; i11 < InviteLinkBottomSheet.this.info.participants.participants.size(); i11++) {
-                        if (((TLRPC$ChatParticipant) InviteLinkBottomSheet.this.info.participants.participants.get(i11)).user_id == j) {
-                            tLRPC$ChatParticipant = (TLRPC$ChatParticipant) InviteLinkBottomSheet.this.info.participants.participants.get(i11);
+                        if (InviteLinkBottomSheet.this.info.participants.participants.get(i11).user_id == j) {
+                            chatParticipant = InviteLinkBottomSheet.this.info.participants.participants.get(i11);
                             break;
                         }
                     }
                 }
-                tLRPC$ChatParticipant = null;
+                chatParticipant = null;
                 InviteLinkBottomSheet inviteLinkBottomSheet3 = InviteLinkBottomSheet.this;
                 if (i == inviteLinkBottomSheet3.creatorRow) {
-                    TLRPC$User tLRPC$User2 = (TLRPC$User) inviteLinkBottomSheet3.users.get(Long.valueOf(j));
-                    if (tLRPC$User2 == null) {
-                        tLRPC$User2 = MessagesController.getInstance(((BottomSheet) InviteLinkBottomSheet.this).currentAccount).getUser(Long.valueOf(InviteLinkBottomSheet.this.invite.admin_id));
+                    TLRPC.User user2 = (TLRPC.User) inviteLinkBottomSheet3.users.get(Long.valueOf(j));
+                    if (user2 == null) {
+                        user2 = MessagesController.getInstance(((BottomSheet) InviteLinkBottomSheet.this).currentAccount).getUser(Long.valueOf(InviteLinkBottomSheet.this.invite.admin_id));
                     }
-                    str = tLRPC$User2 != null ? LocaleController.formatDateAudio(InviteLinkBottomSheet.this.invite.date, false) : null;
-                    tLRPC$User = tLRPC$User2;
+                    str = user2 != null ? LocaleController.formatDateAudio(InviteLinkBottomSheet.this.invite.date, false) : null;
+                    user = user2;
                 } else {
                     str = null;
                 }
-                if (i == InviteLinkBottomSheet.this.creatorRow && tLRPC$ChatParticipant != null) {
-                    if (tLRPC$ChatParticipant instanceof TLRPC$TL_chatChannelParticipant) {
-                        TLRPC$ChannelParticipant tLRPC$ChannelParticipant = ((TLRPC$TL_chatChannelParticipant) tLRPC$ChatParticipant).channelParticipant;
-                        if (TextUtils.isEmpty(tLRPC$ChannelParticipant.rank)) {
-                            if (!(tLRPC$ChannelParticipant instanceof TLRPC$TL_channelParticipantCreator)) {
+                if (i == InviteLinkBottomSheet.this.creatorRow && chatParticipant != null) {
+                    if (chatParticipant instanceof TLRPC.TL_chatChannelParticipant) {
+                        TLRPC.ChannelParticipant channelParticipant = ((TLRPC.TL_chatChannelParticipant) chatParticipant).channelParticipant;
+                        if (TextUtils.isEmpty(channelParticipant.rank)) {
+                            if (!(channelParticipant instanceof TLRPC.TL_channelParticipantCreator)) {
                             }
                             i5 = R.string.ChannelCreator;
                         } else {
-                            str2 = tLRPC$ChannelParticipant.rank;
+                            str2 = channelParticipant.rank;
                         }
                     } else {
-                        if (!(tLRPC$ChatParticipant instanceof TLRPC$TL_chatParticipantCreator)) {
+                        if (!(chatParticipant instanceof TLRPC.TL_chatParticipantCreator)) {
                         }
                         i5 = R.string.ChannelCreator;
                     }
                     str2 = LocaleController.getString(i5);
                 }
                 revenueUserCell.setAdminRole(str2);
-                revenueUserCell.setData(tLRPC$User, null, str, 0, false);
+                revenueUserCell.setData(user, null, str, 0, false);
                 InviteLinkBottomSheet inviteLinkBottomSheet4 = InviteLinkBottomSheet.this;
-                if (i == inviteLinkBottomSheet4.creatorRow || (tLRPC$TL_starsSubscriptionPricing = inviteLinkBottomSheet4.invite.subscription_pricing) == null || tLRPC$TL_chatInviteImporter == null) {
+                if (i == inviteLinkBottomSheet4.creatorRow || (tL_starsSubscriptionPricing = inviteLinkBottomSheet4.invite.subscription_pricing) == null || tL_chatInviteImporter == null) {
                     return;
                 }
-                revenueUserCell.setRevenue(tLRPC$TL_starsSubscriptionPricing, tLRPC$TL_chatInviteImporter.date);
+                revenueUserCell.setRevenue(tL_starsSubscriptionPricing, tL_chatInviteImporter.date);
             } else if (itemViewType == 3) {
                 LinkActionView linkActionView = (LinkActionView) viewHolder.itemView;
                 linkActionView.setUsers(0, null);
@@ -492,8 +474,8 @@ public class InviteLinkBottomSheet extends BottomSheet {
                     if (itemViewType != 9) {
                         return;
                     }
-                    TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported3 = InviteLinkBottomSheet.this.invite;
-                    ((RevenueCell) viewHolder.itemView).set(tLRPC$TL_chatInviteExported3.subscription_pricing, tLRPC$TL_chatInviteExported3.usage);
+                    TLRPC.TL_chatInviteExported tL_chatInviteExported3 = InviteLinkBottomSheet.this.invite;
+                    ((RevenueCell) viewHolder.itemView).set(tL_chatInviteExported3.subscription_pricing, tL_chatInviteExported3.usage);
                     return;
                 }
                 EmptyHintRow emptyHintRow = (EmptyHintRow) viewHolder.itemView;
@@ -510,11 +492,11 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 timerPrivacyCell.timer = false;
                 timerPrivacyCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText4));
                 timerPrivacyCell.setFixedSize(0);
-                TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported4 = InviteLinkBottomSheet.this.invite;
-                if (tLRPC$TL_chatInviteExported4.revoked) {
+                TLRPC.TL_chatInviteExported tL_chatInviteExported4 = InviteLinkBottomSheet.this.invite;
+                if (tL_chatInviteExported4.revoked) {
                     i6 = R.string.LinkIsNoActive;
-                } else if (!tLRPC$TL_chatInviteExported4.expired) {
-                    if (tLRPC$TL_chatInviteExported4.expire_date <= 0) {
+                } else if (!tL_chatInviteExported4.expired) {
+                    if (tL_chatInviteExported4.expire_date <= 0) {
                         timerPrivacyCell.setFixedSize(-1);
                         timerPrivacyCell.setText(null);
                         return;
@@ -543,8 +525,8 @@ public class InviteLinkBottomSheet extends BottomSheet {
                     }
                     timerPrivacyCell.setText(formatString);
                 } else {
-                    int i14 = tLRPC$TL_chatInviteExported4.usage_limit;
-                    if (i14 <= 0 || i14 != tLRPC$TL_chatInviteExported4.usage) {
+                    int i14 = tL_chatInviteExported4.usage_limit;
+                    if (i14 <= 0 || i14 != tL_chatInviteExported4.usage) {
                         timerPrivacyCell.setText(LocaleController.getString(R.string.LinkIsExpired));
                         timerPrivacyCell.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
                         return;
@@ -650,13 +632,13 @@ public class InviteLinkBottomSheet extends BottomSheet {
 
     /* loaded from: classes3.dex */
     public interface InviteDelegate {
-        void linkRevoked(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported);
+        void linkRevoked(TLRPC.TL_chatInviteExported tL_chatInviteExported);
 
-        void onLinkDeleted(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported);
+        void onLinkDeleted(TLRPC.TL_chatInviteExported tL_chatInviteExported);
 
-        void onLinkEdited(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported);
+        void onLinkEdited(TLRPC.TL_chatInviteExported tL_chatInviteExported);
 
-        void permanentLinkReplaced(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2);
+        void permanentLinkReplaced(TLRPC.TL_chatInviteExported tL_chatInviteExported, TLRPC.TL_chatInviteExported tL_chatInviteExported2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -693,18 +675,18 @@ public class InviteLinkBottomSheet extends BottomSheet {
             super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(58.0f), 1073741824));
         }
 
-        public void set(TLRPC$TL_starsSubscriptionPricing tLRPC$TL_starsSubscriptionPricing, int i) {
+        public void set(TL_stars.TL_starsSubscriptionPricing tL_starsSubscriptionPricing, int i) {
             String format;
             String formatString;
-            if (tLRPC$TL_starsSubscriptionPricing == null) {
+            if (tL_starsSubscriptionPricing == null) {
                 return;
             }
-            int i2 = tLRPC$TL_starsSubscriptionPricing.period;
+            int i2 = tL_starsSubscriptionPricing.period;
             String str = "";
             if (i2 == 2592000) {
                 TextView textView = this.titleView;
                 StringBuilder sb = new StringBuilder();
-                sb.append(LocaleController.formatString(R.string.LinkRevenuePrice, Long.valueOf(tLRPC$TL_starsSubscriptionPricing.amount)));
+                sb.append(LocaleController.formatString(R.string.LinkRevenuePrice, Long.valueOf(tL_starsSubscriptionPricing.amount)));
                 if (i > 0) {
                     str = " x " + i;
                 }
@@ -716,7 +698,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 } else {
                     int i3 = R.string.LinkRevenuePriceInfo;
                     BillingController billingController = BillingController.getInstance();
-                    double d = tLRPC$TL_starsSubscriptionPricing.amount;
+                    double d = tL_starsSubscriptionPricing.amount;
                     Double.isNaN(d);
                     double d2 = MessagesController.getInstance(((BottomSheet) InviteLinkBottomSheet.this).currentAccount).starsUsdWithdrawRate1000;
                     Double.isNaN(d2);
@@ -731,7 +713,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
             TextView textView3 = this.titleView;
             StringBuilder sb2 = new StringBuilder();
             Locale locale = Locale.US;
-            sb2.append(String.format(locale, "⭐%1$d/%2$s", Long.valueOf(tLRPC$TL_starsSubscriptionPricing.amount), str2));
+            sb2.append(String.format(locale, "⭐%1$d/%2$s", Long.valueOf(tL_starsSubscriptionPricing.amount), str2));
             if (i > 0) {
                 str = " x " + i;
             }
@@ -742,7 +724,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 format = LocaleController.getString(R.string.NoOneSubscribed);
             } else {
                 BillingController billingController2 = BillingController.getInstance();
-                double d4 = tLRPC$TL_starsSubscriptionPricing.amount;
+                double d4 = tL_starsSubscriptionPricing.amount;
                 Double.isNaN(d4);
                 double d5 = MessagesController.getInstance(((BottomSheet) InviteLinkBottomSheet.this).currentAccount).starsUsdWithdrawRate1000;
                 Double.isNaN(d5);
@@ -780,15 +762,15 @@ public class InviteLinkBottomSheet extends BottomSheet {
             addView(linearLayout, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 3 : 5) | 16, 18.0f, 0.0f, 18.0f, 0.0f));
         }
 
-        public void setRevenue(TLRPC$TL_starsSubscriptionPricing tLRPC$TL_starsSubscriptionPricing, int i) {
-            if (tLRPC$TL_starsSubscriptionPricing == null) {
+        public void setRevenue(TL_stars.TL_starsSubscriptionPricing tL_starsSubscriptionPricing, int i) {
+            if (tL_starsSubscriptionPricing == null) {
                 this.priceView.setText((CharSequence) null);
                 this.periodView.setText((CharSequence) null);
                 setRightPadding(0, true, true);
                 return;
             }
-            SpannableStringBuilder replaceStarsWithPlain = StarsIntroActivity.replaceStarsWithPlain("⭐️" + tLRPC$TL_starsSubscriptionPricing.amount, 0.7f);
-            int i2 = tLRPC$TL_starsSubscriptionPricing.period;
+            SpannableStringBuilder replaceStarsWithPlain = StarsIntroActivity.replaceStarsWithPlain("⭐️" + tL_starsSubscriptionPricing.amount, 0.7f);
+            int i2 = tL_starsSubscriptionPricing.period;
             String string = i2 == 2592000 ? LocaleController.getString(R.string.StarsParticipantSubscriptionPerMonth) : i2 == 300 ? "per 5 minutes" : "per each minute";
             this.priceView.setText(replaceStarsWithPlain);
             this.periodView.setText(string);
@@ -842,7 +824,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         }
     }
 
-    public InviteLinkBottomSheet(final Context context, final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, final TLRPC$ChatFull tLRPC$ChatFull, final HashMap hashMap, final BaseFragment baseFragment, final long j, boolean z, boolean z2) {
+    public InviteLinkBottomSheet(final Context context, final TLRPC.TL_chatInviteExported tL_chatInviteExported, final TLRPC.ChatFull chatFull, final HashMap hashMap, final BaseFragment baseFragment, final long j, boolean z, boolean z2) {
         super(context, false);
         TextView textView;
         int i;
@@ -851,10 +833,10 @@ public class InviteLinkBottomSheet extends BottomSheet {
         this.requestedUsers = new ArrayList();
         this.canEdit = true;
         this.isNeedReopen = false;
-        this.invite = tLRPC$TL_chatInviteExported;
+        this.invite = tL_chatInviteExported;
         this.users = hashMap;
         this.fragment = baseFragment;
-        this.info = tLRPC$ChatFull;
+        this.info = chatFull;
         this.chatId = j;
         this.permanent = z;
         this.isChannel = z2;
@@ -1060,7 +1042,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view2, int i2) {
-                InviteLinkBottomSheet.this.lambda$new$3(tLRPC$TL_chatInviteExported, hashMap, tLRPC$ChatFull, context, j, baseFragment, view2, i2);
+                InviteLinkBottomSheet.this.lambda$new$3(tL_chatInviteExported, hashMap, chatFull, context, j, baseFragment, view2, i2);
             }
         });
         TextView textView2 = new TextView(context);
@@ -1078,10 +1060,10 @@ public class InviteLinkBottomSheet extends BottomSheet {
             this.titleTextView.setVisibility(4);
             this.titleTextView.setAlpha(0.0f);
         } else {
-            if (tLRPC$TL_chatInviteExported.expired) {
+            if (tL_chatInviteExported.expired) {
                 textView = this.titleTextView;
                 i = R.string.ExpiredLink;
-            } else if (tLRPC$TL_chatInviteExported.revoked) {
+            } else if (tL_chatInviteExported.revoked) {
                 textView = this.titleTextView;
                 i = R.string.RevokedLink;
             } else {
@@ -1091,8 +1073,8 @@ public class InviteLinkBottomSheet extends BottomSheet {
             textView.setText(LocaleController.getString(i));
             this.titleVisible = true;
         }
-        if (!TextUtils.isEmpty(tLRPC$TL_chatInviteExported.title)) {
-            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(tLRPC$TL_chatInviteExported.title);
+        if (!TextUtils.isEmpty(tL_chatInviteExported.title)) {
+            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(tL_chatInviteExported.title);
             Emoji.replaceEmoji((CharSequence) spannableStringBuilder, this.titleTextView.getPaint().getFontMetricsInt(), (int) this.titleTextView.getPaint().getTextSize(), false);
             this.titleTextView.setText(spannableStringBuilder);
         }
@@ -1100,20 +1082,20 @@ public class InviteLinkBottomSheet extends BottomSheet {
         this.containerView.addView(this.titleTextView, LayoutHelper.createFrame(-1, !this.titleVisible ? 44.0f : 50.0f, 51, 0.0f, 0.0f, 0.0f, 0.0f));
         updateRows();
         loadUsers();
-        if (hashMap == null || hashMap.get(Long.valueOf(tLRPC$TL_chatInviteExported.admin_id)) == null) {
+        if (hashMap == null || hashMap.get(Long.valueOf(tL_chatInviteExported.admin_id)) == null) {
             loadCreator();
         }
         updateColors();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadCreator$4(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$loadCreator$4(final TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet.4
             @Override // java.lang.Runnable
             public void run() {
-                if (tLRPC$TL_error == null) {
+                if (tL_error == null) {
                     InviteLinkBottomSheet inviteLinkBottomSheet = InviteLinkBottomSheet.this;
-                    inviteLinkBottomSheet.users.put(Long.valueOf(inviteLinkBottomSheet.invite.admin_id), (TLRPC$User) ((TLRPC$Vector) tLObject).objects.get(0));
+                    inviteLinkBottomSheet.users.put(Long.valueOf(inviteLinkBottomSheet.invite.admin_id), (TLRPC.User) ((TLRPC.Vector) tLObject).objects.get(0));
                     InviteLinkBottomSheet.this.adapter.notifyDataSetChanged();
                 }
             }
@@ -1121,16 +1103,16 @@ public class InviteLinkBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadUsers$5(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, List list, boolean z, boolean z2, boolean z3, boolean z4) {
-        if (tLRPC$TL_error == null) {
-            TLRPC$TL_messages_chatInviteImporters tLRPC$TL_messages_chatInviteImporters = (TLRPC$TL_messages_chatInviteImporters) tLObject;
-            list.addAll(tLRPC$TL_messages_chatInviteImporters.importers);
-            for (int i = 0; i < tLRPC$TL_messages_chatInviteImporters.users.size(); i++) {
-                TLRPC$User tLRPC$User = (TLRPC$User) tLRPC$TL_messages_chatInviteImporters.users.get(i);
-                this.users.put(Long.valueOf(tLRPC$User.id), tLRPC$User);
+    public /* synthetic */ void lambda$loadUsers$5(TLRPC.TL_error tL_error, TLObject tLObject, List list, boolean z, boolean z2, boolean z3, boolean z4) {
+        if (tL_error == null) {
+            TLRPC.TL_messages_chatInviteImporters tL_messages_chatInviteImporters = (TLRPC.TL_messages_chatInviteImporters) tLObject;
+            list.addAll(tL_messages_chatInviteImporters.importers);
+            for (int i = 0; i < tL_messages_chatInviteImporters.users.size(); i++) {
+                TLRPC.User user = tL_messages_chatInviteImporters.users.get(i);
+                this.users.put(Long.valueOf(user.id), user);
             }
             int size = list.size();
-            int i2 = tLRPC$TL_messages_chatInviteImporters.count;
+            int i2 = tL_messages_chatInviteImporters.count;
             this.hasMore = !z ? !(!z2 ? !(size < i2 || z3 || z4) : !(size < i2 || z3)) : size >= i2;
             updateRows();
         }
@@ -1138,35 +1120,35 @@ public class InviteLinkBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadUsers$6(final List list, final boolean z, final boolean z2, final boolean z3, final boolean z4, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$loadUsers$6(final List list, final boolean z, final boolean z2, final boolean z3, final boolean z4, final TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
-                InviteLinkBottomSheet.this.lambda$loadUsers$5(tLRPC$TL_error, tLObject, list, z, z2, z3, z4);
+                InviteLinkBottomSheet.this.lambda$loadUsers$5(tL_error, tLObject, list, z, z2, z3, z4);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$0(AlertDialog alertDialog, Context context, long j, TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter, TLRPC$ChannelParticipant tLRPC$ChannelParticipant) {
+    public /* synthetic */ void lambda$new$0(AlertDialog alertDialog, Context context, long j, TLRPC.TL_chatInviteExported tL_chatInviteExported, TLRPC.TL_chatInviteImporter tL_chatInviteImporter, TLRPC.ChannelParticipant channelParticipant) {
         alertDialog.dismissUnless(400L);
-        showSubscriptionSheet(context, this.currentAccount, -j, tLRPC$TL_chatInviteExported.subscription_pricing, tLRPC$TL_chatInviteImporter, tLRPC$ChannelParticipant, this.resourcesProvider);
+        showSubscriptionSheet(context, this.currentAccount, -j, tL_chatInviteExported.subscription_pricing, tL_chatInviteImporter, channelParticipant, this.resourcesProvider);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$1(final AlertDialog alertDialog, final Context context, final long j, final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, final TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter, final TLRPC$ChannelParticipant tLRPC$ChannelParticipant) {
+    public /* synthetic */ void lambda$new$1(final AlertDialog alertDialog, final Context context, final long j, final TLRPC.TL_chatInviteExported tL_chatInviteExported, final TLRPC.TL_chatInviteImporter tL_chatInviteImporter, final TLRPC.ChannelParticipant channelParticipant) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
-                InviteLinkBottomSheet.this.lambda$new$0(alertDialog, context, j, tLRPC$TL_chatInviteExported, tLRPC$TL_chatInviteImporter, tLRPC$ChannelParticipant);
+                InviteLinkBottomSheet.this.lambda$new$0(alertDialog, context, j, tL_chatInviteExported, tL_chatInviteImporter, channelParticipant);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$2(TLRPC$User tLRPC$User, BaseFragment baseFragment) {
+    public /* synthetic */ void lambda$new$2(TLRPC.User user, BaseFragment baseFragment) {
         Bundle bundle = new Bundle();
-        bundle.putLong("user_id", tLRPC$User.id);
+        bundle.putLong("user_id", user.id);
         baseFragment.presentFragment(new ProfileActivity(bundle));
         this.isNeedReopen = true;
     }
@@ -1177,13 +1159,13 @@ public class InviteLinkBottomSheet extends BottomSheet {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$new$3(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, HashMap hashMap, TLRPC$ChatFull tLRPC$ChatFull, final Context context, final long j, final BaseFragment baseFragment, View view, int i) {
-        TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter;
+    public /* synthetic */ void lambda$new$3(final TLRPC.TL_chatInviteExported tL_chatInviteExported, HashMap hashMap, TLRPC.ChatFull chatFull, final Context context, final long j, final BaseFragment baseFragment, View view, int i) {
+        TLRPC.TL_chatInviteImporter tL_chatInviteImporter;
         ArrayList arrayList;
         int i2;
         Object obj;
-        final TLRPC$User tLRPC$User;
-        if (i == this.creatorRow && tLRPC$TL_chatInviteExported.admin_id == UserConfig.getInstance(this.currentAccount).clientUserId) {
+        final TLRPC.User user;
+        if (i == this.creatorRow && tL_chatInviteExported.admin_id == UserConfig.getInstance(this.currentAccount).clientUserId) {
             return;
         }
         int i3 = this.joinedStartRow;
@@ -1197,8 +1179,8 @@ public class InviteLinkBottomSheet extends BottomSheet {
         if ((i != this.creatorRow && !z2 && !z) || hashMap == null) {
             return;
         }
-        long j2 = tLRPC$TL_chatInviteExported.admin_id;
-        TLRPC$ChannelParticipant tLRPC$ChannelParticipant = null;
+        long j2 = tL_chatInviteExported.admin_id;
+        TLRPC.ChannelParticipant channelParticipant = null;
         if (z2) {
             obj = this.joinedUsers.get(i - i3);
         } else {
@@ -1206,25 +1188,25 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 arrayList = this.expiredUsers;
                 i2 = i - i5;
             } else if (!z) {
-                tLRPC$TL_chatInviteImporter = null;
-                tLRPC$User = (TLRPC$User) hashMap.get(Long.valueOf(j2));
-                if (tLRPC$User == null) {
-                    MessagesController.getInstance(UserConfig.selectedAccount).putUser(tLRPC$User, false);
-                    if (!z2 || tLRPC$TL_chatInviteExported.subscription_pricing == null) {
+                tL_chatInviteImporter = null;
+                user = (TLRPC.User) hashMap.get(Long.valueOf(j2));
+                if (user == null) {
+                    MessagesController.getInstance(UserConfig.selectedAccount).putUser(user, false);
+                    if (!z2 || tL_chatInviteExported.subscription_pricing == null) {
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda4
                             @Override // java.lang.Runnable
                             public final void run() {
-                                InviteLinkBottomSheet.this.lambda$new$2(tLRPC$User, baseFragment);
+                                InviteLinkBottomSheet.this.lambda$new$2(user, baseFragment);
                             }
                         }, 100L);
                         dismiss();
                         return;
                     }
-                    if (tLRPC$ChatFull != null && tLRPC$ChatFull.participants != null) {
+                    if (chatFull != null && chatFull.participants != null) {
                         while (true) {
-                            if (i4 < tLRPC$ChatFull.participants.participants.size()) {
-                                if (((TLRPC$ChatParticipant) tLRPC$ChatFull.participants.participants.get(i4)).user_id == j2 && (tLRPC$ChatFull.participants.participants.get(i4) instanceof TLRPC$TL_chatChannelParticipant)) {
-                                    tLRPC$ChannelParticipant = ((TLRPC$TL_chatChannelParticipant) tLRPC$ChatFull.participants.participants.get(i4)).channelParticipant;
+                            if (i4 < chatFull.participants.participants.size()) {
+                                if (chatFull.participants.participants.get(i4).user_id == j2 && (chatFull.participants.participants.get(i4) instanceof TLRPC.TL_chatChannelParticipant)) {
+                                    channelParticipant = ((TLRPC.TL_chatChannelParticipant) chatFull.participants.participants.get(i4)).channelParticipant;
                                     break;
                                 }
                                 i4++;
@@ -1233,17 +1215,17 @@ public class InviteLinkBottomSheet extends BottomSheet {
                             }
                         }
                     }
-                    if (tLRPC$ChannelParticipant != null) {
-                        showSubscriptionSheet(context, this.currentAccount, -j, tLRPC$TL_chatInviteExported.subscription_pricing, tLRPC$TL_chatInviteImporter, tLRPC$ChannelParticipant, this.resourcesProvider);
+                    if (channelParticipant != null) {
+                        showSubscriptionSheet(context, this.currentAccount, -j, tL_chatInviteExported.subscription_pricing, tL_chatInviteImporter, channelParticipant, this.resourcesProvider);
                         return;
                     }
                     final AlertDialog alertDialog = new AlertDialog(context, 3);
                     alertDialog.showDelayed(120L);
-                    final TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter2 = tLRPC$TL_chatInviteImporter;
-                    MessagesController.getInstance(this.currentAccount).getChannelParticipant(MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(j)), tLRPC$User, new Utilities.Callback() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda3
+                    final TLRPC.TL_chatInviteImporter tL_chatInviteImporter2 = tL_chatInviteImporter;
+                    MessagesController.getInstance(this.currentAccount).getChannelParticipant(MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(j)), user, new Utilities.Callback() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda3
                         @Override // org.telegram.messenger.Utilities.Callback
                         public final void run(Object obj2) {
-                            InviteLinkBottomSheet.this.lambda$new$1(alertDialog, context, j, tLRPC$TL_chatInviteExported, tLRPC$TL_chatInviteImporter2, (TLRPC$ChannelParticipant) obj2);
+                            InviteLinkBottomSheet.this.lambda$new$1(alertDialog, context, j, tL_chatInviteExported, tL_chatInviteImporter2, (TLRPC.ChannelParticipant) obj2);
                         }
                     });
                     return;
@@ -1255,11 +1237,11 @@ public class InviteLinkBottomSheet extends BottomSheet {
             }
             obj = arrayList.get(i2);
         }
-        TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter3 = (TLRPC$TL_chatInviteImporter) obj;
-        j2 = tLRPC$TL_chatInviteImporter3.user_id;
-        tLRPC$TL_chatInviteImporter = tLRPC$TL_chatInviteImporter3;
-        tLRPC$User = (TLRPC$User) hashMap.get(Long.valueOf(j2));
-        if (tLRPC$User == null) {
+        TLRPC.TL_chatInviteImporter tL_chatInviteImporter3 = (TLRPC.TL_chatInviteImporter) obj;
+        j2 = tL_chatInviteImporter3.user_id;
+        tL_chatInviteImporter = tL_chatInviteImporter3;
+        user = (TLRPC.User) hashMap.get(Long.valueOf(j2));
+        if (user == null) {
         }
     }
 
@@ -1274,12 +1256,12 @@ public class InviteLinkBottomSheet extends BottomSheet {
     }
 
     private void loadCreator() {
-        TLRPC$TL_users_getUsers tLRPC$TL_users_getUsers = new TLRPC$TL_users_getUsers();
-        tLRPC$TL_users_getUsers.id.add(MessagesController.getInstance(UserConfig.selectedAccount).getInputUser(this.invite.admin_id));
-        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_users_getUsers, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda2
+        TLRPC.TL_users_getUsers tL_users_getUsers = new TLRPC.TL_users_getUsers();
+        tL_users_getUsers.id.add(MessagesController.getInstance(UserConfig.selectedAccount).getInputUser(this.invite.admin_id));
+        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tL_users_getUsers, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda2
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                InviteLinkBottomSheet.this.lambda$loadCreator$4(tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                InviteLinkBottomSheet.this.lambda$loadCreator$4(tLObject, tL_error);
             }
         });
     }
@@ -1329,7 +1311,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         this.shadowAnimation.start();
     }
 
-    public static BottomSheet showSubscriptionSheet(final Context context, int i, long j, TLRPC$TL_starsSubscriptionPricing tLRPC$TL_starsSubscriptionPricing, final TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter, TLRPC$ChannelParticipant tLRPC$ChannelParticipant, Theme.ResourcesProvider resourcesProvider) {
+    public static BottomSheet showSubscriptionSheet(final Context context, int i, long j, TL_stars.TL_starsSubscriptionPricing tL_starsSubscriptionPricing, final TLRPC.TL_chatInviteImporter tL_chatInviteImporter, TLRPC.ChannelParticipant channelParticipant, Theme.ResourcesProvider resourcesProvider) {
         TLObject tLObject;
         BottomSheet.Builder builder;
         Object obj;
@@ -1352,11 +1334,11 @@ public class InviteLinkBottomSheet extends BottomSheet {
         backupImageView.setRoundRadius(AndroidUtilities.dp(50.0f));
         AvatarDrawable avatarDrawable = new AvatarDrawable();
         if (j >= 0) {
-            TLRPC$User user = MessagesController.getInstance(i).getUser(Long.valueOf(j));
+            TLRPC.User user = MessagesController.getInstance(i).getUser(Long.valueOf(j));
             avatarDrawable.setInfo(user);
             tLObject = user;
         } else {
-            TLRPC$Chat chat = MessagesController.getInstance(i).getChat(Long.valueOf(-j));
+            TLRPC.Chat chat = MessagesController.getInstance(i).getChat(Long.valueOf(-j));
             avatarDrawable.setInfo(chat);
             tLObject = chat;
         }
@@ -1389,10 +1371,10 @@ public class InviteLinkBottomSheet extends BottomSheet {
         textView2.setGravity(17);
         int i2 = Theme.key_windowBackgroundWhiteGrayText4;
         textView2.setTextColor(Theme.getColor(i2, resourcesProvider));
-        int i3 = tLRPC$TL_starsSubscriptionPricing.period;
+        int i3 = tL_starsSubscriptionPricing.period;
         if (i3 == 2592000) {
             builder = builder2;
-            textView2.setText(StarsIntroActivity.replaceStarsWithPlain(LocaleController.formatString(R.string.StarsSubscriptionPrice, Long.valueOf(tLRPC$TL_starsSubscriptionPricing.amount)), 0.8f));
+            textView2.setText(StarsIntroActivity.replaceStarsWithPlain(LocaleController.formatString(R.string.StarsSubscriptionPrice, Long.valueOf(tL_starsSubscriptionPricing.amount)), 0.8f));
             obj = "min";
             obj2 = "5min";
         } else {
@@ -1400,25 +1382,25 @@ public class InviteLinkBottomSheet extends BottomSheet {
             String str = i3 == 300 ? "5min" : "min";
             obj = "min";
             obj2 = "5min";
-            textView2.setText(StarsIntroActivity.replaceStarsWithPlain(String.format(Locale.US, "⭐%1$d/%2$s", Long.valueOf(tLRPC$TL_starsSubscriptionPricing.amount), str), 0.8f));
+            textView2.setText(StarsIntroActivity.replaceStarsWithPlain(String.format(Locale.US, "⭐%1$d/%2$s", Long.valueOf(tL_starsSubscriptionPricing.amount), str), 0.8f));
         }
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, -2, 17, 20, 0, 20, 4));
         TextView textView3 = new TextView(context);
         textView3.setTextSize(1, 14.0f);
         textView3.setGravity(17);
         textView3.setTextColor(Theme.getColor(i2, resourcesProvider));
-        int i4 = tLRPC$TL_starsSubscriptionPricing.period;
+        int i4 = tL_starsSubscriptionPricing.period;
         if (i4 == 2592000) {
             int i5 = R.string.StarsParticipantSubscriptionApproxMonth;
             BillingController billingController = BillingController.getInstance();
-            Double.isNaN(tLRPC$TL_starsSubscriptionPricing.amount);
+            Double.isNaN(tL_starsSubscriptionPricing.amount);
             Double.isNaN(MessagesController.getInstance(i).starsUsdWithdrawRate1000);
             format = LocaleController.formatString(i5, billingController.formatCurrency((int) ((d3 / 1000.0d) * d4), "USD"));
         } else {
             Object obj3 = i4 == 300 ? obj2 : obj;
             Locale locale = Locale.US;
             BillingController billingController2 = BillingController.getInstance();
-            Double.isNaN(tLRPC$TL_starsSubscriptionPricing.amount);
+            Double.isNaN(tL_starsSubscriptionPricing.amount);
             Double.isNaN(MessagesController.getInstance(i).starsUsdWithdrawRate1000);
             format = String.format(locale, "appx. %1$s per %2$s", billingController2.formatCurrency((int) ((d / 1000.0d) * d2), "USD"), obj3);
         }
@@ -1435,7 +1417,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         linksTextView.setSingleLine(true);
         linksTextView.setDisablePaddingsOffsetY(true);
         AvatarSpan avatarSpan = new AvatarSpan(linksTextView, i, 24.0f);
-        TLRPC$User user2 = MessagesController.getInstance(i).getUser(Long.valueOf(tLRPC$TL_chatInviteImporter.user_id));
+        TLRPC.User user2 = MessagesController.getInstance(i).getUser(Long.valueOf(tL_chatInviteImporter.user_id));
         boolean z = user2 == null;
         String userName = UserObject.getUserName(user2);
         avatarSpan.setUser(user2);
@@ -1447,7 +1429,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 bottomSheetArr[0].dismiss();
                 BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
                 if (safeLastFragment != null) {
-                    safeLastFragment.presentFragment(ProfileActivity.of(tLRPC$TL_chatInviteImporter.user_id));
+                    safeLastFragment.presentFragment(ProfileActivity.of(tL_chatInviteImporter.user_id));
                 }
             }
 
@@ -1462,10 +1444,10 @@ public class InviteLinkBottomSheet extends BottomSheet {
         }
         CharSequence string = LocaleController.getString(R.string.StarsParticipantSubscriptionStart);
         int i7 = R.string.formatDateAtTime;
-        tableView.addRow(string, LocaleController.formatString(i7, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date(tLRPC$TL_chatInviteImporter.date * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date(tLRPC$TL_chatInviteImporter.date * 1000))));
+        tableView.addRow(string, LocaleController.formatString(i7, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date(tL_chatInviteImporter.date * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date(tL_chatInviteImporter.date * 1000))));
         int currentTime = ConnectionsManager.getInstance(i).getCurrentTime();
-        if (tLRPC$ChannelParticipant != null) {
-            tableView.addRow(LocaleController.getString(tLRPC$ChannelParticipant.subscription_until_date > currentTime ? R.string.StarsParticipantSubscriptionRenews : R.string.StarsParticipantSubscriptionExpired), LocaleController.formatString(i7, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date(tLRPC$ChannelParticipant.subscription_until_date * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date(tLRPC$ChannelParticipant.subscription_until_date * 1000))));
+        if (channelParticipant != null) {
+            tableView.addRow(LocaleController.getString(channelParticipant.subscription_until_date > currentTime ? R.string.StarsParticipantSubscriptionRenews : R.string.StarsParticipantSubscriptionExpired), LocaleController.formatString(i7, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date(channelParticipant.subscription_until_date * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date(channelParticipant.subscription_until_date * 1000))));
         }
         linearLayout.addView(tableView, LayoutHelper.createLinear(-1, -2, 0.0f, 17.0f, 0.0f, 0.0f));
         LinkSpanDrawable.LinksTextView linksTextView2 = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
@@ -1599,8 +1581,8 @@ public class InviteLinkBottomSheet extends BottomSheet {
             this.rowCount = 2;
             this.linkInfoRow = 1;
         }
-        TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = this.invite;
-        if (tLRPC$TL_chatInviteExported.subscription_pricing != null) {
+        TLRPC.TL_chatInviteExported tL_chatInviteExported = this.invite;
+        if (tL_chatInviteExported.subscription_pricing != null) {
             int i = this.rowCount;
             this.revenueHeaderRow = i;
             this.rowCount = i + 2;
@@ -1610,11 +1592,11 @@ public class InviteLinkBottomSheet extends BottomSheet {
         this.creatorHeaderRow = i2;
         this.rowCount = i2 + 2;
         this.creatorRow = i2 + 1;
-        int i3 = tLRPC$TL_chatInviteExported.usage;
-        boolean z4 = i3 > 0 || tLRPC$TL_chatInviteExported.usage_limit > 0 || tLRPC$TL_chatInviteExported.requested > 0 || tLRPC$TL_chatInviteExported.subscription_expired > 0;
+        int i3 = tL_chatInviteExported.usage;
+        boolean z4 = i3 > 0 || tL_chatInviteExported.usage_limit > 0 || tL_chatInviteExported.requested > 0 || tL_chatInviteExported.subscription_expired > 0;
         if (i3 <= this.joinedUsers.size() && this.invite.subscription_expired <= this.expiredUsers.size()) {
-            TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2 = this.invite;
-            if (!tLRPC$TL_chatInviteExported2.request_needed || tLRPC$TL_chatInviteExported2.requested <= this.requestedUsers.size()) {
+            TLRPC.TL_chatInviteExported tL_chatInviteExported2 = this.invite;
+            if (!tL_chatInviteExported2.request_needed || tL_chatInviteExported2.requested <= this.requestedUsers.size()) {
                 z = false;
                 if (!this.joinedUsers.isEmpty()) {
                     int i4 = this.rowCount;
@@ -1699,32 +1681,32 @@ public class InviteLinkBottomSheet extends BottomSheet {
         }
         boolean z3 = this.invite.usage > this.joinedUsers.size();
         final boolean z4 = this.invite.subscription_expired > this.expiredUsers.size();
-        TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = this.invite;
-        final boolean z5 = tLRPC$TL_chatInviteExported.request_needed && tLRPC$TL_chatInviteExported.requested > this.requestedUsers.size();
+        TLRPC.TL_chatInviteExported tL_chatInviteExported = this.invite;
+        final boolean z5 = tL_chatInviteExported.request_needed && tL_chatInviteExported.requested > this.requestedUsers.size();
         if (z3) {
             z = false;
         } else if (z4) {
             z = false;
             z2 = true;
             arrayList = !z ? this.requestedUsers : z2 ? this.expiredUsers : this.joinedUsers;
-            TLRPC$TL_messages_getChatInviteImporters tLRPC$TL_messages_getChatInviteImporters = new TLRPC$TL_messages_getChatInviteImporters();
-            tLRPC$TL_messages_getChatInviteImporters.flags |= 2;
-            tLRPC$TL_messages_getChatInviteImporters.link = this.invite.link;
-            tLRPC$TL_messages_getChatInviteImporters.peer = MessagesController.getInstance(UserConfig.selectedAccount).getInputPeer(-this.chatId);
-            tLRPC$TL_messages_getChatInviteImporters.requested = z;
-            tLRPC$TL_messages_getChatInviteImporters.subscription_expired = z2;
+            TLRPC.TL_messages_getChatInviteImporters tL_messages_getChatInviteImporters = new TLRPC.TL_messages_getChatInviteImporters();
+            tL_messages_getChatInviteImporters.flags |= 2;
+            tL_messages_getChatInviteImporters.link = this.invite.link;
+            tL_messages_getChatInviteImporters.peer = MessagesController.getInstance(UserConfig.selectedAccount).getInputPeer(-this.chatId);
+            tL_messages_getChatInviteImporters.requested = z;
+            tL_messages_getChatInviteImporters.subscription_expired = z2;
             if (arrayList.isEmpty()) {
-                TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter = (TLRPC$TL_chatInviteImporter) arrayList.get(arrayList.size() - 1);
-                tLRPC$TL_messages_getChatInviteImporters.offset_user = MessagesController.getInstance(this.currentAccount).getInputUser((TLRPC$User) this.users.get(Long.valueOf(tLRPC$TL_chatInviteImporter.user_id)));
-                tLRPC$TL_messages_getChatInviteImporters.offset_date = tLRPC$TL_chatInviteImporter.date;
+                TLRPC.TL_chatInviteImporter tL_chatInviteImporter = (TLRPC.TL_chatInviteImporter) arrayList.get(arrayList.size() - 1);
+                tL_messages_getChatInviteImporters.offset_user = MessagesController.getInstance(this.currentAccount).getInputUser((TLRPC.User) this.users.get(Long.valueOf(tL_chatInviteImporter.user_id)));
+                tL_messages_getChatInviteImporters.offset_date = tL_chatInviteImporter.date;
             } else {
-                tLRPC$TL_messages_getChatInviteImporters.offset_user = new TLRPC$TL_inputUserEmpty();
+                tL_messages_getChatInviteImporters.offset_user = new TLRPC.TL_inputUserEmpty();
             }
             this.usersLoading = true;
-            ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_getChatInviteImporters, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda1
+            ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tL_messages_getChatInviteImporters, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda1
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    InviteLinkBottomSheet.this.lambda$loadUsers$6(arrayList, z, z2, z5, z4, tLObject, tLRPC$TL_error);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    InviteLinkBottomSheet.this.lambda$loadUsers$6(arrayList, z, z2, z5, z4, tLObject, tL_error);
                 }
             });
         } else if (!z5) {
@@ -1734,19 +1716,19 @@ public class InviteLinkBottomSheet extends BottomSheet {
         }
         z2 = false;
         arrayList = !z ? this.requestedUsers : z2 ? this.expiredUsers : this.joinedUsers;
-        TLRPC$TL_messages_getChatInviteImporters tLRPC$TL_messages_getChatInviteImporters2 = new TLRPC$TL_messages_getChatInviteImporters();
-        tLRPC$TL_messages_getChatInviteImporters2.flags |= 2;
-        tLRPC$TL_messages_getChatInviteImporters2.link = this.invite.link;
-        tLRPC$TL_messages_getChatInviteImporters2.peer = MessagesController.getInstance(UserConfig.selectedAccount).getInputPeer(-this.chatId);
-        tLRPC$TL_messages_getChatInviteImporters2.requested = z;
-        tLRPC$TL_messages_getChatInviteImporters2.subscription_expired = z2;
+        TLRPC.TL_messages_getChatInviteImporters tL_messages_getChatInviteImporters2 = new TLRPC.TL_messages_getChatInviteImporters();
+        tL_messages_getChatInviteImporters2.flags |= 2;
+        tL_messages_getChatInviteImporters2.link = this.invite.link;
+        tL_messages_getChatInviteImporters2.peer = MessagesController.getInstance(UserConfig.selectedAccount).getInputPeer(-this.chatId);
+        tL_messages_getChatInviteImporters2.requested = z;
+        tL_messages_getChatInviteImporters2.subscription_expired = z2;
         if (arrayList.isEmpty()) {
         }
         this.usersLoading = true;
-        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_getChatInviteImporters2, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda1
+        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tL_messages_getChatInviteImporters2, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda1
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                InviteLinkBottomSheet.this.lambda$loadUsers$6(arrayList, z, z2, z5, z4, tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                InviteLinkBottomSheet.this.lambda$loadUsers$6(arrayList, z, z2, z5, z4, tLObject, tL_error);
             }
         });
     }

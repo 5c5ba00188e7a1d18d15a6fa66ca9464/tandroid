@@ -84,7 +84,7 @@ public abstract class zzev {
                     char charAt3 = charSequence.charAt(i9);
                     if (Character.isSurrogatePair(charAt2, charAt3)) {
                         int codePoint = Character.toCodePoint(charAt2, charAt3);
-                        bArr[i7] = (byte) ((codePoint >>> 18) | NotificationCenter.locationPermissionDenied);
+                        bArr[i7] = (byte) ((codePoint >>> 18) | NotificationCenter.goingToPreviewTheme);
                         bArr[i7 + 1] = (byte) (((codePoint >>> 12) & 63) | 128);
                         int i10 = i7 + 3;
                         bArr[i7 + 2] = (byte) (((codePoint >>> 6) & 63) | 128);

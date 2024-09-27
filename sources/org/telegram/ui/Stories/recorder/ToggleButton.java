@@ -83,7 +83,7 @@ public class ToggleButton extends View implements FlashViews.Invertable {
             canvas.restore();
         }
         if (f > 0.0f) {
-            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.didClearDatabase, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.messagePlayingSpeedChanged, 31);
             canvas.drawCircle(getWidth() / 2.0f, getHeight() / 2.0f, AndroidUtilities.dp(16.0f) * f, this.activePaint);
             canvas.save();
             Bitmap bitmap = this.activeBitmap;

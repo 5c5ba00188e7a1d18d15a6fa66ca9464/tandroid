@@ -25,9 +25,7 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.UserConfig;
-import org.telegram.tgnet.TLRPC$Photo;
-import org.telegram.tgnet.TLRPC$PhotoSize;
-import org.telegram.tgnet.TLRPC$TL_wallPaper;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.BackgroundGradientDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.MotionBackgroundDrawable;
@@ -44,7 +42,7 @@ public class PatternCell extends BackupImageView implements DownloadController.F
     private int currentGradientColor1;
     private int currentGradientColor2;
     private int currentGradientColor3;
-    private TLRPC$TL_wallPaper currentPattern;
+    private TLRPC.TL_wallPaper currentPattern;
     private PatternCellDelegate delegate;
     private LinearGradient gradientShader;
     private int maxWallpaperSize;
@@ -69,7 +67,7 @@ public class PatternCell extends BackupImageView implements DownloadController.F
 
         int getPatternColor();
 
-        TLRPC$TL_wallPaper getSelectedPattern();
+        TLRPC.TL_wallPaper getSelectedPattern();
     }
 
     public PatternCell(Context context, int i, PatternCellDelegate patternCellDelegate) {
@@ -99,20 +97,20 @@ public class PatternCell extends BackupImageView implements DownloadController.F
     private void updateButtonState(Object obj, boolean z, boolean z2) {
         File httpFilePath;
         String name;
-        boolean z3 = obj instanceof TLRPC$TL_wallPaper;
+        boolean z3 = obj instanceof TLRPC.TL_wallPaper;
         if (z3 || (obj instanceof MediaController.SearchImage)) {
             if (z3) {
-                TLRPC$TL_wallPaper tLRPC$TL_wallPaper = (TLRPC$TL_wallPaper) obj;
-                name = FileLoader.getAttachFileName(tLRPC$TL_wallPaper.document);
+                TLRPC.TL_wallPaper tL_wallPaper = (TLRPC.TL_wallPaper) obj;
+                name = FileLoader.getAttachFileName(tL_wallPaper.document);
                 if (TextUtils.isEmpty(name)) {
                     return;
                 }
-                httpFilePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$TL_wallPaper.document, true);
+                httpFilePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(tL_wallPaper.document, true);
             } else {
                 MediaController.SearchImage searchImage = (MediaController.SearchImage) obj;
-                TLRPC$Photo tLRPC$Photo = searchImage.photo;
-                if (tLRPC$Photo != null) {
-                    TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, this.maxWallpaperSize, true);
+                TLRPC.Photo photo = searchImage.photo;
+                if (photo != null) {
+                    TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, this.maxWallpaperSize, true);
                     File pathToAttach = FileLoader.getInstance(this.currentAccount).getPathToAttach(closestPhotoSizeWithSize, true);
                     name = FileLoader.getAttachFileName(closestPhotoSizeWithSize);
                     httpFilePath = pathToAttach;
@@ -252,15 +250,15 @@ public class PatternCell extends BackupImageView implements DownloadController.F
 
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
     public void onFailedDownload(String str, boolean z) {
-        TLRPC$TL_wallPaper selectedPattern = this.delegate.getSelectedPattern();
-        TLRPC$TL_wallPaper tLRPC$TL_wallPaper = this.currentPattern;
-        if (!(tLRPC$TL_wallPaper == null && selectedPattern == null) && (selectedPattern == null || tLRPC$TL_wallPaper == null || tLRPC$TL_wallPaper.id != selectedPattern.id)) {
+        TLRPC.TL_wallPaper selectedPattern = this.delegate.getSelectedPattern();
+        TLRPC.TL_wallPaper tL_wallPaper = this.currentPattern;
+        if (!(tL_wallPaper == null && selectedPattern == null) && (selectedPattern == null || tL_wallPaper == null || tL_wallPaper.id != selectedPattern.id)) {
             return;
         }
         if (z) {
             this.radialProgress.setIcon(4, false, true);
         } else {
-            updateButtonState(tLRPC$TL_wallPaper, true, z);
+            updateButtonState(tL_wallPaper, true, z);
         }
     }
 
@@ -272,9 +270,9 @@ public class PatternCell extends BackupImageView implements DownloadController.F
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
     public void onProgressDownload(String str, long j, long j2) {
         this.radialProgress.setProgress(Math.min(1.0f, ((float) j) / ((float) j2)), true);
-        TLRPC$TL_wallPaper selectedPattern = this.delegate.getSelectedPattern();
-        TLRPC$TL_wallPaper tLRPC$TL_wallPaper = this.currentPattern;
-        if ((!(tLRPC$TL_wallPaper == null && selectedPattern == null) && (selectedPattern == null || tLRPC$TL_wallPaper == null || tLRPC$TL_wallPaper.id != selectedPattern.id)) || this.radialProgress.getIcon() == 10) {
+        TLRPC.TL_wallPaper selectedPattern = this.delegate.getSelectedPattern();
+        TLRPC.TL_wallPaper tL_wallPaper = this.currentPattern;
+        if ((!(tL_wallPaper == null && selectedPattern == null) && (selectedPattern == null || tL_wallPaper == null || tL_wallPaper.id != selectedPattern.id)) || this.radialProgress.getIcon() == 10) {
             return;
         }
         updateButtonState(this.currentPattern, false, true);
@@ -287,18 +285,18 @@ public class PatternCell extends BackupImageView implements DownloadController.F
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
     public void onSuccessDownload(String str) {
         this.radialProgress.setProgress(1.0f, true);
-        TLRPC$TL_wallPaper selectedPattern = this.delegate.getSelectedPattern();
-        TLRPC$TL_wallPaper tLRPC$TL_wallPaper = this.currentPattern;
-        if (!(tLRPC$TL_wallPaper == null && selectedPattern == null) && (selectedPattern == null || tLRPC$TL_wallPaper == null || tLRPC$TL_wallPaper.id != selectedPattern.id)) {
+        TLRPC.TL_wallPaper selectedPattern = this.delegate.getSelectedPattern();
+        TLRPC.TL_wallPaper tL_wallPaper = this.currentPattern;
+        if (!(tL_wallPaper == null && selectedPattern == null) && (selectedPattern == null || tL_wallPaper == null || tL_wallPaper.id != selectedPattern.id)) {
             return;
         }
-        updateButtonState(tLRPC$TL_wallPaper, false, true);
+        updateButtonState(tL_wallPaper, false, true);
     }
 
-    public void setPattern(TLRPC$TL_wallPaper tLRPC$TL_wallPaper) {
-        this.currentPattern = tLRPC$TL_wallPaper;
-        if (tLRPC$TL_wallPaper != null) {
-            setImage(ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$TL_wallPaper.document.thumbs, AndroidUtilities.dp(100.0f)), tLRPC$TL_wallPaper.document), "100_100", null, null, "png", 0L, 1, tLRPC$TL_wallPaper);
+    public void setPattern(TLRPC.TL_wallPaper tL_wallPaper) {
+        this.currentPattern = tL_wallPaper;
+        if (tL_wallPaper != null) {
+            setImage(ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tL_wallPaper.document.thumbs, AndroidUtilities.dp(100.0f)), tL_wallPaper.document), "100_100", null, null, "png", 0L, 1, tL_wallPaper);
         } else {
             setImageDrawable(null);
         }
@@ -306,9 +304,9 @@ public class PatternCell extends BackupImageView implements DownloadController.F
     }
 
     public void updateSelected(boolean z) {
-        TLRPC$TL_wallPaper selectedPattern = this.delegate.getSelectedPattern();
-        TLRPC$TL_wallPaper tLRPC$TL_wallPaper = this.currentPattern;
-        if (!(tLRPC$TL_wallPaper == null && selectedPattern == null) && (selectedPattern == null || tLRPC$TL_wallPaper == null || tLRPC$TL_wallPaper.id != selectedPattern.id)) {
+        TLRPC.TL_wallPaper selectedPattern = this.delegate.getSelectedPattern();
+        TLRPC.TL_wallPaper tL_wallPaper = this.currentPattern;
+        if (!(tL_wallPaper == null && selectedPattern == null) && (selectedPattern == null || tL_wallPaper == null || tL_wallPaper.id != selectedPattern.id)) {
             this.radialProgress.setIcon(4, false, z);
         } else {
             updateButtonState(selectedPattern, false, z);

@@ -18,11 +18,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$PhotoSize;
-import org.telegram.tgnet.TLRPC$StickerSet;
-import org.telegram.tgnet.TLRPC$StickerSetCovered;
-import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.Premium.LimitReachedBottomSheet;
@@ -46,12 +42,12 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public StickerSetBulletinLayout(final Context context, TLObject tLObject, int i, int i2, TLRPC$Document tLRPC$Document, Theme.ResourcesProvider resourcesProvider) {
+    public StickerSetBulletinLayout(final Context context, TLObject tLObject, int i, int i2, TLRPC.Document document, Theme.ResourcesProvider resourcesProvider) {
         super(context, resourcesProvider);
-        TLRPC$Document tLRPC$Document2;
-        TLRPC$StickerSet tLRPC$StickerSet;
-        TLRPC$Document tLRPC$Document3;
-        ArrayList arrayList;
+        TLRPC.Document document2;
+        TLRPC.StickerSet stickerSet;
+        TLRPC.Document document3;
+        ArrayList<TLRPC.Document> arrayList;
         BackupImageView backupImageView;
         String str;
         Drawable drawable;
@@ -64,98 +60,98 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
         String formatString2;
         Runnable runnable;
         int i4;
-        TLRPC$StickerSet tLRPC$StickerSet2;
+        TLRPC.StickerSet stickerSet2;
         ImageLocation forSticker;
-        TLRPC$TL_messages_stickerSet stickerSet;
-        boolean z = tLObject instanceof TLRPC$TL_messages_stickerSet;
+        TLRPC.TL_messages_stickerSet stickerSet3;
+        boolean z = tLObject instanceof TLRPC.TL_messages_stickerSet;
         if (z) {
-            TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = (TLRPC$TL_messages_stickerSet) tLObject;
-            tLRPC$StickerSet = tLRPC$TL_messages_stickerSet.set;
-            arrayList = tLRPC$TL_messages_stickerSet.documents;
+            TLRPC.TL_messages_stickerSet tL_messages_stickerSet = (TLRPC.TL_messages_stickerSet) tLObject;
+            stickerSet = tL_messages_stickerSet.set;
+            arrayList = tL_messages_stickerSet.documents;
             if (arrayList == null || arrayList.isEmpty()) {
-                tLRPC$Document2 = null;
-                if (tLRPC$StickerSet == null && tLRPC$Document2 != null && (stickerSet = MediaDataController.getInstance(UserConfig.selectedAccount).getStickerSet(MessageObject.getInputStickerSet(tLRPC$Document2), true)) != null) {
-                    tLRPC$StickerSet = stickerSet.set;
+                document2 = null;
+                if (stickerSet == null && document2 != null && (stickerSet3 = MediaDataController.getInstance(UserConfig.selectedAccount).getStickerSet(MessageObject.getInputStickerSet(document2), true)) != null) {
+                    stickerSet = stickerSet3.set;
                 }
-                TLRPC$StickerSet tLRPC$StickerSet3 = tLRPC$StickerSet;
-                if (tLRPC$Document2 != null) {
-                    TLRPC$PhotoSize closestPhotoSizeWithSize = tLRPC$StickerSet3 != null ? FileLoader.getClosestPhotoSizeWithSize(tLRPC$StickerSet3.thumbs, 90) : null;
-                    closestPhotoSizeWithSize = closestPhotoSizeWithSize == null ? tLRPC$Document2 : closestPhotoSizeWithSize;
-                    boolean z2 = closestPhotoSizeWithSize instanceof TLRPC$Document;
+                TLRPC.StickerSet stickerSet4 = stickerSet;
+                if (document2 != null) {
+                    TLRPC.PhotoSize closestPhotoSizeWithSize = stickerSet4 != null ? FileLoader.getClosestPhotoSizeWithSize(stickerSet4.thumbs, 90) : null;
+                    closestPhotoSizeWithSize = closestPhotoSizeWithSize == null ? document2 : closestPhotoSizeWithSize;
+                    boolean z2 = closestPhotoSizeWithSize instanceof TLRPC.Document;
                     if (z2) {
-                        forSticker = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document2.thumbs, 90), tLRPC$Document2);
+                        forSticker = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(document2.thumbs, 90), document2);
                     } else {
-                        TLRPC$PhotoSize tLRPC$PhotoSize = closestPhotoSizeWithSize;
-                        if (tLObject instanceof TLRPC$StickerSetCovered) {
-                            tLRPC$StickerSet2 = ((TLRPC$StickerSetCovered) tLObject).set;
+                        TLRPC.PhotoSize photoSize = closestPhotoSizeWithSize;
+                        if (tLObject instanceof TLRPC.StickerSetCovered) {
+                            stickerSet2 = ((TLRPC.StickerSetCovered) tLObject).set;
                         } else if (z) {
-                            tLRPC$StickerSet2 = ((TLRPC$TL_messages_stickerSet) tLObject).set;
+                            stickerSet2 = ((TLRPC.TL_messages_stickerSet) tLObject).set;
                         } else {
                             i4 = 0;
-                            forSticker = ImageLocation.getForSticker(tLRPC$PhotoSize, tLRPC$Document2, i4);
+                            forSticker = ImageLocation.getForSticker(photoSize, document2, i4);
                         }
-                        i4 = tLRPC$StickerSet2.thumb_version;
-                        forSticker = ImageLocation.getForSticker(tLRPC$PhotoSize, tLRPC$Document2, i4);
+                        i4 = stickerSet2.thumb_version;
+                        forSticker = ImageLocation.getForSticker(photoSize, document2, i4);
                     }
                     ImageLocation imageLocation2 = forSticker;
-                    if (z2 && (MessageObject.isAnimatedStickerDocument(tLRPC$Document2, true) || MessageObject.isVideoSticker(tLRPC$Document2) || MessageObject.isGifDocument(tLRPC$Document2))) {
-                        this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document2), "50_50", imageLocation2, (String) null, 0, tLObject);
-                        if (MessageObject.isTextColorEmoji(tLRPC$Document2)) {
+                    if (z2 && (MessageObject.isAnimatedStickerDocument(document2, true) || MessageObject.isVideoSticker(document2) || MessageObject.isGifDocument(document2))) {
+                        this.imageView.setImage(ImageLocation.getForDocument(document2), "50_50", imageLocation2, (String) null, 0, tLObject);
+                        if (MessageObject.isTextColorEmoji(document2)) {
                             this.imageView.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
                         }
                         switch (i2) {
                             case 0:
-                                if (tLRPC$StickerSet3 != null) {
-                                    if (tLRPC$StickerSet3.masks) {
+                                if (stickerSet4 != null) {
+                                    if (stickerSet4.masks) {
                                         this.titleTextView.setText(LocaleController.getString(R.string.MasksRemoved));
                                         textView = this.subtitleTextView;
-                                        formatString = LocaleController.formatString("MasksRemovedInfo", R.string.MasksRemovedInfo, tLRPC$StickerSet3.title);
-                                    } else if (tLRPC$StickerSet3.emojis) {
+                                        formatString = LocaleController.formatString("MasksRemovedInfo", R.string.MasksRemovedInfo, stickerSet4.title);
+                                    } else if (stickerSet4.emojis) {
                                         this.titleTextView.setText(LocaleController.getString(R.string.EmojiRemoved));
                                         textView = this.subtitleTextView;
-                                        formatString = i > 1 ? LocaleController.formatPluralString("EmojiRemovedMultipleInfo", i, new Object[0]) : LocaleController.formatString("EmojiRemovedInfo", R.string.EmojiRemovedInfo, tLRPC$StickerSet3.title);
+                                        formatString = i > 1 ? LocaleController.formatPluralString("EmojiRemovedMultipleInfo", i, new Object[0]) : LocaleController.formatString("EmojiRemovedInfo", R.string.EmojiRemovedInfo, stickerSet4.title);
                                     } else {
                                         this.titleTextView.setText(LocaleController.getString(R.string.StickersRemoved));
                                         textView = this.subtitleTextView;
-                                        formatString = LocaleController.formatString("StickersRemovedInfo", R.string.StickersRemovedInfo, tLRPC$StickerSet3.title);
+                                        formatString = LocaleController.formatString("StickersRemovedInfo", R.string.StickersRemovedInfo, stickerSet4.title);
                                     }
                                     textView.setText(formatString);
                                     return;
                                 }
                                 return;
                             case 1:
-                                if (tLRPC$StickerSet3 != null) {
-                                    if (tLRPC$StickerSet3.masks) {
+                                if (stickerSet4 != null) {
+                                    if (stickerSet4.masks) {
                                         this.titleTextView.setText(LocaleController.getString(R.string.MasksArchived));
                                         textView = this.subtitleTextView;
-                                        formatString = LocaleController.formatString("MasksArchivedInfo", R.string.MasksArchivedInfo, tLRPC$StickerSet3.title);
-                                    } else if (tLRPC$StickerSet3.emojis) {
+                                        formatString = LocaleController.formatString("MasksArchivedInfo", R.string.MasksArchivedInfo, stickerSet4.title);
+                                    } else if (stickerSet4.emojis) {
                                         this.titleTextView.setText(LocaleController.getString(R.string.EmojiArchived));
                                         textView = this.subtitleTextView;
-                                        formatString = LocaleController.formatString("EmojiArchivedInfo", R.string.EmojiArchivedInfo, tLRPC$StickerSet3.title);
+                                        formatString = LocaleController.formatString("EmojiArchivedInfo", R.string.EmojiArchivedInfo, stickerSet4.title);
                                     } else {
                                         this.titleTextView.setText(LocaleController.getString(R.string.StickersArchived));
                                         textView = this.subtitleTextView;
-                                        formatString = LocaleController.formatString("StickersArchivedInfo", R.string.StickersArchivedInfo, tLRPC$StickerSet3.title);
+                                        formatString = LocaleController.formatString("StickersArchivedInfo", R.string.StickersArchivedInfo, stickerSet4.title);
                                     }
                                     textView.setText(formatString);
                                     return;
                                 }
                                 return;
                             case 2:
-                                if (tLRPC$StickerSet3 != null) {
-                                    if (tLRPC$StickerSet3.masks) {
+                                if (stickerSet4 != null) {
+                                    if (stickerSet4.masks) {
                                         this.titleTextView.setText(LocaleController.getString(R.string.AddMasksInstalled));
                                         textView = this.subtitleTextView;
-                                        formatString = LocaleController.formatString("AddMasksInstalledInfo", R.string.AddMasksInstalledInfo, tLRPC$StickerSet3.title);
-                                    } else if (tLRPC$StickerSet3.emojis) {
+                                        formatString = LocaleController.formatString("AddMasksInstalledInfo", R.string.AddMasksInstalledInfo, stickerSet4.title);
+                                    } else if (stickerSet4.emojis) {
                                         this.titleTextView.setText(LocaleController.getString(R.string.AddEmojiInstalled));
                                         textView = this.subtitleTextView;
-                                        formatString = i > 1 ? LocaleController.formatPluralString("AddEmojiMultipleInstalledInfo", i, new Object[0]) : LocaleController.formatString("AddEmojiInstalledInfo", R.string.AddEmojiInstalledInfo, tLRPC$StickerSet3.title);
+                                        formatString = i > 1 ? LocaleController.formatPluralString("AddEmojiMultipleInstalledInfo", i, new Object[0]) : LocaleController.formatString("AddEmojiInstalledInfo", R.string.AddEmojiInstalledInfo, stickerSet4.title);
                                     } else {
                                         this.titleTextView.setText(LocaleController.getString(R.string.AddStickersInstalled));
                                         textView = this.subtitleTextView;
-                                        formatString = LocaleController.formatString("AddStickersInstalledInfo", R.string.AddStickersInstalledInfo, tLRPC$StickerSet3.title);
+                                        formatString = LocaleController.formatString("AddStickersInstalledInfo", R.string.AddStickersInstalledInfo, stickerSet4.title);
                                     }
                                     textView.setText(formatString);
                                     return;
@@ -238,63 +234,63 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
                     str2 = null;
                 }
                 backupImageView.setImage(imageLocation, str2, str, drawable, tLObject);
-                if (MessageObject.isTextColorEmoji(tLRPC$Document2)) {
+                if (MessageObject.isTextColorEmoji(document2)) {
                 }
                 switch (i2) {
                 }
             }
-            tLRPC$Document3 = (TLRPC$Document) arrayList.get(0);
-        } else if (tLObject instanceof TLRPC$StickerSetCovered) {
-            TLRPC$StickerSetCovered tLRPC$StickerSetCovered = (TLRPC$StickerSetCovered) tLObject;
-            tLRPC$StickerSet = tLRPC$StickerSetCovered.set;
-            TLRPC$Document tLRPC$Document4 = tLRPC$StickerSetCovered.cover;
-            if (tLRPC$Document4 != null) {
-                tLRPC$Document3 = tLRPC$Document4;
-            } else if (tLRPC$StickerSetCovered.covers.isEmpty()) {
-                tLRPC$Document3 = null;
+            document3 = arrayList.get(0);
+        } else if (tLObject instanceof TLRPC.StickerSetCovered) {
+            TLRPC.StickerSetCovered stickerSetCovered = (TLRPC.StickerSetCovered) tLObject;
+            stickerSet = stickerSetCovered.set;
+            TLRPC.Document document4 = stickerSetCovered.cover;
+            if (document4 != null) {
+                document3 = document4;
+            } else if (stickerSetCovered.covers.isEmpty()) {
+                document3 = null;
             } else {
-                arrayList = tLRPC$StickerSetCovered.covers;
-                tLRPC$Document3 = (TLRPC$Document) arrayList.get(0);
+                arrayList = stickerSetCovered.covers;
+                document3 = arrayList.get(0);
             }
-        } else if (tLRPC$Document == null && tLObject != null && BuildVars.DEBUG_VERSION) {
+        } else if (document == null && tLObject != null && BuildVars.DEBUG_VERSION) {
             throw new IllegalArgumentException("Invalid type of the given setObject: " + tLObject.getClass());
         } else {
-            tLRPC$Document2 = tLRPC$Document;
-            tLRPC$StickerSet = null;
-            if (tLRPC$StickerSet == null) {
-                tLRPC$StickerSet = stickerSet.set;
+            document2 = document;
+            stickerSet = null;
+            if (stickerSet == null) {
+                stickerSet = stickerSet3.set;
             }
-            TLRPC$StickerSet tLRPC$StickerSet32 = tLRPC$StickerSet;
-            if (tLRPC$Document2 != null) {
+            TLRPC.StickerSet stickerSet42 = stickerSet;
+            if (document2 != null) {
             }
             backupImageView.setImage(imageLocation, str2, str, drawable, tLObject);
-            if (MessageObject.isTextColorEmoji(tLRPC$Document2)) {
+            if (MessageObject.isTextColorEmoji(document2)) {
             }
             switch (i2) {
             }
         }
-        tLRPC$Document2 = tLRPC$Document3;
-        if (tLRPC$StickerSet == null) {
+        document2 = document3;
+        if (stickerSet == null) {
         }
-        TLRPC$StickerSet tLRPC$StickerSet322 = tLRPC$StickerSet;
-        if (tLRPC$Document2 != null) {
+        TLRPC.StickerSet stickerSet422 = stickerSet;
+        if (document2 != null) {
         }
         backupImageView.setImage(imageLocation, str2, str, drawable, tLObject);
-        if (MessageObject.isTextColorEmoji(tLRPC$Document2)) {
+        if (MessageObject.isTextColorEmoji(document2)) {
         }
         switch (i2) {
         }
     }
 
-    public StickerSetBulletinLayout(Context context, TLObject tLObject, int i, TLRPC$Document tLRPC$Document, Theme.ResourcesProvider resourcesProvider) {
-        this(context, tLObject, 1, i, tLRPC$Document, resourcesProvider);
+    public StickerSetBulletinLayout(Context context, TLObject tLObject, int i, TLRPC.Document document, Theme.ResourcesProvider resourcesProvider) {
+        this(context, tLObject, 1, i, document, resourcesProvider);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$new$0(Context context) {
         Activity findActivity = AndroidUtilities.findActivity(context);
         if (findActivity instanceof LaunchActivity) {
-            ((LaunchActivity) findActivity).lambda$runLinkRequest$91(new PremiumPreviewFragment(LimitReachedBottomSheet.limitTypeToServerString(10)));
+            ((LaunchActivity) findActivity).lambda$runLinkRequest$93(new PremiumPreviewFragment(LimitReachedBottomSheet.limitTypeToServerString(10)));
         }
     }
 
@@ -302,7 +298,7 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
     public static /* synthetic */ void lambda$new$1(Context context) {
         Activity findActivity = AndroidUtilities.findActivity(context);
         if (findActivity instanceof LaunchActivity) {
-            ((LaunchActivity) findActivity).lambda$runLinkRequest$91(new PremiumPreviewFragment(LimitReachedBottomSheet.limitTypeToServerString(9)));
+            ((LaunchActivity) findActivity).lambda$runLinkRequest$93(new PremiumPreviewFragment(LimitReachedBottomSheet.limitTypeToServerString(9)));
         }
     }
 }

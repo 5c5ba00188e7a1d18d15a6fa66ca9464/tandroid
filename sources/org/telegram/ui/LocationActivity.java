@@ -78,32 +78,8 @@ import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$ChatParticipant;
-import org.telegram.tgnet.TLRPC$ChatPhoto;
-import org.telegram.tgnet.TLRPC$FileLocation;
-import org.telegram.tgnet.TLRPC$GeoPoint;
-import org.telegram.tgnet.TLRPC$InputGeoPoint;
-import org.telegram.tgnet.TLRPC$InputMedia;
-import org.telegram.tgnet.TLRPC$Message;
-import org.telegram.tgnet.TLRPC$MessageMedia;
-import org.telegram.tgnet.TLRPC$TL_channelLocation;
-import org.telegram.tgnet.TLRPC$TL_channels_editLocation;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_geoPoint;
-import org.telegram.tgnet.TLRPC$TL_inputGeoPoint;
-import org.telegram.tgnet.TLRPC$TL_inputMediaGeoLive;
-import org.telegram.tgnet.TLRPC$TL_messageActionGeoProximityReached;
-import org.telegram.tgnet.TLRPC$TL_messageMediaGeo;
-import org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive;
-import org.telegram.tgnet.TLRPC$TL_messageMediaVenue;
-import org.telegram.tgnet.TLRPC$TL_messages_editMessage;
-import org.telegram.tgnet.TLRPC$TL_messages_getRecentLocations;
-import org.telegram.tgnet.TLRPC$TL_peerUser;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$UserProfilePhoto;
-import org.telegram.tgnet.TLRPC$messages_Messages;
-import org.telegram.tgnet.tl.TL_stories$MediaArea;
+import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -146,7 +122,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     private AnimatorSet animatorSet;
     private int askWithRadius;
     private boolean canUndo;
-    private TLRPC$TL_channelLocation chatLocation;
+    private TLRPC.TL_channelLocation chatLocation;
     private boolean currentMapStyleDark;
     private LocationActivityDelegate delegate;
     private long dialogId;
@@ -159,7 +135,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     public boolean fromStories;
     private boolean hasScreenshot;
     private HintView2 hintView;
-    private TLRPC$TL_channelLocation initialLocation;
+    private TLRPC.TL_channelLocation initialLocation;
     private boolean initialMaxZoom;
     private IMapsProvider.IMarker lastPressedMarker;
     private FrameLayout lastPressedMarkerView;
@@ -195,7 +171,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     private boolean searchInProgress;
     private ActionBarMenuItem searchItem;
     private RecyclerListView searchListView;
-    private TL_stories$MediaArea searchStoriesArea;
+    private TL_stories.MediaArea searchStoriesArea;
     private boolean searchWas;
     private boolean searchedForCustomLocations;
     private boolean searching;
@@ -224,18 +200,18 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
 
     /* loaded from: classes4.dex */
     public static class LiveLocation {
-        public TLRPC$Chat chat;
+        public TLRPC.Chat chat;
         public IMapsProvider.IMarker directionMarker;
         public boolean hasRotation;
         public long id;
         public IMapsProvider.IMarker marker;
-        public TLRPC$Message object;
-        public TLRPC$User user;
+        public TLRPC.Message object;
+        public TLRPC.User user;
     }
 
     /* loaded from: classes4.dex */
     public interface LocationActivityDelegate {
-        void didSelectLocation(TLRPC$MessageMedia tLRPC$MessageMedia, int i, boolean z, int i2);
+        void didSelectLocation(TLRPC.MessageMedia messageMedia, int i, boolean z, int i2);
     }
 
     /* loaded from: classes4.dex */
@@ -344,7 +320,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             ofFloat.setDuration(360L);
             ofFloat.start();
             this.views.put(iMarker, frameLayout);
-            LocationActivity.this.map.animateCamera(ApplicationLoader.getMapsProvider().newCameraUpdateLatLng(iMarker.getPosition()), 300, null);
+            LocationActivity.this.map.animateCamera(ApplicationLoader.getMapsProvider().newCameraUpdateLatLng(iMarker.getPosition()), NotificationCenter.storiesReadUpdated, null);
         }
 
         public void removeInfoView(IMapsProvider.IMarker iMarker) {
@@ -557,7 +533,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     public static class VenueLocation {
         public IMapsProvider.IMarker marker;
         public int num;
-        public TLRPC$TL_messageMediaVenue venue;
+        public TLRPC.TL_messageMediaVenue venue;
     }
 
     public LocationActivity(int i) {
@@ -571,20 +547,20 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         return f2;
     }
 
-    private LiveLocation addUserMarker(TLRPC$Message tLRPC$Message) {
+    private LiveLocation addUserMarker(TLRPC.Message message) {
         long dialogId;
         Location location;
-        TLRPC$GeoPoint tLRPC$GeoPoint = tLRPC$Message.media.geo;
-        IMapsProvider.LatLng latLng = new IMapsProvider.LatLng(tLRPC$GeoPoint.lat, tLRPC$GeoPoint._long);
-        LiveLocation liveLocation = (LiveLocation) this.markersMap.get(MessageObject.getFromChatId(tLRPC$Message));
+        TLRPC.GeoPoint geoPoint = message.media.geo;
+        IMapsProvider.LatLng latLng = new IMapsProvider.LatLng(geoPoint.lat, geoPoint._long);
+        LiveLocation liveLocation = (LiveLocation) this.markersMap.get(MessageObject.getFromChatId(message));
         if (liveLocation == null) {
             liveLocation = new LiveLocation();
-            liveLocation.object = tLRPC$Message;
-            if (tLRPC$Message.from_id instanceof TLRPC$TL_peerUser) {
+            liveLocation.object = message;
+            if (message.from_id instanceof TLRPC.TL_peerUser) {
                 liveLocation.user = getMessagesController().getUser(Long.valueOf(liveLocation.object.from_id.user_id));
                 dialogId = liveLocation.object.from_id.user_id;
             } else {
-                dialogId = MessageObject.getDialogId(tLRPC$Message);
+                dialogId = MessageObject.getDialogId(message);
                 if (DialogObject.isUserDialog(dialogId)) {
                     liveLocation.user = getMessagesController().getUser(Long.valueOf(dialogId));
                 } else {
@@ -604,7 +580,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                         flat.anchor(0.5f, 0.5f);
                         IMapsProvider.IMarker addMarker = this.map.addMarker(flat);
                         liveLocation.directionMarker = addMarker;
-                        int i = tLRPC$Message.media.heading;
+                        int i = message.media.heading;
                         if (i != 0) {
                             addMarker.setRotation(i);
                             liveLocation.directionMarker.setIcon(R.drawable.map_pin_cone2);
@@ -626,7 +602,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                 FileLog.e(e);
             }
         } else {
-            liveLocation.object = tLRPC$Message;
+            liveLocation.object = message;
             liveLocation.marker.setPosition(latLng);
             if (this.selectedMarkerId == liveLocation.id) {
                 this.map.animateCamera(ApplicationLoader.getMapsProvider().newCameraUpdateLatLng(liveLocation.marker.getPosition()));
@@ -639,9 +615,9 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         return liveLocation;
     }
 
-    private LiveLocation addUserMarker(TLRPC$TL_channelLocation tLRPC$TL_channelLocation) {
-        TLRPC$GeoPoint tLRPC$GeoPoint = tLRPC$TL_channelLocation.geo_point;
-        IMapsProvider.LatLng latLng = new IMapsProvider.LatLng(tLRPC$GeoPoint.lat, tLRPC$GeoPoint._long);
+    private LiveLocation addUserMarker(TLRPC.TL_channelLocation tL_channelLocation) {
+        TLRPC.GeoPoint geoPoint = tL_channelLocation.geo_point;
+        IMapsProvider.LatLng latLng = new IMapsProvider.LatLng(geoPoint.lat, geoPoint._long);
         LiveLocation liveLocation = new LiveLocation();
         if (DialogObject.isUserDialog(this.dialogId)) {
             liveLocation.user = getMessagesController().getUser(Long.valueOf(this.dialogId));
@@ -744,17 +720,17 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     }
 
     private Bitmap createUserBitmap(LiveLocation liveLocation) {
-        TLRPC$FileLocation tLRPC$FileLocation;
-        TLRPC$ChatPhoto tLRPC$ChatPhoto;
-        TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto;
+        TLRPC.FileLocation fileLocation;
+        TLRPC.ChatPhoto chatPhoto;
+        TLRPC.UserProfilePhoto userProfilePhoto;
         Bitmap bitmap = null;
         try {
-            TLRPC$User tLRPC$User = liveLocation.user;
-            if (tLRPC$User == null || (tLRPC$UserProfilePhoto = tLRPC$User.photo) == null) {
-                TLRPC$Chat tLRPC$Chat = liveLocation.chat;
-                tLRPC$FileLocation = (tLRPC$Chat == null || (tLRPC$ChatPhoto = tLRPC$Chat.photo) == null) ? null : tLRPC$ChatPhoto.photo_small;
+            TLRPC.User user = liveLocation.user;
+            if (user == null || (userProfilePhoto = user.photo) == null) {
+                TLRPC.Chat chat = liveLocation.chat;
+                fileLocation = (chat == null || (chatPhoto = chat.photo) == null) ? null : chatPhoto.photo_small;
             } else {
-                tLRPC$FileLocation = tLRPC$UserProfilePhoto.photo_small;
+                fileLocation = userProfilePhoto.photo_small;
             }
             Bitmap createBitmap = Bitmap.createBitmap(AndroidUtilities.dp(62.0f), AndroidUtilities.dp(85.0f), Bitmap.Config.ARGB_8888);
             try {
@@ -766,8 +742,8 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                 Paint paint = new Paint(1);
                 RectF rectF = new RectF();
                 canvas.save();
-                if (tLRPC$FileLocation != null) {
-                    Bitmap decodeFile = BitmapFactory.decodeFile(getFileLoader().getPathToAttach(tLRPC$FileLocation, true).toString());
+                if (fileLocation != null) {
+                    Bitmap decodeFile = BitmapFactory.decodeFile(getFileLoader().getPathToAttach(fileLocation, true).toString());
                     if (decodeFile != null) {
                         Shader.TileMode tileMode = Shader.TileMode.CLAMP;
                         BitmapShader bitmapShader = new BitmapShader(decodeFile, tileMode, tileMode);
@@ -782,13 +758,13 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                     }
                 } else {
                     AvatarDrawable avatarDrawable = new AvatarDrawable();
-                    TLRPC$User tLRPC$User2 = liveLocation.user;
-                    if (tLRPC$User2 != null) {
-                        avatarDrawable.setInfo(this.currentAccount, tLRPC$User2);
+                    TLRPC.User user2 = liveLocation.user;
+                    if (user2 != null) {
+                        avatarDrawable.setInfo(this.currentAccount, user2);
                     } else {
-                        TLRPC$Chat tLRPC$Chat2 = liveLocation.chat;
-                        if (tLRPC$Chat2 != null) {
-                            avatarDrawable.setInfo(this.currentAccount, tLRPC$Chat2);
+                        TLRPC.Chat chat2 = liveLocation.chat;
+                        if (chat2 != null) {
+                            avatarDrawable.setInfo(this.currentAccount, chat2);
                         }
                     }
                     canvas.translate(AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f));
@@ -817,17 +793,17 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         IMapsProvider.ILatLngBoundsBuilder onCreateLatLngBoundsBuilder = this.firstFocus ? ApplicationLoader.getMapsProvider().onCreateLatLngBoundsBuilder() : null;
         int currentTime = getConnectionsManager().getCurrentTime();
         for (int i = 0; i < arrayList.size(); i++) {
-            TLRPC$Message tLRPC$Message = (TLRPC$Message) arrayList.get(i);
-            int i2 = tLRPC$Message.date;
-            TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message.media;
-            int i3 = tLRPC$MessageMedia.period;
+            TLRPC.Message message = (TLRPC.Message) arrayList.get(i);
+            int i2 = message.date;
+            TLRPC.MessageMedia messageMedia = message.media;
+            int i3 = messageMedia.period;
             if (i2 + i3 > currentTime || i3 == Integer.MAX_VALUE) {
                 if (onCreateLatLngBoundsBuilder != null) {
-                    TLRPC$GeoPoint tLRPC$GeoPoint = tLRPC$MessageMedia.geo;
-                    onCreateLatLngBoundsBuilder.include(new IMapsProvider.LatLng(tLRPC$GeoPoint.lat, tLRPC$GeoPoint._long));
+                    TLRPC.GeoPoint geoPoint = messageMedia.geo;
+                    onCreateLatLngBoundsBuilder.include(new IMapsProvider.LatLng(geoPoint.lat, geoPoint._long));
                 }
-                addUserMarker(tLRPC$Message);
-                if (this.proximityButton.getVisibility() != 8 && MessageObject.getFromChatId(tLRPC$Message) != getUserConfig().getClientUserId()) {
+                addUserMarker(message);
+                if (this.proximityButton.getVisibility() != 8 && MessageObject.getFromChatId(message) != getUserConfig().getClientUserId()) {
                     this.proximityButton.setVisibility(0);
                     this.proximityAnimationInProgress = true;
                     this.proximityButton.animate().alpha(1.0f).scaleX(1.0f).scaleY(1.0f).setDuration(180L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.LocationActivity.16
@@ -950,8 +926,8 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         return 0;
     }
 
-    private long getMessageId(TLRPC$Message tLRPC$Message) {
-        return tLRPC$Message.from_id != null ? MessageObject.getFromChatId(tLRPC$Message) : MessageObject.getDialogId(tLRPC$Message);
+    private long getMessageId(TLRPC.Message message) {
+        return message.from_id != null ? MessageObject.getFromChatId(message) : MessageObject.getDialogId(message);
     }
 
     private boolean getRecentLocations() {
@@ -962,19 +938,19 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             fetchRecentLocations(arrayList);
         }
         if (DialogObject.isChatDialog(this.dialogId)) {
-            TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-this.dialogId));
+            TLRPC.Chat chat = getMessagesController().getChat(Long.valueOf(-this.dialogId));
             if (ChatObject.isChannel(chat) && !chat.megagroup) {
                 return false;
             }
         }
-        TLRPC$TL_messages_getRecentLocations tLRPC$TL_messages_getRecentLocations = new TLRPC$TL_messages_getRecentLocations();
+        TLRPC.TL_messages_getRecentLocations tL_messages_getRecentLocations = new TLRPC.TL_messages_getRecentLocations();
         final long dialogId = this.messageObject.getDialogId();
-        tLRPC$TL_messages_getRecentLocations.peer = getMessagesController().getInputPeer(dialogId);
-        tLRPC$TL_messages_getRecentLocations.limit = 100;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_getRecentLocations, new RequestDelegate() { // from class: org.telegram.ui.LocationActivity$$ExternalSyntheticLambda47
+        tL_messages_getRecentLocations.peer = getMessagesController().getInputPeer(dialogId);
+        tL_messages_getRecentLocations.limit = 100;
+        getConnectionsManager().sendRequest(tL_messages_getRecentLocations, new RequestDelegate() { // from class: org.telegram.ui.LocationActivity$$ExternalSyntheticLambda47
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                LocationActivity.this.lambda$getRecentLocations$43(dialogId, tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                LocationActivity.this.lambda$getRecentLocations$43(dialogId, tLObject, tL_error);
             }
         });
         return arrayList != null;
@@ -1011,9 +987,9 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(View view) {
         try {
-            TLRPC$GeoPoint tLRPC$GeoPoint = this.messageObject.messageOwner.media.geo;
-            double d = tLRPC$GeoPoint.lat;
-            double d2 = tLRPC$GeoPoint._long;
+            TLRPC.GeoPoint geoPoint = this.messageObject.messageOwner.media.geo;
+            double d = geoPoint.lat;
+            double d2 = geoPoint._long;
             Activity parentActivity = getParentActivity();
             parentActivity.startActivity(new Intent("android.intent.action.VIEW", Uri.parse("geo:" + d + "," + d2 + "?q=" + d + "," + d2)));
         } catch (Exception e) {
@@ -1078,22 +1054,22 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$12(AlertDialog[] alertDialogArr, TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue) {
+    public /* synthetic */ void lambda$createView$12(AlertDialog[] alertDialogArr, TLRPC.TL_messageMediaVenue tL_messageMediaVenue) {
         try {
             alertDialogArr[0].dismiss();
         } catch (Throwable unused) {
         }
         alertDialogArr[0] = null;
-        this.delegate.didSelectLocation(tLRPC$TL_messageMediaVenue, 4, true, 0);
+        this.delegate.didSelectLocation(tL_messageMediaVenue, 4, true, 0);
         finishFragment();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$13(final AlertDialog[] alertDialogArr, final TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$createView$13(final AlertDialog[] alertDialogArr, final TLRPC.TL_messageMediaVenue tL_messageMediaVenue, TLObject tLObject, TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LocationActivity$$ExternalSyntheticLambda36
             @Override // java.lang.Runnable
             public final void run() {
-                LocationActivity.this.lambda$createView$12(alertDialogArr, tLRPC$TL_messageMediaVenue);
+                LocationActivity.this.lambda$createView$12(alertDialogArr, tL_messageMediaVenue);
             }
         });
     }
@@ -1104,14 +1080,14 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$15(TLRPC$TL_messageMediaGeo tLRPC$TL_messageMediaGeo, boolean z, int i) {
-        this.delegate.didSelectLocation(tLRPC$TL_messageMediaGeo, this.locationType, z, i);
+    public /* synthetic */ void lambda$createView$15(TLRPC.TL_messageMediaGeo tL_messageMediaGeo, boolean z, int i) {
+        this.delegate.didSelectLocation(tL_messageMediaGeo, this.locationType, z, i);
         finishFragment();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$16(Object obj, boolean z, int i) {
-        this.delegate.didSelectLocation((TLRPC$TL_messageMediaVenue) obj, this.locationType, z, i);
+        this.delegate.didSelectLocation((TLRPC.TL_messageMediaVenue) obj, this.locationType, z, i);
         finishFragment();
     }
 
@@ -1122,12 +1098,12 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         long dialogId;
         AlertsCreator.ScheduleDatePickerDelegate scheduleDatePickerDelegate;
         LocationActivityDelegate locationActivityDelegate;
-        TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue;
+        TLRPC.TL_messageMediaVenue tL_messageMediaVenue;
         MessageObject messageObject;
         IMapsProvider.IMap iMap;
         IMapsProvider mapsProvider;
         IMapsProvider.LatLng latLng;
-        final TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue2;
+        final TLRPC.TL_messageMediaVenue tL_messageMediaVenue2;
         this.selectedMarkerId = -1L;
         int i2 = this.locationType;
         if (i2 != 4) {
@@ -1137,16 +1113,16 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                     return;
                 }
                 mapsProvider = ApplicationLoader.getMapsProvider();
-                TLRPC$GeoPoint tLRPC$GeoPoint = this.chatLocation.geo_point;
-                latLng = new IMapsProvider.LatLng(tLRPC$GeoPoint.lat, tLRPC$GeoPoint._long);
+                TLRPC.GeoPoint geoPoint = this.chatLocation.geo_point;
+                latLng = new IMapsProvider.LatLng(geoPoint.lat, geoPoint._long);
             } else if (i == 1 && (messageObject = this.messageObject) != null && (!messageObject.isLiveLocation() || this.locationType == 6)) {
                 iMap = this.map;
                 if (iMap == null) {
                     return;
                 }
                 mapsProvider = ApplicationLoader.getMapsProvider();
-                TLRPC$GeoPoint tLRPC$GeoPoint2 = this.messageObject.messageOwner.media.geo;
-                latLng = new IMapsProvider.LatLng(tLRPC$GeoPoint2.lat, tLRPC$GeoPoint2._long);
+                TLRPC.GeoPoint geoPoint2 = this.messageObject.messageOwner.media.geo;
+                latLng = new IMapsProvider.LatLng(geoPoint2.lat, geoPoint2._long);
             } else if (i != 1 || this.locationType == 2) {
                 if (this.locationType != 2 || !getLocationController().isSharingLocation(this.dialogId) || this.adapter.getItemViewType(i) != 7) {
                     if (this.locationType == 2 && getLocationController().isSharingLocation(this.dialogId) && this.adapter.getItemViewType(i) == 6) {
@@ -1154,7 +1130,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                         return;
                     } else if ((i != 2 || this.locationType != 1) && ((i != 1 || this.locationType != 2) && (i != 3 || this.locationType != 3))) {
                         final Object item = this.adapter.getItem(i);
-                        if (!(item instanceof TLRPC$TL_messageMediaVenue)) {
+                        if (!(item instanceof TLRPC.TL_messageMediaVenue)) {
                             if (item instanceof LiveLocation) {
                                 LiveLocation liveLocation = (LiveLocation) item;
                                 this.selectedMarkerId = liveLocation.id;
@@ -1176,9 +1152,9 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                             AlertsCreator.createScheduleDatePickerDialog(parentActivity, dialogId, scheduleDatePickerDelegate);
                             return;
                         }
-                        tLRPC$TL_messageMediaVenue = (TLRPC$TL_messageMediaVenue) item;
+                        tL_messageMediaVenue = (TLRPC.TL_messageMediaVenue) item;
                         locationActivityDelegate = this.delegate;
-                        locationActivityDelegate.didSelectLocation(tLRPC$TL_messageMediaVenue, this.locationType, true, 0);
+                        locationActivityDelegate.didSelectLocation(tL_messageMediaVenue, this.locationType, true, 0);
                     } else if (!getLocationController().isSharingLocation(this.dialogId)) {
                         openShareLiveLocation(false, 0);
                         return;
@@ -1194,11 +1170,11 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                     frameLayout.callOnClick();
                     return;
                 }
-                final TLRPC$TL_messageMediaGeo tLRPC$TL_messageMediaGeo = new TLRPC$TL_messageMediaGeo();
-                TLRPC$TL_geoPoint tLRPC$TL_geoPoint = new TLRPC$TL_geoPoint();
-                tLRPC$TL_messageMediaGeo.geo = tLRPC$TL_geoPoint;
-                tLRPC$TL_geoPoint.lat = AndroidUtilities.fixLocationCoord(this.userLocation.getLatitude());
-                tLRPC$TL_messageMediaGeo.geo._long = AndroidUtilities.fixLocationCoord(this.userLocation.getLongitude());
+                final TLRPC.TL_messageMediaGeo tL_messageMediaGeo = new TLRPC.TL_messageMediaGeo();
+                TLRPC.TL_geoPoint tL_geoPoint = new TLRPC.TL_geoPoint();
+                tL_messageMediaGeo.geo = tL_geoPoint;
+                tL_geoPoint.lat = AndroidUtilities.fixLocationCoord(this.userLocation.getLatitude());
+                tL_messageMediaGeo.geo._long = AndroidUtilities.fixLocationCoord(this.userLocation.getLongitude());
                 ChatActivity chatActivity2 = this.parentFragment;
                 if (chatActivity2 != null && chatActivity2.isInScheduleMode()) {
                     parentActivity = getParentActivity();
@@ -1206,35 +1182,35 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                     scheduleDatePickerDelegate = new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.LocationActivity$$ExternalSyntheticLambda26
                         @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
                         public final void didSelectDate(boolean z, int i3) {
-                            LocationActivity.this.lambda$createView$15(tLRPC$TL_messageMediaGeo, z, i3);
+                            LocationActivity.this.lambda$createView$15(tL_messageMediaGeo, z, i3);
                         }
                     };
                     AlertsCreator.createScheduleDatePickerDialog(parentActivity, dialogId, scheduleDatePickerDelegate);
                     return;
                 }
-                tLRPC$TL_messageMediaVenue = tLRPC$TL_messageMediaGeo;
+                tL_messageMediaVenue = tL_messageMediaGeo;
                 locationActivityDelegate = this.delegate;
-                locationActivityDelegate.didSelectLocation(tLRPC$TL_messageMediaVenue, this.locationType, true, 0);
+                locationActivityDelegate.didSelectLocation(tL_messageMediaVenue, this.locationType, true, 0);
             }
             iMap.animateCamera(mapsProvider.newCameraUpdateLatLngZoom(latLng, this.map.getMaxZoomLevel() - 4.0f));
             return;
-        } else if (i != 1 || (tLRPC$TL_messageMediaVenue2 = (TLRPC$TL_messageMediaVenue) this.adapter.getItem(i)) == null) {
+        } else if (i != 1 || (tL_messageMediaVenue2 = (TLRPC.TL_messageMediaVenue) this.adapter.getItem(i)) == null) {
             return;
         } else {
             if (this.dialogId != 0) {
                 final AlertDialog[] alertDialogArr = {new AlertDialog(getParentActivity(), 3)};
-                TLRPC$TL_channels_editLocation tLRPC$TL_channels_editLocation = new TLRPC$TL_channels_editLocation();
-                tLRPC$TL_channels_editLocation.address = tLRPC$TL_messageMediaVenue2.address;
-                tLRPC$TL_channels_editLocation.channel = getMessagesController().getInputChannel(-this.dialogId);
-                TLRPC$TL_inputGeoPoint tLRPC$TL_inputGeoPoint = new TLRPC$TL_inputGeoPoint();
-                tLRPC$TL_channels_editLocation.geo_point = tLRPC$TL_inputGeoPoint;
-                TLRPC$GeoPoint tLRPC$GeoPoint3 = tLRPC$TL_messageMediaVenue2.geo;
-                tLRPC$TL_inputGeoPoint.lat = tLRPC$GeoPoint3.lat;
-                tLRPC$TL_inputGeoPoint._long = tLRPC$GeoPoint3._long;
-                final int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_channels_editLocation, new RequestDelegate() { // from class: org.telegram.ui.LocationActivity$$ExternalSyntheticLambda24
+                TLRPC.TL_channels_editLocation tL_channels_editLocation = new TLRPC.TL_channels_editLocation();
+                tL_channels_editLocation.address = tL_messageMediaVenue2.address;
+                tL_channels_editLocation.channel = getMessagesController().getInputChannel(-this.dialogId);
+                TLRPC.TL_inputGeoPoint tL_inputGeoPoint = new TLRPC.TL_inputGeoPoint();
+                tL_channels_editLocation.geo_point = tL_inputGeoPoint;
+                TLRPC.GeoPoint geoPoint3 = tL_messageMediaVenue2.geo;
+                tL_inputGeoPoint.lat = geoPoint3.lat;
+                tL_inputGeoPoint._long = geoPoint3._long;
+                final int sendRequest = getConnectionsManager().sendRequest(tL_channels_editLocation, new RequestDelegate() { // from class: org.telegram.ui.LocationActivity$$ExternalSyntheticLambda24
                     @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        LocationActivity.this.lambda$createView$13(alertDialogArr, tLRPC$TL_messageMediaVenue2, tLObject, tLRPC$TL_error);
+                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                        LocationActivity.this.lambda$createView$13(alertDialogArr, tL_messageMediaVenue2, tLObject, tL_error);
                     }
                 });
                 alertDialogArr[0].setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.LocationActivity$$ExternalSyntheticLambda25
@@ -1246,7 +1222,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                 showDialog(alertDialogArr[0]);
                 return;
             }
-            this.delegate.didSelectLocation(tLRPC$TL_messageMediaVenue2, 4, true, 0);
+            this.delegate.didSelectLocation(tL_messageMediaVenue2, 4, true, 0);
         }
         finishFragment();
     }
@@ -1396,8 +1372,8 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$26(TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue, boolean z, int i) {
-        this.delegate.didSelectLocation(tLRPC$TL_messageMediaVenue, this.locationType, z, i);
+    public /* synthetic */ void lambda$createView$26(TLRPC.TL_messageMediaVenue tL_messageMediaVenue, boolean z, int i) {
+        this.delegate.didSelectLocation(tL_messageMediaVenue, this.locationType, z, i);
         finishFragment();
     }
 
@@ -1405,7 +1381,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     public /* synthetic */ void lambda$createView$27(ActionBarMenu actionBarMenu, View view, int i) {
         float maxZoomLevel;
         float f;
-        final TLRPC$TL_messageMediaVenue item = this.searchAdapter.getItem(i);
+        final TLRPC.TL_messageMediaVenue item = this.searchAdapter.getItem(i);
         if (item == null || item.icon == null || this.locationType != 8 || this.map == null) {
             if (item == null || this.delegate == null) {
                 return;
@@ -1436,8 +1412,8 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         float f2 = maxZoomLevel - f;
         IMapsProvider.IMap iMap = this.map;
         IMapsProvider mapsProvider = ApplicationLoader.getMapsProvider();
-        TLRPC$GeoPoint tLRPC$GeoPoint = item.geo;
-        iMap.animateCamera(mapsProvider.newCameraUpdateLatLngZoom(new IMapsProvider.LatLng(tLRPC$GeoPoint.lat, tLRPC$GeoPoint._long), f2));
+        TLRPC.GeoPoint geoPoint = item.geo;
+        iMap.animateCamera(mapsProvider.newCameraUpdateLatLngZoom(new IMapsProvider.LatLng(geoPoint.lat, geoPoint._long), f2));
         Location location = this.userLocation;
         if (location != null) {
             location.setLatitude(item.geo.lat);
@@ -1588,21 +1564,21 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         if (this.map == null) {
             return;
         }
-        TLRPC$messages_Messages tLRPC$messages_Messages = (TLRPC$messages_Messages) tLObject;
+        TLRPC.messages_Messages messages_messages = (TLRPC.messages_Messages) tLObject;
         int i = 0;
-        while (i < tLRPC$messages_Messages.messages.size()) {
-            if (!(((TLRPC$Message) tLRPC$messages_Messages.messages.get(i)).media instanceof TLRPC$TL_messageMediaGeoLive)) {
-                tLRPC$messages_Messages.messages.remove(i);
+        while (i < messages_messages.messages.size()) {
+            if (!(messages_messages.messages.get(i).media instanceof TLRPC.TL_messageMediaGeoLive)) {
+                messages_messages.messages.remove(i);
                 i--;
             }
             i++;
         }
-        getMessagesStorage().putUsersAndChats(tLRPC$messages_Messages.users, tLRPC$messages_Messages.chats, true, true);
-        getMessagesController().putUsers(tLRPC$messages_Messages.users, false);
-        getMessagesController().putChats(tLRPC$messages_Messages.chats, false);
-        getLocationController().locationsCache.put(j, tLRPC$messages_Messages.messages);
+        getMessagesStorage().putUsersAndChats(messages_messages.users, messages_messages.chats, true, true);
+        getMessagesController().putUsers(messages_messages.users, false);
+        getMessagesController().putChats(messages_messages.chats, false);
+        getLocationController().locationsCache.put(j, messages_messages.messages);
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.liveLocationsCacheChanged, Long.valueOf(j));
-        fetchRecentLocations(tLRPC$messages_Messages.messages);
+        fetchRecentLocations(messages_messages.messages);
         getLocationController().markLiveLoactionsAsRead(this.dialogId);
         if (this.markAsReadRunnable == null) {
             Runnable runnable = new Runnable() { // from class: org.telegram.ui.LocationActivity$$ExternalSyntheticLambda49
@@ -1617,7 +1593,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getRecentLocations$43(final long j, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$getRecentLocations$43(final long j, final TLObject tLObject, TLRPC.TL_error tL_error) {
         if (tLObject != null) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LocationActivity$$ExternalSyntheticLambda48
                 @Override // java.lang.Runnable
@@ -1806,10 +1782,10 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         for (int i2 = 0; i2 < size; i2++) {
             LiveLocation liveLocation = (LiveLocation) this.markers.get(i2);
             if (liveLocation.object != null && !UserObject.isUserSelf(liveLocation.user)) {
-                TLRPC$GeoPoint tLRPC$GeoPoint = liveLocation.object.media.geo;
+                TLRPC.GeoPoint geoPoint = liveLocation.object.media.geo;
                 Location location = new Location("network");
-                location.setLatitude(tLRPC$GeoPoint.lat);
-                location.setLongitude(tLRPC$GeoPoint._long);
+                location.setLatitude(geoPoint.lat);
+                location.setLongitude(geoPoint._long);
                 if (this.myLocation.distanceTo(location) > i) {
                     return true;
                 }
@@ -1819,16 +1795,16 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openProximityAlert$29(TLRPC$User tLRPC$User, int i, DialogInterface dialogInterface, int i2) {
-        shareLiveLocation(tLRPC$User, 900, i);
+    public /* synthetic */ void lambda$openProximityAlert$29(TLRPC.User user, int i, DialogInterface dialogInterface, int i2) {
+        shareLiveLocation(user, 900, i);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$openProximityAlert$30(final TLRPC$User tLRPC$User, boolean z, final int i) {
+    public /* synthetic */ boolean lambda$openProximityAlert$30(final TLRPC.User user, boolean z, final int i) {
         if (getLocationController().getSharingLocationInfo(this.dialogId) != null) {
             this.proximitySheet.setRadiusSet();
             this.proximityButton.setImageResource(R.drawable.msg_location_alert2);
-            getUndoView().showWithAction(0L, 24, Integer.valueOf(i), tLRPC$User, (Runnable) null, (Runnable) null);
+            getUndoView().showWithAction(0L, 24, Integer.valueOf(i), user, (Runnable) null, (Runnable) null);
             getLocationController().setProximityLocation(this.dialogId, i, true);
             return true;
         }
@@ -1838,7 +1814,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         builder.setPositiveButton(LocaleController.getString(R.string.ShareLocationAlertButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LocationActivity$$ExternalSyntheticLambda46
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i2) {
-                LocationActivity.this.lambda$openProximityAlert$29(tLRPC$User, i, dialogInterface, i2);
+                LocationActivity.this.lambda$openProximityAlert$29(user, i, dialogInterface, i2);
             }
         });
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -1873,57 +1849,57 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openShareLiveLocation$33(boolean z, TLRPC$User tLRPC$User, int i, int i2) {
-        TLRPC$Message tLRPC$Message;
-        TLRPC$MessageMedia tLRPC$MessageMedia;
+    public /* synthetic */ void lambda$openShareLiveLocation$33(boolean z, TLRPC.User user, int i, int i2) {
+        TLRPC.Message message;
+        TLRPC.MessageMedia messageMedia;
         if (!z) {
-            shareLiveLocation(tLRPC$User, i2, i);
+            shareLiveLocation(user, i2, i);
             return;
         }
         LocationController.SharingLocationInfo sharingLocationInfo = getLocationController().getSharingLocationInfo(this.dialogId);
         if (sharingLocationInfo != null) {
-            TLRPC$TL_messages_editMessage tLRPC$TL_messages_editMessage = new TLRPC$TL_messages_editMessage();
-            tLRPC$TL_messages_editMessage.peer = getMessagesController().getInputPeer(sharingLocationInfo.did);
-            tLRPC$TL_messages_editMessage.id = sharingLocationInfo.mid;
-            tLRPC$TL_messages_editMessage.flags |= LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
-            TLRPC$TL_inputMediaGeoLive tLRPC$TL_inputMediaGeoLive = new TLRPC$TL_inputMediaGeoLive();
-            tLRPC$TL_messages_editMessage.media = tLRPC$TL_inputMediaGeoLive;
-            tLRPC$TL_inputMediaGeoLive.stopped = false;
-            tLRPC$TL_inputMediaGeoLive.geo_point = new TLRPC$TL_inputGeoPoint();
+            TLRPC.TL_messages_editMessage tL_messages_editMessage = new TLRPC.TL_messages_editMessage();
+            tL_messages_editMessage.peer = getMessagesController().getInputPeer(sharingLocationInfo.did);
+            tL_messages_editMessage.id = sharingLocationInfo.mid;
+            tL_messages_editMessage.flags |= LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
+            TLRPC.TL_inputMediaGeoLive tL_inputMediaGeoLive = new TLRPC.TL_inputMediaGeoLive();
+            tL_messages_editMessage.media = tL_inputMediaGeoLive;
+            tL_inputMediaGeoLive.stopped = false;
+            tL_inputMediaGeoLive.geo_point = new TLRPC.TL_inputGeoPoint();
             Location lastKnownLocation = LocationController.getInstance(this.currentAccount).getLastKnownLocation();
-            tLRPC$TL_messages_editMessage.media.geo_point.lat = AndroidUtilities.fixLocationCoord(lastKnownLocation.getLatitude());
-            tLRPC$TL_messages_editMessage.media.geo_point._long = AndroidUtilities.fixLocationCoord(lastKnownLocation.getLongitude());
-            tLRPC$TL_messages_editMessage.media.geo_point.accuracy_radius = (int) lastKnownLocation.getAccuracy();
-            TLRPC$InputMedia tLRPC$InputMedia = tLRPC$TL_messages_editMessage.media;
-            TLRPC$InputGeoPoint tLRPC$InputGeoPoint = tLRPC$InputMedia.geo_point;
-            if (tLRPC$InputGeoPoint.accuracy_radius != 0) {
-                tLRPC$InputGeoPoint.flags |= 1;
+            tL_messages_editMessage.media.geo_point.lat = AndroidUtilities.fixLocationCoord(lastKnownLocation.getLatitude());
+            tL_messages_editMessage.media.geo_point._long = AndroidUtilities.fixLocationCoord(lastKnownLocation.getLongitude());
+            tL_messages_editMessage.media.geo_point.accuracy_radius = (int) lastKnownLocation.getAccuracy();
+            TLRPC.InputMedia inputMedia = tL_messages_editMessage.media;
+            TLRPC.InputGeoPoint inputGeoPoint = inputMedia.geo_point;
+            if (inputGeoPoint.accuracy_radius != 0) {
+                inputGeoPoint.flags |= 1;
             }
             int i3 = sharingLocationInfo.lastSentProximityMeters;
             int i4 = sharingLocationInfo.proximityMeters;
             if (i3 != i4) {
-                tLRPC$InputMedia.proximity_notification_radius = i4;
-                tLRPC$InputMedia.flags |= 8;
+                inputMedia.proximity_notification_radius = i4;
+                inputMedia.flags |= 8;
             }
-            tLRPC$InputMedia.heading = LocationController.getHeading(lastKnownLocation);
-            TLRPC$InputMedia tLRPC$InputMedia2 = tLRPC$TL_messages_editMessage.media;
-            int i5 = tLRPC$InputMedia2.flags;
-            tLRPC$InputMedia2.flags = i5 | 4;
+            inputMedia.heading = LocationController.getHeading(lastKnownLocation);
+            TLRPC.InputMedia inputMedia2 = tL_messages_editMessage.media;
+            int i5 = inputMedia2.flags;
+            inputMedia2.flags = i5 | 4;
             int i6 = ConnectionsManager.DEFAULT_DATACENTER_ID;
             int i7 = i2 == Integer.MAX_VALUE ? ConnectionsManager.DEFAULT_DATACENTER_ID : sharingLocationInfo.period + i2;
             sharingLocationInfo.period = i7;
-            tLRPC$InputMedia2.period = i7;
+            inputMedia2.period = i7;
             if (i2 != Integer.MAX_VALUE) {
                 i6 = sharingLocationInfo.stopTime + i2;
             }
             sharingLocationInfo.stopTime = i6;
-            tLRPC$InputMedia2.flags = i5 | 6;
+            inputMedia2.flags = i5 | 6;
             MessageObject messageObject = sharingLocationInfo.messageObject;
-            if (messageObject != null && (tLRPC$Message = messageObject.messageOwner) != null && (tLRPC$MessageMedia = tLRPC$Message.media) != null) {
-                tLRPC$MessageMedia.period = i7;
+            if (messageObject != null && (message = messageObject.messageOwner) != null && (messageMedia = message.media) != null) {
+                messageMedia.period = i7;
                 getMessagesStorage().replaceMessageIfExists(sharingLocationInfo.messageObject.messageOwner, null, null, true);
             }
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_editMessage, null);
+            getConnectionsManager().sendRequest(tL_messages_editMessage, null);
             NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.liveLocationsChanged, new Object[0]);
         }
     }
@@ -1978,7 +1954,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         try {
             try {
                 if (z) {
-                    int max = Math.max(i, (int) NotificationCenter.notificationsCountUpdated);
+                    int max = Math.max(i, (int) NotificationCenter.newLocationAvailable);
                     IMapsProvider.LatLng center = onCreateLatLngBoundsBuilder.build().getCenter();
                     double d = max;
                     IMapsProvider.LatLng move = move(center, d, d);
@@ -1996,12 +1972,12 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                     int currentTime = getConnectionsManager().getCurrentTime();
                     int size = this.markers.size();
                     for (int i2 = 0; i2 < size; i2++) {
-                        TLRPC$Message tLRPC$Message = ((LiveLocation) this.markers.get(i2)).object;
-                        int i3 = tLRPC$Message.date;
-                        TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message.media;
-                        if (i3 + tLRPC$MessageMedia.period > currentTime) {
-                            TLRPC$GeoPoint tLRPC$GeoPoint = tLRPC$MessageMedia.geo;
-                            onCreateLatLngBoundsBuilder.include(new IMapsProvider.LatLng(tLRPC$GeoPoint.lat, tLRPC$GeoPoint._long));
+                        TLRPC.Message message = ((LiveLocation) this.markers.get(i2)).object;
+                        int i3 = message.date;
+                        TLRPC.MessageMedia messageMedia = message.media;
+                        if (i3 + messageMedia.period > currentTime) {
+                            TLRPC.GeoPoint geoPoint = messageMedia.geo;
+                            onCreateLatLngBoundsBuilder.include(new IMapsProvider.LatLng(geoPoint.lat, geoPoint._long));
                         }
                     }
                     IMapsProvider.LatLng center2 = onCreateLatLngBoundsBuilder.build().getCenter();
@@ -2057,16 +2033,16 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         }
         this.mapView.getView().animate().alpha(1.0f).setStartDelay(200L).setDuration(100L).start();
         final float minZoomLevel = this.initialMaxZoom ? this.map.getMinZoomLevel() + 4.0f : this.map.getMaxZoomLevel() - 4.0f;
-        TLRPC$TL_channelLocation tLRPC$TL_channelLocation = this.chatLocation;
-        if (tLRPC$TL_channelLocation == null) {
+        TLRPC.TL_channelLocation tL_channelLocation = this.chatLocation;
+        if (tL_channelLocation == null) {
             MessageObject messageObject = this.messageObject;
             if (messageObject == null) {
                 Location location = new Location("network");
                 this.userLocation = location;
-                TLRPC$TL_channelLocation tLRPC$TL_channelLocation2 = this.initialLocation;
-                if (tLRPC$TL_channelLocation2 != null) {
-                    TLRPC$GeoPoint tLRPC$GeoPoint = tLRPC$TL_channelLocation2.geo_point;
-                    this.map.moveCamera(ApplicationLoader.getMapsProvider().newCameraUpdateLatLngZoom(new IMapsProvider.LatLng(tLRPC$GeoPoint.lat, tLRPC$GeoPoint._long), minZoomLevel));
+                TLRPC.TL_channelLocation tL_channelLocation2 = this.initialLocation;
+                if (tL_channelLocation2 != null) {
+                    TLRPC.GeoPoint geoPoint = tL_channelLocation2.geo_point;
+                    this.map.moveCamera(ApplicationLoader.getMapsProvider().newCameraUpdateLatLngZoom(new IMapsProvider.LatLng(geoPoint.lat, geoPoint._long), minZoomLevel));
                     this.userLocation.setLatitude(this.initialLocation.geo_point.lat);
                     this.userLocation.setLongitude(this.initialLocation.geo_point._long);
                     this.userLocation.setAccuracy(this.initialLocation.geo_point.accuracy_radius);
@@ -2132,7 +2108,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             createCircle(i);
             return;
         }
-        addUserMarker = addUserMarker(tLRPC$TL_channelLocation);
+        addUserMarker = addUserMarker(tL_channelLocation);
         this.map.moveCamera(ApplicationLoader.getMapsProvider().newCameraUpdateLatLngZoom(addUserMarker.marker.getPosition(), minZoomLevel));
         this.map.setMyLocationEnabled(true);
         this.map.getUiSettings().setMyLocationButtonEnabled(false);
@@ -2185,17 +2161,17 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void openDirections(LiveLocation liveLocation) {
-        TLRPC$GeoPoint tLRPC$GeoPoint;
-        TLRPC$Message tLRPC$Message;
+        TLRPC.GeoPoint geoPoint;
+        TLRPC.Message message;
         Intent intent;
         Activity parentActivity;
         try {
-            if (liveLocation == null || (tLRPC$Message = liveLocation.object) == null) {
+            if (liveLocation == null || (message = liveLocation.object) == null) {
                 MessageObject messageObject = this.messageObject;
                 if (messageObject == null) {
-                    tLRPC$GeoPoint = this.chatLocation.geo_point;
-                    double d = tLRPC$GeoPoint.lat;
-                    double d2 = tLRPC$GeoPoint._long;
+                    geoPoint = this.chatLocation.geo_point;
+                    double d = geoPoint.lat;
+                    double d2 = geoPoint._long;
                     String str = !BuildVars.isHuaweiStoreApp() ? "mapapp://navigation" : "http://maps.google.com/maps";
                     if (this.myLocation == null) {
                         Locale locale = Locale.US;
@@ -2209,7 +2185,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                     parentActivity.startActivity(intent);
                     return;
                 }
-                tLRPC$Message = messageObject.messageOwner;
+                message = messageObject.messageOwner;
             }
             if (this.myLocation == null) {
             }
@@ -2219,9 +2195,9 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             FileLog.e(e);
             return;
         }
-        tLRPC$GeoPoint = tLRPC$Message.media.geo;
-        double d3 = tLRPC$GeoPoint.lat;
-        double d22 = tLRPC$GeoPoint._long;
+        geoPoint = message.media.geo;
+        double d3 = geoPoint.lat;
+        double d22 = geoPoint._long;
         if (!BuildVars.isHuaweiStoreApp()) {
         }
     }
@@ -2233,7 +2209,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         } else {
             this.previousRadius = iCircle.getRadius();
         }
-        final TLRPC$User user = DialogObject.isUserDialog(this.dialogId) ? getMessagesController().getUser(Long.valueOf(this.dialogId)) : null;
+        final TLRPC.User user = DialogObject.isUserDialog(this.dialogId) ? getMessagesController().getUser(Long.valueOf(this.dialogId)) : null;
         ProximitySheet proximitySheet = new ProximitySheet(getParentActivity(), user, new ProximitySheet.onRadiusPickerChange() { // from class: org.telegram.ui.LocationActivity$$ExternalSyntheticLambda37
             @Override // org.telegram.ui.Components.ProximitySheet.onRadiusPickerChange
             public final boolean run(boolean z, int i) {
@@ -2284,7 +2260,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                 }
             }
         }
-        final TLRPC$User user = DialogObject.isUserDialog(this.dialogId) ? getMessagesController().getUser(Long.valueOf(this.dialogId)) : null;
+        final TLRPC.User user = DialogObject.isUserDialog(this.dialogId) ? getMessagesController().getUser(Long.valueOf(this.dialogId)) : null;
         showDialog(AlertsCreator.createLocationUpdateDialog(getParentActivity(), z, user, new MessagesStorage.IntCallback() { // from class: org.telegram.ui.LocationActivity$$ExternalSyntheticLambda19
             @Override // org.telegram.messenger.MessagesStorage.IntCallback
             public final void run(int i2) {
@@ -2353,18 +2329,18 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    private void shareLiveLocation(TLRPC$User tLRPC$User, int i, int i2) {
-        TLRPC$TL_messageMediaGeoLive tLRPC$TL_messageMediaGeoLive = new TLRPC$TL_messageMediaGeoLive();
-        TLRPC$TL_geoPoint tLRPC$TL_geoPoint = new TLRPC$TL_geoPoint();
-        tLRPC$TL_messageMediaGeoLive.geo = tLRPC$TL_geoPoint;
-        tLRPC$TL_geoPoint.lat = AndroidUtilities.fixLocationCoord(this.myLocation.getLatitude());
-        tLRPC$TL_messageMediaGeoLive.geo._long = AndroidUtilities.fixLocationCoord(this.myLocation.getLongitude());
-        tLRPC$TL_messageMediaGeoLive.heading = LocationController.getHeading(this.myLocation);
-        int i3 = tLRPC$TL_messageMediaGeoLive.flags;
-        tLRPC$TL_messageMediaGeoLive.period = i;
-        tLRPC$TL_messageMediaGeoLive.proximity_notification_radius = i2;
-        tLRPC$TL_messageMediaGeoLive.flags = i3 | 9;
-        this.delegate.didSelectLocation(tLRPC$TL_messageMediaGeoLive, this.locationType, true, 0);
+    private void shareLiveLocation(TLRPC.User user, int i, int i2) {
+        TLRPC.TL_messageMediaGeoLive tL_messageMediaGeoLive = new TLRPC.TL_messageMediaGeoLive();
+        TLRPC.TL_geoPoint tL_geoPoint = new TLRPC.TL_geoPoint();
+        tL_messageMediaGeoLive.geo = tL_geoPoint;
+        tL_geoPoint.lat = AndroidUtilities.fixLocationCoord(this.myLocation.getLatitude());
+        tL_messageMediaGeoLive.geo._long = AndroidUtilities.fixLocationCoord(this.myLocation.getLongitude());
+        tL_messageMediaGeoLive.heading = LocationController.getHeading(this.myLocation);
+        int i3 = tL_messageMediaGeoLive.flags;
+        tL_messageMediaGeoLive.period = i;
+        tL_messageMediaGeoLive.proximity_notification_radius = i2;
+        tL_messageMediaGeoLive.flags = i3 | 9;
+        this.delegate.didSelectLocation(tL_messageMediaGeoLive, this.locationType, true, 0);
         if (i2 <= 0) {
             finishFragment();
             return;
@@ -2375,7 +2351,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         if (proximitySheet != null) {
             proximitySheet.dismiss();
         }
-        getUndoView().showWithAction(0L, 24, Integer.valueOf(i2), tLRPC$User, (Runnable) null, (Runnable) null);
+        getUndoView().showWithAction(0L, 24, Integer.valueOf(i2), user, (Runnable) null, (Runnable) null);
     }
 
     private void showPermissionAlert(boolean z) {
@@ -2536,20 +2512,20 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         this.placeMarkers.clear();
         int size2 = arrayList.size();
         for (int i2 = 0; i2 < size2; i2++) {
-            TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue = (TLRPC$TL_messageMediaVenue) arrayList.get(i2);
+            TLRPC.TL_messageMediaVenue tL_messageMediaVenue = (TLRPC.TL_messageMediaVenue) arrayList.get(i2);
             try {
                 IMapsProvider.IMarkerOptions onCreateMarkerOptions = ApplicationLoader.getMapsProvider().onCreateMarkerOptions();
-                TLRPC$GeoPoint tLRPC$GeoPoint = tLRPC$TL_messageMediaVenue.geo;
-                IMapsProvider.IMarkerOptions position = onCreateMarkerOptions.position(new IMapsProvider.LatLng(tLRPC$GeoPoint.lat, tLRPC$GeoPoint._long));
+                TLRPC.GeoPoint geoPoint = tL_messageMediaVenue.geo;
+                IMapsProvider.IMarkerOptions position = onCreateMarkerOptions.position(new IMapsProvider.LatLng(geoPoint.lat, geoPoint._long));
                 position.icon(createPlaceBitmap(i2));
                 position.anchor(0.5f, 0.5f);
-                position.title(tLRPC$TL_messageMediaVenue.title);
-                position.snippet(tLRPC$TL_messageMediaVenue.address);
+                position.title(tL_messageMediaVenue.title);
+                position.snippet(tL_messageMediaVenue.address);
                 VenueLocation venueLocation = new VenueLocation();
                 venueLocation.num = i2;
                 IMapsProvider.IMarker addMarker = this.map.addMarker(position);
                 venueLocation.marker = addMarker;
-                venueLocation.venue = tLRPC$TL_messageMediaVenue;
+                venueLocation.venue = tL_messageMediaVenue;
                 addMarker.setTag(venueLocation);
                 this.placeMarkers.add(venueLocation);
             } catch (Exception e) {
@@ -2599,7 +2575,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     /* JADX WARN: Removed duplicated region for block: B:97:0x0621  */
     /* JADX WARN: Removed duplicated region for block: B:98:0x0624  */
     /* JADX WARN: Type inference failed for: r14v1 */
-    /* JADX WARN: Type inference failed for: r14v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r14v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r14v3 */
     /* JADX WARN: Type inference failed for: r14v4 */
     /* JADX WARN: Type inference failed for: r14v5 */
@@ -2610,7 +2586,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     */
     public View createView(final Context context) {
         Location location;
-        TLRPC$GeoPoint tLRPC$GeoPoint;
+        TLRPC.GeoPoint geoPoint;
         int i;
         boolean z;
         ActionBarMenu createMenu;
@@ -2628,7 +2604,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         Property property3;
         CombinedDrawable combinedDrawable3;
         MessageObject messageObject2;
-        TLRPC$Chat tLRPC$Chat;
+        TLRPC.Chat chat;
         FrameLayout.LayoutParams layoutParams;
         NestedFrameLayout nestedFrameLayout2;
         ActionBarMenu actionBarMenu2;
@@ -2639,13 +2615,13 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         MessageObject messageObject3;
         MessageObject messageObject4;
         ?? r14;
-        TLRPC$TL_channelLocation tLRPC$TL_channelLocation;
+        TLRPC.TL_channelLocation tL_channelLocation;
         MessageObject messageObject5;
         int i7;
         int i8;
         long j;
-        TLRPC$Message tLRPC$Message;
-        TLRPC$MessageMedia tLRPC$MessageMedia;
+        TLRPC.Message message;
+        TLRPC.MessageMedia messageMedia;
         Property property4;
         CombinedDrawable combinedDrawable4;
         int i9;
@@ -2667,7 +2643,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                 this.userLocation = location2;
                 location2.setLatitude(this.messageObject.messageOwner.media.geo.lat);
                 location = this.userLocation;
-                tLRPC$GeoPoint = this.messageObject.messageOwner.media.geo;
+                geoPoint = this.messageObject.messageOwner.media.geo;
             }
             i = Build.VERSION.SDK_INT;
             if (i >= 23 && getParentActivity() != null) {
@@ -3028,9 +3004,9 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                             LocationActivity.this.lambda$createView$7(view);
                         }
                     });
-                    TLRPC$Chat chat = DialogObject.isChatDialog(this.dialogId) ? getMessagesController().getChat(Long.valueOf(-this.dialogId)) : null;
+                    TLRPC.Chat chat2 = DialogObject.isChatDialog(this.dialogId) ? getMessagesController().getChat(Long.valueOf(-this.dialogId)) : null;
                     messageObject2 = this.messageObject;
-                    if (messageObject2 != null || !messageObject2.isLiveLocation() || this.messageObject.isExpiredLiveLocation(getConnectionsManager().getCurrentTime()) || (ChatObject.isChannel(chat) && !chat.megagroup)) {
+                    if (messageObject2 != null || !messageObject2.isLiveLocation() || this.messageObject.isExpiredLiveLocation(getConnectionsManager().getCurrentTime()) || (ChatObject.isChannel(chat2) && !chat2.megagroup)) {
                         this.proximityButton.setVisibility(8);
                     } else {
                         LocationController.SharingLocationInfo sharingLocationInfo = getLocationController().getSharingLocationInfo(this.dialogId);
@@ -3123,7 +3099,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                             if (this.searchStoriesArea == null) {
                                 this.sharedMediaHeader = new GraySectionCell(context, this.resourceProvider);
                                 nestedFrameLayout2 = nestedFrameLayout4;
-                                tLRPC$Chat = chat;
+                                chat = chat2;
                                 actionBarMenu2 = actionBarMenu;
                                 i6 = 1;
                                 layoutParams = layoutParams2;
@@ -3134,7 +3110,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                                     }
 
                                     @Override // org.telegram.ui.Components.SharedMediaLayout.Delegate
-                                    public TLRPC$Chat getCurrentChat() {
+                                    public TLRPC.Chat getCurrentChat() {
                                         return null;
                                     }
 
@@ -3149,7 +3125,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                                     }
 
                                     @Override // org.telegram.ui.Components.SharedMediaLayout.Delegate
-                                    public boolean onMemberClick(TLRPC$ChatParticipant tLRPC$ChatParticipant, boolean z3, boolean z4, View view) {
+                                    public boolean onMemberClick(TLRPC.ChatParticipant chatParticipant, boolean z3, boolean z4, View view) {
                                         return false;
                                     }
 
@@ -3172,7 +3148,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                                     }
 
                                     @Override // org.telegram.ui.Components.SharedMediaLayout
-                                    public TL_stories$MediaArea getStoriesArea() {
+                                    public TL_stories.MediaArea getStoriesArea() {
                                         return LocationActivity.this.searchStoriesArea;
                                     }
 
@@ -3201,7 +3177,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                                 defaultItemAnimator.setDurations(350L);
                                 this.listView.setItemAnimator(defaultItemAnimator);
                             } else {
-                                tLRPC$Chat = chat;
+                                chat = chat2;
                                 layoutParams = layoutParams2;
                                 nestedFrameLayout2 = nestedFrameLayout4;
                                 actionBarMenu2 = actionBarMenu;
@@ -3221,7 +3197,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                             NestedFrameLayout nestedFrameLayout5 = nestedFrameLayout2;
                             nestedFrameLayout5.addView(this.listView, LayoutHelper.createFrame(i4, i4, 51));
                             messageObject3 = this.messageObject;
-                            if (messageObject3 != null && (tLRPC$Message = messageObject3.messageOwner) != null && (tLRPC$MessageMedia = tLRPC$Message.media) != null && !TextUtils.isEmpty(tLRPC$MessageMedia.address)) {
+                            if (messageObject3 != null && (message = messageObject3.messageOwner) != null && (messageMedia = message.media) != null && !TextUtils.isEmpty(messageMedia.address)) {
                                 this.adapter.setAddressNameOverride(this.messageObject.messageOwner.media.address);
                             }
                             this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.LocationActivity.11
@@ -3304,9 +3280,9 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                                 r14 = 1;
                                 r14 = 1;
                                 if ((messageObject4 != null && !messageObject4.isLiveLocation()) || this.chatLocation != null) {
-                                    tLRPC$TL_channelLocation = this.chatLocation;
-                                    if (tLRPC$TL_channelLocation != null) {
-                                        this.adapter.setChatLocation(tLRPC$TL_channelLocation);
+                                    tL_channelLocation = this.chatLocation;
+                                    if (tL_channelLocation != null) {
+                                        this.adapter.setChatLocation(tL_channelLocation);
                                     } else {
                                         MessageObject messageObject7 = this.messageObject;
                                         if (messageObject7 != null) {
@@ -3315,8 +3291,8 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                                     }
                                 }
                             } else {
-                                TLRPC$Chat tLRPC$Chat2 = tLRPC$Chat;
-                                if (tLRPC$Chat2 == null || this.locationType != 4) {
+                                TLRPC.Chat chat3 = chat;
+                                if (chat3 == null || this.locationType != 4) {
                                     i8 = 49;
                                     j = 0;
                                 } else {
@@ -3328,7 +3304,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                                         this.mapViewClip.addView(frameLayout2, LayoutHelper.createFrame(62, 76, 49));
                                         BackupImageView backupImageView = new BackupImageView(context);
                                         backupImageView.setRoundRadius(AndroidUtilities.dp(26.0f));
-                                        backupImageView.setForUserOrChat(tLRPC$Chat2, new AvatarDrawable(tLRPC$Chat2));
+                                        backupImageView.setForUserOrChat(chat3, new AvatarDrawable(chat3));
                                         frameLayout2.addView(backupImageView, LayoutHelper.createFrame(52, 52.0f, 51, 5.0f, 5.0f, 0.0f, 0.0f));
                                         this.markerImageView = frameLayout2;
                                         frameLayout2.setTag(Integer.valueOf(i6));
@@ -3617,8 +3593,8 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                     r14 = 1;
                     r14 = 1;
                     if (messageObject4 != null) {
-                        tLRPC$TL_channelLocation = this.chatLocation;
-                        if (tLRPC$TL_channelLocation != null) {
+                        tL_channelLocation = this.chatLocation;
+                        if (tL_channelLocation != null) {
                         }
                         messageObject5 = this.messageObject;
                         if (messageObject5 != null) {
@@ -3659,8 +3635,8 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                         updateEmptyView();
                         return this.fragmentView;
                     }
-                    tLRPC$TL_channelLocation = this.chatLocation;
-                    if (tLRPC$TL_channelLocation != null) {
+                    tL_channelLocation = this.chatLocation;
+                    if (tL_channelLocation != null) {
                     }
                     messageObject5 = this.messageObject;
                     if (messageObject5 != null) {
@@ -4025,8 +4001,8 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             r14 = 1;
             if (messageObject4 != null) {
             }
-            tLRPC$TL_channelLocation = this.chatLocation;
-            if (tLRPC$TL_channelLocation != null) {
+            tL_channelLocation = this.chatLocation;
+            if (tL_channelLocation != null) {
             }
             messageObject5 = this.messageObject;
             if (messageObject5 != null) {
@@ -4065,8 +4041,8 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         this.userLocation = location3;
         location3.setLatitude(this.chatLocation.geo_point.lat);
         location = this.userLocation;
-        tLRPC$GeoPoint = this.chatLocation.geo_point;
-        location.setLongitude(tLRPC$GeoPoint._long);
+        geoPoint = this.chatLocation.geo_point;
+        location.setLongitude(geoPoint._long);
         i = Build.VERSION.SDK_INT;
         if (i >= 23) {
             checkSelfPermission = getParentActivity().checkSelfPermission("android.permission.ACCESS_COARSE_LOCATION");
@@ -4402,8 +4378,8 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         r14 = 1;
         if (messageObject4 != null) {
         }
-        tLRPC$TL_channelLocation = this.chatLocation;
-        if (tLRPC$TL_channelLocation != null) {
+        tL_channelLocation = this.chatLocation;
+        if (tL_channelLocation != null) {
         }
         messageObject5 = this.messageObject;
         if (messageObject5 != null) {
@@ -4484,7 +4460,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                 if (messageObject.isLiveLocation()) {
                     addUserMarker(messageObject.messageOwner);
                     z = true;
-                } else if ((messageObject.messageOwner.action instanceof TLRPC$TL_messageActionGeoProximityReached) && DialogObject.isUserDialog(messageObject.getDialogId())) {
+                } else if ((messageObject.messageOwner.action instanceof TLRPC.TL_messageActionGeoProximityReached) && DialogObject.isUserDialog(messageObject.getDialogId())) {
                     this.proximityButton.setImageResource(R.drawable.msg_location_alert);
                     IMapsProvider.ICircle iCircle = this.proximityCircle;
                     if (iCircle != null) {
@@ -4509,10 +4485,10 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                 if (messageObject2.isLiveLocation() && (liveLocation = (LiveLocation) this.markersMap.get(getMessageId(messageObject2.messageOwner))) != null) {
                     LocationController.SharingLocationInfo sharingLocationInfo = getLocationController().getSharingLocationInfo(longValue);
                     if (sharingLocationInfo == null || sharingLocationInfo.mid != messageObject2.getId()) {
-                        TLRPC$Message tLRPC$Message = messageObject2.messageOwner;
-                        liveLocation.object = tLRPC$Message;
-                        TLRPC$GeoPoint tLRPC$GeoPoint = tLRPC$Message.media.geo;
-                        IMapsProvider.LatLng latLng = new IMapsProvider.LatLng(tLRPC$GeoPoint.lat, tLRPC$GeoPoint._long);
+                        TLRPC.Message message = messageObject2.messageOwner;
+                        liveLocation.object = message;
+                        TLRPC.GeoPoint geoPoint = message.media.geo;
+                        IMapsProvider.LatLng latLng = new IMapsProvider.LatLng(geoPoint.lat, geoPoint._long);
                         liveLocation.marker.setPosition(latLng);
                         if (this.selectedMarkerId == liveLocation.id) {
                             this.map.animateCamera(ApplicationLoader.getMapsProvider().newCameraUpdateLatLng(liveLocation.marker.getPosition()));
@@ -4906,14 +4882,14 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         maybeShowProximityHint();
     }
 
-    public LocationActivity searchStories(TL_stories$MediaArea tL_stories$MediaArea) {
-        this.searchStoriesArea = tL_stories$MediaArea;
+    public LocationActivity searchStories(TL_stories.MediaArea mediaArea) {
+        this.searchStoriesArea = mediaArea;
         return this;
     }
 
-    public void setChatLocation(long j, TLRPC$TL_channelLocation tLRPC$TL_channelLocation) {
+    public void setChatLocation(long j, TLRPC.TL_channelLocation tL_channelLocation) {
         this.dialogId = -j;
-        this.chatLocation = tLRPC$TL_channelLocation;
+        this.chatLocation = tL_channelLocation;
     }
 
     public void setDelegate(LocationActivityDelegate locationActivityDelegate) {
@@ -4924,8 +4900,8 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         this.dialogId = j;
     }
 
-    public void setInitialLocation(TLRPC$TL_channelLocation tLRPC$TL_channelLocation) {
-        this.initialLocation = tLRPC$TL_channelLocation;
+    public void setInitialLocation(TLRPC.TL_channelLocation tL_channelLocation) {
+        this.initialLocation = tL_channelLocation;
     }
 
     public void setInitialMaxZoom(boolean z) {

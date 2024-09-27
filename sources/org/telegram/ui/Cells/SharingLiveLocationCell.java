@@ -35,11 +35,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$GeoPoint;
-import org.telegram.tgnet.TLRPC$Message;
-import org.telegram.tgnet.TLRPC$TL_channelLocation;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarDrawable;
@@ -267,9 +263,9 @@ public class SharingLiveLocationCell extends FrameLayout {
             i2 = sharingLocationInfo.stopTime;
             i = sharingLocationInfo.period;
         } else {
-            TLRPC$Message tLRPC$Message = this.liveLocation.object;
-            int i3 = tLRPC$Message.date;
-            i = tLRPC$Message.media.period;
+            TLRPC.Message message = this.liveLocation.object;
+            int i3 = message.date;
+            i = message.media.period;
             i2 = i3 + i;
         }
         boolean z = i == Integer.MAX_VALUE;
@@ -314,13 +310,13 @@ public class SharingLiveLocationCell extends FrameLayout {
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(this.distanceTextView != null ? 66.0f : 54.0f) + ((this.distanceTextView == null || this.distanceTextViewSingle) ? 0 : (-AndroidUtilities.dp(20.0f)) + this.distanceTextViewHeight), 1073741824));
     }
 
-    public void setDialog(long j, TLRPC$TL_channelLocation tLRPC$TL_channelLocation) {
+    public void setDialog(long j, TLRPC.TL_channelLocation tL_channelLocation) {
         String str;
         this.currentAccount = UserConfig.selectedAccount;
-        String str2 = tLRPC$TL_channelLocation.address;
+        String str2 = tL_channelLocation.address;
         this.avatarDrawable = null;
         if (DialogObject.isUserDialog(j)) {
-            TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j));
+            TLRPC.User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j));
             if (user != null) {
                 this.avatarDrawable = new AvatarDrawable(user);
                 str = UserObject.getUserName(user);
@@ -328,7 +324,7 @@ public class SharingLiveLocationCell extends FrameLayout {
             }
             str = "";
         } else {
-            TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j));
+            TLRPC.Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j));
             if (chat != null) {
                 AvatarDrawable avatarDrawable = new AvatarDrawable(chat);
                 this.avatarDrawable = avatarDrawable;
@@ -339,8 +335,8 @@ public class SharingLiveLocationCell extends FrameLayout {
             str = "";
         }
         this.nameTextView.setText(str);
-        this.location.setLatitude(tLRPC$TL_channelLocation.geo_point.lat);
-        this.location.setLongitude(tLRPC$TL_channelLocation.geo_point._long);
+        this.location.setLatitude(tL_channelLocation.geo_point.lat);
+        this.location.setLongitude(tL_channelLocation.geo_point._long);
         TextView textView = this.distanceTextView;
         this.distanceTextViewSingle = true;
         textView.setSingleLine(true);
@@ -350,37 +346,37 @@ public class SharingLiveLocationCell extends FrameLayout {
     public void setDialog(LocationController.SharingLocationInfo sharingLocationInfo) {
         SimpleTextView simpleTextView;
         String str;
-        TLRPC$User tLRPC$User;
+        TLRPC.User user;
         this.currentInfo = sharingLocationInfo;
         this.currentAccount = sharingLocationInfo.account;
         this.avatarImageView.getImageReceiver().setCurrentAccount(this.currentAccount);
         if (DialogObject.isUserDialog(sharingLocationInfo.did)) {
-            TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(sharingLocationInfo.did));
-            if (user == null) {
+            TLRPC.User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(sharingLocationInfo.did));
+            if (user2 == null) {
                 return;
             }
-            this.avatarDrawable.setInfo(this.currentAccount, user);
+            this.avatarDrawable.setInfo(this.currentAccount, user2);
             simpleTextView = this.nameTextView;
-            str = ContactsController.formatName(user.first_name, user.last_name);
-            tLRPC$User = user;
+            str = ContactsController.formatName(user2.first_name, user2.last_name);
+            user = user2;
         } else {
-            TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-sharingLocationInfo.did));
+            TLRPC.Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-sharingLocationInfo.did));
             if (chat == null) {
                 return;
             }
             this.avatarDrawable.setInfo(this.currentAccount, chat);
             simpleTextView = this.nameTextView;
             str = chat.title;
-            tLRPC$User = chat;
+            user = chat;
         }
         simpleTextView.setText(str);
-        this.avatarImageView.setForUserOrChat(tLRPC$User, this.avatarDrawable);
+        this.avatarImageView.setForUserOrChat(user, this.avatarDrawable);
     }
 
     public void setDialog(MessageObject messageObject, Location location, boolean z) {
         CharSequence charSequence;
-        TLRPC$Message tLRPC$Message;
-        if (messageObject != null && (tLRPC$Message = messageObject.messageOwner) != null && tLRPC$Message.local_id == -1) {
+        TLRPC.Message message;
+        if (messageObject != null && (message = messageObject.messageOwner) != null && message.local_id == -1) {
             Drawable drawable = getResources().getDrawable(R.drawable.pin);
             drawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_location_sendLocationIcon), PorterDuff.Mode.MULTIPLY));
             int themedColor = getThemedColor(Theme.key_location_placeLocationBackground);
@@ -411,17 +407,17 @@ public class SharingLiveLocationCell extends FrameLayout {
         if (isEmpty) {
             this.avatarDrawable = null;
             if (fromChatId > 0) {
-                TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(fromChatId));
+                TLRPC.User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(fromChatId));
                 if (user != null) {
                     this.avatarDrawable = new AvatarDrawable(user);
                     charSequence = UserObject.getUserName(user);
                     this.avatarImageView.setForUserOrChat(user, this.avatarDrawable);
                 }
-                TLRPC$GeoPoint tLRPC$GeoPoint = messageObject.messageOwner.media.geo;
-                charSequence = getName(tLRPC$GeoPoint.lat, tLRPC$GeoPoint._long);
+                TLRPC.GeoPoint geoPoint = messageObject.messageOwner.media.geo;
+                charSequence = getName(geoPoint.lat, geoPoint._long);
                 isEmpty = false;
             } else {
-                TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-fromChatId));
+                TLRPC.Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-fromChatId));
                 if (chat != null) {
                     AvatarDrawable avatarDrawable = new AvatarDrawable(chat);
                     this.avatarDrawable = avatarDrawable;
@@ -429,8 +425,8 @@ public class SharingLiveLocationCell extends FrameLayout {
                     this.avatarImageView.setForUserOrChat(chat, avatarDrawable);
                     charSequence = str3;
                 }
-                TLRPC$GeoPoint tLRPC$GeoPoint2 = messageObject.messageOwner.media.geo;
-                charSequence = getName(tLRPC$GeoPoint2.lat, tLRPC$GeoPoint2._long);
+                TLRPC.GeoPoint geoPoint2 = messageObject.messageOwner.media.geo;
+                charSequence = getName(geoPoint2.lat, geoPoint2._long);
                 isEmpty = false;
             }
         } else {
@@ -482,35 +478,35 @@ public class SharingLiveLocationCell extends FrameLayout {
     public void setDialog(LocationActivity.LiveLocation liveLocation, Location location) {
         SimpleTextView simpleTextView;
         String str;
-        TLRPC$User tLRPC$User;
+        TLRPC.User user;
         this.liveLocation = liveLocation;
         if (DialogObject.isUserDialog(liveLocation.id)) {
-            TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(liveLocation.id));
-            if (user != null) {
-                this.avatarDrawable.setInfo(this.currentAccount, user);
+            TLRPC.User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(liveLocation.id));
+            if (user2 != null) {
+                this.avatarDrawable.setInfo(this.currentAccount, user2);
                 simpleTextView = this.nameTextView;
-                str = ContactsController.formatName(user.first_name, user.last_name);
-                tLRPC$User = user;
+                str = ContactsController.formatName(user2.first_name, user2.last_name);
+                user = user2;
                 simpleTextView.setText(str);
-                this.avatarImageView.setForUserOrChat(tLRPC$User, this.avatarDrawable);
+                this.avatarImageView.setForUserOrChat(user, this.avatarDrawable);
             }
         } else {
-            TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-liveLocation.id));
+            TLRPC.Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-liveLocation.id));
             if (chat != null) {
                 this.avatarDrawable.setInfo(this.currentAccount, chat);
                 simpleTextView = this.nameTextView;
                 str = chat.title;
-                tLRPC$User = chat;
+                user = chat;
                 simpleTextView.setText(str);
-                this.avatarImageView.setForUserOrChat(tLRPC$User, this.avatarDrawable);
+                this.avatarImageView.setForUserOrChat(user, this.avatarDrawable);
             }
         }
         IMapsProvider.LatLng position = liveLocation.marker.getPosition();
         this.location.setLatitude(position.latitude);
         this.location.setLongitude(position.longitude);
-        TLRPC$Message tLRPC$Message = liveLocation.object;
-        int i = tLRPC$Message.edit_date;
-        String formatLocationUpdateDate = LocaleController.formatLocationUpdateDate(i != 0 ? i : tLRPC$Message.date);
+        TLRPC.Message message = liveLocation.object;
+        int i = message.edit_date;
+        String formatLocationUpdateDate = LocaleController.formatLocationUpdateDate(i != 0 ? i : message.date);
         if (location != null) {
             this.distanceTextView.setText(String.format("%s - %s", formatLocationUpdateDate, LocaleController.formatDistance(this.location.distanceTo(location), 0)));
         } else {

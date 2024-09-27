@@ -26,5 +26,6 @@ abstract class TransformedIterator implements Iterator {
         this.backingIterator.remove();
     }
 
-    abstract Object transform(Object obj);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public abstract Object transform(Object obj);
 }

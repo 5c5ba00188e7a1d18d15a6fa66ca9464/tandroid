@@ -18,6 +18,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.FileTypes;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
+import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Ints;
 import java.io.EOFException;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import org.telegram.messenger.MediaController;
 public final class DefaultHlsExtractorFactory implements HlsExtractorFactory {
     private static final int[] DEFAULT_EXTRACTOR_ORDER = {8, 13, 11, 2, 0, 1, 7};
     private final boolean exposeCea608WhenMissingDeclarations;
+    private boolean parseSubtitlesDuringExtraction;
     private final int payloadReaderFactoryFlags;
 
     public DefaultHlsExtractorFactory() {
@@ -59,9 +61,9 @@ public final class DefaultHlsExtractorFactory implements HlsExtractorFactory {
                                 }
                                 return new WebvttExtractor(format.language, timestampAdjuster);
                             }
-                            return createTsExtractor(this.payloadReaderFactoryFlags, this.exposeCea608WhenMissingDeclarations, format, list, timestampAdjuster);
+                            return createTsExtractor(this.payloadReaderFactoryFlags, this.exposeCea608WhenMissingDeclarations, format, list, timestampAdjuster, this.parseSubtitlesDuringExtraction);
                         }
-                        return createFragmentedMp4Extractor(timestampAdjuster, format, list);
+                        return createFragmentedMp4Extractor(this.parseSubtitlesDuringExtraction, timestampAdjuster, format, list);
                     }
                     return new Mp3Extractor(0, 0L);
                 }
@@ -72,15 +74,15 @@ public final class DefaultHlsExtractorFactory implements HlsExtractorFactory {
         return new Ac3Extractor();
     }
 
-    private static FragmentedMp4Extractor createFragmentedMp4Extractor(TimestampAdjuster timestampAdjuster, Format format, List list) {
+    private static FragmentedMp4Extractor createFragmentedMp4Extractor(boolean z, TimestampAdjuster timestampAdjuster, Format format, List list) {
         int i = isFmp4Variant(format) ? 4 : 0;
         if (list == null) {
-            list = Collections.emptyList();
+            list = ImmutableList.of();
         }
-        return new FragmentedMp4Extractor(i, timestampAdjuster, null, list);
+        return new FragmentedMp4Extractor(i, timestampAdjuster, null, list, null);
     }
 
-    private static TsExtractor createTsExtractor(int i, boolean z, Format format, List list, TimestampAdjuster timestampAdjuster) {
+    private static TsExtractor createTsExtractor(int i, boolean z, Format format, List list, TimestampAdjuster timestampAdjuster, boolean z2) {
         int i2 = i | 16;
         if (list != null) {
             i2 = i | 48;
@@ -96,7 +98,7 @@ public final class DefaultHlsExtractorFactory implements HlsExtractorFactory {
                 i2 |= 4;
             }
         }
-        return new TsExtractor(2, timestampAdjuster, new DefaultTsPayloadReaderFactory(i2, list));
+        return new TsExtractor(2, timestampAdjuster, new DefaultTsPayloadReaderFactory(i2, list), 112800);
     }
 
     private static boolean isFmp4Variant(Format format) {
@@ -146,12 +148,12 @@ public final class DefaultHlsExtractorFactory implements HlsExtractorFactory {
             int intValue = ((Integer) arrayList.get(i2)).intValue();
             Extractor extractor2 = (Extractor) Assertions.checkNotNull(createExtractorByFileType(intValue, format, list, timestampAdjuster));
             if (sniffQuietly(extractor2, extractorInput)) {
-                return new BundledHlsMediaChunkExtractor(extractor2, format, timestampAdjuster);
+                return new BundledHlsMediaChunkExtractor(extractor2, format, timestampAdjuster, this.parseSubtitlesDuringExtraction);
             }
             if (extractor == null && (intValue == inferFileTypeFromMimeType || intValue == inferFileTypeFromResponseHeaders || intValue == inferFileTypeFromUri || intValue == 11)) {
                 extractor = extractor2;
             }
         }
-        return new BundledHlsMediaChunkExtractor((Extractor) Assertions.checkNotNull(extractor), format, timestampAdjuster);
+        return new BundledHlsMediaChunkExtractor((Extractor) Assertions.checkNotNull(extractor), format, timestampAdjuster, this.parseSubtitlesDuringExtraction);
     }
 }

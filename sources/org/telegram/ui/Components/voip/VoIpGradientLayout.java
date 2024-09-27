@@ -72,7 +72,7 @@ public class VoIpGradientLayout extends FrameLayout {
         this.isPaused = false;
         this.lockDrawing = false;
         this.backgroundProvider = voIPBackgroundProvider;
-        this.allowAnimations = LiteMode.isEnabled(LiteMode.FLAG_CALLS_ANIMATIONS);
+        this.allowAnimations = LiteMode.isEnabled(512);
         this.bgBlueViolet = new MotionBackgroundDrawable(-4958504, -8304404, -14637865, -12612630, 0, false, true);
         this.bgBlueGreen = new MotionBackgroundDrawable(-12224791, -12879119, -16207709, -15226140, 0, false, true);
         this.bgGreen = new MotionBackgroundDrawable(-16275028, -16270749, -5649306, -10833593, 0, false, true);
@@ -189,9 +189,9 @@ public class VoIpGradientLayout extends FrameLayout {
             this.callingAnimator.cancel();
             this.callingAnimator = null;
         }
-        this.alphaGreen = NotificationCenter.didClearDatabase;
+        this.alphaGreen = NotificationCenter.messagePlayingSpeedChanged;
         this.connectedAnimatorSet = new AnimatorSet();
-        ValueAnimator ofInt = ValueAnimator.ofInt(0, NotificationCenter.didClearDatabase, NotificationCenter.didClearDatabase, NotificationCenter.didClearDatabase, 0);
+        ValueAnimator ofInt = ValueAnimator.ofInt(0, NotificationCenter.messagePlayingSpeedChanged, NotificationCenter.messagePlayingSpeedChanged, NotificationCenter.messagePlayingSpeedChanged, 0);
         ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpGradientLayout$$ExternalSyntheticLambda5
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
@@ -200,7 +200,7 @@ public class VoIpGradientLayout extends FrameLayout {
         });
         ofInt.setRepeatCount(-1);
         ofInt.setRepeatMode(1);
-        ValueAnimator ofInt2 = ValueAnimator.ofInt(0, 0, NotificationCenter.didClearDatabase, 0, 0);
+        ValueAnimator ofInt2 = ValueAnimator.ofInt(0, 0, NotificationCenter.messagePlayingSpeedChanged, 0, 0);
         ofInt2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpGradientLayout$$ExternalSyntheticLambda6
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
@@ -329,20 +329,20 @@ public class VoIpGradientLayout extends FrameLayout {
             Objects.requireNonNull(this.backgroundProvider);
             Objects.requireNonNull(this.backgroundProvider);
             canvas.scale(1.12f, 1.12f, width, height);
-            this.bgGreen.setAlpha(NotificationCenter.didClearDatabase);
+            this.bgGreen.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
             this.bgGreen.draw(canvas);
             this.clipPath.rewind();
             this.clipPath.addCircle(this.clipCx / 4.0f, this.clipCy / 4.0f, this.clipRadius / 4.0f, direction);
             this.backgroundProvider.getRevealCanvas().drawColor(0, mode);
             this.backgroundProvider.getRevealCanvas().save();
             this.backgroundProvider.getRevealCanvas().clipPath(this.clipPath);
-            this.bgGreenLightReveal.setAlpha(NotificationCenter.didClearDatabase);
+            this.bgGreenLightReveal.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
             this.bgGreenLightReveal.draw(this.backgroundProvider.getRevealCanvas());
             this.backgroundProvider.getRevealCanvas().restore();
             this.backgroundProvider.getRevealDrakCanvas().drawColor(0, mode);
             this.backgroundProvider.getRevealDrakCanvas().save();
             this.backgroundProvider.getRevealDrakCanvas().clipPath(this.clipPath);
-            this.bgGreenDarkReveal.setAlpha(NotificationCenter.didClearDatabase);
+            this.bgGreenDarkReveal.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
             this.bgGreenDarkReveal.draw(this.backgroundProvider.getRevealDrakCanvas());
             this.backgroundProvider.getRevealDrakCanvas().restore();
         }
@@ -389,7 +389,7 @@ public class VoIpGradientLayout extends FrameLayout {
             return;
         }
         this.state = gradientState2;
-        ValueAnimator ofInt = ValueAnimator.ofInt(this.alphaOrangeRed, NotificationCenter.didClearDatabase);
+        ValueAnimator ofInt = ValueAnimator.ofInt(this.alphaOrangeRed, NotificationCenter.messagePlayingSpeedChanged);
         this.badConnectionAnimator = ofInt;
         ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpGradientLayout$$ExternalSyntheticLambda2
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -456,8 +456,8 @@ public class VoIpGradientLayout extends FrameLayout {
             return;
         }
         this.state = gradientState2;
-        this.alphaBlueGreen = NotificationCenter.didClearDatabase;
-        ValueAnimator ofInt = ValueAnimator.ofInt(NotificationCenter.didClearDatabase, 0, NotificationCenter.didClearDatabase);
+        this.alphaBlueGreen = NotificationCenter.messagePlayingSpeedChanged;
+        ValueAnimator ofInt = ValueAnimator.ofInt(NotificationCenter.messagePlayingSpeedChanged, 0, NotificationCenter.messagePlayingSpeedChanged);
         this.callingAnimator = ofInt;
         ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpGradientLayout$$ExternalSyntheticLambda4
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener

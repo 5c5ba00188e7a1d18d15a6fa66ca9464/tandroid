@@ -234,7 +234,7 @@ public class SwipeGestureSettingsView extends FrameLayout {
                     this.filledPaint.setColor(ColorUtils.blendARGB(i2, ColorUtils.blendARGB(Theme.getColor(i3), Theme.getColor(this.currentColorKey), 0.9f), this.colorProgress));
                     canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);
                     this.filledPaint.setColor(Theme.getColor(i3));
-                    this.filledPaint.setAlpha(NotificationCenter.didClearDatabase);
+                    this.filledPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                     this.rect.set(f4, measuredHeight2, measuredWidth - AndroidUtilities.dp(58.0f), getMeasuredHeight() - measuredHeight);
                     this.rect.inset(-AndroidUtilities.dp(1.0f), -AndroidUtilities.dp(1.0f));
                     canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);
@@ -287,7 +287,7 @@ public class SwipeGestureSettingsView extends FrameLayout {
                 this.filledPaint.setColor(ColorUtils.blendARGB(i22, ColorUtils.blendARGB(Theme.getColor(i32), Theme.getColor(this.currentColorKey), 0.9f), this.colorProgress));
                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);
                 this.filledPaint.setColor(Theme.getColor(i32));
-                this.filledPaint.setAlpha(NotificationCenter.didClearDatabase);
+                this.filledPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                 this.rect.set(f42, measuredHeight22, measuredWidth2 - AndroidUtilities.dp(58.0f), getMeasuredHeight() - measuredHeight);
                 this.rect.inset(-AndroidUtilities.dp(1.0f), -AndroidUtilities.dp(1.0f));
                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);
@@ -341,7 +341,7 @@ public class SwipeGestureSettingsView extends FrameLayout {
         this.filledPaint.setColor(ColorUtils.blendARGB(i222, ColorUtils.blendARGB(Theme.getColor(i322), Theme.getColor(this.currentColorKey), 0.9f), this.colorProgress));
         canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);
         this.filledPaint.setColor(Theme.getColor(i322));
-        this.filledPaint.setAlpha(NotificationCenter.didClearDatabase);
+        this.filledPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
         this.rect.set(f422, measuredHeight222, measuredWidth22 - AndroidUtilities.dp(58.0f), getMeasuredHeight() - measuredHeight);
         this.rect.inset(-AndroidUtilities.dp(1.0f), -AndroidUtilities.dp(1.0f));
         canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);

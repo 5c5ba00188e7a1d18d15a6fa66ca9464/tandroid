@@ -29,13 +29,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.audioinfo.AudioInfo;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$FileLocation;
-import org.telegram.tgnet.TLRPC$Peer;
-import org.telegram.tgnet.TLRPC$TL_peerChannel;
-import org.telegram.tgnet.TLRPC$TL_peerChat;
-import org.telegram.tgnet.TLRPC$TL_peerUser;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.LaunchActivity;
@@ -85,7 +79,7 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
         Bitmap bitmap;
         Bitmap bitmap2;
         Bitmap bitmap3;
-        TLRPC$User tLRPC$User;
+        TLRPC.User user;
         Bitmap bitmap4;
         String str2;
         Bitmap bitmap5;
@@ -123,9 +117,9 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
             intent.addCategory("android.intent.category.LAUNCHER");
         } else if (messageObject.isVoice() || messageObject.isRoundVideo()) {
             intent.setAction("android.intent.action.VIEW");
-            TLRPC$Peer tLRPC$Peer = messageObject.messageOwner.peer_id;
-            boolean z2 = tLRPC$Peer instanceof TLRPC$TL_peerUser;
-            long j = z2 ? tLRPC$Peer.user_id : tLRPC$Peer instanceof TLRPC$TL_peerChat ? tLRPC$Peer.chat_id : tLRPC$Peer instanceof TLRPC$TL_peerChannel ? tLRPC$Peer.channel_id : 0L;
+            TLRPC.Peer peer = messageObject.messageOwner.peer_id;
+            boolean z2 = peer instanceof TLRPC.TL_peerUser;
+            long j = z2 ? peer.user_id : peer instanceof TLRPC.TL_peerChat ? peer.chat_id : peer instanceof TLRPC.TL_peerChannel ? peer.channel_id : 0L;
             if (j != 0) {
                 if (z2) {
                     sb = new StringBuilder();
@@ -166,24 +160,24 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
         } else if (messageObject.isVoice() || messageObject.isRoundVideo()) {
             long senderId = messageObject.getSenderId();
             if (messageObject.isFromUser()) {
-                TLRPC$User user = MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(senderId));
-                if (user != null) {
-                    musicTitle = UserObject.getUserName(user);
-                    tLRPC$User = user;
+                TLRPC.User user2 = MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(senderId));
+                if (user2 != null) {
+                    musicTitle = UserObject.getUserName(user2);
+                    user = user2;
                     boolean z4 = !z;
-                    bitmap = getAvatarBitmap(tLRPC$User, true, z4);
-                    bitmap2 = getAvatarBitmap(tLRPC$User, false, z4);
+                    bitmap = getAvatarBitmap(user, true, z4);
+                    bitmap2 = getAvatarBitmap(user, false, z4);
                 }
                 bitmap = null;
                 bitmap2 = null;
             } else {
-                TLRPC$Chat chat = MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(-senderId));
+                TLRPC.Chat chat = MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(-senderId));
                 if (chat != null) {
                     musicTitle = chat.title;
-                    tLRPC$User = chat;
+                    user = chat;
                     boolean z42 = !z;
-                    bitmap = getAvatarBitmap(tLRPC$User, true, z42);
-                    bitmap2 = getAvatarBitmap(tLRPC$User, false, z42);
+                    bitmap = getAvatarBitmap(user, true, z42);
+                    bitmap2 = getAvatarBitmap(user, false, z42);
                 }
                 bitmap = null;
                 bitmap2 = null;
@@ -471,18 +465,18 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
         } catch (Throwable th) {
             FileLog.e(th);
         }
-        if (tLObject instanceof TLRPC$User) {
-            TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
-            TLRPC$FileLocation tLRPC$FileLocation = z ? tLRPC$User.photo.photo_big : tLRPC$User.photo.photo_small;
-            if (tLRPC$FileLocation != null) {
-                File pathToAttach = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$FileLocation, true);
+        if (tLObject instanceof TLRPC.User) {
+            TLRPC.User user = (TLRPC.User) tLObject;
+            TLRPC.FileLocation fileLocation = z ? user.photo.photo_big : user.photo.photo_small;
+            if (fileLocation != null) {
+                File pathToAttach = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(fileLocation, true);
                 if (pathToAttach.exists()) {
                     float f = i;
                     return ImageLoader.loadBitmap(pathToAttach.getAbsolutePath(), null, f, f, false);
                 } else if (z) {
                     if (z2) {
-                        this.loadingFilePath = FileLoader.getAttachFileName(tLRPC$FileLocation);
-                        forChat = ImageLocation.getForUser(tLRPC$User, 0);
+                        this.loadingFilePath = FileLoader.getAttachFileName(fileLocation);
+                        forChat = ImageLocation.getForUser(user, 0);
                         this.imageReceiver.setImage(forChat, "", null, null, null, 0);
                     }
                     this.loadingFilePath = null;
@@ -490,7 +484,7 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
             }
             if (z) {
                 Theme.createDialogsResources(this);
-                AvatarDrawable avatarDrawable = tLObject instanceof TLRPC$User ? new AvatarDrawable((TLRPC$User) tLObject) : new AvatarDrawable((TLRPC$Chat) tLObject);
+                AvatarDrawable avatarDrawable = tLObject instanceof TLRPC.User ? new AvatarDrawable((TLRPC.User) tLObject) : new AvatarDrawable((TLRPC.Chat) tLObject);
                 avatarDrawable.setRoundRadius(1);
                 float f2 = i;
                 Bitmap createBitmap = Bitmap.createBitmap(AndroidUtilities.dp(f2), AndroidUtilities.dp(f2), Bitmap.Config.ARGB_8888);
@@ -500,17 +494,17 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
             }
             return null;
         }
-        TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) tLObject;
-        TLRPC$FileLocation tLRPC$FileLocation2 = z ? tLRPC$Chat.photo.photo_big : tLRPC$Chat.photo.photo_small;
-        if (tLRPC$FileLocation2 != null) {
-            File pathToAttach2 = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$FileLocation2, true);
+        TLRPC.Chat chat = (TLRPC.Chat) tLObject;
+        TLRPC.FileLocation fileLocation2 = z ? chat.photo.photo_big : chat.photo.photo_small;
+        if (fileLocation2 != null) {
+            File pathToAttach2 = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(fileLocation2, true);
             if (pathToAttach2.exists()) {
                 float f3 = i;
                 return ImageLoader.loadBitmap(pathToAttach2.getAbsolutePath(), null, f3, f3, false);
             } else if (z) {
                 if (z2) {
-                    this.loadingFilePath = FileLoader.getAttachFileName(tLRPC$FileLocation2);
-                    forChat = ImageLocation.getForChat(tLRPC$Chat, 0);
+                    this.loadingFilePath = FileLoader.getAttachFileName(fileLocation2);
+                    forChat = ImageLocation.getForChat(chat, 0);
                     this.imageReceiver.setImage(forChat, "", null, null, null, 0);
                 }
                 this.loadingFilePath = null;
@@ -771,7 +765,7 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
                     this.remoteControlClient = remoteControlClient;
                     this.audioManager.registerRemoteControlClient(remoteControlClient);
                 }
-                this.remoteControlClient.setTransportControlFlags(NotificationCenter.storiesLimitUpdate);
+                this.remoteControlClient.setTransportControlFlags(189);
             } catch (Exception e2) {
                 FileLog.e(e2);
             }

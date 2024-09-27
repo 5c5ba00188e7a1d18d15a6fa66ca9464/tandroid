@@ -19,7 +19,7 @@ public final class RGBLuminanceSource extends LuminanceSource {
         this.luminances = new byte[i3];
         for (int i4 = 0; i4 < i3; i4++) {
             int i5 = iArr[i4];
-            this.luminances[i4] = (byte) (((((i5 >> 16) & NotificationCenter.didClearDatabase) + ((i5 >> 7) & 510)) + (i5 & NotificationCenter.didClearDatabase)) / 4);
+            this.luminances[i4] = (byte) (((((i5 >> 16) & NotificationCenter.messagePlayingSpeedChanged) + ((i5 >> 7) & 510)) + (i5 & NotificationCenter.messagePlayingSpeedChanged)) / 4);
         }
     }
 

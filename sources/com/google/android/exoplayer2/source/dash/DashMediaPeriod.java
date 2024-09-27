@@ -2,7 +2,6 @@ package com.google.android.exoplayer2.source.dash;
 
 import android.util.Pair;
 import android.util.SparseArray;
-import android.util.SparseIntArray;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.SeekParameters;
 import com.google.android.exoplayer2.analytics.PlayerId;
@@ -10,6 +9,7 @@ import com.google.android.exoplayer2.drm.DrmSessionEventListener;
 import com.google.android.exoplayer2.drm.DrmSessionManager;
 import com.google.android.exoplayer2.source.CompositeSequenceableLoaderFactory;
 import com.google.android.exoplayer2.source.EmptySampleStream;
+import com.google.android.exoplayer2.source.LoadingInfo;
 import com.google.android.exoplayer2.source.MediaPeriod;
 import com.google.android.exoplayer2.source.MediaSourceEventListener;
 import com.google.android.exoplayer2.source.SampleStream;
@@ -27,14 +27,20 @@ import com.google.android.exoplayer2.source.dash.manifest.Period;
 import com.google.android.exoplayer2.source.dash.manifest.Representation;
 import com.google.android.exoplayer2.trackselection.ExoTrackSelection;
 import com.google.android.exoplayer2.upstream.Allocator;
+import com.google.android.exoplayer2.upstream.CmcdConfiguration;
 import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy;
 import com.google.android.exoplayer2.upstream.LoaderErrorThrower;
 import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Util;
+import com.google.common.base.Function;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.primitives.Ints;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -75,13 +81,14 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
     public static final class TrackGroupInfo {
         public final int[] adaptationSetIndices;
         public final int embeddedClosedCaptionTrackGroupIndex;
+        public final ImmutableList embeddedClosedCaptionTrackOriginalFormats;
         public final int embeddedEventMessageTrackGroupIndex;
         public final int eventStreamGroupIndex;
         public final int primaryTrackGroupIndex;
         public final int trackGroupCategory;
         public final int trackType;
 
-        private TrackGroupInfo(int i, int i2, int[] iArr, int i3, int i4, int i5, int i6) {
+        private TrackGroupInfo(int i, int i2, int[] iArr, int i3, int i4, int i5, int i6, ImmutableList immutableList) {
             this.trackType = i;
             this.adaptationSetIndices = iArr;
             this.trackGroupCategory = i2;
@@ -89,26 +96,27 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
             this.embeddedEventMessageTrackGroupIndex = i4;
             this.embeddedClosedCaptionTrackGroupIndex = i5;
             this.eventStreamGroupIndex = i6;
+            this.embeddedClosedCaptionTrackOriginalFormats = immutableList;
         }
 
-        public static TrackGroupInfo embeddedClosedCaptionTrack(int[] iArr, int i) {
-            return new TrackGroupInfo(3, 1, iArr, i, -1, -1, -1);
+        public static TrackGroupInfo embeddedClosedCaptionTrack(int[] iArr, int i, ImmutableList immutableList) {
+            return new TrackGroupInfo(3, 1, iArr, i, -1, -1, -1, immutableList);
         }
 
         public static TrackGroupInfo embeddedEmsgTrack(int[] iArr, int i) {
-            return new TrackGroupInfo(5, 1, iArr, i, -1, -1, -1);
+            return new TrackGroupInfo(5, 1, iArr, i, -1, -1, -1, ImmutableList.of());
         }
 
         public static TrackGroupInfo mpdEventTrack(int i) {
-            return new TrackGroupInfo(5, 2, new int[0], -1, -1, -1, i);
+            return new TrackGroupInfo(5, 2, new int[0], -1, -1, -1, i, ImmutableList.of());
         }
 
         public static TrackGroupInfo primaryTrack(int i, int[] iArr, int i2, int i3, int i4) {
-            return new TrackGroupInfo(i, 0, iArr, i2, i3, i4, -1);
+            return new TrackGroupInfo(i, 0, iArr, i2, i3, i4, -1, ImmutableList.of());
         }
     }
 
-    public DashMediaPeriod(int i, DashManifest dashManifest, BaseUrlExclusionList baseUrlExclusionList, int i2, DashChunkSource.Factory factory, TransferListener transferListener, DrmSessionManager drmSessionManager, DrmSessionEventListener.EventDispatcher eventDispatcher, LoadErrorHandlingPolicy loadErrorHandlingPolicy, MediaSourceEventListener.EventDispatcher eventDispatcher2, long j, LoaderErrorThrower loaderErrorThrower, Allocator allocator, CompositeSequenceableLoaderFactory compositeSequenceableLoaderFactory, PlayerEmsgHandler.PlayerEmsgCallback playerEmsgCallback, PlayerId playerId) {
+    public DashMediaPeriod(int i, DashManifest dashManifest, BaseUrlExclusionList baseUrlExclusionList, int i2, DashChunkSource.Factory factory, TransferListener transferListener, CmcdConfiguration cmcdConfiguration, DrmSessionManager drmSessionManager, DrmSessionEventListener.EventDispatcher eventDispatcher, LoadErrorHandlingPolicy loadErrorHandlingPolicy, MediaSourceEventListener.EventDispatcher eventDispatcher2, long j, LoaderErrorThrower loaderErrorThrower, Allocator allocator, CompositeSequenceableLoaderFactory compositeSequenceableLoaderFactory, PlayerEmsgHandler.PlayerEmsgCallback playerEmsgCallback, PlayerId playerId) {
         this.id = i;
         this.manifest = dashManifest;
         this.baseUrlExclusionList = baseUrlExclusionList;
@@ -125,11 +133,11 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         this.compositeSequenceableLoaderFactory = compositeSequenceableLoaderFactory;
         this.playerId = playerId;
         this.playerEmsgHandler = new PlayerEmsgHandler(dashManifest, playerEmsgCallback, allocator);
-        this.compositeSequenceableLoader = compositeSequenceableLoaderFactory.createCompositeSequenceableLoader(this.sampleStreams);
+        this.compositeSequenceableLoader = compositeSequenceableLoaderFactory.empty();
         Period period = dashManifest.getPeriod(i2);
         List list = period.eventStreams;
         this.eventStreams = list;
-        Pair buildTrackGroups = buildTrackGroups(drmSessionManager, period.adaptationSets, list);
+        Pair buildTrackGroups = buildTrackGroups(drmSessionManager, factory, period.adaptationSets, list);
         this.trackGroups = (TrackGroupArray) buildTrackGroups.first;
         this.trackGroupInfos = (TrackGroupInfo[]) buildTrackGroups.second;
     }
@@ -146,7 +154,7 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         }
     }
 
-    private static int buildPrimaryAndEmbeddedTrackGroupInfos(DrmSessionManager drmSessionManager, List list, int[][] iArr, int i, boolean[] zArr, Format[][] formatArr, TrackGroup[] trackGroupArr, TrackGroupInfo[] trackGroupInfoArr) {
+    private static int buildPrimaryAndEmbeddedTrackGroupInfos(DrmSessionManager drmSessionManager, DashChunkSource.Factory factory, List list, int[][] iArr, int i, boolean[] zArr, Format[][] formatArr, TrackGroup[] trackGroupArr, TrackGroupInfo[] trackGroupInfoArr) {
         int i2;
         int i3;
         int i4 = 0;
@@ -161,34 +169,34 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
             Format[] formatArr2 = new Format[size];
             for (int i7 = 0; i7 < size; i7++) {
                 Format format = ((Representation) arrayList.get(i7)).format;
-                formatArr2[i7] = format.copyWithCryptoType(drmSessionManager.getCryptoType(format));
+                formatArr2[i7] = format.buildUpon().setCryptoType(drmSessionManager.getCryptoType(format)).build();
             }
             AdaptationSet adaptationSet = (AdaptationSet) list.get(iArr2[0]);
-            int i8 = adaptationSet.id;
-            String num = i8 != -1 ? Integer.toString(i8) : "unset:" + i4;
-            int i9 = i5 + 1;
+            long j = adaptationSet.id;
+            String l = j != -1 ? Long.toString(j) : "unset:" + i4;
+            int i8 = i5 + 1;
             if (zArr[i4]) {
-                i2 = i9;
-                i9 = i5 + 2;
+                i2 = i8;
+                i8 = i5 + 2;
             } else {
                 i2 = -1;
             }
             if (formatArr[i4].length != 0) {
-                i3 = i9 + 1;
+                i3 = i8 + 1;
             } else {
-                i3 = i9;
-                i9 = -1;
+                i3 = i8;
+                i8 = -1;
             }
-            trackGroupArr[i5] = new TrackGroup(num, formatArr2);
-            trackGroupInfoArr[i5] = TrackGroupInfo.primaryTrack(adaptationSet.type, iArr2, i5, i2, i9);
+            trackGroupArr[i5] = new TrackGroup(l, formatArr2);
+            trackGroupInfoArr[i5] = TrackGroupInfo.primaryTrack(adaptationSet.type, iArr2, i5, i2, i8);
             if (i2 != -1) {
-                String str = num + ":emsg";
+                String str = l + ":emsg";
                 trackGroupArr[i2] = new TrackGroup(str, new Format.Builder().setId(str).setSampleMimeType("application/x-emsg").build());
                 trackGroupInfoArr[i2] = TrackGroupInfo.embeddedEmsgTrack(iArr2, i5);
             }
-            if (i9 != -1) {
-                trackGroupArr[i9] = new TrackGroup(num + ":cc", formatArr[i4]);
-                trackGroupInfoArr[i9] = TrackGroupInfo.embeddedClosedCaptionTrack(iArr2, i5);
+            if (i8 != -1) {
+                trackGroupInfoArr[i8] = TrackGroupInfo.embeddedClosedCaptionTrack(iArr2, i5, ImmutableList.copyOf(formatArr[i4]));
+                trackGroupArr[i8] = new TrackGroup(l + ":cc", formatArr[i4]);
             }
             i4++;
             i5 = i3;
@@ -199,7 +207,6 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
     private ChunkSampleStream buildSampleStream(TrackGroupInfo trackGroupInfo, ExoTrackSelection exoTrackSelection, long j) {
         TrackGroup trackGroup;
         int i;
-        TrackGroup trackGroup2;
         int i2;
         int i3 = trackGroupInfo.embeddedEventMessageTrackGroupIndex;
         boolean z = i3 != -1;
@@ -212,15 +219,10 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
             i = 0;
         }
         int i4 = trackGroupInfo.embeddedClosedCaptionTrackGroupIndex;
-        boolean z2 = i4 != -1;
-        if (z2) {
-            trackGroup2 = this.trackGroups.get(i4);
-            i += trackGroup2.length;
-        } else {
-            trackGroup2 = null;
-        }
-        Format[] formatArr = new Format[i];
-        int[] iArr = new int[i];
+        ImmutableList of = i4 != -1 ? this.trackGroupInfos[i4].embeddedClosedCaptionTrackOriginalFormats : ImmutableList.of();
+        int size = i + of.size();
+        Format[] formatArr = new Format[size];
+        int[] iArr = new int[size];
         if (z) {
             formatArr[0] = trackGroup.getFormat(0);
             iArr[0] = 5;
@@ -229,27 +231,25 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
             i2 = 0;
         }
         ArrayList arrayList = new ArrayList();
-        if (z2) {
-            for (int i5 = 0; i5 < trackGroup2.length; i5++) {
-                Format format = trackGroup2.getFormat(i5);
-                formatArr[i2] = format;
-                iArr[i2] = 3;
-                arrayList.add(format);
-                i2++;
-            }
+        for (int i5 = 0; i5 < of.size(); i5++) {
+            Format format = (Format) of.get(i5);
+            formatArr[i2] = format;
+            iArr[i2] = 3;
+            arrayList.add(format);
+            i2++;
         }
         if (this.manifest.dynamic && z) {
             playerTrackEmsgHandler = this.playerEmsgHandler.newPlayerTrackEmsgHandler();
         }
         PlayerEmsgHandler.PlayerTrackEmsgHandler playerTrackEmsgHandler2 = playerTrackEmsgHandler;
-        ChunkSampleStream chunkSampleStream = new ChunkSampleStream(trackGroupInfo.trackType, iArr, formatArr, this.chunkSourceFactory.createDashChunkSource(this.manifestLoaderErrorThrower, this.manifest, this.baseUrlExclusionList, this.periodIndex, trackGroupInfo.adaptationSetIndices, exoTrackSelection, trackGroupInfo.trackType, this.elapsedRealtimeOffsetMs, z, arrayList, playerTrackEmsgHandler2, this.transferListener, this.playerId), this, this.allocator, j, this.drmSessionManager, this.drmEventDispatcher, this.loadErrorHandlingPolicy, this.mediaSourceEventDispatcher);
+        ChunkSampleStream chunkSampleStream = new ChunkSampleStream(trackGroupInfo.trackType, iArr, formatArr, this.chunkSourceFactory.createDashChunkSource(this.manifestLoaderErrorThrower, this.manifest, this.baseUrlExclusionList, this.periodIndex, trackGroupInfo.adaptationSetIndices, exoTrackSelection, trackGroupInfo.trackType, this.elapsedRealtimeOffsetMs, z, arrayList, playerTrackEmsgHandler2, this.transferListener, this.playerId, null), this, this.allocator, j, this.drmSessionManager, this.drmEventDispatcher, this.loadErrorHandlingPolicy, this.mediaSourceEventDispatcher);
         synchronized (this) {
             this.trackEmsgHandlerBySampleStream.put(chunkSampleStream, playerTrackEmsgHandler2);
         }
         return chunkSampleStream;
     }
 
-    private static Pair buildTrackGroups(DrmSessionManager drmSessionManager, List list, List list2) {
+    private static Pair buildTrackGroups(DrmSessionManager drmSessionManager, DashChunkSource.Factory factory, List list, List list2) {
         int[][] groupedAdaptationSetIndices = getGroupedAdaptationSetIndices(list);
         int length = groupedAdaptationSetIndices.length;
         boolean[] zArr = new boolean[length];
@@ -257,7 +257,7 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         int identifyEmbeddedTracks = identifyEmbeddedTracks(length, list, groupedAdaptationSetIndices, zArr, formatArr) + length + list2.size();
         TrackGroup[] trackGroupArr = new TrackGroup[identifyEmbeddedTracks];
         TrackGroupInfo[] trackGroupInfoArr = new TrackGroupInfo[identifyEmbeddedTracks];
-        buildManifestEventTrackGroupInfos(list2, trackGroupArr, trackGroupInfoArr, buildPrimaryAndEmbeddedTrackGroupInfos(drmSessionManager, list, groupedAdaptationSetIndices, length, zArr, formatArr, trackGroupArr, trackGroupInfoArr));
+        buildManifestEventTrackGroupInfos(list2, trackGroupArr, trackGroupInfoArr, buildPrimaryAndEmbeddedTrackGroupInfos(drmSessionManager, factory, list, groupedAdaptationSetIndices, length, zArr, formatArr, trackGroupArr, trackGroupInfoArr));
         return Pair.create(new TrackGroupArray(trackGroupArr), trackGroupInfoArr);
     }
 
@@ -301,49 +301,47 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
     }
 
     private static int[][] getGroupedAdaptationSetIndices(List list) {
-        int i;
         Descriptor findAdaptationSetSwitchingProperty;
+        Integer num;
         int size = list.size();
-        SparseIntArray sparseIntArray = new SparseIntArray(size);
+        HashMap newHashMapWithExpectedSize = Maps.newHashMapWithExpectedSize(size);
         ArrayList arrayList = new ArrayList(size);
         SparseArray sparseArray = new SparseArray(size);
-        for (int i2 = 0; i2 < size; i2++) {
-            sparseIntArray.put(((AdaptationSet) list.get(i2)).id, i2);
+        for (int i = 0; i < size; i++) {
+            newHashMapWithExpectedSize.put(Long.valueOf(((AdaptationSet) list.get(i)).id), Integer.valueOf(i));
             ArrayList arrayList2 = new ArrayList();
-            arrayList2.add(Integer.valueOf(i2));
+            arrayList2.add(Integer.valueOf(i));
             arrayList.add(arrayList2);
-            sparseArray.put(i2, arrayList2);
+            sparseArray.put(i, arrayList2);
         }
-        for (int i3 = 0; i3 < size; i3++) {
-            AdaptationSet adaptationSet = (AdaptationSet) list.get(i3);
+        for (int i2 = 0; i2 < size; i2++) {
+            AdaptationSet adaptationSet = (AdaptationSet) list.get(i2);
             Descriptor findTrickPlayProperty = findTrickPlayProperty(adaptationSet.essentialProperties);
             if (findTrickPlayProperty == null) {
                 findTrickPlayProperty = findTrickPlayProperty(adaptationSet.supplementalProperties);
             }
-            if (findTrickPlayProperty == null || (i = sparseIntArray.get(Integer.parseInt(findTrickPlayProperty.value), -1)) == -1) {
-                i = i3;
-            }
-            if (i == i3 && (findAdaptationSetSwitchingProperty = findAdaptationSetSwitchingProperty(adaptationSet.supplementalProperties)) != null) {
+            int intValue = (findTrickPlayProperty == null || (num = (Integer) newHashMapWithExpectedSize.get(Long.valueOf(Long.parseLong(findTrickPlayProperty.value)))) == null) ? i2 : num.intValue();
+            if (intValue == i2 && (findAdaptationSetSwitchingProperty = findAdaptationSetSwitchingProperty(adaptationSet.supplementalProperties)) != null) {
                 for (String str : Util.split(findAdaptationSetSwitchingProperty.value, ",")) {
-                    int i4 = sparseIntArray.get(Integer.parseInt(str), -1);
-                    if (i4 != -1) {
-                        i = Math.min(i, i4);
+                    Integer num2 = (Integer) newHashMapWithExpectedSize.get(Long.valueOf(Long.parseLong(str)));
+                    if (num2 != null) {
+                        intValue = Math.min(intValue, num2.intValue());
                     }
                 }
             }
-            if (i != i3) {
-                List list2 = (List) sparseArray.get(i3);
-                List list3 = (List) sparseArray.get(i);
+            if (intValue != i2) {
+                List list2 = (List) sparseArray.get(i2);
+                List list3 = (List) sparseArray.get(intValue);
                 list3.addAll(list2);
-                sparseArray.put(i3, list3);
+                sparseArray.put(i2, list3);
                 arrayList.remove(list2);
             }
         }
         int size2 = arrayList.size();
         int[][] iArr = new int[size2];
-        for (int i5 = 0; i5 < size2; i5++) {
-            int[] array = Ints.toArray((Collection) arrayList.get(i5));
-            iArr[i5] = array;
+        for (int i3 = 0; i3 < size2; i3++) {
+            int[] array = Ints.toArray((Collection) arrayList.get(i3));
+            iArr[i3] = array;
             Arrays.sort(array);
         }
         return iArr;
@@ -403,6 +401,11 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
             }
         }
         return i2;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ List lambda$selectTracks$0(ChunkSampleStream chunkSampleStream) {
+        return ImmutableList.of((Object) Integer.valueOf(chunkSampleStream.primaryTrackType));
     }
 
     private static ChunkSampleStream[] newSampleStreamArray(int i) {
@@ -500,8 +503,8 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
     }
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
-    public boolean continueLoading(long j) {
-        return this.compositeSequenceableLoader.continueLoading(j);
+    public boolean continueLoading(LoadingInfo loadingInfo) {
+        return this.compositeSequenceableLoader.continueLoading(loadingInfo);
     }
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod
@@ -616,7 +619,14 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         EventSampleStream[] eventSampleStreamArr = new EventSampleStream[arrayList2.size()];
         this.eventSampleStreams = eventSampleStreamArr;
         arrayList2.toArray(eventSampleStreamArr);
-        this.compositeSequenceableLoader = this.compositeSequenceableLoaderFactory.createCompositeSequenceableLoader(this.sampleStreams);
+        this.compositeSequenceableLoader = this.compositeSequenceableLoaderFactory.create(arrayList, Lists.transform(arrayList, new Function() { // from class: com.google.android.exoplayer2.source.dash.DashMediaPeriod$$ExternalSyntheticLambda0
+            @Override // com.google.common.base.Function
+            public final Object apply(Object obj) {
+                List lambda$selectTracks$0;
+                lambda$selectTracks$0 = DashMediaPeriod.lambda$selectTracks$0((ChunkSampleStream) obj);
+                return lambda$selectTracks$0;
+            }
+        }));
         return j;
     }
 

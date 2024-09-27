@@ -18,15 +18,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$ChatInvite;
-import org.telegram.tgnet.TLRPC$RecentMeUrl;
-import org.telegram.tgnet.TLRPC$TL_recentMeUrlChat;
-import org.telegram.tgnet.TLRPC$TL_recentMeUrlChatInvite;
-import org.telegram.tgnet.TLRPC$TL_recentMeUrlStickerSet;
-import org.telegram.tgnet.TLRPC$TL_recentMeUrlUnknown;
-import org.telegram.tgnet.TLRPC$TL_recentMeUrlUser;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarDrawable;
 /* loaded from: classes4.dex */
@@ -46,7 +38,7 @@ public class DialogMeUrlCell extends BaseCell {
     private int nameLockLeft;
     private int nameLockTop;
     private int nameMuteLeft;
-    private TLRPC$RecentMeUrl recentMeUrl;
+    private TLRPC.RecentMeUrl recentMeUrl;
     public boolean useSeparator;
 
     public DialogMeUrlCell(Context context) {
@@ -92,17 +84,17 @@ public class DialogMeUrlCell extends BaseCell {
         int measuredWidth;
         int measuredWidth2;
         double d;
-        TLRPC$Chat tLRPC$Chat;
+        TLRPC.Chat chat;
         int dp3;
         TextPaint textPaint = Theme.dialogs_namePaint[0];
         TextPaint textPaint2 = Theme.dialogs_messagePaint[0];
         this.drawNameLock = false;
         this.drawVerified = false;
-        TLRPC$RecentMeUrl tLRPC$RecentMeUrl = this.recentMeUrl;
+        TLRPC.RecentMeUrl recentMeUrl = this.recentMeUrl;
         float f = 14.0f;
-        if (tLRPC$RecentMeUrl instanceof TLRPC$TL_recentMeUrlChat) {
-            TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(this.recentMeUrl.chat_id));
-            this.drawVerified = chat.verified;
+        if (recentMeUrl instanceof TLRPC.TL_recentMeUrlChat) {
+            TLRPC.Chat chat2 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(this.recentMeUrl.chat_id));
+            this.drawVerified = chat2.verified;
             if (LocaleController.isRTL) {
                 this.nameLockLeft = getMeasuredWidth() - AndroidUtilities.dp(AndroidUtilities.leftBaseline);
                 dp3 = AndroidUtilities.dp(14.0f);
@@ -111,29 +103,29 @@ public class DialogMeUrlCell extends BaseCell {
                 dp3 = AndroidUtilities.dp(AndroidUtilities.leftBaseline + 4);
             }
             this.nameLeft = dp3;
-            str = chat.title;
-            this.avatarDrawable.setInfo(this.currentAccount, chat);
-            tLRPC$Chat = chat;
-        } else if (!(tLRPC$RecentMeUrl instanceof TLRPC$TL_recentMeUrlUser)) {
-            if (tLRPC$RecentMeUrl instanceof TLRPC$TL_recentMeUrlStickerSet) {
+            str = chat2.title;
+            this.avatarDrawable.setInfo(this.currentAccount, chat2);
+            chat = chat2;
+        } else if (!(recentMeUrl instanceof TLRPC.TL_recentMeUrlUser)) {
+            if (recentMeUrl instanceof TLRPC.TL_recentMeUrlStickerSet) {
                 this.nameLeft = !LocaleController.isRTL ? AndroidUtilities.dp(AndroidUtilities.leftBaseline) : AndroidUtilities.dp(14.0f);
                 str = this.recentMeUrl.set.set.title;
                 this.avatarDrawable.setInfo(5L, str, null);
                 this.avatarImage.setImage(ImageLocation.getForDocument(this.recentMeUrl.set.cover), null, this.avatarDrawable, null, this.recentMeUrl, 0);
-            } else if (tLRPC$RecentMeUrl instanceof TLRPC$TL_recentMeUrlChatInvite) {
+            } else if (recentMeUrl instanceof TLRPC.TL_recentMeUrlChatInvite) {
                 this.nameLeft = !LocaleController.isRTL ? AndroidUtilities.dp(AndroidUtilities.leftBaseline) : AndroidUtilities.dp(14.0f);
-                TLRPC$ChatInvite tLRPC$ChatInvite = this.recentMeUrl.chat_invite;
-                TLRPC$Chat tLRPC$Chat2 = tLRPC$ChatInvite.chat;
-                if (tLRPC$Chat2 != null) {
-                    this.avatarDrawable.setInfo(this.currentAccount, tLRPC$Chat2);
-                    TLRPC$RecentMeUrl tLRPC$RecentMeUrl2 = this.recentMeUrl;
-                    TLRPC$Chat tLRPC$Chat3 = tLRPC$RecentMeUrl2.chat_invite.chat;
-                    String str2 = tLRPC$Chat3.title;
-                    this.drawVerified = tLRPC$Chat3.verified;
-                    this.avatarImage.setForUserOrChat(tLRPC$Chat3, this.avatarDrawable, tLRPC$RecentMeUrl2);
+                TLRPC.ChatInvite chatInvite = this.recentMeUrl.chat_invite;
+                TLRPC.Chat chat3 = chatInvite.chat;
+                if (chat3 != null) {
+                    this.avatarDrawable.setInfo(this.currentAccount, chat3);
+                    TLRPC.RecentMeUrl recentMeUrl2 = this.recentMeUrl;
+                    TLRPC.Chat chat4 = recentMeUrl2.chat_invite.chat;
+                    String str2 = chat4.title;
+                    this.drawVerified = chat4.verified;
+                    this.avatarImage.setForUserOrChat(chat4, this.avatarDrawable, recentMeUrl2);
                     str = str2;
                 } else {
-                    String str3 = tLRPC$ChatInvite.title;
+                    String str3 = chatInvite.title;
                     this.avatarDrawable.setInfo(5L, str3, null);
                     this.avatarImage.setImage(ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(this.recentMeUrl.chat_invite.photo.sizes, 50), this.recentMeUrl.chat_invite.photo), "50_50", this.avatarDrawable, null, this.recentMeUrl, 0);
                     str = str3;
@@ -146,12 +138,12 @@ public class DialogMeUrlCell extends BaseCell {
                     dp = AndroidUtilities.dp(AndroidUtilities.leftBaseline + 4);
                 }
                 this.nameLeft = dp;
-            } else if (tLRPC$RecentMeUrl instanceof TLRPC$TL_recentMeUrlUnknown) {
+            } else if (recentMeUrl instanceof TLRPC.TL_recentMeUrlUnknown) {
                 this.nameLeft = !LocaleController.isRTL ? AndroidUtilities.dp(AndroidUtilities.leftBaseline) : AndroidUtilities.dp(14.0f);
                 this.avatarImage.setImage(null, null, this.avatarDrawable, null, this.recentMeUrl, 0);
                 str = "Url";
             } else {
-                this.avatarImage.setImage(null, null, this.avatarDrawable, null, tLRPC$RecentMeUrl, 0);
+                this.avatarImage.setImage(null, null, this.avatarDrawable, null, recentMeUrl, 0);
                 str = "";
             }
             String str4 = MessagesController.getInstance(this.currentAccount).linkPrefix + "/" + this.recentMeUrl.url;
@@ -263,7 +255,7 @@ public class DialogMeUrlCell extends BaseCell {
             }
             this.messageLeft = (int) d;
         } else {
-            TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.recentMeUrl.user_id));
+            TLRPC.User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.recentMeUrl.user_id));
             this.nameLeft = !LocaleController.isRTL ? AndroidUtilities.dp(AndroidUtilities.leftBaseline) : AndroidUtilities.dp(14.0f);
             if (user != null) {
                 if (user.bot) {
@@ -281,9 +273,9 @@ public class DialogMeUrlCell extends BaseCell {
             }
             str = UserObject.getUserName(user);
             this.avatarDrawable.setInfo(this.currentAccount, user);
-            tLRPC$Chat = user;
+            chat = user;
         }
-        this.avatarImage.setForUserOrChat(tLRPC$Chat, this.avatarDrawable, this.recentMeUrl);
+        this.avatarImage.setForUserOrChat(chat, this.avatarDrawable, this.recentMeUrl);
         String str42 = MessagesController.getInstance(this.currentAccount).linkPrefix + "/" + this.recentMeUrl.url;
         if (TextUtils.isEmpty(str)) {
         }
@@ -398,8 +390,8 @@ public class DialogMeUrlCell extends BaseCell {
         this.isSelected = z;
     }
 
-    public void setRecentMeUrl(TLRPC$RecentMeUrl tLRPC$RecentMeUrl) {
-        this.recentMeUrl = tLRPC$RecentMeUrl;
+    public void setRecentMeUrl(TLRPC.RecentMeUrl recentMeUrl) {
+        this.recentMeUrl = recentMeUrl;
         requestLayout();
     }
 }

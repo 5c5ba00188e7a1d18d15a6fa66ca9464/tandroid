@@ -36,10 +36,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.voip.VoIPService;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$FileLocation;
-import org.telegram.tgnet.TLRPC$TL_groupCallParticipant;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.Theme$$ExternalSyntheticApiModelOutline2;
@@ -62,10 +59,10 @@ public class GroupCallUserCell extends FrameLayout {
     private AvatarWavesDrawable avatarWavesDrawable;
     private Runnable checkRaiseRunnable;
     private ChatObject.Call currentCall;
-    private TLRPC$Chat currentChat;
+    private TLRPC.Chat currentChat;
     private boolean currentIconGray;
     private int currentStatus;
-    private TLRPC$User currentUser;
+    private TLRPC.User currentUser;
     private Paint dividerPaint;
     private SimpleTextView fullAboutTextView;
     private int grayIconColor;
@@ -78,7 +75,7 @@ public class GroupCallUserCell extends FrameLayout {
     private RLottieDrawable muteDrawable;
     private SimpleTextView nameTextView;
     private boolean needDivider;
-    private TLRPC$TL_groupCallParticipant participant;
+    private TLRPC.TL_groupCallParticipant participant;
     private Drawable premiumDrawable;
     private float progressToAvatarPreview;
     private Runnable raiseHandCallback;
@@ -131,7 +128,7 @@ public class GroupCallUserCell extends FrameLayout {
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void draw(Canvas canvas, float f, float f2, View view) {
-            if (LiteMode.isEnabled(LiteMode.FLAG_CALLS_ANIMATIONS)) {
+            if (LiteMode.isEnabled(512)) {
                 float f3 = (this.amplitude * 0.4f) + 0.8f;
                 if (this.showWaves || this.wavesEnter != 0.0f) {
                     canvas.save();
@@ -621,8 +618,8 @@ public class GroupCallUserCell extends FrameLayout {
         }
         this.muteButton.setEnabled((isSelfUser() && this.participant.raise_hand_rating == 0) ? false : true);
         long elapsedRealtime = SystemClock.elapsedRealtime();
-        TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant = this.participant;
-        boolean z5 = elapsedRealtime - tLRPC$TL_groupCallParticipant.lastVoiceUpdateTime < 500 ? tLRPC$TL_groupCallParticipant.hasVoiceDelayed : tLRPC$TL_groupCallParticipant.hasVoice;
+        TLRPC.TL_groupCallParticipant tL_groupCallParticipant = this.participant;
+        boolean z5 = elapsedRealtime - tL_groupCallParticipant.lastVoiceUpdateTime < 500 ? tL_groupCallParticipant.hasVoiceDelayed : tL_groupCallParticipant.hasVoice;
         if (!z2) {
             long uptimeMillis = SystemClock.uptimeMillis() - this.participant.lastSpeakTime;
             boolean z6 = uptimeMillis < 500;
@@ -638,9 +635,9 @@ public class GroupCallUserCell extends FrameLayout {
                 }
             }
         }
-        TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant2 = (TLRPC$TL_groupCallParticipant) this.currentCall.participants.get(MessageObject.getPeerId(this.participant.peer));
-        if (tLRPC$TL_groupCallParticipant2 != null) {
-            this.participant = tLRPC$TL_groupCallParticipant2;
+        TLRPC.TL_groupCallParticipant tL_groupCallParticipant2 = (TLRPC.TL_groupCallParticipant) this.currentCall.participants.get(MessageObject.getPeerId(this.participant.peer));
+        if (tL_groupCallParticipant2 != null) {
+            this.participant = tL_groupCallParticipant2;
         }
         boolean z7 = this.participant.muted_by_you && !isSelfUser();
         boolean z8 = !isSelfUser() ? (!this.participant.muted || (this.isSpeaking && z5)) && !z7 : VoIPService.getSharedInstance() == null || !VoIPService.getSharedInstance().isMicMute() || (this.isSpeaking && z5);
@@ -650,8 +647,8 @@ public class GroupCallUserCell extends FrameLayout {
         boolean z10 = !TextUtils.isEmpty(this.participant.about);
         this.currentIconGray = false;
         AndroidUtilities.cancelRunOnUIThread(this.checkRaiseRunnable);
-        TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant3 = this.participant;
-        if ((!tLRPC$TL_groupCallParticipant3.muted || this.isSpeaking) && !z7) {
+        TLRPC.TL_groupCallParticipant tL_groupCallParticipant3 = this.participant;
+        if ((!tL_groupCallParticipant3.muted || this.isSpeaking) && !z7) {
             if (this.isSpeaking && z5) {
                 color = Theme.getColor(Theme.key_voipgroup_speakingText);
                 i = 1;
@@ -662,9 +659,9 @@ public class GroupCallUserCell extends FrameLayout {
             }
             z3 = false;
         } else {
-            boolean z11 = tLRPC$TL_groupCallParticipant3.can_self_unmute;
+            boolean z11 = tL_groupCallParticipant3.can_self_unmute;
             if (!z11 || z7) {
-                z3 = (z11 || tLRPC$TL_groupCallParticipant3.raise_hand_rating == 0) ? false : true;
+                z3 = (z11 || tL_groupCallParticipant3.raise_hand_rating == 0) ? false : true;
                 if (z3) {
                     int color2 = Theme.getColor(Theme.key_voipgroup_listeningText);
                     long elapsedRealtime2 = SystemClock.elapsedRealtime();
@@ -986,9 +983,9 @@ public class GroupCallUserCell extends FrameLayout {
         if (nextInt < 32) {
             i = 0;
         } else {
-            i = NotificationCenter.locationPermissionDenied;
+            i = NotificationCenter.goingToPreviewTheme;
             if (nextInt < 64) {
-                i2 = NotificationCenter.locationPermissionDenied;
+                i2 = NotificationCenter.goingToPreviewTheme;
                 i = 120;
             } else {
                 i2 = 420;
@@ -1085,16 +1082,16 @@ public class GroupCallUserCell extends FrameLayout {
         return this.nameTextView.getText();
     }
 
-    public TLRPC$TL_groupCallParticipant getParticipant() {
+    public TLRPC.TL_groupCallParticipant getParticipant() {
         return this.participant;
     }
 
     public long getPeerId() {
-        TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant = this.participant;
-        if (tLRPC$TL_groupCallParticipant == null) {
+        TLRPC.TL_groupCallParticipant tL_groupCallParticipant = this.participant;
+        if (tL_groupCallParticipant == null) {
             return 0L;
         }
-        return MessageObject.getPeerId(tLRPC$TL_groupCallParticipant.peer);
+        return MessageObject.getPeerId(tL_groupCallParticipant.peer);
     }
 
     public boolean hasAvatarSet() {
@@ -1113,11 +1110,11 @@ public class GroupCallUserCell extends FrameLayout {
     public boolean isSelfUser() {
         long j = this.selfId;
         if (j > 0) {
-            TLRPC$User tLRPC$User = this.currentUser;
-            return tLRPC$User != null && tLRPC$User.id == j;
+            TLRPC.User user = this.currentUser;
+            return user != null && user.id == j;
         }
-        TLRPC$Chat tLRPC$Chat = this.currentChat;
-        return tLRPC$Chat != null && tLRPC$Chat.id == (-j);
+        TLRPC.Chat chat = this.currentChat;
+        return chat != null && chat.id == (-j);
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -1157,8 +1154,8 @@ public class GroupCallUserCell extends FrameLayout {
         if (!accessibilityNodeInfo.isEnabled() || Build.VERSION.SDK_INT < 21) {
             return;
         }
-        TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant = this.participant;
-        accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString((!tLRPC$TL_groupCallParticipant.muted || tLRPC$TL_groupCallParticipant.can_self_unmute) ? R.string.VoipMute : R.string.VoipUnmute)));
+        TLRPC.TL_groupCallParticipant tL_groupCallParticipant = this.participant;
+        accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString((!tL_groupCallParticipant.muted || tL_groupCallParticipant.can_self_unmute) ? R.string.VoipMute : R.string.VoipUnmute)));
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -1211,7 +1208,7 @@ public class GroupCallUserCell extends FrameLayout {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void setData(AccountInstance accountInstance, TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant, ChatObject.Call call, long j, TLRPC$FileLocation tLRPC$FileLocation, boolean z) {
+    public void setData(AccountInstance accountInstance, TLRPC.TL_groupCallParticipant tL_groupCallParticipant, ChatObject.Call call, long j, TLRPC.FileLocation fileLocation, boolean z) {
         ImageLocation forChat;
         BackupImageView backupImageView;
         AvatarDrawable avatarDrawable;
@@ -1221,18 +1218,18 @@ public class GroupCallUserCell extends FrameLayout {
         this.currentCall = call;
         this.accountInstance = accountInstance;
         this.selfId = j;
-        this.participant = tLRPC$TL_groupCallParticipant;
-        long peerId = MessageObject.getPeerId(tLRPC$TL_groupCallParticipant.peer);
+        this.participant = tL_groupCallParticipant;
+        long peerId = MessageObject.getPeerId(tL_groupCallParticipant.peer);
         if (peerId > 0) {
             this.currentUser = this.accountInstance.getMessagesController().getUser(Long.valueOf(peerId));
             this.currentChat = null;
             this.avatarDrawable.setInfo(this.accountInstance.getCurrentAccount(), this.currentUser);
             this.nameTextView.setText(UserObject.getUserName(this.currentUser));
-            TLRPC$User tLRPC$User = this.currentUser;
-            if (tLRPC$User == null || !tLRPC$User.verified) {
-                if (tLRPC$User == null || DialogObject.getEmojiStatusDocumentId(tLRPC$User.emoji_status) == 0) {
-                    TLRPC$User tLRPC$User2 = this.currentUser;
-                    if (tLRPC$User2 == null || !tLRPC$User2.premium) {
+            TLRPC.User user = this.currentUser;
+            if (user == null || !user.verified) {
+                if (user == null || DialogObject.getEmojiStatusDocumentId(user.emoji_status) == 0) {
+                    TLRPC.User user2 = this.currentUser;
+                    if (user2 == null || !user2.premium) {
                         this.rightDrawable.set((Drawable) null, z);
                     } else {
                         if (this.premiumDrawable == null) {
@@ -1256,7 +1253,7 @@ public class GroupCallUserCell extends FrameLayout {
                 this.rightDrawable.setColor(Integer.valueOf(Theme.getColor(Theme.key_premiumGradient1)));
                 this.nameTextView.setRightDrawable(this.rightDrawable);
                 this.avatarImageView.getImageReceiver().setCurrentAccount(accountInstance.getCurrentAccount());
-                if (tLRPC$FileLocation == null) {
+                if (fileLocation == null) {
                     forChat = ImageLocation.getForUser(this.currentUser, 1);
                     this.hasAvatar = forChat != null;
                     backupImageView = this.avatarImageView;
@@ -1265,7 +1262,7 @@ public class GroupCallUserCell extends FrameLayout {
                     backupImageView.setImage(forChat, "50_50", avatarDrawable, obj);
                 }
                 this.hasAvatar = true;
-                this.avatarImageView.setImage(ImageLocation.getForLocal(tLRPC$FileLocation), "50_50", this.avatarDrawable, (Object) null);
+                this.avatarImageView.setImage(ImageLocation.getForLocal(fileLocation), "50_50", this.avatarDrawable, (Object) null);
             } else {
                 swapAnimatedEmojiDrawable = this.rightDrawable;
                 drawable = this.verifiedDrawable;
@@ -1278,19 +1275,19 @@ public class GroupCallUserCell extends FrameLayout {
             this.rightDrawable.setColor(Integer.valueOf(Theme.getColor(Theme.key_premiumGradient1)));
             this.nameTextView.setRightDrawable(this.rightDrawable);
             this.avatarImageView.getImageReceiver().setCurrentAccount(accountInstance.getCurrentAccount());
-            if (tLRPC$FileLocation == null) {
+            if (fileLocation == null) {
             }
             this.hasAvatar = true;
-            this.avatarImageView.setImage(ImageLocation.getForLocal(tLRPC$FileLocation), "50_50", this.avatarDrawable, (Object) null);
+            this.avatarImageView.setImage(ImageLocation.getForLocal(fileLocation), "50_50", this.avatarDrawable, (Object) null);
         } else {
             this.currentChat = this.accountInstance.getMessagesController().getChat(Long.valueOf(-peerId));
             this.currentUser = null;
             this.avatarDrawable.setInfo(this.accountInstance.getCurrentAccount(), this.currentChat);
-            TLRPC$Chat tLRPC$Chat = this.currentChat;
-            if (tLRPC$Chat != null) {
-                this.nameTextView.setText(tLRPC$Chat.title);
-                TLRPC$Chat tLRPC$Chat2 = this.currentChat;
-                if (tLRPC$Chat2.verified) {
+            TLRPC.Chat chat = this.currentChat;
+            if (chat != null) {
+                this.nameTextView.setText(chat.title);
+                TLRPC.Chat chat2 = this.currentChat;
+                if (chat2.verified) {
                     AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable2 = this.rightDrawable;
                     Drawable drawable2 = this.verifiedDrawable;
                     if (drawable2 == null) {
@@ -1299,7 +1296,7 @@ public class GroupCallUserCell extends FrameLayout {
                     this.verifiedDrawable = drawable2;
                     swapAnimatedEmojiDrawable2.set(drawable2, z);
                 } else {
-                    int i = (DialogObject.getEmojiStatusDocumentId(tLRPC$Chat2.emoji_status) > 0L ? 1 : (DialogObject.getEmojiStatusDocumentId(tLRPC$Chat2.emoji_status) == 0L ? 0 : -1));
+                    int i = (DialogObject.getEmojiStatusDocumentId(chat2.emoji_status) > 0L ? 1 : (DialogObject.getEmojiStatusDocumentId(chat2.emoji_status) == 0L ? 0 : -1));
                     AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable3 = this.rightDrawable;
                     if (i != 0) {
                         swapAnimatedEmojiDrawable3.set(DialogObject.getEmojiStatusDocumentId(this.currentChat.emoji_status), z);
@@ -1308,7 +1305,7 @@ public class GroupCallUserCell extends FrameLayout {
                     }
                 }
                 this.avatarImageView.getImageReceiver().setCurrentAccount(accountInstance.getCurrentAccount());
-                if (tLRPC$FileLocation == null) {
+                if (fileLocation == null) {
                     forChat = ImageLocation.getForChat(this.currentChat, 1);
                     this.hasAvatar = forChat != null;
                     backupImageView = this.avatarImageView;
@@ -1317,7 +1314,7 @@ public class GroupCallUserCell extends FrameLayout {
                     backupImageView.setImage(forChat, "50_50", avatarDrawable, obj);
                 }
                 this.hasAvatar = true;
-                this.avatarImageView.setImage(ImageLocation.getForLocal(tLRPC$FileLocation), "50_50", this.avatarDrawable, (Object) null);
+                this.avatarImageView.setImage(ImageLocation.getForLocal(fileLocation), "50_50", this.avatarDrawable, (Object) null);
             }
         }
         applyParticipantChanges(z);

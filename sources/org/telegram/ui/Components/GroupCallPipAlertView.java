@@ -25,7 +25,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.voip.VoIPService;
-import org.telegram.tgnet.TLRPC$GroupCall;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.voip.VoIPButtonsLayout;
 import org.telegram.ui.Components.voip.VoIPToggleButton;
@@ -59,7 +59,7 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
         this.invalidateGradient = true;
         setOrientation(1);
         this.currentAccount = i;
-        this.paint.setAlpha(NotificationCenter.themeAccentListUpdated);
+        this.paint.setAlpha(NotificationCenter.themeListUpdated);
         FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.GroupCallPipAlertView.1
             @Override // android.view.View
             public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
@@ -311,8 +311,8 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
             return;
         }
         TextView textView = this.subtitleView;
-        TLRPC$GroupCall tLRPC$GroupCall = sharedInstance.groupCall.call;
-        textView.setText(LocaleController.formatPluralString(tLRPC$GroupCall.rtmp_stream ? "ViewersWatching" : "Participants", tLRPC$GroupCall.participants_count, new Object[0]));
+        TLRPC.GroupCall groupCall = sharedInstance.groupCall.call;
+        textView.setText(LocaleController.formatPluralString(groupCall.rtmp_stream ? "ViewersWatching" : "Participants", groupCall.participants_count, new Object[0]));
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate

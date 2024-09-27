@@ -16,7 +16,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.NotificationsController;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
@@ -162,7 +162,7 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
     */
     public void setAccount(int i) {
         this.accountNumber = i;
-        TLRPC$User currentUser = UserConfig.getInstance(i).getCurrentUser();
+        TLRPC.User currentUser = UserConfig.getInstance(i).getCurrentUser();
         if (currentUser == null) {
             return;
         }

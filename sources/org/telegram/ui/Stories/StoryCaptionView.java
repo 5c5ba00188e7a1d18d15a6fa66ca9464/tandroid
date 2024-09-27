@@ -56,12 +56,8 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$Peer;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.tl.TL_stories$StoryFwdHeader;
-import org.telegram.tgnet.tl.TL_stories$StoryItem;
-import org.telegram.tgnet.tl.TL_stories$TL_mediaAreaChannelPost;
+import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.TextSelectionHelper;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
@@ -145,31 +141,31 @@ public class StoryCaptionView extends NestedScrollView {
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public static Reply from(int i, TL_stories$StoryItem tL_stories$StoryItem) {
-            TLRPC$Chat chat;
+        public static Reply from(int i, TL_stories.StoryItem storyItem) {
+            TLRPC.Chat chat;
             SpannableStringBuilder append;
-            TL_stories$StoryFwdHeader tL_stories$StoryFwdHeader;
+            TL_stories.StoryFwdHeader storyFwdHeader;
             SpannableStringBuilder append2;
             String str;
             Reply reply = null;
-            if (tL_stories$StoryItem == null) {
+            if (storyItem == null) {
                 return null;
             }
-            if (tL_stories$StoryItem.fwd_from == null) {
-                if (tL_stories$StoryItem.media_areas != null) {
-                    TL_stories$TL_mediaAreaChannelPost tL_stories$TL_mediaAreaChannelPost = null;
-                    for (int i2 = 0; i2 < tL_stories$StoryItem.media_areas.size(); i2++) {
-                        if (tL_stories$StoryItem.media_areas.get(i2) instanceof TL_stories$TL_mediaAreaChannelPost) {
-                            tL_stories$TL_mediaAreaChannelPost = (TL_stories$TL_mediaAreaChannelPost) tL_stories$StoryItem.media_areas.get(i2);
+            if (storyItem.fwd_from == null) {
+                if (storyItem.media_areas != null) {
+                    TL_stories.TL_mediaAreaChannelPost tL_mediaAreaChannelPost = null;
+                    for (int i2 = 0; i2 < storyItem.media_areas.size(); i2++) {
+                        if (storyItem.media_areas.get(i2) instanceof TL_stories.TL_mediaAreaChannelPost) {
+                            tL_mediaAreaChannelPost = (TL_stories.TL_mediaAreaChannelPost) storyItem.media_areas.get(i2);
                         }
                     }
-                    if (tL_stories$TL_mediaAreaChannelPost != null && (chat = MessagesController.getInstance(i).getChat(Long.valueOf(tL_stories$TL_mediaAreaChannelPost.channel_id))) != null) {
+                    if (tL_mediaAreaChannelPost != null && (chat = MessagesController.getInstance(i).getChat(Long.valueOf(tL_mediaAreaChannelPost.channel_id))) != null) {
                         reply = new Reply();
                         reply.peerId = Long.valueOf(-chat.id);
                         reply.isRepostMessage = true;
                         reply.currentAccount = i;
                         reply.small = true;
-                        reply.messageId = Integer.valueOf(tL_stories$TL_mediaAreaChannelPost.msg_id);
+                        reply.messageId = Integer.valueOf(tL_mediaAreaChannelPost.msg_id);
                         reply.title = new SpannableStringBuilder(ChatObject.isChannelAndNotMegaGroup(chat) ? MessageObject.channelSpan() : MessageObject.groupSpan()).append((CharSequence) " ").append((CharSequence) chat.title);
                     }
                 }
@@ -177,38 +173,38 @@ public class StoryCaptionView extends NestedScrollView {
             }
             Reply reply2 = new Reply();
             reply2.currentAccount = i;
-            TL_stories$StoryFwdHeader tL_stories$StoryFwdHeader2 = tL_stories$StoryItem.fwd_from;
-            TLRPC$Peer tLRPC$Peer = tL_stories$StoryFwdHeader2.from;
-            if (tLRPC$Peer == null) {
-                if (tL_stories$StoryFwdHeader2.from_name != null) {
-                    append = new SpannableStringBuilder(MessageObject.userSpan()).append((CharSequence) " ").append((CharSequence) tL_stories$StoryItem.fwd_from.from_name);
+            TL_stories.StoryFwdHeader storyFwdHeader2 = storyItem.fwd_from;
+            TLRPC.Peer peer = storyFwdHeader2.from;
+            if (peer == null) {
+                if (storyFwdHeader2.from_name != null) {
+                    append = new SpannableStringBuilder(MessageObject.userSpan()).append((CharSequence) " ").append((CharSequence) storyItem.fwd_from.from_name);
                 }
                 reply2.small = true;
-                tL_stories$StoryFwdHeader = tL_stories$StoryItem.fwd_from;
-                if ((tL_stories$StoryFwdHeader.flags & 4) != 0) {
-                    reply2.storyId = Integer.valueOf(tL_stories$StoryFwdHeader.story_id);
+                storyFwdHeader = storyItem.fwd_from;
+                if ((storyFwdHeader.flags & 4) != 0) {
+                    reply2.storyId = Integer.valueOf(storyFwdHeader.story_id);
                 }
                 reply2.load();
                 return reply2;
             }
-            long peerDialogId = DialogObject.getPeerDialogId(tLRPC$Peer);
+            long peerDialogId = DialogObject.getPeerDialogId(peer);
             reply2.peerId = Long.valueOf(peerDialogId);
             int i3 = (peerDialogId > 0L ? 1 : (peerDialogId == 0L ? 0 : -1));
             MessagesController messagesController = MessagesController.getInstance(i);
             if (i3 >= 0) {
-                TLRPC$User user = messagesController.getUser(Long.valueOf(peerDialogId));
+                TLRPC.User user = messagesController.getUser(Long.valueOf(peerDialogId));
                 append2 = new SpannableStringBuilder(MessageObject.userSpan()).append((CharSequence) " ");
                 str = UserObject.getUserName(user);
             } else {
-                TLRPC$Chat chat2 = messagesController.getChat(Long.valueOf(-peerDialogId));
+                TLRPC.Chat chat2 = messagesController.getChat(Long.valueOf(-peerDialogId));
                 append2 = new SpannableStringBuilder(ChatObject.isChannelAndNotMegaGroup(chat2) ? MessageObject.channelSpan() : MessageObject.groupSpan()).append((CharSequence) " ");
                 str = chat2 != null ? chat2.title : "";
             }
             append = append2.append((CharSequence) str);
             reply2.title = append;
             reply2.small = true;
-            tL_stories$StoryFwdHeader = tL_stories$StoryItem.fwd_from;
-            if ((tL_stories$StoryFwdHeader.flags & 4) != 0) {
+            storyFwdHeader = storyItem.fwd_from;
+            if ((storyFwdHeader.flags & 4) != 0) {
             }
             reply2.load();
             return reply2;
@@ -217,7 +213,7 @@ public class StoryCaptionView extends NestedScrollView {
         public static Reply from(StoriesController.UploadingStory uploadingStory) {
             StoryEntry storyEntry;
             ArrayList arrayList;
-            TLRPC$Chat chat;
+            TLRPC.Chat chat;
             Reply reply = null;
             if (uploadingStory != null && (storyEntry = uploadingStory.entry) != null) {
                 if (storyEntry.isRepost) {
@@ -246,10 +242,10 @@ public class StoryCaptionView extends NestedScrollView {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$load$0(TL_stories$StoryItem tL_stories$StoryItem) {
+        public /* synthetic */ void lambda$load$0(TL_stories.StoryItem storyItem) {
             String str;
             this.loaded = true;
-            if (tL_stories$StoryItem == null || (str = tL_stories$StoryItem.caption) == null) {
+            if (storyItem == null || (str = storyItem.caption) == null) {
                 return;
             }
             this.updateText = true;
@@ -339,7 +335,7 @@ public class StoryCaptionView extends NestedScrollView {
             MessagesController.getInstance(this.currentAccount).getStoriesController().resolveStoryLink(this.peerId.longValue(), this.storyId.intValue(), new Consumer() { // from class: org.telegram.ui.Stories.StoryCaptionView$Reply$$ExternalSyntheticLambda0
                 @Override // com.google.android.exoplayer2.util.Consumer
                 public final void accept(Object obj) {
-                    StoryCaptionView.Reply.this.lambda$load$0((TL_stories$StoryItem) obj);
+                    StoryCaptionView.Reply.this.lambda$load$0((TL_stories.StoryItem) obj);
                 }
             });
         }
@@ -572,7 +568,7 @@ public class StoryCaptionView extends NestedScrollView {
                 if (list.isEmpty()) {
                     staticLayout.draw(canvas);
                 } else {
-                    SpoilerEffect.renderWithRipple(StoryCaptionTextView.this, false, -1, 0, this.patchedLayout, staticLayout, list, canvas, false);
+                    SpoilerEffect.renderWithRipple(StoryCaptionTextView.this, false, -1, 0, this.patchedLayout, 0, staticLayout, list, canvas, false);
                 }
             }
 
@@ -1137,7 +1133,7 @@ public class StoryCaptionView extends NestedScrollView {
         @Override // android.view.View
         protected void onDraw(Canvas canvas) {
             if (this.showMore != null) {
-                canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.didClearDatabase, 31);
+                canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.messagePlayingSpeedChanged, 31);
             } else {
                 canvas.save();
             }

@@ -25,9 +25,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$TL_help_country;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.GroupCreateUserCell;
 /* loaded from: classes3.dex */
@@ -82,7 +80,7 @@ public class GroupCreateSpan extends View {
         super(context);
         String str;
         ImageLocation forUserOrChat;
-        TLRPC$User tLRPC$User;
+        TLRPC.User user;
         int min;
         StaticLayout staticLayout;
         char c;
@@ -101,38 +99,38 @@ public class GroupCreateSpan extends View {
         avatarDrawable.setTextSize(AndroidUtilities.dp(20.0f));
         boolean z2 = obj instanceof String;
         if (!z2) {
-            if (obj instanceof TLRPC$User) {
-                TLRPC$User tLRPC$User2 = (TLRPC$User) obj;
-                this.uid = tLRPC$User2.id;
-                if (UserObject.isReplyUser(tLRPC$User2)) {
+            if (obj instanceof TLRPC.User) {
+                TLRPC.User user2 = (TLRPC.User) obj;
+                this.uid = user2.id;
+                if (UserObject.isReplyUser(user2)) {
                     str = LocaleController.getString(R.string.RepliesTitle);
                     this.avatarDrawable.setScaleSize(0.8f);
                     this.avatarDrawable.setAvatarType(12);
-                } else if (UserObject.isUserSelf(tLRPC$User2)) {
+                } else if (UserObject.isUserSelf(user2)) {
                     str = LocaleController.getString(R.string.SavedMessages);
                     this.avatarDrawable.setScaleSize(0.8f);
                     this.avatarDrawable.setAvatarType(1);
                 } else {
-                    this.avatarDrawable.setInfo(tLRPC$User2);
-                    String firstName = UserObject.getFirstName(tLRPC$User2);
+                    this.avatarDrawable.setInfo(user2);
+                    String firstName = UserObject.getFirstName(user2);
                     int indexOf = firstName.indexOf(32);
                     firstName = indexOf >= 0 ? firstName.substring(0, indexOf) : firstName;
-                    ImageLocation forUserOrChat2 = ImageLocation.getForUserOrChat(tLRPC$User2, 1);
-                    tLRPC$User = tLRPC$User2;
+                    ImageLocation forUserOrChat2 = ImageLocation.getForUserOrChat(user2, 1);
+                    user = user2;
                     str = firstName;
                     forUserOrChat = forUserOrChat2;
                 }
-            } else if (obj instanceof TLRPC$Chat) {
-                TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) obj;
-                this.avatarDrawable.setInfo(tLRPC$Chat);
-                this.uid = -tLRPC$Chat.id;
-                str = tLRPC$Chat.title;
-                forUserOrChat = ImageLocation.getForUserOrChat(tLRPC$Chat, 1);
-                tLRPC$User = tLRPC$Chat;
-            } else if (obj instanceof TLRPC$TL_help_country) {
-                TLRPC$TL_help_country tLRPC$TL_help_country = (TLRPC$TL_help_country) obj;
-                String languageFlag = LocaleController.getLanguageFlag(tLRPC$TL_help_country.iso2);
-                String str2 = tLRPC$TL_help_country.default_name;
+            } else if (obj instanceof TLRPC.Chat) {
+                TLRPC.Chat chat = (TLRPC.Chat) obj;
+                this.avatarDrawable.setInfo(chat);
+                this.uid = -chat.id;
+                str = chat.title;
+                forUserOrChat = ImageLocation.getForUserOrChat(chat, 1);
+                user = chat;
+            } else if (obj instanceof TLRPC.TL_help_country) {
+                TLRPC.TL_help_country tL_help_country = (TLRPC.TL_help_country) obj;
+                String languageFlag = LocaleController.getLanguageFlag(tL_help_country.iso2);
+                String str2 = tL_help_country.default_name;
                 this.avatarDrawable.setAvatarType(17);
                 this.avatarDrawable.setTextSize(AndroidUtilities.dp(24.0f));
                 this.avatarDrawable.setInfo(0L, languageFlag, null, null);
@@ -140,7 +138,7 @@ public class GroupCreateSpan extends View {
                 AvatarDrawable avatarDrawable2 = this.avatarDrawable;
                 this.drawAvatarBackground = false;
                 avatarDrawable2.setDrawAvatarBackground(false);
-                this.uid = tLRPC$TL_help_country.default_name.hashCode();
+                this.uid = tL_help_country.default_name.hashCode();
                 str = str2;
             } else {
                 this.avatarDrawable.setInfo(0L, contact.first_name, contact.last_name);
@@ -166,7 +164,7 @@ public class GroupCreateSpan extends View {
                 this.textX = -this.nameLayout.getLineLeft(0);
             }
             if (z2 || !"premium".equals((String) obj)) {
-                this.imageReceiver.setImage(forUserOrChat, "50_50", this.avatarDrawable, 0L, (String) null, tLRPC$User, 1);
+                this.imageReceiver.setImage(forUserOrChat, "50_50", this.avatarDrawable, 0L, (String) null, user, 1);
             } else {
                 this.imageReceiver.setImageBitmap(GroupCreateUserCell.makePremiumUsersDrawable(getContext(), true));
             }
@@ -316,7 +314,7 @@ public class GroupCreateSpan extends View {
         }
         str = LocaleController.getString(i);
         forUserOrChat = null;
-        tLRPC$User = null;
+        user = null;
         ImageReceiver imageReceiver2 = new ImageReceiver();
         this.imageReceiver = imageReceiver2;
         imageReceiver2.setRoundRadius(AndroidUtilities.dp(16.0f));
@@ -330,7 +328,7 @@ public class GroupCreateSpan extends View {
         }
         if (z2) {
         }
-        this.imageReceiver.setImage(forUserOrChat, "50_50", this.avatarDrawable, 0L, (String) null, tLRPC$User, 1);
+        this.imageReceiver.setImage(forUserOrChat, "50_50", this.avatarDrawable, 0L, (String) null, user, 1);
         updateColors();
         NotificationCenter.listenEmojiLoading(this);
     }

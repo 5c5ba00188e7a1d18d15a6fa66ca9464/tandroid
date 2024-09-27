@@ -20,8 +20,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -121,8 +120,8 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
         */
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             String string;
-            TLRPC$User tLRPC$User;
-            TLRPC$User tLRPC$User2;
+            TLRPC.User user;
+            TLRPC.User user2;
             Context context;
             int i2;
             String string2;
@@ -134,29 +133,29 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
                 long keyAt = PrivacyUsersActivity.this.currentType == 1 ? PrivacyUsersActivity.this.getMessagesController().blockePeers.keyAt(i - PrivacyUsersActivity.this.usersStartRow) : ((Long) PrivacyUsersActivity.this.uidArray.get(i - PrivacyUsersActivity.this.usersStartRow)).longValue();
                 manageChatUserCell.setTag(Long.valueOf(keyAt));
                 if (keyAt > 0) {
-                    TLRPC$User user = PrivacyUsersActivity.this.getMessagesController().getUser(Long.valueOf(keyAt));
-                    if (user == null) {
+                    TLRPC.User user3 = PrivacyUsersActivity.this.getMessagesController().getUser(Long.valueOf(keyAt));
+                    if (user3 == null) {
                         return;
                     }
-                    if (user.bot) {
+                    if (user3.bot) {
                         StringBuilder sb = new StringBuilder();
                         int i4 = R.string.Bot;
                         sb.append(LocaleController.getString(i4).substring(0, 1).toUpperCase());
                         sb.append(LocaleController.getString(i4).substring(1));
                         string = sb.toString();
                     } else {
-                        String str = user.phone;
+                        String str = user3.phone;
                         if (str == null || str.length() == 0) {
                             string = LocaleController.getString(R.string.NumberUnknown);
                         } else {
                             PhoneFormat phoneFormat = PhoneFormat.getInstance();
-                            string = phoneFormat.format("+" + user.phone);
+                            string = phoneFormat.format("+" + user3.phone);
                         }
                     }
-                    tLRPC$User2 = user;
-                    tLRPC$User = user;
+                    user2 = user3;
+                    user = user3;
                 } else {
-                    TLRPC$Chat chat = PrivacyUsersActivity.this.getMessagesController().getChat(Long.valueOf(-keyAt));
+                    TLRPC.Chat chat = PrivacyUsersActivity.this.getMessagesController().getChat(Long.valueOf(-keyAt));
                     if (chat == null) {
                         return;
                     }
@@ -166,10 +165,10 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
                     } else {
                         string = LocaleController.getString(chat.has_geo ? R.string.MegaLocation : !ChatObject.isPublic(chat) ? R.string.MegaPrivate : R.string.MegaPublic);
                     }
-                    tLRPC$User2 = chat;
-                    tLRPC$User = chat;
+                    user2 = chat;
+                    user = chat;
                 }
-                manageChatUserCell.setData(tLRPC$User2, null, string, z);
+                manageChatUserCell.setData(user2, null, string, z);
             } else if (itemViewType != 1) {
                 if (itemViewType != 2) {
                     if (itemViewType != 3) {
@@ -592,11 +591,11 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
     }
 
     @Override // org.telegram.ui.ContactsActivity.ContactsActivityDelegate
-    public void didSelectContact(TLRPC$User tLRPC$User, String str, ContactsActivity contactsActivity) {
-        if (tLRPC$User == null) {
+    public void didSelectContact(TLRPC.User user, String str, ContactsActivity contactsActivity) {
+        if (user == null) {
             return;
         }
-        getMessagesController().blockPeer(tLRPC$User.id);
+        getMessagesController().blockPeer(user.id);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

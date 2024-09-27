@@ -100,54 +100,8 @@ import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$ChatFull;
-import org.telegram.tgnet.TLRPC$Dialog;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$KeyboardButton;
-import org.telegram.tgnet.TLRPC$MessageAction;
-import org.telegram.tgnet.TLRPC$MessageExtendedMedia;
-import org.telegram.tgnet.TLRPC$Photo;
-import org.telegram.tgnet.TLRPC$PhotoSize;
-import org.telegram.tgnet.TLRPC$ReactionCount;
-import org.telegram.tgnet.TLRPC$TL_account_getWallPaper;
-import org.telegram.tgnet.TLRPC$TL_account_getWallPapers;
-import org.telegram.tgnet.TLRPC$TL_account_wallPapers;
-import org.telegram.tgnet.TLRPC$TL_chatInviteExported;
-import org.telegram.tgnet.TLRPC$TL_document;
-import org.telegram.tgnet.TLRPC$TL_documentAttributeAudio;
-import org.telegram.tgnet.TLRPC$TL_documentAttributeFilename;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_fileLocationUnavailable;
-import org.telegram.tgnet.TLRPC$TL_forumTopic;
-import org.telegram.tgnet.TLRPC$TL_inputWallPaperSlug;
-import org.telegram.tgnet.TLRPC$TL_message;
-import org.telegram.tgnet.TLRPC$TL_messageActionSetChatWallPaper;
-import org.telegram.tgnet.TLRPC$TL_messageEntityTextUrl;
-import org.telegram.tgnet.TLRPC$TL_messageMediaDocument;
-import org.telegram.tgnet.TLRPC$TL_messageMediaEmpty;
-import org.telegram.tgnet.TLRPC$TL_messageMediaPhoto;
-import org.telegram.tgnet.TLRPC$TL_messageReplyHeader;
-import org.telegram.tgnet.TLRPC$TL_messageService;
-import org.telegram.tgnet.TLRPC$TL_peerChannel;
-import org.telegram.tgnet.TLRPC$TL_peerChat;
-import org.telegram.tgnet.TLRPC$TL_peerUser;
-import org.telegram.tgnet.TLRPC$TL_photo;
-import org.telegram.tgnet.TLRPC$TL_photoSize;
-import org.telegram.tgnet.TLRPC$TL_photoStrippedSize;
-import org.telegram.tgnet.TLRPC$TL_premiumGiftOption;
-import org.telegram.tgnet.TLRPC$TL_replyInlineMarkup;
-import org.telegram.tgnet.TLRPC$TL_theme;
-import org.telegram.tgnet.TLRPC$TL_user;
-import org.telegram.tgnet.TLRPC$TL_wallPaper;
-import org.telegram.tgnet.TLRPC$TL_wallPaperSettings;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$UserFull;
-import org.telegram.tgnet.TLRPC$VideoSize;
-import org.telegram.tgnet.TLRPC$WallPaper;
-import org.telegram.tgnet.TLRPC$WallPaperSettings;
-import org.telegram.tgnet.TLRPC$WebPage;
-import org.telegram.tgnet.tl.TL_stories$TL_premium_boostsStatus;
+import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -237,7 +191,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     private final PorterDuff.Mode blendMode;
     private Bitmap blurredBitmap;
     private BitmapDrawable blurredDrawable;
-    public TL_stories$TL_premium_boostsStatus boostsStatus;
+    public TL_stories.TL_premium_boostsStatus boostsStatus;
     private FrameLayout bottomOverlayChat;
     private TextView cancelButton;
     private View changeDayNightView;
@@ -280,13 +234,13 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     private WeakReference lastDrawableToBlur;
     private int lastPickedColor;
     private int lastPickedColorNum;
-    private TLRPC$TL_wallPaper lastSelectedPattern;
+    private TLRPC.TL_wallPaper lastSelectedPattern;
     private int lastSizeHash;
     private RecyclerListView listView;
     private RecyclerListView listView2;
     private String loadingFile;
     private File loadingFileObject;
-    private TLRPC$PhotoSize loadingSize;
+    private TLRPC.PhotoSize loadingSize;
     private ColoredImageSpan lockSpan;
     float maxScrollOffset;
     private int maxWallpaperSize;
@@ -327,7 +281,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     private int previousBackgroundGradientColor3;
     private int previousBackgroundRotation;
     private float previousIntensity;
-    private TLRPC$TL_wallPaper previousSelectedPattern;
+    private TLRPC.TL_wallPaper previousSelectedPattern;
     private float progressToDarkTheme;
     private boolean progressVisible;
     private boolean removeBackgroundOverride;
@@ -336,7 +290,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     private ActionBarMenuItem saveItem;
     private final int screenType;
     private Scroller scroller;
-    private TLRPC$TL_wallPaper selectedPattern;
+    private TLRPC.TL_wallPaper selectedPattern;
     boolean self;
     MessageObject serverWallpaper;
     private boolean setupFinished;
@@ -497,16 +451,16 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
                     sb.append("motion");
                 }
-                if (ThemePreviewActivity.this.currentWallpaper instanceof TLRPC$TL_wallPaper) {
-                    String str2 = "https://" + MessagesController.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).linkPrefix + "/bg/" + ((TLRPC$TL_wallPaper) ThemePreviewActivity.this.currentWallpaper).slug;
+                if (ThemePreviewActivity.this.currentWallpaper instanceof TLRPC.TL_wallPaper) {
+                    String str2 = "https://" + MessagesController.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).linkPrefix + "/bg/" + ((TLRPC.TL_wallPaper) ThemePreviewActivity.this.currentWallpaper).slug;
                     if (sb.length() <= 0) {
                         str = str2;
                         ThemePreviewActivity.this.showDialog(new ShareAlert(ThemePreviewActivity.this.getParentActivity(), null, str, false, str, false) { // from class: org.telegram.ui.ThemePreviewActivity.9.1
                             /* JADX INFO: Access modifiers changed from: protected */
                             @Override // org.telegram.ui.Components.ShareAlert
-                            public void onSend(LongSparseArray longSparseArray, int i3, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
+                            public void onSend(LongSparseArray longSparseArray, int i3, TLRPC.TL_forumTopic tL_forumTopic) {
                                 if (longSparseArray.size() == 1) {
-                                    ThemePreviewActivity.this.undoView.showWithAction(((TLRPC$Dialog) longSparseArray.valueAt(0)).id, 61, Integer.valueOf(i3));
+                                    ThemePreviewActivity.this.undoView.showWithAction(((TLRPC.Dialog) longSparseArray.valueAt(0)).id, 61, Integer.valueOf(i3));
                                 } else {
                                     ThemePreviewActivity.this.undoView.showWithAction(0L, 61, Integer.valueOf(i3), Integer.valueOf(longSparseArray.size()), (Runnable) null, (Runnable) null);
                                 }
@@ -527,9 +481,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         if (i2 >= size) {
                             break;
                         }
-                        TLRPC$TL_wallPaper tLRPC$TL_wallPaper = (TLRPC$TL_wallPaper) ThemePreviewActivity.this.patterns.get(i2);
-                        if (tLRPC$TL_wallPaper.pattern && accent.patternSlug.equals(tLRPC$TL_wallPaper.slug)) {
-                            colorWallpaper2.pattern = tLRPC$TL_wallPaper;
+                        TLRPC.TL_wallPaper tL_wallPaper = (TLRPC.TL_wallPaper) ThemePreviewActivity.this.patterns.get(i2);
+                        if (tL_wallPaper.pattern && accent.patternSlug.equals(tL_wallPaper.slug)) {
+                            colorWallpaper2.pattern = tL_wallPaper;
                             break;
                         }
                         i2++;
@@ -540,9 +494,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 ThemePreviewActivity.this.showDialog(new ShareAlert(ThemePreviewActivity.this.getParentActivity(), null, str, false, str, false) { // from class: org.telegram.ui.ThemePreviewActivity.9.1
                     /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.ShareAlert
-                    public void onSend(LongSparseArray longSparseArray, int i3, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
+                    public void onSend(LongSparseArray longSparseArray, int i3, TLRPC.TL_forumTopic tL_forumTopic) {
                         if (longSparseArray.size() == 1) {
-                            ThemePreviewActivity.this.undoView.showWithAction(((TLRPC$Dialog) longSparseArray.valueAt(0)).id, 61, Integer.valueOf(i3));
+                            ThemePreviewActivity.this.undoView.showWithAction(((TLRPC.Dialog) longSparseArray.valueAt(0)).id, 61, Integer.valueOf(i3));
                         } else {
                             ThemePreviewActivity.this.undoView.showWithAction(0L, 61, Integer.valueOf(i3), Integer.valueOf(longSparseArray.size()), (Runnable) null, (Runnable) null);
                         }
@@ -1082,21 +1036,21 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             int i = currentTimeMillis - 3600;
             if (ThemePreviewActivity.this.screenType == 2) {
                 if (ThemePreviewActivity.this.dialogId >= 0) {
-                    TLRPC$TL_message tLRPC$TL_message = new TLRPC$TL_message();
-                    tLRPC$TL_message.message = LocaleController.getString(ThemePreviewActivity.this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper ? R.string.BackgroundColorSinglePreviewLine2 : R.string.BackgroundPreviewLine2);
-                    tLRPC$TL_message.date = currentTimeMillis - 3540;
-                    tLRPC$TL_message.dialog_id = 1L;
-                    tLRPC$TL_message.flags = NotificationCenter.showBulletin;
-                    tLRPC$TL_message.id = 1;
-                    tLRPC$TL_message.media = new TLRPC$TL_messageMediaEmpty();
-                    tLRPC$TL_message.out = true;
-                    TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
-                    tLRPC$TL_message.from_id = tLRPC$TL_peerUser;
-                    tLRPC$TL_peerUser.user_id = UserConfig.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).getClientUserId();
-                    TLRPC$TL_peerUser tLRPC$TL_peerUser2 = new TLRPC$TL_peerUser();
-                    tLRPC$TL_message.peer_id = tLRPC$TL_peerUser2;
-                    tLRPC$TL_peerUser2.user_id = UserConfig.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).getClientUserId();
-                    MessageObject messageObject3 = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tLRPC$TL_message, true, false) { // from class: org.telegram.ui.ThemePreviewActivity.MessagesAdapter.1
+                    TLRPC.TL_message tL_message = new TLRPC.TL_message();
+                    tL_message.message = LocaleController.getString(ThemePreviewActivity.this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper ? R.string.BackgroundColorSinglePreviewLine2 : R.string.BackgroundPreviewLine2);
+                    tL_message.date = currentTimeMillis - 3540;
+                    tL_message.dialog_id = 1L;
+                    tL_message.flags = NotificationCenter.webRtcMicAmplitudeEvent;
+                    tL_message.id = 1;
+                    tL_message.media = new TLRPC.TL_messageMediaEmpty();
+                    tL_message.out = true;
+                    TLRPC.TL_peerUser tL_peerUser = new TLRPC.TL_peerUser();
+                    tL_message.from_id = tL_peerUser;
+                    tL_peerUser.user_id = UserConfig.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).getClientUserId();
+                    TLRPC.TL_peerUser tL_peerUser2 = new TLRPC.TL_peerUser();
+                    tL_message.peer_id = tL_peerUser2;
+                    tL_peerUser2.user_id = UserConfig.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).getClientUserId();
+                    MessageObject messageObject3 = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message, true, false) { // from class: org.telegram.ui.ThemePreviewActivity.MessagesAdapter.1
                         @Override // org.telegram.messenger.MessageObject
                         public boolean needDrawAvatar() {
                             return false;
@@ -1106,41 +1060,41 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     messageObject3.resetLayout();
                     this.messages.add(messageObject3);
                 }
-                TLRPC$TL_message tLRPC$TL_message2 = new TLRPC$TL_message();
-                TLRPC$Chat chat = ThemePreviewActivity.this.dialogId < 0 ? ThemePreviewActivity.this.getMessagesController().getChat(Long.valueOf(-ThemePreviewActivity.this.dialogId)) : null;
+                TLRPC.TL_message tL_message2 = new TLRPC.TL_message();
+                TLRPC.Chat chat = ThemePreviewActivity.this.dialogId < 0 ? ThemePreviewActivity.this.getMessagesController().getChat(Long.valueOf(-ThemePreviewActivity.this.dialogId)) : null;
                 if (chat != null) {
-                    tLRPC$TL_message2.message = LocaleController.getString(R.string.ChannelBackgroundMessagePreview);
-                    TLRPC$TL_message tLRPC$TL_message3 = new TLRPC$TL_message();
-                    tLRPC$TL_message3.message = LocaleController.getString(R.string.ChannelBackgroundMessageReplyText);
-                    TLRPC$Chat tLRPC$Chat = chat;
-                    messageObject2 = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tLRPC$TL_message3, true, false) { // from class: org.telegram.ui.ThemePreviewActivity.MessagesAdapter.2
+                    tL_message2.message = LocaleController.getString(R.string.ChannelBackgroundMessagePreview);
+                    TLRPC.TL_message tL_message3 = new TLRPC.TL_message();
+                    tL_message3.message = LocaleController.getString(R.string.ChannelBackgroundMessageReplyText);
+                    TLRPC.Chat chat2 = chat;
+                    messageObject2 = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message3, true, false) { // from class: org.telegram.ui.ThemePreviewActivity.MessagesAdapter.2
                         @Override // org.telegram.messenger.MessageObject
                         public boolean needDrawAvatar() {
                             return false;
                         }
                     };
-                    TLRPC$TL_peerChannel tLRPC$TL_peerChannel = new TLRPC$TL_peerChannel();
-                    tLRPC$TL_message2.from_id = tLRPC$TL_peerChannel;
-                    tLRPC$TL_peerChannel.channel_id = tLRPC$Chat.id;
-                    TLRPC$TL_peerChannel tLRPC$TL_peerChannel2 = new TLRPC$TL_peerChannel();
-                    tLRPC$TL_message2.peer_id = tLRPC$TL_peerChannel2;
-                    tLRPC$TL_peerChannel2.channel_id = tLRPC$Chat.id;
+                    TLRPC.TL_peerChannel tL_peerChannel = new TLRPC.TL_peerChannel();
+                    tL_message2.from_id = tL_peerChannel;
+                    tL_peerChannel.channel_id = chat2.id;
+                    TLRPC.TL_peerChannel tL_peerChannel2 = new TLRPC.TL_peerChannel();
+                    tL_message2.peer_id = tL_peerChannel2;
+                    tL_peerChannel2.channel_id = chat2.id;
                 } else {
-                    tLRPC$TL_message2.message = LocaleController.getString(ThemePreviewActivity.this.dialogId != 0 ? R.string.BackgroundColorSinglePreviewLine3 : ThemePreviewActivity.this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper ? R.string.BackgroundColorSinglePreviewLine1 : R.string.BackgroundPreviewLine1);
-                    tLRPC$TL_message2.from_id = new TLRPC$TL_peerUser();
-                    TLRPC$TL_peerUser tLRPC$TL_peerUser3 = new TLRPC$TL_peerUser();
-                    tLRPC$TL_message2.peer_id = tLRPC$TL_peerUser3;
-                    tLRPC$TL_peerUser3.user_id = UserConfig.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).getClientUserId();
+                    tL_message2.message = LocaleController.getString(ThemePreviewActivity.this.dialogId != 0 ? R.string.BackgroundColorSinglePreviewLine3 : ThemePreviewActivity.this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper ? R.string.BackgroundColorSinglePreviewLine1 : R.string.BackgroundPreviewLine1);
+                    tL_message2.from_id = new TLRPC.TL_peerUser();
+                    TLRPC.TL_peerUser tL_peerUser3 = new TLRPC.TL_peerUser();
+                    tL_message2.peer_id = tL_peerUser3;
+                    tL_peerUser3.user_id = UserConfig.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).getClientUserId();
                     messageObject2 = null;
                 }
                 int i2 = currentTimeMillis - 3540;
-                tLRPC$TL_message2.date = i2;
-                tLRPC$TL_message2.dialog_id = 1L;
-                tLRPC$TL_message2.flags = NotificationCenter.attachMenuBotsDidLoad;
-                tLRPC$TL_message2.id = 1;
-                tLRPC$TL_message2.media = new TLRPC$TL_messageMediaEmpty();
-                tLRPC$TL_message2.out = false;
-                MessageObject messageObject4 = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tLRPC$TL_message2, messageObject2, true, false) { // from class: org.telegram.ui.ThemePreviewActivity.MessagesAdapter.3
+                tL_message2.date = i2;
+                tL_message2.dialog_id = 1L;
+                tL_message2.flags = NotificationCenter.emojiPreviewThemesChanged;
+                tL_message2.id = 1;
+                tL_message2.media = new TLRPC.TL_messageMediaEmpty();
+                tL_message2.out = false;
+                MessageObject messageObject4 = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message2, messageObject2, true, false) { // from class: org.telegram.ui.ThemePreviewActivity.MessagesAdapter.3
                     @Override // org.telegram.messenger.MessageObject
                     public boolean needDrawAvatar() {
                         return false;
@@ -1155,77 +1109,77 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 if (ThemePreviewActivity.this.dialogId == 0 || ThemePreviewActivity.this.serverWallpaper != null) {
                     return;
                 }
-                TLRPC$User user = ThemePreviewActivity.this.getMessagesController().getUser(Long.valueOf(ThemePreviewActivity.this.dialogId));
-                TLRPC$TL_message tLRPC$TL_message4 = new TLRPC$TL_message();
-                tLRPC$TL_message4.message = "";
-                MessageObject messageObject5 = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tLRPC$TL_message4, true, false);
+                TLRPC.User user = ThemePreviewActivity.this.getMessagesController().getUser(Long.valueOf(ThemePreviewActivity.this.dialogId));
+                TLRPC.TL_message tL_message4 = new TLRPC.TL_message();
+                tL_message4.message = "";
+                MessageObject messageObject5 = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message4, true, false);
                 messageObject5.eventId = 1L;
                 messageObject5.contentType = 5;
                 this.messages.add(messageObject5);
-                TLRPC$TL_message tLRPC$TL_message5 = new TLRPC$TL_message();
-                tLRPC$TL_message5.message = user != null ? LocaleController.formatString(R.string.ChatBackgroundHint, UserObject.getFirstName(user)) : LocaleController.getString(R.string.ChannelBackgroundHint);
-                tLRPC$TL_message5.date = i2;
-                tLRPC$TL_message5.dialog_id = 1L;
-                tLRPC$TL_message5.flags = NotificationCenter.attachMenuBotsDidLoad;
-                tLRPC$TL_message5.from_id = new TLRPC$TL_peerUser();
-                tLRPC$TL_message5.id = 1;
-                tLRPC$TL_message5.media = new TLRPC$TL_messageMediaEmpty();
-                tLRPC$TL_message5.out = false;
-                TLRPC$TL_peerUser tLRPC$TL_peerUser4 = new TLRPC$TL_peerUser();
-                tLRPC$TL_message5.peer_id = tLRPC$TL_peerUser4;
-                tLRPC$TL_peerUser4.user_id = UserConfig.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).getClientUserId();
-                messageObject = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tLRPC$TL_message5, true, false);
+                TLRPC.TL_message tL_message5 = new TLRPC.TL_message();
+                tL_message5.message = user != null ? LocaleController.formatString(R.string.ChatBackgroundHint, UserObject.getFirstName(user)) : LocaleController.getString(R.string.ChannelBackgroundHint);
+                tL_message5.date = i2;
+                tL_message5.dialog_id = 1L;
+                tL_message5.flags = NotificationCenter.emojiPreviewThemesChanged;
+                tL_message5.from_id = new TLRPC.TL_peerUser();
+                tL_message5.id = 1;
+                tL_message5.media = new TLRPC.TL_messageMediaEmpty();
+                tL_message5.out = false;
+                TLRPC.TL_peerUser tL_peerUser4 = new TLRPC.TL_peerUser();
+                tL_message5.peer_id = tL_peerUser4;
+                tL_peerUser4.user_id = UserConfig.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).getClientUserId();
+                messageObject = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message5, true, false);
                 messageObject.eventId = 1L;
                 messageObject.resetLayout();
                 messageObject.contentType = 1;
             } else if (ThemePreviewActivity.this.screenType == 1) {
-                TLRPC$TL_message tLRPC$TL_message6 = new TLRPC$TL_message();
-                TLRPC$TL_messageMediaDocument tLRPC$TL_messageMediaDocument = new TLRPC$TL_messageMediaDocument();
-                tLRPC$TL_message6.media = tLRPC$TL_messageMediaDocument;
-                tLRPC$TL_messageMediaDocument.document = new TLRPC$TL_document();
-                TLRPC$Document tLRPC$Document = tLRPC$TL_message6.media.document;
-                tLRPC$Document.mime_type = "audio/mp3";
-                tLRPC$Document.file_reference = new byte[0];
-                tLRPC$Document.id = -2147483648L;
-                tLRPC$Document.size = 2621440L;
-                tLRPC$Document.dc_id = Integer.MIN_VALUE;
-                TLRPC$TL_documentAttributeFilename tLRPC$TL_documentAttributeFilename = new TLRPC$TL_documentAttributeFilename();
-                tLRPC$TL_documentAttributeFilename.file_name = LocaleController.getString(R.string.NewThemePreviewReply2) + ".mp3";
-                tLRPC$TL_message6.media.document.attributes.add(tLRPC$TL_documentAttributeFilename);
+                TLRPC.TL_message tL_message6 = new TLRPC.TL_message();
+                TLRPC.TL_messageMediaDocument tL_messageMediaDocument = new TLRPC.TL_messageMediaDocument();
+                tL_message6.media = tL_messageMediaDocument;
+                tL_messageMediaDocument.document = new TLRPC.TL_document();
+                TLRPC.Document document = tL_message6.media.document;
+                document.mime_type = "audio/mp3";
+                document.file_reference = new byte[0];
+                document.id = -2147483648L;
+                document.size = 2621440L;
+                document.dc_id = Integer.MIN_VALUE;
+                TLRPC.TL_documentAttributeFilename tL_documentAttributeFilename = new TLRPC.TL_documentAttributeFilename();
+                tL_documentAttributeFilename.file_name = LocaleController.getString(R.string.NewThemePreviewReply2) + ".mp3";
+                tL_message6.media.document.attributes.add(tL_documentAttributeFilename);
                 int i3 = currentTimeMillis + (-3540);
-                tLRPC$TL_message6.date = i3;
-                tLRPC$TL_message6.dialog_id = 1L;
-                tLRPC$TL_message6.flags = NotificationCenter.showBulletin;
-                TLRPC$TL_peerUser tLRPC$TL_peerUser5 = new TLRPC$TL_peerUser();
-                tLRPC$TL_message6.from_id = tLRPC$TL_peerUser5;
-                tLRPC$TL_peerUser5.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
-                tLRPC$TL_message6.id = 1;
-                tLRPC$TL_message6.out = true;
-                TLRPC$TL_peerUser tLRPC$TL_peerUser6 = new TLRPC$TL_peerUser();
-                tLRPC$TL_message6.peer_id = tLRPC$TL_peerUser6;
-                tLRPC$TL_peerUser6.user_id = 0L;
-                MessageObject messageObject6 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message6, true, false);
+                tL_message6.date = i3;
+                tL_message6.dialog_id = 1L;
+                tL_message6.flags = NotificationCenter.webRtcMicAmplitudeEvent;
+                TLRPC.TL_peerUser tL_peerUser5 = new TLRPC.TL_peerUser();
+                tL_message6.from_id = tL_peerUser5;
+                tL_peerUser5.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
+                tL_message6.id = 1;
+                tL_message6.out = true;
+                TLRPC.TL_peerUser tL_peerUser6 = new TLRPC.TL_peerUser();
+                tL_message6.peer_id = tL_peerUser6;
+                tL_peerUser6.user_id = 0L;
+                MessageObject messageObject6 = new MessageObject(UserConfig.selectedAccount, tL_message6, true, false);
                 if (BuildVars.DEBUG_PRIVATE_VERSION) {
-                    TLRPC$TL_message tLRPC$TL_message7 = new TLRPC$TL_message();
-                    tLRPC$TL_message7.message = "this is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text";
-                    tLRPC$TL_message7.date = currentTimeMillis - 2640;
-                    tLRPC$TL_message7.dialog_id = 1L;
-                    tLRPC$TL_message7.flags = NotificationCenter.showBulletin;
-                    TLRPC$TL_peerUser tLRPC$TL_peerUser7 = new TLRPC$TL_peerUser();
-                    tLRPC$TL_message7.from_id = tLRPC$TL_peerUser7;
-                    tLRPC$TL_peerUser7.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
-                    tLRPC$TL_message7.id = 1;
-                    tLRPC$TL_message7.media = new TLRPC$TL_messageMediaEmpty();
-                    tLRPC$TL_message7.out = true;
-                    TLRPC$TL_peerUser tLRPC$TL_peerUser8 = new TLRPC$TL_peerUser();
-                    tLRPC$TL_message7.peer_id = tLRPC$TL_peerUser8;
-                    tLRPC$TL_peerUser8.user_id = 0L;
-                    MessageObject messageObject7 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message7, true, false);
+                    TLRPC.TL_message tL_message7 = new TLRPC.TL_message();
+                    tL_message7.message = "this is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text";
+                    tL_message7.date = currentTimeMillis - 2640;
+                    tL_message7.dialog_id = 1L;
+                    tL_message7.flags = NotificationCenter.webRtcMicAmplitudeEvent;
+                    TLRPC.TL_peerUser tL_peerUser7 = new TLRPC.TL_peerUser();
+                    tL_message7.from_id = tL_peerUser7;
+                    tL_peerUser7.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
+                    tL_message7.id = 1;
+                    tL_message7.media = new TLRPC.TL_messageMediaEmpty();
+                    tL_message7.out = true;
+                    TLRPC.TL_peerUser tL_peerUser8 = new TLRPC.TL_peerUser();
+                    tL_message7.peer_id = tL_peerUser8;
+                    tL_peerUser8.user_id = 0L;
+                    MessageObject messageObject7 = new MessageObject(UserConfig.selectedAccount, tL_message7, true, false);
                     messageObject7.resetLayout();
                     messageObject7.eventId = 1L;
                     this.messages.add(messageObject7);
                 }
-                TLRPC$TL_message tLRPC$TL_message8 = new TLRPC$TL_message();
+                TLRPC.TL_message tL_message8 = new TLRPC.TL_message();
                 String string = LocaleController.getString(R.string.NewThemePreviewLine3);
                 StringBuilder sb = new StringBuilder(string);
                 int indexOf = string.indexOf(42);
@@ -1233,46 +1187,46 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 if (indexOf != -1 && lastIndexOf != -1) {
                     sb.replace(lastIndexOf, lastIndexOf + 1, "");
                     sb.replace(indexOf, indexOf + 1, "");
-                    TLRPC$TL_messageEntityTextUrl tLRPC$TL_messageEntityTextUrl = new TLRPC$TL_messageEntityTextUrl();
-                    tLRPC$TL_messageEntityTextUrl.offset = indexOf;
-                    tLRPC$TL_messageEntityTextUrl.length = (lastIndexOf - indexOf) - 1;
-                    tLRPC$TL_messageEntityTextUrl.url = "https://telegram.org";
-                    tLRPC$TL_message8.entities.add(tLRPC$TL_messageEntityTextUrl);
+                    TLRPC.TL_messageEntityTextUrl tL_messageEntityTextUrl = new TLRPC.TL_messageEntityTextUrl();
+                    tL_messageEntityTextUrl.offset = indexOf;
+                    tL_messageEntityTextUrl.length = (lastIndexOf - indexOf) - 1;
+                    tL_messageEntityTextUrl.url = "https://telegram.org";
+                    tL_message8.entities.add(tL_messageEntityTextUrl);
                 }
-                tLRPC$TL_message8.message = sb.toString();
-                tLRPC$TL_message8.date = currentTimeMillis - 2640;
-                tLRPC$TL_message8.dialog_id = 1L;
-                tLRPC$TL_message8.flags = NotificationCenter.showBulletin;
-                TLRPC$TL_peerUser tLRPC$TL_peerUser9 = new TLRPC$TL_peerUser();
-                tLRPC$TL_message8.from_id = tLRPC$TL_peerUser9;
-                tLRPC$TL_peerUser9.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
-                tLRPC$TL_message8.id = 1;
-                tLRPC$TL_message8.media = new TLRPC$TL_messageMediaEmpty();
-                tLRPC$TL_message8.out = true;
-                TLRPC$TL_peerUser tLRPC$TL_peerUser10 = new TLRPC$TL_peerUser();
-                tLRPC$TL_message8.peer_id = tLRPC$TL_peerUser10;
-                tLRPC$TL_peerUser10.user_id = 0L;
-                MessageObject messageObject8 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message8, true, false);
+                tL_message8.message = sb.toString();
+                tL_message8.date = currentTimeMillis - 2640;
+                tL_message8.dialog_id = 1L;
+                tL_message8.flags = NotificationCenter.webRtcMicAmplitudeEvent;
+                TLRPC.TL_peerUser tL_peerUser9 = new TLRPC.TL_peerUser();
+                tL_message8.from_id = tL_peerUser9;
+                tL_peerUser9.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
+                tL_message8.id = 1;
+                tL_message8.media = new TLRPC.TL_messageMediaEmpty();
+                tL_message8.out = true;
+                TLRPC.TL_peerUser tL_peerUser10 = new TLRPC.TL_peerUser();
+                tL_message8.peer_id = tL_peerUser10;
+                tL_peerUser10.user_id = 0L;
+                MessageObject messageObject8 = new MessageObject(UserConfig.selectedAccount, tL_message8, true, false);
                 messageObject8.resetLayout();
                 messageObject8.eventId = 1L;
                 this.messages.add(messageObject8);
-                TLRPC$TL_message tLRPC$TL_message9 = new TLRPC$TL_message();
-                tLRPC$TL_message9.message = LocaleController.getString(R.string.NewThemePreviewLine1);
-                tLRPC$TL_message9.date = i3;
-                tLRPC$TL_message9.dialog_id = 1L;
-                tLRPC$TL_message9.flags = NotificationCenter.attachMenuBotsDidLoad;
-                tLRPC$TL_message9.from_id = new TLRPC$TL_peerUser();
-                tLRPC$TL_message9.id = 1;
-                TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader = new TLRPC$TL_messageReplyHeader();
-                tLRPC$TL_message9.reply_to = tLRPC$TL_messageReplyHeader;
-                tLRPC$TL_messageReplyHeader.flags |= 16;
-                tLRPC$TL_messageReplyHeader.reply_to_msg_id = 5;
-                tLRPC$TL_message9.media = new TLRPC$TL_messageMediaEmpty();
-                tLRPC$TL_message9.out = false;
-                TLRPC$TL_peerUser tLRPC$TL_peerUser11 = new TLRPC$TL_peerUser();
-                tLRPC$TL_message9.peer_id = tLRPC$TL_peerUser11;
-                tLRPC$TL_peerUser11.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
-                MessageObject messageObject9 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message9, true, false);
+                TLRPC.TL_message tL_message9 = new TLRPC.TL_message();
+                tL_message9.message = LocaleController.getString(R.string.NewThemePreviewLine1);
+                tL_message9.date = i3;
+                tL_message9.dialog_id = 1L;
+                tL_message9.flags = NotificationCenter.emojiPreviewThemesChanged;
+                tL_message9.from_id = new TLRPC.TL_peerUser();
+                tL_message9.id = 1;
+                TLRPC.TL_messageReplyHeader tL_messageReplyHeader = new TLRPC.TL_messageReplyHeader();
+                tL_message9.reply_to = tL_messageReplyHeader;
+                tL_messageReplyHeader.flags |= 16;
+                tL_messageReplyHeader.reply_to_msg_id = 5;
+                tL_message9.media = new TLRPC.TL_messageMediaEmpty();
+                tL_message9.out = false;
+                TLRPC.TL_peerUser tL_peerUser11 = new TLRPC.TL_peerUser();
+                tL_message9.peer_id = tL_peerUser11;
+                tL_peerUser11.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
+                MessageObject messageObject9 = new MessageObject(UserConfig.selectedAccount, tL_message9, true, false);
                 messageObject9.customReplyName = LocaleController.getString(R.string.NewThemePreviewName);
                 messageObject8.customReplyName = "Test User";
                 messageObject9.eventId = 1L;
@@ -1281,230 +1235,230 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 messageObject8.replyMessageObject = messageObject9;
                 this.messages.add(messageObject9);
                 this.messages.add(messageObject6);
-                TLRPC$TL_message tLRPC$TL_message10 = new TLRPC$TL_message();
-                tLRPC$TL_message10.date = currentTimeMillis - 3480;
-                tLRPC$TL_message10.dialog_id = 1L;
-                tLRPC$TL_message10.flags = NotificationCenter.showBulletin;
-                tLRPC$TL_message10.out = false;
-                tLRPC$TL_message10.from_id = new TLRPC$TL_peerUser();
-                tLRPC$TL_message10.id = 1;
-                TLRPC$TL_messageMediaDocument tLRPC$TL_messageMediaDocument2 = new TLRPC$TL_messageMediaDocument();
-                tLRPC$TL_message10.media = tLRPC$TL_messageMediaDocument2;
-                tLRPC$TL_messageMediaDocument2.flags |= 3;
-                tLRPC$TL_messageMediaDocument2.document = new TLRPC$TL_document();
-                TLRPC$Document tLRPC$Document2 = tLRPC$TL_message10.media.document;
-                tLRPC$Document2.mime_type = "audio/ogg";
-                tLRPC$Document2.file_reference = new byte[0];
-                TLRPC$TL_documentAttributeAudio tLRPC$TL_documentAttributeAudio = new TLRPC$TL_documentAttributeAudio();
-                tLRPC$TL_documentAttributeAudio.flags = 1028;
-                tLRPC$TL_documentAttributeAudio.duration = 3.0d;
-                tLRPC$TL_documentAttributeAudio.voice = true;
-                tLRPC$TL_documentAttributeAudio.waveform = new byte[]{0, 4, 17, -50, -93, 86, -103, -45, -12, -26, 63, -25, -3, 109, -114, -54, -4, -1, -1, -1, -1, -29, -1, -1, -25, -1, -1, -97, -43, 57, -57, -108, 1, -91, -4, -47, 21, 99, 10, 97, 43, 45, 115, -112, -77, 51, -63, 66, 40, 34, -122, -116, 48, -124, 16, 66, -120, 16, 68, 16, 33, 4, 1};
-                tLRPC$TL_message10.media.document.attributes.add(tLRPC$TL_documentAttributeAudio);
-                tLRPC$TL_message10.out = true;
-                TLRPC$TL_peerUser tLRPC$TL_peerUser12 = new TLRPC$TL_peerUser();
-                tLRPC$TL_message10.peer_id = tLRPC$TL_peerUser12;
-                tLRPC$TL_peerUser12.user_id = 0L;
-                MessageObject messageObject10 = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tLRPC$TL_message10, true, false);
+                TLRPC.TL_message tL_message10 = new TLRPC.TL_message();
+                tL_message10.date = currentTimeMillis - 3480;
+                tL_message10.dialog_id = 1L;
+                tL_message10.flags = NotificationCenter.webRtcMicAmplitudeEvent;
+                tL_message10.out = false;
+                tL_message10.from_id = new TLRPC.TL_peerUser();
+                tL_message10.id = 1;
+                TLRPC.TL_messageMediaDocument tL_messageMediaDocument2 = new TLRPC.TL_messageMediaDocument();
+                tL_message10.media = tL_messageMediaDocument2;
+                tL_messageMediaDocument2.flags |= 3;
+                tL_messageMediaDocument2.document = new TLRPC.TL_document();
+                TLRPC.Document document2 = tL_message10.media.document;
+                document2.mime_type = "audio/ogg";
+                document2.file_reference = new byte[0];
+                TLRPC.TL_documentAttributeAudio tL_documentAttributeAudio = new TLRPC.TL_documentAttributeAudio();
+                tL_documentAttributeAudio.flags = 1028;
+                tL_documentAttributeAudio.duration = 3.0d;
+                tL_documentAttributeAudio.voice = true;
+                tL_documentAttributeAudio.waveform = new byte[]{0, 4, 17, -50, -93, 86, -103, -45, -12, -26, 63, -25, -3, 109, -114, -54, -4, -1, -1, -1, -1, -29, -1, -1, -25, -1, -1, -97, -43, 57, -57, -108, 1, -91, -4, -47, 21, 99, 10, 97, 43, 45, 115, -112, -77, 51, -63, 66, 40, 34, -122, -116, 48, -124, 16, 66, -120, 16, 68, 16, 33, 4, 1};
+                tL_message10.media.document.attributes.add(tL_documentAttributeAudio);
+                tL_message10.out = true;
+                TLRPC.TL_peerUser tL_peerUser12 = new TLRPC.TL_peerUser();
+                tL_message10.peer_id = tL_peerUser12;
+                tL_peerUser12.user_id = 0L;
+                MessageObject messageObject10 = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message10, true, false);
                 messageObject10.audioProgressSec = 1;
                 messageObject10.audioProgress = 0.3f;
                 messageObject10.useCustomPhoto = true;
                 this.messages.add(messageObject10);
                 return;
             } else if (this.showSecretMessages) {
-                TLRPC$TL_user tLRPC$TL_user = new TLRPC$TL_user();
-                tLRPC$TL_user.id = 2147483647L;
-                tLRPC$TL_user.first_name = "Me";
-                TLRPC$TL_user tLRPC$TL_user2 = new TLRPC$TL_user();
-                tLRPC$TL_user2.id = 2147483646L;
-                tLRPC$TL_user2.first_name = "Serj";
-                ArrayList<TLRPC$User> arrayList2 = new ArrayList<>();
-                arrayList2.add(tLRPC$TL_user);
-                arrayList2.add(tLRPC$TL_user2);
+                TLRPC.TL_user tL_user = new TLRPC.TL_user();
+                tL_user.id = 2147483647L;
+                tL_user.first_name = "Me";
+                TLRPC.TL_user tL_user2 = new TLRPC.TL_user();
+                tL_user2.id = 2147483646L;
+                tL_user2.first_name = "Serj";
+                ArrayList<TLRPC.User> arrayList2 = new ArrayList<>();
+                arrayList2.add(tL_user);
+                arrayList2.add(tL_user2);
                 MessagesController.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).putUsers(arrayList2, true);
-                TLRPC$TL_message tLRPC$TL_message11 = new TLRPC$TL_message();
-                tLRPC$TL_message11.message = "Guess why Half-Life 3 was never released.";
+                TLRPC.TL_message tL_message11 = new TLRPC.TL_message();
+                tL_message11.message = "Guess why Half-Life 3 was never released.";
                 int i4 = currentTimeMillis - 2640;
-                tLRPC$TL_message11.date = i4;
-                tLRPC$TL_message11.dialog_id = -1L;
-                tLRPC$TL_message11.flags = NotificationCenter.showBulletin;
-                tLRPC$TL_message11.id = 2147483646;
-                tLRPC$TL_message11.media = new TLRPC$TL_messageMediaEmpty();
-                tLRPC$TL_message11.out = false;
-                TLRPC$TL_peerChat tLRPC$TL_peerChat = new TLRPC$TL_peerChat();
-                tLRPC$TL_message11.peer_id = tLRPC$TL_peerChat;
-                tLRPC$TL_peerChat.chat_id = 1L;
-                TLRPC$TL_peerUser tLRPC$TL_peerUser13 = new TLRPC$TL_peerUser();
-                tLRPC$TL_message11.from_id = tLRPC$TL_peerUser13;
-                tLRPC$TL_peerUser13.user_id = tLRPC$TL_user2.id;
-                this.messages.add(new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tLRPC$TL_message11, true, false));
-                TLRPC$TL_message tLRPC$TL_message12 = new TLRPC$TL_message();
-                tLRPC$TL_message12.message = "No.\nAnd every unnecessary ping of the dev delays the release for 10 days.\nEvery request for ETA delays the release for 2 weeks.";
-                tLRPC$TL_message12.date = i4;
-                tLRPC$TL_message12.dialog_id = -1L;
-                tLRPC$TL_message12.flags = NotificationCenter.showBulletin;
-                tLRPC$TL_message12.id = 1;
-                tLRPC$TL_message12.media = new TLRPC$TL_messageMediaEmpty();
-                tLRPC$TL_message12.out = false;
-                TLRPC$TL_peerChat tLRPC$TL_peerChat2 = new TLRPC$TL_peerChat();
-                tLRPC$TL_message12.peer_id = tLRPC$TL_peerChat2;
-                tLRPC$TL_peerChat2.chat_id = 1L;
-                TLRPC$TL_peerUser tLRPC$TL_peerUser14 = new TLRPC$TL_peerUser();
-                tLRPC$TL_message12.from_id = tLRPC$TL_peerUser14;
-                tLRPC$TL_peerUser14.user_id = tLRPC$TL_user2.id;
-                this.messages.add(new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tLRPC$TL_message12, true, false));
-                TLRPC$TL_message tLRPC$TL_message13 = new TLRPC$TL_message();
-                tLRPC$TL_message13.message = "Is source code for Android coming anytime soon?";
-                tLRPC$TL_message13.date = currentTimeMillis - 3000;
-                tLRPC$TL_message13.dialog_id = -1L;
-                tLRPC$TL_message13.flags = NotificationCenter.showBulletin;
-                tLRPC$TL_message13.id = 1;
-                tLRPC$TL_message13.media = new TLRPC$TL_messageMediaEmpty();
-                tLRPC$TL_message13.out = false;
-                TLRPC$TL_peerChat tLRPC$TL_peerChat3 = new TLRPC$TL_peerChat();
-                tLRPC$TL_message13.peer_id = tLRPC$TL_peerChat3;
-                tLRPC$TL_peerChat3.chat_id = 1L;
-                TLRPC$TL_peerUser tLRPC$TL_peerUser15 = new TLRPC$TL_peerUser();
-                tLRPC$TL_message13.from_id = tLRPC$TL_peerUser15;
-                tLRPC$TL_peerUser15.user_id = tLRPC$TL_user.id;
+                tL_message11.date = i4;
+                tL_message11.dialog_id = -1L;
+                tL_message11.flags = NotificationCenter.webRtcMicAmplitudeEvent;
+                tL_message11.id = 2147483646;
+                tL_message11.media = new TLRPC.TL_messageMediaEmpty();
+                tL_message11.out = false;
+                TLRPC.TL_peerChat tL_peerChat = new TLRPC.TL_peerChat();
+                tL_message11.peer_id = tL_peerChat;
+                tL_peerChat.chat_id = 1L;
+                TLRPC.TL_peerUser tL_peerUser13 = new TLRPC.TL_peerUser();
+                tL_message11.from_id = tL_peerUser13;
+                tL_peerUser13.user_id = tL_user2.id;
+                this.messages.add(new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message11, true, false));
+                TLRPC.TL_message tL_message12 = new TLRPC.TL_message();
+                tL_message12.message = "No.\nAnd every unnecessary ping of the dev delays the release for 10 days.\nEvery request for ETA delays the release for 2 weeks.";
+                tL_message12.date = i4;
+                tL_message12.dialog_id = -1L;
+                tL_message12.flags = NotificationCenter.webRtcMicAmplitudeEvent;
+                tL_message12.id = 1;
+                tL_message12.media = new TLRPC.TL_messageMediaEmpty();
+                tL_message12.out = false;
+                TLRPC.TL_peerChat tL_peerChat2 = new TLRPC.TL_peerChat();
+                tL_message12.peer_id = tL_peerChat2;
+                tL_peerChat2.chat_id = 1L;
+                TLRPC.TL_peerUser tL_peerUser14 = new TLRPC.TL_peerUser();
+                tL_message12.from_id = tL_peerUser14;
+                tL_peerUser14.user_id = tL_user2.id;
+                this.messages.add(new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message12, true, false));
+                TLRPC.TL_message tL_message13 = new TLRPC.TL_message();
+                tL_message13.message = "Is source code for Android coming anytime soon?";
+                tL_message13.date = currentTimeMillis - 3000;
+                tL_message13.dialog_id = -1L;
+                tL_message13.flags = NotificationCenter.webRtcMicAmplitudeEvent;
+                tL_message13.id = 1;
+                tL_message13.media = new TLRPC.TL_messageMediaEmpty();
+                tL_message13.out = false;
+                TLRPC.TL_peerChat tL_peerChat3 = new TLRPC.TL_peerChat();
+                tL_message13.peer_id = tL_peerChat3;
+                tL_peerChat3.chat_id = 1L;
+                TLRPC.TL_peerUser tL_peerUser15 = new TLRPC.TL_peerUser();
+                tL_message13.from_id = tL_peerUser15;
+                tL_peerUser15.user_id = tL_user.id;
                 arrayList = this.messages;
-                messageObject = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tLRPC$TL_message13, true, false);
+                messageObject = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message13, true, false);
                 arrayList.add(messageObject);
             } else {
-                TLRPC$TL_message tLRPC$TL_message14 = new TLRPC$TL_message();
-                tLRPC$TL_message14.message = LocaleController.getString(R.string.ThemePreviewLine1);
+                TLRPC.TL_message tL_message14 = new TLRPC.TL_message();
+                tL_message14.message = LocaleController.getString(R.string.ThemePreviewLine1);
                 int i5 = currentTimeMillis - 3540;
-                tLRPC$TL_message14.date = i5;
-                tLRPC$TL_message14.dialog_id = 1L;
-                tLRPC$TL_message14.flags = NotificationCenter.showBulletin;
-                TLRPC$TL_peerUser tLRPC$TL_peerUser16 = new TLRPC$TL_peerUser();
-                tLRPC$TL_message14.from_id = tLRPC$TL_peerUser16;
-                tLRPC$TL_peerUser16.user_id = UserConfig.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).getClientUserId();
-                tLRPC$TL_message14.id = 1;
-                tLRPC$TL_message14.media = new TLRPC$TL_messageMediaEmpty();
-                tLRPC$TL_message14.out = true;
-                TLRPC$TL_peerUser tLRPC$TL_peerUser17 = new TLRPC$TL_peerUser();
-                tLRPC$TL_message14.peer_id = tLRPC$TL_peerUser17;
-                tLRPC$TL_peerUser17.user_id = 0L;
-                MessageObject messageObject11 = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tLRPC$TL_message14, true, false);
-                TLRPC$TL_message tLRPC$TL_message15 = new TLRPC$TL_message();
-                tLRPC$TL_message15.message = LocaleController.getString(R.string.ThemePreviewLine2);
-                tLRPC$TL_message15.date = currentTimeMillis - 2640;
-                tLRPC$TL_message15.dialog_id = 1L;
-                tLRPC$TL_message15.flags = NotificationCenter.showBulletin;
-                TLRPC$TL_peerUser tLRPC$TL_peerUser18 = new TLRPC$TL_peerUser();
-                tLRPC$TL_message15.from_id = tLRPC$TL_peerUser18;
-                tLRPC$TL_peerUser18.user_id = UserConfig.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).getClientUserId();
-                tLRPC$TL_message15.id = 1;
-                tLRPC$TL_message15.media = new TLRPC$TL_messageMediaEmpty();
-                tLRPC$TL_message15.out = true;
-                TLRPC$TL_peerUser tLRPC$TL_peerUser19 = new TLRPC$TL_peerUser();
-                tLRPC$TL_message15.peer_id = tLRPC$TL_peerUser19;
-                tLRPC$TL_peerUser19.user_id = 0L;
-                this.messages.add(new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tLRPC$TL_message15, true, false));
-                TLRPC$TL_message tLRPC$TL_message16 = new TLRPC$TL_message();
-                tLRPC$TL_message16.date = currentTimeMillis - 3470;
-                tLRPC$TL_message16.dialog_id = 1L;
-                tLRPC$TL_message16.flags = NotificationCenter.showBulletin;
-                tLRPC$TL_message16.from_id = new TLRPC$TL_peerUser();
-                tLRPC$TL_message16.id = 5;
-                TLRPC$TL_messageMediaDocument tLRPC$TL_messageMediaDocument3 = new TLRPC$TL_messageMediaDocument();
-                tLRPC$TL_message16.media = tLRPC$TL_messageMediaDocument3;
-                tLRPC$TL_messageMediaDocument3.flags |= 3;
-                tLRPC$TL_messageMediaDocument3.document = new TLRPC$TL_document();
-                TLRPC$Document tLRPC$Document3 = tLRPC$TL_message16.media.document;
-                tLRPC$Document3.mime_type = "audio/mp4";
-                tLRPC$Document3.file_reference = new byte[0];
-                TLRPC$TL_documentAttributeAudio tLRPC$TL_documentAttributeAudio2 = new TLRPC$TL_documentAttributeAudio();
-                tLRPC$TL_documentAttributeAudio2.duration = 243.0d;
-                tLRPC$TL_documentAttributeAudio2.performer = LocaleController.getString(R.string.ThemePreviewSongPerformer);
-                tLRPC$TL_documentAttributeAudio2.title = LocaleController.getString(R.string.ThemePreviewSongTitle);
-                tLRPC$TL_message16.media.document.attributes.add(tLRPC$TL_documentAttributeAudio2);
-                tLRPC$TL_message16.out = false;
-                TLRPC$TL_peerUser tLRPC$TL_peerUser20 = new TLRPC$TL_peerUser();
-                tLRPC$TL_message16.peer_id = tLRPC$TL_peerUser20;
-                tLRPC$TL_peerUser20.user_id = UserConfig.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).getClientUserId();
-                this.messages.add(new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tLRPC$TL_message16, true, false));
-                TLRPC$TL_message tLRPC$TL_message17 = new TLRPC$TL_message();
-                tLRPC$TL_message17.message = LocaleController.getString(R.string.ThemePreviewLine3);
-                tLRPC$TL_message17.date = i5;
-                tLRPC$TL_message17.dialog_id = 1L;
-                tLRPC$TL_message17.flags = NotificationCenter.attachMenuBotsDidLoad;
-                tLRPC$TL_message17.from_id = new TLRPC$TL_peerUser();
-                tLRPC$TL_message17.id = 1;
-                TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader2 = new TLRPC$TL_messageReplyHeader();
-                tLRPC$TL_message17.reply_to = tLRPC$TL_messageReplyHeader2;
-                tLRPC$TL_messageReplyHeader2.flags |= 16;
-                tLRPC$TL_messageReplyHeader2.reply_to_msg_id = 5;
-                tLRPC$TL_message17.media = new TLRPC$TL_messageMediaEmpty();
-                tLRPC$TL_message17.out = false;
-                TLRPC$TL_peerUser tLRPC$TL_peerUser21 = new TLRPC$TL_peerUser();
-                tLRPC$TL_message17.peer_id = tLRPC$TL_peerUser21;
-                tLRPC$TL_peerUser21.user_id = UserConfig.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).getClientUserId();
-                MessageObject messageObject12 = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tLRPC$TL_message17, true, false);
+                tL_message14.date = i5;
+                tL_message14.dialog_id = 1L;
+                tL_message14.flags = NotificationCenter.webRtcMicAmplitudeEvent;
+                TLRPC.TL_peerUser tL_peerUser16 = new TLRPC.TL_peerUser();
+                tL_message14.from_id = tL_peerUser16;
+                tL_peerUser16.user_id = UserConfig.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).getClientUserId();
+                tL_message14.id = 1;
+                tL_message14.media = new TLRPC.TL_messageMediaEmpty();
+                tL_message14.out = true;
+                TLRPC.TL_peerUser tL_peerUser17 = new TLRPC.TL_peerUser();
+                tL_message14.peer_id = tL_peerUser17;
+                tL_peerUser17.user_id = 0L;
+                MessageObject messageObject11 = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message14, true, false);
+                TLRPC.TL_message tL_message15 = new TLRPC.TL_message();
+                tL_message15.message = LocaleController.getString(R.string.ThemePreviewLine2);
+                tL_message15.date = currentTimeMillis - 2640;
+                tL_message15.dialog_id = 1L;
+                tL_message15.flags = NotificationCenter.webRtcMicAmplitudeEvent;
+                TLRPC.TL_peerUser tL_peerUser18 = new TLRPC.TL_peerUser();
+                tL_message15.from_id = tL_peerUser18;
+                tL_peerUser18.user_id = UserConfig.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).getClientUserId();
+                tL_message15.id = 1;
+                tL_message15.media = new TLRPC.TL_messageMediaEmpty();
+                tL_message15.out = true;
+                TLRPC.TL_peerUser tL_peerUser19 = new TLRPC.TL_peerUser();
+                tL_message15.peer_id = tL_peerUser19;
+                tL_peerUser19.user_id = 0L;
+                this.messages.add(new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message15, true, false));
+                TLRPC.TL_message tL_message16 = new TLRPC.TL_message();
+                tL_message16.date = currentTimeMillis - 3470;
+                tL_message16.dialog_id = 1L;
+                tL_message16.flags = NotificationCenter.webRtcMicAmplitudeEvent;
+                tL_message16.from_id = new TLRPC.TL_peerUser();
+                tL_message16.id = 5;
+                TLRPC.TL_messageMediaDocument tL_messageMediaDocument3 = new TLRPC.TL_messageMediaDocument();
+                tL_message16.media = tL_messageMediaDocument3;
+                tL_messageMediaDocument3.flags |= 3;
+                tL_messageMediaDocument3.document = new TLRPC.TL_document();
+                TLRPC.Document document3 = tL_message16.media.document;
+                document3.mime_type = "audio/mp4";
+                document3.file_reference = new byte[0];
+                TLRPC.TL_documentAttributeAudio tL_documentAttributeAudio2 = new TLRPC.TL_documentAttributeAudio();
+                tL_documentAttributeAudio2.duration = 243.0d;
+                tL_documentAttributeAudio2.performer = LocaleController.getString(R.string.ThemePreviewSongPerformer);
+                tL_documentAttributeAudio2.title = LocaleController.getString(R.string.ThemePreviewSongTitle);
+                tL_message16.media.document.attributes.add(tL_documentAttributeAudio2);
+                tL_message16.out = false;
+                TLRPC.TL_peerUser tL_peerUser20 = new TLRPC.TL_peerUser();
+                tL_message16.peer_id = tL_peerUser20;
+                tL_peerUser20.user_id = UserConfig.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).getClientUserId();
+                this.messages.add(new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message16, true, false));
+                TLRPC.TL_message tL_message17 = new TLRPC.TL_message();
+                tL_message17.message = LocaleController.getString(R.string.ThemePreviewLine3);
+                tL_message17.date = i5;
+                tL_message17.dialog_id = 1L;
+                tL_message17.flags = NotificationCenter.emojiPreviewThemesChanged;
+                tL_message17.from_id = new TLRPC.TL_peerUser();
+                tL_message17.id = 1;
+                TLRPC.TL_messageReplyHeader tL_messageReplyHeader2 = new TLRPC.TL_messageReplyHeader();
+                tL_message17.reply_to = tL_messageReplyHeader2;
+                tL_messageReplyHeader2.flags |= 16;
+                tL_messageReplyHeader2.reply_to_msg_id = 5;
+                tL_message17.media = new TLRPC.TL_messageMediaEmpty();
+                tL_message17.out = false;
+                TLRPC.TL_peerUser tL_peerUser21 = new TLRPC.TL_peerUser();
+                tL_message17.peer_id = tL_peerUser21;
+                tL_peerUser21.user_id = UserConfig.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).getClientUserId();
+                MessageObject messageObject12 = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message17, true, false);
                 messageObject12.customReplyName = LocaleController.getString(R.string.ThemePreviewLine3Reply);
                 messageObject12.replyMessageObject = messageObject11;
                 this.messages.add(messageObject12);
-                TLRPC$TL_message tLRPC$TL_message18 = new TLRPC$TL_message();
-                tLRPC$TL_message18.date = currentTimeMillis - 3480;
-                tLRPC$TL_message18.dialog_id = 1L;
-                tLRPC$TL_message18.flags = NotificationCenter.showBulletin;
-                TLRPC$TL_peerUser tLRPC$TL_peerUser22 = new TLRPC$TL_peerUser();
-                tLRPC$TL_message18.from_id = tLRPC$TL_peerUser22;
-                tLRPC$TL_peerUser22.user_id = UserConfig.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).getClientUserId();
-                tLRPC$TL_message18.id = 1;
-                TLRPC$TL_messageMediaDocument tLRPC$TL_messageMediaDocument4 = new TLRPC$TL_messageMediaDocument();
-                tLRPC$TL_message18.media = tLRPC$TL_messageMediaDocument4;
-                tLRPC$TL_messageMediaDocument4.flags |= 3;
-                tLRPC$TL_messageMediaDocument4.document = new TLRPC$TL_document();
-                TLRPC$Document tLRPC$Document4 = tLRPC$TL_message18.media.document;
-                tLRPC$Document4.mime_type = "audio/ogg";
-                tLRPC$Document4.file_reference = new byte[0];
-                TLRPC$TL_documentAttributeAudio tLRPC$TL_documentAttributeAudio3 = new TLRPC$TL_documentAttributeAudio();
-                tLRPC$TL_documentAttributeAudio3.flags = 1028;
-                tLRPC$TL_documentAttributeAudio3.duration = 3.0d;
-                tLRPC$TL_documentAttributeAudio3.voice = true;
-                tLRPC$TL_documentAttributeAudio3.waveform = new byte[]{0, 4, 17, -50, -93, 86, -103, -45, -12, -26, 63, -25, -3, 109, -114, -54, -4, -1, -1, -1, -1, -29, -1, -1, -25, -1, -1, -97, -43, 57, -57, -108, 1, -91, -4, -47, 21, 99, 10, 97, 43, 45, 115, -112, -77, 51, -63, 66, 40, 34, -122, -116, 48, -124, 16, 66, -120, 16, 68, 16, 33, 4, 1};
-                tLRPC$TL_message18.media.document.attributes.add(tLRPC$TL_documentAttributeAudio3);
-                tLRPC$TL_message18.out = true;
-                TLRPC$TL_peerUser tLRPC$TL_peerUser23 = new TLRPC$TL_peerUser();
-                tLRPC$TL_message18.peer_id = tLRPC$TL_peerUser23;
-                tLRPC$TL_peerUser23.user_id = 0L;
-                MessageObject messageObject13 = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tLRPC$TL_message18, true, false);
+                TLRPC.TL_message tL_message18 = new TLRPC.TL_message();
+                tL_message18.date = currentTimeMillis - 3480;
+                tL_message18.dialog_id = 1L;
+                tL_message18.flags = NotificationCenter.webRtcMicAmplitudeEvent;
+                TLRPC.TL_peerUser tL_peerUser22 = new TLRPC.TL_peerUser();
+                tL_message18.from_id = tL_peerUser22;
+                tL_peerUser22.user_id = UserConfig.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).getClientUserId();
+                tL_message18.id = 1;
+                TLRPC.TL_messageMediaDocument tL_messageMediaDocument4 = new TLRPC.TL_messageMediaDocument();
+                tL_message18.media = tL_messageMediaDocument4;
+                tL_messageMediaDocument4.flags |= 3;
+                tL_messageMediaDocument4.document = new TLRPC.TL_document();
+                TLRPC.Document document4 = tL_message18.media.document;
+                document4.mime_type = "audio/ogg";
+                document4.file_reference = new byte[0];
+                TLRPC.TL_documentAttributeAudio tL_documentAttributeAudio3 = new TLRPC.TL_documentAttributeAudio();
+                tL_documentAttributeAudio3.flags = 1028;
+                tL_documentAttributeAudio3.duration = 3.0d;
+                tL_documentAttributeAudio3.voice = true;
+                tL_documentAttributeAudio3.waveform = new byte[]{0, 4, 17, -50, -93, 86, -103, -45, -12, -26, 63, -25, -3, 109, -114, -54, -4, -1, -1, -1, -1, -29, -1, -1, -25, -1, -1, -97, -43, 57, -57, -108, 1, -91, -4, -47, 21, 99, 10, 97, 43, 45, 115, -112, -77, 51, -63, 66, 40, 34, -122, -116, 48, -124, 16, 66, -120, 16, 68, 16, 33, 4, 1};
+                tL_message18.media.document.attributes.add(tL_documentAttributeAudio3);
+                tL_message18.out = true;
+                TLRPC.TL_peerUser tL_peerUser23 = new TLRPC.TL_peerUser();
+                tL_message18.peer_id = tL_peerUser23;
+                tL_peerUser23.user_id = 0L;
+                MessageObject messageObject13 = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message18, true, false);
                 messageObject13.audioProgressSec = 1;
                 messageObject13.audioProgress = 0.3f;
                 messageObject13.useCustomPhoto = true;
                 this.messages.add(messageObject13);
                 this.messages.add(messageObject11);
-                TLRPC$TL_message tLRPC$TL_message19 = new TLRPC$TL_message();
-                tLRPC$TL_message19.date = currentTimeMillis - 3590;
-                tLRPC$TL_message19.dialog_id = 1L;
-                tLRPC$TL_message19.flags = NotificationCenter.webRtcMicAmplitudeEvent;
-                tLRPC$TL_message19.from_id = new TLRPC$TL_peerUser();
-                tLRPC$TL_message19.id = 1;
-                TLRPC$TL_messageMediaPhoto tLRPC$TL_messageMediaPhoto = new TLRPC$TL_messageMediaPhoto();
-                tLRPC$TL_message19.media = tLRPC$TL_messageMediaPhoto;
-                tLRPC$TL_messageMediaPhoto.flags |= 3;
-                tLRPC$TL_messageMediaPhoto.photo = new TLRPC$TL_photo();
-                TLRPC$Photo tLRPC$Photo = tLRPC$TL_message19.media.photo;
-                tLRPC$Photo.file_reference = new byte[0];
-                tLRPC$Photo.has_stickers = false;
-                tLRPC$Photo.id = 1L;
-                tLRPC$Photo.access_hash = 0L;
-                tLRPC$Photo.date = i;
-                TLRPC$TL_photoSize tLRPC$TL_photoSize = new TLRPC$TL_photoSize();
-                tLRPC$TL_photoSize.size = 0;
-                tLRPC$TL_photoSize.w = 500;
-                tLRPC$TL_photoSize.h = 302;
-                tLRPC$TL_photoSize.type = "s";
-                tLRPC$TL_photoSize.location = new TLRPC$TL_fileLocationUnavailable();
-                tLRPC$TL_message19.media.photo.sizes.add(tLRPC$TL_photoSize);
-                tLRPC$TL_message19.message = LocaleController.getString(R.string.ThemePreviewLine4);
-                tLRPC$TL_message19.out = false;
-                TLRPC$TL_peerUser tLRPC$TL_peerUser24 = new TLRPC$TL_peerUser();
-                tLRPC$TL_message19.peer_id = tLRPC$TL_peerUser24;
-                tLRPC$TL_peerUser24.user_id = UserConfig.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).getClientUserId();
-                messageObject = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tLRPC$TL_message19, true, false);
+                TLRPC.TL_message tL_message19 = new TLRPC.TL_message();
+                tL_message19.date = currentTimeMillis - 3590;
+                tL_message19.dialog_id = 1L;
+                tL_message19.flags = NotificationCenter.didClearDatabase;
+                tL_message19.from_id = new TLRPC.TL_peerUser();
+                tL_message19.id = 1;
+                TLRPC.TL_messageMediaPhoto tL_messageMediaPhoto = new TLRPC.TL_messageMediaPhoto();
+                tL_message19.media = tL_messageMediaPhoto;
+                tL_messageMediaPhoto.flags |= 3;
+                tL_messageMediaPhoto.photo = new TLRPC.TL_photo();
+                TLRPC.Photo photo = tL_message19.media.photo;
+                photo.file_reference = new byte[0];
+                photo.has_stickers = false;
+                photo.id = 1L;
+                photo.access_hash = 0L;
+                photo.date = i;
+                TLRPC.TL_photoSize tL_photoSize = new TLRPC.TL_photoSize();
+                tL_photoSize.size = 0;
+                tL_photoSize.w = 500;
+                tL_photoSize.h = 302;
+                tL_photoSize.type = "s";
+                tL_photoSize.location = new TLRPC.TL_fileLocationUnavailable();
+                tL_message19.media.photo.sizes.add(tL_photoSize);
+                tL_message19.message = LocaleController.getString(R.string.ThemePreviewLine4);
+                tL_message19.out = false;
+                TLRPC.TL_peerUser tL_peerUser24 = new TLRPC.TL_peerUser();
+                tL_message19.peer_id = tL_peerUser24;
+                tL_peerUser24.user_id = UserConfig.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).getClientUserId();
+                messageObject = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message19, true, false);
                 messageObject.useCustomPhoto = true;
             }
             arrayList = this.messages;
@@ -1586,13 +1540,13 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             int itemViewType2 = getItemViewType(i2);
             int i3 = i + 1;
             int itemViewType3 = getItemViewType(i3);
-            if (!(messageObject2.messageOwner.reply_markup instanceof TLRPC$TL_replyInlineMarkup) && itemViewType2 == viewHolder.getItemViewType()) {
+            if (!(messageObject2.messageOwner.reply_markup instanceof TLRPC.TL_replyInlineMarkup) && itemViewType2 == viewHolder.getItemViewType()) {
                 MessageObject messageObject3 = (MessageObject) this.messages.get(i2);
                 if (messageObject3.isOutOwner() == messageObject2.isOutOwner() && Math.abs(messageObject3.messageOwner.date - messageObject2.messageOwner.date) <= 300) {
                     z = true;
                     if (itemViewType3 == viewHolder.getItemViewType() && i3 < this.messages.size()) {
                         messageObject = (MessageObject) this.messages.get(i3);
-                        if (!(messageObject.messageOwner.reply_markup instanceof TLRPC$TL_replyInlineMarkup) && messageObject.isOutOwner() == messageObject2.isOutOwner() && Math.abs(messageObject.messageOwner.date - messageObject2.messageOwner.date) <= 300) {
+                        if (!(messageObject.messageOwner.reply_markup instanceof TLRPC.TL_replyInlineMarkup) && messageObject.isOutOwner() == messageObject2.isOutOwner() && Math.abs(messageObject.messageOwner.date - messageObject2.messageOwner.date) <= 300) {
                             z2 = true;
                             chatMessageCell.isChat = (!this.showSecretMessages || ThemePreviewActivity.this.dialogId < 0) ? true : true;
                             chatMessageCell.setFullyDraw(true);
@@ -1608,7 +1562,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             z = false;
             if (itemViewType3 == viewHolder.getItemViewType()) {
                 messageObject = (MessageObject) this.messages.get(i3);
-                if (!(messageObject.messageOwner.reply_markup instanceof TLRPC$TL_replyInlineMarkup)) {
+                if (!(messageObject.messageOwner.reply_markup instanceof TLRPC.TL_replyInlineMarkup)) {
                     z2 = true;
                     chatMessageCell.isChat = (!this.showSecretMessages || ThemePreviewActivity.this.dialogId < 0) ? true : true;
                     chatMessageCell.setFullyDraw(true);
@@ -1719,18 +1673,18 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didLongPressBotButton(ChatMessageCell chatMessageCell2, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressBotButton(this, chatMessageCell2, tLRPC$KeyboardButton);
+                    public /* synthetic */ void didLongPressBotButton(ChatMessageCell chatMessageCell2, TLRPC.KeyboardButton keyboardButton) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressBotButton(this, chatMessageCell2, keyboardButton);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ boolean didLongPressChannelAvatar(ChatMessageCell chatMessageCell2, TLRPC$Chat tLRPC$Chat, int i2, float f, float f2) {
-                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressChannelAvatar(this, chatMessageCell2, tLRPC$Chat, i2, f, f2);
+                    public /* synthetic */ boolean didLongPressChannelAvatar(ChatMessageCell chatMessageCell2, TLRPC.Chat chat, int i2, float f, float f2) {
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressChannelAvatar(this, chatMessageCell2, chat, i2, f, f2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ boolean didLongPressUserAvatar(ChatMessageCell chatMessageCell2, TLRPC$User tLRPC$User, float f, float f2) {
-                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressUserAvatar(this, chatMessageCell2, tLRPC$User, f, f2);
+                    public /* synthetic */ boolean didLongPressUserAvatar(ChatMessageCell chatMessageCell2, TLRPC.User user, float f, float f2) {
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressUserAvatar(this, chatMessageCell2, user, f, f2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -1749,8 +1703,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didPressBotButton(ChatMessageCell chatMessageCell2, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressBotButton(this, chatMessageCell2, tLRPC$KeyboardButton);
+                    public /* synthetic */ void didPressBotButton(ChatMessageCell chatMessageCell2, TLRPC.KeyboardButton keyboardButton) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressBotButton(this, chatMessageCell2, keyboardButton);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -1759,13 +1713,13 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didPressChannelAvatar(ChatMessageCell chatMessageCell2, TLRPC$Chat tLRPC$Chat, int i2, float f, float f2, boolean z) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressChannelAvatar(this, chatMessageCell2, tLRPC$Chat, i2, f, f2, z);
+                    public /* synthetic */ void didPressChannelAvatar(ChatMessageCell chatMessageCell2, TLRPC.Chat chat, int i2, float f, float f2, boolean z) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressChannelAvatar(this, chatMessageCell2, chat, i2, f, f2, z);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didPressChannelRecommendation(ChatMessageCell chatMessageCell2, TLRPC$Chat tLRPC$Chat, boolean z) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressChannelRecommendation(this, chatMessageCell2, tLRPC$Chat, z);
+                    public /* synthetic */ void didPressChannelRecommendation(ChatMessageCell chatMessageCell2, TLRPC.Chat chat, boolean z) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressChannelRecommendation(this, chatMessageCell2, chat, z);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -1794,8 +1748,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didPressExtendedMediaPreview(ChatMessageCell chatMessageCell2, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressExtendedMediaPreview(this, chatMessageCell2, tLRPC$KeyboardButton);
+                    public /* synthetic */ void didPressExtendedMediaPreview(ChatMessageCell chatMessageCell2, TLRPC.KeyboardButton keyboardButton) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressExtendedMediaPreview(this, chatMessageCell2, keyboardButton);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -1814,8 +1768,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didPressGroupImage(ChatMessageCell chatMessageCell2, ImageReceiver imageReceiver, TLRPC$MessageExtendedMedia tLRPC$MessageExtendedMedia, float f, float f2) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressGroupImage(this, chatMessageCell2, imageReceiver, tLRPC$MessageExtendedMedia, f, f2);
+                    public /* synthetic */ void didPressGroupImage(ChatMessageCell chatMessageCell2, ImageReceiver imageReceiver, TLRPC.MessageExtendedMedia messageExtendedMedia, float f, float f2) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressGroupImage(this, chatMessageCell2, imageReceiver, messageExtendedMedia, f, f2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -1849,8 +1803,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didPressReaction(ChatMessageCell chatMessageCell2, TLRPC$ReactionCount tLRPC$ReactionCount, boolean z, float f, float f2) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressReaction(this, chatMessageCell2, tLRPC$ReactionCount, z, f, f2);
+                    public /* synthetic */ void didPressReaction(ChatMessageCell chatMessageCell2, TLRPC.ReactionCount reactionCount, boolean z, float f, float f2) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressReaction(this, chatMessageCell2, reactionCount, z, f, f2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -1894,13 +1848,13 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didPressUserAvatar(ChatMessageCell chatMessageCell2, TLRPC$User tLRPC$User, float f, float f2, boolean z) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressUserAvatar(this, chatMessageCell2, tLRPC$User, f, f2, z);
+                    public /* synthetic */ void didPressUserAvatar(ChatMessageCell chatMessageCell2, TLRPC.User user, float f, float f2, boolean z) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressUserAvatar(this, chatMessageCell2, user, f, f2, z);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didPressUserStatus(ChatMessageCell chatMessageCell2, TLRPC$User tLRPC$User, TLRPC$Document tLRPC$Document) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressUserStatus(this, chatMessageCell2, tLRPC$User, tLRPC$Document);
+                    public /* synthetic */ void didPressUserStatus(ChatMessageCell chatMessageCell2, TLRPC.User user, TLRPC.Document document) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressUserStatus(this, chatMessageCell2, user, document);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -1919,7 +1873,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didPressWebPage(ChatMessageCell chatMessageCell2, TLRPC$WebPage tLRPC$WebPage, String str, boolean z) {
+                    public /* synthetic */ void didPressWebPage(ChatMessageCell chatMessageCell2, TLRPC.WebPage webPage, String str, boolean z) {
                         Browser.openUrl(chatMessageCell2.getContext(), str);
                     }
 
@@ -2078,8 +2032,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
 
                     @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
-                    public /* synthetic */ void didOpenPremiumGift(ChatActionCell chatActionCell2, TLRPC$TL_premiumGiftOption tLRPC$TL_premiumGiftOption, String str, boolean z) {
-                        ChatActionCell.ChatActionCellDelegate.-CC.$default$didOpenPremiumGift(this, chatActionCell2, tLRPC$TL_premiumGiftOption, str, z);
+                    public /* synthetic */ void didOpenPremiumGift(ChatActionCell chatActionCell2, TLRPC.TL_premiumGiftOption tL_premiumGiftOption, String str, boolean z) {
+                        ChatActionCell.ChatActionCellDelegate.-CC.$default$didOpenPremiumGift(this, chatActionCell2, tL_premiumGiftOption, str, z);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
@@ -2108,8 +2062,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
 
                     @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
-                    public /* synthetic */ void needOpenInviteLink(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
-                        ChatActionCell.ChatActionCellDelegate.-CC.$default$needOpenInviteLink(this, tLRPC$TL_chatInviteExported);
+                    public /* synthetic */ void needOpenInviteLink(TLRPC.TL_chatInviteExported tL_chatInviteExported) {
+                        ChatActionCell.ChatActionCellDelegate.-CC.$default$needOpenInviteLink(this, tL_chatInviteExported);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
@@ -2118,8 +2072,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
 
                     @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
-                    public /* synthetic */ void needShowEffectOverlay(ChatActionCell chatActionCell2, TLRPC$Document tLRPC$Document, TLRPC$VideoSize tLRPC$VideoSize) {
-                        ChatActionCell.ChatActionCellDelegate.-CC.$default$needShowEffectOverlay(this, chatActionCell2, tLRPC$Document, tLRPC$VideoSize);
+                    public /* synthetic */ void needShowEffectOverlay(ChatActionCell chatActionCell2, TLRPC.Document document, TLRPC.VideoSize videoSize) {
+                        ChatActionCell.ChatActionCellDelegate.-CC.$default$needShowEffectOverlay(this, chatActionCell2, document, videoSize);
                     }
                 });
                 frameLayout3 = chatActionCell;
@@ -2196,7 +2150,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             ImageReceiver imageReceiver;
             BlendMode blendMode;
             PatternCell patternCell = (PatternCell) viewHolder.itemView;
-            patternCell.setPattern((TLRPC$TL_wallPaper) ThemePreviewActivity.this.patterns.get(i));
+            patternCell.setPattern((TLRPC.TL_wallPaper) ThemePreviewActivity.this.patterns.get(i));
             patternCell.getImageReceiver().setColorFilter(new PorterDuffColorFilter(ThemePreviewActivity.this.patternColor, ThemePreviewActivity.this.blendMode));
             if (Build.VERSION.SDK_INT >= 29) {
                 int i2 = 0;
@@ -2284,7 +2238,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 }
 
                 @Override // org.telegram.ui.Cells.PatternCell.PatternCellDelegate
-                public TLRPC$TL_wallPaper getSelectedPattern() {
+                public TLRPC.TL_wallPaper getSelectedPattern() {
                     return ThemePreviewActivity.this.selectedPattern;
                 }
             }));
@@ -2408,12 +2362,12 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             }
             this.chat_actionBackgroundPaint.setShader(this.serviceBitmapShader);
             this.chat_actionBackgroundPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
-            this.chat_actionBackgroundPaint.setAlpha(NotificationCenter.didClearDatabase);
+            this.chat_actionBackgroundPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
             this.chat_actionBackgroundSelectedPaint.setShader(this.serviceBitmapShader);
             ColorMatrix colorMatrix2 = new ColorMatrix(colorMatrix);
             AndroidUtilities.multiplyBrightnessColorMatrix(colorMatrix2, 0.85f);
             this.chat_actionBackgroundSelectedPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix2));
-            this.chat_actionBackgroundSelectedPaint.setAlpha(NotificationCenter.didClearDatabase);
+            this.chat_actionBackgroundSelectedPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
@@ -2554,7 +2508,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
     /* loaded from: classes4.dex */
     public interface WallpaperActivityDelegate {
-        void didSetNewBackground(TLRPC$WallPaper tLRPC$WallPaper);
+        void didSetNewBackground(TLRPC.WallPaper wallPaper);
     }
 
     public ThemePreviewActivity(Object obj, Bitmap bitmap) {
@@ -2658,9 +2612,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         if (obj instanceof WallpapersListActivity.ColorWallpaper) {
             WallpapersListActivity.ColorWallpaper colorWallpaper = (WallpapersListActivity.ColorWallpaper) obj;
             this.isMotion = colorWallpaper.motion;
-            TLRPC$TL_wallPaper tLRPC$TL_wallPaper = colorWallpaper.pattern;
-            this.selectedPattern = tLRPC$TL_wallPaper;
-            if (tLRPC$TL_wallPaper != null) {
+            TLRPC.TL_wallPaper tL_wallPaper = colorWallpaper.pattern;
+            this.selectedPattern = tL_wallPaper;
+            if (tL_wallPaper != null) {
                 float f = colorWallpaper.intensity;
                 this.currentIntensity = f;
                 if (f < 0.0f && !Theme.getActiveTheme().isDark()) {
@@ -2991,14 +2945,14 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         float f;
         Object obj2;
         long j;
-        TLRPC$WallPaper tLRPC$WallPaper;
+        TLRPC.WallPaper wallPaper;
         boolean z4;
         float f2;
-        TLRPC$UserFull userFull;
+        TLRPC.UserFull userFull;
         int i5 = 0;
         if (this.dialogId < 0) {
-            TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus = this.boostsStatus;
-            if (tL_stories$TL_premium_boostsStatus != null && tL_stories$TL_premium_boostsStatus.level < getCustomWallpaperLevelMin()) {
+            TL_stories.TL_premium_boostsStatus tL_premium_boostsStatus = this.boostsStatus;
+            if (tL_premium_boostsStatus != null && tL_premium_boostsStatus.level < getCustomWallpaperLevelMin()) {
                 getMessagesController().getBoostsController().userCanBoostChannel(this.dialogId, this.boostsStatus, new Consumer() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda27
                     @Override // com.google.android.exoplayer2.util.Consumer
                     public final void accept(Object obj3) {
@@ -3019,7 +2973,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         String generateWallpaperName2 = this.isBlurred ? activeTheme.generateWallpaperName(null, false) : generateWallpaperName;
         File file10 = new File(ApplicationLoader.getFilesDirFixed(), generateWallpaperName);
         Object obj3 = this.currentWallpaper;
-        if (obj3 instanceof TLRPC$TL_wallPaper) {
+        if (obj3 instanceof TLRPC.TL_wallPaper) {
             try {
             } catch (Exception e) {
                 FileLog.e(e);
@@ -3039,7 +2993,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 copyFile = false;
                 if (!copyFile) {
                     try {
-                        copyFile = AndroidUtilities.copyFile(FileLoader.getInstance(this.currentAccount).getPathToAttach(((TLRPC$TL_wallPaper) this.currentWallpaper).document, true), file10);
+                        copyFile = AndroidUtilities.copyFile(FileLoader.getInstance(this.currentAccount).getPathToAttach(((TLRPC.TL_wallPaper) this.currentWallpaper).document, true), file10);
                     } catch (Exception e2) {
                         e = e2;
                         file = null;
@@ -3050,7 +3004,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         if (this.isBlurred) {
                         }
                         obj = this.currentWallpaper;
-                        if (obj instanceof TLRPC$TL_wallPaper) {
+                        if (obj instanceof TLRPC.TL_wallPaper) {
                         }
                         i = 0;
                         i2 = 45;
@@ -3082,7 +3036,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file7, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
                         if (copyFile) {
                         }
-                        tLRPC$WallPaper = file9;
+                        wallPaper = file9;
                         z4 = true;
                         if (z4) {
                         }
@@ -3145,7 +3099,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         }
                     }
                     obj = this.currentWallpaper;
-                    if (obj instanceof TLRPC$TL_wallPaper) {
+                    if (obj instanceof TLRPC.TL_wallPaper) {
                         if (!(obj instanceof WallpapersListActivity.ColorWallpaper)) {
                             if (obj instanceof WallpapersListActivity.FileWallpaper) {
                                 WallpapersListActivity.FileWallpaper fileWallpaper = (WallpapersListActivity.FileWallpaper) obj;
@@ -3153,8 +3107,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 pathToAttach = fileWallpaper.path;
                             } else if (obj instanceof MediaController.SearchImage) {
                                 MediaController.SearchImage searchImage = (MediaController.SearchImage) obj;
-                                TLRPC$Photo tLRPC$Photo = searchImage.photo;
-                                pathToAttach = tLRPC$Photo != null ? FileLoader.getInstance(this.currentAccount).getPathToAttach(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, this.maxWallpaperSize, true), true) : ImageLoader.getHttpFilePath(searchImage.imageUrl, "jpg");
+                                TLRPC.Photo photo = searchImage.photo;
+                                pathToAttach = photo != null ? FileLoader.getInstance(this.currentAccount).getPathToAttach(FileLoader.getClosestPhotoSizeWithSize(photo.sizes, this.maxWallpaperSize, true), true) : ImageLoader.getHttpFilePath(searchImage.imageUrl, "jpg");
                                 str = "";
                             } else {
                                 z3 = z2;
@@ -3183,8 +3137,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             file8 = file10;
                             str = "d";
                         } else {
-                            TLRPC$TL_wallPaper tLRPC$TL_wallPaper = this.selectedPattern;
-                            str = tLRPC$TL_wallPaper != null ? tLRPC$TL_wallPaper.slug : "c";
+                            TLRPC.TL_wallPaper tL_wallPaper = this.selectedPattern;
+                            str = tL_wallPaper != null ? tL_wallPaper.slug : "c";
                             i = this.backgroundColor;
                             i4 = this.backgroundGradientColor1;
                             int i6 = this.backgroundGradientColor2;
@@ -3222,9 +3176,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 f3 *= -1.0f;
                             }
                             if (colorWallpaper.parentWallpaper != null && colorWallpaper.color == i && colorWallpaper.gradientColor1 == i4 && colorWallpaper.gradientColor2 == i5 && colorWallpaper.gradientColor3 == i3 && TextUtils.equals(colorWallpaper.slug, str2) && colorWallpaper.gradientRotation == i2 && (this.selectedPattern == null || Math.abs(f3 - this.currentIntensity) < 0.001f)) {
-                                TLRPC$WallPaper tLRPC$WallPaper2 = colorWallpaper.parentWallpaper;
-                                overrideWallpaperInfo.wallpaperId = tLRPC$WallPaper2.id;
-                                overrideWallpaperInfo.accessHash = tLRPC$WallPaper2.access_hash;
+                                TLRPC.WallPaper wallPaper2 = colorWallpaper.parentWallpaper;
+                                overrideWallpaperInfo.wallpaperId = wallPaper2.id;
+                                overrideWallpaperInfo.accessHash = wallPaper2.access_hash;
                             }
                         }
                         j = this.dialogId;
@@ -3244,15 +3198,15 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                             ThemePreviewActivity.lambda$applyWallpaperBackground$21();
                                         }
                                     });
-                                    tLRPC$WallPaper = file9;
+                                    wallPaper = file9;
                                 } else {
-                                    tLRPC$WallPaper = new TLRPC$TL_wallPaper();
-                                    TLRPC$TL_wallPaperSettings tLRPC$TL_wallPaperSettings = new TLRPC$TL_wallPaperSettings();
-                                    tLRPC$WallPaper.settings = tLRPC$TL_wallPaperSettings;
-                                    tLRPC$TL_wallPaperSettings.intensity = (int) (overrideWallpaperInfo.intensity * 100.0f);
-                                    tLRPC$TL_wallPaperSettings.blur = overrideWallpaperInfo.isBlurred;
-                                    tLRPC$TL_wallPaperSettings.motion = overrideWallpaperInfo.isMotion;
-                                    tLRPC$WallPaper.uploadingImage = file7.getAbsolutePath();
+                                    wallPaper = new TLRPC.TL_wallPaper();
+                                    TLRPC.TL_wallPaperSettings tL_wallPaperSettings = new TLRPC.TL_wallPaperSettings();
+                                    wallPaper.settings = tL_wallPaperSettings;
+                                    tL_wallPaperSettings.intensity = (int) (overrideWallpaperInfo.intensity * 100.0f);
+                                    tL_wallPaperSettings.blur = overrideWallpaperInfo.isBlurred;
+                                    tL_wallPaperSettings.motion = overrideWallpaperInfo.isMotion;
+                                    wallPaper.uploadingImage = file7.getAbsolutePath();
                                     Bitmap createBitmap2 = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888);
                                     Canvas canvas2 = new Canvas(createBitmap2);
                                     float max = Math.max(50.0f / this.backgroundImage.getMeasuredWidth(), 50.0f / this.backgroundImage.getMeasuredHeight());
@@ -3269,18 +3223,18 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                     this.backgroundImage.draw(canvas2);
                                     this.dimAmount = f4;
                                     Utilities.blurBitmap(createBitmap2, 3, 1, createBitmap2.getWidth(), createBitmap2.getHeight(), createBitmap2.getRowBytes());
-                                    tLRPC$WallPaper.stripedThumb = createBitmap2;
-                                    createServiceMessageLocal(tLRPC$WallPaper, z);
+                                    wallPaper.stripedThumb = createBitmap2;
+                                    createServiceMessageLocal(wallPaper, z);
                                     if (this.dialogId >= 0) {
-                                        TLRPC$UserFull userFull2 = getMessagesController().getUserFull(this.dialogId);
+                                        TLRPC.UserFull userFull2 = getMessagesController().getUserFull(this.dialogId);
                                         if (userFull2 != null) {
-                                            userFull2.wallpaper = tLRPC$WallPaper;
+                                            userFull2.wallpaper = wallPaper;
                                             NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.userInfoDidLoad, Long.valueOf(this.dialogId), userFull2);
                                         }
                                     } else {
-                                        TLRPC$ChatFull chatFull = getMessagesController().getChatFull(-this.dialogId);
+                                        TLRPC.ChatFull chatFull = getMessagesController().getChatFull(-this.dialogId);
                                         if (chatFull != null) {
-                                            chatFull.wallpaper = tLRPC$WallPaper;
+                                            chatFull.wallpaper = wallPaper;
                                             NotificationCenter notificationCenter = NotificationCenter.getInstance(this.currentAccount);
                                             int i8 = NotificationCenter.chatInfoDidLoad;
                                             z4 = false;
@@ -3293,7 +3247,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 this.setupFinished = true;
                                 WallpaperActivityDelegate wallpaperActivityDelegate = this.delegate;
                                 if (wallpaperActivityDelegate != null) {
-                                    wallpaperActivityDelegate.didSetNewBackground(tLRPC$WallPaper);
+                                    wallpaperActivityDelegate.didSetNewBackground(wallPaper);
                                 }
                                 finishFragment();
                                 if (z4) {
@@ -3301,7 +3255,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 }
                                 WallpaperActivityDelegate wallpaperActivityDelegate2 = this.delegate;
                                 if (wallpaperActivityDelegate2 != null) {
-                                    wallpaperActivityDelegate2.didSetNewBackground(tLRPC$WallPaper);
+                                    wallpaperActivityDelegate2.didSetNewBackground(wallPaper);
                                 }
                                 finishFragment();
                                 return;
@@ -3313,14 +3267,14 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 ImageLoader.getInstance().removeImage(ImageLoader.getHttpFileName(file8.getAbsolutePath()) + "@100_100");
                             }
                         }
-                        tLRPC$WallPaper = file9;
+                        wallPaper = file9;
                         z4 = true;
                         if (z4) {
                         }
                     } else {
-                        TLRPC$TL_wallPaper tLRPC$TL_wallPaper2 = (TLRPC$TL_wallPaper) obj;
-                        str = tLRPC$TL_wallPaper2.slug;
-                        file9 = tLRPC$TL_wallPaper2;
+                        TLRPC.TL_wallPaper tL_wallPaper2 = (TLRPC.TL_wallPaper) obj;
+                        str = tL_wallPaper2.slug;
+                        file9 = tL_wallPaper2;
                         z3 = z2;
                         file8 = file10;
                     }
@@ -3355,7 +3309,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file7, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
                     if (copyFile) {
                     }
-                    tLRPC$WallPaper = file9;
+                    wallPaper = file9;
                     z4 = true;
                     if (z4) {
                     }
@@ -3378,7 +3332,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         if (this.isBlurred) {
                         }
                         obj = this.currentWallpaper;
-                        if (obj instanceof TLRPC$TL_wallPaper) {
+                        if (obj instanceof TLRPC.TL_wallPaper) {
                         }
                         i = 0;
                         i2 = 45;
@@ -3410,7 +3364,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file7, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
                         if (copyFile) {
                         }
-                        tLRPC$WallPaper = file9;
+                        wallPaper = file9;
                         z4 = true;
                         if (z4) {
                         }
@@ -3434,7 +3388,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                     if (this.isBlurred) {
                                     }
                                     obj = this.currentWallpaper;
-                                    if (obj instanceof TLRPC$TL_wallPaper) {
+                                    if (obj instanceof TLRPC.TL_wallPaper) {
                                     }
                                     i = 0;
                                     i2 = 45;
@@ -3466,7 +3420,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                     MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file7, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
                                     if (copyFile) {
                                     }
-                                    tLRPC$WallPaper = file9;
+                                    wallPaper = file9;
                                     z4 = true;
                                     if (z4) {
                                     }
@@ -3474,7 +3428,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 if (this.isBlurred) {
                                 }
                                 obj = this.currentWallpaper;
-                                if (obj instanceof TLRPC$TL_wallPaper) {
+                                if (obj instanceof TLRPC.TL_wallPaper) {
                                 }
                                 i = 0;
                                 i2 = 45;
@@ -3506,7 +3460,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file7, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
                                 if (copyFile) {
                                 }
-                                tLRPC$WallPaper = file9;
+                                wallPaper = file9;
                                 z4 = true;
                                 if (z4) {
                                 }
@@ -3516,7 +3470,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             if (this.isBlurred) {
                             }
                             obj = this.currentWallpaper;
-                            if (obj instanceof TLRPC$TL_wallPaper) {
+                            if (obj instanceof TLRPC.TL_wallPaper) {
                             }
                             i = 0;
                             i2 = 45;
@@ -3548,7 +3502,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file7, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
                             if (copyFile) {
                             }
-                            tLRPC$WallPaper = file9;
+                            wallPaper = file9;
                             z4 = true;
                             if (z4) {
                             }
@@ -3576,7 +3530,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     if (this.isBlurred) {
                     }
                     obj = this.currentWallpaper;
-                    if (obj instanceof TLRPC$TL_wallPaper) {
+                    if (obj instanceof TLRPC.TL_wallPaper) {
                     }
                     i = 0;
                     i2 = 45;
@@ -3608,7 +3562,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file7, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
                     if (copyFile) {
                     }
-                    tLRPC$WallPaper = file9;
+                    wallPaper = file9;
                     z4 = true;
                     if (z4) {
                     }
@@ -3617,9 +3571,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 file = null;
                 if (obj3 instanceof MediaController.SearchImage) {
                     MediaController.SearchImage searchImage2 = (MediaController.SearchImage) obj3;
-                    TLRPC$Photo tLRPC$Photo2 = searchImage2.photo;
+                    TLRPC.Photo photo2 = searchImage2.photo;
                     try {
-                        copyFile = AndroidUtilities.copyFile(tLRPC$Photo2 != null ? FileLoader.getInstance(this.currentAccount).getPathToAttach(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo2.sizes, this.maxWallpaperSize, true), true) : ImageLoader.getHttpFilePath(searchImage2.imageUrl, "jpg"), file10);
+                        copyFile = AndroidUtilities.copyFile(photo2 != null ? FileLoader.getInstance(this.currentAccount).getPathToAttach(FileLoader.getClosestPhotoSizeWithSize(photo2.sizes, this.maxWallpaperSize, true), true) : ImageLoader.getHttpFilePath(searchImage2.imageUrl, "jpg"), file10);
                     } catch (Exception e6) {
                         e = e6;
                         FileLog.e(e);
@@ -3629,7 +3583,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         if (this.isBlurred) {
                         }
                         obj = this.currentWallpaper;
-                        if (obj instanceof TLRPC$TL_wallPaper) {
+                        if (obj instanceof TLRPC.TL_wallPaper) {
                         }
                         i = 0;
                         i2 = 45;
@@ -3661,7 +3615,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file7, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
                         if (copyFile) {
                         }
-                        tLRPC$WallPaper = file9;
+                        wallPaper = file9;
                         z4 = true;
                         if (z4) {
                         }
@@ -3677,7 +3631,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             if (this.isBlurred) {
             }
             obj = this.currentWallpaper;
-            if (obj instanceof TLRPC$TL_wallPaper) {
+            if (obj instanceof TLRPC.TL_wallPaper) {
             }
             i = 0;
             i2 = 45;
@@ -3709,7 +3663,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file7, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
             if (copyFile) {
             }
-            tLRPC$WallPaper = file9;
+            wallPaper = file9;
             z4 = true;
             if (z4) {
             }
@@ -3719,7 +3673,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         if (this.isBlurred) {
         }
         obj = this.currentWallpaper;
-        if (obj instanceof TLRPC$TL_wallPaper) {
+        if (obj instanceof TLRPC.TL_wallPaper) {
         }
         i = 0;
         i2 = 45;
@@ -3751,7 +3705,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file7, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
         if (copyFile) {
         }
-        tLRPC$WallPaper = file9;
+        wallPaper = file9;
         z4 = true;
         if (z4) {
         }
@@ -3850,7 +3804,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         getMessagesController().getBoostsController().getBoostsStats(this.dialogId, new Consumer() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda25
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
-                ThemePreviewActivity.this.lambda$checkBoostsLevel$1((TL_stories$TL_premium_boostsStatus) obj);
+                ThemePreviewActivity.this.lambda$checkBoostsLevel$1((TL_stories.TL_premium_boostsStatus) obj);
             }
         });
     }
@@ -3872,12 +3826,12 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 Theme.ThemeAccent themeAccent2 = this.accent;
                 if (themeAccent2.backgroundRotation == this.backupBackgroundRotation) {
                     String str = themeAccent2.patternSlug;
-                    TLRPC$TL_wallPaper tLRPC$TL_wallPaper = this.selectedPattern;
-                    if (str.equals(tLRPC$TL_wallPaper != null ? tLRPC$TL_wallPaper.slug : "")) {
-                        TLRPC$TL_wallPaper tLRPC$TL_wallPaper2 = this.selectedPattern;
-                        if (tLRPC$TL_wallPaper2 != null) {
+                    TLRPC.TL_wallPaper tL_wallPaper = this.selectedPattern;
+                    if (str.equals(tL_wallPaper != null ? tL_wallPaper.slug : "")) {
+                        TLRPC.TL_wallPaper tL_wallPaper2 = this.selectedPattern;
+                        if (tL_wallPaper2 != null) {
                         }
-                        if (tLRPC$TL_wallPaper2 != null) {
+                        if (tL_wallPaper2 != null) {
                         }
                     }
                 }
@@ -3903,40 +3857,40 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         return true;
     }
 
-    private void createServiceMessageLocal(TLRPC$WallPaper tLRPC$WallPaper, boolean z) {
-        TLRPC$TL_messageService tLRPC$TL_messageService = new TLRPC$TL_messageService();
-        tLRPC$TL_messageService.random_id = SendMessagesHelper.getInstance(this.currentAccount).getNextRandomId();
-        tLRPC$TL_messageService.dialog_id = this.dialogId;
-        tLRPC$TL_messageService.unread = true;
-        tLRPC$TL_messageService.out = true;
+    private void createServiceMessageLocal(TLRPC.WallPaper wallPaper, boolean z) {
+        TLRPC.TL_messageService tL_messageService = new TLRPC.TL_messageService();
+        tL_messageService.random_id = SendMessagesHelper.getInstance(this.currentAccount).getNextRandomId();
+        tL_messageService.dialog_id = this.dialogId;
+        tL_messageService.unread = true;
+        tL_messageService.out = true;
         int newMessageId = getUserConfig().getNewMessageId();
-        tLRPC$TL_messageService.id = newMessageId;
-        tLRPC$TL_messageService.local_id = newMessageId;
-        TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-this.dialogId));
+        tL_messageService.id = newMessageId;
+        tL_messageService.local_id = newMessageId;
+        TLRPC.Chat chat = getMessagesController().getChat(Long.valueOf(-this.dialogId));
         if (ChatObject.isChannel(chat)) {
-            TLRPC$TL_peerChannel tLRPC$TL_peerChannel = new TLRPC$TL_peerChannel();
-            tLRPC$TL_messageService.from_id = tLRPC$TL_peerChannel;
-            tLRPC$TL_peerChannel.channel_id = chat.id;
-            TLRPC$TL_peerChannel tLRPC$TL_peerChannel2 = new TLRPC$TL_peerChannel();
-            tLRPC$TL_messageService.peer_id = tLRPC$TL_peerChannel2;
-            tLRPC$TL_peerChannel2.channel_id = chat.id;
+            TLRPC.TL_peerChannel tL_peerChannel = new TLRPC.TL_peerChannel();
+            tL_messageService.from_id = tL_peerChannel;
+            tL_peerChannel.channel_id = chat.id;
+            TLRPC.TL_peerChannel tL_peerChannel2 = new TLRPC.TL_peerChannel();
+            tL_messageService.peer_id = tL_peerChannel2;
+            tL_peerChannel2.channel_id = chat.id;
         } else {
-            TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
-            tLRPC$TL_messageService.from_id = tLRPC$TL_peerUser;
-            tLRPC$TL_peerUser.user_id = getUserConfig().getClientUserId();
-            TLRPC$TL_peerUser tLRPC$TL_peerUser2 = new TLRPC$TL_peerUser();
-            tLRPC$TL_messageService.peer_id = tLRPC$TL_peerUser2;
-            tLRPC$TL_peerUser2.user_id = this.dialogId;
+            TLRPC.TL_peerUser tL_peerUser = new TLRPC.TL_peerUser();
+            tL_messageService.from_id = tL_peerUser;
+            tL_peerUser.user_id = getUserConfig().getClientUserId();
+            TLRPC.TL_peerUser tL_peerUser2 = new TLRPC.TL_peerUser();
+            tL_messageService.peer_id = tL_peerUser2;
+            tL_peerUser2.user_id = this.dialogId;
         }
-        tLRPC$TL_messageService.flags |= 256;
-        tLRPC$TL_messageService.date = getConnectionsManager().getCurrentTime();
-        TLRPC$TL_messageActionSetChatWallPaper tLRPC$TL_messageActionSetChatWallPaper = new TLRPC$TL_messageActionSetChatWallPaper();
-        tLRPC$TL_messageService.action = tLRPC$TL_messageActionSetChatWallPaper;
-        tLRPC$TL_messageActionSetChatWallPaper.wallpaper = tLRPC$WallPaper;
-        tLRPC$TL_messageActionSetChatWallPaper.for_both = z;
+        tL_messageService.flags |= 256;
+        tL_messageService.date = getConnectionsManager().getCurrentTime();
+        TLRPC.TL_messageActionSetChatWallPaper tL_messageActionSetChatWallPaper = new TLRPC.TL_messageActionSetChatWallPaper();
+        tL_messageService.action = tL_messageActionSetChatWallPaper;
+        tL_messageActionSetChatWallPaper.wallpaper = wallPaper;
+        tL_messageActionSetChatWallPaper.for_both = z;
         ArrayList<MessageObject> arrayList = new ArrayList<>();
-        arrayList.add(new MessageObject(this.currentAccount, tLRPC$TL_messageService, false, false));
-        new ArrayList().add(tLRPC$TL_messageService);
+        arrayList.add(new MessageObject(this.currentAccount, tL_messageService, false, false));
+        new ArrayList().add(tL_messageService);
         MessagesController.getInstance(this.currentAccount).updateInterfaceWithMessages(this.dialogId, arrayList, 0);
     }
 
@@ -4145,8 +4099,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkBoostsLevel$1(TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus) {
-        this.boostsStatus = tL_stories$TL_premium_boostsStatus;
+    public /* synthetic */ void lambda$checkBoostsLevel$1(TL_stories.TL_premium_boostsStatus tL_premium_boostsStatus) {
+        this.boostsStatus = tL_premium_boostsStatus;
         this.checkedBoostsLevel = true;
         updateApplyButton1(true);
         this.checkingBoostsLevel = false;
@@ -4274,16 +4228,16 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             setBackgroundColor(this.previousBackgroundGradientColor1, 1, true, true);
             setBackgroundColor(this.previousBackgroundColor, 0, true, true);
         } else {
-            TLRPC$TL_wallPaper tLRPC$TL_wallPaper = this.previousSelectedPattern;
-            this.selectedPattern = tLRPC$TL_wallPaper;
-            if (tLRPC$TL_wallPaper == null) {
+            TLRPC.TL_wallPaper tL_wallPaper = this.previousSelectedPattern;
+            this.selectedPattern = tL_wallPaper;
+            if (tL_wallPaper == null) {
                 this.backgroundImage.setImageDrawable(null);
             } else {
                 BackgroundView backgroundView = this.backgroundImage;
-                ImageLocation forDocument = ImageLocation.getForDocument(tLRPC$TL_wallPaper.document);
+                ImageLocation forDocument = ImageLocation.getForDocument(tL_wallPaper.document);
                 String str = this.imageFilter;
-                TLRPC$TL_wallPaper tLRPC$TL_wallPaper2 = this.selectedPattern;
-                backgroundView.setImage(forDocument, str, null, null, "jpg", tLRPC$TL_wallPaper2.document.size, 1, tLRPC$TL_wallPaper2);
+                TLRPC.TL_wallPaper tL_wallPaper2 = this.selectedPattern;
+                backgroundView.setImage(forDocument, str, null, null, "jpg", tL_wallPaper2.document.size, 1, tL_wallPaper2);
             }
             this.backgroundCheckBoxView[1].setChecked(this.selectedPattern != null, false);
             float f = this.previousIntensity;
@@ -4463,10 +4417,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$didReceivedNotification$28(TLObject tLObject) {
-        if (tLObject instanceof TLRPC$TL_wallPaper) {
-            TLRPC$TL_wallPaper tLRPC$TL_wallPaper = (TLRPC$TL_wallPaper) tLObject;
-            if (tLRPC$TL_wallPaper.pattern) {
-                this.selectedPattern = tLRPC$TL_wallPaper;
+        if (tLObject instanceof TLRPC.TL_wallPaper) {
+            TLRPC.TL_wallPaper tL_wallPaper = (TLRPC.TL_wallPaper) tLObject;
+            if (tL_wallPaper.pattern) {
+                this.selectedPattern = tL_wallPaper;
                 setCurrentImage(false);
                 updateButtonState(false, false);
                 this.patterns.add(0, this.selectedPattern);
@@ -4479,7 +4433,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didReceivedNotification$29(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$didReceivedNotification$29(final TLObject tLObject, TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda35
             @Override // java.lang.Runnable
             public final void run() {
@@ -4491,34 +4445,34 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$didReceivedNotification$30(TLObject tLObject) {
         Theme.ThemeAccent themeAccent;
-        TLRPC$TL_wallPaper tLRPC$TL_wallPaper;
+        TLRPC.TL_wallPaper tL_wallPaper;
         String str;
-        if (tLObject instanceof TLRPC$TL_account_wallPapers) {
-            TLRPC$TL_account_wallPapers tLRPC$TL_account_wallPapers = (TLRPC$TL_account_wallPapers) tLObject;
+        if (tLObject instanceof TLRPC.TL_account_wallPapers) {
+            TLRPC.TL_account_wallPapers tL_account_wallPapers = (TLRPC.TL_account_wallPapers) tLObject;
             this.patterns.clear();
             this.patternsDict.clear();
-            int size = tLRPC$TL_account_wallPapers.wallpapers.size();
+            int size = tL_account_wallPapers.wallpapers.size();
             boolean z = false;
             for (int i = 0; i < size; i++) {
-                if (tLRPC$TL_account_wallPapers.wallpapers.get(i) instanceof TLRPC$TL_wallPaper) {
-                    TLRPC$TL_wallPaper tLRPC$TL_wallPaper2 = (TLRPC$TL_wallPaper) tLRPC$TL_account_wallPapers.wallpapers.get(i);
-                    if (tLRPC$TL_wallPaper2.pattern) {
-                        TLRPC$Document tLRPC$Document = tLRPC$TL_wallPaper2.document;
-                        if (tLRPC$Document != null && !this.patternsDict.containsKey(Long.valueOf(tLRPC$Document.id))) {
-                            this.patterns.add(tLRPC$TL_wallPaper2);
-                            this.patternsDict.put(Long.valueOf(tLRPC$TL_wallPaper2.document.id), tLRPC$TL_wallPaper2);
+                if (tL_account_wallPapers.wallpapers.get(i) instanceof TLRPC.TL_wallPaper) {
+                    TLRPC.TL_wallPaper tL_wallPaper2 = (TLRPC.TL_wallPaper) tL_account_wallPapers.wallpapers.get(i);
+                    if (tL_wallPaper2.pattern) {
+                        TLRPC.Document document = tL_wallPaper2.document;
+                        if (document != null && !this.patternsDict.containsKey(Long.valueOf(document.id))) {
+                            this.patterns.add(tL_wallPaper2);
+                            this.patternsDict.put(Long.valueOf(tL_wallPaper2.document.id), tL_wallPaper2);
                         }
                         Theme.ThemeAccent themeAccent2 = this.accent;
-                        if (themeAccent2 != null && (str = themeAccent2.patternSlug) != null && str.equals(tLRPC$TL_wallPaper2.slug)) {
-                            this.selectedPattern = tLRPC$TL_wallPaper2;
+                        if (themeAccent2 != null && (str = themeAccent2.patternSlug) != null && str.equals(tL_wallPaper2.slug)) {
+                            this.selectedPattern = tL_wallPaper2;
                             setCurrentImage(false);
                             updateButtonState(false, false);
                         } else if (this.accent == null) {
-                            TLRPC$TL_wallPaper tLRPC$TL_wallPaper3 = this.selectedPattern;
-                            if (tLRPC$TL_wallPaper3 != null) {
-                                String str2 = tLRPC$TL_wallPaper3.slug;
+                            TLRPC.TL_wallPaper tL_wallPaper3 = this.selectedPattern;
+                            if (tL_wallPaper3 != null) {
+                                String str2 = tL_wallPaper3.slug;
                                 if (str2 != null) {
-                                    if (!str2.equals(tLRPC$TL_wallPaper2.slug)) {
+                                    if (!str2.equals(tL_wallPaper2.slug)) {
                                     }
                                 }
                             }
@@ -4527,32 +4481,32 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
                 }
             }
-            if (!z && (tLRPC$TL_wallPaper = this.selectedPattern) != null) {
-                this.patterns.add(0, tLRPC$TL_wallPaper);
+            if (!z && (tL_wallPaper = this.selectedPattern) != null) {
+                this.patterns.add(0, tL_wallPaper);
             }
             PatternsAdapter patternsAdapter = this.patternsAdapter;
             if (patternsAdapter != null) {
                 patternsAdapter.notifyDataSetChanged();
             }
-            MessagesStorage.getInstance(this.currentAccount).putWallpapers(tLRPC$TL_account_wallPapers.wallpapers, 1);
+            MessagesStorage.getInstance(this.currentAccount).putWallpapers(tL_account_wallPapers.wallpapers, 1);
         }
         if (this.selectedPattern != null || (themeAccent = this.accent) == null || TextUtils.isEmpty(themeAccent.patternSlug)) {
             return;
         }
-        TLRPC$TL_account_getWallPaper tLRPC$TL_account_getWallPaper = new TLRPC$TL_account_getWallPaper();
-        TLRPC$TL_inputWallPaperSlug tLRPC$TL_inputWallPaperSlug = new TLRPC$TL_inputWallPaperSlug();
-        tLRPC$TL_inputWallPaperSlug.slug = this.accent.patternSlug;
-        tLRPC$TL_account_getWallPaper.wallpaper = tLRPC$TL_inputWallPaperSlug;
-        ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_account_getWallPaper, new RequestDelegate() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda26
+        TLRPC.TL_account_getWallPaper tL_account_getWallPaper = new TLRPC.TL_account_getWallPaper();
+        TLRPC.TL_inputWallPaperSlug tL_inputWallPaperSlug = new TLRPC.TL_inputWallPaperSlug();
+        tL_inputWallPaperSlug.slug = this.accent.patternSlug;
+        tL_account_getWallPaper.wallpaper = tL_inputWallPaperSlug;
+        ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(getConnectionsManager().sendRequest(tL_account_getWallPaper, new RequestDelegate() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda26
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
-                ThemePreviewActivity.this.lambda$didReceivedNotification$29(tLObject2, tLRPC$TL_error);
+            public final void run(TLObject tLObject2, TLRPC.TL_error tL_error) {
+                ThemePreviewActivity.this.lambda$didReceivedNotification$29(tLObject2, tL_error);
             }
         }), this.classGuid);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didReceivedNotification$31(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$didReceivedNotification$31(final TLObject tLObject, TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda24
             @Override // java.lang.Runnable
             public final void run() {
@@ -4670,9 +4624,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     if (i2 >= size) {
                         break;
                     }
-                    TLRPC$TL_wallPaper tLRPC$TL_wallPaper = (TLRPC$TL_wallPaper) this.patterns.get(i2);
-                    if (tLRPC$TL_wallPaper.pattern && this.accent.patternSlug.equals(tLRPC$TL_wallPaper.slug)) {
-                        this.selectedPattern = tLRPC$TL_wallPaper;
+                    TLRPC.TL_wallPaper tL_wallPaper = (TLRPC.TL_wallPaper) this.patterns.get(i2);
+                    if (tL_wallPaper.pattern && this.accent.patternSlug.equals(tL_wallPaper.slug)) {
+                        this.selectedPattern = tL_wallPaper;
                         break;
                     }
                     i2++;
@@ -5151,8 +5105,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     }
 
     private void selectPattern(int i) {
-        TLRPC$TL_wallPaper tLRPC$TL_wallPaper = (i < 0 || i >= this.patterns.size()) ? this.lastSelectedPattern : (TLRPC$TL_wallPaper) this.patterns.get(i);
-        if (tLRPC$TL_wallPaper == null) {
+        TLRPC.TL_wallPaper tL_wallPaper = (i < 0 || i >= this.patterns.size()) ? this.lastSelectedPattern : (TLRPC.TL_wallPaper) this.patterns.get(i);
+        if (tL_wallPaper == null) {
             return;
         }
         ValueAnimator valueAnimator = this.valueAnimator;
@@ -5195,10 +5149,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         this.valueAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
         this.valueAnimator.setDuration(300L);
         this.valueAnimator.start();
-        this.backgroundImage.getImageReceiver().setCrossfadeDuration(300);
-        this.backgroundImage.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_wallPaper.document), this.imageFilter, null, null, null, tLRPC$TL_wallPaper.document.size, "jpg", tLRPC$TL_wallPaper, 1);
+        this.backgroundImage.getImageReceiver().setCrossfadeDuration(NotificationCenter.storiesReadUpdated);
+        this.backgroundImage.getImageReceiver().setImage(ImageLocation.getForDocument(tL_wallPaper.document), this.imageFilter, null, null, null, tL_wallPaper.document.size, "jpg", tL_wallPaper, 1);
         this.backgroundImage.onNewImageSet();
-        this.selectedPattern = tLRPC$TL_wallPaper;
+        this.selectedPattern = tL_wallPaper;
         this.isMotion = this.backgroundCheckBoxView[2].isChecked();
         updateButtonState(false, true);
     }
@@ -5345,10 +5299,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         } else {
             if (i == 2) {
                 Object obj = this.currentWallpaper;
-                if (obj instanceof TLRPC$TL_wallPaper) {
-                    TLRPC$TL_wallPaper tLRPC$TL_wallPaper = (TLRPC$TL_wallPaper) obj;
-                    TLRPC$PhotoSize closestPhotoSizeWithSize = z ? FileLoader.getClosestPhotoSizeWithSize(tLRPC$TL_wallPaper.document.thumbs, 100) : null;
-                    this.backgroundImage.setImage(ImageLocation.getForDocument(tLRPC$TL_wallPaper.document), this.imageFilter, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$TL_wallPaper.document), "100_100_b", closestPhotoSizeWithSize instanceof TLRPC$TL_photoStrippedSize ? new BitmapDrawable(ImageLoader.getStrippedPhotoBitmap(closestPhotoSizeWithSize.bytes, "b")) : null, "jpg", tLRPC$TL_wallPaper.document.size, 1, tLRPC$TL_wallPaper);
+                if (obj instanceof TLRPC.TL_wallPaper) {
+                    TLRPC.TL_wallPaper tL_wallPaper = (TLRPC.TL_wallPaper) obj;
+                    TLRPC.PhotoSize closestPhotoSizeWithSize = z ? FileLoader.getClosestPhotoSizeWithSize(tL_wallPaper.document.thumbs, 100) : null;
+                    this.backgroundImage.setImage(ImageLocation.getForDocument(tL_wallPaper.document), this.imageFilter, ImageLocation.getForDocument(closestPhotoSizeWithSize, tL_wallPaper.document), "100_100_b", closestPhotoSizeWithSize instanceof TLRPC.TL_photoStrippedSize ? new BitmapDrawable(ImageLoader.getStrippedPhotoBitmap(closestPhotoSizeWithSize.bytes, "b")) : null, "jpg", tL_wallPaper.document.size, 1, tL_wallPaper);
                 } else if (obj instanceof WallpapersListActivity.ColorWallpaper) {
                     WallpapersListActivity.ColorWallpaper colorWallpaper = (WallpapersListActivity.ColorWallpaper) obj;
                     this.backgroundRotation = colorWallpaper.gradientRotation;
@@ -5359,13 +5313,13 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
                     setBackgroundColor(colorWallpaper.gradientColor2, 2, true, false);
                     setBackgroundColor(colorWallpaper.gradientColor3, 3, true, false);
-                    TLRPC$TL_wallPaper tLRPC$TL_wallPaper2 = this.selectedPattern;
-                    if (tLRPC$TL_wallPaper2 != null) {
+                    TLRPC.TL_wallPaper tL_wallPaper2 = this.selectedPattern;
+                    if (tL_wallPaper2 != null) {
                         BackgroundView backgroundView2 = this.backgroundImage;
-                        ImageLocation forDocument = ImageLocation.getForDocument(tLRPC$TL_wallPaper2.document);
+                        ImageLocation forDocument = ImageLocation.getForDocument(tL_wallPaper2.document);
                         String str = this.imageFilter;
-                        TLRPC$TL_wallPaper tLRPC$TL_wallPaper3 = this.selectedPattern;
-                        backgroundView2.setImage(forDocument, str, null, null, "jpg", tLRPC$TL_wallPaper3.document.size, 1, tLRPC$TL_wallPaper3);
+                        TLRPC.TL_wallPaper tL_wallPaper3 = this.selectedPattern;
+                        backgroundView2.setImage(forDocument, str, null, null, "jpg", tL_wallPaper3.document.size, 1, tL_wallPaper3);
                     } else if ("d".equals(colorWallpaper.slug)) {
                         Point point = AndroidUtilities.displaySize;
                         int min = Math.min(point.x, point.y);
@@ -5393,12 +5347,12 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
                 } else if (obj instanceof MediaController.SearchImage) {
                     MediaController.SearchImage searchImage = (MediaController.SearchImage) obj;
-                    TLRPC$Photo tLRPC$Photo = searchImage.photo;
-                    if (tLRPC$Photo != null) {
-                        TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, 100);
-                        TLRPC$PhotoSize closestPhotoSizeWithSize3 = FileLoader.getClosestPhotoSizeWithSize(searchImage.photo.sizes, this.maxWallpaperSize, true);
-                        TLRPC$PhotoSize tLRPC$PhotoSize = closestPhotoSizeWithSize3 != closestPhotoSizeWithSize2 ? closestPhotoSizeWithSize3 : null;
-                        this.backgroundImage.setImage(ImageLocation.getForPhoto(tLRPC$PhotoSize, searchImage.photo), this.imageFilter, ImageLocation.getForPhoto(closestPhotoSizeWithSize2, searchImage.photo), "100_100_b", "jpg", tLRPC$PhotoSize != null ? tLRPC$PhotoSize.size : 0, 1, searchImage);
+                    TLRPC.Photo photo = searchImage.photo;
+                    if (photo != null) {
+                        TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, 100);
+                        TLRPC.PhotoSize closestPhotoSizeWithSize3 = FileLoader.getClosestPhotoSizeWithSize(searchImage.photo.sizes, this.maxWallpaperSize, true);
+                        TLRPC.PhotoSize photoSize = closestPhotoSizeWithSize3 != closestPhotoSizeWithSize2 ? closestPhotoSizeWithSize3 : null;
+                        this.backgroundImage.setImage(ImageLocation.getForPhoto(photoSize, searchImage.photo), this.imageFilter, ImageLocation.getForPhoto(closestPhotoSizeWithSize2, searchImage.photo), "100_100_b", "jpg", photoSize != null ? photoSize.size : 0, 1, searchImage);
                     } else {
                         this.backgroundImage.setImage(searchImage.imageUrl, this.imageFilter, searchImage.thumbUrl, "100_100_b");
                     }
@@ -5479,13 +5433,13 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         motionBackgroundDrawable = new ColorDrawable(defaultAccentColor);
                     }
                     this.backgroundImage.setBackground(motionBackgroundDrawable);
-                    TLRPC$TL_wallPaper tLRPC$TL_wallPaper4 = this.selectedPattern;
-                    if (tLRPC$TL_wallPaper4 != null) {
+                    TLRPC.TL_wallPaper tL_wallPaper4 = this.selectedPattern;
+                    if (tL_wallPaper4 != null) {
                         BackgroundView backgroundView4 = this.backgroundImage;
-                        ImageLocation forDocument2 = ImageLocation.getForDocument(tLRPC$TL_wallPaper4.document);
+                        ImageLocation forDocument2 = ImageLocation.getForDocument(tL_wallPaper4.document);
                         String str2 = this.imageFilter;
-                        TLRPC$TL_wallPaper tLRPC$TL_wallPaper5 = this.selectedPattern;
-                        backgroundView4.setImage(forDocument2, str2, null, null, "jpg", tLRPC$TL_wallPaper5.document.size, 1, tLRPC$TL_wallPaper5);
+                        TLRPC.TL_wallPaper tL_wallPaper5 = this.selectedPattern;
+                        backgroundView4.setImage(forDocument2, str2, null, null, "jpg", tL_wallPaper5.document.size, 1, tL_wallPaper5);
                     }
                 }
                 if (defaultAccentColor2 == 0) {
@@ -5609,29 +5563,29 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
     /* JADX WARN: Multi-variable type inference failed */
     public static void showFor(final ChatActivity chatActivity, MessageObject messageObject) {
-        TLRPC$WallPaper tLRPC$WallPaper;
-        TLRPC$MessageAction tLRPC$MessageAction = messageObject.messageOwner.action;
-        if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionSetChatWallPaper) {
-            TLRPC$WallPaper tLRPC$WallPaper2 = ((TLRPC$TL_messageActionSetChatWallPaper) tLRPC$MessageAction).wallpaper;
-            if (tLRPC$WallPaper2.pattern || tLRPC$WallPaper2.document == null) {
-                String str = tLRPC$WallPaper2.slug;
-                TLRPC$WallPaperSettings tLRPC$WallPaperSettings = tLRPC$WallPaper2.settings;
-                int i = tLRPC$WallPaperSettings.background_color;
-                int i2 = tLRPC$WallPaperSettings.second_background_color;
-                int i3 = tLRPC$WallPaperSettings.third_background_color;
-                int i4 = tLRPC$WallPaperSettings.fourth_background_color;
-                int wallpaperRotation = AndroidUtilities.getWallpaperRotation(tLRPC$WallPaperSettings.rotation, false);
-                TLRPC$WallPaperSettings tLRPC$WallPaperSettings2 = tLRPC$WallPaper2.settings;
-                WallpapersListActivity.ColorWallpaper colorWallpaper = new WallpapersListActivity.ColorWallpaper(str, i, i2, i3, i4, wallpaperRotation, tLRPC$WallPaperSettings2.intensity / 100.0f, tLRPC$WallPaperSettings2.motion, null);
-                if (tLRPC$WallPaper2 instanceof TLRPC$TL_wallPaper) {
-                    colorWallpaper.pattern = (TLRPC$TL_wallPaper) tLRPC$WallPaper2;
+        TLRPC.WallPaper wallPaper;
+        TLRPC.MessageAction messageAction = messageObject.messageOwner.action;
+        if (messageAction instanceof TLRPC.TL_messageActionSetChatWallPaper) {
+            TLRPC.WallPaper wallPaper2 = ((TLRPC.TL_messageActionSetChatWallPaper) messageAction).wallpaper;
+            if (wallPaper2.pattern || wallPaper2.document == null) {
+                String str = wallPaper2.slug;
+                TLRPC.WallPaperSettings wallPaperSettings = wallPaper2.settings;
+                int i = wallPaperSettings.background_color;
+                int i2 = wallPaperSettings.second_background_color;
+                int i3 = wallPaperSettings.third_background_color;
+                int i4 = wallPaperSettings.fourth_background_color;
+                int wallpaperRotation = AndroidUtilities.getWallpaperRotation(wallPaperSettings.rotation, false);
+                TLRPC.WallPaperSettings wallPaperSettings2 = wallPaper2.settings;
+                WallpapersListActivity.ColorWallpaper colorWallpaper = new WallpapersListActivity.ColorWallpaper(str, i, i2, i3, i4, wallpaperRotation, wallPaperSettings2.intensity / 100.0f, wallPaperSettings2.motion, null);
+                if (wallPaper2 instanceof TLRPC.TL_wallPaper) {
+                    colorWallpaper.pattern = (TLRPC.TL_wallPaper) wallPaper2;
                 }
-                tLRPC$WallPaper = colorWallpaper;
+                wallPaper = colorWallpaper;
             } else {
-                tLRPC$WallPaper = tLRPC$WallPaper2;
+                wallPaper = wallPaper2;
             }
             final boolean isDark = Theme.getActiveTheme().isDark();
-            ThemePreviewActivity themePreviewActivity = new ThemePreviewActivity(tLRPC$WallPaper, null, true, false) { // from class: org.telegram.ui.ThemePreviewActivity.3
+            ThemePreviewActivity themePreviewActivity = new ThemePreviewActivity(wallPaper, null, true, false) { // from class: org.telegram.ui.ThemePreviewActivity.3
                 @Override // org.telegram.ui.ActionBar.BaseFragment
                 public void onFragmentClosed() {
                     super.onFragmentClosed();
@@ -5639,9 +5593,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     themeDelegate.setCurrentTheme(themeDelegate.getCurrentTheme(), chatActivity.themeDelegate.getCurrentWallpaper(), false, Boolean.valueOf(isDark));
                 }
             };
-            TLRPC$WallPaperSettings tLRPC$WallPaperSettings3 = tLRPC$WallPaper2.settings;
-            if (tLRPC$WallPaperSettings3 != null) {
-                themePreviewActivity.setInitialModes(tLRPC$WallPaperSettings3.blur, tLRPC$WallPaperSettings3.motion, tLRPC$WallPaperSettings3.intensity / 100.0f);
+            TLRPC.WallPaperSettings wallPaperSettings3 = wallPaper2.settings;
+            if (wallPaperSettings3 != null) {
+                themePreviewActivity.setInitialModes(wallPaperSettings3.blur, wallPaperSettings3.motion, wallPaperSettings3.intensity / 100.0f);
             }
             themePreviewActivity.setCurrentServerWallpaper(messageObject);
             themePreviewActivity.setDialogId(messageObject.getDialogId());
@@ -5700,11 +5654,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 this.patternsAdapter.notifyDataSetChanged();
                 ArrayList arrayList = this.patterns;
                 if (arrayList != null) {
-                    TLRPC$TL_wallPaper tLRPC$TL_wallPaper = this.selectedPattern;
-                    if (tLRPC$TL_wallPaper == null) {
+                    TLRPC.TL_wallPaper tL_wallPaper = this.selectedPattern;
+                    if (tL_wallPaper == null) {
                         indexOf = 0;
                     } else {
-                        indexOf = arrayList.indexOf(tLRPC$TL_wallPaper) + (this.screenType == 2 ? 1 : 0);
+                        indexOf = arrayList.indexOf(tL_wallPaper) + (this.screenType == 2 ? 1 : 0);
                     }
                     this.patternsLayoutManager.scrollToPositionWithOffset(indexOf, (this.patternsListView.getMeasuredWidth() - AndroidUtilities.dp(124.0f)) / 2);
                 }
@@ -5980,15 +5934,15 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             blurButton = this.applyButton1;
             i = R.string.ApplyWallpaperForMe;
         } else if (j < 0) {
-            TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-this.dialogId));
+            TLRPC.Chat chat = getMessagesController().getChat(Long.valueOf(-this.dialogId));
             if (chat == null) {
                 blurButton = this.applyButton1;
                 formatString = LocaleController.formatString(R.string.ApplyWallpaperForChannel, LocaleController.getString(R.string.AccDescrChannel).toLowerCase());
                 blurButton.setText(formatString);
             }
             this.applyButton1.setText(LocaleController.formatString(R.string.ApplyWallpaperForChannel, chat.title));
-            TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus = this.boostsStatus;
-            if (tL_stories$TL_premium_boostsStatus == null || tL_stories$TL_premium_boostsStatus.level >= getCustomWallpaperLevelMin()) {
+            TL_stories.TL_premium_boostsStatus tL_premium_boostsStatus = this.boostsStatus;
+            if (tL_premium_boostsStatus == null || tL_premium_boostsStatus.level >= getCustomWallpaperLevelMin()) {
                 if (this.boostsStatus == null) {
                     checkBoostsLevel();
                     return;
@@ -6075,23 +6029,23 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         if (obj == null) {
             obj = this.currentWallpaper;
         }
-        boolean z3 = obj instanceof TLRPC$TL_wallPaper;
+        boolean z3 = obj instanceof TLRPC.TL_wallPaper;
         if (!z3 && !(obj instanceof MediaController.SearchImage)) {
             return;
         }
         if (z3) {
-            TLRPC$TL_wallPaper tLRPC$TL_wallPaper = (TLRPC$TL_wallPaper) obj;
-            str = FileLoader.getAttachFileName(tLRPC$TL_wallPaper.document);
+            TLRPC.TL_wallPaper tL_wallPaper = (TLRPC.TL_wallPaper) obj;
+            str = FileLoader.getAttachFileName(tL_wallPaper.document);
             if (TextUtils.isEmpty(str)) {
                 return;
             }
-            file = FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$TL_wallPaper.document, true);
-            j = tLRPC$TL_wallPaper.document.size;
+            file = FileLoader.getInstance(this.currentAccount).getPathToAttach(tL_wallPaper.document, true);
+            j = tL_wallPaper.document.size;
         } else {
             MediaController.SearchImage searchImage = (MediaController.SearchImage) obj;
-            TLRPC$Photo tLRPC$Photo = searchImage.photo;
-            if (tLRPC$Photo != null) {
-                TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, this.maxWallpaperSize, true);
+            TLRPC.Photo photo = searchImage.photo;
+            if (photo != null) {
+                TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, this.maxWallpaperSize, true);
                 httpFilePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(closestPhotoSizeWithSize, true);
                 name = FileLoader.getAttachFileName(closestPhotoSizeWithSize);
                 i = closestPhotoSizeWithSize.size;
@@ -6196,11 +6150,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             return;
         }
         boolean isEnabled = this.backgroundCheckBoxView[0].isEnabled();
-        TLRPC$TL_wallPaper tLRPC$TL_wallPaper = this.selectedPattern;
-        if (isEnabled == (tLRPC$TL_wallPaper != null)) {
+        TLRPC.TL_wallPaper tL_wallPaper = this.selectedPattern;
+        if (isEnabled == (tL_wallPaper != null)) {
             return;
         }
-        if (tLRPC$TL_wallPaper == null) {
+        if (tL_wallPaper == null) {
             this.backgroundCheckBoxView[0].setChecked(false, true);
         }
         this.backgroundCheckBoxView[0].setEnabled(this.selectedPattern != null);
@@ -6384,7 +6338,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         if ("d".equals(((org.telegram.ui.WallpapersListActivity.ColorWallpaper) r2).slug) == false) goto L407;
      */
     /* JADX WARN: Code restructure failed: missing block: B:107:0x037a, code lost:
-        if ((r38.currentWallpaper instanceof org.telegram.tgnet.TLRPC$TL_wallPaper) != false) goto L407;
+        if ((r38.currentWallpaper instanceof org.telegram.tgnet.TLRPC.TL_wallPaper) != false) goto L407;
      */
     /* JADX WARN: Code restructure failed: missing block: B:17:0x0061, code lost:
         if (r1.pattern == false) goto L16;
@@ -6451,10 +6405,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     /* JADX WARN: Removed duplicated region for block: B:81:0x0303  */
     /* JADX WARN: Removed duplicated region for block: B:84:0x0320  */
     /* JADX WARN: Type inference failed for: r1v103 */
-    /* JADX WARN: Type inference failed for: r1v104, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r1v104, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r1v110 */
     /* JADX WARN: Type inference failed for: r8v0 */
-    /* JADX WARN: Type inference failed for: r8v3, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r8v3, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r8v4 */
     /* JADX WARN: Type inference failed for: r8v8 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -6523,9 +6477,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         if (z4) {
             Object obj2 = this.currentWallpaper;
             if (!(obj2 instanceof WallpapersListActivity.FileWallpaper)) {
-                if (obj2 instanceof TLRPC$TL_wallPaper) {
-                    TLRPC$TL_wallPaper tLRPC$TL_wallPaper = (TLRPC$TL_wallPaper) obj2;
-                    if (tLRPC$TL_wallPaper.document != null) {
+                if (obj2 instanceof TLRPC.TL_wallPaper) {
+                    TLRPC.TL_wallPaper tL_wallPaper = (TLRPC.TL_wallPaper) obj2;
+                    if (tL_wallPaper.document != null) {
                     }
                 }
             }
@@ -6724,7 +6678,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         if (ThemePreviewActivity.this.patternLayout[i25] != null) {
                             FrameLayout.LayoutParams layoutParams4 = (FrameLayout.LayoutParams) ThemePreviewActivity.this.patternLayout[i25].getLayoutParams();
                             if (i25 == 0) {
-                                f13 = ThemePreviewActivity.this.screenType == 2 ? 321 : NotificationCenter.currentUserPremiumStatusChanged;
+                                f13 = ThemePreviewActivity.this.screenType == 2 ? 321 : NotificationCenter.onRequestPermissionResultReceived;
                             } else {
                                 f13 = 316.0f;
                             }
@@ -6839,15 +6793,15 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         z2 = false;
                         f = 0.0f;
                         Theme.ThemeInfo themeInfo = this.applyingTheme;
-                        TLRPC$TL_theme tLRPC$TL_theme = themeInfo.info;
-                        String name = tLRPC$TL_theme != null ? tLRPC$TL_theme.title : themeInfo.getName();
+                        TLRPC.TL_theme tL_theme = themeInfo.info;
+                        String name = tL_theme != null ? tL_theme.title : themeInfo.getName();
                         int lastIndexOf = name.lastIndexOf(".attheme");
                         if (lastIndexOf >= 0) {
                             name = name.substring(0, lastIndexOf);
                         }
                         this.actionBar2.setTitle(name);
-                        TLRPC$TL_theme tLRPC$TL_theme2 = this.applyingTheme.info;
-                        if (tLRPC$TL_theme2 == null || (i3 = tLRPC$TL_theme2.installs_count) <= 0) {
+                        TLRPC.TL_theme tL_theme2 = this.applyingTheme.info;
+                        if (tL_theme2 == null || (i3 = tL_theme2.installs_count) <= 0) {
                             this.actionBar2.setSubtitle(LocaleController.formatDateOnline((System.currentTimeMillis() / 1000) - 3600, null));
                             this.listView2 = new RecyclerListView(context) { // from class: org.telegram.ui.ThemePreviewActivity.11
                                 float lastX;
@@ -7876,7 +7830,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                     if (insideBottomSheet) {
                                         RectF rectF = AndroidUtilities.rectTmp;
                                         rectF.set(0.0f, 0.0f, getWidth(), getHeight());
-                                        canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.didClearDatabase, 31);
+                                        canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.messagePlayingSpeedChanged, 31);
                                         Theme.applyServiceShaderMatrixForView(this, ThemePreviewActivity.this.backgroundImage, ThemePreviewActivity.this.themeDelegate);
                                         Paint paint = ThemePreviewActivity.this.themeDelegate.getPaint("paintChatActionBackground");
                                         ColorFilter colorFilter = paint.getColorFilter();
@@ -7947,7 +7901,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 BlurButton blurButton3 = new BlurButton(context);
                                 this.applyButton2 = blurButton3;
                                 ScaleStateListAnimator.apply(blurButton3, 0.033f, 1.2f);
-                                TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.dialogId));
+                                TLRPC.User user = getMessagesController().getUser(Long.valueOf(this.dialogId));
                                 SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(str2);
                                 if (getUserConfig().isPremium()) {
                                     i20 = 1;
@@ -8016,7 +7970,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 };
                                 this.dimmingSliderContainer = frameLayout8;
                                 frameLayout8.setPadding(AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f));
-                                this.page2.addView(this.dimmingSliderContainer, LayoutHelper.createFrame((int) NotificationCenter.wallpapersDidLoad, 76, 49));
+                                this.page2.addView(this.dimmingSliderContainer, LayoutHelper.createFrame((int) NotificationCenter.starUserGiftsLoaded, 76, 49));
                                 SliderView sliderView = new SliderView(getContext(), 3) { // from class: org.telegram.ui.ThemePreviewActivity.16
                                     @Override // org.telegram.ui.Stories.recorder.SliderView, android.view.View
                                     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
@@ -8343,12 +8297,12 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                             i14 = 316;
                                         } else {
                                             if (i12 == 0) {
-                                                i14 = NotificationCenter.currentUserPremiumStatusChanged;
+                                                i14 = NotificationCenter.onRequestPermissionResultReceived;
                                             }
                                             i14 = 316;
                                         }
                                         FrameLayout.LayoutParams createFrame = LayoutHelper.createFrame(-1, i14, 83);
-                                        createFrame.height = AndroidUtilities.dp(i12 == 0 ? this.screenType == 2 ? 321 : NotificationCenter.currentUserPremiumStatusChanged : 316.0f);
+                                        createFrame.height = AndroidUtilities.dp(i12 == 0 ? this.screenType == 2 ? 321 : NotificationCenter.onRequestPermissionResultReceived : 316.0f);
                                         if (insideBottomSheet()) {
                                             createFrame.height += AndroidUtilities.navigationBarHeight;
                                         }
@@ -8744,7 +8698,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 this.paint.setColor(ThemePreviewActivity.this.getButtonsColor(Theme.key_chat_fieldOverlayText));
                                 int i35 = 0;
                                 while (i35 < 2) {
-                                    this.paint.setAlpha(i35 == currentItem ? NotificationCenter.didClearDatabase : NotificationCenter.dialogTranslate);
+                                    this.paint.setAlpha(i35 == currentItem ? NotificationCenter.messagePlayingSpeedChanged : NotificationCenter.dialogTranslate);
                                     canvas.drawCircle(AndroidUtilities.dp((i35 * 15) + 3), AndroidUtilities.dp(4.0f), AndroidUtilities.dp(3.0f), this.paint);
                                     i35++;
                                 }
@@ -9340,7 +9294,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     if (ThemePreviewActivity.this.patternLayout[i252] != null) {
                         FrameLayout.LayoutParams layoutParams42 = (FrameLayout.LayoutParams) ThemePreviewActivity.this.patternLayout[i252].getLayoutParams();
                         if (i252 == 0) {
-                            f13 = ThemePreviewActivity.this.screenType == 2 ? 321 : NotificationCenter.currentUserPremiumStatusChanged;
+                            f13 = ThemePreviewActivity.this.screenType == 2 ? 321 : NotificationCenter.onRequestPermissionResultReceived;
                         } else {
                             f13 = 316.0f;
                         }
@@ -9745,11 +9699,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
-        TLRPC$TL_wallPaper tLRPC$TL_wallPaper;
+        TLRPC.TL_wallPaper tL_wallPaper;
         String str;
         if (i == NotificationCenter.chatWasBoostedByUser) {
             if (this.dialogId == ((Long) objArr[2]).longValue()) {
-                this.boostsStatus = (TL_stories$TL_premium_boostsStatus) objArr[0];
+                this.boostsStatus = (TL_stories.TL_premium_boostsStatus) objArr[0];
                 updateApplyButton1(true);
             }
         } else if (i == NotificationCenter.emojiLoaded) {
@@ -9796,24 +9750,24 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             int size = arrayList.size();
             boolean z = false;
             for (int i4 = 0; i4 < size; i4++) {
-                TLRPC$WallPaper tLRPC$WallPaper = (TLRPC$WallPaper) arrayList.get(i4);
-                if ((tLRPC$WallPaper instanceof TLRPC$TL_wallPaper) && tLRPC$WallPaper.pattern) {
-                    TLRPC$Document tLRPC$Document = tLRPC$WallPaper.document;
-                    if (tLRPC$Document != null && !this.patternsDict.containsKey(Long.valueOf(tLRPC$Document.id))) {
-                        this.patterns.add(tLRPC$WallPaper);
-                        this.patternsDict.put(Long.valueOf(tLRPC$WallPaper.document.id), tLRPC$WallPaper);
+                TLRPC.WallPaper wallPaper = (TLRPC.WallPaper) arrayList.get(i4);
+                if ((wallPaper instanceof TLRPC.TL_wallPaper) && wallPaper.pattern) {
+                    TLRPC.Document document = wallPaper.document;
+                    if (document != null && !this.patternsDict.containsKey(Long.valueOf(document.id))) {
+                        this.patterns.add(wallPaper);
+                        this.patternsDict.put(Long.valueOf(wallPaper.document.id), wallPaper);
                     }
                     Theme.ThemeAccent themeAccent = this.accent;
-                    if (themeAccent != null && (str = themeAccent.patternSlug) != null && str.equals(tLRPC$WallPaper.slug)) {
-                        this.selectedPattern = (TLRPC$TL_wallPaper) tLRPC$WallPaper;
+                    if (themeAccent != null && (str = themeAccent.patternSlug) != null && str.equals(wallPaper.slug)) {
+                        this.selectedPattern = (TLRPC.TL_wallPaper) wallPaper;
                         setCurrentImage(false);
                         updateButtonState(false, false);
                     } else if (this.accent == null) {
-                        TLRPC$TL_wallPaper tLRPC$TL_wallPaper2 = this.selectedPattern;
-                        if (tLRPC$TL_wallPaper2 != null) {
-                            String str2 = tLRPC$TL_wallPaper2.slug;
+                        TLRPC.TL_wallPaper tL_wallPaper2 = this.selectedPattern;
+                        if (tL_wallPaper2 != null) {
+                            String str2 = tL_wallPaper2.slug;
                             if (str2 != null) {
-                                if (!str2.equals(tLRPC$WallPaper.slug)) {
+                                if (!str2.equals(wallPaper.slug)) {
                                 }
                             }
                         }
@@ -9821,8 +9775,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     z = true;
                 }
             }
-            if (!z && (tLRPC$TL_wallPaper = this.selectedPattern) != null) {
-                this.patterns.add(0, tLRPC$TL_wallPaper);
+            if (!z && (tL_wallPaper = this.selectedPattern) != null) {
+                this.patterns.add(0, tL_wallPaper);
             }
             PatternsAdapter patternsAdapter = this.patternsAdapter;
             if (patternsAdapter != null) {
@@ -9830,17 +9784,17 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             }
             int size2 = arrayList.size();
             for (int i5 = 0; i5 < size2; i5++) {
-                TLRPC$WallPaper tLRPC$WallPaper2 = (TLRPC$WallPaper) arrayList.get(i5);
-                if (tLRPC$WallPaper2 instanceof TLRPC$TL_wallPaper) {
-                    j = MediaDataController.calcHash(j, tLRPC$WallPaper2.id);
+                TLRPC.WallPaper wallPaper2 = (TLRPC.WallPaper) arrayList.get(i5);
+                if (wallPaper2 instanceof TLRPC.TL_wallPaper) {
+                    j = MediaDataController.calcHash(j, wallPaper2.id);
                 }
             }
-            TLRPC$TL_account_getWallPapers tLRPC$TL_account_getWallPapers = new TLRPC$TL_account_getWallPapers();
-            tLRPC$TL_account_getWallPapers.hash = j;
-            ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_getWallPapers, new RequestDelegate() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda2
+            TLRPC.TL_account_getWallPapers tL_account_getWallPapers = new TLRPC.TL_account_getWallPapers();
+            tL_account_getWallPapers.hash = j;
+            ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_getWallPapers, new RequestDelegate() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda2
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ThemePreviewActivity.this.lambda$didReceivedNotification$31(tLObject, tLRPC$TL_error);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    ThemePreviewActivity.this.lambda$didReceivedNotification$31(tLObject, tL_error);
                 }
             }), this.classGuid);
         }
@@ -10195,9 +10149,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     if (i >= size) {
                         break;
                     }
-                    TLRPC$TL_wallPaper tLRPC$TL_wallPaper = (TLRPC$TL_wallPaper) this.patterns.get(i);
-                    if (tLRPC$TL_wallPaper.id == colorWallpaper.patternId) {
-                        this.selectedPattern = tLRPC$TL_wallPaper;
+                    TLRPC.TL_wallPaper tL_wallPaper = (TLRPC.TL_wallPaper) this.patterns.get(i);
+                    if (tL_wallPaper.id == colorWallpaper.patternId) {
+                        this.selectedPattern = tL_wallPaper;
                         break;
                     }
                     i++;

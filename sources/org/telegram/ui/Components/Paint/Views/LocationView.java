@@ -10,11 +10,8 @@ import android.graphics.RectF;
 import android.view.ViewGroup;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.tgnet.TLRPC$GeoPoint;
-import org.telegram.tgnet.TLRPC$MessageMedia;
-import org.telegram.tgnet.TLRPC$TL_messageMediaGeo;
-import org.telegram.tgnet.TLRPC$TL_messageMediaVenue;
-import org.telegram.tgnet.tl.TL_stories$MediaArea;
+import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Paint.Views.EntityView;
 import org.telegram.ui.Components.Point;
@@ -24,9 +21,9 @@ public class LocationView extends EntityView {
     private int currentColor;
     private int currentType;
     private boolean hasColor;
-    public TLRPC$MessageMedia location;
+    public TLRPC.MessageMedia location;
     public final LocationMarker marker;
-    public TL_stories$MediaArea mediaArea;
+    public TL_stories.MediaArea mediaArea;
 
     /* loaded from: classes3.dex */
     public class TextViewSelectionView extends EntityView.SelectionView {
@@ -88,7 +85,7 @@ public class LocationView extends EntityView {
             canvas.drawCircle(dp, f11, (dpf2 - AndroidUtilities.dp(1.0f)) + 1.0f, this.dotPaint);
             canvas.drawCircle(f2, f11, dpf2, this.dotStrokePaint);
             canvas.drawCircle(f2, f11, (dpf2 - AndroidUtilities.dp(1.0f)) + 1.0f, this.dotPaint);
-            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.didClearDatabase, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.messagePlayingSpeedChanged, 31);
             float f12 = dp + min2;
             float f13 = f3 - min2;
             canvas.drawLine(dp, f12, dp, f13, this.paint);
@@ -113,12 +110,12 @@ public class LocationView extends EntityView {
         }
     }
 
-    public LocationView(Context context, Point point, int i, TLRPC$MessageMedia tLRPC$MessageMedia, TL_stories$MediaArea tL_stories$MediaArea, float f, int i2) {
+    public LocationView(Context context, Point point, int i, TLRPC.MessageMedia messageMedia, TL_stories.MediaArea mediaArea, float f, int i2) {
         super(context, point);
         LocationMarker locationMarker = new LocationMarker(context, 0, f, 0);
         this.marker = locationMarker;
         locationMarker.setMaxWidth(i2);
-        setLocation(i, tLRPC$MessageMedia, tL_stories$MediaArea);
+        setLocation(i, messageMedia, mediaArea);
         locationMarker.setType(0, this.currentColor);
         addView(locationMarker, LayoutHelper.createFrame(-2, -2, 51));
         setClipChildren(false);
@@ -234,17 +231,17 @@ public class LocationView extends EntityView {
         this.currentColor = i;
     }
 
-    public void setLocation(int i, TLRPC$MessageMedia tLRPC$MessageMedia, TL_stories$MediaArea tL_stories$MediaArea) {
+    public void setLocation(int i, TLRPC.MessageMedia messageMedia, TL_stories.MediaArea mediaArea) {
         String str;
-        this.location = tLRPC$MessageMedia;
-        this.mediaArea = tL_stories$MediaArea;
+        this.location = messageMedia;
+        this.mediaArea = mediaArea;
         String str2 = null;
-        if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaGeo) {
-            TLRPC$GeoPoint tLRPC$GeoPoint = tLRPC$MessageMedia.geo;
-            str = geo(tLRPC$GeoPoint.lat, tLRPC$GeoPoint._long);
-        } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaVenue) {
-            String upperCase = tLRPC$MessageMedia.title.toUpperCase();
-            str2 = ((TLRPC$TL_messageMediaVenue) tLRPC$MessageMedia).emoji;
+        if (messageMedia instanceof TLRPC.TL_messageMediaGeo) {
+            TLRPC.GeoPoint geoPoint = messageMedia.geo;
+            str = geo(geoPoint.lat, geoPoint._long);
+        } else if (messageMedia instanceof TLRPC.TL_messageMediaVenue) {
+            String upperCase = messageMedia.title.toUpperCase();
+            str2 = ((TLRPC.TL_messageMediaVenue) messageMedia).emoji;
             str = upperCase;
         } else {
             str = "";

@@ -93,8 +93,7 @@ import org.telegram.messenger.camera.CameraSession;
 import org.telegram.messenger.video.MP4Builder;
 import org.telegram.messenger.video.Mp4Movie;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$InputEncryptedFile;
-import org.telegram.tgnet.TLRPC$InputFile;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.InstantCameraView;
@@ -130,8 +129,8 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     private int currentAccount;
     private Delegate delegate;
     public boolean drawBlur;
-    private TLRPC$InputEncryptedFile encryptedFile;
-    private TLRPC$InputFile file;
+    private TLRPC.InputEncryptedFile encryptedFile;
+    private TLRPC.InputFile file;
     ValueAnimator finishZoomTransition;
     private Bitmap firstFrameThumb;
     private final FlashViews.ImageViewInvertable flashButton;
@@ -2013,11 +2012,11 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         }
 
         public /* synthetic */ void lambda$startRecording$0() {
-            NotificationCenter.getInstance(InstantCameraView.this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.stopAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
+            NotificationCenter.getInstance(InstantCameraView.this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.stopAllHeavyOperations, 512);
         }
 
         public /* synthetic */ void lambda$stopRecording$1() {
-            NotificationCenter.getInstance(InstantCameraView.this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.stopAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
+            NotificationCenter.getInstance(InstantCameraView.this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.stopAllHeavyOperations, 512);
         }
 
         public void prepareEncoder(final boolean z) {
@@ -2949,7 +2948,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         if (!arrayList2.isEmpty()) {
             arrayList = arrayList2;
         }
-        return Build.MANUFACTURER.equalsIgnoreCase("Xiaomi") ? CameraController.chooseOptimalSize(arrayList, 640, 480, this.aspectRatio, false) : CameraController.chooseOptimalSize(arrayList, 480, NotificationCenter.onActivityResultReceived, this.aspectRatio, false);
+        return Build.MANUFACTURER.equalsIgnoreCase("Xiaomi") ? CameraController.chooseOptimalSize(arrayList, 640, 480, this.aspectRatio, false) : CameraController.chooseOptimalSize(arrayList, 480, NotificationCenter.onDatabaseOpened, this.aspectRatio, false);
     }
 
     public void createCamera(final int i, final SurfaceTexture surfaceTexture) {
@@ -3574,8 +3573,8 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             if (file == null || !file.getAbsolutePath().equals(str)) {
                 return;
             }
-            this.file = (TLRPC$InputFile) objArr[1];
-            this.encryptedFile = (TLRPC$InputEncryptedFile) objArr[2];
+            this.file = (TLRPC.InputFile) objArr[1];
+            this.encryptedFile = (TLRPC.InputEncryptedFile) objArr[2];
             this.size = ((Long) objArr[5]).longValue();
             if (this.encryptedFile != null) {
                 this.key = (byte[]) objArr[3];
@@ -4203,7 +4202,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(imageViewInvertable, property, z ? 1.0f : 0.0f);
         ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(this.flashButton, property, z ? 1.0f : 0.0f);
         ObjectAnimator ofFloat4 = ObjectAnimator.ofFloat(this.muteImageView, property, 0.0f);
-        ObjectAnimator ofInt = ObjectAnimator.ofInt(this.paint, AnimationProperties.PAINT_ALPHA, z ? NotificationCenter.didClearDatabase : 0);
+        ObjectAnimator ofInt = ObjectAnimator.ofInt(this.paint, AnimationProperties.PAINT_ALPHA, z ? NotificationCenter.messagePlayingSpeedChanged : 0);
         ObjectAnimator ofFloat5 = ObjectAnimator.ofFloat(this.cameraContainer, property, z ? 1.0f : 0.0f);
         InstantViewCameraContainer instantViewCameraContainer = this.cameraContainer;
         Property property2 = View.SCALE_X;

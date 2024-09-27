@@ -516,14 +516,13 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
         universalRecyclerView.adapter.update(true);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Removed duplicated region for block: B:31:0x0117  */
     /* JADX WARN: Removed duplicated region for block: B:32:0x0119  */
     @Override // org.telegram.ui.Components.UniversalFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void fillItems(ArrayList arrayList, UniversalAdapter universalAdapter) {
+    protected void fillItems(ArrayList arrayList, UniversalAdapter universalAdapter) {
         String str;
         arrayList.add(UItem.asRippleCheck(1, LocaleController.getString(R.string.BrowserSettingsEnable)).setChecked(SharedConfig.inappBrowser));
         arrayList.add(UItem.asShadow(LocaleController.getString(R.string.BrowserSettingsEnableInfo)));
@@ -595,9 +594,8 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
         return super.isLightStatusBar();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.UniversalFragment
-    public void onClick(UItem uItem, final View view, int i, float f, float f2) {
+    protected void onClick(UItem uItem, final View view, int i, float f, float f2) {
         AlertDialog.Builder message;
         String string;
         DialogInterface.OnClickListener onClickListener;
@@ -829,9 +827,8 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.webViewResolved);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.UniversalFragment
-    public boolean onLongClick(UItem uItem, View view, int i, float f, float f2) {
+    protected boolean onLongClick(UItem uItem, View view, int i, float f, float f2) {
         return false;
     }
 }

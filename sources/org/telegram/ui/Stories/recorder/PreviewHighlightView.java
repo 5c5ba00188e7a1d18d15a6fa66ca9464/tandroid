@@ -21,7 +21,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.BackupImageView;
@@ -44,7 +44,7 @@ public class PreviewHighlightView extends FrameLayout {
         this.shownTop = false;
         this.shownBottom = false;
         this.currentAccount = i;
-        TLRPC$User currentUser = UserConfig.getInstance(i).getCurrentUser();
+        TLRPC.User currentUser = UserConfig.getInstance(i).getCurrentUser();
         FrameLayout frameLayout = new FrameLayout(getContext()) { // from class: org.telegram.ui.Stories.recorder.PreviewHighlightView.1
             private RectF rectF = new RectF();
             private Paint barPaint = new Paint(1);
@@ -58,7 +58,7 @@ public class PreviewHighlightView extends FrameLayout {
                 int i2 = 0;
                 while (i2 < PreviewHighlightView.this.storiesCount) {
                     this.rectF.set(dpf2, AndroidUtilities.dpf2(8.0f), dpf2 + width, AndroidUtilities.dpf2(10.0f));
-                    this.barPaint.setAlpha(i2 < PreviewHighlightView.this.storiesCount + (-1) ? NotificationCenter.didClearDatabase : NotificationCenter.didUpdateConnectionState);
+                    this.barPaint.setAlpha(i2 < PreviewHighlightView.this.storiesCount + (-1) ? NotificationCenter.messagePlayingSpeedChanged : NotificationCenter.didUpdateConnectionState);
                     canvas.drawRoundRect(this.rectF, AndroidUtilities.dpf2(1.0f), AndroidUtilities.dpf2(1.0f), this.barPaint);
                     dpf2 += AndroidUtilities.dpf2(2.0f) + width;
                     i2++;

@@ -14,7 +14,7 @@ import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.UserConfig;
-import org.telegram.tgnet.TLRPC$TL_availableReaction;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Paint.Views.EntityView;
@@ -101,7 +101,7 @@ public class ReactionWidgetEntityView extends EntityView {
         this.baseSize = size;
         animatedFloat.set(1.0f, true);
         this.progressToNext.set(1.0f, true);
-        List<TLRPC$TL_availableReaction> reactionsList = MediaDataController.getInstance(UserConfig.selectedAccount).getReactionsList();
+        List<TLRPC.TL_availableReaction> reactionsList = MediaDataController.getInstance(UserConfig.selectedAccount).getReactionsList();
         ReactionImageHolder reactionImageHolder = this.reactionHolder;
         ReactionsLayoutInBubble.VisibleReaction fromEmojicon = ReactionsLayoutInBubble.VisibleReaction.fromEmojicon(findHeartReaction(reactionsList));
         this.currentReaction = fromEmojicon;
@@ -116,14 +116,14 @@ public class ReactionWidgetEntityView extends EntityView {
             if (i >= list.size()) {
                 obj = list.get(0);
                 break;
-            } else if (((TLRPC$TL_availableReaction) list.get(i)).title.equals("Red Heart")) {
+            } else if (((TLRPC.TL_availableReaction) list.get(i)).title.equals("Red Heart")) {
                 obj = list.get(i);
                 break;
             } else {
                 i++;
             }
         }
-        return ((TLRPC$TL_availableReaction) obj).reaction;
+        return ((TLRPC.TL_availableReaction) obj).reaction;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

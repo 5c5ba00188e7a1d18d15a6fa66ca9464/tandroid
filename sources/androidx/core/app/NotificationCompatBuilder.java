@@ -20,7 +20,6 @@ import androidx.core.graphics.drawable.IconCompat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.telegram.messenger.LiteMode;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class NotificationCompatBuilder implements NotificationBuilderWithBuilderAccessor {
@@ -513,10 +512,10 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
         if (i >= 24) {
             Notification build = Api16Impl.build(this.mBuilder);
             if (this.mGroupAlertBehavior != 0) {
-                if (Api20Impl.getGroup(build) != null && (build.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0 && this.mGroupAlertBehavior == 2) {
+                if (Api20Impl.getGroup(build) != null && (build.flags & 512) != 0 && this.mGroupAlertBehavior == 2) {
                     removeSoundAndVibration(build);
                 }
-                if (Api20Impl.getGroup(build) != null && (build.flags & LiteMode.FLAG_CALLS_ANIMATIONS) == 0 && this.mGroupAlertBehavior == 1) {
+                if (Api20Impl.getGroup(build) != null && (build.flags & 512) == 0 && this.mGroupAlertBehavior == 1) {
                     removeSoundAndVibration(build);
                 }
             }
@@ -537,10 +536,10 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
                 build2.headsUpContentView = remoteViews3;
             }
             if (this.mGroupAlertBehavior != 0) {
-                if (Api20Impl.getGroup(build2) != null && (build2.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0 && this.mGroupAlertBehavior == 2) {
+                if (Api20Impl.getGroup(build2) != null && (build2.flags & 512) != 0 && this.mGroupAlertBehavior == 2) {
                     removeSoundAndVibration(build2);
                 }
-                if (Api20Impl.getGroup(build2) != null && (build2.flags & LiteMode.FLAG_CALLS_ANIMATIONS) == 0 && this.mGroupAlertBehavior == 1) {
+                if (Api20Impl.getGroup(build2) != null && (build2.flags & 512) == 0 && this.mGroupAlertBehavior == 1) {
                     removeSoundAndVibration(build2);
                 }
             }
@@ -573,10 +572,10 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
                 build4.bigContentView = remoteViews7;
             }
             if (this.mGroupAlertBehavior != 0) {
-                if (Api20Impl.getGroup(build4) != null && (build4.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0 && this.mGroupAlertBehavior == 2) {
+                if (Api20Impl.getGroup(build4) != null && (build4.flags & 512) != 0 && this.mGroupAlertBehavior == 2) {
                     removeSoundAndVibration(build4);
                 }
-                if (Api20Impl.getGroup(build4) != null && (build4.flags & LiteMode.FLAG_CALLS_ANIMATIONS) == 0 && this.mGroupAlertBehavior == 1) {
+                if (Api20Impl.getGroup(build4) != null && (build4.flags & 512) == 0 && this.mGroupAlertBehavior == 1) {
                     removeSoundAndVibration(build4);
                 }
             }

@@ -165,14 +165,7 @@ import org.telegram.messenger.utils.CustomHtml;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestTimeDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$RestrictionReason;
-import org.telegram.tgnet.TLRPC$TL_chatBannedRights;
-import org.telegram.tgnet.TLRPC$TL_document;
-import org.telegram.tgnet.TLRPC$TL_userContact_old2;
-import org.telegram.tgnet.TLRPC$TL_wallPaper;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$WallPaperSettings;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
@@ -653,7 +646,7 @@ public class AndroidUtilities {
             i2 = (int) ((f5 * 255.0f) + 0.5f);
             i3 = (int) ((f7 * 255.0f) + 0.5f);
         }
-        return ((i & NotificationCenter.didClearDatabase) << 16) | (-16777216) | ((i2 & NotificationCenter.didClearDatabase) << 8) | (i3 & NotificationCenter.didClearDatabase);
+        return ((i & NotificationCenter.messagePlayingSpeedChanged) << 16) | (-16777216) | ((i2 & NotificationCenter.messagePlayingSpeedChanged) << 8) | (i3 & NotificationCenter.messagePlayingSpeedChanged);
     }
 
     public static float[] RGBtoHSB(int i, int i2, int i3) {
@@ -886,7 +879,7 @@ public class AndroidUtilities {
             d6 = 0.0d;
         }
         animator.setDuration((long) ((Math.log(0.0025d) / ((-sqrt2) * sqrt)) * 1000.0d));
-        animator.setInterpolator(new Interpolator() { // from class: org.telegram.messenger.AndroidUtilities.11
+        animator.setInterpolator(new Interpolator() { // from class: org.telegram.messenger.AndroidUtilities.13
             @Override // android.animation.TimeInterpolator
             public float getInterpolation(float f) {
                 double d7;
@@ -927,7 +920,7 @@ public class AndroidUtilities {
         final double sqrt = d / (Math.sqrt(f * f3) * 2.0d);
         final double sqrt2 = Math.sqrt(f / f3);
         animator.setDuration(j);
-        animator.setInterpolator(new Interpolator() { // from class: org.telegram.messenger.AndroidUtilities.12
+        animator.setInterpolator(new Interpolator() { // from class: org.telegram.messenger.AndroidUtilities.14
             @Override // android.animation.TimeInterpolator
             public float getInterpolation(float f4) {
                 double exp;
@@ -1021,7 +1014,7 @@ public class AndroidUtilities {
             }
             i = -16777216;
         }
-        double[] rgbToHsv = rgbToHsv((i >> 16) & NotificationCenter.didClearDatabase, (i >> 8) & NotificationCenter.didClearDatabase, i & NotificationCenter.didClearDatabase);
+        double[] rgbToHsv = rgbToHsv((i >> 16) & NotificationCenter.messagePlayingSpeedChanged, (i >> 8) & NotificationCenter.messagePlayingSpeedChanged, i & NotificationCenter.messagePlayingSpeedChanged);
         double d = rgbToHsv[1];
         rgbToHsv[1] = Math.min(1.0d, 0.05d + d + ((1.0d - d) * 0.1d));
         int[] hsvToRgb = hsvToRgb(rgbToHsv[0], rgbToHsv[1], Math.max(0.0d, rgbToHsv[2] * 0.65d));
@@ -1415,7 +1408,7 @@ public class AndroidUtilities {
     }
 
     public static void doOnLayout(final View view, final Runnable runnable) {
-        view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() { // from class: org.telegram.messenger.AndroidUtilities.5
+        view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() { // from class: org.telegram.messenger.AndroidUtilities.7
             @Override // android.view.View.OnLayoutChangeListener
             public void onLayoutChange(View view2, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
                 view.removeOnLayoutChangeListener(this);
@@ -2128,7 +2121,7 @@ public class AndroidUtilities {
     }
 
     public static int getAverageColor(int i, int i2) {
-        return Color.argb((int) NotificationCenter.didClearDatabase, (Color.red(i) / 2) + (Color.red(i2) / 2), (Color.green(i) / 2) + (Color.green(i2) / 2), (Color.blue(i) / 2) + (Color.blue(i2) / 2));
+        return Color.argb((int) NotificationCenter.messagePlayingSpeedChanged, (Color.red(i) / 2) + (Color.red(i2) / 2), (Color.green(i) / 2) + (Color.green(i2) / 2), (Color.blue(i) / 2) + (Color.blue(i2) / 2));
     }
 
     public static void getBitmapFromSurface(Surface surface, Bitmap bitmap) {
@@ -2288,7 +2281,7 @@ public class AndroidUtilities {
         int i4 = red - red2;
         int green2 = green - Color.green(i2);
         int blue2 = blue - Color.blue(i2);
-        return ((((i3 + LiteMode.FLAG_CALLS_ANIMATIONS) * i4) * i4) >> 8) + (green2 * 4 * green2) + ((((767 - i3) * blue2) * blue2) >> 8);
+        return ((((i3 + 512) * i4) * i4) >> 8) + (green2 * 4 * green2) + ((((767 - i3) * blue2) * blue2) >> 8);
     }
 
     public static float[] getCoordinateInParent(ViewGroup viewGroup, View view) {
@@ -2434,7 +2427,7 @@ public class AndroidUtilities {
         if (i == 0) {
             return 0;
         }
-        return Color.argb((int) NotificationCenter.didClearDatabase, i4 / i, i3 / i, i2 / i);
+        return Color.argb((int) NotificationCenter.messagePlayingSpeedChanged, i4 / i, i3 / i, i2 / i);
     }
 
     public static String getHostAuthority(Uri uri) {
@@ -2475,7 +2468,7 @@ public class AndroidUtilities {
         try {
             int i = 1;
             int attributeInt = exifInterface.getAttributeInt("Orientation", 1);
-            int i2 = NotificationCenter.onActivityResultReceived;
+            int i2 = NotificationCenter.onDatabaseOpened;
             switch (attributeInt) {
                 case 2:
                     i2 = 0;
@@ -3113,21 +3106,21 @@ public class AndroidUtilities {
     }
 
     public static String getWallPaperUrl(Object obj) {
-        if (!(obj instanceof TLRPC$TL_wallPaper)) {
+        if (!(obj instanceof TLRPC.TL_wallPaper)) {
             if (obj instanceof WallpapersListActivity.ColorWallpaper) {
                 return ((WallpapersListActivity.ColorWallpaper) obj).getUrl();
             }
             return null;
         }
-        TLRPC$TL_wallPaper tLRPC$TL_wallPaper = (TLRPC$TL_wallPaper) obj;
-        String str = "https://" + MessagesController.getInstance(UserConfig.selectedAccount).linkPrefix + "/bg/" + tLRPC$TL_wallPaper.slug;
+        TLRPC.TL_wallPaper tL_wallPaper = (TLRPC.TL_wallPaper) obj;
+        String str = "https://" + MessagesController.getInstance(UserConfig.selectedAccount).linkPrefix + "/bg/" + tL_wallPaper.slug;
         StringBuilder sb = new StringBuilder();
-        TLRPC$WallPaperSettings tLRPC$WallPaperSettings = tLRPC$TL_wallPaper.settings;
-        if (tLRPC$WallPaperSettings != null) {
-            if (tLRPC$WallPaperSettings.blur) {
+        TLRPC.WallPaperSettings wallPaperSettings = tL_wallPaper.settings;
+        if (wallPaperSettings != null) {
+            if (wallPaperSettings.blur) {
                 sb.append("blur");
             }
-            if (tLRPC$TL_wallPaper.settings.motion) {
+            if (tL_wallPaper.settings.motion) {
                 if (sb.length() > 0) {
                     sb.append("+");
                 }
@@ -3322,7 +3315,7 @@ public class AndroidUtilities {
 
     public static int hsvToColor(double d, double d2, double d3) {
         int[] hsvToRgb = hsvToRgb(d, d2, d3);
-        return Color.argb((int) NotificationCenter.didClearDatabase, hsvToRgb[0], hsvToRgb[1], hsvToRgb[2]);
+        return Color.argb((int) NotificationCenter.messagePlayingSpeedChanged, hsvToRgb[0], hsvToRgb[1], hsvToRgb[2]);
     }
 
     public static int[] hsvToRgb(double d, double d2, double d3) {
@@ -3405,8 +3398,8 @@ public class AndroidUtilities {
         return Settings.Global.getInt(ApplicationLoader.applicationContext.getContentResolver(), "airplane_mode_on", 0) != 0;
     }
 
-    public static boolean isBannedForever(TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights) {
-        return tLRPC$TL_chatBannedRights == null || Math.abs(((long) tLRPC$TL_chatBannedRights.until_date) - (System.currentTimeMillis() / 1000)) > 157680000;
+    public static boolean isBannedForever(TLRPC.TL_chatBannedRights tL_chatBannedRights) {
+        return tL_chatBannedRights == null || Math.abs(((long) tL_chatBannedRights.until_date) - (System.currentTimeMillis() / 1000)) > 157680000;
     }
 
     public static boolean isDarkColor(int i) {
@@ -3906,7 +3899,7 @@ public class AndroidUtilities {
                 }
                 String stringExtra2 = intent.getStringExtra("com.google.android.voicesearch.extra.RECIPIENT_CONTACT_URI");
                 long parseLong = Long.parseLong(intent.getStringExtra("com.google.android.voicesearch.extra.RECIPIENT_CONTACT_CHAT_ID"));
-                TLRPC$User user = MessagesController.getInstance(i).getUser(Long.valueOf(parseLong));
+                TLRPC.User user = MessagesController.getInstance(i).getUser(Long.valueOf(parseLong));
                 if (user == null && (user = MessagesStorage.getInstance(i).getUserSync(parseLong)) != null) {
                     MessagesController.getInstance(i).putUser(user, true);
                 }
@@ -4192,13 +4185,13 @@ public class AndroidUtilities {
     /* JADX WARN: Type inference failed for: r3v4, types: [org.telegram.messenger.AndroidUtilities$1] */
     /* JADX WARN: Type inference failed for: r3v55 */
     /* JADX WARN: Type inference failed for: r3v62 */
-    public static ArrayList<TLRPC$User> loadVCardFromStream(Uri uri, int i, boolean z, ArrayList<VcardItem> arrayList, String str) {
+    public static ArrayList<TLRPC.User> loadVCardFromStream(Uri uri, int i, boolean z, ArrayList<VcardItem> arrayList, String str) {
         InputStream createInputStream;
         String str2;
         byte[] decodeQuotedPrintable;
         VcardItem vcardItem;
         ArrayList<VcardItem> arrayList2 = arrayList;
-        ArrayList<TLRPC$User> arrayList3 = 0;
+        ArrayList<TLRPC.User> arrayList3 = 0;
         arrayList3 = 0;
         if (z) {
             try {
@@ -4358,12 +4351,12 @@ public class AndroidUtilities {
         }
         bufferedReader.close();
         createInputStream.close();
-        ArrayList<TLRPC$User> arrayList5 = null;
+        ArrayList<TLRPC.User> arrayList5 = null;
         for (int i4 = 0; i4 < arrayList4.size(); i4++) {
             try {
                 VcardData vcardData2 = (VcardData) arrayList4.get(i4);
                 if (vcardData2.name != null && !vcardData2.phones.isEmpty()) {
-                    ArrayList<TLRPC$User> arrayList6 = arrayList5 == null ? new ArrayList<>() : arrayList5;
+                    ArrayList<TLRPC.User> arrayList6 = arrayList5 == null ? new ArrayList<>() : arrayList5;
                     try {
                         String str8 = vcardData2.phones.get(0);
                         int i5 = 0;
@@ -4378,17 +4371,17 @@ public class AndroidUtilities {
                             }
                             i5++;
                         }
-                        TLRPC$TL_userContact_old2 tLRPC$TL_userContact_old2 = new TLRPC$TL_userContact_old2();
-                        tLRPC$TL_userContact_old2.phone = str8;
-                        tLRPC$TL_userContact_old2.first_name = vcardData2.name;
-                        tLRPC$TL_userContact_old2.last_name = "";
-                        tLRPC$TL_userContact_old2.id = 0L;
-                        TLRPC$RestrictionReason tLRPC$RestrictionReason = new TLRPC$RestrictionReason();
-                        tLRPC$RestrictionReason.text = vcardData2.vcard.toString();
-                        tLRPC$RestrictionReason.platform = "";
-                        tLRPC$RestrictionReason.reason = "";
-                        tLRPC$TL_userContact_old2.restriction_reason.add(tLRPC$RestrictionReason);
-                        arrayList6.add(tLRPC$TL_userContact_old2);
+                        TLRPC.TL_userContact_old2 tL_userContact_old2 = new TLRPC.TL_userContact_old2();
+                        tL_userContact_old2.phone = str8;
+                        tL_userContact_old2.first_name = vcardData2.name;
+                        tL_userContact_old2.last_name = "";
+                        tL_userContact_old2.id = 0L;
+                        TLRPC.RestrictionReason restrictionReason = new TLRPC.RestrictionReason();
+                        restrictionReason.text = vcardData2.vcard.toString();
+                        restrictionReason.platform = "";
+                        restrictionReason.reason = "";
+                        tL_userContact_old2.restriction_reason.add(restrictionReason);
+                        arrayList6.add(tL_userContact_old2);
                         arrayList5 = arrayList6;
                     } catch (Throwable th3) {
                         th = th3;
@@ -4485,6 +4478,45 @@ public class AndroidUtilities {
         view.draw(canvas);
         Utilities.stackBlurBitmap(createBitmap, Math.max(i, Math.max(width, height) / NotificationCenter.updateBotMenuButton));
         return createBitmap;
+    }
+
+    public static SpannableStringBuilder makeClickable(String str, final int i, final Runnable runnable, final Theme.ResourcesProvider resourcesProvider) {
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(str);
+        if (i == 0 || i == 3 || i == 2 || i == 4) {
+            spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.3
+                @Override // android.text.style.ClickableSpan
+                public void onClick(View view) {
+                    Runnable runnable2 = runnable;
+                    if (runnable2 != null) {
+                        runnable2.run();
+                    }
+                }
+
+                @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
+                public void updateDrawState(TextPaint textPaint) {
+                    super.updateDrawState(textPaint);
+                    textPaint.setUnderlineText(i == 4);
+                    if (i == 2) {
+                        textPaint.setTypeface(AndroidUtilities.bold());
+                    }
+                }
+            }, 0, spannableStringBuilder.length(), 0);
+        } else {
+            spannableStringBuilder.setSpan(new CharacterStyle() { // from class: org.telegram.messenger.AndroidUtilities.4
+                @Override // android.text.style.CharacterStyle
+                public void updateDrawState(TextPaint textPaint) {
+                    textPaint.setTypeface(AndroidUtilities.bold());
+                    int alpha = textPaint.getAlpha();
+                    textPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText, Theme.ResourcesProvider.this));
+                    textPaint.setAlpha(alpha);
+                }
+            }, 0, spannableStringBuilder.length(), 0);
+        }
+        return spannableStringBuilder;
+    }
+
+    public static SpannableStringBuilder makeClickable(String str, Runnable runnable) {
+        return makeClickable(str, 0, runnable, null);
     }
 
     public static void makeGlobalBlurBitmap(Utilities.Callback<Bitmap> callback, float f) {
@@ -4674,7 +4706,7 @@ public class AndroidUtilities {
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static void openDocument(MessageObject messageObject, Activity activity, BaseFragment baseFragment) {
-        TLRPC$Document document;
+        TLRPC.Document document;
         AlertDialog create;
         String str;
         Uri fromFile;
@@ -4916,8 +4948,8 @@ public class AndroidUtilities {
                 if (lastIndexOf != -1) {
                     String mimeTypeFromExtension = singleton.getMimeTypeFromExtension(attachFileName.substring(lastIndexOf + 1).toLowerCase());
                     if (mimeTypeFromExtension == null) {
-                        if (tLObject instanceof TLRPC$TL_document) {
-                            mimeTypeFromExtension = ((TLRPC$TL_document) tLObject).mime_type;
+                        if (tLObject instanceof TLRPC.TL_document) {
+                            mimeTypeFromExtension = ((TLRPC.TL_document) tLObject).mime_type;
                         }
                         if (mimeTypeFromExtension != null) {
                         }
@@ -4950,8 +4982,8 @@ public class AndroidUtilities {
         return false;
     }
 
-    public static boolean openForView(TLRPC$Document tLRPC$Document, boolean z, Activity activity) {
-        return openForView(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$Document, true), FileLoader.getAttachFileName(tLRPC$Document), tLRPC$Document.mime_type, activity, null, false);
+    public static boolean openForView(TLRPC.Document document, boolean z, Activity activity) {
+        return openForView(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(document, true), FileLoader.getAttachFileName(document), document.mime_type, activity, null, false);
     }
 
     public static void openSharing(BaseFragment baseFragment, String str) {
@@ -5181,7 +5213,7 @@ public class AndroidUtilities {
             String group = matcher.group(1);
             final String group2 = matcher.group(2);
             spannableStringBuilder.append((CharSequence) group);
-            spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.6
+            spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.8
                 @Override // android.text.style.ClickableSpan
                 public void onClick(View view) {
                     Browser.openUrl(ApplicationLoader.applicationContext, group2);
@@ -5221,7 +5253,7 @@ public class AndroidUtilities {
             spannableStringBuilder.delete(charSequenceIndexOf, i);
             int i2 = charSequenceIndexOf2 - 2;
             spannableStringBuilder.delete(i2, charSequenceIndexOf2);
-            spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.3
+            spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.5
                 @Override // android.text.style.ClickableSpan
                 public void onClick(View view) {
                     Runnable runnable2 = runnable;
@@ -5298,7 +5330,7 @@ public class AndroidUtilities {
         }
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(replace);
         if (indexOf >= 0) {
-            spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.4
+            spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.6
                 @Override // android.text.style.ClickableSpan
                 public void onClick(View view) {
                     Runnable runnable2 = runnable;
@@ -5335,7 +5367,7 @@ public class AndroidUtilities {
             i3 = i4 - 2;
         }
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(replace);
-        if (indexOf >= 0) {
+        if (runnable != null && indexOf >= 0) {
             if (i2 == 3) {
                 int i5 = indexOf + i3;
                 spannableStringBuilder.replace(indexOf, i5, replaceMultipleCharSequence(" ", spannableStringBuilder.subSequence(indexOf, i5), " "));
@@ -5776,7 +5808,7 @@ public class AndroidUtilities {
                     AndroidUtilities.lambda$setNavigationBarColor$19(AndroidUtilities.IntColorCallback.this, window, valueAnimator2);
                 }
             });
-            ofArgb.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.AndroidUtilities.9
+            ofArgb.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.AndroidUtilities.11
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     if (AndroidUtilities.navigationBarColorAnimators != null) {
@@ -6047,7 +6079,7 @@ public class AndroidUtilities {
                 AndroidUtilities.lambda$shakeView$11(view, valueAnimator);
             }
         });
-        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.AndroidUtilities.7
+        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.AndroidUtilities.9
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 view.setTranslationX(0.0f);
@@ -6185,7 +6217,7 @@ public class AndroidUtilities {
             }
             if (!TextUtils.isEmpty(str6)) {
                 final AtomicReference atomicReference = new AtomicReference();
-                final TextDetailSettingsCell textDetailSettingsCell = new TextDetailSettingsCell(activity) { // from class: org.telegram.messenger.AndroidUtilities.8
+                final TextDetailSettingsCell textDetailSettingsCell = new TextDetailSettingsCell(activity) { // from class: org.telegram.messenger.AndroidUtilities.10
                     @Override // android.view.ViewGroup, android.view.View
                     protected void onAttachedToWindow() {
                         super.onAttachedToWindow();
@@ -6520,7 +6552,7 @@ public class AndroidUtilities {
 
     public static CharSequence withLearnMore(CharSequence charSequence, final Runnable runnable) {
         SpannableString spannableString = new SpannableString(LocaleController.getString(R.string.LearnMoreArrow));
-        spannableString.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.10
+        spannableString.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.12
             @Override // android.text.style.ClickableSpan
             public void onClick(View view) {
                 Runnable runnable2 = runnable;

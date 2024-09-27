@@ -51,66 +51,7 @@ import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$InputFile;
-import org.telegram.tgnet.TLRPC$InputPrivacyRule;
-import org.telegram.tgnet.TLRPC$InputUser;
-import org.telegram.tgnet.TLRPC$KeyboardButton;
-import org.telegram.tgnet.TLRPC$MessageExtendedMedia;
-import org.telegram.tgnet.TLRPC$Peer;
-import org.telegram.tgnet.TLRPC$Photo;
-import org.telegram.tgnet.TLRPC$PhotoSize;
-import org.telegram.tgnet.TLRPC$PrivacyRule;
-import org.telegram.tgnet.TLRPC$ReactionCount;
-import org.telegram.tgnet.TLRPC$TL_account_privacyRules;
-import org.telegram.tgnet.TLRPC$TL_account_setGlobalPrivacySettings;
-import org.telegram.tgnet.TLRPC$TL_account_setPrivacy;
-import org.telegram.tgnet.TLRPC$TL_account_updateBirthday;
-import org.telegram.tgnet.TLRPC$TL_birthday;
-import org.telegram.tgnet.TLRPC$TL_boolTrue;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_globalPrivacySettings;
-import org.telegram.tgnet.TLRPC$TL_inputPhoto;
-import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyAbout;
-import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyAddedByPhone;
-import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyBirthday;
-import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyChatInvite;
-import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyForwards;
-import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyPhoneCall;
-import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyPhoneNumber;
-import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyPhoneP2P;
-import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyProfilePhoto;
-import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyStatusTimestamp;
-import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyVoiceMessages;
-import org.telegram.tgnet.TLRPC$TL_inputPrivacyValueAllowAll;
-import org.telegram.tgnet.TLRPC$TL_inputPrivacyValueAllowChatParticipants;
-import org.telegram.tgnet.TLRPC$TL_inputPrivacyValueAllowContacts;
-import org.telegram.tgnet.TLRPC$TL_inputPrivacyValueAllowPremium;
-import org.telegram.tgnet.TLRPC$TL_inputPrivacyValueAllowUsers;
-import org.telegram.tgnet.TLRPC$TL_inputPrivacyValueDisallowAll;
-import org.telegram.tgnet.TLRPC$TL_inputPrivacyValueDisallowChatParticipants;
-import org.telegram.tgnet.TLRPC$TL_inputPrivacyValueDisallowUsers;
-import org.telegram.tgnet.TLRPC$TL_message;
-import org.telegram.tgnet.TLRPC$TL_messageFwdHeader;
-import org.telegram.tgnet.TLRPC$TL_messageMediaEmpty;
-import org.telegram.tgnet.TLRPC$TL_peerUser;
-import org.telegram.tgnet.TLRPC$TL_photos_photo;
-import org.telegram.tgnet.TLRPC$TL_photos_uploadProfilePhoto;
-import org.telegram.tgnet.TLRPC$TL_privacyValueAllowAll;
-import org.telegram.tgnet.TLRPC$TL_privacyValueAllowChatParticipants;
-import org.telegram.tgnet.TLRPC$TL_privacyValueAllowContacts;
-import org.telegram.tgnet.TLRPC$TL_privacyValueAllowPremium;
-import org.telegram.tgnet.TLRPC$TL_privacyValueAllowUsers;
-import org.telegram.tgnet.TLRPC$TL_privacyValueDisallowAll;
-import org.telegram.tgnet.TLRPC$TL_privacyValueDisallowChatParticipants;
-import org.telegram.tgnet.TLRPC$TL_privacyValueDisallowUsers;
-import org.telegram.tgnet.TLRPC$TL_user;
-import org.telegram.tgnet.TLRPC$TL_userProfilePhoto;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$UserFull;
-import org.telegram.tgnet.TLRPC$VideoSize;
-import org.telegram.tgnet.TLRPC$WebPage;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -145,8 +86,8 @@ import org.telegram.ui.PrivacyControlActivity;
 /* loaded from: classes4.dex */
 public class PrivacyControlActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, ImageUpdater.ImageUpdaterDelegate {
     private int alwaysShareRow;
-    private TLRPC$PhotoSize avatarForRest;
-    private TLRPC$Photo avatarForRestPhoto;
+    private TLRPC.PhotoSize avatarForRest;
+    private TLRPC.Photo avatarForRestPhoto;
     private RLottieDrawable cameraDrawable;
     private ArrayList currentMinus;
     private int currentPhotoForRestRow;
@@ -281,7 +222,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 if (longValue > 0) {
                     i++;
                 } else {
-                    TLRPC$Chat chat = PrivacyControlActivity.this.getMessagesController().getChat(Long.valueOf(-longValue));
+                    TLRPC.Chat chat = PrivacyControlActivity.this.getMessagesController().getChat(Long.valueOf(-longValue));
                     if (chat != null) {
                         i += chat.participants_count;
                     }
@@ -296,19 +237,19 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onBindViewHolder$1(TLObject tLObject, TLRPC$UserFull tLRPC$UserFull, TLRPC$TL_birthday tLRPC$TL_birthday, TLRPC$TL_error tLRPC$TL_error) {
+        public /* synthetic */ void lambda$onBindViewHolder$1(TLObject tLObject, TLRPC.UserFull userFull, TLRPC.TL_birthday tL_birthday, TLRPC.TL_error tL_error) {
             Bulletin createSimpleBulletin;
             String str;
-            if (tLObject instanceof TLRPC$TL_boolTrue) {
+            if (tLObject instanceof TLRPC.TL_boolTrue) {
                 createSimpleBulletin = BulletinFactory.of(PrivacyControlActivity.this).createSimpleBulletin(R.raw.contact_check, LocaleController.getString(R.string.PrivacyBirthdaySetDone)).setDuration(5000);
             } else {
-                if (tLRPC$UserFull != null) {
-                    int i = tLRPC$UserFull.flags2;
-                    tLRPC$UserFull.flags2 = tLRPC$TL_birthday == null ? i & (-33) : i | 32;
-                    tLRPC$UserFull.birthday = tLRPC$TL_birthday;
-                    PrivacyControlActivity.this.getMessagesStorage().updateUserInfo(tLRPC$UserFull, false);
+                if (userFull != null) {
+                    int i = userFull.flags2;
+                    userFull.flags2 = tL_birthday == null ? i & (-33) : i | 32;
+                    userFull.birthday = tL_birthday;
+                    PrivacyControlActivity.this.getMessagesStorage().updateUserInfo(userFull, false);
                 }
-                if (tLRPC$TL_error != null && (str = tLRPC$TL_error.text) != null && str.startsWith("FLOOD_WAIT_")) {
+                if (tL_error != null && (str = tL_error.text) != null && str.startsWith("FLOOD_WAIT_")) {
                     if (PrivacyControlActivity.this.getContext() != null) {
                         PrivacyControlActivity privacyControlActivity = PrivacyControlActivity.this;
                         privacyControlActivity.showDialog(new AlertDialog.Builder(privacyControlActivity.getContext(), ((BaseFragment) PrivacyControlActivity.this).resourceProvider).setTitle(LocaleController.getString(R.string.PrivacyBirthdayTooOftenTitle)).setMessage(LocaleController.getString(R.string.PrivacyBirthdayTooOftenMessage)).setPositiveButton(LocaleController.getString(R.string.OK), null).create());
@@ -322,32 +263,32 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onBindViewHolder$2(final TLRPC$UserFull tLRPC$UserFull, final TLRPC$TL_birthday tLRPC$TL_birthday, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        public /* synthetic */ void lambda$onBindViewHolder$2(final TLRPC.UserFull userFull, final TLRPC.TL_birthday tL_birthday, final TLObject tLObject, final TLRPC.TL_error tL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$ListAdapter$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PrivacyControlActivity.ListAdapter.this.lambda$onBindViewHolder$1(tLObject, tLRPC$UserFull, tLRPC$TL_birthday, tLRPC$TL_error);
+                    PrivacyControlActivity.ListAdapter.this.lambda$onBindViewHolder$1(tLObject, userFull, tL_birthday, tL_error);
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onBindViewHolder$3(TLRPC$TL_birthday tLRPC$TL_birthday) {
-            TLRPC$TL_account_updateBirthday tLRPC$TL_account_updateBirthday = new TLRPC$TL_account_updateBirthday();
-            tLRPC$TL_account_updateBirthday.flags |= 1;
-            tLRPC$TL_account_updateBirthday.birthday = tLRPC$TL_birthday;
-            final TLRPC$UserFull userFull = PrivacyControlActivity.this.getMessagesController().getUserFull(PrivacyControlActivity.this.getUserConfig().getClientUserId());
-            final TLRPC$TL_birthday tLRPC$TL_birthday2 = userFull != null ? userFull.birthday : null;
+        public /* synthetic */ void lambda$onBindViewHolder$3(TLRPC.TL_birthday tL_birthday) {
+            TLRPC.TL_account_updateBirthday tL_account_updateBirthday = new TLRPC.TL_account_updateBirthday();
+            tL_account_updateBirthday.flags |= 1;
+            tL_account_updateBirthday.birthday = tL_birthday;
+            final TLRPC.UserFull userFull = PrivacyControlActivity.this.getMessagesController().getUserFull(PrivacyControlActivity.this.getUserConfig().getClientUserId());
+            final TLRPC.TL_birthday tL_birthday2 = userFull != null ? userFull.birthday : null;
             if (userFull != null) {
                 userFull.flags2 |= 32;
-                userFull.birthday = tLRPC$TL_birthday;
+                userFull.birthday = tL_birthday;
                 PrivacyControlActivity.this.getMessagesStorage().updateUserInfo(userFull, false);
             }
             PrivacyControlActivity.this.getMessagesController().invalidateContentSettings();
-            PrivacyControlActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_account_updateBirthday, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$ListAdapter$$ExternalSyntheticLambda3
+            PrivacyControlActivity.this.getConnectionsManager().sendRequest(tL_account_updateBirthday, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$ListAdapter$$ExternalSyntheticLambda3
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    PrivacyControlActivity.ListAdapter.this.lambda$onBindViewHolder$2(userFull, tLRPC$TL_birthday2, tLObject, tLRPC$TL_error);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    PrivacyControlActivity.ListAdapter.this.lambda$onBindViewHolder$2(userFull, tL_birthday2, tLObject, tL_error);
                 }
             }, 1024);
             MessagesController.getInstance(((BaseFragment) PrivacyControlActivity.this).currentAccount).removeSuggestion(0L, "BIRTHDAY_SETUP");
@@ -361,7 +302,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             privacyControlActivity.showDialog(AlertsCreator.createBirthdayPickerDialog(privacyControlActivity.getContext(), LocaleController.getString(R.string.EditProfileBirthdayTitle), LocaleController.getString(R.string.EditProfileBirthdayButton), null, new Utilities.Callback() { // from class: org.telegram.ui.PrivacyControlActivity$ListAdapter$$ExternalSyntheticLambda2
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
-                    PrivacyControlActivity.ListAdapter.this.lambda$onBindViewHolder$3((TLRPC$TL_birthday) obj);
+                    PrivacyControlActivity.ListAdapter.this.lambda$onBindViewHolder$3((TLRPC.TL_birthday) obj);
                 }
             }, null, PrivacyControlActivity.this.getResourceProvider()).create());
         }
@@ -823,23 +764,23 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             this.shadowDrawable = Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow);
             setPadding(0, AndroidUtilities.dp(11.0f), 0, AndroidUtilities.dp(11.0f));
             int currentTimeMillis = (int) (System.currentTimeMillis() / 1000);
-            TLRPC$User user = MessagesController.getInstance(((BaseFragment) PrivacyControlActivity.this).currentAccount).getUser(Long.valueOf(UserConfig.getInstance(((BaseFragment) PrivacyControlActivity.this).currentAccount).getClientUserId()));
-            TLRPC$TL_message tLRPC$TL_message = new TLRPC$TL_message();
-            tLRPC$TL_message.message = LocaleController.getString(R.string.PrivacyForwardsMessageLine);
-            tLRPC$TL_message.date = currentTimeMillis - 3540;
-            tLRPC$TL_message.dialog_id = 1L;
-            tLRPC$TL_message.flags = NotificationCenter.onDatabaseMigration;
-            tLRPC$TL_message.from_id = new TLRPC$TL_peerUser();
-            tLRPC$TL_message.id = 1;
-            TLRPC$TL_messageFwdHeader tLRPC$TL_messageFwdHeader = new TLRPC$TL_messageFwdHeader();
-            tLRPC$TL_message.fwd_from = tLRPC$TL_messageFwdHeader;
-            tLRPC$TL_messageFwdHeader.from_name = ContactsController.formatName(user.first_name, user.last_name);
-            tLRPC$TL_message.media = new TLRPC$TL_messageMediaEmpty();
-            tLRPC$TL_message.out = false;
-            TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
-            tLRPC$TL_message.peer_id = tLRPC$TL_peerUser;
-            tLRPC$TL_peerUser.user_id = UserConfig.getInstance(((BaseFragment) PrivacyControlActivity.this).currentAccount).getClientUserId();
-            MessageObject messageObject = new MessageObject(((BaseFragment) PrivacyControlActivity.this).currentAccount, tLRPC$TL_message, true, false);
+            TLRPC.User user = MessagesController.getInstance(((BaseFragment) PrivacyControlActivity.this).currentAccount).getUser(Long.valueOf(UserConfig.getInstance(((BaseFragment) PrivacyControlActivity.this).currentAccount).getClientUserId()));
+            TLRPC.TL_message tL_message = new TLRPC.TL_message();
+            tL_message.message = LocaleController.getString(R.string.PrivacyForwardsMessageLine);
+            tL_message.date = currentTimeMillis - 3540;
+            tL_message.dialog_id = 1L;
+            tL_message.flags = NotificationCenter.showBulletin;
+            tL_message.from_id = new TLRPC.TL_peerUser();
+            tL_message.id = 1;
+            TLRPC.TL_messageFwdHeader tL_messageFwdHeader = new TLRPC.TL_messageFwdHeader();
+            tL_message.fwd_from = tL_messageFwdHeader;
+            tL_messageFwdHeader.from_name = ContactsController.formatName(user.first_name, user.last_name);
+            tL_message.media = new TLRPC.TL_messageMediaEmpty();
+            tL_message.out = false;
+            TLRPC.TL_peerUser tL_peerUser = new TLRPC.TL_peerUser();
+            tL_message.peer_id = tL_peerUser;
+            tL_peerUser.user_id = UserConfig.getInstance(((BaseFragment) PrivacyControlActivity.this).currentAccount).getClientUserId();
+            MessageObject messageObject = new MessageObject(((BaseFragment) PrivacyControlActivity.this).currentAccount, tL_message, true, false);
             this.messageObject = messageObject;
             messageObject.eventId = 1L;
             messageObject.resetLayout();
@@ -862,18 +803,18 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                public /* synthetic */ void didLongPressBotButton(ChatMessageCell chatMessageCell2, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
-                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressBotButton(this, chatMessageCell2, tLRPC$KeyboardButton);
+                public /* synthetic */ void didLongPressBotButton(ChatMessageCell chatMessageCell2, TLRPC.KeyboardButton keyboardButton) {
+                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressBotButton(this, chatMessageCell2, keyboardButton);
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                public /* synthetic */ boolean didLongPressChannelAvatar(ChatMessageCell chatMessageCell2, TLRPC$Chat tLRPC$Chat, int i, float f, float f2) {
-                    return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressChannelAvatar(this, chatMessageCell2, tLRPC$Chat, i, f, f2);
+                public /* synthetic */ boolean didLongPressChannelAvatar(ChatMessageCell chatMessageCell2, TLRPC.Chat chat, int i, float f, float f2) {
+                    return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressChannelAvatar(this, chatMessageCell2, chat, i, f, f2);
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                public /* synthetic */ boolean didLongPressUserAvatar(ChatMessageCell chatMessageCell2, TLRPC$User tLRPC$User, float f, float f2) {
-                    return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressUserAvatar(this, chatMessageCell2, tLRPC$User, f, f2);
+                public /* synthetic */ boolean didLongPressUserAvatar(ChatMessageCell chatMessageCell2, TLRPC.User user2, float f, float f2) {
+                    return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressUserAvatar(this, chatMessageCell2, user2, f, f2);
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -892,8 +833,8 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                public /* synthetic */ void didPressBotButton(ChatMessageCell chatMessageCell2, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
-                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressBotButton(this, chatMessageCell2, tLRPC$KeyboardButton);
+                public /* synthetic */ void didPressBotButton(ChatMessageCell chatMessageCell2, TLRPC.KeyboardButton keyboardButton) {
+                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressBotButton(this, chatMessageCell2, keyboardButton);
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -902,13 +843,13 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                public /* synthetic */ void didPressChannelAvatar(ChatMessageCell chatMessageCell2, TLRPC$Chat tLRPC$Chat, int i, float f, float f2, boolean z) {
-                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressChannelAvatar(this, chatMessageCell2, tLRPC$Chat, i, f, f2, z);
+                public /* synthetic */ void didPressChannelAvatar(ChatMessageCell chatMessageCell2, TLRPC.Chat chat, int i, float f, float f2, boolean z) {
+                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressChannelAvatar(this, chatMessageCell2, chat, i, f, f2, z);
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                public /* synthetic */ void didPressChannelRecommendation(ChatMessageCell chatMessageCell2, TLRPC$Chat tLRPC$Chat, boolean z) {
-                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressChannelRecommendation(this, chatMessageCell2, tLRPC$Chat, z);
+                public /* synthetic */ void didPressChannelRecommendation(ChatMessageCell chatMessageCell2, TLRPC.Chat chat, boolean z) {
+                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressChannelRecommendation(this, chatMessageCell2, chat, z);
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -937,8 +878,8 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                public /* synthetic */ void didPressExtendedMediaPreview(ChatMessageCell chatMessageCell2, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
-                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressExtendedMediaPreview(this, chatMessageCell2, tLRPC$KeyboardButton);
+                public /* synthetic */ void didPressExtendedMediaPreview(ChatMessageCell chatMessageCell2, TLRPC.KeyboardButton keyboardButton) {
+                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressExtendedMediaPreview(this, chatMessageCell2, keyboardButton);
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -957,8 +898,8 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                public /* synthetic */ void didPressGroupImage(ChatMessageCell chatMessageCell2, ImageReceiver imageReceiver, TLRPC$MessageExtendedMedia tLRPC$MessageExtendedMedia, float f, float f2) {
-                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressGroupImage(this, chatMessageCell2, imageReceiver, tLRPC$MessageExtendedMedia, f, f2);
+                public /* synthetic */ void didPressGroupImage(ChatMessageCell chatMessageCell2, ImageReceiver imageReceiver, TLRPC.MessageExtendedMedia messageExtendedMedia, float f, float f2) {
+                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressGroupImage(this, chatMessageCell2, imageReceiver, messageExtendedMedia, f, f2);
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -992,8 +933,8 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                public /* synthetic */ void didPressReaction(ChatMessageCell chatMessageCell2, TLRPC$ReactionCount tLRPC$ReactionCount, boolean z, float f, float f2) {
-                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressReaction(this, chatMessageCell2, tLRPC$ReactionCount, z, f, f2);
+                public /* synthetic */ void didPressReaction(ChatMessageCell chatMessageCell2, TLRPC.ReactionCount reactionCount, boolean z, float f, float f2) {
+                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressReaction(this, chatMessageCell2, reactionCount, z, f, f2);
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -1037,13 +978,13 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                public /* synthetic */ void didPressUserAvatar(ChatMessageCell chatMessageCell2, TLRPC$User tLRPC$User, float f, float f2, boolean z) {
-                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressUserAvatar(this, chatMessageCell2, tLRPC$User, f, f2, z);
+                public /* synthetic */ void didPressUserAvatar(ChatMessageCell chatMessageCell2, TLRPC.User user2, float f, float f2, boolean z) {
+                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressUserAvatar(this, chatMessageCell2, user2, f, f2, z);
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                public /* synthetic */ void didPressUserStatus(ChatMessageCell chatMessageCell2, TLRPC$User tLRPC$User, TLRPC$Document tLRPC$Document) {
-                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressUserStatus(this, chatMessageCell2, tLRPC$User, tLRPC$Document);
+                public /* synthetic */ void didPressUserStatus(ChatMessageCell chatMessageCell2, TLRPC.User user2, TLRPC.Document document) {
+                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressUserStatus(this, chatMessageCell2, user2, document);
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -1062,7 +1003,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                public /* synthetic */ void didPressWebPage(ChatMessageCell chatMessageCell2, TLRPC$WebPage tLRPC$WebPage, String str, boolean z) {
+                public /* synthetic */ void didPressWebPage(ChatMessageCell chatMessageCell2, TLRPC.WebPage webPage, String str, boolean z) {
                     Browser.openUrl(chatMessageCell2.getContext(), str);
                 }
 
@@ -1299,7 +1240,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
     }
 
     public PrivacyControlActivity(int i, boolean z) {
-        TLRPC$PhotoSize closestPhotoSizeWithSize;
+        TLRPC.PhotoSize closestPhotoSizeWithSize;
         this.initialPlus = new ArrayList();
         this.initialMinus = new ArrayList();
         this.initialPlusPremium = new boolean[2];
@@ -1314,7 +1255,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             this.imageUpdater = imageUpdater;
             imageUpdater.parentFragment = this;
             imageUpdater.setDelegate(this);
-            TLRPC$UserFull userFull = getMessagesController().getUserFull(getUserConfig().clientUserId);
+            TLRPC.UserFull userFull = getMessagesController().getUserFull(getUserConfig().clientUserId);
             if (!UserObject.hasFallbackPhoto(userFull) || (closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(userFull.fallback_photo.sizes, 1000)) == null) {
                 return;
             }
@@ -1330,108 +1271,108 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void applyCurrentPrivacySettings() {
-        ArrayList arrayList;
-        TLRPC$InputPrivacyRule tLRPC$TL_inputPrivacyValueAllowContacts;
+        ArrayList<TLRPC.InputPrivacyRule> arrayList;
+        TLRPC.InputPrivacyRule tL_inputPrivacyValueAllowContacts;
         int i;
         final AlertDialog alertDialog;
-        TLRPC$InputUser inputUser;
-        TLRPC$InputUser inputUser2;
-        ArrayList arrayList2;
-        TLRPC$InputPrivacyRule tLRPC$TL_inputPrivacyValueAllowContacts2;
+        TLRPC.InputUser inputUser;
+        TLRPC.InputUser inputUser2;
+        ArrayList<TLRPC.InputPrivacyRule> arrayList2;
+        TLRPC.InputPrivacyRule tL_inputPrivacyValueAllowContacts2;
         if (this.rulesType == 10) {
-            final TLRPC$TL_account_setGlobalPrivacySettings tLRPC$TL_account_setGlobalPrivacySettings = new TLRPC$TL_account_setGlobalPrivacySettings();
-            tLRPC$TL_account_setGlobalPrivacySettings.settings = new TLRPC$TL_globalPrivacySettings();
-            final TLRPC$TL_globalPrivacySettings globalPrivacySettings = getContactsController().getGlobalPrivacySettings();
+            final TLRPC.TL_account_setGlobalPrivacySettings tL_account_setGlobalPrivacySettings = new TLRPC.TL_account_setGlobalPrivacySettings();
+            tL_account_setGlobalPrivacySettings.settings = new TLRPC.TL_globalPrivacySettings();
+            final TLRPC.TL_globalPrivacySettings globalPrivacySettings = getContactsController().getGlobalPrivacySettings();
             if (globalPrivacySettings != null) {
-                TLRPC$TL_globalPrivacySettings tLRPC$TL_globalPrivacySettings = tLRPC$TL_account_setGlobalPrivacySettings.settings;
-                tLRPC$TL_globalPrivacySettings.archive_and_mute_new_noncontact_peers = globalPrivacySettings.archive_and_mute_new_noncontact_peers;
-                tLRPC$TL_globalPrivacySettings.keep_archived_folders = globalPrivacySettings.keep_archived_folders;
-                tLRPC$TL_globalPrivacySettings.keep_archived_unmuted = globalPrivacySettings.keep_archived_unmuted;
-                tLRPC$TL_globalPrivacySettings.hide_read_marks = globalPrivacySettings.hide_read_marks;
+                TLRPC.TL_globalPrivacySettings tL_globalPrivacySettings = tL_account_setGlobalPrivacySettings.settings;
+                tL_globalPrivacySettings.archive_and_mute_new_noncontact_peers = globalPrivacySettings.archive_and_mute_new_noncontact_peers;
+                tL_globalPrivacySettings.keep_archived_folders = globalPrivacySettings.keep_archived_folders;
+                tL_globalPrivacySettings.keep_archived_unmuted = globalPrivacySettings.keep_archived_unmuted;
+                tL_globalPrivacySettings.hide_read_marks = globalPrivacySettings.hide_read_marks;
             }
-            tLRPC$TL_account_setGlobalPrivacySettings.settings.new_noncontact_peers_require_premium = this.currentType == 2;
-            getConnectionsManager().sendRequest(tLRPC$TL_account_setGlobalPrivacySettings, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda13
+            tL_account_setGlobalPrivacySettings.settings.new_noncontact_peers_require_premium = this.currentType == 2;
+            getConnectionsManager().sendRequest(tL_account_setGlobalPrivacySettings, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda13
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$11(globalPrivacySettings, tLRPC$TL_account_setGlobalPrivacySettings, tLObject, tLRPC$TL_error);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$11(globalPrivacySettings, tL_account_setGlobalPrivacySettings, tLObject, tL_error);
                 }
             });
             return;
         }
-        TLRPC$TL_account_setPrivacy tLRPC$TL_account_setPrivacy = new TLRPC$TL_account_setPrivacy();
+        TLRPC.TL_account_setPrivacy tL_account_setPrivacy = new TLRPC.TL_account_setPrivacy();
         int i2 = this.rulesType;
         if (i2 == 6) {
-            tLRPC$TL_account_setPrivacy.key = new TLRPC$TL_inputPrivacyKeyPhoneNumber();
+            tL_account_setPrivacy.key = new TLRPC.TL_inputPrivacyKeyPhoneNumber();
             if (this.currentType == 1) {
-                TLRPC$TL_account_setPrivacy tLRPC$TL_account_setPrivacy2 = new TLRPC$TL_account_setPrivacy();
-                tLRPC$TL_account_setPrivacy2.key = new TLRPC$TL_inputPrivacyKeyAddedByPhone();
+                TLRPC.TL_account_setPrivacy tL_account_setPrivacy2 = new TLRPC.TL_account_setPrivacy();
+                tL_account_setPrivacy2.key = new TLRPC.TL_inputPrivacyKeyAddedByPhone();
                 if (this.currentSubType == 0) {
-                    arrayList2 = tLRPC$TL_account_setPrivacy2.rules;
-                    tLRPC$TL_inputPrivacyValueAllowContacts2 = new TLRPC$TL_inputPrivacyValueAllowAll();
+                    arrayList2 = tL_account_setPrivacy2.rules;
+                    tL_inputPrivacyValueAllowContacts2 = new TLRPC.TL_inputPrivacyValueAllowAll();
                 } else {
-                    arrayList2 = tLRPC$TL_account_setPrivacy2.rules;
-                    tLRPC$TL_inputPrivacyValueAllowContacts2 = new TLRPC$TL_inputPrivacyValueAllowContacts();
+                    arrayList2 = tL_account_setPrivacy2.rules;
+                    tL_inputPrivacyValueAllowContacts2 = new TLRPC.TL_inputPrivacyValueAllowContacts();
                 }
-                arrayList2.add(tLRPC$TL_inputPrivacyValueAllowContacts2);
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_setPrivacy2, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda14
+                arrayList2.add(tL_inputPrivacyValueAllowContacts2);
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_setPrivacy2, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda14
                     @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$13(tLObject, tLRPC$TL_error);
+                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                        PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$13(tLObject, tL_error);
                     }
                 }, 2);
             }
         } else {
-            tLRPC$TL_account_setPrivacy.key = i2 == 5 ? new TLRPC$TL_inputPrivacyKeyForwards() : i2 == 4 ? new TLRPC$TL_inputPrivacyKeyProfilePhoto() : i2 == 9 ? new TLRPC$TL_inputPrivacyKeyAbout() : i2 == 3 ? new TLRPC$TL_inputPrivacyKeyPhoneP2P() : i2 == 2 ? new TLRPC$TL_inputPrivacyKeyPhoneCall() : i2 == 1 ? new TLRPC$TL_inputPrivacyKeyChatInvite() : i2 == 8 ? new TLRPC$TL_inputPrivacyKeyVoiceMessages() : i2 == 11 ? new TLRPC$TL_inputPrivacyKeyBirthday() : new TLRPC$TL_inputPrivacyKeyStatusTimestamp();
+            tL_account_setPrivacy.key = i2 == 5 ? new TLRPC.TL_inputPrivacyKeyForwards() : i2 == 4 ? new TLRPC.TL_inputPrivacyKeyProfilePhoto() : i2 == 9 ? new TLRPC.TL_inputPrivacyKeyAbout() : i2 == 3 ? new TLRPC.TL_inputPrivacyKeyPhoneP2P() : i2 == 2 ? new TLRPC.TL_inputPrivacyKeyPhoneCall() : i2 == 1 ? new TLRPC.TL_inputPrivacyKeyChatInvite() : i2 == 8 ? new TLRPC.TL_inputPrivacyKeyVoiceMessages() : i2 == 11 ? new TLRPC.TL_inputPrivacyKeyBirthday() : new TLRPC.TL_inputPrivacyKeyStatusTimestamp();
         }
         if (this.currentType != 0 && this.currentPlus.size() > 0) {
-            TLRPC$TL_inputPrivacyValueAllowUsers tLRPC$TL_inputPrivacyValueAllowUsers = new TLRPC$TL_inputPrivacyValueAllowUsers();
-            TLRPC$TL_inputPrivacyValueAllowChatParticipants tLRPC$TL_inputPrivacyValueAllowChatParticipants = new TLRPC$TL_inputPrivacyValueAllowChatParticipants();
+            TLRPC.TL_inputPrivacyValueAllowUsers tL_inputPrivacyValueAllowUsers = new TLRPC.TL_inputPrivacyValueAllowUsers();
+            TLRPC.TL_inputPrivacyValueAllowChatParticipants tL_inputPrivacyValueAllowChatParticipants = new TLRPC.TL_inputPrivacyValueAllowChatParticipants();
             for (int i3 = 0; i3 < this.currentPlus.size(); i3++) {
                 Long l = (Long) this.currentPlus.get(i3);
                 long longValue = l.longValue();
                 if (DialogObject.isUserDialog(longValue)) {
-                    TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(l);
+                    TLRPC.User user = MessagesController.getInstance(this.currentAccount).getUser(l);
                     if (user != null && (inputUser2 = MessagesController.getInstance(this.currentAccount).getInputUser(user)) != null) {
-                        tLRPC$TL_inputPrivacyValueAllowUsers.users.add(inputUser2);
+                        tL_inputPrivacyValueAllowUsers.users.add(inputUser2);
                     }
                 } else {
-                    tLRPC$TL_inputPrivacyValueAllowChatParticipants.chats.add(Long.valueOf(-longValue));
+                    tL_inputPrivacyValueAllowChatParticipants.chats.add(Long.valueOf(-longValue));
                 }
             }
-            tLRPC$TL_account_setPrivacy.rules.add(tLRPC$TL_inputPrivacyValueAllowUsers);
-            tLRPC$TL_account_setPrivacy.rules.add(tLRPC$TL_inputPrivacyValueAllowChatParticipants);
+            tL_account_setPrivacy.rules.add(tL_inputPrivacyValueAllowUsers);
+            tL_account_setPrivacy.rules.add(tL_inputPrivacyValueAllowChatParticipants);
         }
         if (this.currentType != 1 && this.currentMinus.size() > 0) {
-            TLRPC$TL_inputPrivacyValueDisallowUsers tLRPC$TL_inputPrivacyValueDisallowUsers = new TLRPC$TL_inputPrivacyValueDisallowUsers();
-            TLRPC$TL_inputPrivacyValueDisallowChatParticipants tLRPC$TL_inputPrivacyValueDisallowChatParticipants = new TLRPC$TL_inputPrivacyValueDisallowChatParticipants();
+            TLRPC.TL_inputPrivacyValueDisallowUsers tL_inputPrivacyValueDisallowUsers = new TLRPC.TL_inputPrivacyValueDisallowUsers();
+            TLRPC.TL_inputPrivacyValueDisallowChatParticipants tL_inputPrivacyValueDisallowChatParticipants = new TLRPC.TL_inputPrivacyValueDisallowChatParticipants();
             for (int i4 = 0; i4 < this.currentMinus.size(); i4++) {
                 Long l2 = (Long) this.currentMinus.get(i4);
                 long longValue2 = l2.longValue();
                 if (DialogObject.isUserDialog(longValue2)) {
-                    TLRPC$User user2 = getMessagesController().getUser(l2);
+                    TLRPC.User user2 = getMessagesController().getUser(l2);
                     if (user2 != null && (inputUser = getMessagesController().getInputUser(user2)) != null) {
-                        tLRPC$TL_inputPrivacyValueDisallowUsers.users.add(inputUser);
+                        tL_inputPrivacyValueDisallowUsers.users.add(inputUser);
                     }
                 } else {
-                    tLRPC$TL_inputPrivacyValueDisallowChatParticipants.chats.add(Long.valueOf(-longValue2));
+                    tL_inputPrivacyValueDisallowChatParticipants.chats.add(Long.valueOf(-longValue2));
                 }
             }
-            tLRPC$TL_account_setPrivacy.rules.add(tLRPC$TL_inputPrivacyValueDisallowUsers);
-            tLRPC$TL_account_setPrivacy.rules.add(tLRPC$TL_inputPrivacyValueDisallowChatParticipants);
+            tL_account_setPrivacy.rules.add(tL_inputPrivacyValueDisallowUsers);
+            tL_account_setPrivacy.rules.add(tL_inputPrivacyValueDisallowChatParticipants);
         }
         int i5 = this.currentType;
         if (i5 == 0) {
-            arrayList = tLRPC$TL_account_setPrivacy.rules;
-            tLRPC$TL_inputPrivacyValueAllowContacts = new TLRPC$TL_inputPrivacyValueAllowAll();
+            arrayList = tL_account_setPrivacy.rules;
+            tL_inputPrivacyValueAllowContacts = new TLRPC.TL_inputPrivacyValueAllowAll();
         } else if (i5 != 1) {
             if (i5 == 2) {
-                arrayList = tLRPC$TL_account_setPrivacy.rules;
-                tLRPC$TL_inputPrivacyValueAllowContacts = new TLRPC$TL_inputPrivacyValueAllowContacts();
+                arrayList = tL_account_setPrivacy.rules;
+                tL_inputPrivacyValueAllowContacts = new TLRPC.TL_inputPrivacyValueAllowContacts();
             }
             i = this.currentType;
             if (i != 0) {
                 if (this.currentPlusPremium[i == 2 ? (char) 0 : (char) 1]) {
-                    tLRPC$TL_account_setPrivacy.rules.add(new TLRPC$TL_inputPrivacyValueAllowPremium());
+                    tL_account_setPrivacy.rules.add(new TLRPC.TL_inputPrivacyValueAllowPremium());
                 }
             }
             if (getParentActivity() == null) {
@@ -1441,44 +1382,44 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             } else {
                 alertDialog = null;
             }
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_setPrivacy, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda15
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_setPrivacy, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda15
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$15(alertDialog, tLObject, tLRPC$TL_error);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$15(alertDialog, tLObject, tL_error);
                 }
             }, 2);
             if (this.rulesType == 0 || this.selectedReadValue == this.currentReadValue) {
             }
-            final TLRPC$TL_account_setGlobalPrivacySettings tLRPC$TL_account_setGlobalPrivacySettings2 = new TLRPC$TL_account_setGlobalPrivacySettings();
-            tLRPC$TL_account_setGlobalPrivacySettings2.settings = new TLRPC$TL_globalPrivacySettings();
-            final TLRPC$TL_globalPrivacySettings globalPrivacySettings2 = getContactsController().getGlobalPrivacySettings();
-            TLRPC$TL_globalPrivacySettings tLRPC$TL_globalPrivacySettings2 = tLRPC$TL_account_setGlobalPrivacySettings2.settings;
-            tLRPC$TL_globalPrivacySettings2.archive_and_mute_new_noncontact_peers = globalPrivacySettings2.archive_and_mute_new_noncontact_peers;
-            tLRPC$TL_globalPrivacySettings2.keep_archived_folders = globalPrivacySettings2.keep_archived_folders;
-            tLRPC$TL_globalPrivacySettings2.keep_archived_unmuted = globalPrivacySettings2.keep_archived_unmuted;
-            tLRPC$TL_globalPrivacySettings2.new_noncontact_peers_require_premium = globalPrivacySettings2.new_noncontact_peers_require_premium;
-            tLRPC$TL_globalPrivacySettings2.hide_read_marks = this.selectedReadValue;
-            getConnectionsManager().sendRequest(tLRPC$TL_account_setGlobalPrivacySettings2, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda16
+            final TLRPC.TL_account_setGlobalPrivacySettings tL_account_setGlobalPrivacySettings2 = new TLRPC.TL_account_setGlobalPrivacySettings();
+            tL_account_setGlobalPrivacySettings2.settings = new TLRPC.TL_globalPrivacySettings();
+            final TLRPC.TL_globalPrivacySettings globalPrivacySettings2 = getContactsController().getGlobalPrivacySettings();
+            TLRPC.TL_globalPrivacySettings tL_globalPrivacySettings2 = tL_account_setGlobalPrivacySettings2.settings;
+            tL_globalPrivacySettings2.archive_and_mute_new_noncontact_peers = globalPrivacySettings2.archive_and_mute_new_noncontact_peers;
+            tL_globalPrivacySettings2.keep_archived_folders = globalPrivacySettings2.keep_archived_folders;
+            tL_globalPrivacySettings2.keep_archived_unmuted = globalPrivacySettings2.keep_archived_unmuted;
+            tL_globalPrivacySettings2.new_noncontact_peers_require_premium = globalPrivacySettings2.new_noncontact_peers_require_premium;
+            tL_globalPrivacySettings2.hide_read_marks = this.selectedReadValue;
+            getConnectionsManager().sendRequest(tL_account_setGlobalPrivacySettings2, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda16
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$17(globalPrivacySettings2, tLRPC$TL_account_setGlobalPrivacySettings2, tLObject, tLRPC$TL_error);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$17(globalPrivacySettings2, tL_account_setGlobalPrivacySettings2, tLObject, tL_error);
                 }
             });
             return;
         } else {
-            arrayList = tLRPC$TL_account_setPrivacy.rules;
-            tLRPC$TL_inputPrivacyValueAllowContacts = new TLRPC$TL_inputPrivacyValueDisallowAll();
+            arrayList = tL_account_setPrivacy.rules;
+            tL_inputPrivacyValueAllowContacts = new TLRPC.TL_inputPrivacyValueDisallowAll();
         }
-        arrayList.add(tLRPC$TL_inputPrivacyValueAllowContacts);
+        arrayList.add(tL_inputPrivacyValueAllowContacts);
         i = this.currentType;
         if (i != 0) {
         }
         if (getParentActivity() == null) {
         }
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_setPrivacy, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda15
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_setPrivacy, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda15
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$15(alertDialog, tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$15(alertDialog, tLObject, tL_error);
             }
         }, 2);
         if (this.rulesType == 0) {
@@ -1511,11 +1452,11 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
 
     private void checkPrivacy() {
         ArrayList arrayList;
-        ArrayList arrayList2;
+        ArrayList<Long> arrayList2;
         int i = this.rulesType;
         int i2 = 2;
         if (i == 10) {
-            TLRPC$TL_globalPrivacySettings globalPrivacySettings = ContactsController.getInstance(this.currentAccount).getGlobalPrivacySettings();
+            TLRPC.TL_globalPrivacySettings globalPrivacySettings = ContactsController.getInstance(this.currentAccount).getGlobalPrivacySettings();
             i2 = (globalPrivacySettings == null || !globalPrivacySettings.new_noncontact_peers_require_premium) ? 0 : 0;
             this.currentType = i2;
             this.initialRulesType = i2;
@@ -1533,7 +1474,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         zArr[1] = false;
         this.currentPlus = new ArrayList();
         this.currentMinus = new ArrayList();
-        ArrayList<TLRPC$PrivacyRule> privacyRules = ContactsController.getInstance(this.currentAccount).getPrivacyRules(this.rulesType);
+        ArrayList<TLRPC.PrivacyRule> privacyRules = ContactsController.getInstance(this.currentAccount).getPrivacyRules(this.rulesType);
         if (privacyRules == null || privacyRules.size() == 0) {
             this.currentType = 1;
         } else {
@@ -1541,34 +1482,34 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             boolean z3 = false;
             boolean z4 = false;
             for (int i3 = 0; i3 < privacyRules.size(); i3++) {
-                TLRPC$PrivacyRule tLRPC$PrivacyRule = privacyRules.get(i3);
-                if (tLRPC$PrivacyRule instanceof TLRPC$TL_privacyValueAllowChatParticipants) {
-                    TLRPC$TL_privacyValueAllowChatParticipants tLRPC$TL_privacyValueAllowChatParticipants = (TLRPC$TL_privacyValueAllowChatParticipants) tLRPC$PrivacyRule;
-                    int size = tLRPC$TL_privacyValueAllowChatParticipants.chats.size();
+                TLRPC.PrivacyRule privacyRule = privacyRules.get(i3);
+                if (privacyRule instanceof TLRPC.TL_privacyValueAllowChatParticipants) {
+                    TLRPC.TL_privacyValueAllowChatParticipants tL_privacyValueAllowChatParticipants = (TLRPC.TL_privacyValueAllowChatParticipants) privacyRule;
+                    int size = tL_privacyValueAllowChatParticipants.chats.size();
                     for (int i4 = 0; i4 < size; i4++) {
-                        this.currentPlus.add(Long.valueOf(-((Long) tLRPC$TL_privacyValueAllowChatParticipants.chats.get(i4)).longValue()));
+                        this.currentPlus.add(Long.valueOf(-tL_privacyValueAllowChatParticipants.chats.get(i4).longValue()));
                     }
-                } else if (tLRPC$PrivacyRule instanceof TLRPC$TL_privacyValueDisallowChatParticipants) {
-                    TLRPC$TL_privacyValueDisallowChatParticipants tLRPC$TL_privacyValueDisallowChatParticipants = (TLRPC$TL_privacyValueDisallowChatParticipants) tLRPC$PrivacyRule;
-                    int size2 = tLRPC$TL_privacyValueDisallowChatParticipants.chats.size();
+                } else if (privacyRule instanceof TLRPC.TL_privacyValueDisallowChatParticipants) {
+                    TLRPC.TL_privacyValueDisallowChatParticipants tL_privacyValueDisallowChatParticipants = (TLRPC.TL_privacyValueDisallowChatParticipants) privacyRule;
+                    int size2 = tL_privacyValueDisallowChatParticipants.chats.size();
                     for (int i5 = 0; i5 < size2; i5++) {
-                        this.currentMinus.add(Long.valueOf(-((Long) tLRPC$TL_privacyValueDisallowChatParticipants.chats.get(i5)).longValue()));
+                        this.currentMinus.add(Long.valueOf(-tL_privacyValueDisallowChatParticipants.chats.get(i5).longValue()));
                     }
                 } else {
-                    if (tLRPC$PrivacyRule instanceof TLRPC$TL_privacyValueAllowUsers) {
+                    if (privacyRule instanceof TLRPC.TL_privacyValueAllowUsers) {
                         arrayList = this.currentPlus;
-                        arrayList2 = ((TLRPC$TL_privacyValueAllowUsers) tLRPC$PrivacyRule).users;
-                    } else if (tLRPC$PrivacyRule instanceof TLRPC$TL_privacyValueDisallowUsers) {
+                        arrayList2 = ((TLRPC.TL_privacyValueAllowUsers) privacyRule).users;
+                    } else if (privacyRule instanceof TLRPC.TL_privacyValueDisallowUsers) {
                         arrayList = this.currentMinus;
-                        arrayList2 = ((TLRPC$TL_privacyValueDisallowUsers) tLRPC$PrivacyRule).users;
-                    } else if (tLRPC$PrivacyRule instanceof TLRPC$TL_privacyValueAllowPremium) {
+                        arrayList2 = ((TLRPC.TL_privacyValueDisallowUsers) privacyRule).users;
+                    } else if (privacyRule instanceof TLRPC.TL_privacyValueAllowPremium) {
                         z3 = true;
                     } else {
-                        boolean z5 = tLRPC$PrivacyRule instanceof TLRPC$TL_privacyValueAllowAll;
+                        boolean z5 = privacyRule instanceof TLRPC.TL_privacyValueAllowAll;
                         if (!z5) {
-                            boolean z6 = tLRPC$PrivacyRule instanceof TLRPC$TL_privacyValueDisallowAll;
+                            boolean z6 = privacyRule instanceof TLRPC.TL_privacyValueDisallowAll;
                             if (!z6 || z4) {
-                                if (tLRPC$PrivacyRule instanceof TLRPC$TL_privacyValueAllowContacts) {
+                                if (privacyRule instanceof TLRPC.TL_privacyValueAllowContacts) {
                                     c = 2;
                                     z4 = true;
                                 } else if (c == 65535) {
@@ -1611,20 +1552,20 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         this.initialPlus.addAll(this.currentPlus);
         this.initialMinus.addAll(this.currentMinus);
         if (this.rulesType == 6) {
-            ArrayList<TLRPC$PrivacyRule> privacyRules2 = ContactsController.getInstance(this.currentAccount).getPrivacyRules(7);
+            ArrayList<TLRPC.PrivacyRule> privacyRules2 = ContactsController.getInstance(this.currentAccount).getPrivacyRules(7);
             if (privacyRules2 != null && privacyRules2.size() != 0) {
                 int i6 = 0;
                 while (true) {
                     if (i6 >= privacyRules2.size()) {
                         break;
                     }
-                    TLRPC$PrivacyRule tLRPC$PrivacyRule2 = privacyRules2.get(i6);
-                    if (tLRPC$PrivacyRule2 instanceof TLRPC$TL_privacyValueAllowAll) {
+                    TLRPC.PrivacyRule privacyRule2 = privacyRules2.get(i6);
+                    if (privacyRule2 instanceof TLRPC.TL_privacyValueAllowAll) {
                         break;
-                    } else if (tLRPC$PrivacyRule2 instanceof TLRPC$TL_privacyValueDisallowAll) {
+                    } else if (privacyRule2 instanceof TLRPC.TL_privacyValueDisallowAll) {
                         this.currentSubType = 2;
                         break;
-                    } else if (tLRPC$PrivacyRule2 instanceof TLRPC$TL_privacyValueAllowContacts) {
+                    } else if (privacyRule2 instanceof TLRPC.TL_privacyValueAllowContacts) {
                         this.currentSubType = 1;
                         break;
                     } else {
@@ -1637,7 +1578,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             this.initialRulesSubType = this.currentSubType;
         }
         if (this.rulesType == 0) {
-            TLRPC$TL_globalPrivacySettings globalPrivacySettings2 = getContactsController().getGlobalPrivacySettings();
+            TLRPC.TL_globalPrivacySettings globalPrivacySettings2 = getContactsController().getGlobalPrivacySettings();
             z = (globalPrivacySettings2 == null || !globalPrivacySettings2.hide_read_marks) ? false : false;
             this.currentReadValue = z;
             this.selectedReadValue = z;
@@ -1677,47 +1618,47 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$applyCurrentPrivacySettings$10(TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_globalPrivacySettings tLRPC$TL_globalPrivacySettings, TLRPC$TL_account_setGlobalPrivacySettings tLRPC$TL_account_setGlobalPrivacySettings) {
-        if (tLRPC$TL_error != null) {
+    public /* synthetic */ void lambda$applyCurrentPrivacySettings$10(TLRPC.TL_error tL_error, TLRPC.TL_globalPrivacySettings tL_globalPrivacySettings, TLRPC.TL_account_setGlobalPrivacySettings tL_account_setGlobalPrivacySettings) {
+        if (tL_error != null) {
             showErrorAlert();
             return;
         }
-        if (tLRPC$TL_globalPrivacySettings != null) {
-            tLRPC$TL_globalPrivacySettings.new_noncontact_peers_require_premium = tLRPC$TL_account_setGlobalPrivacySettings.settings.new_noncontact_peers_require_premium;
+        if (tL_globalPrivacySettings != null) {
+            tL_globalPrivacySettings.new_noncontact_peers_require_premium = tL_account_setGlobalPrivacySettings.settings.new_noncontact_peers_require_premium;
         }
         finishFragment();
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.privacyRulesUpdated, new Object[0]);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$applyCurrentPrivacySettings$11(final TLRPC$TL_globalPrivacySettings tLRPC$TL_globalPrivacySettings, final TLRPC$TL_account_setGlobalPrivacySettings tLRPC$TL_account_setGlobalPrivacySettings, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$applyCurrentPrivacySettings$11(final TLRPC.TL_globalPrivacySettings tL_globalPrivacySettings, final TLRPC.TL_account_setGlobalPrivacySettings tL_account_setGlobalPrivacySettings, TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda17
             @Override // java.lang.Runnable
             public final void run() {
-                PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$10(tLRPC$TL_error, tLRPC$TL_globalPrivacySettings, tLRPC$TL_account_setGlobalPrivacySettings);
+                PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$10(tL_error, tL_globalPrivacySettings, tL_account_setGlobalPrivacySettings);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$applyCurrentPrivacySettings$12(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
-        if (tLRPC$TL_error == null) {
-            ContactsController.getInstance(this.currentAccount).setPrivacyRules(((TLRPC$TL_account_privacyRules) tLObject).rules, 7);
+    public /* synthetic */ void lambda$applyCurrentPrivacySettings$12(TLRPC.TL_error tL_error, TLObject tLObject) {
+        if (tL_error == null) {
+            ContactsController.getInstance(this.currentAccount).setPrivacyRules(((TLRPC.TL_account_privacyRules) tLObject).rules, 7);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$applyCurrentPrivacySettings$13(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$applyCurrentPrivacySettings$13(final TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda18
             @Override // java.lang.Runnable
             public final void run() {
-                PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$12(tLRPC$TL_error, tLObject);
+                PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$12(tL_error, tLObject);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$applyCurrentPrivacySettings$14(AlertDialog alertDialog, TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
+    public /* synthetic */ void lambda$applyCurrentPrivacySettings$14(AlertDialog alertDialog, TLRPC.TL_error tL_error, TLObject tLObject) {
         if (alertDialog != null) {
             try {
                 alertDialog.dismiss();
@@ -1725,40 +1666,40 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 FileLog.e(e);
             }
         }
-        if (tLRPC$TL_error != null) {
+        if (tL_error != null) {
             showErrorAlert();
             return;
         }
-        TLRPC$TL_account_privacyRules tLRPC$TL_account_privacyRules = (TLRPC$TL_account_privacyRules) tLObject;
-        MessagesController.getInstance(this.currentAccount).putUsers(tLRPC$TL_account_privacyRules.users, false);
-        MessagesController.getInstance(this.currentAccount).putChats(tLRPC$TL_account_privacyRules.chats, false);
-        ContactsController.getInstance(this.currentAccount).setPrivacyRules(tLRPC$TL_account_privacyRules.rules, this.rulesType);
+        TLRPC.TL_account_privacyRules tL_account_privacyRules = (TLRPC.TL_account_privacyRules) tLObject;
+        MessagesController.getInstance(this.currentAccount).putUsers(tL_account_privacyRules.users, false);
+        MessagesController.getInstance(this.currentAccount).putChats(tL_account_privacyRules.chats, false);
+        ContactsController.getInstance(this.currentAccount).setPrivacyRules(tL_account_privacyRules.rules, this.rulesType);
         finishFragment();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$applyCurrentPrivacySettings$15(final AlertDialog alertDialog, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$applyCurrentPrivacySettings$15(final AlertDialog alertDialog, final TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda19
             @Override // java.lang.Runnable
             public final void run() {
-                PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$14(alertDialog, tLRPC$TL_error, tLObject);
+                PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$14(alertDialog, tL_error, tLObject);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$applyCurrentPrivacySettings$16(TLRPC$TL_globalPrivacySettings tLRPC$TL_globalPrivacySettings, TLRPC$TL_account_setGlobalPrivacySettings tLRPC$TL_account_setGlobalPrivacySettings) {
-        boolean z = tLRPC$TL_account_setGlobalPrivacySettings.settings.hide_read_marks;
+    public /* synthetic */ void lambda$applyCurrentPrivacySettings$16(TLRPC.TL_globalPrivacySettings tL_globalPrivacySettings, TLRPC.TL_account_setGlobalPrivacySettings tL_account_setGlobalPrivacySettings) {
+        boolean z = tL_account_setGlobalPrivacySettings.settings.hide_read_marks;
         this.currentReadValue = z;
-        tLRPC$TL_globalPrivacySettings.hide_read_marks = z;
+        tL_globalPrivacySettings.hide_read_marks = z;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$applyCurrentPrivacySettings$17(final TLRPC$TL_globalPrivacySettings tLRPC$TL_globalPrivacySettings, final TLRPC$TL_account_setGlobalPrivacySettings tLRPC$TL_account_setGlobalPrivacySettings, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$applyCurrentPrivacySettings$17(final TLRPC.TL_globalPrivacySettings tL_globalPrivacySettings, final TLRPC.TL_account_setGlobalPrivacySettings tL_account_setGlobalPrivacySettings, TLObject tLObject, TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda20
             @Override // java.lang.Runnable
             public final void run() {
-                PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$16(tLRPC$TL_globalPrivacySettings, tLRPC$TL_account_setGlobalPrivacySettings);
+                PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$16(tL_globalPrivacySettings, tL_account_setGlobalPrivacySettings);
             }
         });
     }
@@ -1775,11 +1716,11 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3() {
-        TLRPC$Photo tLRPC$Photo;
+        TLRPC.Photo photo;
         this.avatarForRest = null;
         this.avatarForRestPhoto = null;
-        TLRPC$UserFull userFull = getMessagesController().getUserFull(getUserConfig().clientUserId);
-        if (userFull == null || (tLRPC$Photo = userFull.fallback_photo) == null) {
+        TLRPC.UserFull userFull = getMessagesController().getUserFull(getUserConfig().clientUserId);
+        if (userFull == null || (photo = userFull.fallback_photo) == null) {
             return;
         }
         userFull.flags &= -4194305;
@@ -1787,15 +1728,15 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         getMessagesStorage().updateUserInfo(userFull, true);
         updateAvatarForRestInfo();
         updateRows(true);
-        TLRPC$TL_inputPhoto tLRPC$TL_inputPhoto = new TLRPC$TL_inputPhoto();
-        tLRPC$TL_inputPhoto.id = tLRPC$Photo.id;
-        tLRPC$TL_inputPhoto.access_hash = tLRPC$Photo.access_hash;
-        byte[] bArr = tLRPC$Photo.file_reference;
-        tLRPC$TL_inputPhoto.file_reference = bArr;
+        TLRPC.TL_inputPhoto tL_inputPhoto = new TLRPC.TL_inputPhoto();
+        tL_inputPhoto.id = photo.id;
+        tL_inputPhoto.access_hash = photo.access_hash;
+        byte[] bArr = photo.file_reference;
+        tL_inputPhoto.file_reference = bArr;
         if (bArr == null) {
-            tLRPC$TL_inputPhoto.file_reference = new byte[0];
+            tL_inputPhoto.file_reference = new byte[0];
         }
-        MessagesController.getInstance(this.currentAccount).deleteUserPhoto(tLRPC$TL_inputPhoto);
+        MessagesController.getInstance(this.currentAccount).deleteUserPhoto(tL_inputPhoto);
         NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.reloadDialogPhotos, new Object[0]);
     }
 
@@ -1986,14 +1927,14 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$didUploadPhoto$0(TLObject tLObject) {
         if (tLObject != null) {
-            TLRPC$TL_photos_photo tLRPC$TL_photos_photo = (TLRPC$TL_photos_photo) tLObject;
-            TLRPC$UserFull userFull = getMessagesController().getUserFull(getUserConfig().clientUserId);
+            TLRPC.TL_photos_photo tL_photos_photo = (TLRPC.TL_photos_photo) tLObject;
+            TLRPC.UserFull userFull = getMessagesController().getUserFull(getUserConfig().clientUserId);
             userFull.flags |= 4194304;
-            userFull.fallback_photo = tLRPC$TL_photos_photo.photo;
+            userFull.fallback_photo = tL_photos_photo.photo;
             getMessagesStorage().updateUserInfo(userFull, true);
             NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.reloadDialogPhotos, new Object[0]);
-            TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$TL_photos_photo.photo.sizes, 100);
-            TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$TL_photos_photo.photo.sizes, 1000);
+            TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tL_photos_photo.photo.sizes, 100);
+            TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tL_photos_photo.photo.sizes, 1000);
             if (closestPhotoSizeWithSize != null && this.avatarForRest != null) {
                 FileLoader.getInstance(this.currentAccount).getPathToAttach(this.avatarForRest, true).renameTo(FileLoader.getInstance(this.currentAccount).getPathToAttach(closestPhotoSizeWithSize, true));
                 ImageLoader.getInstance().replaceImageInCache(this.avatarForRest.location.volume_id + "_" + this.avatarForRest.location.local_id + "@50_50", closestPhotoSizeWithSize.location.volume_id + "_" + closestPhotoSizeWithSize.location.local_id + "@50_50", ImageLocation.getForLocal(closestPhotoSizeWithSize.location), false);
@@ -2006,7 +1947,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didUploadPhoto$1(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$didUploadPhoto$1(final TLObject tLObject, TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
@@ -2016,43 +1957,43 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didUploadPhoto$2(TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, double d, TLRPC$VideoSize tLRPC$VideoSize, TLRPC$PhotoSize tLRPC$PhotoSize2) {
-        this.avatarForRest = tLRPC$PhotoSize;
+    public /* synthetic */ void lambda$didUploadPhoto$2(TLRPC.PhotoSize photoSize, TLRPC.InputFile inputFile, TLRPC.InputFile inputFile2, double d, TLRPC.VideoSize videoSize, TLRPC.PhotoSize photoSize2) {
+        this.avatarForRest = photoSize;
         this.avatarForRestPhoto = null;
         updateAvatarForRestInfo();
-        if (tLRPC$InputFile != null || tLRPC$InputFile2 != null) {
-            TLRPC$TL_photos_uploadProfilePhoto tLRPC$TL_photos_uploadProfilePhoto = new TLRPC$TL_photos_uploadProfilePhoto();
-            if (tLRPC$InputFile != null) {
-                tLRPC$TL_photos_uploadProfilePhoto.file = tLRPC$InputFile;
-                tLRPC$TL_photos_uploadProfilePhoto.flags |= 1;
+        if (inputFile != null || inputFile2 != null) {
+            TLRPC.TL_photos_uploadProfilePhoto tL_photos_uploadProfilePhoto = new TLRPC.TL_photos_uploadProfilePhoto();
+            if (inputFile != null) {
+                tL_photos_uploadProfilePhoto.file = inputFile;
+                tL_photos_uploadProfilePhoto.flags |= 1;
             }
-            if (tLRPC$InputFile2 != null) {
-                tLRPC$TL_photos_uploadProfilePhoto.video = tLRPC$InputFile2;
-                int i = tLRPC$TL_photos_uploadProfilePhoto.flags;
-                tLRPC$TL_photos_uploadProfilePhoto.video_start_ts = d;
-                tLRPC$TL_photos_uploadProfilePhoto.flags = i | 6;
+            if (inputFile2 != null) {
+                tL_photos_uploadProfilePhoto.video = inputFile2;
+                int i = tL_photos_uploadProfilePhoto.flags;
+                tL_photos_uploadProfilePhoto.video_start_ts = d;
+                tL_photos_uploadProfilePhoto.flags = i | 6;
             }
-            if (tLRPC$VideoSize != null) {
-                tLRPC$TL_photos_uploadProfilePhoto.video_emoji_markup = tLRPC$VideoSize;
-                tLRPC$TL_photos_uploadProfilePhoto.flags |= 16;
+            if (videoSize != null) {
+                tL_photos_uploadProfilePhoto.video_emoji_markup = videoSize;
+                tL_photos_uploadProfilePhoto.flags |= 16;
             }
-            tLRPC$TL_photos_uploadProfilePhoto.fallback = true;
-            tLRPC$TL_photos_uploadProfilePhoto.flags |= 8;
-            getConnectionsManager().sendRequest(tLRPC$TL_photos_uploadProfilePhoto, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda4
+            tL_photos_uploadProfilePhoto.fallback = true;
+            tL_photos_uploadProfilePhoto.flags |= 8;
+            getConnectionsManager().sendRequest(tL_photos_uploadProfilePhoto, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda4
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    PrivacyControlActivity.this.lambda$didUploadPhoto$1(tLObject, tLRPC$TL_error);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    PrivacyControlActivity.this.lambda$didUploadPhoto$1(tLObject, tL_error);
                 }
             });
-            TLRPC$TL_user tLRPC$TL_user = new TLRPC$TL_user();
-            TLRPC$TL_userProfilePhoto tLRPC$TL_userProfilePhoto = new TLRPC$TL_userProfilePhoto();
-            tLRPC$TL_user.photo = tLRPC$TL_userProfilePhoto;
-            tLRPC$TL_userProfilePhoto.photo_small = tLRPC$PhotoSize.location;
-            tLRPC$TL_userProfilePhoto.photo_big = tLRPC$PhotoSize2.location;
-            tLRPC$TL_user.first_name = getUserConfig().getCurrentUser().first_name;
-            tLRPC$TL_user.last_name = getUserConfig().getCurrentUser().last_name;
-            tLRPC$TL_user.access_hash = getUserConfig().getCurrentUser().access_hash;
-            BulletinFactory.of(this).createUsersBulletin(Collections.singletonList(tLRPC$TL_user), LocaleController.getString(R.string.PhotoForRestTooltip)).show();
+            TLRPC.TL_user tL_user = new TLRPC.TL_user();
+            TLRPC.TL_userProfilePhoto tL_userProfilePhoto = new TLRPC.TL_userProfilePhoto();
+            tL_user.photo = tL_userProfilePhoto;
+            tL_userProfilePhoto.photo_small = photoSize.location;
+            tL_userProfilePhoto.photo_big = photoSize2.location;
+            tL_user.first_name = getUserConfig().getCurrentUser().first_name;
+            tL_user.last_name = getUserConfig().getCurrentUser().last_name;
+            tL_user.access_hash = getUserConfig().getCurrentUser().access_hash;
+            BulletinFactory.of(this).createUsersBulletin(Collections.singletonList(tL_user), LocaleController.getString(R.string.PhotoForRestTooltip)).show();
         }
         updateRows(false);
     }
@@ -2091,10 +2032,10 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
     private void setMessageText() {
         HintView hintView;
         int i;
-        TLRPC$Peer tLRPC$Peer;
+        TLRPC.Peer peer;
         MessageCell messageCell = this.messageCell;
         if (messageCell != null) {
-            messageCell.messageObject.messageOwner.fwd_from.from_id = new TLRPC$TL_peerUser();
+            messageCell.messageObject.messageOwner.fwd_from.from_id = new TLRPC.TL_peerUser();
             int i2 = this.currentType;
             long j = 1;
             if (i2 == 0) {
@@ -2102,17 +2043,17 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 i = R.string.PrivacyForwardsEverybody;
             } else if (i2 == 1) {
                 this.messageCell.hintView.setOverrideText(LocaleController.getString(R.string.PrivacyForwardsNobody));
-                tLRPC$Peer = this.messageCell.messageObject.messageOwner.fwd_from.from_id;
+                peer = this.messageCell.messageObject.messageOwner.fwd_from.from_id;
                 j = 0;
-                tLRPC$Peer.user_id = j;
+                peer.user_id = j;
                 this.messageCell.cell.forceResetMessageObject();
             } else {
                 hintView = this.messageCell.hintView;
                 i = R.string.PrivacyForwardsContacts;
             }
             hintView.setOverrideText(LocaleController.getString(i));
-            tLRPC$Peer = this.messageCell.messageObject.messageOwner.fwd_from.from_id;
-            tLRPC$Peer.user_id = j;
+            peer = this.messageCell.messageObject.messageOwner.fwd_from.from_id;
+            peer.user_id = j;
             this.messageCell.cell.forceResetMessageObject();
         }
     }
@@ -2129,12 +2070,12 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
     }
 
     private void updateAvatarForRestInfo() {
-        TLRPC$PhotoSize tLRPC$PhotoSize;
+        TLRPC.PhotoSize photoSize;
         TextCell textCell = this.setAvatarCell;
         if (textCell != null) {
-            TLRPC$PhotoSize tLRPC$PhotoSize2 = this.avatarForRest;
+            TLRPC.PhotoSize photoSize2 = this.avatarForRest;
             SimpleTextView textView = textCell.getTextView();
-            if (tLRPC$PhotoSize2 == null) {
+            if (photoSize2 == null) {
                 textView.setText(LocaleController.formatString("SetPhotoForRest", R.string.SetPhotoForRest, new Object[0]));
                 this.setAvatarCell.setNeedDivider(false);
             } else {
@@ -2143,11 +2084,11 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             }
         }
         BackupImageView backupImageView = this.oldAvatarView;
-        if (backupImageView == null || (tLRPC$PhotoSize = this.avatarForRest) == null) {
+        if (backupImageView == null || (photoSize = this.avatarForRest) == null) {
             return;
         }
-        TLRPC$Photo tLRPC$Photo = this.avatarForRestPhoto;
-        backupImageView.setImage(tLRPC$Photo != null ? ImageLocation.getForPhoto(tLRPC$PhotoSize, tLRPC$Photo) : ImageLocation.getForLocal(tLRPC$PhotoSize.location), "50_50", (Drawable) null, UserConfig.getInstance(this.currentAccount).getCurrentUser());
+        TLRPC.Photo photo = this.avatarForRestPhoto;
+        backupImageView.setImage(photo != null ? ImageLocation.getForPhoto(photoSize, photo) : ImageLocation.getForLocal(photoSize.location), "50_50", (Drawable) null, UserConfig.getInstance(this.currentAccount).getCurrentUser());
     }
 
     private void updateDoneButton() {
@@ -2177,7 +2118,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         boolean z2;
         ArrayList arrayList;
         int i;
-        TLRPC$UserFull userFull;
+        TLRPC.UserFull userFull;
         DiffCallback diffCallback = null;
         if (z) {
             DiffCallback diffCallback2 = new DiffCallback();
@@ -2518,11 +2459,11 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
     }
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
-    public void didUploadPhoto(final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, boolean z, final TLRPC$VideoSize tLRPC$VideoSize) {
+    public void didUploadPhoto(final TLRPC.InputFile inputFile, final TLRPC.InputFile inputFile2, final double d, String str, final TLRPC.PhotoSize photoSize, final TLRPC.PhotoSize photoSize2, boolean z, final TLRPC.VideoSize videoSize) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
-                PrivacyControlActivity.this.lambda$didUploadPhoto$2(tLRPC$PhotoSize2, tLRPC$InputFile, tLRPC$InputFile2, d, tLRPC$VideoSize, tLRPC$PhotoSize);
+                PrivacyControlActivity.this.lambda$didUploadPhoto$2(photoSize2, inputFile, inputFile2, d, videoSize, photoSize);
             }
         });
     }

@@ -6,14 +6,14 @@ import java.util.List;
 public class AdaptationSet {
     public final List accessibilityDescriptors;
     public final List essentialProperties;
-    public final int id;
+    public final long id;
     public final List representations;
     public final List supplementalProperties;
     public final int type;
 
-    public AdaptationSet(int i, int i2, List list, List list2, List list3, List list4) {
-        this.id = i;
-        this.type = i2;
+    public AdaptationSet(long j, int i, List list, List list2, List list3, List list4) {
+        this.id = j;
+        this.type = i;
         this.representations = Collections.unmodifiableList(list);
         this.accessibilityDescriptors = Collections.unmodifiableList(list2);
         this.essentialProperties = Collections.unmodifiableList(list3);

@@ -12,14 +12,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$InputEncryptedFile;
-import org.telegram.tgnet.TLRPC$InputFile;
-import org.telegram.tgnet.TLRPC$TL_boolTrue;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_inputFile;
-import org.telegram.tgnet.TLRPC$TL_inputFileBig;
-import org.telegram.tgnet.TLRPC$TL_upload_saveBigFilePart;
-import org.telegram.tgnet.TLRPC$TL_upload_saveFilePart;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.WriteToSocketDelegate;
 /* loaded from: classes3.dex */
 public class FileUploadOperation {
@@ -80,7 +73,7 @@ public class FileUploadOperation {
 
         void didFailedUploadingFile(FileUploadOperation fileUploadOperation);
 
-        void didFinishUploadingFile(FileUploadOperation fileUploadOperation, TLRPC$InputFile tLRPC$InputFile, TLRPC$InputEncryptedFile tLRPC$InputEncryptedFile, byte[] bArr, byte[] bArr2);
+        void didFinishUploadingFile(FileUploadOperation fileUploadOperation, TLRPC.InputFile inputFile, TLRPC.InputEncryptedFile inputEncryptedFile, byte[] bArr, byte[] bArr2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -269,21 +262,21 @@ public class FileUploadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startUploadRequest$6(int i, final int[] iArr, int i2, byte[] bArr, int i3, int i4, int i5, long j, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$startUploadRequest$6(int i, final int[] iArr, int i2, byte[] bArr, int i3, int i4, int i5, long j, TLObject tLObject, TLRPC.TL_error tL_error) {
         StatsController statsController;
         long j2;
         int i6;
-        TLRPC$InputEncryptedFile tLRPC$InputEncryptedFile;
+        TLRPC.InputEncryptedFile tL_inputEncryptedFileUploaded;
         byte[] bArr2;
         byte[] bArr3;
         FileUploadOperationDelegate fileUploadOperationDelegate;
         FileUploadOperation fileUploadOperation;
-        TLRPC$InputFile tLRPC$InputFile;
-        TLRPC$InputEncryptedFile tLRPC$InputEncryptedFile2;
+        TLRPC.InputFile inputFile;
+        TLRPC.InputEncryptedFile inputEncryptedFile;
         StatsController statsController2;
         int currentNetworkType;
         int i7;
-        TLRPC$InputFile tLRPC$TL_inputFile;
+        TLRPC.InputFile tL_inputFile;
         byte[] bArr4 = bArr;
         if (i != this.operationGuid) {
             return;
@@ -326,7 +319,7 @@ public class FileUploadOperation {
                 FileUploadOperation.this.lambda$startUploadRequest$5(iArr);
             }
         });
-        if (!(tLObject instanceof TLRPC$TL_boolTrue)) {
+        if (!(tLObject instanceof TLRPC.TL_boolTrue)) {
             this.state = 4;
             this.delegate.didFailedUploadingFile(this);
             cleanup();
@@ -385,72 +378,40 @@ public class FileUploadOperation {
             this.state = 3;
             if (this.key == null) {
                 if (this.isBigFile) {
-                    tLRPC$TL_inputFile = new TLRPC$TL_inputFileBig();
+                    tL_inputFile = new TLRPC.TL_inputFileBig();
                 } else {
-                    tLRPC$TL_inputFile = new TLRPC$TL_inputFile();
-                    tLRPC$TL_inputFile.md5_checksum = "";
+                    tL_inputFile = new TLRPC.TL_inputFile();
+                    tL_inputFile.md5_checksum = "";
                 }
-                tLRPC$TL_inputFile.parts = this.currentPartNum;
-                tLRPC$TL_inputFile.id = this.currentFileId;
+                tL_inputFile.parts = this.currentPartNum;
+                tL_inputFile.id = this.currentFileId;
                 String str2 = this.uploadingFilePath;
-                tLRPC$TL_inputFile.name = str2.substring(str2.lastIndexOf("/") + 1);
+                tL_inputFile.name = str2.substring(str2.lastIndexOf("/") + 1);
                 bArr2 = null;
                 bArr3 = null;
                 fileUploadOperationDelegate = this.delegate;
                 fileUploadOperation = this;
-                tLRPC$InputFile = tLRPC$TL_inputFile;
-                tLRPC$InputEncryptedFile2 = null;
+                inputFile = tL_inputFile;
+                inputEncryptedFile = null;
             } else {
                 if (this.isBigFile) {
-                    tLRPC$InputEncryptedFile = new TLRPC$InputEncryptedFile() { // from class: org.telegram.tgnet.TLRPC$TL_inputEncryptedFileBigUploaded
-                        @Override // org.telegram.tgnet.TLObject
-                        public void readParams(AbstractSerializedData abstractSerializedData, boolean z2) {
-                            this.id = abstractSerializedData.readInt64(z2);
-                            this.parts = abstractSerializedData.readInt32(z2);
-                            this.key_fingerprint = abstractSerializedData.readInt32(z2);
-                        }
-
-                        @Override // org.telegram.tgnet.TLObject
-                        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                            abstractSerializedData.writeInt32(767652808);
-                            abstractSerializedData.writeInt64(this.id);
-                            abstractSerializedData.writeInt32(this.parts);
-                            abstractSerializedData.writeInt32(this.key_fingerprint);
-                        }
-                    };
+                    tL_inputEncryptedFileUploaded = new TLRPC.TL_inputEncryptedFileBigUploaded();
                 } else {
-                    tLRPC$InputEncryptedFile = new TLRPC$InputEncryptedFile() { // from class: org.telegram.tgnet.TLRPC$TL_inputEncryptedFileUploaded
-                        @Override // org.telegram.tgnet.TLObject
-                        public void readParams(AbstractSerializedData abstractSerializedData, boolean z2) {
-                            this.id = abstractSerializedData.readInt64(z2);
-                            this.parts = abstractSerializedData.readInt32(z2);
-                            this.md5_checksum = abstractSerializedData.readString(z2);
-                            this.key_fingerprint = abstractSerializedData.readInt32(z2);
-                        }
-
-                        @Override // org.telegram.tgnet.TLObject
-                        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                            abstractSerializedData.writeInt32(1690108678);
-                            abstractSerializedData.writeInt64(this.id);
-                            abstractSerializedData.writeInt32(this.parts);
-                            abstractSerializedData.writeString(this.md5_checksum);
-                            abstractSerializedData.writeInt32(this.key_fingerprint);
-                        }
-                    };
-                    tLRPC$InputEncryptedFile.md5_checksum = "";
+                    tL_inputEncryptedFileUploaded = new TLRPC.TL_inputEncryptedFileUploaded();
+                    tL_inputEncryptedFileUploaded.md5_checksum = "";
                 }
-                tLRPC$InputEncryptedFile.parts = this.currentPartNum;
-                tLRPC$InputEncryptedFile.id = this.currentFileId;
-                tLRPC$InputEncryptedFile.key_fingerprint = this.fingerprint;
+                tL_inputEncryptedFileUploaded.parts = this.currentPartNum;
+                tL_inputEncryptedFileUploaded.id = this.currentFileId;
+                tL_inputEncryptedFileUploaded.key_fingerprint = this.fingerprint;
                 FileUploadOperationDelegate fileUploadOperationDelegate2 = this.delegate;
                 bArr2 = this.key;
                 bArr3 = this.iv;
                 fileUploadOperationDelegate = fileUploadOperationDelegate2;
                 fileUploadOperation = this;
-                tLRPC$InputFile = null;
-                tLRPC$InputEncryptedFile2 = tLRPC$InputEncryptedFile;
+                inputFile = null;
+                inputEncryptedFile = tL_inputEncryptedFileUploaded;
             }
-            fileUploadOperationDelegate.didFinishUploadingFile(fileUploadOperation, tLRPC$InputFile, tLRPC$InputEncryptedFile2, bArr2, bArr3);
+            fileUploadOperationDelegate.didFinishUploadingFile(fileUploadOperation, inputFile, inputEncryptedFile, bArr2, bArr3);
             cleanup();
             int i11 = this.currentType;
             if (i11 == 50331648) {
@@ -520,7 +481,7 @@ public class FileUploadOperation {
         int read;
         final byte[] bArr;
         int i;
-        TLRPC$TL_upload_saveFilePart tLRPC$TL_upload_saveFilePart;
+        TLRPC.TL_upload_saveFilePart tL_upload_saveFilePart;
         int i2;
         boolean z;
         long j;
@@ -638,7 +599,7 @@ public class FileUploadOperation {
                                                                 System.arraycopy(this.iv, 0, bArr6, 32, 32);
                                                                 byte[] digest = messageDigest.digest(bArr6);
                                                                 for (int i6 = 0; i6 < 4; i6++) {
-                                                                    this.fingerprint |= ((digest[i6] ^ digest[i6 + 4]) & NotificationCenter.didClearDatabase) << (i6 * 8);
+                                                                    this.fingerprint |= ((digest[i6] ^ digest[i6 + 4]) & NotificationCenter.messagePlayingSpeedChanged) << (i6 * 8);
                                                                 }
                                                             } catch (Exception e) {
                                                                 FileLog.e(e);
@@ -800,22 +761,22 @@ public class FileUploadOperation {
                     bArr = bArr2;
                 }
                 if (this.isBigFile) {
-                    TLRPC$TL_upload_saveBigFilePart tLRPC$TL_upload_saveBigFilePart = new TLRPC$TL_upload_saveBigFilePart();
+                    TLRPC.TL_upload_saveBigFilePart tL_upload_saveBigFilePart = new TLRPC.TL_upload_saveBigFilePart();
                     i = this.currentPartNum;
-                    tLRPC$TL_upload_saveBigFilePart.file_part = i;
-                    tLRPC$TL_upload_saveBigFilePart.file_id = this.currentFileId;
-                    tLRPC$TL_upload_saveBigFilePart.file_total_parts = this.estimatedSize == 0 ? this.totalPartsCount : -1;
-                    tLRPC$TL_upload_saveBigFilePart.bytes = nativeByteBuffer2;
-                    tLRPC$TL_upload_saveFilePart = tLRPC$TL_upload_saveBigFilePart;
+                    tL_upload_saveBigFilePart.file_part = i;
+                    tL_upload_saveBigFilePart.file_id = this.currentFileId;
+                    tL_upload_saveBigFilePart.file_total_parts = this.estimatedSize == 0 ? this.totalPartsCount : -1;
+                    tL_upload_saveBigFilePart.bytes = nativeByteBuffer2;
+                    tL_upload_saveFilePart = tL_upload_saveBigFilePart;
                 } else {
-                    TLRPC$TL_upload_saveFilePart tLRPC$TL_upload_saveFilePart2 = new TLRPC$TL_upload_saveFilePart();
+                    TLRPC.TL_upload_saveFilePart tL_upload_saveFilePart2 = new TLRPC.TL_upload_saveFilePart();
                     i = this.currentPartNum;
-                    tLRPC$TL_upload_saveFilePart2.file_part = i;
-                    tLRPC$TL_upload_saveFilePart2.file_id = this.currentFileId;
-                    tLRPC$TL_upload_saveFilePart2.bytes = nativeByteBuffer2;
-                    tLRPC$TL_upload_saveFilePart = tLRPC$TL_upload_saveFilePart2;
+                    tL_upload_saveFilePart2.file_part = i;
+                    tL_upload_saveFilePart2.file_id = this.currentFileId;
+                    tL_upload_saveFilePart2.bytes = nativeByteBuffer2;
+                    tL_upload_saveFilePart = tL_upload_saveFilePart2;
                 }
-                TLRPC$TL_upload_saveFilePart tLRPC$TL_upload_saveFilePart3 = tLRPC$TL_upload_saveFilePart;
+                TLRPC.TL_upload_saveFilePart tL_upload_saveFilePart3 = tL_upload_saveFilePart;
                 final int i17 = i;
                 if (this.isLastPart && this.nextPartFirst) {
                     this.nextPartFirst = false;
@@ -828,15 +789,15 @@ public class FileUploadOperation {
                 final int i18 = this.requestNum;
                 this.requestNum = i18 + 1;
                 final long j7 = i17 + i12;
-                final int objectSize = tLRPC$TL_upload_saveFilePart3.getObjectSize() + 4;
+                final int objectSize = tL_upload_saveFilePart3.getObjectSize() + 4;
                 final int i19 = this.operationGuid;
                 int i20 = this.slowNetwork ? 4 : ((i18 % 4) << 16) | 4;
                 System.currentTimeMillis();
                 final int[] iArr = new int[1];
-                iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_upload_saveFilePart3, new RequestDelegate() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda5
+                iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_upload_saveFilePart3, new RequestDelegate() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda5
                     @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        FileUploadOperation.this.lambda$startUploadRequest$6(i19, iArr, objectSize, bArr, i18, i12, i17, j7, tLObject, tLRPC$TL_error);
+                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                        FileUploadOperation.this.lambda$startUploadRequest$6(i19, iArr, objectSize, bArr, i18, i12, i17, j7, tLObject, tL_error);
                     }
                 }, null, new WriteToSocketDelegate() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda6
                     @Override // org.telegram.tgnet.WriteToSocketDelegate

@@ -35,6 +35,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
     private BaseFragment baseFragment;
     protected boolean clipToActionBar;
     protected int contentHeight;
+    EditTextEmoji editTextEmoji;
     protected boolean handleOffset;
     private RectF handleRect;
     public final boolean hasFixedSize;
@@ -72,7 +73,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
 
     public BottomSheetWithRecyclerListView(Context context, BaseFragment baseFragment, boolean z, final boolean z2, boolean z3, final boolean z4, ActionBarType actionBarType, Theme.ResourcesProvider resourcesProvider) {
         super(context, z, resourcesProvider);
-        final FrameLayout frameLayout;
+        final NestedSizeNotifierLayout nestedSizeNotifierLayout;
         this.topPadding = 0.4f;
         this.showShadow = true;
         this.shadowAlpha = 1.0f;
@@ -91,7 +92,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
         this.stackFromEnd = z4;
         this.headerShadowDrawable = ContextCompat.getDrawable(context, R.drawable.header_shadow).mutate();
         if (z3) {
-            NestedSizeNotifierLayout nestedSizeNotifierLayout = new NestedSizeNotifierLayout(context) { // from class: org.telegram.ui.Components.BottomSheetWithRecyclerListView.1
+            NestedSizeNotifierLayout nestedSizeNotifierLayout2 = new NestedSizeNotifierLayout(context) { // from class: org.telegram.ui.Components.BottomSheetWithRecyclerListView.1
                 /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
                 public void dispatchDraw(Canvas canvas) {
@@ -134,12 +135,59 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
                     super.onMeasure(i, i2);
                 }
             };
-            this.nestedSizeNotifierLayout = nestedSizeNotifierLayout;
-            frameLayout = nestedSizeNotifierLayout;
+            this.nestedSizeNotifierLayout = nestedSizeNotifierLayout2;
+            nestedSizeNotifierLayout = nestedSizeNotifierLayout2;
         } else {
-            frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.BottomSheetWithRecyclerListView.2
-                @Override // android.view.ViewGroup, android.view.View
-                protected void dispatchDraw(Canvas canvas) {
+            nestedSizeNotifierLayout = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.Components.BottomSheetWithRecyclerListView.2
+                private boolean ignoreLayout = false;
+
+                private void onMeasureInternal(int i, int i2) {
+                    int makeMeasureSpec;
+                    int paddingTop;
+                    EditTextEmoji editTextEmoji;
+                    int size = View.MeasureSpec.getSize(i);
+                    int size2 = View.MeasureSpec.getSize(i2);
+                    setMeasuredDimension(size, size2);
+                    EditTextEmoji editTextEmoji2 = BottomSheetWithRecyclerListView.this.editTextEmoji;
+                    if (editTextEmoji2 != null && !editTextEmoji2.isWaitingForKeyboardOpen() && AndroidUtilities.dp(20.0f) >= 0 && !BottomSheetWithRecyclerListView.this.editTextEmoji.isPopupShowing() && !BottomSheetWithRecyclerListView.this.editTextEmoji.isAnimatePopupClosing()) {
+                        this.ignoreLayout = true;
+                        BottomSheetWithRecyclerListView.this.editTextEmoji.hideEmojiView();
+                        this.ignoreLayout = false;
+                    }
+                    if (AndroidUtilities.dp(20.0f) >= 0) {
+                        int emojiPadding = (((BottomSheet) BottomSheetWithRecyclerListView.this).keyboardVisible || (editTextEmoji = BottomSheetWithRecyclerListView.this.editTextEmoji) == null) ? 0 : editTextEmoji.getEmojiPadding();
+                        if (!AndroidUtilities.isInMultiwindow) {
+                            size2 -= emojiPadding;
+                            i2 = View.MeasureSpec.makeMeasureSpec(size2, 1073741824);
+                        }
+                    }
+                    int childCount = getChildCount();
+                    for (int i3 = 0; i3 < childCount; i3++) {
+                        View childAt = getChildAt(i3);
+                        if (childAt != null && childAt.getVisibility() != 8) {
+                            EditTextEmoji editTextEmoji3 = BottomSheetWithRecyclerListView.this.editTextEmoji;
+                            if (editTextEmoji3 == null || !editTextEmoji3.isPopupView(childAt)) {
+                                measureChildWithMargins(childAt, i, 0, i2, 0);
+                            } else {
+                                if (!AndroidUtilities.isInMultiwindow && !AndroidUtilities.isTablet()) {
+                                    makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(size, 1073741824);
+                                    paddingTop = childAt.getLayoutParams().height;
+                                } else if (AndroidUtilities.isTablet()) {
+                                    makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(size, 1073741824);
+                                    paddingTop = Math.min(AndroidUtilities.dp(AndroidUtilities.isTablet() ? 200.0f : 320.0f), (size2 - AndroidUtilities.statusBarHeight) + getPaddingTop());
+                                } else {
+                                    makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(size, 1073741824);
+                                    paddingTop = (size2 - AndroidUtilities.statusBarHeight) + getPaddingTop();
+                                }
+                                childAt.measure(makeMeasureSpec, View.MeasureSpec.makeMeasureSpec(paddingTop, 1073741824));
+                            }
+                        }
+                    }
+                }
+
+                /* JADX INFO: Access modifiers changed from: protected */
+                @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
+                public void dispatchDraw(Canvas canvas) {
                     BottomSheetWithRecyclerListView.this.preDrawInternal(canvas, this);
                     super.dispatchDraw(canvas);
                     BottomSheetWithRecyclerListView.this.postDrawInternal(canvas, this);
@@ -168,6 +216,83 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
                     return super.drawChild(canvas, view, j);
                 }
 
+                /* JADX INFO: Access modifiers changed from: protected */
+                /* JADX WARN: Removed duplicated region for block: B:35:0x009c  */
+                /* JADX WARN: Removed duplicated region for block: B:43:0x00b8  */
+                /* JADX WARN: Removed duplicated region for block: B:46:0x00c6  */
+                @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+                /*
+                    Code decompiled incorrectly, please refer to instructions dump.
+                */
+                public void onLayout(boolean z5, int i, int i2, int i3, int i4) {
+                    int i5;
+                    int i6;
+                    int i7;
+                    int i8;
+                    int i9;
+                    if (BottomSheetWithRecyclerListView.this.editTextEmoji == null) {
+                        super.onLayout(z5, i, i2, i3, i4);
+                        return;
+                    }
+                    int childCount = getChildCount();
+                    int measureKeyboardHeight = measureKeyboardHeight();
+                    int paddingBottom = getPaddingBottom();
+                    if (!((BottomSheet) BottomSheetWithRecyclerListView.this).keyboardVisible && BottomSheetWithRecyclerListView.this.editTextEmoji != null && measureKeyboardHeight <= AndroidUtilities.dp(20.0f) && !AndroidUtilities.isInMultiwindow && !AndroidUtilities.isTablet()) {
+                        paddingBottom += BottomSheetWithRecyclerListView.this.editTextEmoji.getEmojiPadding();
+                    }
+                    setBottomClip(paddingBottom);
+                    for (int i10 = 0; i10 < childCount; i10++) {
+                        View childAt = getChildAt(i10);
+                        if (childAt.getVisibility() != 8) {
+                            FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) childAt.getLayoutParams();
+                            int measuredWidth = childAt.getMeasuredWidth();
+                            int measuredHeight = childAt.getMeasuredHeight();
+                            int i11 = layoutParams.gravity;
+                            if (i11 == -1) {
+                                i11 = 51;
+                            }
+                            int i12 = i11 & 112;
+                            int i13 = i11 & 7;
+                            if (i13 == 1) {
+                                i5 = (((i3 - i) - measuredWidth) / 2) + layoutParams.leftMargin;
+                                i6 = layoutParams.rightMargin;
+                            } else if (i13 != 5) {
+                                i7 = layoutParams.leftMargin + getPaddingLeft();
+                                if (i12 == 16) {
+                                    if (i12 == 48) {
+                                        i9 = layoutParams.topMargin + getPaddingTop();
+                                    } else if (i12 != 80) {
+                                        i9 = layoutParams.topMargin;
+                                    } else {
+                                        i8 = ((i4 - paddingBottom) - i2) - measuredHeight;
+                                    }
+                                    if (childAt instanceof EmojiView) {
+                                        i9 = (AndroidUtilities.isTablet() ? getMeasuredHeight() : getMeasuredHeight() + measureKeyboardHeight) - childAt.getMeasuredHeight();
+                                    }
+                                    childAt.layout(i7, i9, measuredWidth + i7, measuredHeight + i9);
+                                } else {
+                                    i8 = ((((i4 - paddingBottom) - i2) - measuredHeight) / 2) + layoutParams.topMargin;
+                                }
+                                i9 = i8 - layoutParams.bottomMargin;
+                                if (childAt instanceof EmojiView) {
+                                }
+                                childAt.layout(i7, i9, measuredWidth + i7, measuredHeight + i9);
+                            } else {
+                                i5 = (((i3 - i) - measuredWidth) - layoutParams.rightMargin) - getPaddingRight();
+                                i6 = ((BottomSheet) BottomSheetWithRecyclerListView.this).backgroundPaddingLeft;
+                            }
+                            i7 = i5 - i6;
+                            if (i12 == 16) {
+                            }
+                            i9 = i8 - layoutParams.bottomMargin;
+                            if (childAt instanceof EmojiView) {
+                            }
+                            childAt.layout(i7, i9, measuredWidth + i7, measuredHeight + i9);
+                        }
+                    }
+                    notifyHeightChanged();
+                }
+
                 @Override // android.widget.FrameLayout, android.view.View
                 protected void onMeasure(int i, int i2) {
                     BottomSheetWithRecyclerListView.this.contentHeight = View.MeasureSpec.getSize(i2);
@@ -175,7 +300,11 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
                     if (z4) {
                         i2 = View.MeasureSpec.makeMeasureSpec(BottomSheetWithRecyclerListView.this.contentHeight, 1073741824);
                     }
-                    super.onMeasure(i, i2);
+                    if (BottomSheetWithRecyclerListView.this.editTextEmoji != null) {
+                        onMeasureInternal(i, i2);
+                    } else {
+                        super.onMeasure(i, i2);
+                    }
                 }
             };
         }
@@ -199,20 +328,20 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
             linearLayoutManager.setStackFromEnd(true);
         }
         this.recyclerListView.setLayoutManager(this.layoutManager);
-        NestedSizeNotifierLayout nestedSizeNotifierLayout2 = this.nestedSizeNotifierLayout;
-        if (nestedSizeNotifierLayout2 != null) {
-            nestedSizeNotifierLayout2.setBottomSheetContainerView(getContainer());
+        NestedSizeNotifierLayout nestedSizeNotifierLayout3 = this.nestedSizeNotifierLayout;
+        if (nestedSizeNotifierLayout3 != null) {
+            nestedSizeNotifierLayout3.setBottomSheetContainerView(getContainer());
             this.nestedSizeNotifierLayout.setTargetListView(this.recyclerListView);
         }
         if (z2) {
             this.recyclerListView.setHasFixedSize(true);
             RecyclerListView recyclerListView = this.recyclerListView;
             recyclerListView.setAdapter(createAdapter(recyclerListView));
-            setCustomView(frameLayout);
-            frameLayout.addView(this.recyclerListView, LayoutHelper.createFrame(-1, -2.0f));
+            setCustomView(nestedSizeNotifierLayout);
+            nestedSizeNotifierLayout.addView(this.recyclerListView, LayoutHelper.createFrame(-1, -2.0f));
         } else {
             resetAdapter(context);
-            this.containerView = frameLayout;
+            this.containerView = nestedSizeNotifierLayout;
             ActionBar actionBar = new ActionBar(context) { // from class: org.telegram.ui.Components.BottomSheetWithRecyclerListView.4
                 @Override // android.view.ViewGroup, android.view.View
                 public boolean dispatchTouchEvent(MotionEvent motionEvent) {
@@ -226,7 +355,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
                 public void setAlpha(float f) {
                     if (getAlpha() != f) {
                         super.setAlpha(f);
-                        frameLayout.invalidate();
+                        nestedSizeNotifierLayout.invalidate();
                     }
                 }
 
@@ -252,20 +381,20 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
                     }
                 }
             });
-            frameLayout.addView(this.recyclerListView);
-            frameLayout.addView(this.actionBar, LayoutHelper.createFrame(-1, -2.0f, 0, 6.0f, 0.0f, 6.0f, 0.0f));
+            nestedSizeNotifierLayout.addView(this.recyclerListView);
+            nestedSizeNotifierLayout.addView(this.actionBar, LayoutHelper.createFrame(-1, -2.0f, 0, 6.0f, 0.0f, 6.0f, 0.0f));
             this.recyclerListView.addOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.BottomSheetWithRecyclerListView.6
                 @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
                 public void onScrolled(RecyclerView recyclerView, int i, int i2) {
                     super.onScrolled(recyclerView, i, i2);
-                    frameLayout.invalidate();
+                    nestedSizeNotifierLayout.invalidate();
                 }
             });
         }
         if (actionBarType == ActionBarType.SLIDING) {
             setSlidingActionBar();
         }
-        onViewCreated(frameLayout);
+        onViewCreated(nestedSizeNotifierLayout);
         updateStatusBar();
     }
 
@@ -443,7 +572,8 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
     }
 
     public void applyScrolledPosition(boolean z) {
-        if (this.recyclerListView == null || this.layoutManager == null || this.savedScrollPosition < 0) {
+        RecyclerListView recyclerListView = this.recyclerListView;
+        if (recyclerListView == null || recyclerListView.getLayoutManager() == null || this.savedScrollPosition < 0) {
             return;
         }
         int top = (this.savedScrollOffset - this.containerView.getTop()) - this.recyclerListView.getPaddingTop();
@@ -451,7 +581,9 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
         if (z && findViewHolderForAdapterPosition != null) {
             top -= Math.max(findViewHolderForAdapterPosition.itemView.getBottom() - this.recyclerListView.getPaddingTop(), 0);
         }
-        this.layoutManager.scrollToPositionWithOffset(this.savedScrollPosition, top);
+        if (this.recyclerListView.getLayoutManager() instanceof LinearLayoutManager) {
+            ((LinearLayoutManager) this.recyclerListView.getLayoutManager()).scrollToPositionWithOffset(this.savedScrollPosition, top);
+        }
         this.savedScrollPosition = -1;
     }
 
@@ -612,6 +744,10 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
             this.savedScrollOffset = view.getTop() + this.containerView.getTop();
             smoothContainerViewLayout();
         }
+    }
+
+    public void setEditTextEmoji(EditTextEmoji editTextEmoji) {
+        this.editTextEmoji = editTextEmoji;
     }
 
     public void setShowHandle(boolean z) {

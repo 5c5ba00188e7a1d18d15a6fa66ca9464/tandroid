@@ -30,8 +30,7 @@ import org.telegram.messenger.MrzRecognizer;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
-import org.telegram.tgnet.TLRPC$TL_messageMediaVenue;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -778,7 +777,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                 }
             });
             UserConfig userConfig = getUserConfig();
-            TLRPC$User user = getMessagesController().getUser(Long.valueOf(userConfig.clientUserId));
+            TLRPC.User user = getMessagesController().getUser(Long.valueOf(userConfig.clientUserId));
             if (user == null) {
                 user = userConfig.getCurrentUser();
             }
@@ -857,7 +856,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
     }
 
     @Override // org.telegram.messenger.LocationController.LocationFetchCallback
-    public void onLocationAddressAvailable(String str, String str2, TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue, TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue2, Location location) {
+    public void onLocationAddressAvailable(String str, String str2, TLRPC.TL_messageMediaVenue tL_messageMediaVenue, TLRPC.TL_messageMediaVenue tL_messageMediaVenue2, Location location) {
         TextView textView = this.subtitleTextView;
         if (textView == null) {
             return;

@@ -3,7 +3,7 @@ package com.google.android.exoplayer2.upstream;
 public interface LoaderErrorThrower {
 
     /* loaded from: classes.dex */
-    public static final class Dummy implements LoaderErrorThrower {
+    public static final class Placeholder implements LoaderErrorThrower {
         @Override // com.google.android.exoplayer2.upstream.LoaderErrorThrower
         public void maybeThrowError() {
         }

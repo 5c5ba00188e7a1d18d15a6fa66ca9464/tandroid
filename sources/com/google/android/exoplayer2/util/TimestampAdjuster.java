@@ -1,4 +1,6 @@
 package com.google.android.exoplayer2.util;
+
+import java.util.concurrent.TimeoutException;
 /* loaded from: classes.dex */
 public final class TimestampAdjuster {
     private long firstSampleTimestampUs;
@@ -27,7 +29,7 @@ public final class TimestampAdjuster {
             return -9223372036854775807L;
         }
         try {
-            if (this.timestampOffsetUs == -9223372036854775807L) {
+            if (!isInitialized()) {
                 long j2 = this.firstSampleTimestampUs;
                 if (j2 == 9223372036854775806L) {
                     j2 = ((Long) Assertions.checkNotNull((Long) this.nextSampleTimestampUs.get())).longValue();
@@ -83,23 +85,40 @@ public final class TimestampAdjuster {
         return this.timestampOffsetUs;
     }
 
+    public synchronized boolean isInitialized() {
+        return this.timestampOffsetUs != -9223372036854775807L;
+    }
+
     public synchronized void reset(long j) {
         this.firstSampleTimestampUs = j;
         this.timestampOffsetUs = j == Long.MAX_VALUE ? 0L : -9223372036854775807L;
         this.lastUnadjustedTimestampUs = -9223372036854775807L;
     }
 
-    public synchronized void sharedInitializeOrWait(boolean z, long j) {
+    public synchronized void sharedInitializeOrWait(boolean z, long j, long j2) {
         try {
             Assertions.checkState(this.firstSampleTimestampUs == 9223372036854775806L);
-            if (this.timestampOffsetUs != -9223372036854775807L) {
+            if (isInitialized()) {
                 return;
             }
             if (z) {
                 this.nextSampleTimestampUs.set(Long.valueOf(j));
             } else {
-                while (this.timestampOffsetUs == -9223372036854775807L) {
-                    wait();
+                long j3 = 0;
+                long j4 = j2;
+                while (!isInitialized()) {
+                    if (j2 == 0) {
+                        wait();
+                    } else {
+                        Assertions.checkState(j4 > 0);
+                        long elapsedRealtime = android.os.SystemClock.elapsedRealtime();
+                        wait(j4);
+                        j3 += android.os.SystemClock.elapsedRealtime() - elapsedRealtime;
+                        if (j3 >= j2 && !isInitialized()) {
+                            throw new TimeoutException("TimestampAdjuster failed to initialize in " + j2 + " milliseconds");
+                        }
+                        j4 = j2 - j3;
+                    }
                 }
             }
         } catch (Throwable th) {

@@ -408,7 +408,7 @@ public class SeekBarWaveform {
         if (this.exploding || this.explosionRate > 0.0f) {
             canvas.restore();
             if (this.particles == null) {
-                this.particles = new Particles(NotificationCenter.notificationsCountUpdated, new Runnable() { // from class: org.telegram.ui.Components.SeekBarWaveform$$ExternalSyntheticLambda0
+                this.particles = new Particles(NotificationCenter.newLocationAvailable, new Runnable() { // from class: org.telegram.ui.Components.SeekBarWaveform$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         SeekBarWaveform.this.invalidate();

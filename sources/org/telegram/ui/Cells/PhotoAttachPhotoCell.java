@@ -37,9 +37,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$PhotoSize;
-import org.telegram.tgnet.TLRPC$VideoSize;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.BackupImageView;
@@ -618,24 +616,24 @@ public class PhotoAttachPhotoCell extends FrameLayout {
         this.searchEntry = searchImage;
         this.isLast = z2;
         Drawable drawable = this.zoomOnSelect ? Theme.chat_attachEmptyDrawable : getResources().getDrawable(R.drawable.nophotos);
-        TLRPC$PhotoSize tLRPC$PhotoSize = searchImage.thumbPhotoSize;
-        if (tLRPC$PhotoSize == null) {
-            TLRPC$PhotoSize tLRPC$PhotoSize2 = searchImage.photoSize;
-            if (tLRPC$PhotoSize2 != null) {
-                this.imageView.setImage(ImageLocation.getForPhoto(tLRPC$PhotoSize2, searchImage.photo), "80_80", drawable, searchImage);
+        TLRPC.PhotoSize photoSize = searchImage.thumbPhotoSize;
+        if (photoSize == null) {
+            TLRPC.PhotoSize photoSize2 = searchImage.photoSize;
+            if (photoSize2 != null) {
+                this.imageView.setImage(ImageLocation.getForPhoto(photoSize2, searchImage.photo), "80_80", drawable, searchImage);
             } else {
                 String str = searchImage.thumbPath;
                 if (str != null) {
                     this.imageView.setImage(str, null, drawable);
                 } else if (TextUtils.isEmpty(searchImage.thumbUrl)) {
-                    TLRPC$Document tLRPC$Document = searchImage.document;
-                    if (tLRPC$Document != null) {
-                        MessageObject.getDocumentVideoThumb(tLRPC$Document);
-                        TLRPC$VideoSize documentVideoThumb = MessageObject.getDocumentVideoThumb(searchImage.document);
+                    TLRPC.Document document = searchImage.document;
+                    if (document != null) {
+                        MessageObject.getDocumentVideoThumb(document);
+                        TLRPC.VideoSize documentVideoThumb = MessageObject.getDocumentVideoThumb(searchImage.document);
                         if (documentVideoThumb != null) {
                             this.imageView.setImage(ImageLocation.getForDocument(documentVideoThumb, searchImage.document), null, ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(searchImage.document.thumbs, 90), searchImage.document), "52_52", null, -1L, 1, searchImage);
                         } else {
-                            TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(searchImage.document.thumbs, 320);
+                            TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(searchImage.document.thumbs, 320);
                             backupImageView = this.imageView;
                             forDocument = ImageLocation.getForDocument(closestPhotoSizeWithSize, searchImage.document);
                         }
@@ -659,7 +657,7 @@ public class PhotoAttachPhotoCell extends FrameLayout {
             setStarsPrice(0L, false);
         }
         backupImageView = this.imageView;
-        forDocument = ImageLocation.getForPhoto(tLRPC$PhotoSize, searchImage.photo);
+        forDocument = ImageLocation.getForPhoto(photoSize, searchImage.photo);
         backupImageView.setImage(forDocument, (String) null, drawable, searchImage);
         if (z) {
         }

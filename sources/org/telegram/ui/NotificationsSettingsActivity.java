@@ -48,12 +48,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$EncryptedChat;
-import org.telegram.tgnet.TLRPC$TL_account_setContactSignUpNotification;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_topPeer;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -709,12 +704,12 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                 MessagesController.getInstance(this.currentAccount).enableJoined = z7;
                 edit4.putBoolean("EnableContactJoined", z7);
                 edit4.commit();
-                TLRPC$TL_account_setContactSignUpNotification tLRPC$TL_account_setContactSignUpNotification = new TLRPC$TL_account_setContactSignUpNotification();
-                tLRPC$TL_account_setContactSignUpNotification.silent = z4;
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_setContactSignUpNotification, new RequestDelegate() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda3
+                TLRPC.TL_account_setContactSignUpNotification tL_account_setContactSignUpNotification = new TLRPC.TL_account_setContactSignUpNotification();
+                tL_account_setContactSignUpNotification.silent = z4;
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_setContactSignUpNotification, new RequestDelegate() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda3
                     @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        NotificationsSettingsActivity.lambda$createView$7(tLObject, tLRPC$TL_error);
+                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                        NotificationsSettingsActivity.lambda$createView$7(tLObject, tL_error);
                     }
                 });
             } else if (i == this.pinnedMessageRow) {
@@ -872,7 +867,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$5(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$createView$5(TLObject tLObject, TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
@@ -887,26 +882,16 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
             return;
         }
         this.reseting = true;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_account_resetNotifySettings
-            @Override // org.telegram.tgnet.TLObject
-            public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i2, boolean z) {
-                return TLRPC$Bool.TLdeserialize(abstractSerializedData, i2, z);
-            }
-
-            @Override // org.telegram.tgnet.TLObject
-            public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                abstractSerializedData.writeInt32(-612493497);
-            }
-        }, new RequestDelegate() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda9
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC.TL_account_resetNotifySettings(), new RequestDelegate() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda9
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                NotificationsSettingsActivity.this.lambda$createView$5(tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                NotificationsSettingsActivity.this.lambda$createView$5(tLObject, tL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createView$7(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$createView$7(TLObject tLObject, TLRPC.TL_error tL_error) {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -917,7 +902,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$9(int i, DialogInterface dialogInterface, int i2) {
-        MessagesController.getNotificationsSettings(this.currentAccount).edit().putInt("repeat_messages", i2 != 1 ? i2 == 2 ? 10 : i2 == 3 ? 30 : i2 == 4 ? 60 : i2 == 5 ? 120 : i2 == 6 ? NotificationCenter.locationPermissionDenied : 0 : 5).commit();
+        MessagesController.getNotificationsSettings(this.currentAccount).edit().putInt("repeat_messages", i2 != 1 ? i2 == 2 ? 10 : i2 == 3 ? 30 : i2 == 4 ? 60 : i2 == 5 ? 120 : i2 == 6 ? NotificationCenter.goingToPreviewTheme : 0 : 5).commit();
         this.updateRepeatNotifications = true;
         this.adapter.notifyItemChanged(i);
     }
@@ -956,10 +941,10 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$loadExceptions$2(ArrayList arrayList) {
-        ArrayList<TLRPC$EncryptedChat> arrayList2;
-        ArrayList<TLRPC$Chat> arrayList3;
-        ArrayList<TLRPC$User> arrayList4;
-        ArrayList<TLRPC$EncryptedChat> arrayList5;
+        ArrayList<TLRPC.EncryptedChat> arrayList2;
+        ArrayList<TLRPC.Chat> arrayList3;
+        ArrayList<TLRPC.User> arrayList4;
+        ArrayList<TLRPC.EncryptedChat> arrayList5;
         int size;
         int i;
         int size2;
@@ -981,9 +966,9 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         ArrayList<Long> arrayList13 = new ArrayList<>();
         ArrayList arrayList14 = new ArrayList();
         ArrayList arrayList15 = new ArrayList();
-        ArrayList<TLRPC$User> arrayList16 = new ArrayList<>();
-        ArrayList<TLRPC$Chat> arrayList17 = new ArrayList<>();
-        ArrayList<TLRPC$EncryptedChat> arrayList18 = new ArrayList<>();
+        ArrayList<TLRPC.User> arrayList16 = new ArrayList<>();
+        ArrayList<TLRPC.Chat> arrayList17 = new ArrayList<>();
+        ArrayList<TLRPC.EncryptedChat> arrayList18 = new ArrayList<>();
         long j = UserConfig.getInstance(this.currentAccount).clientUserId;
         SharedPreferences notificationsSettings = MessagesController.getNotificationsSettings(this.currentAccount);
         Map<String, ?> all = notificationsSettings.getAll();
@@ -1024,11 +1009,11 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                         }
                         if (DialogObject.isEncryptedDialog(longValue2)) {
                             int encryptedChatId = DialogObject.getEncryptedChatId(longValue2);
-                            TLRPC$EncryptedChat encryptedChat = MessagesController.getInstance(this.currentAccount).getEncryptedChat(Integer.valueOf(encryptedChatId));
+                            TLRPC.EncryptedChat encryptedChat = MessagesController.getInstance(this.currentAccount).getEncryptedChat(Integer.valueOf(encryptedChatId));
                             if (encryptedChat == null) {
                                 arrayList15.add(Integer.valueOf(encryptedChatId));
                             } else {
-                                TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(encryptedChat.user_id));
+                                TLRPC.User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(encryptedChat.user_id));
                                 if (user == null) {
                                     arrayList13.add(Long.valueOf(encryptedChat.user_id));
                                     longValue2 = encryptedChat.user_id;
@@ -1042,7 +1027,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                             arrayList10 = arrayList21;
                         } else {
                             if (DialogObject.isUserDialog(longValue2)) {
-                                TLRPC$User user2 = MessagesController.getInstance(this.currentAccount).getUser(parseLong2);
+                                TLRPC.User user2 = MessagesController.getInstance(this.currentAccount).getUser(parseLong2);
                                 if (user2 == null) {
                                     arrayList13.add(parseLong2);
                                     longSparseArray.put(longValue2, notificationException);
@@ -1050,7 +1035,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                                 }
                             } else {
                                 long j3 = -longValue2;
-                                TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(j3));
+                                TLRPC.Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(j3));
                                 if (chat == null) {
                                     arrayList14.add(Long.valueOf(j3));
                                     longSparseArray.put(longValue2, notificationException);
@@ -1100,7 +1085,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                     notificationException2.notify = ((Boolean) entry.getValue()).booleanValue() ? 0 : ConnectionsManager.DEFAULT_DATACENTER_ID;
                     notificationException2.story = true;
                     if (DialogObject.isUserDialog(longValue)) {
-                        TLRPC$User user3 = getMessagesController().getUser(parseLong);
+                        TLRPC.User user3 = getMessagesController().getUser(parseLong);
                         if (user3 == null) {
                             try {
                                 arrayList13.add(parseLong);
@@ -1129,13 +1114,13 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                 @Override // j$.util.function.ToDoubleFunction
                 public final double applyAsDouble(Object obj) {
                     double d;
-                    d = ((TLRPC$TL_topPeer) obj).rating;
+                    d = ((TLRPC.TL_topPeer) obj).rating;
                     return d;
                 }
             }));
             int max = Math.max(0, arrayList.size() - 5);
             while (max < arrayList.size()) {
-                long peerDialogId = DialogObject.getPeerDialogId(((TLRPC$TL_topPeer) arrayList26.get(max)).peer);
+                long peerDialogId = DialogObject.getPeerDialogId(((TLRPC.TL_topPeer) arrayList26.get(max)).peer);
                 if (!hashSet.contains(Long.valueOf(peerDialogId))) {
                     NotificationException notificationException3 = new NotificationException();
                     notificationException3.did = peerDialogId;
@@ -1143,7 +1128,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                     notificationException3.auto = true;
                     notificationException3.story = true;
                     if (DialogObject.isUserDialog(peerDialogId)) {
-                        TLRPC$User user4 = getMessagesController().getUser(Long.valueOf(peerDialogId));
+                        TLRPC.User user4 = getMessagesController().getUser(Long.valueOf(peerDialogId));
                         if (user4 == null) {
                             arrayList13.add(Long.valueOf(peerDialogId));
                             longSparseArray.put(peerDialogId, notificationException3);
@@ -1188,9 +1173,9 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                         size4 = longSparseArray.size();
                         while (i4 < size4) {
                         }
-                        final ArrayList<TLRPC$User> arrayList29 = arrayList4;
-                        final ArrayList<TLRPC$Chat> arrayList30 = arrayList3;
-                        final ArrayList<TLRPC$EncryptedChat> arrayList31 = arrayList5;
+                        final ArrayList<TLRPC.User> arrayList29 = arrayList4;
+                        final ArrayList<TLRPC.Chat> arrayList30 = arrayList3;
+                        final ArrayList<TLRPC.EncryptedChat> arrayList31 = arrayList5;
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda8
                             @Override // java.lang.Runnable
                             public final void run() {
@@ -1329,14 +1314,14 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
             }
             size = arrayList3.size();
             for (i = 0; i < size; i++) {
-                TLRPC$Chat tLRPC$Chat = arrayList3.get(i);
-                if (!tLRPC$Chat.left && !tLRPC$Chat.kicked && tLRPC$Chat.migrated_to == null) {
+                TLRPC.Chat chat2 = arrayList3.get(i);
+                if (!chat2.left && !chat2.kicked && chat2.migrated_to == null) {
                     ArrayList arrayList32 = arrayList10;
-                    NotificationException notificationException4 = (NotificationException) longSparseArray.get(-tLRPC$Chat.id);
-                    longSparseArray.remove(-tLRPC$Chat.id);
+                    NotificationException notificationException4 = (NotificationException) longSparseArray.get(-chat2.id);
+                    longSparseArray.remove(-chat2.id);
                     if (notificationException4 == null) {
                         arrayList10 = arrayList32;
-                    } else if (!ChatObject.isChannel(tLRPC$Chat) || tLRPC$Chat.megagroup) {
+                    } else if (!ChatObject.isChannel(chat2) || chat2.megagroup) {
                         arrayList10 = arrayList32;
                         arrayList23.add(notificationException4);
                     } else {
@@ -1347,9 +1332,9 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
             }
             size2 = arrayList4.size();
             for (i2 = 0; i2 < size2; i2++) {
-                TLRPC$User tLRPC$User = arrayList4.get(i2);
-                if (!tLRPC$User.deleted) {
-                    longSparseArray.remove(tLRPC$User.id);
+                TLRPC.User user5 = arrayList4.get(i2);
+                if (!user5.deleted) {
+                    longSparseArray.remove(user5.id);
                 }
             }
             size3 = arrayList5.size();

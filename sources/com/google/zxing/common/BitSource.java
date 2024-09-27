@@ -27,7 +27,7 @@ public final class BitSource {
             int i5 = i4 - min;
             byte[] bArr = this.bytes;
             int i6 = this.byteOffset;
-            int i7 = (((NotificationCenter.didClearDatabase >> (8 - min)) << i5) & bArr[i6]) >> i5;
+            int i7 = (((NotificationCenter.messagePlayingSpeedChanged >> (8 - min)) << i5) & bArr[i6]) >> i5;
             i -= min;
             int i8 = this.bitOffset + min;
             this.bitOffset = i8;
@@ -48,7 +48,7 @@ public final class BitSource {
             }
             if (i > 0) {
                 int i11 = 8 - i;
-                int i12 = (i3 << i) | ((((NotificationCenter.didClearDatabase >> i11) << i11) & this.bytes[this.byteOffset]) >> i11);
+                int i12 = (i3 << i) | ((((NotificationCenter.messagePlayingSpeedChanged >> i11) << i11) & this.bytes[this.byteOffset]) >> i11);
                 this.bitOffset += i;
                 return i12;
             }

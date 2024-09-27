@@ -12,12 +12,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_payments_checkedGiftCode;
-import org.telegram.tgnet.TLRPC$TL_premiumGiftOption;
-import org.telegram.tgnet.TLRPC$TL_user;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
@@ -33,7 +28,7 @@ import org.telegram.ui.LaunchActivity;
 /* loaded from: classes3.dex */
 public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
     private GiftInfoAdapter adapter;
-    private final TLRPC$TL_payments_checkedGiftCode giftCode;
+    private final TLRPC.TL_payments_checkedGiftCode giftCode;
     private final boolean isUnused;
     private String slug;
 
@@ -78,10 +73,10 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
             BaseFragment baseFragment;
             long j;
             dismiss();
-            if (tLObject instanceof TLRPC$Chat) {
+            if (tLObject instanceof TLRPC.Chat) {
                 baseFragment = GiftInfoBottomSheet.this.getBaseFragment();
-                j = -((TLRPC$Chat) tLObject).id;
-            } else if (!(tLObject instanceof TLRPC$User)) {
+                j = -((TLRPC.Chat) tLObject).id;
+            } else if (!(tLObject instanceof TLRPC.User)) {
                 Bundle bundle = new Bundle();
                 bundle.putLong("chat_id", -DialogObject.getPeerDialogId(GiftInfoBottomSheet.this.giftCode.from_id));
                 bundle.putInt("message_id", GiftInfoBottomSheet.this.giftCode.giveaway_msg_id);
@@ -89,22 +84,22 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
                 return;
             } else {
                 baseFragment = GiftInfoBottomSheet.this.getBaseFragment();
-                j = ((TLRPC$User) tLObject).id;
+                j = ((TLRPC.User) tLObject).id;
             }
             baseFragment.presentFragment(ChatActivity.of(j));
         }
     }
 
-    public GiftInfoBottomSheet(BaseFragment baseFragment, boolean z, boolean z2, TLRPC$TL_payments_checkedGiftCode tLRPC$TL_payments_checkedGiftCode, String str) {
+    public GiftInfoBottomSheet(BaseFragment baseFragment, boolean z, boolean z2, TLRPC.TL_payments_checkedGiftCode tL_payments_checkedGiftCode, String str) {
         super(baseFragment, z, z2);
-        this.isUnused = tLRPC$TL_payments_checkedGiftCode.used_date == 0;
-        this.giftCode = tLRPC$TL_payments_checkedGiftCode;
+        this.isUnused = tL_payments_checkedGiftCode.used_date == 0;
+        this.giftCode = tL_payments_checkedGiftCode;
         this.slug = str;
         setApplyTopPadding(false);
         setApplyBottomPadding(false);
         fixNavigationBar();
         updateTitle();
-        this.adapter.init(baseFragment, tLRPC$TL_payments_checkedGiftCode, str, this.container);
+        this.adapter.init(baseFragment, tL_payments_checkedGiftCode, str, this.container);
     }
 
     public static boolean handleIntent(Intent intent, Browser.Progress progress) {
@@ -138,20 +133,20 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$show$1(AtomicBoolean atomicBoolean, BaseFragment baseFragment, String str, Browser.Progress progress, TLRPC$TL_payments_checkedGiftCode tLRPC$TL_payments_checkedGiftCode) {
+    public static /* synthetic */ void lambda$show$1(AtomicBoolean atomicBoolean, BaseFragment baseFragment, String str, Browser.Progress progress, TLRPC.TL_payments_checkedGiftCode tL_payments_checkedGiftCode) {
         if (atomicBoolean.get() || baseFragment.getParentActivity() == null) {
             return;
         }
-        if (tLRPC$TL_payments_checkedGiftCode.from_id == null) {
-            TLRPC$TL_premiumGiftOption tLRPC$TL_premiumGiftOption = new TLRPC$TL_premiumGiftOption();
-            tLRPC$TL_premiumGiftOption.months = tLRPC$TL_payments_checkedGiftCode.months;
-            TLRPC$User currentUser = baseFragment instanceof ChatActivity ? ((ChatActivity) baseFragment).getCurrentUser() : null;
+        if (tL_payments_checkedGiftCode.from_id == null) {
+            TLRPC.TL_premiumGiftOption tL_premiumGiftOption = new TLRPC.TL_premiumGiftOption();
+            tL_premiumGiftOption.months = tL_payments_checkedGiftCode.months;
+            TLRPC.User currentUser = baseFragment instanceof ChatActivity ? ((ChatActivity) baseFragment).getCurrentUser() : null;
             if (currentUser == null || currentUser.self) {
-                currentUser = new TLRPC$TL_user();
+                currentUser = new TLRPC.TL_user();
             }
-            PremiumPreviewGiftLinkBottomSheet.show(str, tLRPC$TL_premiumGiftOption, currentUser, tLRPC$TL_payments_checkedGiftCode.used_date != 0);
+            PremiumPreviewGiftLinkBottomSheet.show(str, tL_premiumGiftOption, currentUser, tL_payments_checkedGiftCode.used_date != 0);
         } else {
-            baseFragment.showDialog(new GiftInfoBottomSheet(baseFragment, false, true, tLRPC$TL_payments_checkedGiftCode, str));
+            baseFragment.showDialog(new GiftInfoBottomSheet(baseFragment, false, true, tL_payments_checkedGiftCode, str));
         }
         if (progress != null) {
             progress.end();
@@ -159,7 +154,7 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$show$2(AtomicBoolean atomicBoolean, Browser.Progress progress, TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$show$2(AtomicBoolean atomicBoolean, Browser.Progress progress, TLRPC.TL_error tL_error) {
         if (atomicBoolean.get() || progress == null) {
             return;
         }
@@ -187,12 +182,12 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
         BoostRepository.checkGiftCode(str, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.GiftInfoBottomSheet$$ExternalSyntheticLambda1
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                GiftInfoBottomSheet.lambda$show$1(atomicBoolean, baseFragment, str, progress, (TLRPC$TL_payments_checkedGiftCode) obj);
+                GiftInfoBottomSheet.lambda$show$1(atomicBoolean, baseFragment, str, progress, (TLRPC.TL_payments_checkedGiftCode) obj);
             }
         }, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.GiftInfoBottomSheet$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                GiftInfoBottomSheet.lambda$show$2(atomicBoolean, progress, (TLRPC$TL_error) obj);
+                GiftInfoBottomSheet.lambda$show$2(atomicBoolean, progress, (TLRPC.TL_error) obj);
             }
         });
     }

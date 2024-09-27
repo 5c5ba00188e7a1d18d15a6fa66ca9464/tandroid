@@ -19,11 +19,7 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.Utilities;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$TL_birthday;
-import org.telegram.tgnet.TLRPC$TL_inputStickerSetShortName;
-import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
-import org.telegram.tgnet.TLRPC$UserFull;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Cells.TextDetailCell;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LinkSpanDrawable;
@@ -79,22 +75,22 @@ public class ProfileBirthdayEffect extends View {
                         hashSet.add(Integer.valueOf(charAt));
                     }
                 }
-                TLRPC$TL_inputStickerSetShortName tLRPC$TL_inputStickerSetShortName = new TLRPC$TL_inputStickerSetShortName();
-                tLRPC$TL_inputStickerSetShortName.short_name = ProfileBirthdayEffect.numbersEmojipack;
-                MediaDataController.getInstance(i).getStickerSet(tLRPC$TL_inputStickerSetShortName, 0, false, new Utilities.Callback() { // from class: org.telegram.ui.ProfileBirthdayEffect$BirthdayEffectFetcher$$ExternalSyntheticLambda0
+                TLRPC.TL_inputStickerSetShortName tL_inputStickerSetShortName = new TLRPC.TL_inputStickerSetShortName();
+                tL_inputStickerSetShortName.short_name = ProfileBirthdayEffect.numbersEmojipack;
+                MediaDataController.getInstance(i).getStickerSet(tL_inputStickerSetShortName, 0, false, new Utilities.Callback() { // from class: org.telegram.ui.ProfileBirthdayEffect$BirthdayEffectFetcher$$ExternalSyntheticLambda0
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
-                        ProfileBirthdayEffect.BirthdayEffectFetcher.this.lambda$new$1(hashSet, arrayList, (TLRPC$TL_messages_stickerSet) obj);
+                        ProfileBirthdayEffect.BirthdayEffectFetcher.this.lambda$new$1(hashSet, arrayList, (TLRPC.TL_messages_stickerSet) obj);
                     }
                 });
             }
             final String str2 = ProfileBirthdayEffect.interactions[Utilities.random.nextInt(ProfileBirthdayEffect.interactions.length)];
-            TLRPC$TL_inputStickerSetShortName tLRPC$TL_inputStickerSetShortName2 = new TLRPC$TL_inputStickerSetShortName();
-            tLRPC$TL_inputStickerSetShortName2.short_name = ProfileBirthdayEffect.interactionsPack;
-            MediaDataController.getInstance(i).getStickerSet(tLRPC$TL_inputStickerSetShortName2, 0, false, new Utilities.Callback() { // from class: org.telegram.ui.ProfileBirthdayEffect$BirthdayEffectFetcher$$ExternalSyntheticLambda1
+            TLRPC.TL_inputStickerSetShortName tL_inputStickerSetShortName2 = new TLRPC.TL_inputStickerSetShortName();
+            tL_inputStickerSetShortName2.short_name = ProfileBirthdayEffect.interactionsPack;
+            MediaDataController.getInstance(i).getStickerSet(tL_inputStickerSetShortName2, 0, false, new Utilities.Callback() { // from class: org.telegram.ui.ProfileBirthdayEffect$BirthdayEffectFetcher$$ExternalSyntheticLambda1
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
-                    ProfileBirthdayEffect.BirthdayEffectFetcher.this.lambda$new$3(str2, (TLRPC$TL_messages_stickerSet) obj);
+                    ProfileBirthdayEffect.BirthdayEffectFetcher.this.lambda$new$3(str2, (TLRPC.TL_messages_stickerSet) obj);
                 }
             });
         }
@@ -106,14 +102,14 @@ public class ProfileBirthdayEffect extends View {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$1(HashSet hashSet, ArrayList arrayList, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet) {
+        public /* synthetic */ void lambda$new$1(HashSet hashSet, ArrayList arrayList, TLRPC.TL_messages_stickerSet tL_messages_stickerSet) {
             HashMap hashMap = new HashMap();
             Iterator it = hashSet.iterator();
             while (it.hasNext()) {
                 Integer num = (Integer) it.next();
-                TLRPC$Document findSticker = SelectAnimatedEmojiDialog.findSticker(tLRPC$TL_messages_stickerSet, num + "️⃣");
+                TLRPC.Document findSticker = SelectAnimatedEmojiDialog.findSticker(tL_messages_stickerSet, num + "️⃣");
                 if (findSticker == null) {
-                    findSticker = SelectAnimatedEmojiDialog.findSticker(tLRPC$TL_messages_stickerSet, num + "⃣");
+                    findSticker = SelectAnimatedEmojiDialog.findSticker(tL_messages_stickerSet, num + "⃣");
                 }
                 if (findSticker == null) {
                     FileLog.e("couldn't find " + num + "️⃣ emoji in " + ProfileBirthdayEffect.numbersEmojipack);
@@ -127,7 +123,7 @@ public class ProfileBirthdayEffect extends View {
                 num2.intValue();
                 final ImageReceiverAsset imageReceiverAsset = new ImageReceiverAsset();
                 this.allAssets.add(imageReceiverAsset);
-                imageReceiverAsset.setEmoji((TLRPC$Document) entry.getValue(), "80_80", tLRPC$TL_messages_stickerSet, new Runnable() { // from class: org.telegram.ui.ProfileBirthdayEffect$BirthdayEffectFetcher$$ExternalSyntheticLambda3
+                imageReceiverAsset.setEmoji((TLRPC.Document) entry.getValue(), "80_80", tL_messages_stickerSet, new Runnable() { // from class: org.telegram.ui.ProfileBirthdayEffect$BirthdayEffectFetcher$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         ProfileBirthdayEffect.BirthdayEffectFetcher.this.lambda$new$0(imageReceiverAsset);
@@ -152,8 +148,8 @@ public class ProfileBirthdayEffect extends View {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$3(String str, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet) {
-            TLRPC$Document findSticker = SelectAnimatedEmojiDialog.findSticker(tLRPC$TL_messages_stickerSet, str);
+        public /* synthetic */ void lambda$new$3(String str, TLRPC.TL_messages_stickerSet tL_messages_stickerSet) {
+            TLRPC.Document findSticker = SelectAnimatedEmojiDialog.findSticker(tL_messages_stickerSet, str);
             if (findSticker == null) {
                 FileLog.e("couldn't find " + str + " sticker in " + ProfileBirthdayEffect.interactionsPack);
                 return;
@@ -164,7 +160,7 @@ public class ProfileBirthdayEffect extends View {
             int filterWidth = EmojiAnimationsOverlay.getFilterWidth();
             this.interactionAsset.setAutoRepeat(0);
             ImageReceiverAsset imageReceiverAsset2 = this.interactionAsset;
-            imageReceiverAsset2.setEmoji(findSticker, filterWidth + "_" + filterWidth + "_precache", tLRPC$TL_messages_stickerSet, new Runnable() { // from class: org.telegram.ui.ProfileBirthdayEffect$BirthdayEffectFetcher$$ExternalSyntheticLambda2
+            imageReceiverAsset2.setEmoji(findSticker, filterWidth + "_" + filterWidth + "_precache", tL_messages_stickerSet, new Runnable() { // from class: org.telegram.ui.ProfileBirthdayEffect$BirthdayEffectFetcher$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     ProfileBirthdayEffect.BirthdayEffectFetcher.this.lambda$new$2();
@@ -175,16 +171,16 @@ public class ProfileBirthdayEffect extends View {
             checkWhenLoaded();
         }
 
-        public static BirthdayEffectFetcher of(int i, TLRPC$UserFull tLRPC$UserFull, BirthdayEffectFetcher birthdayEffectFetcher) {
-            TLRPC$TL_birthday tLRPC$TL_birthday;
-            if (!LiteMode.isEnabled(2) || !BirthdayController.isToday(tLRPC$UserFull)) {
+        public static BirthdayEffectFetcher of(int i, TLRPC.UserFull userFull, BirthdayEffectFetcher birthdayEffectFetcher) {
+            TLRPC.TL_birthday tL_birthday;
+            if (!LiteMode.isEnabled(2) || !BirthdayController.isToday(userFull)) {
                 if (birthdayEffectFetcher != null) {
                     birthdayEffectFetcher.detach(false);
                     return null;
                 }
                 return null;
             }
-            int years = (tLRPC$UserFull == null || (tLRPC$TL_birthday = tLRPC$UserFull.birthday) == null || (tLRPC$TL_birthday.flags & 1) == 0) ? 0 : Period.between(LocalDate.of(tLRPC$TL_birthday.year, tLRPC$TL_birthday.month, tLRPC$TL_birthday.day), LocalDate.now()).getYears();
+            int years = (userFull == null || (tL_birthday = userFull.birthday) == null || (tL_birthday.flags & 1) == 0) ? 0 : Period.between(LocalDate.of(tL_birthday.year, tL_birthday.month, tL_birthday.day), LocalDate.now()).getYears();
             if (birthdayEffectFetcher != null) {
                 if (birthdayEffectFetcher.age == years) {
                     return birthdayEffectFetcher;
@@ -298,9 +294,9 @@ public class ProfileBirthdayEffect extends View {
         private ImageReceiverAsset() {
         }
 
-        public void setEmoji(TLRPC$Document tLRPC$Document, String str, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, Runnable runnable) {
+        public void setEmoji(TLRPC.Document document, String str, TLRPC.TL_messages_stickerSet tL_messages_stickerSet, Runnable runnable) {
             setDelegate(new 1(new Runnable[]{runnable}));
-            setImage(ImageLocation.getForDocument(tLRPC$Document), str, null, null, tLRPC$TL_messages_stickerSet, 0);
+            setImage(ImageLocation.getForDocument(document), str, null, null, tL_messages_stickerSet, 0);
         }
     }
 

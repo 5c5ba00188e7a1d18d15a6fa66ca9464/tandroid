@@ -37,16 +37,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.tgnet.TLRPC$MessageEntity;
-import org.telegram.tgnet.TLRPC$MessageMedia;
-import org.telegram.tgnet.TLRPC$PhotoSize;
-import org.telegram.tgnet.TLRPC$TL_messageEntityEmail;
-import org.telegram.tgnet.TLRPC$TL_messageEntitySpoiler;
-import org.telegram.tgnet.TLRPC$TL_messageEntityTextUrl;
-import org.telegram.tgnet.TLRPC$TL_messageEntityUrl;
-import org.telegram.tgnet.TLRPC$TL_messageMediaWebPage;
-import org.telegram.tgnet.TLRPC$TL_webPage;
-import org.telegram.tgnet.TLRPC$WebPage;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.CheckBox2;
@@ -153,7 +144,7 @@ public class SharedLinkCell extends FrameLayout {
     public interface SharedLinkCellDelegate {
         boolean canPerformActions();
 
-        void needOpenWebView(TLRPC$WebPage tLRPC$WebPage, MessageObject messageObject);
+        void needOpenWebView(TLRPC.WebPage webPage, MessageObject messageObject);
 
         void onLinkPress(String str, boolean z);
     }
@@ -385,14 +376,14 @@ public class SharedLinkCell extends FrameLayout {
             this.descriptionTextPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, this.resourcesProvider));
             canvas.save();
             canvas.translate(AndroidUtilities.dp(LocaleController.isRTL ? 8.0f : AndroidUtilities.leftBaseline), this.descriptionY);
-            SpoilerEffect.renderWithRipple(this, false, this.descriptionTextPaint.getColor(), -AndroidUtilities.dp(2.0f), this.patchedDescriptionLayout, this.descriptionLayout, this.descriptionLayoutSpoilers, canvas, false);
+            SpoilerEffect.renderWithRipple(this, false, this.descriptionTextPaint.getColor(), -AndroidUtilities.dp(2.0f), this.patchedDescriptionLayout, 0, this.descriptionLayout, this.descriptionLayoutSpoilers, canvas, false);
             canvas.restore();
         }
         if (this.descriptionLayout2 != null) {
             this.descriptionTextPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, this.resourcesProvider));
             canvas.save();
             canvas.translate(AndroidUtilities.dp(LocaleController.isRTL ? 8.0f : AndroidUtilities.leftBaseline), this.description2Y);
-            SpoilerEffect.renderWithRipple(this, false, this.descriptionTextPaint.getColor(), -AndroidUtilities.dp(2.0f), this.patchedDescriptionLayout2, this.descriptionLayout2, this.descriptionLayout2Spoilers, canvas, false);
+            SpoilerEffect.renderWithRipple(this, false, this.descriptionTextPaint.getColor(), -AndroidUtilities.dp(2.0f), this.patchedDescriptionLayout2, 0, this.descriptionLayout2, this.descriptionLayout2Spoilers, canvas, false);
             canvas.restore();
         }
         if (!this.linkLayout.isEmpty()) {
@@ -526,7 +517,7 @@ public class SharedLinkCell extends FrameLayout {
         int i3;
         String str3;
         MessageObject messageObject2;
-        TLRPC$PhotoSize tLRPC$PhotoSize;
+        TLRPC.PhotoSize photoSize;
         StaticLayout staticLayout;
         boolean z2;
         int i4;
@@ -537,7 +528,7 @@ public class SharedLinkCell extends FrameLayout {
         StaticLayout staticLayout5;
         int i6;
         int i7;
-        TLRPC$PhotoSize tLRPC$PhotoSize2;
+        TLRPC.PhotoSize photoSize2;
         CharSequence charSequence;
         int i8;
         String str4;
@@ -555,21 +546,21 @@ public class SharedLinkCell extends FrameLayout {
         this.links.clear();
         int size = (View.MeasureSpec.getSize(i) - AndroidUtilities.dp(AndroidUtilities.leftBaseline)) - AndroidUtilities.dp(8.0f);
         MessageObject messageObject3 = this.message;
-        TLRPC$MessageMedia tLRPC$MessageMedia = messageObject3.messageOwner.media;
+        TLRPC.MessageMedia messageMedia = messageObject3.messageOwner.media;
         int i11 = 1;
-        if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaWebPage) {
-            TLRPC$WebPage tLRPC$WebPage = tLRPC$MessageMedia.webpage;
-            if (tLRPC$WebPage instanceof TLRPC$TL_webPage) {
-                if (messageObject3.photoThumbs == null && tLRPC$WebPage.photo != null) {
+        if (messageMedia instanceof TLRPC.TL_messageMediaWebPage) {
+            TLRPC.WebPage webPage = messageMedia.webpage;
+            if (webPage instanceof TLRPC.TL_webPage) {
+                if (messageObject3.photoThumbs == null && webPage.photo != null) {
                     messageObject3.generateThumbs(true);
                 }
-                boolean z3 = (tLRPC$WebPage.photo == null || this.message.photoThumbs == null) ? false : true;
-                str2 = tLRPC$WebPage.title;
+                boolean z3 = (webPage.photo == null || this.message.photoThumbs == null) ? false : true;
+                str2 = webPage.title;
                 if (str2 == null) {
-                    str2 = tLRPC$WebPage.site_name;
+                    str2 = webPage.site_name;
                 }
-                spannableStringBuilder = tLRPC$WebPage.description;
-                str = tLRPC$WebPage.url;
+                spannableStringBuilder = webPage.description;
+                str = webPage.url;
                 z = z3;
                 messageObject = this.message;
                 if (messageObject != null || messageObject.messageOwner.entities.isEmpty()) {
@@ -578,12 +569,12 @@ public class SharedLinkCell extends FrameLayout {
                     SpannableStringBuilder spannableStringBuilder4 = null;
                     int i12 = 0;
                     while (i12 < this.message.messageOwner.entities.size()) {
-                        TLRPC$MessageEntity tLRPC$MessageEntity = (TLRPC$MessageEntity) this.message.messageOwner.entities.get(i12);
-                        if (tLRPC$MessageEntity.length > 0 && (i8 = tLRPC$MessageEntity.offset) >= 0 && i8 < this.message.messageOwner.message.length()) {
-                            if (tLRPC$MessageEntity.offset + tLRPC$MessageEntity.length > this.message.messageOwner.message.length()) {
-                                tLRPC$MessageEntity.length = this.message.messageOwner.message.length() - tLRPC$MessageEntity.offset;
+                        TLRPC.MessageEntity messageEntity = this.message.messageOwner.entities.get(i12);
+                        if (messageEntity.length > 0 && (i8 = messageEntity.offset) >= 0 && i8 < this.message.messageOwner.message.length()) {
+                            if (messageEntity.offset + messageEntity.length > this.message.messageOwner.message.length()) {
+                                messageEntity.length = this.message.messageOwner.message.length() - messageEntity.offset;
                             }
-                            if (i12 == 0 && str != null && ((tLRPC$MessageEntity.offset != 0 || tLRPC$MessageEntity.length != this.message.messageOwner.message.length()) && (this.message.messageOwner.entities.size() != i11 || spannableStringBuilder == null))) {
+                            if (i12 == 0 && str != null && ((messageEntity.offset != 0 || messageEntity.length != this.message.messageOwner.message.length()) && (this.message.messageOwner.entities.size() != i11 || spannableStringBuilder == null))) {
                                 spannableStringBuilder4 = SpannableStringBuilder.valueOf(this.message.messageOwner.message);
                                 MediaDataController.addTextStyleRuns(this.message, spannableStringBuilder4);
                             }
@@ -592,8 +583,8 @@ public class SharedLinkCell extends FrameLayout {
                             } catch (Exception e) {
                                 FileLog.e(e);
                             }
-                            if (!(tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityTextUrl) && !(tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityUrl)) {
-                                if (!(tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityEmail) || (str2 != null && str2.length() != 0)) {
+                            if (!(messageEntity instanceof TLRPC.TL_messageEntityTextUrl) && !(messageEntity instanceof TLRPC.TL_messageEntityUrl)) {
+                                if (!(messageEntity instanceof TLRPC.TL_messageEntityEmail) || (str2 != null && str2.length() != 0)) {
                                     str4 = str5;
                                     if (str4 != null) {
                                         if (AndroidUtilities.charSequenceContains(str4, "://") || str4.toString().toLowerCase().indexOf("http") == 0 || str4.toString().toLowerCase().indexOf("mailto") == 0) {
@@ -603,14 +594,14 @@ public class SharedLinkCell extends FrameLayout {
                                             i9 = 7;
                                         }
                                         SpannableString valueOf = SpannableString.valueOf(str4);
-                                        int i13 = tLRPC$MessageEntity.offset;
-                                        int i14 = tLRPC$MessageEntity.length + i13;
-                                        Iterator it = this.message.messageOwner.entities.iterator();
+                                        int i13 = messageEntity.offset;
+                                        int i14 = messageEntity.length + i13;
+                                        Iterator<TLRPC.MessageEntity> it = this.message.messageOwner.entities.iterator();
                                         while (it.hasNext()) {
-                                            TLRPC$MessageEntity tLRPC$MessageEntity2 = (TLRPC$MessageEntity) it.next();
-                                            int i15 = tLRPC$MessageEntity2.offset;
-                                            int i16 = tLRPC$MessageEntity2.length + i15;
-                                            if ((tLRPC$MessageEntity2 instanceof TLRPC$TL_messageEntitySpoiler) && i13 <= i16 && i14 >= i15) {
+                                            TLRPC.MessageEntity next = it.next();
+                                            int i15 = next.offset;
+                                            int i16 = next.length + i15;
+                                            if ((next instanceof TLRPC.TL_messageEntitySpoiler) && i13 <= i16 && i14 >= i15) {
                                                 TextStyleSpan.TextStyleRun textStyleRun = new TextStyleSpan.TextStyleRun();
                                                 textStyleRun.flags |= 256;
                                                 valueOf.setSpan(new TextStyleSpan(textStyleRun), Math.max(i13, i15), Math.min(i14, i16) + i9, 33);
@@ -623,13 +614,13 @@ public class SharedLinkCell extends FrameLayout {
                                 StringBuilder sb = new StringBuilder();
                                 sb.append("mailto:");
                                 String str6 = this.message.messageOwner.message;
-                                int i17 = tLRPC$MessageEntity.offset;
-                                sb.append(str6.substring(i17, tLRPC$MessageEntity.length + i17));
+                                int i17 = messageEntity.offset;
+                                sb.append(str6.substring(i17, messageEntity.length + i17));
                                 str4 = sb.toString();
                                 String str7 = this.message.messageOwner.message;
-                                int i18 = tLRPC$MessageEntity.offset;
-                                str2 = str7.substring(i18, tLRPC$MessageEntity.length + i18);
-                                if (tLRPC$MessageEntity.offset != 0 || tLRPC$MessageEntity.length != this.message.messageOwner.message.length()) {
+                                int i18 = messageEntity.offset;
+                                str2 = str7.substring(i18, messageEntity.length + i18);
+                                if (messageEntity.offset != 0 || messageEntity.length != this.message.messageOwner.message.length()) {
                                     spannableStringBuilder3 = SpannableStringBuilder.valueOf(this.message.messageOwner.message);
                                     MediaDataController.addTextStyleRuns(this.message, spannableStringBuilder3);
                                     spannableStringBuilder = spannableStringBuilder3;
@@ -638,12 +629,12 @@ public class SharedLinkCell extends FrameLayout {
                                 }
                                 spannableStringBuilder4 = spannableStringBuilder5;
                             }
-                            if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityUrl) {
+                            if (messageEntity instanceof TLRPC.TL_messageEntityUrl) {
                                 String str8 = this.message.messageOwner.message;
-                                int i19 = tLRPC$MessageEntity.offset;
-                                str4 = str8.substring(i19, tLRPC$MessageEntity.length + i19);
+                                int i19 = messageEntity.offset;
+                                str4 = str8.substring(i19, messageEntity.length + i19);
                             } else {
-                                str4 = tLRPC$MessageEntity.url;
+                                str4 = messageEntity.url;
                             }
                             if (str2 == null || str2.length() == 0) {
                                 str2 = Uri.parse(str4.toString()).getHost();
@@ -658,7 +649,7 @@ public class SharedLinkCell extends FrameLayout {
                                     }
                                     str2 = substring.substring(i10, i11).toUpperCase() + substring.substring(i11);
                                 }
-                                if (tLRPC$MessageEntity.offset != 0 || tLRPC$MessageEntity.length != this.message.messageOwner.message.length()) {
+                                if (messageEntity.offset != 0 || messageEntity.length != this.message.messageOwner.message.length()) {
                                     spannableStringBuilder3 = SpannableStringBuilder.valueOf(this.message.messageOwner.message);
                                     MediaDataController.addTextStyleRuns(this.message, spannableStringBuilder3);
                                     spannableStringBuilder = spannableStringBuilder3;
@@ -747,9 +738,9 @@ public class SharedLinkCell extends FrameLayout {
                 }
                 messageObject2 = this.message;
                 if (messageObject2 != null || TextUtils.isEmpty(messageObject2.messageOwner.message)) {
-                    tLRPC$PhotoSize = null;
+                    photoSize = null;
                 } else {
-                    tLRPC$PhotoSize = null;
+                    photoSize = null;
                     CharSequence highlightText2 = AndroidUtilities.highlightText(Emoji.replaceEmoji((CharSequence) this.message.messageOwner.message.replace("\n", " ").replaceAll(" +", " ").trim(), Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false), this.message.highlightedWords, (Theme.ResourcesProvider) null);
                     if (highlightText2 != null) {
                         this.captionLayout = new StaticLayout(TextUtils.ellipsize(AndroidUtilities.ellipsizeCenterEnd(highlightText2, this.message.highlightedWords.get(0), size, this.captionTextPaint, NotificationCenter.walletSyncProgressChanged), this.captionTextPaint, size, TextUtils.TruncateAt.END), this.captionTextPaint, size + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
@@ -772,7 +763,7 @@ public class SharedLinkCell extends FrameLayout {
                     while (i25 < this.links.size()) {
                         try {
                             CharSequence ellipsize = TextUtils.ellipsize(AndroidUtilities.replaceNewLines(SpannableStringBuilder.valueOf((CharSequence) this.links.get(i25))), this.descriptionTextPaint, Math.min((int) Math.ceil(this.descriptionTextPaint.measureText(charSequence, 0, charSequence.length())), size), TextUtils.TruncateAt.MIDDLE);
-                            tLRPC$PhotoSize2 = tLRPC$PhotoSize;
+                            photoSize2 = photoSize;
                             try {
                                 StaticLayout staticLayout9 = new StaticLayout(ellipsize, this.descriptionTextPaint, size, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                                 this.linkY = this.description2Y;
@@ -794,27 +785,27 @@ public class SharedLinkCell extends FrameLayout {
                                 e = e5;
                                 FileLog.e(e);
                                 i25++;
-                                tLRPC$PhotoSize = tLRPC$PhotoSize2;
+                                photoSize = photoSize2;
                             }
                         } catch (Exception e6) {
                             e = e6;
-                            tLRPC$PhotoSize2 = tLRPC$PhotoSize;
+                            photoSize2 = photoSize;
                         }
                         i25++;
-                        tLRPC$PhotoSize = tLRPC$PhotoSize2;
+                        photoSize = photoSize2;
                     }
                 }
-                TLRPC$PhotoSize tLRPC$PhotoSize3 = tLRPC$PhotoSize;
+                TLRPC.PhotoSize photoSize3 = photoSize;
                 int dp = AndroidUtilities.dp(52.0f);
                 int size2 = !LocaleController.isRTL ? (View.MeasureSpec.getSize(i) - AndroidUtilities.dp(10.0f)) - dp : AndroidUtilities.dp(10.0f);
                 this.letterDrawable.setBounds(size2, AndroidUtilities.dp(11.0f), size2 + dp, AndroidUtilities.dp(63.0f));
                 if (z) {
                     z2 = true;
                 } else {
-                    TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(this.message.photoThumbs, dp, true);
-                    TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(this.message.photoThumbs, 80);
+                    TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(this.message.photoThumbs, dp, true);
+                    TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(this.message.photoThumbs, 80);
                     if (closestPhotoSizeWithSize2 == closestPhotoSizeWithSize) {
-                        closestPhotoSizeWithSize2 = tLRPC$PhotoSize3;
+                        closestPhotoSizeWithSize2 = photoSize3;
                     }
                     if (closestPhotoSizeWithSize != null) {
                         closestPhotoSizeWithSize.size = -1;
@@ -911,13 +902,13 @@ public class SharedLinkCell extends FrameLayout {
         messageObject2 = this.message;
         if (messageObject2 != null) {
         }
-        tLRPC$PhotoSize = null;
+        photoSize = null;
         staticLayout = this.captionLayout;
         if (staticLayout != null) {
         }
         if (!this.links.isEmpty()) {
         }
-        TLRPC$PhotoSize tLRPC$PhotoSize32 = tLRPC$PhotoSize;
+        TLRPC.PhotoSize photoSize32 = photoSize;
         int dp2 = AndroidUtilities.dp(52.0f);
         if (!LocaleController.isRTL) {
         }
@@ -972,7 +963,7 @@ public class SharedLinkCell extends FrameLayout {
         int i2;
         int i3;
         String str;
-        TLRPC$MessageMedia tLRPC$MessageMedia;
+        TLRPC.MessageMedia messageMedia;
         if (this.message != null && !this.linkLayout.isEmpty() && (sharedLinkCellDelegate = this.delegate) != null && sharedLinkCellDelegate.canPerformActions()) {
             if (motionEvent.getAction() == 0 || ((this.linkPreviewPressed || this.spoilerPressed != null) && motionEvent.getAction() == 1)) {
                 int x = (int) motionEvent.getX();
@@ -994,7 +985,7 @@ public class SharedLinkCell extends FrameLayout {
                         if (f < staticLayout.getLineLeft(0) + f2 || f > staticLayout.getLineWidth(0) + f2 || y < (i3 = this.linkY + i5) || y > i3 + lineBottom) {
                             i5 += lineBottom;
                         } else {
-                            TLRPC$WebPage tLRPC$WebPage = null;
+                            TLRPC.WebPage webPage = null;
                             if (motionEvent.getAction() == 0) {
                                 this.spoilerPressed = null;
                                 if (this.linkSpoilers.get(i4, null) != null) {
@@ -1030,13 +1021,13 @@ public class SharedLinkCell extends FrameLayout {
                                 }
                             } else if (this.linkPreviewPressed) {
                                 try {
-                                    if (this.pressedLinkIndex == 0 && (tLRPC$MessageMedia = this.message.messageOwner.media) != null) {
-                                        tLRPC$WebPage = tLRPC$MessageMedia.webpage;
+                                    if (this.pressedLinkIndex == 0 && (messageMedia = this.message.messageOwner.media) != null) {
+                                        webPage = messageMedia.webpage;
                                     }
-                                    if (tLRPC$WebPage == null || (str = tLRPC$WebPage.embed_url) == null || str.length() == 0) {
+                                    if (webPage == null || (str = webPage.embed_url) == null || str.length() == 0) {
                                         this.delegate.onLinkPress(((CharSequence) this.links.get(this.pressedLinkIndex)).toString(), false);
                                     } else {
-                                        this.delegate.needOpenWebView(tLRPC$WebPage, this.message);
+                                        this.delegate.needOpenWebView(webPage, this.message);
                                     }
                                 } catch (Exception e2) {
                                     FileLog.e(e2);

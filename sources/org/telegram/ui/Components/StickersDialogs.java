@@ -25,12 +25,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$StickerSet;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
-import org.telegram.tgnet.TLRPC$TL_stickers_addStickerToSet;
-import org.telegram.tgnet.TLRPC$TL_stickers_deleteStickerSet;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
@@ -48,27 +43,27 @@ public abstract class StickersDialogs {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$openStickerPickerDialog$10(final AlertDialog alertDialog, final int i, final TLRPC$Document tLRPC$Document, final Object obj, final TLRPC$TL_stickers_addStickerToSet tLRPC$TL_stickers_addStickerToSet, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$openStickerPickerDialog$10(final AlertDialog alertDialog, final int i, final TLRPC.Document document, final Object obj, final TLRPC.TL_stickers_addStickerToSet tL_stickers_addStickerToSet, final TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.StickersDialogs$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
-                StickersDialogs.lambda$openStickerPickerDialog$9(AlertDialog.this, tLObject, i, tLRPC$Document, tLRPC$TL_error, obj, tLRPC$TL_stickers_addStickerToSet);
+                StickersDialogs.lambda$openStickerPickerDialog$9(AlertDialog.this, tLObject, i, document, tL_error, obj, tL_stickers_addStickerToSet);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ Boolean lambda$openStickerPickerDialog$11(final int i, Context context, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, final Object obj, final TLRPC$Document tLRPC$Document, Boolean bool) {
-        String findAnimatedEmojiEmoticon = MessageObject.findAnimatedEmojiEmoticon(tLRPC$Document, "😀", Integer.valueOf(i));
+    public static /* synthetic */ Boolean lambda$openStickerPickerDialog$11(final int i, Context context, TLRPC.TL_messages_stickerSet tL_messages_stickerSet, final Object obj, final TLRPC.Document document, Boolean bool) {
+        String findAnimatedEmojiEmoticon = MessageObject.findAnimatedEmojiEmoticon(document, "😀", Integer.valueOf(i));
         String str = TextUtils.isEmpty(findAnimatedEmojiEmoticon) ? "😀" : findAnimatedEmojiEmoticon;
         final AlertDialog alertDialog = new AlertDialog(context, 3);
-        final TLRPC$TL_stickers_addStickerToSet tLRPC$TL_stickers_addStickerToSet = new TLRPC$TL_stickers_addStickerToSet();
-        tLRPC$TL_stickers_addStickerToSet.stickerset = MediaDataController.getInputStickerSet(tLRPC$TL_messages_stickerSet.set);
-        tLRPC$TL_stickers_addStickerToSet.sticker = MediaDataController.getInputStickerSetItem(tLRPC$Document, str);
-        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_stickers_addStickerToSet, new RequestDelegate() { // from class: org.telegram.ui.Components.StickersDialogs$$ExternalSyntheticLambda9
+        final TLRPC.TL_stickers_addStickerToSet tL_stickers_addStickerToSet = new TLRPC.TL_stickers_addStickerToSet();
+        tL_stickers_addStickerToSet.stickerset = MediaDataController.getInputStickerSet(tL_messages_stickerSet.set);
+        tL_stickers_addStickerToSet.sticker = MediaDataController.getInputStickerSetItem(document, str);
+        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tL_stickers_addStickerToSet, new RequestDelegate() { // from class: org.telegram.ui.Components.StickersDialogs$$ExternalSyntheticLambda9
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                StickersDialogs.lambda$openStickerPickerDialog$10(AlertDialog.this, i, tLRPC$Document, obj, tLRPC$TL_stickers_addStickerToSet, tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                StickersDialogs.lambda$openStickerPickerDialog$10(AlertDialog.this, i, document, obj, tL_stickers_addStickerToSet, tLObject, tL_error);
             }
         });
         try {
@@ -79,47 +74,47 @@ public abstract class StickersDialogs {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$openStickerPickerDialog$8(TLObject tLObject, TLRPC$Document tLRPC$Document) {
+    public static /* synthetic */ void lambda$openStickerPickerDialog$8(TLObject tLObject, TLRPC.Document document) {
         NotificationCenter notificationCenter = NotificationCenter.getInstance(UserConfig.selectedAccount);
         int i = NotificationCenter.customStickerCreated;
         Boolean bool = Boolean.FALSE;
-        notificationCenter.postNotificationNameOnUIThread(i, bool, tLObject, tLRPC$Document, null, bool);
+        notificationCenter.postNotificationNameOnUIThread(i, bool, tLObject, document, null, bool);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$openStickerPickerDialog$9(AlertDialog alertDialog, final TLObject tLObject, int i, final TLRPC$Document tLRPC$Document, TLRPC$TL_error tLRPC$TL_error, Object obj, TLRPC$TL_stickers_addStickerToSet tLRPC$TL_stickers_addStickerToSet) {
+    public static /* synthetic */ void lambda$openStickerPickerDialog$9(AlertDialog alertDialog, final TLObject tLObject, int i, final TLRPC.Document document, TLRPC.TL_error tL_error, Object obj, TLRPC.TL_stickers_addStickerToSet tL_stickers_addStickerToSet) {
         alertDialog.dismiss();
-        if (tLObject instanceof TLRPC$TL_messages_stickerSet) {
-            TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = (TLRPC$TL_messages_stickerSet) tLObject;
-            MediaDataController.getInstance(i).putStickerSet(tLRPC$TL_messages_stickerSet);
-            if (!MediaDataController.getInstance(i).isStickerPackInstalled(tLRPC$TL_messages_stickerSet.set.id)) {
+        if (tLObject instanceof TLRPC.TL_messages_stickerSet) {
+            TLRPC.TL_messages_stickerSet tL_messages_stickerSet = (TLRPC.TL_messages_stickerSet) tLObject;
+            MediaDataController.getInstance(i).putStickerSet(tL_messages_stickerSet);
+            if (!MediaDataController.getInstance(i).isStickerPackInstalled(tL_messages_stickerSet.set.id)) {
                 MediaDataController.getInstance(i).toggleStickerSet(null, tLObject, 2, null, false, false);
             }
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.StickersDialogs$$ExternalSyntheticLambda12
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StickersDialogs.lambda$openStickerPickerDialog$8(TLObject.this, tLRPC$Document);
+                    StickersDialogs.lambda$openStickerPickerDialog$8(TLObject.this, document);
                 }
             }, 250L);
-        } else if (tLRPC$TL_error != null) {
-            if (FileRefController.isFileRefError(tLRPC$TL_error.text)) {
-                FileRefController.getInstance(i).requestReference(obj, tLRPC$TL_stickers_addStickerToSet);
+        } else if (tL_error != null) {
+            if (FileRefController.isFileRefError(tL_error.text)) {
+                FileRefController.getInstance(i).requestReference(obj, tL_stickers_addStickerToSet);
             } else {
-                BulletinFactory.showError(tLRPC$TL_error);
+                BulletinFactory.showError(tL_error);
             }
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showAddStickerDialog$12(ActionBarPopupWindow actionBarPopupWindow, ArrayList arrayList, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, BaseFragment baseFragment, Theme.ResourcesProvider resourcesProvider, View view) {
+    public static /* synthetic */ void lambda$showAddStickerDialog$12(ActionBarPopupWindow actionBarPopupWindow, ArrayList arrayList, TLRPC.TL_messages_stickerSet tL_messages_stickerSet, BaseFragment baseFragment, Theme.ResourcesProvider resourcesProvider, View view) {
         int intValue = ((Integer) view.getTag()).intValue();
         actionBarPopupWindow.dismiss();
         if (((Integer) arrayList.get(intValue)).intValue() == 1) {
-            openStickerPickerDialog(tLRPC$TL_messages_stickerSet, baseFragment, resourcesProvider);
+            openStickerPickerDialog(tL_messages_stickerSet, baseFragment, resourcesProvider);
             return;
         }
         ((ChatActivity) baseFragment).openAttachMenuForCreatingSticker();
-        ContentPreviewViewer.getInstance().setStickerSetForCustomSticker(tLRPC$TL_messages_stickerSet);
+        ContentPreviewViewer.getInstance().setStickerSetForCustomSticker(tL_messages_stickerSet);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -127,7 +122,7 @@ public abstract class StickersDialogs {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showDeleteForEveryOneDialog$6(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$showDeleteForEveryOneDialog$6(TLObject tLObject, TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.StickersDialogs$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
@@ -137,14 +132,14 @@ public abstract class StickersDialogs {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showDeleteForEveryOneDialog$7(Runnable runnable, TLRPC$StickerSet tLRPC$StickerSet, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$showDeleteForEveryOneDialog$7(Runnable runnable, TLRPC.StickerSet stickerSet, DialogInterface dialogInterface, int i) {
         runnable.run();
-        TLRPC$TL_stickers_deleteStickerSet tLRPC$TL_stickers_deleteStickerSet = new TLRPC$TL_stickers_deleteStickerSet();
-        tLRPC$TL_stickers_deleteStickerSet.stickerset = MediaDataController.getInputStickerSet(tLRPC$StickerSet);
-        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_stickers_deleteStickerSet, new RequestDelegate() { // from class: org.telegram.ui.Components.StickersDialogs$$ExternalSyntheticLambda7
+        TLRPC.TL_stickers_deleteStickerSet tL_stickers_deleteStickerSet = new TLRPC.TL_stickers_deleteStickerSet();
+        tL_stickers_deleteStickerSet.stickerset = MediaDataController.getInputStickerSet(stickerSet);
+        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tL_stickers_deleteStickerSet, new RequestDelegate() { // from class: org.telegram.ui.Components.StickersDialogs$$ExternalSyntheticLambda7
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                StickersDialogs.lambda$showDeleteForEveryOneDialog$6(tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                StickersDialogs.lambda$showDeleteForEveryOneDialog$6(tLObject, tL_error);
             }
         });
     }
@@ -206,7 +201,7 @@ public abstract class StickersDialogs {
         return false;
     }
 
-    private static void openStickerPickerDialog(final TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, BaseFragment baseFragment, Theme.ResourcesProvider resourcesProvider) {
+    private static void openStickerPickerDialog(final TLRPC.TL_messages_stickerSet tL_messages_stickerSet, BaseFragment baseFragment, Theme.ResourcesProvider resourcesProvider) {
         final int i = UserConfig.selectedAccount;
         final Context context = baseFragment.getContext();
         EmojiBottomSheet emojiBottomSheet = new EmojiBottomSheet(context, true, resourcesProvider, false);
@@ -214,7 +209,7 @@ public abstract class StickersDialogs {
             @Override // org.telegram.messenger.Utilities.Callback3Return
             public final Object run(Object obj, Object obj2, Object obj3) {
                 Boolean lambda$openStickerPickerDialog$11;
-                lambda$openStickerPickerDialog$11 = StickersDialogs.lambda$openStickerPickerDialog$11(i, context, tLRPC$TL_messages_stickerSet, obj, (TLRPC$Document) obj2, (Boolean) obj3);
+                lambda$openStickerPickerDialog$11 = StickersDialogs.lambda$openStickerPickerDialog$11(i, context, tL_messages_stickerSet, obj, (TLRPC.Document) obj2, (Boolean) obj3);
                 return lambda$openStickerPickerDialog$11;
             }
         });
@@ -225,10 +220,10 @@ public abstract class StickersDialogs {
         }
     }
 
-    public static void showAddStickerDialog(final TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, View view, final BaseFragment baseFragment, final Theme.ResourcesProvider resourcesProvider) {
+    public static void showAddStickerDialog(final TLRPC.TL_messages_stickerSet tL_messages_stickerSet, View view, final BaseFragment baseFragment, final Theme.ResourcesProvider resourcesProvider) {
         Context context = baseFragment.getContext();
         if (!(baseFragment instanceof ChatActivity)) {
-            openStickerPickerDialog(tLRPC$TL_messages_stickerSet, baseFragment, resourcesProvider);
+            openStickerPickerDialog(tL_messages_stickerSet, baseFragment, resourcesProvider);
             return;
         }
         ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, R.drawable.popup_fixed_alert3, resourcesProvider, 0);
@@ -245,7 +240,7 @@ public abstract class StickersDialogs {
         View.OnClickListener onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.Components.StickersDialogs$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
-                StickersDialogs.lambda$showAddStickerDialog$12(ActionBarPopupWindow.this, arrayList2, tLRPC$TL_messages_stickerSet, baseFragment, resourcesProvider, view2);
+                StickersDialogs.lambda$showAddStickerDialog$12(ActionBarPopupWindow.this, arrayList2, tL_messages_stickerSet, baseFragment, resourcesProvider, view2);
             }
         };
         for (int i = 0; i < arrayList.size(); i++) {
@@ -268,14 +263,14 @@ public abstract class StickersDialogs {
         actionBarPopupWindow.dimBehind();
     }
 
-    public static void showDeleteForEveryOneDialog(final TLRPC$StickerSet tLRPC$StickerSet, Theme.ResourcesProvider resourcesProvider, Context context, final Runnable runnable) {
-        if (tLRPC$StickerSet == null) {
+    public static void showDeleteForEveryOneDialog(final TLRPC.StickerSet stickerSet, Theme.ResourcesProvider resourcesProvider, Context context, final Runnable runnable) {
+        if (stickerSet == null) {
             return;
         }
         AlertDialog create = new AlertDialog.Builder(context, resourcesProvider).setTitle(LocaleController.getString(R.string.StickersDeleteStickerSetTitle)).setMessage(LocaleController.getString(R.string.StickersDeleteStickerSetDescription)).setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.StickersDialogs$$ExternalSyntheticLambda5
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
-                StickersDialogs.lambda$showDeleteForEveryOneDialog$7(runnable, tLRPC$StickerSet, dialogInterface, i);
+                StickersDialogs.lambda$showDeleteForEveryOneDialog$7(runnable, stickerSet, dialogInterface, i);
             }
         }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).create();
         create.show();
@@ -285,9 +280,9 @@ public abstract class StickersDialogs {
         }
     }
 
-    public static void showNameEditorDialog(TLRPC$StickerSet tLRPC$StickerSet, Theme.ResourcesProvider resourcesProvider, final Context context, final Utilities.Callback2 callback2) {
+    public static void showNameEditorDialog(TLRPC.StickerSet stickerSet, Theme.ResourcesProvider resourcesProvider, final Context context, final Utilities.Callback2 callback2) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
-        final boolean z = tLRPC$StickerSet != null;
+        final boolean z = stickerSet != null;
         builder.setTitle(LocaleController.getString(z ? R.string.EditStickerPack : R.string.NewStickerPack));
         builder.setMessage(LocaleController.getString(R.string.StickersChooseNameForStickerPack));
         FrameLayout frameLayout = new FrameLayout(context);
@@ -345,8 +340,8 @@ public abstract class StickersDialogs {
             }
         });
         if (z) {
-            editTextBoldCursor.setText(tLRPC$StickerSet.title);
-            editTextBoldCursor.setSelection(tLRPC$StickerSet.title.length());
+            editTextBoldCursor.setText(stickerSet.title);
+            editTextBoldCursor.setSelection(stickerSet.title.length());
         }
         builder.setView(frameLayout);
         builder.setCustomViewOffset(4);

@@ -59,11 +59,9 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
-import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
-import org.telegram.tgnet.TLRPC$Photo;
-import org.telegram.tgnet.TLRPC$PhotoSize;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.VideoPlayer;
 import org.telegram.ui.Components.WebPlayerView;
 import org.webrtc.MediaStreamTrack;
@@ -2279,7 +2277,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                 }
                 if (inputStream != null) {
                     try {
-                        byte[] bArr = new byte[LiteMode.FLAG_CHAT_SCALE];
+                        byte[] bArr = new byte[32768];
                         sb = null;
                         while (true) {
                             try {
@@ -2442,7 +2440,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public boolean loadVideo(String str, TLRPC$Photo tLRPC$Photo, Object obj, String str2, boolean z) {
+    public boolean loadVideo(String str, TLRPC.Photo photo, Object obj, String str2, boolean z) {
         String str3;
         String str4;
         String str5;
@@ -2560,10 +2558,10 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                                                 updateShareButton();
                                                 updateInlineButton();
                                                 updatePlayButton();
-                                                if (tLRPC$Photo != null) {
-                                                    TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, 80, true);
+                                                if (photo != null) {
+                                                    TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, 80, true);
                                                     if (closestPhotoSizeWithSize != null) {
-                                                        this.controlsView.imageReceiver.setImage(null, null, ImageLocation.getForPhoto(closestPhotoSizeWithSize, tLRPC$Photo), "80_80_b", 0L, null, obj, 1);
+                                                        this.controlsView.imageReceiver.setImage(null, null, ImageLocation.getForPhoto(closestPhotoSizeWithSize, photo), "80_80_b", 0L, null, obj, 1);
                                                         this.drawImage = true;
                                                     }
                                                 } else {
@@ -2652,7 +2650,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                                         updateShareButton();
                                         updateInlineButton();
                                         updatePlayButton();
-                                        if (tLRPC$Photo != null) {
+                                        if (photo != null) {
                                         }
                                         animatorSet = this.progressAnimation;
                                         if (animatorSet != null) {
@@ -2691,7 +2689,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                                 updateShareButton();
                                 updateInlineButton();
                                 updatePlayButton();
-                                if (tLRPC$Photo != null) {
+                                if (photo != null) {
                                 }
                                 animatorSet = this.progressAnimation;
                                 if (animatorSet != null) {
@@ -2733,7 +2731,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                         updateShareButton();
                         updateInlineButton();
                         updatePlayButton();
-                        if (tLRPC$Photo != null) {
+                        if (photo != null) {
                         }
                         animatorSet = this.progressAnimation;
                         if (animatorSet != null) {
@@ -2778,7 +2776,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                 updateShareButton();
                 updateInlineButton();
                 updatePlayButton();
-                if (tLRPC$Photo != null) {
+                if (photo != null) {
                 }
                 animatorSet = this.progressAnimation;
                 if (animatorSet != null) {
@@ -2825,7 +2823,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             updateShareButton();
             updateInlineButton();
             updatePlayButton();
-            if (tLRPC$Photo != null) {
+            if (photo != null) {
             }
             animatorSet = this.progressAnimation;
             if (animatorSet != null) {
@@ -2863,7 +2861,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         updateShareButton();
         updateInlineButton();
         updatePlayButton();
-        if (tLRPC$Photo != null) {
+        if (photo != null) {
         }
         animatorSet = this.progressAnimation;
         if (animatorSet != null) {

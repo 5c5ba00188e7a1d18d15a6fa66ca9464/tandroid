@@ -11,7 +11,7 @@ public final class DefaultHttpDataSourceFactory extends HttpDataSource.BaseFacto
     private final String userAgent;
 
     public DefaultHttpDataSourceFactory(String str, TransferListener transferListener) {
-        this(str, transferListener, 8000, 8000, false);
+        this(str, transferListener, 8000, 8000, true);
     }
 
     public DefaultHttpDataSourceFactory(String str, TransferListener transferListener, int i, int i2, boolean z) {

@@ -1,9 +1,7 @@
 package com.google.android.exoplayer2.source;
 
 import com.google.android.exoplayer2.Format;
-import com.google.android.exoplayer2.FormatHolder;
 import com.google.android.exoplayer2.SeekParameters;
-import com.google.android.exoplayer2.decoder.DecoderInputBuffer;
 import com.google.android.exoplayer2.source.MediaPeriod;
 import com.google.android.exoplayer2.source.chunk.Chunk;
 import com.google.android.exoplayer2.source.chunk.MediaChunkIterator;
@@ -37,11 +35,6 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
         }
 
         @Override // com.google.android.exoplayer2.trackselection.ExoTrackSelection
-        public boolean blacklist(int i, long j) {
-            return this.trackSelection.blacklist(i, j);
-        }
-
-        @Override // com.google.android.exoplayer2.trackselection.ExoTrackSelection
         public void disable() {
             this.trackSelection.disable();
         }
@@ -67,9 +60,14 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
             return this.trackSelection.evaluateQueueSize(j, list);
         }
 
+        @Override // com.google.android.exoplayer2.trackselection.ExoTrackSelection
+        public boolean excludeTrack(int i, long j) {
+            return this.trackSelection.excludeTrack(i, j);
+        }
+
         @Override // com.google.android.exoplayer2.trackselection.TrackSelection
         public Format getFormat(int i) {
-            return this.trackSelection.getFormat(i);
+            return this.trackGroup.getFormat(this.trackSelection.getIndexInTrackGroup(i));
         }
 
         @Override // com.google.android.exoplayer2.trackselection.TrackSelection
@@ -79,7 +77,7 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
 
         @Override // com.google.android.exoplayer2.trackselection.ExoTrackSelection
         public Format getSelectedFormat() {
-            return this.trackSelection.getSelectedFormat();
+            return this.trackGroup.getFormat(this.trackSelection.getSelectedIndexInTrackGroup());
         }
 
         @Override // com.google.android.exoplayer2.trackselection.ExoTrackSelection
@@ -118,12 +116,12 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
 
         @Override // com.google.android.exoplayer2.trackselection.TrackSelection
         public int indexOf(Format format) {
-            return this.trackSelection.indexOf(format);
+            return this.trackSelection.indexOf(this.trackGroup.indexOf(format));
         }
 
         @Override // com.google.android.exoplayer2.trackselection.ExoTrackSelection
-        public boolean isBlacklisted(int i, long j) {
-            return this.trackSelection.isBlacklisted(i, j);
+        public boolean isTrackExcluded(int i, long j) {
+            return this.trackSelection.isTrackExcluded(i, j);
         }
 
         @Override // com.google.android.exoplayer2.trackselection.TrackSelection
@@ -162,175 +160,10 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
         }
     }
 
-    /* loaded from: classes.dex */
-    private static final class TimeOffsetMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
-        private MediaPeriod.Callback callback;
-        private final MediaPeriod mediaPeriod;
-        private final long timeOffsetUs;
-
-        public TimeOffsetMediaPeriod(MediaPeriod mediaPeriod, long j) {
-            this.mediaPeriod = mediaPeriod;
-            this.timeOffsetUs = j;
-        }
-
-        @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
-        public boolean continueLoading(long j) {
-            return this.mediaPeriod.continueLoading(j - this.timeOffsetUs);
-        }
-
-        @Override // com.google.android.exoplayer2.source.MediaPeriod
-        public void discardBuffer(long j, boolean z) {
-            this.mediaPeriod.discardBuffer(j - this.timeOffsetUs, z);
-        }
-
-        @Override // com.google.android.exoplayer2.source.MediaPeriod
-        public long getAdjustedSeekPositionUs(long j, SeekParameters seekParameters) {
-            return this.mediaPeriod.getAdjustedSeekPositionUs(j - this.timeOffsetUs, seekParameters) + this.timeOffsetUs;
-        }
-
-        @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
-        public long getBufferedPositionUs() {
-            long bufferedPositionUs = this.mediaPeriod.getBufferedPositionUs();
-            if (bufferedPositionUs == Long.MIN_VALUE) {
-                return Long.MIN_VALUE;
-            }
-            return this.timeOffsetUs + bufferedPositionUs;
-        }
-
-        @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
-        public long getNextLoadPositionUs() {
-            long nextLoadPositionUs = this.mediaPeriod.getNextLoadPositionUs();
-            if (nextLoadPositionUs == Long.MIN_VALUE) {
-                return Long.MIN_VALUE;
-            }
-            return this.timeOffsetUs + nextLoadPositionUs;
-        }
-
-        @Override // com.google.android.exoplayer2.source.MediaPeriod
-        public TrackGroupArray getTrackGroups() {
-            return this.mediaPeriod.getTrackGroups();
-        }
-
-        @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
-        public boolean isLoading() {
-            return this.mediaPeriod.isLoading();
-        }
-
-        @Override // com.google.android.exoplayer2.source.MediaPeriod
-        public void maybeThrowPrepareError() {
-            this.mediaPeriod.maybeThrowPrepareError();
-        }
-
-        @Override // com.google.android.exoplayer2.source.SequenceableLoader.Callback
-        public void onContinueLoadingRequested(MediaPeriod mediaPeriod) {
-            ((MediaPeriod.Callback) Assertions.checkNotNull(this.callback)).onContinueLoadingRequested(this);
-        }
-
-        @Override // com.google.android.exoplayer2.source.MediaPeriod.Callback
-        public void onPrepared(MediaPeriod mediaPeriod) {
-            ((MediaPeriod.Callback) Assertions.checkNotNull(this.callback)).onPrepared(this);
-        }
-
-        @Override // com.google.android.exoplayer2.source.MediaPeriod
-        public void prepare(MediaPeriod.Callback callback, long j) {
-            this.callback = callback;
-            this.mediaPeriod.prepare(this, j - this.timeOffsetUs);
-        }
-
-        @Override // com.google.android.exoplayer2.source.MediaPeriod
-        public long readDiscontinuity() {
-            long readDiscontinuity = this.mediaPeriod.readDiscontinuity();
-            if (readDiscontinuity == -9223372036854775807L) {
-                return -9223372036854775807L;
-            }
-            return this.timeOffsetUs + readDiscontinuity;
-        }
-
-        @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
-        public void reevaluateBuffer(long j) {
-            this.mediaPeriod.reevaluateBuffer(j - this.timeOffsetUs);
-        }
-
-        @Override // com.google.android.exoplayer2.source.MediaPeriod
-        public long seekToUs(long j) {
-            return this.mediaPeriod.seekToUs(j - this.timeOffsetUs) + this.timeOffsetUs;
-        }
-
-        @Override // com.google.android.exoplayer2.source.MediaPeriod
-        public long selectTracks(ExoTrackSelection[] exoTrackSelectionArr, boolean[] zArr, SampleStream[] sampleStreamArr, boolean[] zArr2, long j) {
-            SampleStream[] sampleStreamArr2 = new SampleStream[sampleStreamArr.length];
-            int i = 0;
-            while (true) {
-                SampleStream sampleStream = null;
-                if (i >= sampleStreamArr.length) {
-                    break;
-                }
-                TimeOffsetSampleStream timeOffsetSampleStream = (TimeOffsetSampleStream) sampleStreamArr[i];
-                if (timeOffsetSampleStream != null) {
-                    sampleStream = timeOffsetSampleStream.getChildStream();
-                }
-                sampleStreamArr2[i] = sampleStream;
-                i++;
-            }
-            long selectTracks = this.mediaPeriod.selectTracks(exoTrackSelectionArr, zArr, sampleStreamArr2, zArr2, j - this.timeOffsetUs);
-            for (int i2 = 0; i2 < sampleStreamArr.length; i2++) {
-                SampleStream sampleStream2 = sampleStreamArr2[i2];
-                if (sampleStream2 == null) {
-                    sampleStreamArr[i2] = null;
-                } else {
-                    SampleStream sampleStream3 = sampleStreamArr[i2];
-                    if (sampleStream3 == null || ((TimeOffsetSampleStream) sampleStream3).getChildStream() != sampleStream2) {
-                        sampleStreamArr[i2] = new TimeOffsetSampleStream(sampleStream2, this.timeOffsetUs);
-                    }
-                }
-            }
-            return selectTracks + this.timeOffsetUs;
-        }
-    }
-
-    /* loaded from: classes.dex */
-    private static final class TimeOffsetSampleStream implements SampleStream {
-        private final SampleStream sampleStream;
-        private final long timeOffsetUs;
-
-        public TimeOffsetSampleStream(SampleStream sampleStream, long j) {
-            this.sampleStream = sampleStream;
-            this.timeOffsetUs = j;
-        }
-
-        public SampleStream getChildStream() {
-            return this.sampleStream;
-        }
-
-        @Override // com.google.android.exoplayer2.source.SampleStream
-        public boolean isReady() {
-            return this.sampleStream.isReady();
-        }
-
-        @Override // com.google.android.exoplayer2.source.SampleStream
-        public void maybeThrowError() {
-            this.sampleStream.maybeThrowError();
-        }
-
-        @Override // com.google.android.exoplayer2.source.SampleStream
-        public int readData(FormatHolder formatHolder, DecoderInputBuffer decoderInputBuffer, int i) {
-            int readData = this.sampleStream.readData(formatHolder, decoderInputBuffer, i);
-            if (readData == -4) {
-                decoderInputBuffer.timeUs = Math.max(0L, decoderInputBuffer.timeUs + this.timeOffsetUs);
-            }
-            return readData;
-        }
-
-        @Override // com.google.android.exoplayer2.source.SampleStream
-        public int skipData(long j) {
-            return this.sampleStream.skipData(j - this.timeOffsetUs);
-        }
-    }
-
     public MergingMediaPeriod(CompositeSequenceableLoaderFactory compositeSequenceableLoaderFactory, long[] jArr, MediaPeriod... mediaPeriodArr) {
         this.compositeSequenceableLoaderFactory = compositeSequenceableLoaderFactory;
         this.periods = mediaPeriodArr;
-        this.compositeSequenceableLoader = compositeSequenceableLoaderFactory.createCompositeSequenceableLoader(new SequenceableLoader[0]);
+        this.compositeSequenceableLoader = compositeSequenceableLoaderFactory.empty();
         for (int i = 0; i < mediaPeriodArr.length; i++) {
             long j = jArr[i];
             if (j != 0) {
@@ -340,13 +173,13 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
     }
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
-    public boolean continueLoading(long j) {
+    public boolean continueLoading(LoadingInfo loadingInfo) {
         if (this.childrenPendingPreparation.isEmpty()) {
-            return this.compositeSequenceableLoader.continueLoading(j);
+            return this.compositeSequenceableLoader.continueLoading(loadingInfo);
         }
         int size = this.childrenPendingPreparation.size();
         for (int i = 0; i < size; i++) {
-            ((MediaPeriod) this.childrenPendingPreparation.get(i)).continueLoading(j);
+            ((MediaPeriod) this.childrenPendingPreparation.get(i)).continueLoading(loadingInfo);
         }
         return false;
     }
@@ -371,7 +204,7 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
 
     public MediaPeriod getChildPeriod(int i) {
         MediaPeriod mediaPeriod = this.periods[i];
-        return mediaPeriod instanceof TimeOffsetMediaPeriod ? ((TimeOffsetMediaPeriod) mediaPeriod).mediaPeriod : mediaPeriod;
+        return mediaPeriod instanceof TimeOffsetMediaPeriod ? ((TimeOffsetMediaPeriod) mediaPeriod).getWrappedMediaPeriod() : mediaPeriod;
     }
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
@@ -426,9 +259,23 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
             int i5 = 0;
             while (i5 < i4) {
                 TrackGroup trackGroup = trackGroups.get(i5);
-                TrackGroup copyWithId = trackGroup.copyWithId(i2 + ":" + trackGroup.id);
-                this.childTrackGroupByMergedTrackGroup.put(copyWithId, trackGroup);
-                trackGroupArr[i3] = copyWithId;
+                Format[] formatArr = new Format[trackGroup.length];
+                for (int i6 = 0; i6 < trackGroup.length; i6++) {
+                    Format format = trackGroup.getFormat(i6);
+                    Format.Builder buildUpon = format.buildUpon();
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(i2);
+                    sb.append(":");
+                    String str = format.id;
+                    if (str == null) {
+                        str = "";
+                    }
+                    sb.append(str);
+                    formatArr[i6] = buildUpon.setId(sb.toString()).build();
+                }
+                TrackGroup trackGroup2 = new TrackGroup(i2 + ":" + trackGroup.id, formatArr);
+                this.childTrackGroupByMergedTrackGroup.put(trackGroup2, trackGroup);
+                trackGroupArr[i3] = trackGroup2;
                 i5++;
                 i3++;
             }

@@ -234,8 +234,18 @@ public class TrackSelectionParameters implements Bundleable {
             }
         }
 
+        public Builder addOverride(TrackSelectionOverride trackSelectionOverride) {
+            this.overrides.put(trackSelectionOverride.mediaTrackGroup, trackSelectionOverride);
+            return this;
+        }
+
         public TrackSelectionParameters build() {
             return new TrackSelectionParameters(this);
+        }
+
+        public Builder clearOverrides() {
+            this.overrides.clear();
+            return this;
         }
 
         /* JADX INFO: Access modifiers changed from: protected */

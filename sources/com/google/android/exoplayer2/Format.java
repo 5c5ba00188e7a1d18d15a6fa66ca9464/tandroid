@@ -546,7 +546,7 @@ public final class Format implements Bundleable {
             if ((format.roleFlags & 256) != 0) {
                 arrayList2.add("sign");
             }
-            if ((format.roleFlags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
+            if ((format.roleFlags & 512) != 0) {
                 arrayList2.add("describes-video");
             }
             if ((format.roleFlags & 1024) != 0) {

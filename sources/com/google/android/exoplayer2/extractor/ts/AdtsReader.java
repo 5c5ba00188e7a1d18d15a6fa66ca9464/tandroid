@@ -13,7 +13,6 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 import java.util.Collections;
-import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
 /* loaded from: classes.dex */
 public final class AdtsReader implements ElementaryStreamReader {
@@ -171,7 +170,7 @@ public final class AdtsReader implements ElementaryStreamReader {
             int i5 = i3 | i4;
             if (i5 != 329) {
                 if (i5 == 511) {
-                    this.matchState = LiteMode.FLAG_CALLS_ANIMATIONS;
+                    this.matchState = 512;
                 } else if (i5 == 836) {
                     i = 1024;
                 } else if (i5 == 1075) {

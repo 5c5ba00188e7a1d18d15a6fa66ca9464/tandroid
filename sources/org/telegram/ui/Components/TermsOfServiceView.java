@@ -19,17 +19,13 @@ import org.telegram.messenger.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$TL_account_deleteAccount;
-import org.telegram.tgnet.TLRPC$TL_boolTrue;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_help_acceptTermsOfService;
-import org.telegram.tgnet.TLRPC$TL_help_termsOfService;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class TermsOfServiceView extends FrameLayout {
     private int currentAccount;
-    private TLRPC$TL_help_termsOfService currentTos;
+    private TLRPC.TL_help_termsOfService currentTos;
     private TermsOfServiceViewDelegate delegate;
     private ScrollView scrollView;
     private TextView textView;
@@ -119,12 +115,12 @@ public class TermsOfServiceView extends FrameLayout {
 
     private void accept() {
         this.delegate.onAcceptTerms(this.currentAccount);
-        TLRPC$TL_help_acceptTermsOfService tLRPC$TL_help_acceptTermsOfService = new TLRPC$TL_help_acceptTermsOfService();
-        tLRPC$TL_help_acceptTermsOfService.id = this.currentTos.id;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_help_acceptTermsOfService, new RequestDelegate() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda5
+        TLRPC.TL_help_acceptTermsOfService tL_help_acceptTermsOfService = new TLRPC.TL_help_acceptTermsOfService();
+        tL_help_acceptTermsOfService.id = this.currentTos.id;
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_help_acceptTermsOfService, new RequestDelegate() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda5
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                TermsOfServiceView.lambda$accept$7(tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                TermsOfServiceView.lambda$accept$7(tLObject, tL_error);
             }
         });
     }
@@ -147,22 +143,22 @@ public class TermsOfServiceView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$accept$7(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$accept$7(TLObject tLObject, TLRPC.TL_error tL_error) {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$0(AlertDialog alertDialog, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$new$0(AlertDialog alertDialog, TLObject tLObject, TLRPC.TL_error tL_error) {
         try {
             alertDialog.dismiss();
         } catch (Exception e) {
             FileLog.e(e);
         }
-        if (tLObject instanceof TLRPC$TL_boolTrue) {
+        if (tLObject instanceof TLRPC.TL_boolTrue) {
             MessagesController.getInstance(this.currentAccount).performLogout(0);
-        } else if (tLRPC$TL_error == null || tLRPC$TL_error.code != -1000) {
+        } else if (tL_error == null || tL_error.code != -1000) {
             String string = LocaleController.getString(R.string.ErrorOccurred);
-            if (tLRPC$TL_error != null) {
-                string = string + "\n" + tLRPC$TL_error.text;
+            if (tL_error != null) {
+                string = string + "\n" + tL_error.text;
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setTitle(LocaleController.getString(R.string.AppName));
@@ -173,11 +169,11 @@ public class TermsOfServiceView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$1(final AlertDialog alertDialog, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$new$1(final AlertDialog alertDialog, final TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
-                TermsOfServiceView.this.lambda$new$0(alertDialog, tLObject, tLRPC$TL_error);
+                TermsOfServiceView.this.lambda$new$0(alertDialog, tLObject, tL_error);
             }
         });
     }
@@ -186,12 +182,12 @@ public class TermsOfServiceView extends FrameLayout {
     public /* synthetic */ void lambda$new$2(DialogInterface dialogInterface, int i) {
         final AlertDialog alertDialog = new AlertDialog(getContext(), 3);
         alertDialog.setCanCancel(false);
-        TLRPC$TL_account_deleteAccount tLRPC$TL_account_deleteAccount = new TLRPC$TL_account_deleteAccount();
-        tLRPC$TL_account_deleteAccount.reason = "Decline ToS update";
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_deleteAccount, new RequestDelegate() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda6
+        TLRPC.TL_account_deleteAccount tL_account_deleteAccount = new TLRPC.TL_account_deleteAccount();
+        tL_account_deleteAccount.reason = "Decline ToS update";
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_deleteAccount, new RequestDelegate() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda6
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                TermsOfServiceView.this.lambda$new$1(alertDialog, tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                TermsOfServiceView.this.lambda$new$1(alertDialog, tLObject, tL_error);
             }
         });
         alertDialog.show();
@@ -255,15 +251,15 @@ public class TermsOfServiceView extends FrameLayout {
         this.delegate = termsOfServiceViewDelegate;
     }
 
-    public void show(int i, TLRPC$TL_help_termsOfService tLRPC$TL_help_termsOfService) {
+    public void show(int i, TLRPC.TL_help_termsOfService tL_help_termsOfService) {
         if (getVisibility() != 0) {
             setVisibility(0);
         }
-        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(tLRPC$TL_help_termsOfService.text);
-        MessageObject.addEntitiesToText(spannableStringBuilder, tLRPC$TL_help_termsOfService.entities, false, false, false, false);
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(tL_help_termsOfService.text);
+        MessageObject.addEntitiesToText(spannableStringBuilder, tL_help_termsOfService.entities, false, false, false, false);
         addBulletsToText(spannableStringBuilder, '-', AndroidUtilities.dp(10.0f), -11491093, AndroidUtilities.dp(4.0f));
         this.textView.setText(spannableStringBuilder);
-        this.currentTos = tLRPC$TL_help_termsOfService;
+        this.currentTos = tL_help_termsOfService;
         this.currentAccount = i;
     }
 }

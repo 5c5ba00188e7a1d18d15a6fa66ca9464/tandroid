@@ -30,13 +30,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$PhotoSize;
-import org.telegram.tgnet.TLRPC$StickerSet;
-import org.telegram.tgnet.TLRPC$StickerSetCovered;
-import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
-import org.telegram.tgnet.TLRPC$TL_stickerSetFullCovered;
-import org.telegram.tgnet.TLRPC$TL_stickerSetNoCovered;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Components.BackupImageView;
@@ -57,7 +51,7 @@ public class FeaturedStickerSetCell2 extends FrameLayout implements Notification
     private boolean isLocked;
     private boolean needDivider;
     private final Theme.ResourcesProvider resourcesProvider;
-    private TLRPC$StickerSetCovered stickersSet;
+    private TLRPC.StickerSetCovered stickersSet;
     private final TextView textView;
     private final PremiumButtonView unlockButton;
     private boolean unread;
@@ -159,9 +153,9 @@ public class FeaturedStickerSetCell2 extends FrameLayout implements Notification
                 return;
             }
             this.waitingForStickerSetId = null;
-            TLRPC$TL_stickerSetNoCovered tLRPC$TL_stickerSetNoCovered = new TLRPC$TL_stickerSetNoCovered();
-            tLRPC$TL_stickerSetNoCovered.set = ((TLRPC$TL_messages_stickerSet) objArr[1]).set;
-            setStickersSet(tLRPC$TL_stickerSetNoCovered, this.needDivider, this.unread, this.forceInstalled, true);
+            TLRPC.TL_stickerSetNoCovered tL_stickerSetNoCovered = new TLRPC.TL_stickerSetNoCovered();
+            tL_stickerSetNoCovered.set = ((TLRPC.TL_messages_stickerSet) objArr[1]).set;
+            setStickersSet(tL_stickerSetNoCovered, this.needDivider, this.unread, this.forceInstalled, true);
         }
     }
 
@@ -169,7 +163,7 @@ public class FeaturedStickerSetCell2 extends FrameLayout implements Notification
         return this.imageView;
     }
 
-    public TLRPC$StickerSetCovered getStickerSet() {
+    public TLRPC.StickerSetCovered getStickerSet() {
         return this.stickersSet;
     }
 
@@ -238,9 +232,10 @@ public class FeaturedStickerSetCell2 extends FrameLayout implements Notification
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void setStickersSet(TLRPC$StickerSetCovered tLRPC$StickerSetCovered, boolean z, boolean z2, boolean z3, boolean z4) {
-        ArrayList arrayList;
+    public void setStickersSet(TLRPC.StickerSetCovered stickerSetCovered, boolean z, boolean z2, boolean z3, boolean z4) {
+        ArrayList<TLRPC.Document> arrayList;
         int i;
+        TLRPC.Document document;
         BackupImageView backupImageView;
         String str;
         SvgHelper.SvgDrawable svgDrawable;
@@ -249,17 +244,16 @@ public class FeaturedStickerSetCell2 extends FrameLayout implements Notification
         float f;
         View view;
         View view2;
-        Object obj;
-        TLRPC$StickerSet tLRPC$StickerSet;
-        ArrayList arrayList2;
+        TLRPC.StickerSet stickerSet;
+        ArrayList<TLRPC.Document> arrayList2;
         AnimatorSet animatorSet = this.currentAnimation;
-        TLRPC$Document tLRPC$Document = null;
+        TLRPC.Document document2 = null;
         if (animatorSet != null) {
             animatorSet.cancel();
             this.currentAnimation = null;
         }
         this.needDivider = z;
-        this.stickersSet = tLRPC$StickerSetCovered;
+        this.stickersSet = stickerSetCovered;
         setWillNotDraw(!z);
         this.textView.setText(this.stickersSet.set.title);
         this.unread = z2;
@@ -307,62 +301,62 @@ public class FeaturedStickerSetCell2 extends FrameLayout implements Notification
             this.textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
         TextView textView2 = this.valueTextView;
-        TLRPC$StickerSet tLRPC$StickerSet2 = tLRPC$StickerSetCovered.set;
-        textView2.setText(LocaleController.formatPluralString(tLRPC$StickerSet2.emojis ? "EmojiCount" : "Stickers", tLRPC$StickerSet2.count, new Object[0]));
-        if (!(tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetNoCovered) || (tLRPC$StickerSet = tLRPC$StickerSetCovered.set) == null) {
-            TLRPC$Document tLRPC$Document2 = tLRPC$StickerSetCovered.cover;
-            if (tLRPC$Document2 != null) {
-                tLRPC$Document = tLRPC$Document2;
-            } else if (!tLRPC$StickerSetCovered.covers.isEmpty()) {
-                tLRPC$Document = (TLRPC$Document) tLRPC$StickerSetCovered.covers.get(0);
-                if (tLRPC$StickerSetCovered.set != null) {
-                    for (int i2 = 0; i2 < tLRPC$StickerSetCovered.covers.size(); i2++) {
-                        if (((TLRPC$Document) tLRPC$StickerSetCovered.covers.get(i2)).id == tLRPC$StickerSetCovered.set.thumb_document_id) {
-                            obj = tLRPC$StickerSetCovered.covers.get(i2);
+        TLRPC.StickerSet stickerSet2 = stickerSetCovered.set;
+        textView2.setText(LocaleController.formatPluralString(stickerSet2.emojis ? "EmojiCount" : "Stickers", stickerSet2.count, new Object[0]));
+        if (!(stickerSetCovered instanceof TLRPC.TL_stickerSetNoCovered) || (stickerSet = stickerSetCovered.set) == null) {
+            TLRPC.Document document3 = stickerSetCovered.cover;
+            if (document3 != null) {
+                document2 = document3;
+            } else if (!stickerSetCovered.covers.isEmpty()) {
+                document2 = stickerSetCovered.covers.get(0);
+                if (stickerSetCovered.set != null) {
+                    for (int i2 = 0; i2 < stickerSetCovered.covers.size(); i2++) {
+                        if (stickerSetCovered.covers.get(i2).id == stickerSetCovered.set.thumb_document_id) {
+                            document = stickerSetCovered.covers.get(i2);
                         }
                     }
                 }
-            } else if (tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetFullCovered) {
-                TLRPC$TL_stickerSetFullCovered tLRPC$TL_stickerSetFullCovered = (TLRPC$TL_stickerSetFullCovered) tLRPC$StickerSetCovered;
-                if (!tLRPC$TL_stickerSetFullCovered.documents.isEmpty()) {
-                    arrayList = tLRPC$TL_stickerSetFullCovered.documents;
-                    tLRPC$Document = (TLRPC$Document) arrayList.get(0);
+            } else if (stickerSetCovered instanceof TLRPC.TL_stickerSetFullCovered) {
+                TLRPC.TL_stickerSetFullCovered tL_stickerSetFullCovered = (TLRPC.TL_stickerSetFullCovered) stickerSetCovered;
+                if (!tL_stickerSetFullCovered.documents.isEmpty()) {
+                    arrayList = tL_stickerSetFullCovered.documents;
+                    document2 = arrayList.get(0);
                     i = 0;
                     while (i < arrayList.size()) {
-                        if (((TLRPC$Document) arrayList.get(i)).id == tLRPC$StickerSetCovered.set.thumb_document_id) {
-                            obj = arrayList.get(i);
+                        if (arrayList.get(i).id == stickerSetCovered.set.thumb_document_id) {
+                            document = arrayList.get(i);
                         } else {
                             i++;
                         }
                     }
                 }
             }
-            if (tLRPC$Document == null) {
+            if (document2 == null) {
                 backupImageView = this.imageView;
                 str = "webp";
                 svgDrawable = null;
                 imageLocation = null;
                 str2 = null;
-            } else if (MessageObject.canAutoplayAnimatedSticker(tLRPC$Document)) {
-                TLObject closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$StickerSetCovered.set.thumbs, 90);
+            } else if (MessageObject.canAutoplayAnimatedSticker(document2)) {
+                TLObject closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(stickerSetCovered.set.thumbs, 90);
                 if (closestPhotoSizeWithSize == null) {
-                    closestPhotoSizeWithSize = tLRPC$Document;
+                    closestPhotoSizeWithSize = document2;
                 }
-                svgDrawable = DocumentObject.getSvgThumb(tLRPC$StickerSetCovered.set.thumbs, Theme.key_windowBackgroundGray, 1.0f);
-                boolean z6 = closestPhotoSizeWithSize instanceof TLRPC$Document;
-                ImageLocation forDocument = z6 ? ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document) : ImageLocation.getForSticker((TLRPC$PhotoSize) closestPhotoSizeWithSize, tLRPC$Document, tLRPC$StickerSetCovered.set.thumb_version);
-                if (z6 && (MessageObject.isAnimatedStickerDocument(tLRPC$Document, true) || MessageObject.isVideoSticker(tLRPC$Document))) {
+                svgDrawable = DocumentObject.getSvgThumb(stickerSetCovered.set.thumbs, Theme.key_windowBackgroundGray, 1.0f);
+                boolean z6 = closestPhotoSizeWithSize instanceof TLRPC.Document;
+                ImageLocation forDocument = z6 ? ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(document2.thumbs, 90), document2) : ImageLocation.getForSticker((TLRPC.PhotoSize) closestPhotoSizeWithSize, document2, stickerSetCovered.set.thumb_version);
+                if (z6 && (MessageObject.isAnimatedStickerDocument(document2, true) || MessageObject.isVideoSticker(document2))) {
                     BackupImageView backupImageView2 = this.imageView;
-                    ImageLocation forDocument2 = ImageLocation.getForDocument(tLRPC$Document);
+                    ImageLocation forDocument2 = ImageLocation.getForDocument(document2);
                     if (svgDrawable != null) {
-                        backupImageView2.setImage(forDocument2, "50_50", svgDrawable, 0, tLRPC$StickerSetCovered);
+                        backupImageView2.setImage(forDocument2, "50_50", svgDrawable, 0, stickerSetCovered);
                     } else {
-                        backupImageView2.setImage(forDocument2, "50_50", forDocument, (String) null, 0, tLRPC$StickerSetCovered);
+                        backupImageView2.setImage(forDocument2, "50_50", forDocument, (String) null, 0, stickerSetCovered);
                     }
                     this.addButton.setVisibility(0);
                     this.forceInstalled = z3;
-                    this.isInstalled = !z3 || MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(tLRPC$StickerSetCovered.set.id);
-                    boolean z7 = UserConfig.getInstance(this.currentAccount).isPremium() && MessageObject.isPremiumEmojiPack(tLRPC$StickerSetCovered);
+                    this.isInstalled = !z3 || MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(stickerSetCovered.set.id);
+                    boolean z7 = UserConfig.getInstance(this.currentAccount).isPremium() && MessageObject.isPremiumEmojiPack(stickerSetCovered);
                     this.isLocked = z7;
                     if (z4) {
                         if (z7) {
@@ -500,10 +494,10 @@ public class FeaturedStickerSetCell2 extends FrameLayout implements Notification
                 }
                 imageLocation = forDocument;
             } else {
-                TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
+                TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(document2.thumbs, 90);
                 if (closestPhotoSizeWithSize2 != null) {
                     BackupImageView backupImageView3 = this.imageView;
-                    ImageLocation forDocument3 = ImageLocation.getForDocument(closestPhotoSizeWithSize2, tLRPC$Document);
+                    ImageLocation forDocument3 = ImageLocation.getForDocument(closestPhotoSizeWithSize2, document2);
                     str = "webp";
                     svgDrawable = null;
                     backupImageView = backupImageView3;
@@ -511,59 +505,59 @@ public class FeaturedStickerSetCell2 extends FrameLayout implements Notification
                     str2 = "50_50";
                 } else {
                     backupImageView = this.imageView;
-                    imageLocation = ImageLocation.getForDocument(tLRPC$Document);
+                    imageLocation = ImageLocation.getForDocument(document2);
                     str = "webp";
                     svgDrawable = null;
                     str2 = "50_50";
                 }
             }
-            backupImageView.setImage(imageLocation, str2, str, svgDrawable, tLRPC$StickerSetCovered);
+            backupImageView.setImage(imageLocation, str2, str, svgDrawable, stickerSetCovered);
             this.addButton.setVisibility(0);
             this.forceInstalled = z3;
-            this.isInstalled = !z3 || MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(tLRPC$StickerSetCovered.set.id);
+            this.isInstalled = !z3 || MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(stickerSetCovered.set.id);
             if (UserConfig.getInstance(this.currentAccount).isPremium()) {
             }
             this.isLocked = z7;
             if (z4) {
             }
         } else {
-            this.waitingForStickerSetId = Long.valueOf(tLRPC$StickerSet.id);
+            this.waitingForStickerSetId = Long.valueOf(stickerSet.id);
             if (!this.bindedObserver) {
                 NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.groupStickersDidLoad);
                 this.bindedObserver = true;
             }
-            TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(this.currentAccount).getStickerSet(MediaDataController.getInputStickerSet(tLRPC$StickerSetCovered.set), Integer.valueOf(tLRPC$StickerSetCovered.set.hash), false);
-            if (stickerSet != null && (arrayList2 = stickerSet.documents) != null && !arrayList2.isEmpty()) {
-                tLRPC$Document = (TLRPC$Document) stickerSet.documents.get(0);
+            TLRPC.TL_messages_stickerSet stickerSet3 = MediaDataController.getInstance(this.currentAccount).getStickerSet(MediaDataController.getInputStickerSet(stickerSetCovered.set), Integer.valueOf(stickerSetCovered.set.hash), false);
+            if (stickerSet3 != null && (arrayList2 = stickerSet3.documents) != null && !arrayList2.isEmpty()) {
+                document2 = stickerSet3.documents.get(0);
                 i = 0;
-                while (i < stickerSet.documents.size()) {
-                    if (((TLRPC$Document) stickerSet.documents.get(i)).id == tLRPC$StickerSetCovered.set.thumb_document_id) {
-                        arrayList = stickerSet.documents;
-                        obj = arrayList.get(i);
+                while (i < stickerSet3.documents.size()) {
+                    if (stickerSet3.documents.get(i).id == stickerSetCovered.set.thumb_document_id) {
+                        arrayList = stickerSet3.documents;
+                        document = arrayList.get(i);
                     } else {
                         i++;
                     }
                 }
             }
-            if (tLRPC$Document == null) {
+            if (document2 == null) {
             }
-            backupImageView.setImage(imageLocation, str2, str, svgDrawable, tLRPC$StickerSetCovered);
+            backupImageView.setImage(imageLocation, str2, str, svgDrawable, stickerSetCovered);
             this.addButton.setVisibility(0);
             this.forceInstalled = z3;
-            this.isInstalled = !z3 || MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(tLRPC$StickerSetCovered.set.id);
+            this.isInstalled = !z3 || MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(stickerSetCovered.set.id);
             if (UserConfig.getInstance(this.currentAccount).isPremium()) {
             }
             this.isLocked = z7;
             if (z4) {
             }
         }
-        tLRPC$Document = (TLRPC$Document) obj;
-        if (tLRPC$Document == null) {
+        document2 = document;
+        if (document2 == null) {
         }
-        backupImageView.setImage(imageLocation, str2, str, svgDrawable, tLRPC$StickerSetCovered);
+        backupImageView.setImage(imageLocation, str2, str, svgDrawable, stickerSetCovered);
         this.addButton.setVisibility(0);
         this.forceInstalled = z3;
-        this.isInstalled = !z3 || MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(tLRPC$StickerSetCovered.set.id);
+        this.isInstalled = !z3 || MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(stickerSetCovered.set.id);
         if (UserConfig.getInstance(this.currentAccount).isPremium()) {
         }
         this.isLocked = z7;

@@ -11,7 +11,7 @@ import java.util.Date;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
-import org.telegram.tgnet.tl.TL_stories$Boost;
+import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.UserCell;
@@ -21,7 +21,7 @@ import org.telegram.ui.Components.LayoutHelper;
 public class GiftedUserCell extends UserCell {
     private FrameLayout badgeLayout;
     private TextView badgeTextView;
-    private TL_stories$Boost boost;
+    private TL_stories.Boost boost;
     private CounterDrawable counterDrawable;
     private Drawable giftDrawable;
     private Drawable giveawayDrawable;
@@ -67,7 +67,7 @@ public class GiftedUserCell extends UserCell {
         avatarDrawable.setColor(i2, i3);
     }
 
-    public TL_stories$Boost getBoost() {
+    public TL_stories.Boost getBoost() {
         return this.boost;
     }
 
@@ -85,31 +85,31 @@ public class GiftedUserCell extends UserCell {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void setStatus(TL_stories$Boost tL_stories$Boost) {
+    public void setStatus(TL_stories.Boost boost) {
         AvatarDrawable avatarDrawable;
         int i;
-        this.boost = tL_stories$Boost;
-        if (tL_stories$Boost.gift || tL_stories$Boost.giveaway) {
+        this.boost = boost;
+        if (boost.gift || boost.giveaway) {
             this.badgeLayout.setVisibility(0);
-            int i2 = ((tL_stories$Boost.expires - tL_stories$Boost.date) / 30) / 86400;
-            long j = tL_stories$Boost.stars;
+            int i2 = ((boost.expires - boost.date) / 30) / 86400;
+            long j = boost.stars;
             if (j > 0) {
                 this.nameTextView.setText(LocaleController.formatPluralString("BoostingBoostStars", (int) j, new Object[0]));
                 this.avatarDrawable.setAvatarType(26);
             } else {
-                if (tL_stories$Boost.unclaimed) {
+                if (boost.unclaimed) {
                     this.nameTextView.setText(LocaleController.getString(R.string.BoostingUnclaimed));
                     avatarDrawable = this.avatarDrawable;
                     i = 18;
                 } else {
-                    if (tL_stories$Boost.user_id == -1) {
+                    if (boost.user_id == -1) {
                         this.nameTextView.setText(LocaleController.getString(R.string.BoostingToBeDistributed));
                         avatarDrawable = this.avatarDrawable;
                         i = 19;
                     }
-                    String format = LocaleController.getInstance().getFormatterBoostExpired().format(new Date(tL_stories$Boost.expires * 1000));
-                    this.statusTextView.setText(tL_stories$Boost.stars <= 0 ? LocaleController.formatString(R.string.BoostingStarsExpires, format) : LocaleController.formatString(R.string.BoostingExpires, format));
-                    if (tL_stories$Boost.gift) {
+                    String format = LocaleController.getInstance().getFormatterBoostExpired().format(new Date(boost.expires * 1000));
+                    this.statusTextView.setText(boost.stars <= 0 ? LocaleController.formatString(R.string.BoostingStarsExpires, format) : LocaleController.formatString(R.string.BoostingExpires, format));
+                    if (boost.gift) {
                         if (this.giftDrawable == null) {
                             Drawable drawable = getResources().getDrawable(R.drawable.mini_gift);
                             this.giftDrawable = drawable;
@@ -121,7 +121,7 @@ public class GiftedUserCell extends UserCell {
                         this.badgeTextView.setText(LocaleController.getString(R.string.BoostingGift));
                         this.badgeLayout.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), Theme.multAlpha(-3240417, 0.2f)));
                     }
-                    if (tL_stories$Boost.giveaway) {
+                    if (boost.giveaway) {
                         if (this.giveawayDrawable == null) {
                             Drawable drawable2 = getResources().getDrawable(R.drawable.mini_giveaway);
                             this.giveawayDrawable = drawable2;
@@ -139,16 +139,16 @@ public class GiftedUserCell extends UserCell {
             }
             this.avatarImageView.setForUserOrChat(null, this.avatarDrawable);
             this.nameTextView.setRightDrawable((Drawable) null);
-            String format2 = LocaleController.getInstance().getFormatterBoostExpired().format(new Date(tL_stories$Boost.expires * 1000));
-            this.statusTextView.setText(tL_stories$Boost.stars <= 0 ? LocaleController.formatString(R.string.BoostingStarsExpires, format2) : LocaleController.formatString(R.string.BoostingExpires, format2));
-            if (tL_stories$Boost.gift) {
+            String format2 = LocaleController.getInstance().getFormatterBoostExpired().format(new Date(boost.expires * 1000));
+            this.statusTextView.setText(boost.stars <= 0 ? LocaleController.formatString(R.string.BoostingStarsExpires, format2) : LocaleController.formatString(R.string.BoostingExpires, format2));
+            if (boost.gift) {
             }
-            if (tL_stories$Boost.giveaway) {
+            if (boost.giveaway) {
             }
         } else {
             this.badgeLayout.setVisibility(8);
         }
-        int i3 = tL_stories$Boost.multiplier;
+        int i3 = boost.multiplier;
         if (i3 > 0) {
             this.counterDrawable.setText(String.valueOf(i3));
             this.nameTextView.setRightDrawable(this.counterDrawable);

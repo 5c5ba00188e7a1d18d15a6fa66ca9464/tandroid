@@ -10,13 +10,8 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$Peer;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.tl.TL_stories$TL_myBoost;
-import org.telegram.tgnet.tl.TL_stories$TL_premium_boostsStatus;
-import org.telegram.tgnet.tl.TL_stories$TL_premium_getBoostsStatus;
-import org.telegram.tgnet.tl.TL_stories$TL_premium_myBoosts;
+import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -37,13 +32,13 @@ public class ChannelBoostsController {
         public int boostCount = 0;
         public boolean boostedNow;
         public boolean canApply;
-        public TLRPC$Chat currentChat;
+        public TLRPC.Chat currentChat;
         public long currentDialogId;
-        public TLRPC$Peer currentPeer;
+        public TLRPC.Peer currentPeer;
         public boolean empty;
         public int floodWait;
         public boolean isMaxLvl;
-        public TL_stories$TL_premium_myBoosts myBoosts;
+        public TL_stories.TL_premium_myBoosts myBoosts;
         public boolean needSelector;
         public long replaceDialogId;
         public int slot;
@@ -73,48 +68,48 @@ public class ChannelBoostsController {
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public void setMyBoosts(TL_stories$TL_premium_myBoosts tL_stories$TL_premium_myBoosts) {
-            this.myBoosts = tL_stories$TL_premium_myBoosts;
+        public void setMyBoosts(TL_stories.TL_premium_myBoosts tL_premium_myBoosts) {
+            this.myBoosts = tL_premium_myBoosts;
             this.boostCount = 0;
             this.slot = 0;
             this.alreadyActive = false;
             this.canApply = false;
             this.needSelector = false;
             this.replaceDialogId = 0L;
-            if (tL_stories$TL_premium_myBoosts.my_boosts.isEmpty()) {
+            if (tL_premium_myBoosts.my_boosts.isEmpty()) {
                 this.empty = true;
             }
-            Iterator it = tL_stories$TL_premium_myBoosts.my_boosts.iterator();
+            Iterator<TL_stories.TL_myBoost> it = tL_premium_myBoosts.my_boosts.iterator();
             while (it.hasNext()) {
-                if (this.currentDialogId == DialogObject.getPeerDialogId(((TL_stories$TL_myBoost) it.next()).peer)) {
+                if (this.currentDialogId == DialogObject.getPeerDialogId(it.next().peer)) {
                     this.boostCount++;
                 }
             }
             if (this.boostCount > 0) {
                 this.alreadyActive = true;
             }
-            Iterator it2 = tL_stories$TL_premium_myBoosts.my_boosts.iterator();
+            Iterator<TL_stories.TL_myBoost> it2 = tL_premium_myBoosts.my_boosts.iterator();
             while (true) {
                 if (!it2.hasNext()) {
                     break;
                 }
-                TL_stories$TL_myBoost tL_stories$TL_myBoost = (TL_stories$TL_myBoost) it2.next();
-                if (tL_stories$TL_myBoost.peer == null) {
-                    this.slot = tL_stories$TL_myBoost.slot;
+                TL_stories.TL_myBoost next = it2.next();
+                if (next.peer == null) {
+                    this.slot = next.slot;
                     break;
                 }
             }
             if (this.slot == 0) {
                 ArrayList arrayList = new ArrayList();
-                Iterator it3 = tL_stories$TL_premium_myBoosts.my_boosts.iterator();
+                Iterator<TL_stories.TL_myBoost> it3 = tL_premium_myBoosts.my_boosts.iterator();
                 while (it3.hasNext()) {
-                    TL_stories$TL_myBoost tL_stories$TL_myBoost2 = (TL_stories$TL_myBoost) it3.next();
-                    TLRPC$Peer tLRPC$Peer = tL_stories$TL_myBoost2.peer;
-                    if (tLRPC$Peer != null && DialogObject.getPeerDialogId(tLRPC$Peer) != (-this.currentChat.id)) {
-                        arrayList.add(tL_stories$TL_myBoost2);
+                    TL_stories.TL_myBoost next2 = it3.next();
+                    TLRPC.Peer peer = next2.peer;
+                    if (peer != null && DialogObject.getPeerDialogId(peer) != (-this.currentChat.id)) {
+                        arrayList.add(next2);
                     }
                 }
-                if (arrayList.size() != 1 || ((TL_stories$TL_myBoost) arrayList.get(0)).cooldown_until_date != 0) {
+                if (arrayList.size() != 1 || ((TL_stories.TL_myBoost) arrayList.get(0)).cooldown_until_date != 0) {
                     if (arrayList.size() < 1) {
                         this.canApply = false;
                         if (this.isMaxLvl) {
@@ -125,9 +120,9 @@ public class ChannelBoostsController {
                     }
                     this.needSelector = true;
                 }
-                TL_stories$TL_myBoost tL_stories$TL_myBoost3 = (TL_stories$TL_myBoost) arrayList.get(0);
-                this.replaceDialogId = DialogObject.getPeerDialogId(tL_stories$TL_myBoost3.peer);
-                this.slot = tL_stories$TL_myBoost3.slot;
+                TL_stories.TL_myBoost tL_myBoost = (TL_stories.TL_myBoost) arrayList.get(0);
+                this.replaceDialogId = DialogObject.getPeerDialogId(tL_myBoost.peer);
+                this.slot = tL_myBoost.slot;
             }
             this.canApply = true;
             if (this.isMaxLvl) {
@@ -142,14 +137,14 @@ public class ChannelBoostsController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$getBoostsStats$0(TLObject tLObject, Consumer consumer, TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$getBoostsStats$0(TLObject tLObject, Consumer consumer, TLRPC.TL_error tL_error) {
         if (tLObject != null) {
-            consumer.accept((TL_stories$TL_premium_boostsStatus) tLObject);
+            consumer.accept((TL_stories.TL_premium_boostsStatus) tLObject);
             return;
         }
         BaseFragment lastFragment = LaunchActivity.getLastFragment();
-        if (tLRPC$TL_error == null || lastFragment == null || !"CHANNEL_PRIVATE".equals(tLRPC$TL_error.text)) {
-            BulletinFactory.global().showForError(tLRPC$TL_error);
+        if (tL_error == null || lastFragment == null || !"CHANNEL_PRIVATE".equals(tL_error.text)) {
+            BulletinFactory.global().showForError(tL_error);
         } else {
             LaunchActivity launchActivity = LaunchActivity.instance;
             if (launchActivity == null || !launchActivity.isFinishing()) {
@@ -171,26 +166,26 @@ public class ChannelBoostsController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$getBoostsStats$1(final Consumer consumer, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$getBoostsStats$1(final Consumer consumer, final TLObject tLObject, final TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChannelBoostsController$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
-                ChannelBoostsController.lambda$getBoostsStats$0(TLObject.this, consumer, tLRPC$TL_error);
+                ChannelBoostsController.lambda$getBoostsStats$0(TLObject.this, consumer, tL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$userCanBoostChannel$2(CanApplyBoost canApplyBoost, TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus, Consumer consumer, TL_stories$TL_premium_myBoosts tL_stories$TL_premium_myBoosts) {
-        canApplyBoost.isMaxLvl = tL_stories$TL_premium_boostsStatus.next_level_boosts <= 0;
-        canApplyBoost.setMyBoosts(tL_stories$TL_premium_myBoosts);
+    public static /* synthetic */ void lambda$userCanBoostChannel$2(CanApplyBoost canApplyBoost, TL_stories.TL_premium_boostsStatus tL_premium_boostsStatus, Consumer consumer, TL_stories.TL_premium_myBoosts tL_premium_myBoosts) {
+        canApplyBoost.isMaxLvl = tL_premium_boostsStatus.next_level_boosts <= 0;
+        canApplyBoost.setMyBoosts(tL_premium_myBoosts);
         consumer.accept(canApplyBoost);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$userCanBoostChannel$3(CanApplyBoost canApplyBoost, Consumer consumer, TLRPC$TL_error tLRPC$TL_error) {
-        boolean startsWith = tLRPC$TL_error.text.startsWith("FLOOD_WAIT");
-        String str = tLRPC$TL_error.text;
+    public static /* synthetic */ void lambda$userCanBoostChannel$3(CanApplyBoost canApplyBoost, Consumer consumer, TLRPC.TL_error tL_error) {
+        boolean startsWith = tL_error.text.startsWith("FLOOD_WAIT");
+        String str = tL_error.text;
         if (startsWith) {
             canApplyBoost.floodWait = Utilities.parseInt((CharSequence) str).intValue();
         } else if (str.startsWith("BOOSTS_EMPTY")) {
@@ -200,22 +195,22 @@ public class ChannelBoostsController {
         consumer.accept(canApplyBoost);
     }
 
-    public void applyBoost(long j, int i, Utilities.Callback<TL_stories$TL_premium_myBoosts> callback, Utilities.Callback<TLRPC$TL_error> callback2) {
+    public void applyBoost(long j, int i, Utilities.Callback<TL_stories.TL_premium_myBoosts> callback, Utilities.Callback<TLRPC.TL_error> callback2) {
         BoostRepository.applyBoost(-j, Arrays.asList(Integer.valueOf(i)), callback, callback2);
     }
 
     public void getBoostsStats(long j, final Consumer consumer) {
-        TL_stories$TL_premium_getBoostsStatus tL_stories$TL_premium_getBoostsStatus = new TL_stories$TL_premium_getBoostsStatus();
-        tL_stories$TL_premium_getBoostsStatus.peer = this.messagesController.getInputPeer(j);
-        this.connectionsManager.sendRequest(tL_stories$TL_premium_getBoostsStatus, new RequestDelegate() { // from class: org.telegram.messenger.ChannelBoostsController$$ExternalSyntheticLambda0
+        TL_stories.TL_premium_getBoostsStatus tL_premium_getBoostsStatus = new TL_stories.TL_premium_getBoostsStatus();
+        tL_premium_getBoostsStatus.peer = this.messagesController.getInputPeer(j);
+        this.connectionsManager.sendRequest(tL_premium_getBoostsStatus, new RequestDelegate() { // from class: org.telegram.messenger.ChannelBoostsController$$ExternalSyntheticLambda0
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ChannelBoostsController.lambda$getBoostsStats$1(Consumer.this, tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                ChannelBoostsController.lambda$getBoostsStats$1(Consumer.this, tLObject, tL_error);
             }
         });
     }
 
-    public void userCanBoostChannel(long j, final TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus, final Consumer consumer) {
+    public void userCanBoostChannel(long j, final TL_stories.TL_premium_boostsStatus tL_premium_boostsStatus, final Consumer consumer) {
         final CanApplyBoost canApplyBoost = new CanApplyBoost();
         canApplyBoost.currentPeer = this.messagesController.getPeer(j);
         canApplyBoost.currentDialogId = j;
@@ -223,12 +218,12 @@ public class ChannelBoostsController {
         BoostRepository.getMyBoosts(new Utilities.Callback() { // from class: org.telegram.messenger.ChannelBoostsController$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                ChannelBoostsController.lambda$userCanBoostChannel$2(ChannelBoostsController.CanApplyBoost.this, tL_stories$TL_premium_boostsStatus, consumer, (TL_stories$TL_premium_myBoosts) obj);
+                ChannelBoostsController.lambda$userCanBoostChannel$2(ChannelBoostsController.CanApplyBoost.this, tL_premium_boostsStatus, consumer, (TL_stories.TL_premium_myBoosts) obj);
             }
         }, new Utilities.Callback() { // from class: org.telegram.messenger.ChannelBoostsController$$ExternalSyntheticLambda3
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                ChannelBoostsController.lambda$userCanBoostChannel$3(ChannelBoostsController.CanApplyBoost.this, consumer, (TLRPC$TL_error) obj);
+                ChannelBoostsController.lambda$userCanBoostChannel$3(ChannelBoostsController.CanApplyBoost.this, consumer, (TLRPC.TL_error) obj);
             }
         });
     }

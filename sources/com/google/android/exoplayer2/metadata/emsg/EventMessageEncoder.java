@@ -3,14 +3,13 @@ package com.google.android.exoplayer2.metadata.emsg;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class EventMessageEncoder {
     private final ByteArrayOutputStream byteArrayOutputStream;
     private final DataOutputStream dataOutputStream;
 
     public EventMessageEncoder() {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(LiteMode.FLAG_CALLS_ANIMATIONS);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(512);
         this.byteArrayOutputStream = byteArrayOutputStream;
         this.dataOutputStream = new DataOutputStream(byteArrayOutputStream);
     }

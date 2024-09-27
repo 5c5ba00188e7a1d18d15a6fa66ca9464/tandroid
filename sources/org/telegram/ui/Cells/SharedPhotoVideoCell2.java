@@ -41,14 +41,8 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$MessageMedia;
-import org.telegram.tgnet.TLRPC$Photo;
-import org.telegram.tgnet.TLRPC$PhotoSize;
-import org.telegram.tgnet.TLRPC$TL_messageMediaPhoto;
-import org.telegram.tgnet.TLRPC$TL_messageMediaUnsupported;
-import org.telegram.tgnet.tl.TL_stories$StoryItem;
-import org.telegram.tgnet.tl.TL_stories$StoryViews;
+import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.AvatarSpan;
 import org.telegram.ui.Components.AnimatedFloat;
@@ -263,12 +257,12 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         return this.currentParentColumnsCount == 9 ? AndroidUtilities.dpf2(0.5f) : AndroidUtilities.dpf2(1.0f);
     }
 
-    private TLRPC$MessageMedia getStoryMedia(MessageObject messageObject) {
-        TL_stories$StoryItem tL_stories$StoryItem;
-        if (messageObject == null || (tL_stories$StoryItem = messageObject.storyItem) == null) {
+    private TLRPC.MessageMedia getStoryMedia(MessageObject messageObject) {
+        TL_stories.StoryItem storyItem;
+        if (messageObject == null || (storyItem = messageObject.storyItem) == null) {
             return null;
         }
-        return tL_stories$StoryItem.media;
+        return storyItem.media;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -306,19 +300,19 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         invalidate();
     }
 
-    private boolean mediaEqual(TLRPC$MessageMedia tLRPC$MessageMedia, TLRPC$MessageMedia tLRPC$MessageMedia2) {
-        TLRPC$Photo tLRPC$Photo;
-        if (tLRPC$MessageMedia == null && tLRPC$MessageMedia2 == null) {
+    private boolean mediaEqual(TLRPC.MessageMedia messageMedia, TLRPC.MessageMedia messageMedia2) {
+        TLRPC.Photo photo;
+        if (messageMedia == null && messageMedia2 == null) {
             return true;
         }
-        if (tLRPC$MessageMedia != null && tLRPC$MessageMedia2 != null) {
-            TLRPC$Document tLRPC$Document = tLRPC$MessageMedia.document;
-            if (tLRPC$Document != null) {
-                TLRPC$Document tLRPC$Document2 = tLRPC$MessageMedia2.document;
-                return tLRPC$Document2 != null && tLRPC$Document2.id == tLRPC$Document.id;
+        if (messageMedia != null && messageMedia2 != null) {
+            TLRPC.Document document = messageMedia.document;
+            if (document != null) {
+                TLRPC.Document document2 = messageMedia2.document;
+                return document2 != null && document2.id == document.id;
             }
-            TLRPC$Photo tLRPC$Photo2 = tLRPC$MessageMedia.photo;
-            return (tLRPC$Photo2 == null || (tLRPC$Photo = tLRPC$MessageMedia2.photo) == null || tLRPC$Photo.id != tLRPC$Photo2.id) ? false : true;
+            TLRPC.Photo photo2 = messageMedia.photo;
+            return (photo2 == null || (photo = messageMedia2.photo) == null || photo.id != photo2.id) ? false : true;
         }
         return false;
     }
@@ -915,8 +909,8 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
     */
     public void setMessageObject(MessageObject messageObject, int i) {
         AnimatedTextView.AnimatedTextDrawable animatedTextDrawable;
-        TL_stories$StoryItem tL_stories$StoryItem;
-        TL_stories$StoryItem tL_stories$StoryItem2;
+        TL_stories.StoryItem storyItem;
+        TL_stories.StoryItem storyItem2;
         int i2;
         ImageLocation imageLocation;
         long j;
@@ -943,7 +937,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         String str6;
         int i5;
         String str7;
-        TL_stories$StoryViews tL_stories$StoryViews;
+        TL_stories.StoryViews storyViews;
         int i6 = this.currentParentColumnsCount;
         this.currentParentColumnsCount = i;
         MessageObject messageObject2 = this.currentMessageObject;
@@ -993,12 +987,12 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         this.videoInfoLayot = null;
         this.showVideoLayout = false;
         this.imageReceiver.clearDecorators();
-        if (!this.isStory || (tL_stories$StoryViews = messageObject.storyItem.views) == null) {
+        if (!this.isStory || (storyViews = messageObject.storyItem.views) == null) {
             this.drawViews = false;
             this.viewsAlpha.set(0.0f, true);
             animatedTextDrawable = this.viewsText;
         } else {
-            int i7 = tL_stories$StoryViews.views_count;
+            int i7 = storyViews.views_count;
             this.drawViews = i7 > 0;
             animatedTextDrawable = this.viewsText;
             str8 = AndroidUtilities.formatWholeNumber(i7, 0);
@@ -1007,8 +1001,8 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         this.viewsAlpha.set(this.drawViews ? 1.0f : 0.0f, true);
         MessageObject messageObject5 = messageObject.parentStoriesList != null ? messageObject.storyItem : messageObject;
         if (TextUtils.isEmpty(restrictionReason)) {
-            TL_stories$StoryItem tL_stories$StoryItem3 = messageObject.storyItem;
-            if (tL_stories$StoryItem3 == null || !(tL_stories$StoryItem3.media instanceof TLRPC$TL_messageMediaUnsupported)) {
+            TL_stories.StoryItem storyItem3 = messageObject.storyItem;
+            if (storyItem3 == null || !(storyItem3.media instanceof TLRPC.TL_messageMediaUnsupported)) {
                 StoriesController.UploadingStory uploadingStory = messageObject.uploadingStory;
                 if (uploadingStory != null && (str7 = uploadingStory.firstFramePath) != null) {
                     imageReceiver3 = this.imageReceiver;
@@ -1043,9 +1037,9 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
                         str6 = null;
                         i5 = 0;
                     } else {
-                        TLRPC$Document document = messageObject.getDocument();
-                        TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 50);
-                        TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, photoSize, false, null, this.isStory);
+                        TLRPC.Document document = messageObject.getDocument();
+                        TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 50);
+                        TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, photoSize, false, null, this.isStory);
                         if (closestPhotoSizeWithSize == closestPhotoSizeWithSize2 && !this.isStory) {
                             closestPhotoSizeWithSize2 = null;
                         }
@@ -1069,7 +1063,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
                             }
                         }
                     }
-                } else if ((MessageObject.getMedia(messageObject.messageOwner) instanceof TLRPC$TL_messageMediaPhoto) && MessageObject.getMedia(messageObject.messageOwner).photo != null && !messageObject.photoThumbs.isEmpty()) {
+                } else if ((MessageObject.getMedia(messageObject.messageOwner) instanceof TLRPC.TL_messageMediaPhoto) && MessageObject.getMedia(messageObject.messageOwner).photo != null && !messageObject.photoThumbs.isEmpty()) {
                     if (messageObject.mediaExists || canAutoDownload(messageObject) || this.isStory) {
                         imageLocation = messageObject.mediaThumb;
                         if (imageLocation != null) {
@@ -1093,8 +1087,8 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
                             str6 = null;
                             i5 = 0;
                         } else {
-                            TLRPC$PhotoSize closestPhotoSizeWithSize3 = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, 50);
-                            TLRPC$PhotoSize closestPhotoSizeWithSize4 = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, photoSize, false, closestPhotoSizeWithSize3, this.isStory);
+                            TLRPC.PhotoSize closestPhotoSizeWithSize3 = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, 50);
+                            TLRPC.PhotoSize closestPhotoSizeWithSize4 = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, photoSize, false, closestPhotoSizeWithSize3, this.isStory);
                             if (closestPhotoSizeWithSize4 == closestPhotoSizeWithSize3) {
                                 closestPhotoSizeWithSize3 = null;
                             }
@@ -1128,7 +1122,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
                             imageReceiver2 = this.imageReceiver;
                             bitmapDrawable3 = bitmapDrawable6;
                         } else {
-                            TLRPC$PhotoSize closestPhotoSizeWithSize5 = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, 50);
+                            TLRPC.PhotoSize closestPhotoSizeWithSize5 = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, 50);
                             ImageReceiver imageReceiver5 = this.imageReceiver;
                             forObject = ImageLocation.getForObject(closestPhotoSizeWithSize5, messageObject.photoThumbsObject);
                             str3 = null;
@@ -1145,7 +1139,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
                 }
                 imageReceiver3.setImage(imageLocation, filterString, bitmapDrawable4, str6, messageObject5, i5);
             } else {
-                tL_stories$StoryItem3.dialogId = messageObject.getDialogId();
+                storyItem3.dialogId = messageObject.getDialogId();
                 Drawable mutate = getContext().getResources().getDrawable(R.drawable.msg_emoji_recent).mutate();
                 mutate.setColorFilter(new PorterDuffColorFilter(1090519039, PorterDuff.Mode.SRC_IN));
                 this.imageReceiver.setImageBitmap(new CombinedDrawable(new ColorDrawable(-13421773), mutate));
@@ -1157,14 +1151,14 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
             if (this.imageReceiver.getBitmap() != null && this.currentMessageObject.hasMediaSpoilers() && !this.currentMessageObject.isMediaSpoilersRevealed) {
                 this.blurImageReceiver.setImageBitmap(Utilities.stackBlurBitmapMax(this.imageReceiver.getBitmap()));
             }
-            tL_stories$StoryItem = messageObject.storyItem;
-            if (tL_stories$StoryItem != null) {
-                this.imageReceiver.addDecorator(new StoryWidgetsImageDecorator(tL_stories$StoryItem));
+            storyItem = messageObject.storyItem;
+            if (storyItem != null) {
+                this.imageReceiver.addDecorator(new StoryWidgetsImageDecorator(storyItem));
             }
             if (this.isStoryPinned) {
-                if (this.isStory && (tL_stories$StoryItem2 = messageObject.storyItem) != null) {
-                    if (tL_stories$StoryItem2.parsedPrivacy == null) {
-                        tL_stories$StoryItem2.parsedPrivacy = new StoryPrivacyBottomSheet.StoryPrivacy(this.currentAccount, tL_stories$StoryItem2.privacy);
+                if (this.isStory && (storyItem2 = messageObject.storyItem) != null) {
+                    if (storyItem2.parsedPrivacy == null) {
+                        storyItem2.parsedPrivacy = new StoryPrivacyBottomSheet.StoryPrivacy(this.currentAccount, storyItem2.privacy);
                     }
                     int i8 = messageObject.storyItem.parsedPrivacy.type;
                     if (i8 == 2) {
@@ -1197,8 +1191,8 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         if (this.imageReceiver.getBitmap() != null) {
             this.blurImageReceiver.setImageBitmap(Utilities.stackBlurBitmapMax(this.imageReceiver.getBitmap()));
         }
-        tL_stories$StoryItem = messageObject.storyItem;
-        if (tL_stories$StoryItem != null) {
+        storyItem = messageObject.storyItem;
+        if (storyItem != null) {
         }
         if (this.isStoryPinned) {
         }
@@ -1274,14 +1268,14 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
 
     public void updateViews() {
         MessageObject messageObject;
-        TL_stories$StoryItem tL_stories$StoryItem;
-        TL_stories$StoryViews tL_stories$StoryViews;
-        if (!this.isStory || (messageObject = this.currentMessageObject) == null || (tL_stories$StoryItem = messageObject.storyItem) == null || (tL_stories$StoryViews = tL_stories$StoryItem.views) == null) {
+        TL_stories.StoryItem storyItem;
+        TL_stories.StoryViews storyViews;
+        if (!this.isStory || (messageObject = this.currentMessageObject) == null || (storyItem = messageObject.storyItem) == null || (storyViews = storyItem.views) == null) {
             this.drawViews = false;
             this.viewsText.setText("", false);
             return;
         }
-        int i = tL_stories$StoryViews.views_count;
+        int i = storyViews.views_count;
         this.drawViews = i > 0;
         this.viewsText.setText(AndroidUtilities.formatWholeNumber(i, 0), true);
     }

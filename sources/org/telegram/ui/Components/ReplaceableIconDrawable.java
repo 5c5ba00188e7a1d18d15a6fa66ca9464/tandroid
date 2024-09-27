@@ -75,7 +75,7 @@ public class ReplaceableIconDrawable extends Drawable implements Animator.Animat
         if (this.progress == 1.0f || this.currentDrawable == null) {
             Drawable drawable = this.currentDrawable;
             if (drawable != null) {
-                drawable.setAlpha(NotificationCenter.didClearDatabase);
+                drawable.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                 this.currentDrawable.draw(canvas);
             }
         } else {
@@ -90,7 +90,7 @@ public class ReplaceableIconDrawable extends Drawable implements Animator.Animat
         if (f2 == 1.0f || this.outDrawable == null) {
             Drawable drawable2 = this.outDrawable;
             if (drawable2 != null) {
-                drawable2.setAlpha(NotificationCenter.didClearDatabase);
+                drawable2.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                 this.outDrawable.draw(canvas);
                 return;
             }

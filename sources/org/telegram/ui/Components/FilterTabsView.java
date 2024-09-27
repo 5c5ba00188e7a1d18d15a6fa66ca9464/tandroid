@@ -46,8 +46,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_messages_updateDialogFiltersOrder;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimationProperties;
 import org.telegram.ui.Components.FilterTabsView;
@@ -894,7 +893,7 @@ public abstract class FilterTabsView extends FrameLayout {
                         float dp3 = (z2 || this.titleAnimateOutLayout != null) ? f7 + f6 + AndroidUtilities.dp(6.0f) : (f6 - this.titleXOffset) + f2 + f7 + AndroidUtilities.dp(6.0f);
                         int measuredHeight = (getMeasuredHeight() - AndroidUtilities.dp(20.0f)) / 2;
                         if (z3 || ((!FilterTabsView.this.isEditing && FilterTabsView.this.editingStartAnimationProgress == 0.0f) || format != null)) {
-                            FilterTabsView.this.counterPaint.setAlpha(NotificationCenter.didClearDatabase);
+                            FilterTabsView.this.counterPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                         } else {
                             FilterTabsView.this.counterPaint.setAlpha((int) (FilterTabsView.this.editingStartAnimationProgress * 255.0f));
                         }
@@ -968,7 +967,7 @@ public abstract class FilterTabsView extends FrameLayout {
                                                 this.stableCounter.draw(canvas);
                                                 canvas.restore();
                                             }
-                                            FilterTabsView.this.textCounterPaint.setAlpha(NotificationCenter.didClearDatabase);
+                                            FilterTabsView.this.textCounterPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                                         }
                                     }
                                     f14 += (dp - (lineBottom - staticLayout.getLineTop(i13))) / 2.0f;
@@ -980,7 +979,7 @@ public abstract class FilterTabsView extends FrameLayout {
                                     }
                                     if (this.stableCounter != null) {
                                     }
-                                    FilterTabsView.this.textCounterPaint.setAlpha(NotificationCenter.didClearDatabase);
+                                    FilterTabsView.this.textCounterPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                                 } else if (format != null) {
                                     if (z3) {
                                         FilterTabsView.this.textCounterPaint.setAlpha((int) ((1.0f - FilterTabsView.this.editingStartAnimationProgress) * 255.0f));
@@ -1044,7 +1043,7 @@ public abstract class FilterTabsView extends FrameLayout {
                 int measuredHeight2 = (getMeasuredHeight() - AndroidUtilities.dp(20.0f)) / 2;
                 if (z3) {
                 }
-                FilterTabsView.this.counterPaint.setAlpha(NotificationCenter.didClearDatabase);
+                FilterTabsView.this.counterPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
                 if (z6) {
                 }
                 f3 = i12;
@@ -1514,7 +1513,7 @@ public abstract class FilterTabsView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$setIsEditing$2(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$setIsEditing$2(TLObject tLObject, TLRPC.TL_error tL_error) {
     }
 
     private void scrollToChild(int i) {
@@ -2051,22 +2050,22 @@ public abstract class FilterTabsView extends FrameLayout {
             return;
         }
         MessagesStorage.getInstance(UserConfig.selectedAccount).saveDialogFiltersOrder();
-        TLRPC$TL_messages_updateDialogFiltersOrder tLRPC$TL_messages_updateDialogFiltersOrder = new TLRPC$TL_messages_updateDialogFiltersOrder();
+        TLRPC.TL_messages_updateDialogFiltersOrder tL_messages_updateDialogFiltersOrder = new TLRPC.TL_messages_updateDialogFiltersOrder();
         ArrayList<MessagesController.DialogFilter> dialogFilters = MessagesController.getInstance(UserConfig.selectedAccount).getDialogFilters();
         int size = dialogFilters.size();
         for (int i = 0; i < size; i++) {
             MessagesController.DialogFilter dialogFilter = dialogFilters.get(i);
             if (dialogFilter.isDefault()) {
-                tLRPC$TL_messages_updateDialogFiltersOrder.order.add(0);
+                tL_messages_updateDialogFiltersOrder.order.add(0);
             } else {
-                tLRPC$TL_messages_updateDialogFiltersOrder.order.add(Integer.valueOf(dialogFilter.id));
+                tL_messages_updateDialogFiltersOrder.order.add(Integer.valueOf(dialogFilter.id));
             }
         }
         MessagesController.getInstance(UserConfig.selectedAccount).lockFiltersInternal();
-        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_updateDialogFiltersOrder, new RequestDelegate() { // from class: org.telegram.ui.Components.FilterTabsView$$ExternalSyntheticLambda2
+        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tL_messages_updateDialogFiltersOrder, new RequestDelegate() { // from class: org.telegram.ui.Components.FilterTabsView$$ExternalSyntheticLambda2
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                FilterTabsView.lambda$setIsEditing$2(tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                FilterTabsView.lambda$setIsEditing$2(tLObject, tL_error);
             }
         });
         this.orderChanged = false;

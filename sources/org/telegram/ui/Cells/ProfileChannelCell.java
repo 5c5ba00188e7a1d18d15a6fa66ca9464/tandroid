@@ -25,15 +25,8 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$Message;
-import org.telegram.tgnet.TLRPC$TL_channels_getMessages;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_messageEmpty;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$UserFull;
-import org.telegram.tgnet.TLRPC$messages_Messages;
-import org.telegram.tgnet.tl.TL_stories$PeerStories;
+import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.DialogCell;
@@ -86,45 +79,45 @@ public abstract class ProfileChannelCell extends FrameLayout {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$fetch$0(TLObject tLObject, MessagesStorage messagesStorage, long j, int i, int i2) {
-            TLRPC$Message tLRPC$Message;
-            if (!(tLObject instanceof TLRPC$messages_Messages)) {
+            TLRPC.Message message;
+            if (!(tLObject instanceof TLRPC.messages_Messages)) {
                 if (i != this.searchId) {
                     return;
                 }
                 done(true);
                 return;
             }
-            TLRPC$messages_Messages tLRPC$messages_Messages = (TLRPC$messages_Messages) tLObject;
-            MessagesController.getInstance(this.currentAccount).putUsers(tLRPC$messages_Messages.users, false);
-            MessagesController.getInstance(this.currentAccount).putChats(tLRPC$messages_Messages.chats, false);
-            messagesStorage.putUsersAndChats(tLRPC$messages_Messages.users, tLRPC$messages_Messages.chats, true, true);
-            messagesStorage.putMessages(tLRPC$messages_Messages, -j, -1, 0, false, 0, 0L);
+            TLRPC.messages_Messages messages_messages = (TLRPC.messages_Messages) tLObject;
+            MessagesController.getInstance(this.currentAccount).putUsers(messages_messages.users, false);
+            MessagesController.getInstance(this.currentAccount).putChats(messages_messages.chats, false);
+            messagesStorage.putUsersAndChats(messages_messages.users, messages_messages.chats, true, true);
+            messagesStorage.putMessages(messages_messages, -j, -1, 0, false, 0, 0L);
             if (i != this.searchId) {
                 return;
             }
-            Iterator it = tLRPC$messages_Messages.messages.iterator();
+            Iterator<TLRPC.Message> it = messages_messages.messages.iterator();
             while (true) {
                 if (!it.hasNext()) {
-                    tLRPC$Message = null;
+                    message = null;
                     break;
                 }
-                tLRPC$Message = (TLRPC$Message) it.next();
-                if (tLRPC$Message.id == i2) {
+                message = it.next();
+                if (message.id == i2) {
                     break;
                 }
             }
-            if (tLRPC$Message != null) {
-                if (tLRPC$Message instanceof TLRPC$TL_messageEmpty) {
+            if (message != null) {
+                if (message instanceof TLRPC.TL_messageEmpty) {
                     this.messageObject = null;
                 } else {
-                    this.messageObject = new MessageObject(this.currentAccount, tLRPC$Message, true, true);
+                    this.messageObject = new MessageObject(this.currentAccount, message, true, true);
                 }
                 done(false);
             }
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$fetch$1(final MessagesStorage messagesStorage, final long j, final int i, final int i2, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        public /* synthetic */ void lambda$fetch$1(final MessagesStorage messagesStorage, final long j, final int i, final int i2, final TLObject tLObject, TLRPC.TL_error tL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ProfileChannelCell$ChannelMessageFetcher$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -134,23 +127,23 @@ public abstract class ProfileChannelCell extends FrameLayout {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$fetch$2(final int i, TLRPC$Message tLRPC$Message, final long j, final int i2, final MessagesStorage messagesStorage) {
+        public /* synthetic */ void lambda$fetch$2(final int i, TLRPC.Message message, final long j, final int i2, final MessagesStorage messagesStorage) {
             if (i != this.searchId) {
                 return;
             }
-            MessageObject messageObject = tLRPC$Message != null ? new MessageObject(this.currentAccount, tLRPC$Message, true, true) : null;
+            MessageObject messageObject = message != null ? new MessageObject(this.currentAccount, message, true, true) : null;
             if (messageObject != null) {
                 this.messageObject = messageObject;
                 done(false);
                 return;
             }
-            TLRPC$TL_channels_getMessages tLRPC$TL_channels_getMessages = new TLRPC$TL_channels_getMessages();
-            tLRPC$TL_channels_getMessages.channel = MessagesController.getInstance(this.currentAccount).getInputChannel(j);
-            tLRPC$TL_channels_getMessages.id.add(Integer.valueOf(i2));
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getMessages, new RequestDelegate() { // from class: org.telegram.ui.Cells.ProfileChannelCell$ChannelMessageFetcher$$ExternalSyntheticLambda2
+            TLRPC.TL_channels_getMessages tL_channels_getMessages = new TLRPC.TL_channels_getMessages();
+            tL_channels_getMessages.channel = MessagesController.getInstance(this.currentAccount).getInputChannel(j);
+            tL_channels_getMessages.id.add(Integer.valueOf(i2));
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_channels_getMessages, new RequestDelegate() { // from class: org.telegram.ui.Cells.ProfileChannelCell$ChannelMessageFetcher$$ExternalSyntheticLambda2
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$1(messagesStorage, j, i, i2, tLObject, tLRPC$TL_error);
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$1(messagesStorage, j, i, i2, tLObject, tL_error);
                 }
             });
         }
@@ -164,12 +157,12 @@ public abstract class ProfileChannelCell extends FrameLayout {
         /* JADX WARN: Type inference failed for: r4v14 */
         /* JADX WARN: Type inference failed for: r4v15 */
         public /* synthetic */ void lambda$fetch$3(final int i, final MessagesStorage messagesStorage, final long j, long j2, final int i2) {
-            TLRPC$Message tLRPC$Message;
-            final TLRPC$Message tLRPC$Message2;
+            TLRPC.Message message;
+            final TLRPC.Message message2;
             SQLiteCursor sQLiteCursor;
             NativeByteBuffer byteBufferValue;
-            ArrayList<TLRPC$User> arrayList = new ArrayList<>();
-            ArrayList<TLRPC$Chat> arrayList2 = new ArrayList<>();
+            ArrayList<TLRPC.User> arrayList = new ArrayList<>();
+            ArrayList<TLRPC.Chat> arrayList2 = new ArrayList<>();
             SQLiteCursor sQLiteCursor2 = null;
             try {
                 try {
@@ -179,48 +172,48 @@ public abstract class ProfileChannelCell extends FrameLayout {
                             ArrayList<Long> arrayList3 = new ArrayList<>();
                             ArrayList arrayList4 = new ArrayList();
                             if (sQLiteCursor.next() && (byteBufferValue = sQLiteCursor.byteBufferValue(0)) != null) {
-                                tLRPC$Message = TLRPC$Message.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
+                                message = TLRPC.Message.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
                                 try {
-                                    tLRPC$Message.readAttachPath(byteBufferValue, j2);
+                                    message.readAttachPath(byteBufferValue, j2);
                                     byteBufferValue.reuse();
-                                    tLRPC$Message.id = sQLiteCursor.intValue(1);
-                                    tLRPC$Message.dialog_id = -j;
-                                    MessagesStorage.addUsersAndChatsFromMessage(tLRPC$Message, arrayList3, arrayList4, null);
-                                    sQLiteCursor2 = tLRPC$Message;
+                                    message.id = sQLiteCursor.intValue(1);
+                                    message.dialog_id = -j;
+                                    MessagesStorage.addUsersAndChatsFromMessage(message, arrayList3, arrayList4, null);
+                                    sQLiteCursor2 = message;
                                 } catch (Exception e) {
                                     e = e;
                                     sQLiteCursor2 = sQLiteCursor;
                                     FileLog.e(e);
                                     if (sQLiteCursor2 == null) {
-                                        tLRPC$Message2 = tLRPC$Message;
+                                        message2 = message;
                                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ProfileChannelCell$ChannelMessageFetcher$$ExternalSyntheticLambda1
                                             @Override // java.lang.Runnable
                                             public final void run() {
-                                                ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$2(i2, tLRPC$Message2, j, i, messagesStorage);
+                                                ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$2(i2, message2, j, i, messagesStorage);
                                             }
                                         });
                                     }
                                     sQLiteCursor = sQLiteCursor2;
-                                    tLRPC$Message2 = tLRPC$Message;
+                                    message2 = message;
                                     sQLiteCursor.dispose();
                                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ProfileChannelCell$ChannelMessageFetcher$$ExternalSyntheticLambda1
                                         @Override // java.lang.Runnable
                                         public final void run() {
-                                            ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$2(i2, tLRPC$Message2, j, i, messagesStorage);
+                                            ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$2(i2, message2, j, i, messagesStorage);
                                         }
                                     });
                                 }
                             }
                             sQLiteCursor.dispose();
-                            tLRPC$Message2 = sQLiteCursor2;
+                            message2 = sQLiteCursor2;
                             if (sQLiteCursor2 != null) {
                                 if (!arrayList3.isEmpty()) {
                                     messagesStorage.getUsersInternal(arrayList3, arrayList);
                                 }
-                                tLRPC$Message2 = sQLiteCursor2;
+                                message2 = sQLiteCursor2;
                                 if (!arrayList4.isEmpty()) {
                                     messagesStorage.getChatsInternal(TextUtils.join(",", arrayList4), arrayList2);
-                                    tLRPC$Message2 = sQLiteCursor2;
+                                    message2 = sQLiteCursor2;
                                 }
                             }
                         } catch (Throwable th) {
@@ -233,17 +226,17 @@ public abstract class ProfileChannelCell extends FrameLayout {
                         }
                     } catch (Exception e2) {
                         e = e2;
-                        tLRPC$Message = sQLiteCursor2;
+                        message = sQLiteCursor2;
                     }
                 } catch (Exception e3) {
                     e = e3;
-                    tLRPC$Message = null;
+                    message = null;
                 }
                 sQLiteCursor.dispose();
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ProfileChannelCell$ChannelMessageFetcher$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$2(i2, tLRPC$Message2, j, i, messagesStorage);
+                        ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$2(i2, message2, j, i, messagesStorage);
                     }
                 });
             } catch (Throwable th2) {
@@ -274,9 +267,9 @@ public abstract class ProfileChannelCell extends FrameLayout {
             });
         }
 
-        public void fetch(TLRPC$UserFull tLRPC$UserFull) {
-            if (tLRPC$UserFull != null && (tLRPC$UserFull.flags2 & 64) != 0) {
-                fetch(tLRPC$UserFull.personal_channel_id, tLRPC$UserFull.personal_channel_message);
+        public void fetch(TLRPC.UserFull userFull) {
+            if (userFull != null && (userFull.flags2 & 64) != 0) {
+                fetch(userFull.personal_channel_id, userFull.personal_channel_message);
                 return;
             }
             this.searchId++;
@@ -322,7 +315,7 @@ public abstract class ProfileChannelCell extends FrameLayout {
         linearLayout.addView(clickableAnimatedTextView, LayoutHelper.createLinear(-1, 17, 51, 4, 2, 4, 0));
         DialogCell dialogCell = new DialogCell(null, context, false, true, UserConfig.selectedAccount, resourceProvider);
         this.dialogCell = dialogCell;
-        dialogCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+        dialogCell.setBackgroundColor(0);
         dialogCell.setDialogCellDelegate(new DialogCell.DialogCellDelegate() { // from class: org.telegram.ui.Cells.ProfileChannelCell.1
             @Override // org.telegram.ui.Cells.DialogCell.DialogCellDelegate
             public boolean canClickButtonInside() {
@@ -343,10 +336,10 @@ public abstract class ProfileChannelCell extends FrameLayout {
                 if (storiesController.getHiddenList().isEmpty()) {
                     return;
                 }
-                boolean z = storiesController.getUnreadState(DialogObject.getPeerDialogId(((TL_stories$PeerStories) storiesController.getHiddenList().get(0)).peer)) != 0;
+                boolean z = storiesController.getUnreadState(DialogObject.getPeerDialogId(((TL_stories.PeerStories) storiesController.getHiddenList().get(0)).peer)) != 0;
                 ArrayList arrayList = new ArrayList();
                 for (int i = 0; i < storiesController.getHiddenList().size(); i++) {
-                    long peerDialogId = DialogObject.getPeerDialogId(((TL_stories$PeerStories) storiesController.getHiddenList().get(i)).peer);
+                    long peerDialogId = DialogObject.getPeerDialogId(((TL_stories.PeerStories) storiesController.getHiddenList().get(i)).peer);
                     if (!z || storiesController.getUnreadState(peerDialogId) != 0) {
                         arrayList.add(Long.valueOf(peerDialogId));
                     }
@@ -405,7 +398,7 @@ public abstract class ProfileChannelCell extends FrameLayout {
 
     public abstract int processColor(int i);
 
-    public void set(TLRPC$Chat tLRPC$Chat, MessageObject messageObject) {
+    public void set(TLRPC.Chat chat, MessageObject messageObject) {
         String formatShortNumber;
         DialogCell dialogCell;
         long j;
@@ -413,7 +406,7 @@ public abstract class ProfileChannelCell extends FrameLayout {
         boolean z;
         MessageObject messageObject2;
         boolean z2 = this.set;
-        boolean z3 = tLRPC$Chat == null || tLRPC$Chat.participants_count > 0;
+        boolean z3 = chat == null || chat.participants_count > 0;
         this.subscribersView.cancelAnimation();
         this.subscribersView.setPivotX(0.0f);
         AnimatedTextView animatedTextView = this.subscribersView;
@@ -424,27 +417,27 @@ public abstract class ProfileChannelCell extends FrameLayout {
             this.subscribersView.setScaleX(z3 ? 1.0f : 0.0f);
             this.subscribersView.setScaleY(z3 ? 1.0f : 0.0f);
         }
-        if (tLRPC$Chat != null) {
+        if (chat != null) {
             int[] iArr = new int[1];
             if (AndroidUtilities.isAccessibilityScreenReaderEnabled()) {
-                int i2 = tLRPC$Chat.participants_count;
+                int i2 = chat.participants_count;
                 iArr[0] = i2;
                 formatShortNumber = String.valueOf(i2);
             } else {
-                formatShortNumber = LocaleController.formatShortNumber(tLRPC$Chat.participants_count, iArr);
+                formatShortNumber = LocaleController.formatShortNumber(chat.participants_count, iArr);
             }
             this.subscribersView.setText(LocaleController.formatPluralString("Subscribers", iArr[0], new Object[0]).replace(String.format("%d", Integer.valueOf(iArr[0])), formatShortNumber), true);
             boolean z4 = messageObject == null;
             this.loading = z4;
             if (z4) {
                 dialogCell = this.dialogCell;
-                j = -tLRPC$Chat.id;
+                j = -chat.id;
                 i = 0;
                 z = false;
                 messageObject2 = null;
             } else {
                 dialogCell = this.dialogCell;
-                j = -tLRPC$Chat.id;
+                j = -chat.id;
                 i = messageObject.messageOwner.date;
                 z = false;
                 messageObject2 = messageObject;

@@ -227,7 +227,7 @@ public class Icon3D {
             GLES20.glBindTexture(3553, iArr4[0]);
             GLES20.glUniform1i(this.mBackgroundTextureUniformHandle, 2);
         }
-        Bitmap bitmap = SvgHelper.getBitmap(R.raw.start_texture, (int) NotificationCenter.locationPermissionDenied, (int) NotificationCenter.locationPermissionDenied, -1);
+        Bitmap bitmap = SvgHelper.getBitmap(R.raw.start_texture, (int) NotificationCenter.goingToPreviewTheme, (int) NotificationCenter.goingToPreviewTheme, -1);
         int[] iArr6 = new int[1];
         GLES20.glGenTextures(1, iArr6, 0);
         GLES20.glBindTexture(3553, iArr6[0]);
