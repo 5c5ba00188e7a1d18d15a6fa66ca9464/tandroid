@@ -1634,7 +1634,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
 
         public /* synthetic */ void lambda$onItemClick$9(List list) {
-            ProfileActivity.this.showDialog(new GiftSheet(ProfileActivity.this.getContext(), ((BaseFragment) ProfileActivity.this).currentAccount, ProfileActivity.this.userId, BoostRepository.filterGiftOptionsByBilling(BoostRepository.filterGiftOptions(list, 1)), null));
+            if (ProfileActivity.this.getContext() != null && ProfileActivity.this.fullyVisible) {
+                ProfileActivity.this.showDialog(new GiftSheet(ProfileActivity.this.getContext(), ((BaseFragment) ProfileActivity.this).currentAccount, ProfileActivity.this.userId, BoostRepository.filterGiftOptionsByBilling(BoostRepository.filterGiftOptions(list, 1)), null));
+            }
         }
 
         /* JADX WARN: Multi-variable type inference failed */
@@ -2498,12 +2500,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     ProfileActivity.this.positionToOffset.put(Integer.valueOf(i8), Integer.valueOf(ProfileActivity.this.listContentHeight));
                     if (itemViewType == 13) {
                         ProfileActivity profileActivity = ProfileActivity.this;
-                        ProfileActivity.access$9812(profileActivity, profileActivity.listView.getMeasuredHeight());
+                        ProfileActivity.access$9912(profileActivity, profileActivity.listView.getMeasuredHeight());
                     } else {
                         RecyclerView.ViewHolder createViewHolder = ProfileActivity.this.listAdapter.createViewHolder(null, itemViewType);
                         ProfileActivity.this.listAdapter.onBindViewHolder(createViewHolder, i8);
                         createViewHolder.itemView.measure(makeMeasureSpec, makeMeasureSpec2);
-                        ProfileActivity.access$9812(ProfileActivity.this, createViewHolder.itemView.getMeasuredHeight());
+                        ProfileActivity.access$9912(ProfileActivity.this, createViewHolder.itemView.getMeasuredHeight());
                     }
                 }
                 if (ProfileActivity.this.emptyView != null) {
@@ -4193,7 +4195,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda4
                                 @Override // android.view.View.OnClickListener
                                 public final void onClick(View view3) {
-                                    ProfileActivity.access$34600(ProfileActivity.this, view3);
+                                    ProfileActivity.access$34700(ProfileActivity.this, view3);
                                 }
                             };
                         } else if (z) {
@@ -4205,7 +4207,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda5
                                 @Override // android.view.View.OnClickListener
                                 public final void onClick(View view3) {
-                                    ProfileActivity.access$34600(ProfileActivity.this, view3);
+                                    ProfileActivity.access$34700(ProfileActivity.this, view3);
                                 }
                             };
                         } else {
@@ -8152,7 +8154,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.sharedMediaPreloader = sharedMediaPreloader;
     }
 
-    public static /* synthetic */ void access$34600(ProfileActivity profileActivity, View view) {
+    public static /* synthetic */ void access$34700(ProfileActivity profileActivity, View view) {
         profileActivity.onTextDetailCellImageClicked(view);
     }
 
@@ -8160,7 +8162,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         profileActivity.onWriteButtonClick();
     }
 
-    static /* synthetic */ int access$9812(ProfileActivity profileActivity, int i) {
+    static /* synthetic */ int access$9912(ProfileActivity profileActivity, int i) {
         int i2 = profileActivity.listContentHeight + i;
         profileActivity.listContentHeight = i2;
         return i2;
