@@ -2747,67 +2747,29 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:30:0x0091, code lost:
-        r0 = org.telegram.messenger.MediaController.createFileInCache(r0.getName(), "txt");
-        r14 = r0.getAbsolutePath();
-        r9 = new java.io.FileOutputStream(r0);
-        r0 = new byte[1024];
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x00a6, code lost:
-        r13 = r12.read(r0);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x00ab, code lost:
-        if (r13 <= 0) goto L80;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:34:0x00ad, code lost:
-        r9.write(r0, 0, r13);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x00b1, code lost:
-        r0 = th;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x00b2, code lost:
-        r9 = r0;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x00b4, code lost:
-        r9.close();
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:49:0x00cd, code lost:
-        r12.close();
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:51:0x00d1, code lost:
-        r0 = move-exception;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x00d3, code lost:
-        r9.addSuppressed(r0);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:54:0x00d6, code lost:
-        throw r9;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:79:0x0126, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:75:0x0119, code lost:
         org.telegram.messenger.AndroidUtilities.runOnUIThread(r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:80:0x0129, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:76:0x011c, code lost:
         return;
      */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x00f0  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x00f4  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$prepareImportHistory$72(ArrayList arrayList, final long j, Uri uri, final MessagesStorage.LongCallback longCallback) {
         Runnable runnable;
-        ArrayList arrayList2;
         int i;
-        ArrayList arrayList3 = arrayList != null ? arrayList : new ArrayList();
+        ArrayList arrayList2 = arrayList != null ? arrayList : new ArrayList();
         final ImportingHistory importingHistory = new ImportingHistory();
-        importingHistory.mediaPaths = arrayList3;
+        importingHistory.mediaPaths = arrayList2;
         importingHistory.dialogId = j;
         importingHistory.peer = getMessagesController().getInputPeer(j);
         final HashMap hashMap = new HashMap();
-        int size = arrayList3.size();
+        int size = arrayList2.size();
         int i2 = 0;
+        int i3 = 0;
         while (true) {
-            if (i2 >= size + 1) {
+            if (i3 >= size + 1) {
                 runnable = new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda63
                     @Override // java.lang.Runnable
                     public final void run() {
@@ -2816,11 +2778,10 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 };
                 break;
             }
-            Uri uri2 = i2 == 0 ? uri : (Uri) arrayList3.get(i2 - 1);
+            Uri uri2 = i3 == 0 ? uri : (Uri) arrayList2.get(i3 - 1);
             if (uri2 == null || AndroidUtilities.isInternalUri(uri2)) {
-                arrayList2 = arrayList3;
-                i = size;
-                if (i2 == 0) {
+                i = i3;
+                if (i == 0) {
                     runnable = new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda62
                         @Override // java.lang.Runnable
                         public final void run() {
@@ -2828,10 +2789,10 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         }
                     };
                     break;
+                } else {
+                    i3 = i + 1;
+                    i2 = 0;
                 }
-                i2++;
-                size = i;
-                arrayList3 = arrayList2;
             } else {
                 String fixFileName = FileLoader.fixFileName(MediaController.getFileName(uri));
                 String str = (fixFileName == null || !fixFileName.endsWith(".zip")) ? "txt" : "zip";
@@ -2839,68 +2800,69 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 if ("zip".equals(str)) {
                     File file = new File(copyFileToCache);
                     try {
-                        ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(file));
                         try {
-                            ZipEntry nextEntry = zipInputStream.getNextEntry();
+                            ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(file));
                             while (true) {
-                                if (nextEntry == null) {
+                                try {
+                                    ZipEntry nextEntry = zipInputStream.getNextEntry();
+                                    if (nextEntry == null) {
+                                        break;
+                                    }
+                                    String name = nextEntry.getName();
+                                    if (name != null) {
+                                        int lastIndexOf = name.lastIndexOf("/");
+                                        if (lastIndexOf >= 0) {
+                                            name = name.substring(lastIndexOf + 1);
+                                        }
+                                        if (name.endsWith(".txt")) {
+                                            File createFileInCache = MediaController.createFileInCache(name, "txt");
+                                            copyFileToCache = createFileInCache.getAbsolutePath();
+                                            FileOutputStream fileOutputStream = new FileOutputStream(createFileInCache);
+                                            byte[] bArr = new byte[1024];
+                                            while (true) {
+                                                int read = zipInputStream.read(bArr);
+                                                if (read <= 0) {
+                                                    break;
+                                                }
+                                                fileOutputStream.write(bArr, i2, read);
+                                            }
+                                            fileOutputStream.close();
+                                        }
+                                    }
+                                } catch (Throwable th) {
+                                    try {
+                                        zipInputStream.close();
+                                    } catch (Throwable th2) {
+                                        th.addSuppressed(th2);
+                                    }
+                                    throw th;
                                     break;
-                                } else if (nextEntry.getName().endsWith(".txt")) {
-                                    break;
-                                } else {
-                                    nextEntry = zipInputStream.getNextEntry();
                                 }
                             }
                             zipInputStream.closeEntry();
-                            try {
-                                try {
-                                    zipInputStream.close();
-                                } catch (Exception e) {
-                                    e = e;
-                                    FileLog.e(e);
-                                    file.delete();
-                                    if (copyFileToCache == null) {
-                                    }
-                                    i2++;
-                                    size = i;
-                                    arrayList3 = arrayList2;
-                                }
-                            } catch (IOException e2) {
-                                e = e2;
-                                FileLog.e(e);
-                                file.delete();
-                                if (copyFileToCache == null) {
-                                }
-                                i2++;
-                                size = i;
-                                arrayList3 = arrayList2;
-                            }
-                        } catch (Throwable th) {
-                            th = th;
+                            zipInputStream.close();
+                        } catch (Exception e) {
+                            FileLog.e(e);
                         }
-                    } catch (IOException e3) {
-                        e = e3;
-                    } catch (Exception e4) {
-                        e = e4;
+                    } catch (IOException e2) {
+                        FileLog.e(e2);
                     }
                     try {
                         file.delete();
-                    } catch (Exception e5) {
-                        FileLog.e(e5);
+                    } catch (Exception e3) {
+                        FileLog.e(e3);
                     }
                 }
                 if (copyFileToCache == null) {
-                    arrayList2 = arrayList3;
-                    i = size;
+                    i = i3;
                 } else {
                     File file2 = new File(copyFileToCache);
                     if (file2.exists()) {
                         long length = file2.length();
                         if (length != 0) {
-                            arrayList2 = arrayList3;
-                            i = size;
+                            i = i3;
                             importingHistory.totalSize += length;
-                            if (i2 != 0) {
+                            if (i != 0) {
                                 importingHistory.uploadMedia.add(copyFileToCache);
                             } else if (length > 33554432) {
                                 file2.delete();
@@ -2918,9 +2880,8 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             hashMap.put(copyFileToCache, importingHistory);
                         }
                     }
-                    arrayList2 = arrayList3;
-                    i = size;
-                    if (i2 == 0) {
+                    i = i3;
+                    if (i == 0) {
                         runnable = new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda61
                             @Override // java.lang.Runnable
                             public final void run() {
@@ -2930,9 +2891,8 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         break;
                     }
                 }
-                i2++;
-                size = i;
-                arrayList3 = arrayList2;
+                i3 = i + 1;
+                i2 = 0;
             }
         }
     }

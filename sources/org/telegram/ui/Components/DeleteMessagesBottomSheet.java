@@ -33,7 +33,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.CollapseTextCell;
-import org.telegram.ui.ChatActivity$$ExternalSyntheticLambda282;
+import org.telegram.ui.ChatActivity$$ExternalSyntheticLambda281;
 import org.telegram.ui.Components.BottomSheetWithRecyclerListView;
 import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorBtnCell;
 import org.telegram.ui.Components.RecyclerListView;
@@ -41,6 +41,7 @@ import org.telegram.ui.Components.RecyclerListView;
 public class DeleteMessagesBottomSheet extends BottomSheetWithRecyclerListView {
     private TextView actionButton;
     private UniversalAdapter adapter;
+    private boolean banChecked;
     private boolean[] banFilter;
     private Action banOrRestrict;
     private TLRPC.TL_chatBannedRights bannedRights;
@@ -420,7 +421,7 @@ public class DeleteMessagesBottomSheet extends BottomSheetWithRecyclerListView {
                 public /* synthetic */ Function compose(Function function) {
                     return Function.-CC.$default$compose(this, function);
                 }
-            }).collect(Collectors.toCollection(new ChatActivity$$ExternalSyntheticLambda282()));
+            }).collect(Collectors.toCollection(new ChatActivity$$ExternalSyntheticLambda281()));
             Action action = new Action(2, arrayList2);
             this.banOrRestrict = action;
             action.setFilter(this.banFilter);
@@ -826,7 +827,7 @@ public class DeleteMessagesBottomSheet extends BottomSheetWithRecyclerListView {
                     lambda$performDelete$14 = DeleteMessagesBottomSheet.lambda$performDelete$14(TLObject.this, (MessageObject) obj);
                     return lambda$performDelete$14;
                 }
-            }).map(new DeleteMessagesBottomSheet$$ExternalSyntheticLambda8()).collect(Collectors.toCollection(new ChatActivity$$ExternalSyntheticLambda282()));
+            }).map(new DeleteMessagesBottomSheet$$ExternalSyntheticLambda8()).collect(Collectors.toCollection(new ChatActivity$$ExternalSyntheticLambda281()));
             ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_channels_reportSpam, null);
         }
         inputPeer = MessagesController.getInputPeer((TLRPC.User) tLObject);
@@ -875,7 +876,7 @@ public class DeleteMessagesBottomSheet extends BottomSheetWithRecyclerListView {
                 lambda$performDelete$14 = DeleteMessagesBottomSheet.lambda$performDelete$14(TLObject.this, (MessageObject) obj);
                 return lambda$performDelete$14;
             }
-        }).map(new DeleteMessagesBottomSheet$$ExternalSyntheticLambda8()).collect(Collectors.toCollection(new ChatActivity$$ExternalSyntheticLambda282()));
+        }).map(new DeleteMessagesBottomSheet$$ExternalSyntheticLambda8()).collect(Collectors.toCollection(new ChatActivity$$ExternalSyntheticLambda281()));
         ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_channels_reportSpam, null);
     }
 
@@ -1099,10 +1100,26 @@ public class DeleteMessagesBottomSheet extends BottomSheetWithRecyclerListView {
 
     private void onRestrictionsChanged() {
         if (this.restrict && this.banOrRestrict.isPresent()) {
+            this.banChecked = this.banOrRestrict.selectedCount > 0;
+        }
+        if (this.restrict && this.banOrRestrict.isPresent()) {
             Action action = this.banOrRestrict;
             if (action.selectedCount == 0) {
                 action.toggleAllChecks();
+                if (this.restrict && this.banOrRestrict.isPresent()) {
+                    this.banChecked = this.banOrRestrict.selectedCount > 0;
+                    return;
+                }
             }
+        }
+        if (!this.restrict && this.banOrRestrict.isPresent()) {
+            boolean z = this.banChecked;
+            Action action2 = this.banOrRestrict;
+            if (z != (action2.selectedCount > 0)) {
+                action2.toggleAllChecks();
+            }
+        }
+        if (this.restrict) {
         }
     }
 
@@ -1129,7 +1146,7 @@ public class DeleteMessagesBottomSheet extends BottomSheetWithRecyclerListView {
                 lambda$performDelete$10 = DeleteMessagesBottomSheet.this.lambda$performDelete$10((MessageObject) obj);
                 return lambda$performDelete$10;
             }
-        }).map(new DeleteMessagesBottomSheet$$ExternalSyntheticLambda8()).collect(Collectors.toCollection(new ChatActivity$$ExternalSyntheticLambda282()));
+        }).map(new DeleteMessagesBottomSheet$$ExternalSyntheticLambda8()).collect(Collectors.toCollection(new ChatActivity$$ExternalSyntheticLambda281()));
         ArrayList<Integer> arrayList2 = (ArrayList) Collection$-EL.stream(this.messages).filter(new Predicate() { // from class: org.telegram.ui.Components.DeleteMessagesBottomSheet$$ExternalSyntheticLambda9
             @Override // j$.util.function.Predicate
             public /* synthetic */ Predicate and(Predicate predicate) {
@@ -1152,7 +1169,7 @@ public class DeleteMessagesBottomSheet extends BottomSheetWithRecyclerListView {
                 lambda$performDelete$11 = DeleteMessagesBottomSheet.this.lambda$performDelete$11((MessageObject) obj);
                 return lambda$performDelete$11;
             }
-        }).map(new DeleteMessagesBottomSheet$$ExternalSyntheticLambda8()).collect(Collectors.toCollection(new ChatActivity$$ExternalSyntheticLambda282()));
+        }).map(new DeleteMessagesBottomSheet$$ExternalSyntheticLambda8()).collect(Collectors.toCollection(new ChatActivity$$ExternalSyntheticLambda281()));
         if (!arrayList.isEmpty()) {
             MessagesController.getInstance(this.currentAccount).deleteMessages(arrayList, null, null, -this.inChat.id, this.topicId, false, this.mode);
         }

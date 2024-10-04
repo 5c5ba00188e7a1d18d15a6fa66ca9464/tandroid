@@ -35,7 +35,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 /* loaded from: classes4.dex */
 public class DrawerLayoutContainer extends FrameLayout {
-    private boolean allowDrawContent;
+    public boolean allowDrawContent;
     private boolean allowOpenDrawer;
     private boolean allowOpenDrawerBySwipe;
     private Paint backgroundPaint;

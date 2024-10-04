@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.util.Property;
 import android.view.animation.OvershootInterpolator;
+import org.telegram.messenger.ImageReceiver;
 import org.telegram.ui.Cells.DialogCell;
 import org.telegram.ui.PhotoViewer;
 /* loaded from: classes3.dex */
@@ -32,7 +33,18 @@ public abstract class AnimationProperties {
             paint.setColor(i);
         }
     };
-    public static final Property COLOR_DRAWABLE_ALPHA = new IntProperty("alpha") { // from class: org.telegram.ui.Components.AnimationProperties.3
+    public static final Property IMAGE_RECEIVER_ALPHA = new FloatProperty("currentAlpha") { // from class: org.telegram.ui.Components.AnimationProperties.3
+        @Override // android.util.Property
+        public Float get(ImageReceiver imageReceiver) {
+            return Float.valueOf(imageReceiver.getCurrentAlpha());
+        }
+
+        @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
+        public void setValue(ImageReceiver imageReceiver, float f) {
+            imageReceiver.setCurrentAlpha(f);
+        }
+    };
+    public static final Property COLOR_DRAWABLE_ALPHA = new IntProperty("alpha") { // from class: org.telegram.ui.Components.AnimationProperties.4
         @Override // android.util.Property
         public Integer get(ColorDrawable colorDrawable) {
             return Integer.valueOf(colorDrawable.getAlpha());
@@ -43,7 +55,7 @@ public abstract class AnimationProperties {
             colorDrawable.setAlpha(i);
         }
     };
-    public static final Property SHAPE_DRAWABLE_ALPHA = new IntProperty("alpha") { // from class: org.telegram.ui.Components.AnimationProperties.4
+    public static final Property SHAPE_DRAWABLE_ALPHA = new IntProperty("alpha") { // from class: org.telegram.ui.Components.AnimationProperties.5
         @Override // android.util.Property
         public Integer get(ShapeDrawable shapeDrawable) {
             return Integer.valueOf(shapeDrawable.getPaint().getAlpha());
@@ -54,7 +66,7 @@ public abstract class AnimationProperties {
             shapeDrawable.getPaint().setAlpha(i);
         }
     };
-    public static final Property CLIPPING_IMAGE_VIEW_PROGRESS = new FloatProperty("animationProgress") { // from class: org.telegram.ui.Components.AnimationProperties.5
+    public static final Property CLIPPING_IMAGE_VIEW_PROGRESS = new FloatProperty("animationProgress") { // from class: org.telegram.ui.Components.AnimationProperties.6
         @Override // android.util.Property
         public Float get(ClippingImageView clippingImageView) {
             return Float.valueOf(clippingImageView.getAnimationProgress());
@@ -65,7 +77,7 @@ public abstract class AnimationProperties {
             clippingImageView.setAnimationProgress(f);
         }
     };
-    public static final Property PHOTO_VIEWER_ANIMATION_VALUE = new FloatProperty("animationValue") { // from class: org.telegram.ui.Components.AnimationProperties.6
+    public static final Property PHOTO_VIEWER_ANIMATION_VALUE = new FloatProperty("animationValue") { // from class: org.telegram.ui.Components.AnimationProperties.7
         @Override // android.util.Property
         public Float get(PhotoViewer photoViewer) {
             return Float.valueOf(photoViewer.getAnimationValue());
@@ -76,7 +88,7 @@ public abstract class AnimationProperties {
             photoViewer.setAnimationValue(f);
         }
     };
-    public static final Property CLIP_DIALOG_CELL_PROGRESS = new FloatProperty("clipProgress") { // from class: org.telegram.ui.Components.AnimationProperties.7
+    public static final Property CLIP_DIALOG_CELL_PROGRESS = new FloatProperty("clipProgress") { // from class: org.telegram.ui.Components.AnimationProperties.8
         @Override // android.util.Property
         public Float get(DialogCell dialogCell) {
             return Float.valueOf(dialogCell.getClipProgress());

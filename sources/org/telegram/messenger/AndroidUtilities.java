@@ -2081,6 +2081,18 @@ public class AndroidUtilities {
         }
     }
 
+    public static Activity getActivity() {
+        return getActivity(null);
+    }
+
+    public static Activity getActivity(Context context) {
+        Activity findActivity = findActivity(context);
+        if (findActivity == null || findActivity.isFinishing()) {
+            findActivity = LaunchActivity.instance;
+        }
+        return (findActivity == null || findActivity.isFinishing()) ? findActivity(ApplicationLoader.applicationContext) : findActivity;
+    }
+
     /* JADX WARN: Code restructure failed: missing block: B:13:0x0024, code lost:
         if (r3 != 0) goto L31;
      */

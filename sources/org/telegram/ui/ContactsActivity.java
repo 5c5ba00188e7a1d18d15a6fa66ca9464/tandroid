@@ -1156,7 +1156,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             }
         });
         ActionBarMenu createMenu = this.actionBar.createMenu();
-        ActionBarMenuItem actionBarMenuItemSearchListener = createMenu.addItem(0, R.drawable.ic_ab_search).setIsSearchField(true).setActionBarMenuItemSearchListener(new ActionBarMenuItem.ActionBarMenuItemSearchListener() { // from class: org.telegram.ui.ContactsActivity.2
+        final ActionBarMenuItem actionBarMenuItemSearchListener = createMenu.addItem(0, R.drawable.ic_ab_search).setIsSearchField(true).setActionBarMenuItemSearchListener(new ActionBarMenuItem.ActionBarMenuItemSearchListener() { // from class: org.telegram.ui.ContactsActivity.2
             @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
             public void onSearchCollapse() {
                 ContactsActivity.this.searchListViewAdapter.searchDialogs(null);
@@ -1174,9 +1174,10 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                     ContactsActivity.this.floatingButtonContainer.setTranslationY(AndroidUtilities.dp(100.0f));
                     ContactsActivity.this.hideFloatingButton(false);
                 }
-                if (ContactsActivity.this.sortItem != null) {
-                    ContactsActivity.this.sortItem.setVisibility(0);
+                if (ContactsActivity.this.sortItem == null || ContactsActivity.this.listViewAdapter.isEmpty) {
+                    return;
                 }
+                ContactsActivity.this.sortItem.setVisibility(0);
             }
 
             @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
@@ -1246,17 +1247,17 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             i2 = 0;
         }
         ContactsAdapter contactsAdapter = new ContactsAdapter(context, this, this.onlyUsers ? 1 : 0, this.needPhonebook, this.ignoreUsers, this.selectedContacts, i2, false) { // from class: org.telegram.ui.ContactsActivity.4
-            /* JADX WARN: Code restructure failed: missing block: B:12:0x0033, code lost:
-                if (r0 != 0) goto L13;
+            /* JADX WARN: Code restructure failed: missing block: B:12:0x0034, code lost:
+                if (r0 != 0) goto L11;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:13:0x0035, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:13:0x0036, code lost:
                 r0 = true;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:14:0x0037, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:14:0x0038, code lost:
                 r0 = false;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:9:0x002a, code lost:
-                if (r0 != 2) goto L13;
+            /* JADX WARN: Code restructure failed: missing block: B:9:0x002b, code lost:
+                if (r0 != 2) goto L11;
              */
             @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter, androidx.recyclerview.widget.RecyclerView.Adapter
             /*
@@ -1266,16 +1267,19 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 RecyclerListView recyclerListView;
                 boolean z;
                 super.notifyDataSetChanged();
-                if (ContactsActivity.this.listView == null || ContactsActivity.this.listView.getAdapter() != this) {
-                    return;
+                int i4 = 0;
+                if (ContactsActivity.this.listView != null && ContactsActivity.this.listView.getAdapter() == this) {
+                    int itemCount = super.getItemCount();
+                    if (ContactsActivity.this.needPhonebook) {
+                        recyclerListView = ContactsActivity.this.listView;
+                    } else {
+                        recyclerListView = ContactsActivity.this.listView;
+                    }
+                    recyclerListView.setFastScrollVisible(z);
                 }
-                int itemCount = super.getItemCount();
-                if (ContactsActivity.this.needPhonebook) {
-                    recyclerListView = ContactsActivity.this.listView;
-                } else {
-                    recyclerListView = ContactsActivity.this.listView;
+                if (ContactsActivity.this.sortItem != null) {
+                    ContactsActivity.this.sortItem.setVisibility((this.isEmpty || actionBarMenuItemSearchListener.isSearchFieldVisible()) ? 8 : 8);
                 }
-                recyclerListView.setFastScrollVisible(z);
             }
         };
         this.listViewAdapter = contactsAdapter;

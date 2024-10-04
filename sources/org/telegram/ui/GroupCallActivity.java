@@ -131,6 +131,7 @@ import org.telegram.ui.Components.ImageUpdater;
 import org.telegram.ui.Components.JoinCallAlert;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.NumberPicker;
+import org.telegram.ui.Components.PermissionRequest;
 import org.telegram.ui.Components.ProfileGalleryView;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
@@ -1167,6 +1168,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         @Override // android.view.View.OnClickListener
         public void onClick(View view) {
             GroupCallActivity groupCallActivity;
+            int checkSelfPermission;
             GroupCallActivity groupCallActivity2 = GroupCallActivity.this;
             if (groupCallActivity2.call == null || groupCallActivity2.muteButtonState == 3) {
                 return;
@@ -1227,7 +1229,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                     boolean z = !groupCall.schedule_start_subscribed;
                     groupCall.schedule_start_subscribed = z;
                     tL_phone_toggleGroupCallStartSubscription.subscribed = z;
-                    groupCallActivity3.accountInstance.getConnectionsManager().sendRequest(tL_phone_toggleGroupCallStartSubscription, new RequestDelegate() { // from class: org.telegram.ui.GroupCallActivity$20$$ExternalSyntheticLambda2
+                    groupCallActivity3.accountInstance.getConnectionsManager().sendRequest(tL_phone_toggleGroupCallStartSubscription, new RequestDelegate() { // from class: org.telegram.ui.GroupCallActivity$20$$ExternalSyntheticLambda3
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                             GroupCallActivity.20.this.lambda$onClick$2(tLObject, tL_error);
@@ -1243,6 +1245,18 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                     i = 4;
                     if (GroupCallActivity.this.muteButtonState != 2 && GroupCallActivity.this.muteButtonState != 4) {
                         if (GroupCallActivity.this.muteButtonState == 0) {
+                            if (Build.VERSION.SDK_INT >= 23 && GroupCallActivity.this.getParentActivity() != null) {
+                                checkSelfPermission = GroupCallActivity.this.getParentActivity().checkSelfPermission("android.permission.RECORD_AUDIO");
+                                if (checkSelfPermission != 0) {
+                                    PermissionRequest.ensurePermission(R.raw.permission_request_microphone, R.string.VoipNeedMicPermissionWithHint, "android.permission.RECORD_AUDIO", new Utilities.Callback() { // from class: org.telegram.ui.GroupCallActivity$20$$ExternalSyntheticLambda2
+                                        @Override // org.telegram.messenger.Utilities.Callback
+                                        public final void run(Object obj) {
+                                            ((Boolean) obj).booleanValue();
+                                        }
+                                    });
+                                    return;
+                                }
+                            }
                             GroupCallActivity.this.updateMuteButton(1, true);
                             VoIPService.getSharedInstance().setMicMute(false, false, true);
                         } else {

@@ -93,14 +93,25 @@ public class UserConfig extends BaseController {
     }
 
     private void checkPremiumSelf(TLRPC.User user, final TLRPC.User user2) {
-        if (user == null || !(user2 == null || user.premium == user2.premium)) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda1
+        Runnable runnable;
+        if (user != null && user2 != null && user.premium != user2.premium) {
+            runnable = new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     UserConfig.this.lambda$checkPremiumSelf$1(user2);
                 }
-            });
+            };
+        } else if (user != null) {
+            return;
+        } else {
+            runnable = new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda2
+                @Override // java.lang.Runnable
+                public final void run() {
+                    UserConfig.this.lambda$checkPremiumSelf$2(user2);
+                }
+            };
         }
+        AndroidUtilities.runOnUIThread(runnable);
     }
 
     public static int getActivatedAccountsCount() {
@@ -160,7 +171,13 @@ public class UserConfig extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadGlobalTTl$2(TLObject tLObject) {
+    public /* synthetic */ void lambda$checkPremiumSelf$2(TLRPC.User user) {
+        getMessagesController().updatePremium(user.premium);
+        NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.currentUserPremiumStatusChanged, new Object[0]);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$loadGlobalTTl$3(TLObject tLObject) {
         if (tLObject != null) {
             this.globalTtl = ((TLRPC.TL_defaultHistoryTTL) tLObject).period / 60;
             getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didUpdateGlobalAutoDeleteTimer, new Object[0]);
@@ -170,11 +187,11 @@ public class UserConfig extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadGlobalTTl$3(final TLObject tLObject, TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda2
+    public /* synthetic */ void lambda$loadGlobalTTl$4(final TLObject tLObject, TLRPC.TL_error tL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
-                UserConfig.this.lambda$loadGlobalTTl$2(tLObject);
+                UserConfig.this.lambda$loadGlobalTTl$3(tLObject);
             }
         });
     }
@@ -626,7 +643,7 @@ public class UserConfig extends BaseController {
         getConnectionsManager().sendRequest(new TLRPC.TL_messages_getDefaultHistoryTTL(), new RequestDelegate() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda0
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                UserConfig.this.lambda$loadGlobalTTl$3(tLObject, tL_error);
+                UserConfig.this.lambda$loadGlobalTTl$4(tLObject, tL_error);
             }
         });
     }
@@ -644,7 +661,7 @@ public class UserConfig extends BaseController {
     }
 
     public void saveConfig(final boolean z) {
-        NotificationCenter.getInstance(this.currentAccount).doOnIdle(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda3
+        NotificationCenter.getInstance(this.currentAccount).doOnIdle(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 UserConfig.this.lambda$saveConfig$0(z);

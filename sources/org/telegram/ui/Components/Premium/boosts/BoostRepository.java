@@ -45,6 +45,8 @@ import org.telegram.ui.PaymentFormActivity;
 import org.telegram.ui.bots.BotWebViewSheet;
 /* loaded from: classes3.dex */
 public abstract class BoostRepository {
+    private static HashMap cachedGiftOptions;
+
     public static void applyBoost(long j, List list, final Utilities.Callback callback, final Utilities.Callback callback2) {
         ConnectionsManager connectionsManager = ConnectionsManager.getInstance(UserConfig.selectedAccount);
         final MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
@@ -81,7 +83,7 @@ public abstract class BoostRepository {
         final MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
         TLRPC.TL_payments_checkGiftCode tL_payments_checkGiftCode = new TLRPC.TL_payments_checkGiftCode();
         tL_payments_checkGiftCode.slug = str;
-        connectionsManager.sendRequest(tL_payments_checkGiftCode, new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda3
+        connectionsManager.sendRequest(tL_payments_checkGiftCode, new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda4
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                 BoostRepository.lambda$checkGiftCode$37(MessagesController.this, callback, callback2, tLObject, tL_error);
@@ -126,13 +128,22 @@ public abstract class BoostRepository {
         return list;
     }
 
+    public static List getCachedGiftOptions(int i) {
+        Pair pair;
+        HashMap hashMap = cachedGiftOptions;
+        if (hashMap == null || (pair = (Pair) hashMap.get(Integer.valueOf(i))) == null || System.currentTimeMillis() - ((Long) pair.first).longValue() >= 1800000) {
+            return null;
+        }
+        return (List) pair.second;
+    }
+
     public static void getGiveawayInfo(MessageObject messageObject, final Utilities.Callback callback, final Utilities.Callback callback2) {
         ConnectionsManager connectionsManager = ConnectionsManager.getInstance(UserConfig.selectedAccount);
         MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
         TLRPC.TL_payments_getGiveawayInfo tL_payments_getGiveawayInfo = new TLRPC.TL_payments_getGiveawayInfo();
         tL_payments_getGiveawayInfo.msg_id = messageObject.getId();
         tL_payments_getGiveawayInfo.peer = messagesController.getInputPeer(MessageObject.getPeerId(messageObject.messageOwner.peer_id));
-        connectionsManager.sendRequest(tL_payments_getGiveawayInfo, new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda15
+        connectionsManager.sendRequest(tL_payments_getGiveawayInfo, new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda14
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                 BoostRepository.lambda$getGiveawayInfo$41(Utilities.Callback.this, callback, tLObject, tL_error);
@@ -181,6 +192,13 @@ public abstract class BoostRepository {
 
     public static long giveawayPeriodMax() {
         return MessagesController.getInstance(UserConfig.selectedAccount).giveawayPeriodMax;
+    }
+
+    public static void invalidateGiftOptionsToCache(int i) {
+        HashMap hashMap = cachedGiftOptions;
+        if (hashMap != null) {
+            hashMap.remove(Integer.valueOf(i));
+        }
     }
 
     public static boolean isGoogleBillingAvailable() {
@@ -289,7 +307,7 @@ public abstract class BoostRepository {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$getMyBoosts$43(final Utilities.Callback callback, final MessagesController messagesController, final Utilities.Callback callback2, final TLObject tLObject, final TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 BoostRepository.lambda$getMyBoosts$42(TLRPC.TL_error.this, callback, tLObject, messagesController, callback2);
@@ -408,7 +426,23 @@ public abstract class BoostRepository {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$loadGiftOptions$30(final List list, final Utilities.Callback callback, BillingResult billingResult, List list2) {
+    public static /* synthetic */ void lambda$loadGiftOptions$28(TLRPC.Chat chat, int i, List list, Utilities.Callback callback) {
+        if (chat == null) {
+            saveGiftOptionsToCache(i, list);
+        }
+        callback.run(list);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$loadGiftOptions$29(TLRPC.Chat chat, int i, List list, Utilities.Callback callback) {
+        if (chat == null) {
+            saveGiftOptionsToCache(i, list);
+        }
+        callback.run(list);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$loadGiftOptions$30(final List list, final TLRPC.Chat chat, final int i, final Utilities.Callback callback, BillingResult billingResult, List list2) {
         Iterator it = list2.iterator();
         while (it.hasNext()) {
             ProductDetails productDetails = (ProductDetails) it.next();
@@ -430,39 +464,39 @@ public abstract class BoostRepository {
                 }
             }
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda20
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda19
             @Override // java.lang.Runnable
             public final void run() {
-                Utilities.Callback.this.run(list);
+                BoostRepository.lambda$loadGiftOptions$29(TLRPC.Chat.this, i, list, callback);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$loadGiftOptions$31(final Utilities.Callback callback, TLObject tLObject, TLRPC.TL_error tL_error) {
+    public static /* synthetic */ void lambda$loadGiftOptions$31(final TLRPC.Chat chat, final int i, final Utilities.Callback callback, TLObject tLObject, TLRPC.TL_error tL_error) {
         if (tLObject != null) {
             TLRPC.Vector vector = (TLRPC.Vector) tLObject;
             final ArrayList arrayList = new ArrayList();
             ArrayList arrayList2 = new ArrayList();
-            for (int i = 0; i < vector.objects.size(); i++) {
-                TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption = (TLRPC.TL_premiumGiftCodeOption) vector.objects.get(i);
+            for (int i2 = 0; i2 < vector.objects.size(); i2++) {
+                TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption = (TLRPC.TL_premiumGiftCodeOption) vector.objects.get(i2);
                 arrayList.add(tL_premiumGiftCodeOption);
                 if (tL_premiumGiftCodeOption.store_product != null) {
                     arrayList2.add(QueryProductDetailsParams.Product.newBuilder().setProductType("inapp").setProductId(tL_premiumGiftCodeOption.store_product).build());
                 }
             }
             if (arrayList2.isEmpty() || !isGoogleBillingAvailable()) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda9
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda10
                     @Override // java.lang.Runnable
                     public final void run() {
-                        Utilities.Callback.this.run(arrayList);
+                        BoostRepository.lambda$loadGiftOptions$28(TLRPC.Chat.this, i, arrayList, callback);
                     }
                 });
             } else {
-                BillingController.getInstance().queryProductDetails(arrayList2, new ProductDetailsResponseListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda8
+                BillingController.getInstance().queryProductDetails(arrayList2, new ProductDetailsResponseListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda9
                     @Override // com.android.billingclient.api.ProductDetailsResponseListener
                     public final void onProductDetailsResponse(BillingResult billingResult, List list) {
-                        BoostRepository.lambda$loadGiftOptions$30(arrayList, callback, billingResult, list);
+                        BoostRepository.lambda$loadGiftOptions$30(arrayList, chat, i, callback, billingResult, list);
                     }
                 });
             }
@@ -475,7 +509,7 @@ public abstract class BoostRepository {
         if (smallGroupsParticipantsCount == null || smallGroupsParticipantsCount.isEmpty()) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda10
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 Utilities.Callback.this.run(smallGroupsParticipantsCount);
@@ -831,7 +865,7 @@ public abstract class BoostRepository {
         tL_channelParticipantsRecent.q = str;
         tL_channels_getParticipants.offset = i2;
         tL_channels_getParticipants.limit = i3;
-        connectionsManager.sendRequest(tL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda19
+        connectionsManager.sendRequest(tL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda20
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                 BoostRepository.lambda$loadChatParticipants$35(MessagesController.this, callback, tLObject, tL_error);
@@ -851,25 +885,30 @@ public abstract class BoostRepository {
         });
     }
 
-    public static int loadGiftOptions(TLRPC.Chat chat, final Utilities.Callback callback) {
-        MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
-        ConnectionsManager connectionsManager = ConnectionsManager.getInstance(UserConfig.selectedAccount);
+    public static int loadGiftOptions(final int i, final TLRPC.Chat chat, final Utilities.Callback callback) {
+        List cachedGiftOptions2;
+        if (chat == null && (cachedGiftOptions2 = getCachedGiftOptions(i)) != null) {
+            callback.run(cachedGiftOptions2);
+            return -1;
+        }
+        MessagesController messagesController = MessagesController.getInstance(i);
+        ConnectionsManager connectionsManager = ConnectionsManager.getInstance(i);
         TLRPC.TL_payments_getPremiumGiftCodeOptions tL_payments_getPremiumGiftCodeOptions = new TLRPC.TL_payments_getPremiumGiftCodeOptions();
         if (chat != null) {
             tL_payments_getPremiumGiftCodeOptions.flags = 1;
             tL_payments_getPremiumGiftCodeOptions.boost_peer = messagesController.getInputPeer(-chat.id);
         }
-        return connectionsManager.sendRequest(tL_payments_getPremiumGiftCodeOptions, new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda6
+        return connectionsManager.sendRequest(tL_payments_getPremiumGiftCodeOptions, new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda3
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                BoostRepository.lambda$loadGiftOptions$31(Utilities.Callback.this, tLObject, tL_error);
+                BoostRepository.lambda$loadGiftOptions$31(TLRPC.Chat.this, i, callback, tLObject, tL_error);
             }
         });
     }
 
     public static void loadParticipantsCount(final Utilities.Callback callback) {
         final MessagesStorage messagesStorage = MessagesStorage.getInstance(UserConfig.selectedAccount);
-        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda4
+        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 BoostRepository.lambda$loadParticipantsCount$1(MessagesStorage.this, callback);
@@ -877,15 +916,16 @@ public abstract class BoostRepository {
         });
     }
 
-    public static void payGiftCode(List list, TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption, TLRPC.Chat chat, BaseFragment baseFragment, Utilities.Callback callback, Utilities.Callback callback2) {
+    public static void payGiftCode(List list, TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption, TLRPC.Chat chat, TLRPC.TL_textWithEntities tL_textWithEntities, BaseFragment baseFragment, Utilities.Callback callback, Utilities.Callback callback2) {
+        invalidateGiftOptionsToCache(UserConfig.selectedAccount);
         if (isGoogleBillingAvailable()) {
-            payGiftCodeByGoogle(list, tL_premiumGiftCodeOption, chat, baseFragment, callback, callback2);
+            payGiftCodeByGoogle(list, tL_premiumGiftCodeOption, chat, tL_textWithEntities, baseFragment, callback, callback2);
         } else {
-            payGiftCodeByInvoice(list, tL_premiumGiftCodeOption, chat, baseFragment, callback, callback2);
+            payGiftCodeByInvoice(list, tL_premiumGiftCodeOption, chat, tL_textWithEntities, baseFragment, callback, callback2);
         }
     }
 
-    public static void payGiftCodeByGoogle(List list, final TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption, TLRPC.Chat chat, final BaseFragment baseFragment, final Utilities.Callback callback, final Utilities.Callback callback2) {
+    public static void payGiftCodeByGoogle(List list, final TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption, TLRPC.Chat chat, TLRPC.TL_textWithEntities tL_textWithEntities, final BaseFragment baseFragment, final Utilities.Callback callback, final Utilities.Callback callback2) {
         MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
         final ConnectionsManager connectionsManager = ConnectionsManager.getInstance(UserConfig.selectedAccount);
         final TLRPC.TL_inputStorePaymentPremiumGiftCode tL_inputStorePaymentPremiumGiftCode = new TLRPC.TL_inputStorePaymentPremiumGiftCode();
@@ -901,7 +941,7 @@ public abstract class BoostRepository {
             tL_inputStorePaymentPremiumGiftCode.flags = 1;
             tL_inputStorePaymentPremiumGiftCode.boost_peer = messagesController.getInputPeer(-chat.id);
         }
-        BillingController.getInstance().queryProductDetails(Arrays.asList(QueryProductDetailsParams.Product.newBuilder().setProductType("inapp").setProductId(tL_premiumGiftCodeOption.store_product).build()), new ProductDetailsResponseListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda13
+        BillingController.getInstance().queryProductDetails(Arrays.asList(QueryProductDetailsParams.Product.newBuilder().setProductType("inapp").setProductId(tL_premiumGiftCodeOption.store_product).build()), new ProductDetailsResponseListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda12
             @Override // com.android.billingclient.api.ProductDetailsResponseListener
             public final void onProductDetailsResponse(BillingResult billingResult, List list2) {
                 BoostRepository.lambda$payGiftCodeByGoogle$11(TLRPC.TL_inputStorePaymentPremiumGiftCode.this, tL_premiumGiftCodeOption, connectionsManager, callback2, callback, baseFragment, billingResult, list2);
@@ -909,7 +949,7 @@ public abstract class BoostRepository {
         });
     }
 
-    public static void payGiftCodeByInvoice(List list, TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption, TLRPC.Chat chat, final BaseFragment baseFragment, final Utilities.Callback callback, final Utilities.Callback callback2) {
+    public static void payGiftCodeByInvoice(List list, TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption, TLRPC.Chat chat, TLRPC.TL_textWithEntities tL_textWithEntities, final BaseFragment baseFragment, final Utilities.Callback callback, final Utilities.Callback callback2) {
         final MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
         ConnectionsManager connectionsManager = ConnectionsManager.getInstance(UserConfig.selectedAccount);
         TLRPC.TL_payments_getPaymentForm tL_payments_getPaymentForm = new TLRPC.TL_payments_getPaymentForm();
@@ -924,7 +964,7 @@ public abstract class BoostRepository {
             }
         }
         if (chat != null) {
-            tL_inputStorePaymentPremiumGiftCode.flags = 1;
+            tL_inputStorePaymentPremiumGiftCode.flags |= 1;
             tL_inputStorePaymentPremiumGiftCode.boost_peer = messagesController.getInputPeer(-chat.id);
         }
         tL_inputStorePaymentPremiumGiftCode.currency = tL_premiumGiftCodeOption.currency;
@@ -936,10 +976,10 @@ public abstract class BoostRepository {
             TLRPC.TL_dataJSON tL_dataJSON = new TLRPC.TL_dataJSON();
             tL_payments_getPaymentForm.theme_params = tL_dataJSON;
             tL_dataJSON.data = makeThemeParams.toString();
-            tL_payments_getPaymentForm.flags = 1 | tL_payments_getPaymentForm.flags;
+            tL_payments_getPaymentForm.flags |= 1;
         }
         tL_payments_getPaymentForm.invoice = tL_inputInvoicePremiumGiftCode;
-        connectionsManager.sendRequest(tL_payments_getPaymentForm, new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda12
+        connectionsManager.sendRequest(tL_payments_getPaymentForm, new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda15
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject2, TLRPC.TL_error tL_error) {
                 BoostRepository.lambda$payGiftCodeByInvoice$4(Utilities.Callback.this, messagesController, tL_inputInvoicePremiumGiftCode, baseFragment, callback, tLObject2, tL_error);
@@ -1032,7 +1072,7 @@ public abstract class BoostRepository {
             tL_payments_getPaymentForm.flags |= 1;
         }
         tL_payments_getPaymentForm.invoice = tL_inputInvoicePremiumGiftCode;
-        connectionsManager.sendRequest(tL_payments_getPaymentForm, new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda14
+        connectionsManager.sendRequest(tL_payments_getPaymentForm, new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda13
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject2, TLRPC.TL_error tL_error) {
                 BoostRepository.lambda$payGiveAwayByInvoice$17(Utilities.Callback.this, messagesController, tL_inputInvoicePremiumGiftCode, baseFragment, callback, tLObject2, tL_error);
@@ -1045,6 +1085,13 @@ public abstract class BoostRepository {
             j = System.currentTimeMillis() + 120000;
         }
         return (int) (j / 1000);
+    }
+
+    public static void saveGiftOptionsToCache(int i, List list) {
+        if (cachedGiftOptions == null) {
+            cachedGiftOptions = new HashMap();
+        }
+        cachedGiftOptions.put(Integer.valueOf(i), new Pair(Long.valueOf(System.currentTimeMillis()), list));
     }
 
     public static void searchChats(final long j, int i, String str, int i2, final Utilities.Callback callback) {

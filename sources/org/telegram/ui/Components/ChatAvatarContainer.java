@@ -246,6 +246,12 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         this(context, baseFragment, z, null);
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:66:0x02fb, code lost:
+        if (r0.isComments == false) goto L46;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public ChatAvatarContainer(Context context, BaseFragment baseFragment, boolean z, final Theme.ResourcesProvider resourcesProvider) {
         super(context);
         View view;
@@ -393,7 +399,12 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         }
         ChatActivity chatActivity4 = this.parentFragment;
         if (chatActivity4 != null && (chatActivity4.getChatMode() == 0 || this.parentFragment.getChatMode() == 3)) {
-            if ((!this.parentFragment.isThreadChat() || this.parentFragment.isTopic) && !UserObject.isReplyUser(this.parentFragment.getCurrentUser()) && (this.parentFragment.getCurrentUser() == null || this.parentFragment.getCurrentUser().id != UserObject.VERIFY)) {
+            if (this.parentFragment.isThreadChat()) {
+                ChatActivity chatActivity5 = this.parentFragment;
+                if (!chatActivity5.isTopic) {
+                }
+            }
+            if (!UserObject.isReplyUser(this.parentFragment.getCurrentUser()) && (this.parentFragment.getCurrentUser() == null || this.parentFragment.getCurrentUser().id != UserObject.VERIFY)) {
                 setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda5
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
@@ -1181,22 +1192,22 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         openProfile(z, true, false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:45:0x0111, code lost:
-        if (r12 != false) goto L44;
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x0125, code lost:
+        if (r12 != false) goto L50;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:47:0x0114, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x0128, code lost:
         r0 = 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:58:0x0157, code lost:
-        if (r12 != false) goto L44;
+    /* JADX WARN: Code restructure failed: missing block: B:64:0x016b, code lost:
+        if (r12 != false) goto L50;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:59:0x0159, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:65:0x016d, code lost:
         r1.setPlayProfileAnimation(r0);
      */
     /* JADX WARN: Code restructure failed: missing block: B:9:0x001b, code lost:
         if (r11.avatarImageView.getImageReceiver().hasNotThumb() != false) goto L10;
      */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0157  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x016b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1222,15 +1233,23 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                 imageLoader.putImageToCache((BitmapDrawable) drawable, imageKey, false);
             }
         }
+        ChatActivity chatActivity = this.parentFragment;
+        if (chatActivity.isComments) {
+            if (currentChat == null) {
+                return;
+            }
+            chatActivity.presentFragment(ProfileActivity.of(-currentChat.id), z3);
+            return;
+        }
         int i = 2;
         if (currentUser == null) {
             if (currentChat != null) {
                 Bundle bundle = new Bundle();
                 bundle.putLong("chat_id", currentChat.id);
                 if (this.parentFragment.getChatMode() != 3) {
-                    ChatActivity chatActivity = this.parentFragment;
-                    if (chatActivity.isTopic) {
-                        id = chatActivity.getThreadMessage().getId();
+                    ChatActivity chatActivity2 = this.parentFragment;
+                    if (chatActivity2.isTopic) {
+                        id = chatActivity2.getThreadMessage().getId();
                     }
                     ProfileActivity profileActivity2 = new ProfileActivity(bundle, this.sharedMediaPreloader);
                     profileActivity2.setChatInfo(this.parentFragment.getCurrentChatInfo());
@@ -1282,8 +1301,8 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             bundle2.putInt("actionBarColor", getThemedColor(Theme.key_actionBarDefault));
             profileActivity = new ProfileActivity(bundle2, this.sharedMediaPreloader);
             TLRPC.UserFull currentUserInfo = this.parentFragment.getCurrentUserInfo();
-            ChatActivity chatActivity2 = this.parentFragment;
-            profileActivity.setUserInfo(currentUserInfo, chatActivity2.profileChannelMessageFetcher, chatActivity2.birthdayAssetsFetcher);
+            ChatActivity chatActivity3 = this.parentFragment;
+            profileActivity.setUserInfo(currentUserInfo, chatActivity3.profileChannelMessageFetcher, chatActivity3.birthdayAssetsFetcher);
             if (z2) {
             }
             this.parentFragment.presentFragment(profileActivity, z3);
@@ -1382,6 +1401,12 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
 
     public void setOverrideSubtitleColor(Integer num) {
         this.overrideSubtitleColor = num;
+    }
+
+    @Override // android.view.View
+    public void setPressed(boolean z) {
+        super.setPressed(z);
+        this.bounce.setPressed(z);
     }
 
     public void setRightAvatarPadding(int i) {

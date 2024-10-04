@@ -1138,6 +1138,11 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
 
             @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
+            public /* synthetic */ void forceUpdate(ChatActionCell chatActionCell, boolean z) {
+                ChatActionCell.ChatActionCellDelegate.-CC.$default$forceUpdate(this, chatActionCell, z);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
             public BaseFragment getBaseFragment() {
                 return ChannelAdminLogActivity.this;
             }

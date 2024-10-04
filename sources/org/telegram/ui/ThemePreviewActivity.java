@@ -2047,6 +2047,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
 
                     @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
+                    public /* synthetic */ void forceUpdate(ChatActionCell chatActionCell2, boolean z) {
+                        ChatActionCell.ChatActionCellDelegate.-CC.$default$forceUpdate(this, chatActionCell2, z);
+                    }
+
+                    @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
                     public /* synthetic */ BaseFragment getBaseFragment() {
                         return ChatActionCell.ChatActionCellDelegate.-CC.$default$getBaseFragment(this);
                     }
