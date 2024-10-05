@@ -13552,6 +13552,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         this.fullUsers.put(user.id, userFull);
         getTranslateController().updateDialogFull(user.id);
+        StarsController.getInstance(this.currentAccount).invalidateProfileGifts(userFull);
         this.loadingFullUsers.remove(Long.valueOf(user.id));
         this.loadedFullUsers.put(user.id, System.currentTimeMillis());
         String str = user.first_name + user.last_name + UserObject.getPublicUsername(user);
@@ -18986,6 +18987,7 @@ public class MessagesController extends BaseController implements NotificationCe
             if (this.fullUsers.get(user.id) == null) {
                 this.fullUsers.put(user.id, userFull);
                 getTranslateController().updateDialogFull(user.id);
+                StarsController.getInstance(this.currentAccount).invalidateProfileGifts(userFull);
                 int indexOfKey = this.blockePeers.indexOfKey(user.id);
                 if (userFull.blocked) {
                     if (indexOfKey < 0) {

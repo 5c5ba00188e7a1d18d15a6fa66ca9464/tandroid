@@ -10228,13 +10228,13 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
     /* JADX WARN: Code restructure failed: missing block: B:228:0x02fb, code lost:
         r17.scrollSlidingTextTabStrip.animationDuration = 420;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:281:0x03f9, code lost:
-        if (r17.scrollSlidingTextTabStrip.hasTab(4) == false) goto L207;
+    /* JADX WARN: Code restructure failed: missing block: B:285:0x0410, code lost:
+        if (r17.scrollSlidingTextTabStrip.hasTab(4) == false) goto L211;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:286:0x0409, code lost:
-        if (r17.scrollSlidingTextTabStrip.hasTab(4) == false) goto L207;
+    /* JADX WARN: Code restructure failed: missing block: B:290:0x0420, code lost:
+        if (r17.scrollSlidingTextTabStrip.hasTab(4) == false) goto L211;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:287:0x040b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:291:0x0422, code lost:
         r17.scrollSlidingTextTabStrip.addTextTab(r4, org.telegram.messenger.LocaleController.getString("SharedMusicTab2", org.telegram.messenger.R.string.SharedMusicTab2), r1);
      */
     /*
@@ -10349,6 +10349,9 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
                     }
                 }
             }
+            if (z10 && !this.scrollSlidingTextTabStrip.hasTab(14)) {
+                this.scrollSlidingTextTabStrip.addTextTab(14, LocaleController.getString(R.string.ProfileGifts), removeTabs);
+            }
             if (!isStoriesView()) {
                 if (z3 && !this.scrollSlidingTextTabStrip.hasTab(11)) {
                     this.scrollSlidingTextTabStrip.addTextTab(11, LocaleController.getString(R.string.SavedDialogsTab), removeTabs);
@@ -10414,9 +10417,6 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
                         this.scrollSlidingTextTabStrip.addTextTab(10, LocaleController.getString(R.string.SimilarChannelsTab), removeTabs);
                     }
                 }
-            }
-            if (z10 && !this.scrollSlidingTextTabStrip.hasTab(14)) {
-                this.scrollSlidingTextTabStrip.addTextTab(14, LocaleController.getString(R.string.ProfileGifts), removeTabs);
             }
         }
         int currentTabId = this.scrollSlidingTextTabStrip.getCurrentTabId();

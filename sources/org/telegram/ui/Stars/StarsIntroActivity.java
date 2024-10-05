@@ -122,7 +122,6 @@ import org.telegram.ui.ImageReceiverSpan;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.ProfileActivity;
-import org.telegram.ui.Stars.StarsController;
 import org.telegram.ui.Stars.StarsIntroActivity;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 import org.telegram.ui.Stories.recorder.HintView2;
@@ -2864,10 +2863,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         }
         if (tLObject instanceof TLRPC.TL_boolTrue) {
             bottomSheetArr[0].dismiss();
-            StarsController.GiftsList profileGiftsList = StarsController.getInstance(i).getProfileGiftsList(j, false);
-            if (profileGiftsList != null) {
-                profileGiftsList.invalidate();
-            }
+            StarsController.getInstance(i).invalidateProfileGifts(j);
             BulletinFactory.of(safeLastFragment).createEmojiBulletin(starGift.sticker, LocaleController.getString(z ? R.string.Gift2MadePrivateTitle : R.string.Gift2MadePublicTitle), AndroidUtilities.replaceSingleTag(LocaleController.getString(z ? R.string.Gift2MadePrivate : R.string.Gift2MadePublic), safeLastFragment instanceof ProfileActivity ? null : new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda81
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -2942,10 +2938,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             return;
         }
         bottomSheetArr[0].dismiss();
-        StarsController.GiftsList profileGiftsList = StarsController.getInstance(i).getProfileGiftsList(j, false);
-        if (profileGiftsList != null) {
-            profileGiftsList.invalidate();
-        }
+        StarsController.getInstance(i).invalidateProfileGifts(j);
         TLRPC.UserFull userFull = MessagesController.getInstance(i).getUserFull(j2);
         if (userFull != null) {
             int max = Math.max(0, userFull.stargifts_count - 1);
@@ -3101,10 +3094,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         }
         if (tLObject instanceof TLRPC.TL_boolTrue) {
             bottomSheetArr[0].dismiss();
-            StarsController.GiftsList profileGiftsList = StarsController.getInstance(i).getProfileGiftsList(j, false);
-            if (profileGiftsList != null) {
-                profileGiftsList.invalidate();
-            }
+            StarsController.getInstance(i).invalidateProfileGifts(j);
             BulletinFactory.of(safeLastFragment).createEmojiBulletin(starGift.sticker, LocaleController.getString(z ? R.string.Gift2MadePrivateTitle : R.string.Gift2MadePublicTitle), AndroidUtilities.replaceSingleTag(LocaleController.getString(z ? R.string.Gift2MadePrivate : R.string.Gift2MadePublic), safeLastFragment instanceof ProfileActivity ? null : new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda92
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -3179,10 +3169,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             return;
         }
         bottomSheetArr[0].dismiss();
-        StarsController.GiftsList profileGiftsList = StarsController.getInstance(i).getProfileGiftsList(j, false);
-        if (profileGiftsList != null) {
-            profileGiftsList.invalidate();
-        }
+        StarsController.getInstance(i).invalidateProfileGifts(j);
         TLRPC.UserFull userFull = MessagesController.getInstance(i).getUserFull(j2);
         if (userFull != null) {
             int max = Math.max(0, userFull.stargifts_count - 1);
