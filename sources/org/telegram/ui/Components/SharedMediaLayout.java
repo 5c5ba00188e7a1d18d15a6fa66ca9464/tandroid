@@ -206,6 +206,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
     boolean isPinnedToTop;
     Runnable jumpToRunnable;
     int lastMeasuredTopPadding;
+    private int lastVisibleHeight;
     private SharedLinksAdapter linksAdapter;
     private MediaSearchAdapter linksSearchAdapter;
     private int maximumVelocity;
@@ -8456,10 +8457,10 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$12(boolean z, boolean z2) {
-        if (z) {
-            return;
+        if (!z) {
+            requestLayout();
         }
-        requestLayout();
+        setVisibleHeight(this.lastVisibleHeight);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -12243,6 +12244,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
     }
 
     public void setVisibleHeight(int i) {
+        this.lastVisibleHeight = i;
         for (int i2 = 0; i2 < this.mediaPages.length; i2++) {
             float f = (-(getMeasuredHeight() - Math.max(i, AndroidUtilities.dp(this.mediaPages[i2].selectedType == 8 ? 280.0f : 120.0f)))) / 2.0f;
             this.mediaPages[i2].emptyView.setTranslationY(f);
@@ -12252,9 +12254,13 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         if (botPreviewsEditContainer != null) {
             botPreviewsEditContainer.setVisibleHeight(i);
         }
-        ProfileGiftsContainer profileGiftsContainer = this.giftsContainer;
-        if (profileGiftsContainer != null) {
-            profileGiftsContainer.setVisibleHeight(i - AndroidUtilities.dp(48.0f));
+        if (this.giftsContainer != null) {
+            int dp = i - AndroidUtilities.dp(48.0f);
+            FragmentContextView fragmentContextView = this.fragmentContextView;
+            if (fragmentContextView != null && fragmentContextView.getVisibility() == 0) {
+                dp -= this.fragmentContextView.getHeight() - AndroidUtilities.dp(2.5f);
+            }
+            this.giftsContainer.setVisibleHeight(dp);
         }
     }
 
