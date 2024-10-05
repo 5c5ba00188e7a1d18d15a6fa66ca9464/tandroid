@@ -217,6 +217,7 @@ import org.telegram.ui.Components.ViewPagerFixed;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.FilterCreateActivity;
 import org.telegram.ui.FilteredSearchView;
+import org.telegram.ui.Gifts.GiftSheet;
 import org.telegram.ui.GroupCreateFinalActivity;
 import org.telegram.ui.SelectAnimatedEmojiDialog;
 import org.telegram.ui.Stars.StarsController;
@@ -7009,6 +7010,15 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$updateDialogsHint$32(BirthdayController.BirthdayState birthdayState, View view) {
+        if (birthdayState == null || birthdayState.today.size() != 1) {
+            UserSelectorBottomSheet.open(0L, birthdayState);
+        } else {
+            showDialog(new GiftSheet(getContext(), this.currentAccount, birthdayState.today.get(0).id, null, null));
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateDialogsHint$33(View view) {
         BirthdayController.getInstance(this.currentAccount).hide();
         MessagesController.getInstance(this.currentAccount).removeSuggestion(0L, "BIRTHDAY_CONTACTS_TODAY");
@@ -10459,7 +10469,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 this.dialogsHintCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda63
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
-                        UserSelectorBottomSheet.open(0L, BirthdayController.BirthdayState.this);
+                        DialogsActivity.this.lambda$updateDialogsHint$32(state, view2);
                     }
                 });
                 this.dialogsHintCell.setAvatars(this.currentAccount, arrayList);

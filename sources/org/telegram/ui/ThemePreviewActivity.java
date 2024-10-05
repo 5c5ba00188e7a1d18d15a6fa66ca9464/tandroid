@@ -5284,10 +5284,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x02a1  */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x031a  */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x0341  */
-    /* JADX WARN: Removed duplicated region for block: B:150:0x0355  */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x02a7  */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x0320  */
+    /* JADX WARN: Removed duplicated region for block: B:150:0x0347  */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x035b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5299,9 +5299,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         MotionBackgroundDrawable motionBackgroundDrawable;
         MotionBackgroundDrawable motionBackgroundDrawable2;
         int i = this.screenType;
-        if (i == 0 && this.accent == null) {
-            this.backgroundImage.setBackground(Theme.getCachedWallpaper());
-        } else {
+        if (i != 0 || this.accent != null) {
             if (i == 2) {
                 Object obj = this.currentWallpaper;
                 if (obj instanceof TLRPC.TL_wallPaper) {
@@ -5362,7 +5360,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         this.backgroundImage.setImage(searchImage.imageUrl, this.imageFilter, searchImage.thumbUrl, "100_100_b");
                     }
                 }
-            } else {
+            } else if (this.accent != null) {
                 BackgroundGradientDrawable.Disposable disposable = this.backgroundGradientDisposable;
                 if (disposable != null) {
                     disposable.dispose();
@@ -5518,7 +5516,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 }
                 invalidateBlur();
             }
+            this.rotatePreview = false;
         }
+        this.backgroundImage.setBackground(Theme.getCachedWallpaper());
         this.rotatePreview = false;
     }
 
