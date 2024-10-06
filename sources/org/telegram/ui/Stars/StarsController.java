@@ -1735,7 +1735,7 @@ public class StarsController {
         SQLiteCursor sQLiteCursor = null;
         try {
             try {
-                sQLiteCursor = messagesStorage.getDatabase().queryFinalized("SELECT data, hash, time FROM star_gifts2 ORDER BY index DESC", new Object[0]);
+                sQLiteCursor = messagesStorage.getDatabase().queryFinalized("SELECT data, hash, time FROM star_gifts2 ORDER BY pos ASC", new Object[0]);
                 i = 0;
                 while (sQLiteCursor.next()) {
                     try {

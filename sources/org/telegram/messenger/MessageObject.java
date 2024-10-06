@@ -55,6 +55,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stars;
 import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Business.QuickRepliesController;
@@ -7273,27 +7274,27 @@ public class MessageObject {
     /* JADX WARN: Code restructure failed: missing block: B:36:0x00bc, code lost:
         r0 = org.telegram.messenger.R.string.ActionSetWallpaperForThisGroup;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:618:0x0cd0, code lost:
-        if (isOut() != false) goto L629;
+    /* JADX WARN: Code restructure failed: missing block: B:622:0x0cd4, code lost:
+        if (isOut() != false) goto L633;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:637:0x0d3a, code lost:
-        if (isOut() != false) goto L629;
+    /* JADX WARN: Code restructure failed: missing block: B:641:0x0d3e, code lost:
+        if (isOut() != false) goto L633;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:638:0x0d3c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:642:0x0d40, code lost:
         r0 = org.telegram.messenger.R.string.ActionTakeScreenshootYou;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:639:0x0d3f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:643:0x0d43, code lost:
         r0 = org.telegram.messenger.R.string.ActionTakeScreenshoot;
      */
     /* JADX WARN: Code restructure failed: missing block: B:74:0x01bd, code lost:
         if (org.telegram.messenger.ChatObject.isChannelAndNotMegaGroup(r10) != false) goto L36;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:971:0x1451, code lost:
-        if ((((org.telegram.tgnet.TLRPC.TL_messageExtendedMediaPreview) r4).flags & 4) != 0) goto L971;
+    /* JADX WARN: Code restructure failed: missing block: B:975:0x1455, code lost:
+        if ((((org.telegram.tgnet.TLRPC.TL_messageExtendedMediaPreview) r4).flags & 4) != 0) goto L975;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1089:0x1650  */
-    /* JADX WARN: Removed duplicated region for block: B:1105:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1093:0x1654  */
+    /* JADX WARN: Removed duplicated region for block: B:1109:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:11:0x0035  */
     /* JADX WARN: Removed duplicated region for block: B:12:0x0037  */
     /* JADX WARN: Removed duplicated region for block: B:15:0x0048  */
@@ -7305,17 +7306,17 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:311:0x0629  */
     /* JADX WARN: Removed duplicated region for block: B:331:0x067a  */
     /* JADX WARN: Removed duplicated region for block: B:339:0x06a0  */
-    /* JADX WARN: Removed duplicated region for block: B:425:0x08c6  */
-    /* JADX WARN: Removed duplicated region for block: B:429:0x08d4  */
-    /* JADX WARN: Removed duplicated region for block: B:451:0x091e  */
-    /* JADX WARN: Removed duplicated region for block: B:452:0x0921  */
-    /* JADX WARN: Removed duplicated region for block: B:469:0x095e  */
-    /* JADX WARN: Removed duplicated region for block: B:470:0x0962  */
-    /* JADX WARN: Removed duplicated region for block: B:558:0x0b30  */
-    /* JADX WARN: Removed duplicated region for block: B:579:0x0bc4  */
-    /* JADX WARN: Removed duplicated region for block: B:905:0x12c5  */
+    /* JADX WARN: Removed duplicated region for block: B:429:0x08ca  */
+    /* JADX WARN: Removed duplicated region for block: B:433:0x08d8  */
+    /* JADX WARN: Removed duplicated region for block: B:455:0x0922  */
+    /* JADX WARN: Removed duplicated region for block: B:456:0x0925  */
+    /* JADX WARN: Removed duplicated region for block: B:473:0x0962  */
+    /* JADX WARN: Removed duplicated region for block: B:474:0x0966  */
+    /* JADX WARN: Removed duplicated region for block: B:562:0x0b34  */
+    /* JADX WARN: Removed duplicated region for block: B:583:0x0bc8  */
+    /* JADX WARN: Removed duplicated region for block: B:909:0x12c9  */
     /* JADX WARN: Type inference failed for: r2v10 */
-    /* JADX WARN: Type inference failed for: r2v178, types: [android.text.SpannableStringBuilder] */
+    /* JADX WARN: Type inference failed for: r2v177, types: [android.text.SpannableStringBuilder] */
     /* JADX WARN: Type inference failed for: r2v19, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r2v20 */
     /* JADX WARN: Type inference failed for: r2v39 */
@@ -8047,9 +8048,11 @@ public class MessageObject {
                                             TLRPC.TL_messageActionStarGift tL_messageActionStarGift = (TLRPC.TL_messageActionStarGift) messageAction;
                                             boolean z3 = tLObject2 instanceof TLRPC.User;
                                             this.messageText = (z3 && ((TLRPC.User) tLObject2).self && !tL_messageActionStarGift.forceIn) ? replaceWithLink(AndroidUtilities.replaceTags(LocaleController.getString(R.string.ActionGiftOutbound)), "un1", getUser(abstractMap, longSparseArray, message.peer_id.user_id)) : (z3 && UserObject.isService(((TLRPC.User) tLObject2).id)) ? TextUtils.replace(AndroidUtilities.replaceTags(LocaleController.getString(R.string.ActionGiftInbound)), new String[]{"un1"}, new CharSequence[]{LocaleController.getString(R.string.StarsTransactionUnknown)}) : replaceWithLink(AndroidUtilities.replaceTags(LocaleController.getString(R.string.ActionGiftInbound)), "un1", tLObject2);
+                                            TL_stars.StarGift starGift = tL_messageActionStarGift.gift;
+                                            int i21 = starGift != null ? (int) starGift.stars : 0;
                                             int indexOf2 = this.messageText.toString().indexOf("un2");
                                             if (indexOf2 != -1) {
-                                                charSequence4 = SpannableStringBuilder.valueOf(this.messageText).replace(indexOf2, indexOf2 + 3, (CharSequence) LocaleController.formatPluralStringComma("Gift2StarsCount", (int) tL_messageActionStarGift.gift.stars));
+                                                charSequence4 = SpannableStringBuilder.valueOf(this.messageText).replace(indexOf2, indexOf2 + 3, (CharSequence) LocaleController.formatPluralStringComma("Gift2StarsCount", i21));
                                             }
                                         } else {
                                             str = "";
@@ -8220,9 +8223,9 @@ public class MessageObject {
                                                             }
                                                         } else if (messageAction instanceof TLRPC.TL_messageActionRequestedPeer) {
                                                             ArrayList arrayList3 = new ArrayList();
-                                                            int i21 = 0;
                                                             int i22 = 0;
                                                             int i23 = 0;
+                                                            int i24 = 0;
                                                             for (TLRPC.Peer peer10 : ((TLRPC.TL_messageActionRequestedPeer) this.messageOwner.action).peers) {
                                                                 boolean z6 = peer10 instanceof TLRPC.TL_peerUser;
                                                                 if (z6) {
@@ -8252,11 +8255,11 @@ public class MessageObject {
                                                                     }
                                                                 }
                                                                 if (z6) {
-                                                                    i21++;
-                                                                } else if (peer10 instanceof TLRPC.TL_peerChat) {
-                                                                    i23++;
-                                                                } else {
                                                                     i22++;
+                                                                } else if (peer10 instanceof TLRPC.TL_peerChat) {
+                                                                    i24++;
+                                                                } else {
+                                                                    i23++;
                                                                 }
                                                                 if (obj != null) {
                                                                     arrayList3.add(obj);
@@ -8266,27 +8269,27 @@ public class MessageObject {
                                                             }
                                                             String str16 = str14;
                                                             String str17 = str13;
-                                                            if (i21 > 0 && i21 != arrayList3.size()) {
-                                                                replaceCharSequence = LocaleController.getPluralString("ActionRequestedPeerUserPlural", i21);
-                                                            } else if (i22 > 0 && i22 != arrayList3.size()) {
-                                                                replaceCharSequence = LocaleController.getPluralString("ActionRequestedPeerChannelPlural", i22);
-                                                            } else if (i23 <= 0 || i23 == arrayList3.size()) {
+                                                            if (i22 > 0 && i22 != arrayList3.size()) {
+                                                                replaceCharSequence = LocaleController.getPluralString("ActionRequestedPeerUserPlural", i22);
+                                                            } else if (i23 > 0 && i23 != arrayList3.size()) {
+                                                                replaceCharSequence = LocaleController.getPluralString("ActionRequestedPeerChannelPlural", i23);
+                                                            } else if (i24 <= 0 || i24 == arrayList3.size()) {
                                                                 SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-                                                                int i24 = 0;
-                                                                while (i24 < arrayList3.size()) {
+                                                                int i25 = 0;
+                                                                while (i25 < arrayList3.size()) {
                                                                     String str18 = str17;
-                                                                    spannableStringBuilder.append(replaceWithLink(str18, str18, (TLObject) arrayList3.get(i24)));
+                                                                    spannableStringBuilder.append(replaceWithLink(str18, str18, (TLObject) arrayList3.get(i25)));
                                                                     String str19 = str15;
-                                                                    if (i24 < arrayList3.size() - 1) {
+                                                                    if (i25 < arrayList3.size() - 1) {
                                                                         spannableStringBuilder.append((CharSequence) str19);
                                                                     }
-                                                                    i24++;
+                                                                    i25++;
                                                                     str15 = str19;
                                                                     str17 = str18;
                                                                 }
                                                                 replaceCharSequence = AndroidUtilities.replaceCharSequence(str17, LocaleController.getString(R.string.ActionRequestedPeer), spannableStringBuilder);
                                                             } else {
-                                                                replaceCharSequence = LocaleController.getPluralString("ActionRequestedPeerChatPlural", i23);
+                                                                replaceCharSequence = LocaleController.getPluralString("ActionRequestedPeerChatPlural", i24);
                                                             }
                                                             this.messageText = replaceCharSequence;
                                                             TLObject user7 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(getDialogId()));
@@ -8321,9 +8324,9 @@ public class MessageObject {
                                                                                         chat14 = abstractMap2.get(Long.valueOf(tL_messageActionSetMessagesTTL.auto_setting_from));
                                                                                     }
                                                                                     if (chat14 == null) {
-                                                                                        int i25 = (tL_messageActionSetMessagesTTL.auto_setting_from > 0L ? 1 : (tL_messageActionSetMessagesTTL.auto_setting_from == 0L ? 0 : -1));
+                                                                                        int i26 = (tL_messageActionSetMessagesTTL.auto_setting_from > 0L ? 1 : (tL_messageActionSetMessagesTTL.auto_setting_from == 0L ? 0 : -1));
                                                                                         MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
-                                                                                        chat14 = i25 > 0 ? messagesController.getUser(Long.valueOf(tL_messageActionSetMessagesTTL.auto_setting_from)) : messagesController.getChat(Long.valueOf(-tL_messageActionSetMessagesTTL.auto_setting_from));
+                                                                                        chat14 = i26 > 0 ? messagesController.getUser(Long.valueOf(tL_messageActionSetMessagesTTL.auto_setting_from)) : messagesController.getChat(Long.valueOf(-tL_messageActionSetMessagesTTL.auto_setting_from));
                                                                                     }
                                                                                     if (chat14 != null) {
                                                                                         tLObject2 = chat14;
@@ -8353,9 +8356,9 @@ public class MessageObject {
                                                                                 tLObject = tLObject2;
                                                                             }
                                                                         } else {
-                                                                            int i26 = tL_messageActionSetMessagesTTL.period;
-                                                                            if (i26 != 0) {
-                                                                                charSequence = LocaleController.formatString(R.string.ActionTTLChannelChanged, LocaleController.formatTTLString(i26));
+                                                                            int i27 = tL_messageActionSetMessagesTTL.period;
+                                                                            if (i27 != 0) {
+                                                                                charSequence = LocaleController.formatString(R.string.ActionTTLChannelChanged, LocaleController.formatTTLString(i27));
                                                                             } else {
                                                                                 i = R.string.ActionTTLChannelDisabled;
                                                                                 str = str;
@@ -8386,9 +8389,9 @@ public class MessageObject {
                                                                     currentUser = getUser(abstractMap, longSparseArray, this.messageOwner.peer_id.user_id);
                                                                 }
                                                                 String firstName = currentUser != null ? UserObject.getFirstName(currentUser) : str5;
-                                                                int i27 = R.string.NotificationUnrecognizedDevice;
+                                                                int i28 = R.string.NotificationUnrecognizedDevice;
                                                                 TLRPC.MessageAction messageAction4 = this.messageOwner.action;
-                                                                charSequence3 = LocaleController.formatString(i27, firstName, sb2, messageAction4.title, messageAction4.address);
+                                                                charSequence3 = LocaleController.formatString(i28, firstName, sb2, messageAction4.title, messageAction4.address);
                                                             } else {
                                                                 str5 = str;
                                                                 if ((messageAction instanceof TLRPC.TL_messageActionUserJoined) || (messageAction instanceof TLRPC.TL_messageActionContactSignUp)) {
@@ -8456,8 +8459,8 @@ public class MessageObject {
                                                                                 }
                                                                                 String trim = str7 != null ? str7.trim() : "DELETED";
                                                                                 TLRPC.MessageAction messageAction5 = this.messageOwner.action;
-                                                                                int i28 = messageAction5.flags;
-                                                                                if ((i28 & 8) > 0) {
+                                                                                int i29 = messageAction5.flags;
+                                                                                if ((i29 & 8) > 0) {
                                                                                     if (((TLRPC.TL_messageActionTopicEdit) messageAction5).hidden) {
                                                                                         this.messageText = replaceWithLink(LocaleController.getString(R.string.TopicHidden2), "%s", user);
                                                                                         i5 = R.string.TopicHidden;
@@ -8465,9 +8468,9 @@ public class MessageObject {
                                                                                         this.messageText = replaceWithLink(LocaleController.getString(R.string.TopicShown2), "%s", user);
                                                                                         i5 = R.string.TopicShown;
                                                                                     }
-                                                                                } else if ((4 & i28) <= 0) {
-                                                                                    int i29 = 2 & i28;
-                                                                                    if (i29 != 0 && (i28 & 1) != 0) {
+                                                                                } else if ((4 & i29) <= 0) {
+                                                                                    int i30 = 2 & i29;
+                                                                                    if (i30 != 0 && (i29 & 1) != 0) {
                                                                                         TLRPC.TL_forumTopic tL_forumTopic2 = new TLRPC.TL_forumTopic();
                                                                                         tL_forumTopic2.icon_emoji_id = tL_messageActionTopicEdit.icon_emoji_id;
                                                                                         tL_forumTopic2.title = tL_messageActionTopicEdit.title;
@@ -8476,7 +8479,7 @@ public class MessageObject {
                                                                                         this.messageText = AndroidUtilities.replaceCharSequence("%2$s", AndroidUtilities.replaceCharSequence("%1$s", LocaleController.getString(R.string.TopicChangeIconAndTitleTo), trim), charSequence2);
                                                                                         this.messageTextShort = LocaleController.getString(R.string.TopicRenamed);
                                                                                         i4 = R.string.TopicChangeIconAndTitleToInReply;
-                                                                                    } else if (i29 != 0) {
+                                                                                    } else if (i30 != 0) {
                                                                                         TLRPC.TL_forumTopic tL_forumTopic3 = new TLRPC.TL_forumTopic();
                                                                                         tL_forumTopic3.icon_emoji_id = tL_messageActionTopicEdit.icon_emoji_id;
                                                                                         tL_forumTopic3.title = str5;
@@ -8485,7 +8488,7 @@ public class MessageObject {
                                                                                         this.messageText = AndroidUtilities.replaceCharSequence("%2$s", AndroidUtilities.replaceCharSequence("%1$s", LocaleController.getString(R.string.TopicIconChangedTo), trim), charSequence2);
                                                                                         this.messageTextShort = LocaleController.getString(R.string.TopicIconChanged);
                                                                                         i4 = R.string.TopicIconChangedToInReply;
-                                                                                    } else if ((1 & i28) != 0) {
+                                                                                    } else if ((1 & i29) != 0) {
                                                                                         this.messageText = AndroidUtilities.replaceCharSequence("%2$s", AndroidUtilities.replaceCharSequence("%1$s", LocaleController.getString(R.string.TopicRenamedTo), trim), tL_messageActionTopicEdit.title);
                                                                                         this.messageTextShort = LocaleController.getString(R.string.TopicRenamed);
                                                                                         string = LocaleController.getString(R.string.TopicRenamedToInReply);
@@ -8508,9 +8511,9 @@ public class MessageObject {
                                                                                 TLRPC.TL_messageActionPhoneCall tL_messageActionPhoneCall = (TLRPC.TL_messageActionPhoneCall) messageAction;
                                                                                 boolean z7 = tL_messageActionPhoneCall.reason instanceof TLRPC.TL_phoneCallDiscardReasonMissed;
                                                                                 this.messageText = LocaleController.getString((isFromUser() && this.messageOwner.from_id.user_id == UserConfig.getInstance(this.currentAccount).getClientUserId()) ? z7 ? tL_messageActionPhoneCall.video ? R.string.CallMessageVideoOutgoingMissed : R.string.CallMessageOutgoingMissed : tL_messageActionPhoneCall.video ? R.string.CallMessageVideoOutgoing : R.string.CallMessageOutgoing : z7 ? tL_messageActionPhoneCall.video ? R.string.CallMessageVideoIncomingMissed : R.string.CallMessageIncomingMissed : tL_messageActionPhoneCall.reason instanceof TLRPC.TL_phoneCallDiscardReasonBusy ? tL_messageActionPhoneCall.video ? R.string.CallMessageVideoIncomingDeclined : R.string.CallMessageIncomingDeclined : tL_messageActionPhoneCall.video ? R.string.CallMessageVideoIncoming : R.string.CallMessageIncoming);
-                                                                                int i30 = tL_messageActionPhoneCall.duration;
-                                                                                if (i30 > 0) {
-                                                                                    String formatCallDuration = LocaleController.formatCallDuration(i30);
+                                                                                int i31 = tL_messageActionPhoneCall.duration;
+                                                                                if (i31 > 0) {
+                                                                                    String formatCallDuration = LocaleController.formatCallDuration(i31);
                                                                                     String formatString2 = LocaleController.formatString(R.string.CallMessageWithDuration, this.messageText, formatCallDuration);
                                                                                     this.messageText = formatString2;
                                                                                     String charSequence5 = formatString2.toString();
@@ -8572,8 +8575,8 @@ public class MessageObject {
                                                                                     TLRPC.TL_messageActionSecureValuesSent tL_messageActionSecureValuesSent = (TLRPC.TL_messageActionSecureValuesSent) messageAction;
                                                                                     StringBuilder sb4 = new StringBuilder();
                                                                                     int size2 = tL_messageActionSecureValuesSent.types.size();
-                                                                                    for (int i31 = 0; i31 < size2; i31++) {
-                                                                                        TLRPC.SecureValueType secureValueType = tL_messageActionSecureValuesSent.types.get(i31);
+                                                                                    for (int i32 = 0; i32 < size2; i32++) {
+                                                                                        TLRPC.SecureValueType secureValueType = tL_messageActionSecureValuesSent.types.get(i32);
                                                                                         if (sb4.length() > 0) {
                                                                                             sb4.append(str15);
                                                                                         }
