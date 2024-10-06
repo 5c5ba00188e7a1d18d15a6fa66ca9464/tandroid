@@ -172,7 +172,7 @@ public class GestureDetectorFixDoubleTap {
                 this.mVelocityTracker = VelocityTracker.obtain();
             }
             this.mVelocityTracker.addMovement(motionEvent);
-            int i = action & NotificationCenter.messagePlayingSpeedChanged;
+            int i = action & NotificationCenter.closeSearchByActiveAction;
             boolean z2 = i == 6;
             int actionIndex = z2 ? motionEvent.getActionIndex() : -1;
             int pointerCount = motionEvent.getPointerCount();

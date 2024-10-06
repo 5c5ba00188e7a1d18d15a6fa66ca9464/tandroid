@@ -242,7 +242,7 @@ public class QrActivity extends BaseFragment {
                 int i3 = height;
                 RectF rectF = AndroidUtilities.rectTmp;
                 rectF.set(0.0f, 0.0f, getWidth(), getHeight());
-                canvas.saveLayerAlpha(rectF, NotificationCenter.messagePlayingSpeedChanged, 31);
+                canvas.saveLayerAlpha(rectF, NotificationCenter.closeSearchByActiveAction, 31);
                 int i4 = width2 + 16;
                 int i5 = i3 + 16;
                 canvas.drawRect(i4, i5, (getWidth() - width2) - 16, (((getWidth() + i3) - width2) - width2) - 16, this.bitmapGradientPaint);
@@ -612,7 +612,7 @@ public class QrActivity extends BaseFragment {
                 if (z) {
                     RectF rectF = AndroidUtilities.rectTmp;
                     rectF.set(0.0f, 0.0f, getWidth(), getHeight());
-                    canvas.saveLayerAlpha(rectF, NotificationCenter.messagePlayingSpeedChanged, 31);
+                    canvas.saveLayerAlpha(rectF, NotificationCenter.closeSearchByActiveAction, 31);
                 }
                 Bitmap bitmap2 = this.oldContentBitmap;
                 if (bitmap2 != null) {
@@ -625,7 +625,7 @@ public class QrActivity extends BaseFragment {
                     canvas.save();
                     canvas.translate(0.0f, (-dp) + ((getHeight() + dp) * (1.0f - f)));
                     Paint paint = this.crossfadeToPaint;
-                    i = NotificationCenter.messagePlayingSpeedChanged;
+                    i = NotificationCenter.closeSearchByActiveAction;
                     canvas.drawRect(0.0f, 0.0f, getWidth(), getHeight() + dp, paint);
                     canvas.restore();
                     canvas.restore();
@@ -672,7 +672,7 @@ public class QrActivity extends BaseFragment {
                     return;
                 }
             }
-            i = NotificationCenter.messagePlayingSpeedChanged;
+            i = NotificationCenter.closeSearchByActiveAction;
             if (f > 0.0f) {
             }
             if (this.hasTimer) {
@@ -1681,7 +1681,7 @@ public class QrActivity extends BaseFragment {
         MotionBackgroundDrawable motionBackgroundDrawable = this.currMotionDrawable;
         this.prevMotionDrawable = motionBackgroundDrawable;
         motionBackgroundDrawable.setIndeterminateAnimation(false);
-        this.prevMotionDrawable.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
+        this.prevMotionDrawable.setAlpha(NotificationCenter.closeSearchByActiveAction);
         MotionBackgroundDrawable motionBackgroundDrawable2 = new MotionBackgroundDrawable();
         this.currMotionDrawable = motionBackgroundDrawable2;
         motionBackgroundDrawable2.setCallback(this.backgroundView);
@@ -1735,7 +1735,7 @@ public class QrActivity extends BaseFragment {
                 this.prevQrColors = iArr2;
                 System.arraycopy(iArr, 0, iArr2, 0, 4);
             }
-            this.currMotionDrawable.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
+            this.currMotionDrawable.setAlpha(NotificationCenter.closeSearchByActiveAction);
             this.currMotionDrawable.setBackgroundAlpha(0.0f);
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             this.patternAlphaAnimator = ofFloat;

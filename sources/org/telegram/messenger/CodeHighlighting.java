@@ -327,11 +327,11 @@ public class CodeHighlighting {
         }
 
         public int readUint16() {
-            return (this.is.read() & NotificationCenter.messagePlayingSpeedChanged) | ((this.is.read() & NotificationCenter.messagePlayingSpeedChanged) << 8);
+            return (this.is.read() & NotificationCenter.closeSearchByActiveAction) | ((this.is.read() & NotificationCenter.closeSearchByActiveAction) << 8);
         }
 
         public int readUint8() {
-            return this.is.read() & NotificationCenter.messagePlayingSpeedChanged;
+            return this.is.read() & NotificationCenter.closeSearchByActiveAction;
         }
     }
 

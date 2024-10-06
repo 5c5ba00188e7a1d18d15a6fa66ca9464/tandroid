@@ -868,7 +868,7 @@ public class ConnectionsManager extends BaseController {
                 str11 = "mainconfig" + this.currentAccount;
             }
             this.forceTryIpV6 = context.getSharedPreferences(str11, 0).getBoolean("forceTryIpV6", false);
-            init(SharedConfig.buildVersion(), 189, BuildVars.APP_ID, str3, str10, str2, str4, str9, file2, FileLog.getNetworkLogPath(), regId, certificateSHA256Fingerprint, rawOffset, getUserConfig().getClientUserId(), getUserConfig().getCurrentUser() == null ? getUserConfig().getCurrentUser().premium : false, isPushConnectionEnabled);
+            init(SharedConfig.buildVersion(), 190, BuildVars.APP_ID, str3, str10, str2, str4, str9, file2, FileLog.getNetworkLogPath(), regId, certificateSHA256Fingerprint, rawOffset, getUserConfig().getClientUserId(), getUserConfig().getCurrentUser() == null ? getUserConfig().getCurrentUser().premium : false, isPushConnectionEnabled);
         }
         sb = new StringBuilder();
         sb.append(str6);
@@ -895,7 +895,7 @@ public class ConnectionsManager extends BaseController {
         if (this.currentAccount != 0) {
         }
         this.forceTryIpV6 = context.getSharedPreferences(str112, 0).getBoolean("forceTryIpV6", false);
-        init(SharedConfig.buildVersion(), 189, BuildVars.APP_ID, str3, str10, str2, str4, str9, file2, FileLog.getNetworkLogPath(), regId2, certificateSHA256Fingerprint2, rawOffset2, getUserConfig().getClientUserId(), getUserConfig().getCurrentUser() == null ? getUserConfig().getCurrentUser().premium : false, isPushConnectionEnabled);
+        init(SharedConfig.buildVersion(), 190, BuildVars.APP_ID, str3, str10, str2, str4, str9, file2, FileLog.getNetworkLogPath(), regId2, certificateSHA256Fingerprint2, rawOffset2, getUserConfig().getClientUserId(), getUserConfig().getCurrentUser() == null ? getUserConfig().getCurrentUser().premium : false, isPushConnectionEnabled);
     }
 
     public static int generateClassGuid() {

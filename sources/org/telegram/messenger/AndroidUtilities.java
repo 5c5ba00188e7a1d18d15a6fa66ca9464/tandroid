@@ -646,7 +646,7 @@ public class AndroidUtilities {
             i2 = (int) ((f5 * 255.0f) + 0.5f);
             i3 = (int) ((f7 * 255.0f) + 0.5f);
         }
-        return ((i & NotificationCenter.messagePlayingSpeedChanged) << 16) | (-16777216) | ((i2 & NotificationCenter.messagePlayingSpeedChanged) << 8) | (i3 & NotificationCenter.messagePlayingSpeedChanged);
+        return ((i & NotificationCenter.closeSearchByActiveAction) << 16) | (-16777216) | ((i2 & NotificationCenter.closeSearchByActiveAction) << 8) | (i3 & NotificationCenter.closeSearchByActiveAction);
     }
 
     public static float[] RGBtoHSB(int i, int i2, int i3) {
@@ -1014,7 +1014,7 @@ public class AndroidUtilities {
             }
             i = -16777216;
         }
-        double[] rgbToHsv = rgbToHsv((i >> 16) & NotificationCenter.messagePlayingSpeedChanged, (i >> 8) & NotificationCenter.messagePlayingSpeedChanged, i & NotificationCenter.messagePlayingSpeedChanged);
+        double[] rgbToHsv = rgbToHsv((i >> 16) & NotificationCenter.closeSearchByActiveAction, (i >> 8) & NotificationCenter.closeSearchByActiveAction, i & NotificationCenter.closeSearchByActiveAction);
         double d = rgbToHsv[1];
         rgbToHsv[1] = Math.min(1.0d, 0.05d + d + ((1.0d - d) * 0.1d));
         int[] hsvToRgb = hsvToRgb(rgbToHsv[0], rgbToHsv[1], Math.max(0.0d, rgbToHsv[2] * 0.65d));
@@ -2133,7 +2133,7 @@ public class AndroidUtilities {
     }
 
     public static int getAverageColor(int i, int i2) {
-        return Color.argb((int) NotificationCenter.messagePlayingSpeedChanged, (Color.red(i) / 2) + (Color.red(i2) / 2), (Color.green(i) / 2) + (Color.green(i2) / 2), (Color.blue(i) / 2) + (Color.blue(i2) / 2));
+        return Color.argb((int) NotificationCenter.closeSearchByActiveAction, (Color.red(i) / 2) + (Color.red(i2) / 2), (Color.green(i) / 2) + (Color.green(i2) / 2), (Color.blue(i) / 2) + (Color.blue(i2) / 2));
     }
 
     public static void getBitmapFromSurface(Surface surface, Bitmap bitmap) {
@@ -2439,7 +2439,7 @@ public class AndroidUtilities {
         if (i == 0) {
             return 0;
         }
-        return Color.argb((int) NotificationCenter.messagePlayingSpeedChanged, i4 / i, i3 / i, i2 / i);
+        return Color.argb((int) NotificationCenter.closeSearchByActiveAction, i4 / i, i3 / i, i2 / i);
     }
 
     public static String getHostAuthority(Uri uri) {
@@ -2480,7 +2480,7 @@ public class AndroidUtilities {
         try {
             int i = 1;
             int attributeInt = exifInterface.getAttributeInt("Orientation", 1);
-            int i2 = NotificationCenter.onDatabaseOpened;
+            int i2 = NotificationCenter.dialogsUnreadReactionsCounterChanged;
             switch (attributeInt) {
                 case 2:
                     i2 = 0;
@@ -3327,7 +3327,7 @@ public class AndroidUtilities {
 
     public static int hsvToColor(double d, double d2, double d3) {
         int[] hsvToRgb = hsvToRgb(d, d2, d3);
-        return Color.argb((int) NotificationCenter.messagePlayingSpeedChanged, hsvToRgb[0], hsvToRgb[1], hsvToRgb[2]);
+        return Color.argb((int) NotificationCenter.closeSearchByActiveAction, hsvToRgb[0], hsvToRgb[1], hsvToRgb[2]);
     }
 
     public static int[] hsvToRgb(double d, double d2, double d3) {

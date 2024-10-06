@@ -57,7 +57,7 @@ public class SharedMediaFastScrollTooltip extends FrameLayout {
         @Override // android.view.View
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
-            canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.messagePlayingSpeedChanged, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.closeSearchByActiveAction, 31);
             int measuredWidth = (getMeasuredWidth() / 2) - AndroidUtilities.dp(3.0f);
             int dp = ((AndroidUtilities.dp(1.0f) + measuredWidth) * 7) + AndroidUtilities.dp(1.0f);
             CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT;

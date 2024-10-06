@@ -1238,7 +1238,7 @@ public abstract class PreviewView extends FrameLayout {
                 this.matrix.set(this.entry.matrix);
                 this.matrix.preScale(this.entry.width / this.thumbBitmap.getWidth(), this.entry.height / this.thumbBitmap.getHeight());
                 this.matrix.postScale(getWidth() / this.entry.resultWidth, getHeight() / this.entry.resultHeight);
-                this.bitmapPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
+                this.bitmapPaint.setAlpha(NotificationCenter.closeSearchByActiveAction);
                 canvas.drawBitmap(this.thumbBitmap, this.matrix, this.bitmapPaint);
             }
             if (this.bitmap != null) {

@@ -306,10 +306,10 @@ public class PhoneFormat {
                 str = Locale.getDefault().getCountry().toLowerCase();
             }
             this.defaultCountry = str;
-            this.callingCodeOffsets = new HashMap((int) NotificationCenter.messagePlayingSpeedChanged);
-            this.callingCodeCountries = new HashMap((int) NotificationCenter.messagePlayingSpeedChanged);
+            this.callingCodeOffsets = new HashMap((int) NotificationCenter.closeSearchByActiveAction);
+            this.callingCodeCountries = new HashMap((int) NotificationCenter.closeSearchByActiveAction);
             this.callingCodeData = new HashMap(10);
-            this.countryCallingCode = new HashMap((int) NotificationCenter.messagePlayingSpeedChanged);
+            this.countryCallingCode = new HashMap((int) NotificationCenter.closeSearchByActiveAction);
             parseDataHeader();
             this.initialzed = true;
         } catch (Exception e7) {

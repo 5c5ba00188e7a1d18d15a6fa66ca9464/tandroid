@@ -639,7 +639,7 @@ public class SvgHelper {
             if (f == null) {
                 f = properties.getFloat(z ? "fill-opacity" : "stroke-opacity");
             }
-            this.paint.setAlpha(f == null ? NotificationCenter.messagePlayingSpeedChanged : (int) (f.floatValue() * 255.0f));
+            this.paint.setAlpha(f == null ? NotificationCenter.closeSearchByActiveAction : (int) (f.floatValue() * 255.0f));
         }
 
         private boolean doFill(Properties properties) {

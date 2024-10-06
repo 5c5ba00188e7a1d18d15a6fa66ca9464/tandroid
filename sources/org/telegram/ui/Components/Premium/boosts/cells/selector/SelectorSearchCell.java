@@ -555,7 +555,7 @@ public abstract class SelectorSearchCell extends ScrollView {
     protected void dispatchDraw(Canvas canvas) {
         int scrollY;
         float scrollY2 = getScrollY();
-        canvas.saveLayerAlpha(0.0f, scrollY2, getWidth(), getHeight() + scrollY, NotificationCenter.messagePlayingSpeedChanged, 31);
+        canvas.saveLayerAlpha(0.0f, scrollY2, getWidth(), getHeight() + scrollY, NotificationCenter.closeSearchByActiveAction, 31);
         super.dispatchDraw(canvas);
         canvas.save();
         float f = this.topGradientAlpha.set(canScrollVertically(-1));

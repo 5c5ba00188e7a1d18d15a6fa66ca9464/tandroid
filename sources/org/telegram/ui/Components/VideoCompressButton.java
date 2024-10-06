@@ -34,7 +34,7 @@ public class VideoCompressButton extends View {
         this.clearPaint = paint3;
         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
         this.disabledT = new AnimatedFloat(this, 0L, 300L, cubicBezierInterpolator);
-        this.sizes = new int[]{NotificationCenter.messagePlayingProgressDidChanged, NotificationCenter.goingToPreviewTheme, 360, 480, 720, 1080, 1440, 2160};
+        this.sizes = new int[]{NotificationCenter.messagePlayingProgressDidChanged, NotificationCenter.needSetDayNightTheme, 360, 480, 720, 1080, 1440, 2160};
         AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = new AnimatedTextView.AnimatedTextDrawable(true, false, false);
         this.textDrawable = animatedTextDrawable;
         animatedTextDrawable.setAnimationProperties(0.4f, 0L, 360L, cubicBezierInterpolator);
@@ -64,7 +64,7 @@ public class VideoCompressButton extends View {
     @Override // android.view.View
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
-        canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.messagePlayingSpeedChanged, 31);
+        canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.closeSearchByActiveAction, 31);
         float f = (1.0f - (this.disabledT.set(this.disabled) * 0.35f)) * 255.0f;
         int i = (int) f;
         this.strokePaint.setAlpha(i);
@@ -83,7 +83,7 @@ public class VideoCompressButton extends View {
         rectF.set(rect);
         rectF.inset(-AndroidUtilities.dpf2(1.33f), -AndroidUtilities.dpf2(1.33f));
         canvas.drawRoundRect(rectF, AndroidUtilities.dpf2(1.66f), AndroidUtilities.dpf2(1.66f), this.clearPaint);
-        canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.messagePlayingSpeedChanged, 31);
+        canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.closeSearchByActiveAction, 31);
         rectF.set(rect);
         this.fillPaint.setAlpha((int) (f * this.sizeTextDrawable.isNotEmpty()));
         canvas.drawRoundRect(rectF, AndroidUtilities.dpf2(1.66f), AndroidUtilities.dpf2(1.66f), this.fillPaint);

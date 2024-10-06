@@ -11086,7 +11086,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                             animatorSet.playTogether(ObjectAnimator.ofFloat(articleViewer3.containerView, View.TRANSLATION_X, 0.0f), ObjectAnimator.ofFloat(this, ArticleViewer.ARTICLE_VIEWER_INNER_TRANSLATION_X, 0.0f));
                         }
                     }
-                    animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * x), (int) NotificationCenter.newLocationAvailable));
+                    animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * x), (int) NotificationCenter.liveLocationsChanged));
                     animatorSet.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
                     animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ArticleViewer.WindowView.1
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -12911,7 +12911,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             } else {
                 animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, View.TRANSLATION_X, frameLayout.getMeasuredWidth()), ObjectAnimator.ofFloat(this.windowView, ARTICLE_VIEWER_INNER_TRANSLATION_X, frameLayout.getMeasuredWidth()));
             }
-            animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * measuredWidth), (int) NotificationCenter.newLocationAvailable));
+            animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * measuredWidth), (int) NotificationCenter.liveLocationsChanged));
             animatorSet.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
             animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ArticleViewer.3
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -13061,7 +13061,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             } else {
                 animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, View.TRANSLATION_X, frameLayout.getMeasuredWidth()), ObjectAnimator.ofFloat(this.windowView, ARTICLE_VIEWER_INNER_TRANSLATION_X, frameLayout.getMeasuredWidth()));
             }
-            animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * measuredWidth), (int) NotificationCenter.newLocationAvailable));
+            animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * measuredWidth), (int) NotificationCenter.liveLocationsChanged));
             animatorSet.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
             animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ArticleViewer.5
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener

@@ -17,8 +17,8 @@ final class OggPageHeader {
     public int revision;
     public long streamSerialNumber;
     public int type;
-    public final int[] laces = new int[NotificationCenter.messagePlayingSpeedChanged];
-    private final ParsableByteArray scratch = new ParsableByteArray((int) NotificationCenter.messagePlayingSpeedChanged);
+    public final int[] laces = new int[NotificationCenter.closeSearchByActiveAction];
+    private final ParsableByteArray scratch = new ParsableByteArray((int) NotificationCenter.closeSearchByActiveAction);
 
     public boolean populate(ExtractorInput extractorInput, boolean z) {
         reset();

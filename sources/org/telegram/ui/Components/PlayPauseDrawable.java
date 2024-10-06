@@ -11,7 +11,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class PlayPauseDrawable extends Drawable {
-    private int alpha = NotificationCenter.messagePlayingSpeedChanged;
+    private int alpha = NotificationCenter.closeSearchByActiveAction;
     float duration = 300.0f;
     private long lastUpdateTime;
     private final Paint paint;

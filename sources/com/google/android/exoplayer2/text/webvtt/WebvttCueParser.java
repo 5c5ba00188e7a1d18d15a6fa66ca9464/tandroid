@@ -222,23 +222,23 @@ public abstract class WebvttCueParser {
 
     static {
         HashMap hashMap = new HashMap();
-        hashMap.put("white", Integer.valueOf(Color.rgb((int) NotificationCenter.messagePlayingSpeedChanged, (int) NotificationCenter.messagePlayingSpeedChanged, (int) NotificationCenter.messagePlayingSpeedChanged)));
-        hashMap.put("lime", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.messagePlayingSpeedChanged, 0)));
-        hashMap.put("cyan", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.messagePlayingSpeedChanged, (int) NotificationCenter.messagePlayingSpeedChanged)));
-        hashMap.put("red", Integer.valueOf(Color.rgb((int) NotificationCenter.messagePlayingSpeedChanged, 0, 0)));
-        hashMap.put("yellow", Integer.valueOf(Color.rgb((int) NotificationCenter.messagePlayingSpeedChanged, (int) NotificationCenter.messagePlayingSpeedChanged, 0)));
-        hashMap.put("magenta", Integer.valueOf(Color.rgb((int) NotificationCenter.messagePlayingSpeedChanged, 0, (int) NotificationCenter.messagePlayingSpeedChanged)));
-        hashMap.put("blue", Integer.valueOf(Color.rgb(0, 0, (int) NotificationCenter.messagePlayingSpeedChanged)));
+        hashMap.put("white", Integer.valueOf(Color.rgb((int) NotificationCenter.closeSearchByActiveAction, (int) NotificationCenter.closeSearchByActiveAction, (int) NotificationCenter.closeSearchByActiveAction)));
+        hashMap.put("lime", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.closeSearchByActiveAction, 0)));
+        hashMap.put("cyan", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.closeSearchByActiveAction, (int) NotificationCenter.closeSearchByActiveAction)));
+        hashMap.put("red", Integer.valueOf(Color.rgb((int) NotificationCenter.closeSearchByActiveAction, 0, 0)));
+        hashMap.put("yellow", Integer.valueOf(Color.rgb((int) NotificationCenter.closeSearchByActiveAction, (int) NotificationCenter.closeSearchByActiveAction, 0)));
+        hashMap.put("magenta", Integer.valueOf(Color.rgb((int) NotificationCenter.closeSearchByActiveAction, 0, (int) NotificationCenter.closeSearchByActiveAction)));
+        hashMap.put("blue", Integer.valueOf(Color.rgb(0, 0, (int) NotificationCenter.closeSearchByActiveAction)));
         hashMap.put("black", Integer.valueOf(Color.rgb(0, 0, 0)));
         DEFAULT_TEXT_COLORS = Collections.unmodifiableMap(hashMap);
         HashMap hashMap2 = new HashMap();
-        hashMap2.put("bg_white", Integer.valueOf(Color.rgb((int) NotificationCenter.messagePlayingSpeedChanged, (int) NotificationCenter.messagePlayingSpeedChanged, (int) NotificationCenter.messagePlayingSpeedChanged)));
-        hashMap2.put("bg_lime", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.messagePlayingSpeedChanged, 0)));
-        hashMap2.put("bg_cyan", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.messagePlayingSpeedChanged, (int) NotificationCenter.messagePlayingSpeedChanged)));
-        hashMap2.put("bg_red", Integer.valueOf(Color.rgb((int) NotificationCenter.messagePlayingSpeedChanged, 0, 0)));
-        hashMap2.put("bg_yellow", Integer.valueOf(Color.rgb((int) NotificationCenter.messagePlayingSpeedChanged, (int) NotificationCenter.messagePlayingSpeedChanged, 0)));
-        hashMap2.put("bg_magenta", Integer.valueOf(Color.rgb((int) NotificationCenter.messagePlayingSpeedChanged, 0, (int) NotificationCenter.messagePlayingSpeedChanged)));
-        hashMap2.put("bg_blue", Integer.valueOf(Color.rgb(0, 0, (int) NotificationCenter.messagePlayingSpeedChanged)));
+        hashMap2.put("bg_white", Integer.valueOf(Color.rgb((int) NotificationCenter.closeSearchByActiveAction, (int) NotificationCenter.closeSearchByActiveAction, (int) NotificationCenter.closeSearchByActiveAction)));
+        hashMap2.put("bg_lime", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.closeSearchByActiveAction, 0)));
+        hashMap2.put("bg_cyan", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.closeSearchByActiveAction, (int) NotificationCenter.closeSearchByActiveAction)));
+        hashMap2.put("bg_red", Integer.valueOf(Color.rgb((int) NotificationCenter.closeSearchByActiveAction, 0, 0)));
+        hashMap2.put("bg_yellow", Integer.valueOf(Color.rgb((int) NotificationCenter.closeSearchByActiveAction, (int) NotificationCenter.closeSearchByActiveAction, 0)));
+        hashMap2.put("bg_magenta", Integer.valueOf(Color.rgb((int) NotificationCenter.closeSearchByActiveAction, 0, (int) NotificationCenter.closeSearchByActiveAction)));
+        hashMap2.put("bg_blue", Integer.valueOf(Color.rgb(0, 0, (int) NotificationCenter.closeSearchByActiveAction)));
         hashMap2.put("bg_black", Integer.valueOf(Color.rgb(0, 0, 0)));
         DEFAULT_BACKGROUND_COLORS = Collections.unmodifiableMap(hashMap2);
     }

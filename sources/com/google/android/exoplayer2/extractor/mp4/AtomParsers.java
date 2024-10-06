@@ -175,7 +175,7 @@ public abstract class AtomParsers {
             ParsableByteArray parsableByteArray = leafAtom.data;
             this.data = parsableByteArray;
             parsableByteArray.setPosition(12);
-            this.fieldSize = parsableByteArray.readUnsignedIntToInt() & NotificationCenter.messagePlayingSpeedChanged;
+            this.fieldSize = parsableByteArray.readUnsignedIntToInt() & NotificationCenter.closeSearchByActiveAction;
             this.sampleCount = parsableByteArray.readUnsignedIntToInt();
         }
 
@@ -203,7 +203,7 @@ public abstract class AtomParsers {
             if (i2 % 2 == 0) {
                 int readUnsignedByte = this.data.readUnsignedByte();
                 this.currentByte = readUnsignedByte;
-                return (readUnsignedByte & NotificationCenter.goingToPreviewTheme) >> 4;
+                return (readUnsignedByte & NotificationCenter.needSetDayNightTheme) >> 4;
             }
             return this.currentByte & 15;
         }
@@ -713,7 +713,7 @@ public abstract class AtomParsers {
                 } else {
                     int readUnsignedByte = parsableByteArray.readUnsignedByte();
                     i3 = readUnsignedByte & 15;
-                    i4 = (readUnsignedByte & NotificationCenter.goingToPreviewTheme) >> 4;
+                    i4 = (readUnsignedByte & NotificationCenter.needSetDayNightTheme) >> 4;
                 }
                 boolean z = parsableByteArray.readUnsignedByte() == 1;
                 int readUnsignedByte2 = parsableByteArray.readUnsignedByte();
@@ -1345,7 +1345,7 @@ public abstract class AtomParsers {
         if (readInt2 == 0 && readInt3 == 65536 && readInt4 == -65536 && readInt5 == 0) {
             i2 = 90;
         } else if (readInt2 == 0 && readInt3 == -65536 && readInt4 == 65536 && readInt5 == 0) {
-            i2 = NotificationCenter.onDatabaseOpened;
+            i2 = NotificationCenter.dialogsUnreadReactionsCounterChanged;
         } else if (readInt2 == -65536 && readInt3 == 0 && readInt4 == 0 && readInt5 == -65536) {
             i2 = NotificationCenter.updateBotMenuButton;
         }

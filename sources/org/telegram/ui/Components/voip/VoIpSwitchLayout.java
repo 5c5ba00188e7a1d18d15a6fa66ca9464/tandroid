@@ -194,7 +194,7 @@ public class VoIpSwitchLayout extends FrameLayout {
                     return;
                 }
                 this.darkPaint.setAlpha((int) ((i * 35) / 100.0f));
-                this.whiteCirclePaint.setAlpha((int) ((this.singleIconBackgroundAlphaPercent * NotificationCenter.messagePlayingSpeedChanged) / 100.0f));
+                this.whiteCirclePaint.setAlpha((int) ((this.singleIconBackgroundAlphaPercent * NotificationCenter.closeSearchByActiveAction) / 100.0f));
                 canvas.drawCircle(width, height, this.maxRadius, this.whiteCirclePaint);
                 this.singleIcon.draw(canvas, this.maskPaint);
                 this.singleIcon.draw(canvas, this.darkPaint);
@@ -211,7 +211,7 @@ public class VoIpSwitchLayout extends FrameLayout {
                 if (i4 == i3 && i2 > 0 && i2 != i3) {
                     canvas.drawCircle(width, height, i4, this.whiteCirclePaint);
                     canvas.drawCircle(width, height, this.unselectedRadius, this.maskPaint);
-                    this.selectedIcon.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
+                    this.selectedIcon.setAlpha(NotificationCenter.closeSearchByActiveAction);
                     this.selectedIcon.draw(canvas, this.maskPaint);
                     this.selectedIcon.setAlpha(35);
                     this.selectedIcon.draw(canvas);
@@ -232,7 +232,7 @@ public class VoIpSwitchLayout extends FrameLayout {
                     this.clipPath.addCircle(width, height, this.selectedRadius, Path.Direction.CW);
                     canvas.clipPath(this.clipPath);
                     canvas.drawCircle(width, height, this.selectedRadius, this.whiteCirclePaint);
-                    this.selectedIcon.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
+                    this.selectedIcon.setAlpha(NotificationCenter.closeSearchByActiveAction);
                     this.selectedIcon.draw(canvas, this.maskPaint);
                     this.selectedIcon.setAlpha(35);
                     this.selectedIcon.draw(canvas);

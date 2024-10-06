@@ -1078,7 +1078,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         if (action == 2 && this.mIsBeingDragged) {
             return true;
         }
-        int i = action & NotificationCenter.messagePlayingSpeedChanged;
+        int i = action & NotificationCenter.closeSearchByActiveAction;
         if (i != 0) {
             if (i != 1) {
                 if (i == 2) {
@@ -1571,11 +1571,11 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
     }
 
     public final void smoothScrollBy(int i, int i2) {
-        smoothScrollBy(i, i2, NotificationCenter.newLocationAvailable, false);
+        smoothScrollBy(i, i2, NotificationCenter.liveLocationsChanged, false);
     }
 
     public final void smoothScrollTo(int i, int i2) {
-        smoothScrollTo(i, i2, NotificationCenter.newLocationAvailable, false);
+        smoothScrollTo(i, i2, NotificationCenter.liveLocationsChanged, false);
     }
 
     void smoothScrollTo(int i, int i2, int i3, boolean z) {
@@ -1583,7 +1583,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
     }
 
     void smoothScrollTo(int i, int i2, boolean z) {
-        smoothScrollTo(i, i2, NotificationCenter.newLocationAvailable, z);
+        smoothScrollTo(i, i2, NotificationCenter.liveLocationsChanged, z);
     }
 
     @Override // android.view.View

@@ -53,7 +53,7 @@ abstract class MetadataUtil {
     public static Metadata.Entry parseIlstElement(ParsableByteArray parsableByteArray) {
         int position = parsableByteArray.getPosition() + parsableByteArray.readInt();
         int readInt = parsableByteArray.readInt();
-        int i = (readInt >> 24) & NotificationCenter.messagePlayingSpeedChanged;
+        int i = (readInt >> 24) & NotificationCenter.closeSearchByActiveAction;
         try {
             if (i == 169 || i == 253) {
                 int i2 = 16777215 & readInt;

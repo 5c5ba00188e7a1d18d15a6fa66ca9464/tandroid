@@ -14495,7 +14495,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             Bitmap snapshotView = AndroidUtilities.snapshotView(this.drawerLayoutContainer);
                             View view2 = this.rippleAbove;
                             if (view2 != null && view2.getBackground() != null) {
-                                this.rippleAbove.getBackground().setAlpha(NotificationCenter.messagePlayingSpeedChanged);
+                                this.rippleAbove.getBackground().setAlpha(NotificationCenter.closeSearchByActiveAction);
                             }
                             this.frameLayout.removeView(this.themeSwitchImageView);
                             ImageView imageView = new ImageView(this);

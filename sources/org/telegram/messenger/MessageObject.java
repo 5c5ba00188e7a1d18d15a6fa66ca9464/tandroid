@@ -648,7 +648,7 @@ public class MessageObject {
                 }
                 if (z2) {
                     this.maxSizeWidth -= 50;
-                    i = NotificationCenter.newLocationAvailable;
+                    i = NotificationCenter.liveLocationsChanged;
                 } else {
                     i = NotificationCenter.storyQualityUpdate;
                 }
@@ -13074,7 +13074,7 @@ public class MessageObject {
         int i;
         TLRPC.Message message;
         TLRPC.MessageFwdHeader messageFwdHeader;
-        if (this.isRepostPreview) {
+        if (this.isRepostPreview || getDialogId() == UserObject.VERIFY) {
             return false;
         }
         if (this.isSaved) {

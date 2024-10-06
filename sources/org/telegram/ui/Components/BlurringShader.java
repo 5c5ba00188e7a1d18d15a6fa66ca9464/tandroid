@@ -661,7 +661,7 @@ public class BlurringShader {
                         }
                         this.dimPaint.setColor(-14145495);
                     } else if (drawable != null) {
-                        canvas.saveLayerAlpha(bounds.left, bounds.top, bounds.right, bounds.bottom, NotificationCenter.messagePlayingSpeedChanged, 31);
+                        canvas.saveLayerAlpha(bounds.left, bounds.top, bounds.right, bounds.bottom, NotificationCenter.closeSearchByActiveAction, 31);
                         drawable.setBounds(bounds);
                         drawable.draw(canvas);
                         canvas.drawRect(bounds, paint);

@@ -463,7 +463,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                 if (this.audioViews.size() > 0) {
                     viewGroup = (ViewGroup) this.audioViews.get(0);
                     this.audioViews.remove(0);
-                    popupAudioView = (PopupAudioView) viewGroup.findViewWithTag(Integer.valueOf((int) NotificationCenter.storiesReadUpdated));
+                    popupAudioView = (PopupAudioView) viewGroup.findViewWithTag(Integer.valueOf((int) NotificationCenter.onReceivedChannelDifference));
                 } else {
                     viewGroup = new FrameLayout(this);
                     FrameLayout frameLayout3 = new FrameLayout(this);
@@ -473,7 +473,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                     FrameLayout frameLayout4 = new FrameLayout(this);
                     frameLayout3.addView(frameLayout4, LayoutHelper.createFrame(-1, -2.0f, 17, 20.0f, 0.0f, 20.0f, 0.0f));
                     PopupAudioView popupAudioView2 = new PopupAudioView(this);
-                    popupAudioView2.setTag(Integer.valueOf((int) NotificationCenter.storiesReadUpdated));
+                    popupAudioView2.setTag(Integer.valueOf((int) NotificationCenter.onReceivedChannelDifference));
                     frameLayout4.addView(popupAudioView2);
                     viewGroup.setTag(3);
                     viewGroup.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda7
@@ -510,7 +510,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                     });
                     TextView textView3 = new TextView(this);
                     textView3.setTextSize(1, 16.0f);
-                    textView3.setTag(Integer.valueOf((int) NotificationCenter.nearEarEvent));
+                    textView3.setTag(Integer.valueOf((int) NotificationCenter.storiesReadUpdated));
                     int i6 = Theme.key_windowBackgroundWhiteBlackText;
                     textView3.setTextColor(Theme.getColor(i6));
                     textView3.setLinkTextColor(Theme.getColor(i6));
@@ -518,7 +518,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                     linearLayout.addView(textView3, LayoutHelper.createLinear(-1, -2, 17));
                     viewGroup.setTag(1);
                 }
-                TextView textView4 = (TextView) viewGroup.findViewWithTag(Integer.valueOf((int) NotificationCenter.nearEarEvent));
+                TextView textView4 = (TextView) viewGroup.findViewWithTag(Integer.valueOf((int) NotificationCenter.storiesReadUpdated));
                 textView4.setTextSize(2, SharedConfig.fontSize);
                 textView4.setText(messageObject.messageText);
             }
@@ -1098,7 +1098,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                 int childCount = viewGroup.getChildCount();
                 while (i3 < childCount) {
                     View childAt = this.messageContainer.getChildAt(i3);
-                    if (((Integer) childAt.getTag()).intValue() == 3 && (messageObject2 = (popupAudioView2 = (PopupAudioView) childAt.findViewWithTag(Integer.valueOf((int) NotificationCenter.storiesReadUpdated))).getMessageObject()) != null && messageObject2.currentAccount == i2 && messageObject2.getId() == num.intValue()) {
+                    if (((Integer) childAt.getTag()).intValue() == 3 && (messageObject2 = (popupAudioView2 = (PopupAudioView) childAt.findViewWithTag(Integer.valueOf((int) NotificationCenter.onReceivedChannelDifference))).getMessageObject()) != null && messageObject2.currentAccount == i2 && messageObject2.getId() == num.intValue()) {
                         popupAudioView2.updateButtonState();
                         return;
                     }
@@ -1114,7 +1114,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                 int childCount2 = viewGroup2.getChildCount();
                 while (i3 < childCount2) {
                     View childAt2 = this.messageContainer.getChildAt(i3);
-                    if (((Integer) childAt2.getTag()).intValue() == 3 && (messageObject = (popupAudioView = (PopupAudioView) childAt2.findViewWithTag(Integer.valueOf((int) NotificationCenter.storiesReadUpdated))).getMessageObject()) != null && messageObject.currentAccount == i2 && messageObject.getId() == num2.intValue()) {
+                    if (((Integer) childAt2.getTag()).intValue() == 3 && (messageObject = (popupAudioView = (PopupAudioView) childAt2.findViewWithTag(Integer.valueOf((int) NotificationCenter.onReceivedChannelDifference))).getMessageObject()) != null && messageObject.currentAccount == i2 && messageObject.getId() == num2.intValue()) {
                         popupAudioView.updateProgress();
                         return;
                     }
@@ -1129,7 +1129,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                 int childCount3 = viewGroup3.getChildCount();
                 while (i3 < childCount3) {
                     View childAt3 = this.messageContainer.getChildAt(i3);
-                    if (((Integer) childAt3.getTag()).intValue() == 1 && (textView = (TextView) childAt3.findViewWithTag(Integer.valueOf((int) NotificationCenter.nearEarEvent))) != null) {
+                    if (((Integer) childAt3.getTag()).intValue() == 1 && (textView = (TextView) childAt3.findViewWithTag(Integer.valueOf((int) NotificationCenter.storiesReadUpdated))) != null) {
                         textView.invalidate();
                     }
                     i3++;
@@ -1308,7 +1308,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         };
         this.popupContainer = relativeLayout2;
         relativeLayout2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-        relativeLayout.addView(this.popupContainer, LayoutHelper.createRelative(-1, NotificationCenter.goingToPreviewTheme, 12, 0, 12, 0, 13));
+        relativeLayout.addView(this.popupContainer, LayoutHelper.createRelative(-1, NotificationCenter.needSetDayNightTheme, 12, 0, 12, 0, 13));
         ChatActivityEnterView chatActivityEnterView = this.chatActivityEnterView;
         if (chatActivityEnterView != null) {
             chatActivityEnterView.onDestroy();

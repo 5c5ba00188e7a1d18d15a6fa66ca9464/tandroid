@@ -91,7 +91,7 @@ public class AvatarDrawable extends Drawable {
         this.roundRadius = -1;
         this.drawAvatarBackground = true;
         this.rotate45Background = false;
-        this.alpha = NotificationCenter.messagePlayingSpeedChanged;
+        this.alpha = NotificationCenter.closeSearchByActiveAction;
         this.resourcesProvider = resourcesProvider;
         TextPaint textPaint = new TextPaint(1);
         this.namePaint = textPaint;
@@ -286,7 +286,7 @@ public class AvatarDrawable extends Drawable {
                 if (i9 != 255) {
                     drawable2.setAlpha(i9);
                     drawable2.draw(canvas);
-                    drawable2.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
+                    drawable2.setAlpha(NotificationCenter.closeSearchByActiveAction);
                 }
                 drawable2.draw(canvas);
             }

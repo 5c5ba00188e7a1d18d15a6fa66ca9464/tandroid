@@ -210,7 +210,7 @@ public class ProximitySheet extends FrameLayout {
                 return Button.class.getName();
             }
         };
-        linearLayout2.addView(this.kmPicker, LayoutHelper.createLinear(0, (int) NotificationCenter.onDatabaseOpened, 0.5f));
+        linearLayout2.addView(this.kmPicker, LayoutHelper.createLinear(0, (int) NotificationCenter.dialogsUnreadReactionsCounterChanged, 0.5f));
         this.kmPicker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.ProximitySheet$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i) {
@@ -234,7 +234,7 @@ public class ProximitySheet extends FrameLayout {
         this.mPicker.setMaxValue(10);
         this.mPicker.setWrapSelectorWheel(false);
         this.mPicker.setTextOffset(-AndroidUtilities.dp(20.0f));
-        linearLayout2.addView(this.mPicker, LayoutHelper.createLinear(0, (int) NotificationCenter.onDatabaseOpened, 0.5f));
+        linearLayout2.addView(this.mPicker, LayoutHelper.createLinear(0, (int) NotificationCenter.dialogsUnreadReactionsCounterChanged, 0.5f));
         this.mPicker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.ProximitySheet$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i) {
@@ -345,7 +345,7 @@ public class ProximitySheet extends FrameLayout {
     public /* synthetic */ String lambda$new$3(int i) {
         if (this.useImperialSystem) {
             if (i == 1) {
-                return LocaleController.formatString("FootsShort", R.string.FootsShort, Integer.valueOf((int) NotificationCenter.newLocationAvailable));
+                return LocaleController.formatString("FootsShort", R.string.FootsShort, Integer.valueOf((int) NotificationCenter.liveLocationsChanged));
             }
             if (i > 1) {
                 i--;

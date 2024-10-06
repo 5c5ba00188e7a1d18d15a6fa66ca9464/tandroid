@@ -189,7 +189,7 @@ public class ChooseQualityLayout {
                     } else if (Math.abs(min - 360) < 30) {
                         min = 360;
                     } else if (Math.abs(min - 240) < 30) {
-                        min = NotificationCenter.goingToPreviewTheme;
+                        min = NotificationCenter.needSetDayNightTheme;
                     } else if (Math.abs(min - 144) < 30) {
                         min = NotificationCenter.messagePlayingProgressDidChanged;
                     }

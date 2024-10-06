@@ -307,7 +307,7 @@ public class CameraController implements MediaRecorder.OnInfoListener {
                                 if (pack5 != 8) {
                                     return -1;
                                 }
-                                return NotificationCenter.onDatabaseOpened;
+                                return NotificationCenter.dialogsUnreadReactionsCounterChanged;
                             }
                             return 90;
                         }

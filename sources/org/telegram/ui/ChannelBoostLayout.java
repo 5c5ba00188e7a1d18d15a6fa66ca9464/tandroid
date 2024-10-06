@@ -758,7 +758,7 @@ public class ChannelBoostLayout extends FrameLayout {
         this.progressLayout.addView(rLottieImageView, LayoutHelper.createLinear(120, 120, 1, 0, 0, 0, 20));
         this.progressLayout.addView(textView, LayoutHelper.createLinear(-2, -2, 1, 0, 0, 0, 10));
         this.progressLayout.addView(textView2, LayoutHelper.createLinear(-2, -2, 1));
-        addView(this.progressLayout, LayoutHelper.createFrame(NotificationCenter.goingToPreviewTheme, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
+        addView(this.progressLayout, LayoutHelper.createFrame(NotificationCenter.needSetDayNightTheme, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
     }
 
     public void updateRows(boolean z) {

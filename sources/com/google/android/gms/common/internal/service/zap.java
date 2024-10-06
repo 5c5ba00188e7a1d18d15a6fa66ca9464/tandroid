@@ -18,7 +18,7 @@ public final class zap extends GmsClient {
     private final TelemetryLoggingOptions zaa;
 
     public zap(Context context, Looper looper, ClientSettings clientSettings, TelemetryLoggingOptions telemetryLoggingOptions, ConnectionCallbacks connectionCallbacks, OnConnectionFailedListener onConnectionFailedListener) {
-        super(context, looper, (int) NotificationCenter.onDatabaseOpened, clientSettings, connectionCallbacks, onConnectionFailedListener);
+        super(context, looper, (int) NotificationCenter.dialogsUnreadReactionsCounterChanged, clientSettings, connectionCallbacks, onConnectionFailedListener);
         this.zaa = telemetryLoggingOptions;
     }
 

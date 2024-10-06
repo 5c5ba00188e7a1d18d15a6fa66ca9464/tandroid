@@ -15,7 +15,7 @@ abstract class AuthenticatorUtils {
         if (promptInfo.getAllowedAuthenticators() != 0) {
             return promptInfo.getAllowedAuthenticators();
         }
-        int i = cryptoObject != null ? 15 : NotificationCenter.messagePlayingSpeedChanged;
+        int i = cryptoObject != null ? 15 : NotificationCenter.closeSearchByActiveAction;
         return promptInfo.isDeviceCredentialAllowed() ? 32768 | i : i;
     }
 
@@ -46,6 +46,6 @@ abstract class AuthenticatorUtils {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean isWeakBiometricAllowed(int i) {
-        return (i & NotificationCenter.messagePlayingSpeedChanged) == 255;
+        return (i & NotificationCenter.closeSearchByActiveAction) == 255;
     }
 }

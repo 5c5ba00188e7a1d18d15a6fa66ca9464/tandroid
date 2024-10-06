@@ -135,11 +135,11 @@ public class RLottieImageView extends ImageView {
         setAnimation(new RLottieDrawable(i, "" + i, AndroidUtilities.dp(i2), AndroidUtilities.dp(i3), false, iArr));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0126  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0136  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0141  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0146  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x015a  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x014f  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x015f  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x016a  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x016f  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0183  */
     /* JADX WARN: Removed duplicated region for block: B:44:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -148,13 +148,13 @@ public class RLottieImageView extends ImageView {
         ImageLocation imageLocation;
         String str;
         SvgHelper.SvgDrawable svgThumb;
-        String sb;
-        ImageLocation forDocument;
         String str2;
         int i3;
         ImageReceiver imageReceiver;
         ImageLocation imageLocation2;
         String str3;
+        ImageLocation imageLocation3;
+        String str4;
         long j;
         TLRPC.Document document2;
         ImageReceiver imageReceiver2 = this.imageReceiver;
@@ -168,47 +168,50 @@ public class RLottieImageView extends ImageView {
         ImageReceiver imageReceiver3 = new ImageReceiver() { // from class: org.telegram.ui.Components.RLottieImageView.1
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.messenger.ImageReceiver
-            public boolean setImageBitmapByKey(Drawable drawable, String str4, int i4, boolean z, int i5) {
+            public boolean setImageBitmapByKey(Drawable drawable, String str5, int i4, boolean z, int i5) {
                 if (drawable != null) {
                     RLottieImageView.this.onLoaded();
                 }
-                return super.setImageBitmapByKey(drawable, str4, i4, z, i5);
+                return super.setImageBitmapByKey(drawable, str5, i4, z, i5);
             }
         };
         this.imageReceiver = imageReceiver3;
         imageReceiver3.setAllowLoadingOnAttachedOnly(true);
-        String str4 = document.localThumbPath;
-        if (str4 != null) {
-            imageLocation = ImageLocation.getForPath(str4);
+        String str5 = document.localThumbPath;
+        if (str5 != null) {
+            imageLocation = ImageLocation.getForPath(str5);
             str = i + "_" + i2;
         } else {
             imageLocation = null;
             str = null;
         }
+        TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 90);
         if (this.onlyLastFrame) {
-            imageReceiver = this.imageReceiver;
-            imageLocation2 = ImageLocation.getForDocument(document);
-            sb = i + "_" + i2 + "_lastframe";
+            ImageReceiver imageReceiver4 = this.imageReceiver;
+            ImageLocation forDocument = ImageLocation.getForDocument(document);
+            ImageLocation forDocument2 = ImageLocation.getForDocument(closestPhotoSizeWithSize, document);
             str2 = null;
-            forDocument = null;
-            str3 = null;
+            imageReceiver = imageReceiver4;
+            imageLocation2 = forDocument;
+            str3 = i + "_" + i2 + "_lastframe";
+            imageLocation3 = forDocument2;
+            str4 = i + "_" + i2;
             svgThumb = null;
             j = 0;
             document2 = document;
             i3 = 1;
         } else {
             if ("video/webm".equals(document.mime_type)) {
-                TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 90);
-                ImageReceiver imageReceiver4 = this.imageReceiver;
-                ImageLocation forDocument2 = ImageLocation.getForDocument(document);
-                StringBuilder sb2 = new StringBuilder();
-                sb2.append(i);
-                sb2.append("_");
-                sb2.append(i2);
-                sb2.append(this.cached ? "_pcache" : "");
-                sb2.append("_");
-                sb2.append(ImageLoader.AUTOPLAY_FILTER);
-                imageReceiver4.setImage(forDocument2, sb2.toString(), imageLocation != null ? imageLocation : ImageLocation.getForDocument(closestPhotoSizeWithSize, document), str, null, document.size, null, document, 1);
+                ImageReceiver imageReceiver5 = this.imageReceiver;
+                ImageLocation forDocument3 = ImageLocation.getForDocument(document);
+                StringBuilder sb = new StringBuilder();
+                sb.append(i);
+                sb.append("_");
+                sb.append(i2);
+                sb.append(this.cached ? "_pcache" : "");
+                sb.append("_");
+                sb.append(ImageLoader.AUTOPLAY_FILTER);
+                imageReceiver5.setImage(forDocument3, sb.toString(), imageLocation != null ? imageLocation : ImageLocation.getForDocument(closestPhotoSizeWithSize, document), str, null, document.size, null, document, 1);
                 this.imageReceiver.setAspectFit(true);
                 this.imageReceiver.setParentView(this);
                 if (this.autoRepeat) {
@@ -218,9 +221,9 @@ public class RLottieImageView extends ImageView {
                     this.imageReceiver.setAllowStartLottieAnimation(true);
                     this.imageReceiver.setAllowStartAnimation(true);
                 }
-                ImageReceiver imageReceiver5 = this.imageReceiver;
+                ImageReceiver imageReceiver6 = this.imageReceiver;
                 Integer num = this.layerNum;
-                imageReceiver5.setLayerNum(num == null ? num.intValue() : 7);
+                imageReceiver6.setLayerNum(num == null ? num.intValue() : 7);
                 this.imageReceiver.clip = false;
                 setImageDrawable(new Drawable() { // from class: org.telegram.ui.Components.RLottieImageView.2
                     @Override // android.graphics.drawable.Drawable
@@ -256,32 +259,33 @@ public class RLottieImageView extends ImageView {
             if (svgThumb != null) {
                 svgThumb.overrideWidthAndHeight(512, 512);
             }
-            TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 90);
-            ImageReceiver imageReceiver6 = this.imageReceiver;
-            ImageLocation forDocument3 = ImageLocation.getForDocument(document);
-            StringBuilder sb3 = new StringBuilder();
-            sb3.append(i);
-            sb3.append("_");
-            sb3.append(i2);
-            sb3.append(this.cached ? "_pcache" : "");
-            sb = sb3.toString();
-            forDocument = ImageLocation.getForDocument(closestPhotoSizeWithSize2, document);
+            ImageReceiver imageReceiver7 = this.imageReceiver;
+            ImageLocation forDocument4 = ImageLocation.getForDocument(document);
+            StringBuilder sb2 = new StringBuilder();
+            sb2.append(i);
+            sb2.append("_");
+            sb2.append(i2);
+            sb2.append(this.cached ? "_pcache" : "");
+            String sb3 = sb2.toString();
+            ImageLocation forDocument5 = ImageLocation.getForDocument(closestPhotoSizeWithSize, document);
             str2 = null;
             i3 = 1;
-            imageReceiver = imageReceiver6;
-            imageLocation2 = forDocument3;
-            str3 = null;
+            imageReceiver = imageReceiver7;
+            imageLocation2 = forDocument4;
+            str3 = sb3;
+            imageLocation3 = forDocument5;
+            str4 = i + "_" + i2;
             j = 0;
             document2 = document;
         }
-        imageReceiver.setImage(imageLocation2, sb, forDocument, str3, imageLocation, str, svgThumb, j, str2, document2, i3);
+        imageReceiver.setImage(imageLocation2, str3, imageLocation3, str4, imageLocation, str, svgThumb, j, str2, document2, i3);
         this.imageReceiver.setAspectFit(true);
         this.imageReceiver.setParentView(this);
         if (this.autoRepeat) {
         }
-        ImageReceiver imageReceiver52 = this.imageReceiver;
+        ImageReceiver imageReceiver62 = this.imageReceiver;
         Integer num2 = this.layerNum;
-        imageReceiver52.setLayerNum(num2 == null ? num2.intValue() : 7);
+        imageReceiver62.setLayerNum(num2 == null ? num2.intValue() : 7);
         this.imageReceiver.clip = false;
         setImageDrawable(new Drawable() { // from class: org.telegram.ui.Components.RLottieImageView.2
             @Override // android.graphics.drawable.Drawable

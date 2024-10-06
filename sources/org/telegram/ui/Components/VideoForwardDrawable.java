@@ -143,7 +143,7 @@ public class VideoForwardDrawable extends Drawable {
         canvas.translate(f5, f6);
         float f7 = this.animationProgress;
         if (f7 <= 0.6f) {
-            int min = f7 < 0.4f ? Math.min((int) NotificationCenter.messagePlayingSpeedChanged, (int) ((f7 * 255.0f) / 0.2f)) : (int) ((1.0f - ((f7 - 0.4f) / 0.2f)) * 255.0f);
+            int min = f7 < 0.4f ? Math.min((int) NotificationCenter.closeSearchByActiveAction, (int) ((f7 * 255.0f) / 0.2f)) : (int) ((1.0f - ((f7 - 0.4f) / 0.2f)) * 255.0f);
             if (!this.isOneShootAnimation) {
                 min = (int) (min * this.enterAnimationProgress);
             }
@@ -154,7 +154,7 @@ public class VideoForwardDrawable extends Drawable {
         float f8 = this.animationProgress;
         if (f8 >= 0.2f && f8 <= 0.8f) {
             float f9 = f8 - 0.2f;
-            int min2 = f9 < 0.4f ? Math.min((int) NotificationCenter.messagePlayingSpeedChanged, (int) ((f9 * 255.0f) / 0.2f)) : (int) ((1.0f - ((f9 - 0.4f) / 0.2f)) * 255.0f);
+            int min2 = f9 < 0.4f ? Math.min((int) NotificationCenter.closeSearchByActiveAction, (int) ((f9 * 255.0f) / 0.2f)) : (int) ((1.0f - ((f9 - 0.4f) / 0.2f)) * 255.0f);
             if (!this.isOneShootAnimation) {
                 min2 = (int) (min2 * this.enterAnimationProgress);
             }
@@ -165,7 +165,7 @@ public class VideoForwardDrawable extends Drawable {
         float f10 = this.animationProgress;
         if (f10 >= 0.4f && f10 <= 1.0f) {
             float f11 = f10 - 0.4f;
-            int min3 = f11 < 0.4f ? Math.min((int) NotificationCenter.messagePlayingSpeedChanged, (int) ((f11 * 255.0f) / 0.2f)) : (int) ((1.0f - ((f11 - 0.4f) / 0.2f)) * 255.0f);
+            int min3 = f11 < 0.4f ? Math.min((int) NotificationCenter.closeSearchByActiveAction, (int) ((f11 * 255.0f) / 0.2f)) : (int) ((1.0f - ((f11 - 0.4f) / 0.2f)) * 255.0f);
             if (!this.isOneShootAnimation) {
                 min3 = (int) (min3 * this.enterAnimationProgress);
             }

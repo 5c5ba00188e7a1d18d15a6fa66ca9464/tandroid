@@ -57,7 +57,7 @@ public class ProgressButton extends Button {
         if (this.drawProgress || this.progressAlpha != 0.0f) {
             int measuredWidth = getMeasuredWidth() - AndroidUtilities.dp(11.0f);
             this.progressRect.set(measuredWidth, AndroidUtilities.dp(3.0f), measuredWidth + AndroidUtilities.dp(8.0f), AndroidUtilities.dp(11.0f));
-            this.progressPaint.setAlpha(Math.min((int) NotificationCenter.messagePlayingSpeedChanged, (int) (this.progressAlpha * 255.0f)));
+            this.progressPaint.setAlpha(Math.min((int) NotificationCenter.closeSearchByActiveAction, (int) (this.progressAlpha * 255.0f)));
             canvas.drawArc(this.progressRect, this.angle, 220.0f, false, this.progressPaint);
             long currentTimeMillis = System.currentTimeMillis();
             if (Math.abs(this.lastUpdateTime - System.currentTimeMillis()) < 1000) {

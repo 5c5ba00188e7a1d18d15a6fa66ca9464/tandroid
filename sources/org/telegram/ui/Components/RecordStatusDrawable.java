@@ -15,7 +15,7 @@ public class RecordStatusDrawable extends StatusDrawable {
     private long lastUpdateTime = 0;
     private boolean started = false;
     private RectF rect = new RectF();
-    int alpha = NotificationCenter.messagePlayingSpeedChanged;
+    int alpha = NotificationCenter.closeSearchByActiveAction;
 
     public RecordStatusDrawable(boolean z) {
         if (z) {

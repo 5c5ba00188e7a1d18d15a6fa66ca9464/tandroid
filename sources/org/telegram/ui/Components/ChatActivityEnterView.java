@@ -2749,8 +2749,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     int i2 = (int) (ChatActivityEnterView.this.slideToCancelProgress >= 0.93f ? ((ChatActivityEnterView.this.slideToCancelProgress - 0.93f) / 0.07f) * 255.0f : 0.0f);
                     drawable3.setAlpha(i2);
                     drawable3.draw(canvas);
-                    drawable3.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
-                    i = NotificationCenter.messagePlayingSpeedChanged - i2;
+                    drawable3.setAlpha(NotificationCenter.closeSearchByActiveAction);
+                    i = NotificationCenter.closeSearchByActiveAction - i2;
                 } else if (ChatActivityEnterView.this.canceledByGesture) {
                     return;
                 }
@@ -3618,7 +3618,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             float f5;
             boolean z;
             int i2;
-            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.messagePlayingSpeedChanged, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.closeSearchByActiveAction, 31);
             boolean isOpen = isOpen();
             updateColors(isOpen);
             Drawable drawable = isInactive() ? this.inactiveDrawable : this.drawable;
@@ -4310,7 +4310,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     canvas.restore();
                 }
                 canvas.save();
-                this.textPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
+                this.textPaint.setAlpha(NotificationCenter.closeSearchByActiveAction);
                 StaticLayout staticLayout2 = new StaticLayout(this.replaceStable, this.textPaint, getMeasuredWidth(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                 canvas.translate(0.0f, measuredHeight - (staticLayout2.getHeight() / 2.0f));
                 staticLayout2.draw(canvas);
@@ -11300,7 +11300,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         float f = this.topGradientAlpha.set(this.messageEditText.canScrollVertically(-1));
         float f2 = this.bottomGradientAlpha.set(this.messageEditText.canScrollVertically(1));
         if (f > 0.0f || f2 > 0.0f) {
-            canvas.saveLayerAlpha(0.0f, 0.0f, this.messageEditText.getX() + this.messageEditText.getMeasuredWidth() + AndroidUtilities.dp(5.0f), this.messageEditText.getY() + this.messageEditText.getMeasuredHeight() + AndroidUtilities.dp(2.0f), NotificationCenter.messagePlayingSpeedChanged, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, this.messageEditText.getX() + this.messageEditText.getMeasuredWidth() + AndroidUtilities.dp(5.0f), this.messageEditText.getY() + this.messageEditText.getMeasuredHeight() + AndroidUtilities.dp(2.0f), NotificationCenter.closeSearchByActiveAction, 31);
             boolean booleanValue = ((Boolean) callback0Return.run()).booleanValue();
             canvas.save();
             if (f > 0.0f) {

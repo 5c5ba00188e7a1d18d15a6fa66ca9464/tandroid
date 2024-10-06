@@ -24,8 +24,8 @@ public final class GenericGF {
         GenericGF genericGF = new GenericGF(67, 64, 1);
         AZTEC_DATA_6 = genericGF;
         AZTEC_PARAM = new GenericGF(19, 16, 1);
-        QR_CODE_FIELD_256 = new GenericGF(NotificationCenter.activityPermissionsGranted, 256, 0);
-        GenericGF genericGF2 = new GenericGF(NotificationCenter.nearEarEvent, 256, 1);
+        QR_CODE_FIELD_256 = new GenericGF(NotificationCenter.permissionsGranted, 256, 0);
+        GenericGF genericGF2 = new GenericGF(NotificationCenter.storiesReadUpdated, 256, 1);
         DATA_MATRIX_FIELD_256 = genericGF2;
         AZTEC_DATA_8 = genericGF2;
         MAXICODE_FIELD_64 = genericGF;

@@ -95,8 +95,24 @@ public class SendGiftSheet extends BottomSheetWithRecyclerListView {
         this(context, i, starGift, null, j, runnable);
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x015a  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x015d  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0254  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0256  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x02c6  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0307  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0378  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x03b1  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x03dc  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x03ed  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private SendGiftSheet(Context context, final int i, final TL_stars.StarGift starGift, GiftPremiumBottomSheet$GiftTier giftPremiumBottomSheet$GiftTier, long j, Runnable runnable) {
         super(context, null, true, false, false, false, BottomSheetWithRecyclerListView.ActionBarType.SLIDING, null);
+        CharSequence formatString;
+        TLRPC.TL_messageActionGiftPremium tL_messageActionGiftPremium;
         this.animationsLock = new AnimationNotificationsLocker();
         setImageReceiverNumLevel(0, 4);
         fixNavigationBar();
@@ -228,36 +244,57 @@ public class SendGiftSheet extends BottomSheetWithRecyclerListView {
         };
         this.chatView = sizeNotifierFrameLayout;
         sizeNotifierFrameLayout.setBackgroundImage(PreviewView.getBackgroundDrawable((Drawable) null, i, j, Theme.isCurrentThemeDark()), false);
-        if (starGift == null) {
-            throw new RuntimeException("SendGiftSheet with no star gift and no premium tier");
-        }
-        TLRPC.TL_messageActionStarGift tL_messageActionStarGift = new TLRPC.TL_messageActionStarGift();
-        tL_messageActionStarGift.gift = starGift;
-        tL_messageActionStarGift.flags |= 2;
-        tL_messageActionStarGift.message = new TLRPC.TL_textWithEntities();
-        tL_messageActionStarGift.convert_stars = starGift.convert_stars;
-        tL_messageActionStarGift.forceIn = true;
-        this.action = tL_messageActionStarGift;
-        TLRPC.TL_messageService tL_messageService = new TLRPC.TL_messageService();
-        tL_messageService.id = 1;
-        tL_messageService.dialog_id = j;
-        tL_messageService.from_id = MessagesController.getInstance(i).getPeer(UserConfig.getInstance(i).getClientUserId());
-        tL_messageService.peer_id = MessagesController.getInstance(i).getPeer(UserConfig.getInstance(i).getClientUserId());
-        tL_messageService.action = tL_messageActionStarGift;
-        MessageObject messageObject = new MessageObject(i, tL_messageService, false, false);
-        this.messageObject = messageObject;
-        chatActionCell.setMessageObject(messageObject, true);
-        sizeNotifierFrameLayout.addView(chatActionCell, LayoutHelper.createFrame(-1, -1.0f, 119, 0.0f, 8.0f, 0.0f, 8.0f));
-        EditEmojiTextCell editEmojiTextCell = new EditEmojiTextCell(context, (SizeNotifierFrameLayout) this.containerView, LocaleController.getString(R.string.Gift2Message), true, MessagesController.getInstance(i).stargiftsMessageLengthMax, 4, this.resourcesProvider) { // from class: org.telegram.ui.Gifts.SendGiftSheet.3
-            @Override // org.telegram.ui.Cells.EditEmojiTextCell
-            protected void onFocusChanged(boolean z) {
-            }
+        if (starGift != null) {
+            TLRPC.TL_messageActionStarGift tL_messageActionStarGift = new TLRPC.TL_messageActionStarGift();
+            tL_messageActionStarGift.gift = starGift;
+            tL_messageActionStarGift.flags |= 2;
+            tL_messageActionStarGift.message = new TLRPC.TL_textWithEntities();
+            tL_messageActionStarGift.convert_stars = starGift.convert_stars;
+            tL_messageActionStarGift.forceIn = true;
+            tL_messageActionGiftPremium = tL_messageActionStarGift;
+        } else if (giftPremiumBottomSheet$GiftTier != null && giftPremiumBottomSheet$GiftTier.giftCodeOption != null) {
+            TLRPC.TL_messageActionGiftCode tL_messageActionGiftCode = new TLRPC.TL_messageActionGiftCode();
+            tL_messageActionGiftCode.unclaimed = true;
+            tL_messageActionGiftCode.via_giveaway = false;
+            tL_messageActionGiftCode.months = giftPremiumBottomSheet$GiftTier.getMonths();
+            tL_messageActionGiftCode.flags = 4 | tL_messageActionGiftCode.flags;
+            tL_messageActionGiftCode.currency = giftPremiumBottomSheet$GiftTier.getCurrency();
+            tL_messageActionGiftCode.amount = giftPremiumBottomSheet$GiftTier.getPrice();
+            tL_messageActionGiftCode.flags |= 16;
+            tL_messageActionGiftCode.message = new TLRPC.TL_textWithEntities();
+            this.action = tL_messageActionGiftCode;
+            TLRPC.TL_messageService tL_messageService = new TLRPC.TL_messageService();
+            tL_messageService.id = 1;
+            tL_messageService.dialog_id = j;
+            tL_messageService.from_id = MessagesController.getInstance(i).getPeer(UserConfig.getInstance(i).getClientUserId());
+            tL_messageService.peer_id = MessagesController.getInstance(i).getPeer(UserConfig.getInstance(i).getClientUserId());
+            tL_messageService.action = this.action;
+            MessageObject messageObject = new MessageObject(i, tL_messageService, false, false);
+            this.messageObject = messageObject;
+            chatActionCell.setMessageObject(messageObject, true);
+            sizeNotifierFrameLayout.addView(chatActionCell, LayoutHelper.createFrame(-1, -1.0f, 119, 0.0f, 8.0f, 0.0f, 8.0f));
+            EditEmojiTextCell editEmojiTextCell = new EditEmojiTextCell(context, (SizeNotifierFrameLayout) this.containerView, LocaleController.getString(starGift == null ? R.string.Gift2Message : R.string.Gift2MessageOptional), true, MessagesController.getInstance(i).stargiftsMessageLengthMax, 4, this.resourcesProvider) { // from class: org.telegram.ui.Gifts.SendGiftSheet.3
+                @Override // org.telegram.ui.Cells.EditEmojiTextCell
+                protected void onFocusChanged(boolean z) {
+                }
 
-            @Override // org.telegram.ui.Cells.EditEmojiTextCell
-            protected void onTextChanged(CharSequence charSequence) {
-                if (SendGiftSheet.this.action instanceof TLRPC.TL_messageActionStarGift) {
-                    TLRPC.TL_textWithEntities tL_textWithEntities = new TLRPC.TL_textWithEntities();
-                    ((TLRPC.TL_messageActionStarGift) SendGiftSheet.this.action).message = tL_textWithEntities;
+                @Override // org.telegram.ui.Cells.EditEmojiTextCell
+                protected void onTextChanged(CharSequence charSequence) {
+                    TLRPC.TL_textWithEntities tL_textWithEntities;
+                    if (SendGiftSheet.this.action instanceof TLRPC.TL_messageActionStarGift) {
+                        tL_textWithEntities = new TLRPC.TL_textWithEntities();
+                        ((TLRPC.TL_messageActionStarGift) SendGiftSheet.this.action).message = tL_textWithEntities;
+                    } else if (SendGiftSheet.this.action instanceof TLRPC.TL_messageActionGiftCode) {
+                        ((TLRPC.TL_messageActionGiftCode) SendGiftSheet.this.action).flags |= 16;
+                        tL_textWithEntities = new TLRPC.TL_textWithEntities();
+                        ((TLRPC.TL_messageActionGiftCode) SendGiftSheet.this.action).message = tL_textWithEntities;
+                    } else if (!(SendGiftSheet.this.action instanceof TLRPC.TL_messageActionGiftPremium)) {
+                        return;
+                    } else {
+                        ((TLRPC.TL_messageActionGiftPremium) SendGiftSheet.this.action).flags |= 16;
+                        tL_textWithEntities = new TLRPC.TL_textWithEntities();
+                        ((TLRPC.TL_messageActionGiftPremium) SendGiftSheet.this.action).message = tL_textWithEntities;
+                    }
                     CharSequence[] charSequenceArr = {SendGiftSheet.this.messageEdit.getText()};
                     tL_textWithEntities.entities = MediaDataController.getInstance(i).getEntities(charSequenceArr, true);
                     tL_textWithEntities.text = charSequenceArr[0].toString();
@@ -265,133 +302,343 @@ public class SendGiftSheet extends BottomSheetWithRecyclerListView {
                     SendGiftSheet.this.actionCell.setMessageObject(SendGiftSheet.this.messageObject, true);
                     SendGiftSheet.this.adapter.update(true);
                 }
+            };
+            this.messageEdit = editEmojiTextCell;
+            editEmojiTextCell.editTextEmoji.getEditText().addTextChangedListener(new EditTextSuggestionsFix());
+            this.messageEdit.editTextEmoji.allowEmojisForNonPremium(true);
+            this.messageEdit.setShowLimitWhenNear(50);
+            setEditTextEmoji(this.messageEdit.editTextEmoji);
+            this.messageEdit.setShowLimitOnFocus(true);
+            EditEmojiTextCell editEmojiTextCell2 = this.messageEdit;
+            int i2 = Theme.key_dialogBackground;
+            editEmojiTextCell2.setBackgroundColor(Theme.getColor(i2, this.resourcesProvider));
+            this.messageEdit.setDivider(false);
+            this.messageEdit.hideKeyboardOnEnter();
+            EditEmojiTextCell editEmojiTextCell3 = this.messageEdit;
+            int i3 = this.backgroundPaddingLeft;
+            editEmojiTextCell3.setPadding(i3, 0, i3, 0);
+            DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator() { // from class: org.telegram.ui.Gifts.SendGiftSheet.4
+                @Override // androidx.recyclerview.widget.DefaultItemAnimator
+                protected float animateByScale(View view) {
+                    return 0.3f;
+                }
+            };
+            defaultItemAnimator.setDelayAnimations(false);
+            defaultItemAnimator.setSupportsChangeAnimations(false);
+            defaultItemAnimator.setDurations(350L);
+            defaultItemAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+            defaultItemAnimator.setDelayIncrement(40L);
+            this.recyclerListView.setItemAnimator(defaultItemAnimator);
+            RecyclerListView recyclerListView = this.recyclerListView;
+            int i4 = this.backgroundPaddingLeft;
+            recyclerListView.setPadding(i4, 0, i4, AndroidUtilities.dp(68 + ((starGift == null && starGift.limited) ? 40 : 0)));
+            this.adapter.update(false);
+            this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Gifts.SendGiftSheet$$ExternalSyntheticLambda1
+                @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
+                public final void onItemClick(View view, int i5) {
+                    SendGiftSheet.this.lambda$new$0(view, i5);
+                }
+            });
+            LinearLayout linearLayout = new LinearLayout(context);
+            this.buttonContainer = linearLayout;
+            linearLayout.setOrientation(1);
+            linearLayout.setBackgroundColor(Theme.getColor(i2, this.resourcesProvider));
+            int i5 = this.backgroundPaddingLeft;
+            linearLayout.setPadding(i5, 0, i5, 0);
+            this.containerView.addView(linearLayout, LayoutHelper.createFrame(-1, -2, 87));
+            View view = new View(context);
+            view.setBackgroundColor(Theme.getColor(Theme.key_dialogGrayLine, this.resourcesProvider));
+            linearLayout.addView(view, LayoutHelper.createLinear(-1.0f, 1.0f / AndroidUtilities.density, 55));
+            final float clamp = Utilities.clamp(starGift != null ? 0.0f : starGift.availability_remains / starGift.availability_total, 0.97f, 0.0f);
+            FrameLayout frameLayout = new FrameLayout(context);
+            this.limitContainer = frameLayout;
+            frameLayout.setVisibility((starGift == null && starGift.limited) ? 0 : 8);
+            frameLayout.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor(Theme.key_windowBackgroundGray, this.resourcesProvider)));
+            linearLayout.addView(frameLayout, LayoutHelper.createLinear(-1, 30, 10.0f, 10.0f, 10.0f, 0.0f));
+            TextView textView = new TextView(context);
+            this.leftTextView = textView;
+            textView.setTextSize(1, 13.0f);
+            textView.setGravity(19);
+            textView.setTypeface(AndroidUtilities.bold());
+            int i6 = Theme.key_windowBackgroundWhiteBlackText;
+            textView.setTextColor(Theme.getColor(i6, this.resourcesProvider));
+            if (starGift != null) {
+                textView.setText(LocaleController.formatPluralStringComma("Gift2AvailabilityLeft", starGift.availability_remains));
+            }
+            frameLayout.addView(textView, LayoutHelper.createFrame(-1, -1.0f, 3, 11.0f, 0.0f, 11.0f, 0.0f));
+            TextView textView2 = new TextView(context);
+            this.soldTextView = textView2;
+            textView2.setTextSize(1, 13.0f);
+            textView2.setGravity(21);
+            textView2.setTypeface(AndroidUtilities.bold());
+            textView2.setTextColor(Theme.getColor(i6, this.resourcesProvider));
+            if (starGift != null) {
+                textView2.setText(LocaleController.formatPluralStringComma("Gift2AvailabilitySold", starGift.availability_total - starGift.availability_remains));
+            }
+            frameLayout.addView(textView2, LayoutHelper.createFrame(-1, -1.0f, 5, 11.0f, 0.0f, 11.0f, 0.0f));
+            View view2 = new View(context) { // from class: org.telegram.ui.Gifts.SendGiftSheet.5
+                @Override // android.view.View
+                protected void onMeasure(int i7, int i8) {
+                    if (starGift == null) {
+                        super.onMeasure(i7, i8);
+                    } else {
+                        super.onMeasure(View.MeasureSpec.makeMeasureSpec((int) (View.MeasureSpec.getSize(i7) * clamp), 1073741824), i8);
+                    }
+                }
+            };
+            this.limitProgressView = view2;
+            view2.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor(Theme.key_featuredStickers_addButton, this.resourcesProvider)));
+            frameLayout.addView(view2, LayoutHelper.createFrame(-1, -1, 119));
+            FrameLayout frameLayout2 = new FrameLayout(context) { // from class: org.telegram.ui.Gifts.SendGiftSheet.6
+                @Override // android.view.ViewGroup, android.view.View
+                protected void dispatchDraw(Canvas canvas) {
+                    canvas.save();
+                    canvas.clipRect(0.0f, 0.0f, getWidth() * clamp, getHeight());
+                    super.dispatchDraw(canvas);
+                    canvas.restore();
+                }
+            };
+            this.valueContainerView = frameLayout2;
+            frameLayout2.setWillNotDraw(false);
+            frameLayout.addView(frameLayout2, LayoutHelper.createFrame(-1, -1, 119));
+            TextView textView3 = new TextView(context);
+            this.leftTextView2 = textView3;
+            textView3.setTextSize(1, 13.0f);
+            textView3.setGravity(19);
+            textView3.setTypeface(AndroidUtilities.bold());
+            textView3.setTextColor(-1);
+            if (starGift != null) {
+                textView3.setText(LocaleController.formatPluralStringComma("Gift2AvailabilityLeft", starGift.availability_remains));
+            }
+            frameLayout2.addView(textView3, LayoutHelper.createFrame(-1, -1.0f, 3, 11.0f, 0.0f, 11.0f, 0.0f));
+            TextView textView4 = new TextView(context);
+            this.soldTextView2 = textView4;
+            textView4.setTextSize(1, 13.0f);
+            textView4.setGravity(21);
+            textView4.setTypeface(AndroidUtilities.bold());
+            textView4.setTextColor(-1);
+            if (starGift != null) {
+                textView4.setText(LocaleController.formatPluralStringComma("Gift2AvailabilitySold", starGift.availability_total - starGift.availability_remains));
+            }
+            frameLayout2.addView(textView4, LayoutHelper.createFrame(-1, -1.0f, 5, 11.0f, 0.0f, 11.0f, 0.0f));
+            ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(context, this.resourcesProvider);
+            this.button = buttonWithCounterView;
+            if (starGift != null) {
+                formatString = giftPremiumBottomSheet$GiftTier != null ? LocaleController.formatString(R.string.Gift2SendPremium, giftPremiumBottomSheet$GiftTier.getFormattedPrice()) : formatString;
+                linearLayout.addView(buttonWithCounterView, LayoutHelper.createLinear(-1, 48, 119, 10, 10, 10, 10));
+                buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Gifts.SendGiftSheet$$ExternalSyntheticLambda2
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view3) {
+                        SendGiftSheet.this.lambda$new$1(starGift, view3);
+                    }
+                });
+                LinearLayoutManager linearLayoutManager = this.layoutManager;
+                this.reverseLayout = true;
+                linearLayoutManager.setReverseLayout(true);
+                this.adapter.update(false);
+                this.layoutManager.scrollToPositionWithOffset(this.adapter.getItemCount(), AndroidUtilities.dp(200.0f));
+            }
+            StarsIntroActivity.replaceStars(LocaleController.formatPluralStringComma("Gift2Send", (int) starGift.stars));
+            buttonWithCounterView.setText(formatString, false);
+            linearLayout.addView(buttonWithCounterView, LayoutHelper.createLinear(-1, 48, 119, 10, 10, 10, 10));
+            buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Gifts.SendGiftSheet$$ExternalSyntheticLambda2
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view3) {
+                    SendGiftSheet.this.lambda$new$1(starGift, view3);
+                }
+            });
+            LinearLayoutManager linearLayoutManager2 = this.layoutManager;
+            this.reverseLayout = true;
+            linearLayoutManager2.setReverseLayout(true);
+            this.adapter.update(false);
+            this.layoutManager.scrollToPositionWithOffset(this.adapter.getItemCount(), AndroidUtilities.dp(200.0f));
+        } else if (giftPremiumBottomSheet$GiftTier == null || giftPremiumBottomSheet$GiftTier.giftOption == null) {
+            throw new RuntimeException("SendGiftSheet with no star gift and no premium tier");
+        } else {
+            TLRPC.TL_messageActionGiftPremium tL_messageActionGiftPremium2 = new TLRPC.TL_messageActionGiftPremium();
+            tL_messageActionGiftPremium2.months = giftPremiumBottomSheet$GiftTier.getMonths();
+            tL_messageActionGiftPremium2.currency = giftPremiumBottomSheet$GiftTier.getCurrency();
+            tL_messageActionGiftPremium2.amount = giftPremiumBottomSheet$GiftTier.getPrice();
+            tL_messageActionGiftPremium2.flags |= 2;
+            tL_messageActionGiftPremium2.message = new TLRPC.TL_textWithEntities();
+            tL_messageActionGiftPremium = tL_messageActionGiftPremium2;
+        }
+        this.action = tL_messageActionGiftPremium;
+        TLRPC.TL_messageService tL_messageService2 = new TLRPC.TL_messageService();
+        tL_messageService2.id = 1;
+        tL_messageService2.dialog_id = j;
+        tL_messageService2.from_id = MessagesController.getInstance(i).getPeer(UserConfig.getInstance(i).getClientUserId());
+        tL_messageService2.peer_id = MessagesController.getInstance(i).getPeer(UserConfig.getInstance(i).getClientUserId());
+        tL_messageService2.action = this.action;
+        MessageObject messageObject2 = new MessageObject(i, tL_messageService2, false, false);
+        this.messageObject = messageObject2;
+        chatActionCell.setMessageObject(messageObject2, true);
+        sizeNotifierFrameLayout.addView(chatActionCell, LayoutHelper.createFrame(-1, -1.0f, 119, 0.0f, 8.0f, 0.0f, 8.0f));
+        EditEmojiTextCell editEmojiTextCell4 = new EditEmojiTextCell(context, (SizeNotifierFrameLayout) this.containerView, LocaleController.getString(starGift == null ? R.string.Gift2Message : R.string.Gift2MessageOptional), true, MessagesController.getInstance(i).stargiftsMessageLengthMax, 4, this.resourcesProvider) { // from class: org.telegram.ui.Gifts.SendGiftSheet.3
+            @Override // org.telegram.ui.Cells.EditEmojiTextCell
+            protected void onFocusChanged(boolean z) {
+            }
+
+            @Override // org.telegram.ui.Cells.EditEmojiTextCell
+            protected void onTextChanged(CharSequence charSequence) {
+                TLRPC.TL_textWithEntities tL_textWithEntities;
+                if (SendGiftSheet.this.action instanceof TLRPC.TL_messageActionStarGift) {
+                    tL_textWithEntities = new TLRPC.TL_textWithEntities();
+                    ((TLRPC.TL_messageActionStarGift) SendGiftSheet.this.action).message = tL_textWithEntities;
+                } else if (SendGiftSheet.this.action instanceof TLRPC.TL_messageActionGiftCode) {
+                    ((TLRPC.TL_messageActionGiftCode) SendGiftSheet.this.action).flags |= 16;
+                    tL_textWithEntities = new TLRPC.TL_textWithEntities();
+                    ((TLRPC.TL_messageActionGiftCode) SendGiftSheet.this.action).message = tL_textWithEntities;
+                } else if (!(SendGiftSheet.this.action instanceof TLRPC.TL_messageActionGiftPremium)) {
+                    return;
+                } else {
+                    ((TLRPC.TL_messageActionGiftPremium) SendGiftSheet.this.action).flags |= 16;
+                    tL_textWithEntities = new TLRPC.TL_textWithEntities();
+                    ((TLRPC.TL_messageActionGiftPremium) SendGiftSheet.this.action).message = tL_textWithEntities;
+                }
+                CharSequence[] charSequenceArr = {SendGiftSheet.this.messageEdit.getText()};
+                tL_textWithEntities.entities = MediaDataController.getInstance(i).getEntities(charSequenceArr, true);
+                tL_textWithEntities.text = charSequenceArr[0].toString();
+                SendGiftSheet.this.messageObject.setType();
+                SendGiftSheet.this.actionCell.setMessageObject(SendGiftSheet.this.messageObject, true);
+                SendGiftSheet.this.adapter.update(true);
             }
         };
-        this.messageEdit = editEmojiTextCell;
-        editEmojiTextCell.editTextEmoji.getEditText().addTextChangedListener(new EditTextSuggestionsFix());
+        this.messageEdit = editEmojiTextCell4;
+        editEmojiTextCell4.editTextEmoji.getEditText().addTextChangedListener(new EditTextSuggestionsFix());
         this.messageEdit.editTextEmoji.allowEmojisForNonPremium(true);
         this.messageEdit.setShowLimitWhenNear(50);
         setEditTextEmoji(this.messageEdit.editTextEmoji);
         this.messageEdit.setShowLimitOnFocus(true);
-        EditEmojiTextCell editEmojiTextCell2 = this.messageEdit;
-        int i2 = Theme.key_dialogBackground;
-        editEmojiTextCell2.setBackgroundColor(Theme.getColor(i2, this.resourcesProvider));
+        EditEmojiTextCell editEmojiTextCell22 = this.messageEdit;
+        int i22 = Theme.key_dialogBackground;
+        editEmojiTextCell22.setBackgroundColor(Theme.getColor(i22, this.resourcesProvider));
         this.messageEdit.setDivider(false);
         this.messageEdit.hideKeyboardOnEnter();
-        EditEmojiTextCell editEmojiTextCell3 = this.messageEdit;
-        int i3 = this.backgroundPaddingLeft;
-        editEmojiTextCell3.setPadding(i3, 0, i3, 0);
-        DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator() { // from class: org.telegram.ui.Gifts.SendGiftSheet.4
+        EditEmojiTextCell editEmojiTextCell32 = this.messageEdit;
+        int i32 = this.backgroundPaddingLeft;
+        editEmojiTextCell32.setPadding(i32, 0, i32, 0);
+        DefaultItemAnimator defaultItemAnimator2 = new DefaultItemAnimator() { // from class: org.telegram.ui.Gifts.SendGiftSheet.4
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
-            protected float animateByScale(View view) {
+            protected float animateByScale(View view3) {
                 return 0.3f;
             }
         };
-        defaultItemAnimator.setDelayAnimations(false);
-        defaultItemAnimator.setSupportsChangeAnimations(false);
-        defaultItemAnimator.setDurations(350L);
-        defaultItemAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-        defaultItemAnimator.setDelayIncrement(40L);
-        this.recyclerListView.setItemAnimator(defaultItemAnimator);
-        RecyclerListView recyclerListView = this.recyclerListView;
-        int i4 = this.backgroundPaddingLeft;
-        recyclerListView.setPadding(i4, 0, i4, AndroidUtilities.dp((starGift.limited ? 40 : 0) + 68));
+        defaultItemAnimator2.setDelayAnimations(false);
+        defaultItemAnimator2.setSupportsChangeAnimations(false);
+        defaultItemAnimator2.setDurations(350L);
+        defaultItemAnimator2.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+        defaultItemAnimator2.setDelayIncrement(40L);
+        this.recyclerListView.setItemAnimator(defaultItemAnimator2);
+        RecyclerListView recyclerListView2 = this.recyclerListView;
+        int i42 = this.backgroundPaddingLeft;
+        recyclerListView2.setPadding(i42, 0, i42, AndroidUtilities.dp(68 + ((starGift == null && starGift.limited) ? 40 : 0)));
         this.adapter.update(false);
         this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Gifts.SendGiftSheet$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i5) {
-                SendGiftSheet.this.lambda$new$0(view, i5);
+            public final void onItemClick(View view3, int i52) {
+                SendGiftSheet.this.lambda$new$0(view3, i52);
             }
         });
-        LinearLayout linearLayout = new LinearLayout(context);
-        this.buttonContainer = linearLayout;
-        linearLayout.setOrientation(1);
-        linearLayout.setBackgroundColor(Theme.getColor(i2, this.resourcesProvider));
-        int i5 = this.backgroundPaddingLeft;
-        linearLayout.setPadding(i5, 0, i5, 0);
-        this.containerView.addView(linearLayout, LayoutHelper.createFrame(-1, -2, 87));
-        View view = new View(context);
-        view.setBackgroundColor(Theme.getColor(Theme.key_dialogGrayLine, this.resourcesProvider));
-        linearLayout.addView(view, LayoutHelper.createLinear(-1.0f, 1.0f / AndroidUtilities.density, 55));
-        final float clamp = Utilities.clamp(starGift.availability_remains / starGift.availability_total, 0.97f, 0.02f);
-        FrameLayout frameLayout = new FrameLayout(context);
-        this.limitContainer = frameLayout;
-        frameLayout.setVisibility(starGift.limited ? 0 : 8);
-        frameLayout.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor(Theme.key_windowBackgroundGray, this.resourcesProvider)));
-        linearLayout.addView(frameLayout, LayoutHelper.createLinear(-1, 30, 10.0f, 10.0f, 10.0f, 0.0f));
-        TextView textView = new TextView(context);
-        this.leftTextView = textView;
-        textView.setTextSize(1, 13.0f);
-        textView.setGravity(19);
-        textView.setTypeface(AndroidUtilities.bold());
-        int i6 = Theme.key_windowBackgroundWhiteBlackText;
-        textView.setTextColor(Theme.getColor(i6, this.resourcesProvider));
-        textView.setText(LocaleController.formatPluralStringComma("Gift2AvailabilityLeft", starGift.availability_remains));
-        frameLayout.addView(textView, LayoutHelper.createFrame(-1, -1.0f, 3, 11.0f, 0.0f, 11.0f, 0.0f));
-        TextView textView2 = new TextView(context);
-        this.soldTextView = textView2;
-        textView2.setTextSize(1, 13.0f);
-        textView2.setGravity(21);
-        textView2.setTypeface(AndroidUtilities.bold());
-        textView2.setTextColor(Theme.getColor(i6, this.resourcesProvider));
-        textView2.setText(LocaleController.formatPluralStringComma("Gift2AvailabilitySold", starGift.availability_total - starGift.availability_remains));
-        frameLayout.addView(textView2, LayoutHelper.createFrame(-1, -1.0f, 5, 11.0f, 0.0f, 11.0f, 0.0f));
-        View view2 = new View(context) { // from class: org.telegram.ui.Gifts.SendGiftSheet.5
+        LinearLayout linearLayout2 = new LinearLayout(context);
+        this.buttonContainer = linearLayout2;
+        linearLayout2.setOrientation(1);
+        linearLayout2.setBackgroundColor(Theme.getColor(i22, this.resourcesProvider));
+        int i52 = this.backgroundPaddingLeft;
+        linearLayout2.setPadding(i52, 0, i52, 0);
+        this.containerView.addView(linearLayout2, LayoutHelper.createFrame(-1, -2, 87));
+        View view3 = new View(context);
+        view3.setBackgroundColor(Theme.getColor(Theme.key_dialogGrayLine, this.resourcesProvider));
+        linearLayout2.addView(view3, LayoutHelper.createLinear(-1.0f, 1.0f / AndroidUtilities.density, 55));
+        final float clamp2 = Utilities.clamp(starGift != null ? 0.0f : starGift.availability_remains / starGift.availability_total, 0.97f, 0.0f);
+        FrameLayout frameLayout3 = new FrameLayout(context);
+        this.limitContainer = frameLayout3;
+        frameLayout3.setVisibility((starGift == null && starGift.limited) ? 0 : 8);
+        frameLayout3.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor(Theme.key_windowBackgroundGray, this.resourcesProvider)));
+        linearLayout2.addView(frameLayout3, LayoutHelper.createLinear(-1, 30, 10.0f, 10.0f, 10.0f, 0.0f));
+        TextView textView5 = new TextView(context);
+        this.leftTextView = textView5;
+        textView5.setTextSize(1, 13.0f);
+        textView5.setGravity(19);
+        textView5.setTypeface(AndroidUtilities.bold());
+        int i62 = Theme.key_windowBackgroundWhiteBlackText;
+        textView5.setTextColor(Theme.getColor(i62, this.resourcesProvider));
+        if (starGift != null) {
+        }
+        frameLayout3.addView(textView5, LayoutHelper.createFrame(-1, -1.0f, 3, 11.0f, 0.0f, 11.0f, 0.0f));
+        TextView textView22 = new TextView(context);
+        this.soldTextView = textView22;
+        textView22.setTextSize(1, 13.0f);
+        textView22.setGravity(21);
+        textView22.setTypeface(AndroidUtilities.bold());
+        textView22.setTextColor(Theme.getColor(i62, this.resourcesProvider));
+        if (starGift != null) {
+        }
+        frameLayout3.addView(textView22, LayoutHelper.createFrame(-1, -1.0f, 5, 11.0f, 0.0f, 11.0f, 0.0f));
+        View view22 = new View(context) { // from class: org.telegram.ui.Gifts.SendGiftSheet.5
             @Override // android.view.View
             protected void onMeasure(int i7, int i8) {
                 if (starGift == null) {
                     super.onMeasure(i7, i8);
                 } else {
-                    super.onMeasure(View.MeasureSpec.makeMeasureSpec((int) (View.MeasureSpec.getSize(i7) * clamp), 1073741824), i8);
+                    super.onMeasure(View.MeasureSpec.makeMeasureSpec((int) (View.MeasureSpec.getSize(i7) * clamp2), 1073741824), i8);
                 }
             }
         };
-        this.limitProgressView = view2;
-        view2.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor(Theme.key_featuredStickers_addButton, this.resourcesProvider)));
-        frameLayout.addView(view2, LayoutHelper.createFrame(-1, -1, 119));
-        FrameLayout frameLayout2 = new FrameLayout(context) { // from class: org.telegram.ui.Gifts.SendGiftSheet.6
+        this.limitProgressView = view22;
+        view22.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor(Theme.key_featuredStickers_addButton, this.resourcesProvider)));
+        frameLayout3.addView(view22, LayoutHelper.createFrame(-1, -1, 119));
+        FrameLayout frameLayout22 = new FrameLayout(context) { // from class: org.telegram.ui.Gifts.SendGiftSheet.6
             @Override // android.view.ViewGroup, android.view.View
             protected void dispatchDraw(Canvas canvas) {
                 canvas.save();
-                canvas.clipRect(0.0f, 0.0f, getWidth() * clamp, getHeight());
+                canvas.clipRect(0.0f, 0.0f, getWidth() * clamp2, getHeight());
                 super.dispatchDraw(canvas);
                 canvas.restore();
             }
         };
-        this.valueContainerView = frameLayout2;
-        frameLayout2.setWillNotDraw(false);
-        frameLayout.addView(frameLayout2, LayoutHelper.createFrame(-1, -1, 119));
-        TextView textView3 = new TextView(context);
-        this.leftTextView2 = textView3;
-        textView3.setTextSize(1, 13.0f);
-        textView3.setGravity(19);
-        textView3.setTypeface(AndroidUtilities.bold());
-        textView3.setTextColor(-1);
-        textView3.setText(LocaleController.formatPluralStringComma("Gift2AvailabilityLeft", starGift.availability_remains));
-        frameLayout2.addView(textView3, LayoutHelper.createFrame(-1, -1.0f, 3, 11.0f, 0.0f, 11.0f, 0.0f));
-        TextView textView4 = new TextView(context);
-        this.soldTextView2 = textView4;
-        textView4.setTextSize(1, 13.0f);
-        textView4.setGravity(21);
-        textView4.setTypeface(AndroidUtilities.bold());
-        textView4.setTextColor(-1);
-        textView4.setText(LocaleController.formatPluralStringComma("Gift2AvailabilitySold", starGift.availability_total - starGift.availability_remains));
-        frameLayout2.addView(textView4, LayoutHelper.createFrame(-1, -1.0f, 5, 11.0f, 0.0f, 11.0f, 0.0f));
-        ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(context, this.resourcesProvider);
-        this.button = buttonWithCounterView;
-        buttonWithCounterView.setText(StarsIntroActivity.replaceStars(LocaleController.formatPluralStringComma("Gift2Send", (int) starGift.stars)), false);
-        linearLayout.addView(buttonWithCounterView, LayoutHelper.createLinear(-1, 48, 119, 10, 10, 10, 10));
-        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Gifts.SendGiftSheet$$ExternalSyntheticLambda2
+        this.valueContainerView = frameLayout22;
+        frameLayout22.setWillNotDraw(false);
+        frameLayout3.addView(frameLayout22, LayoutHelper.createFrame(-1, -1, 119));
+        TextView textView32 = new TextView(context);
+        this.leftTextView2 = textView32;
+        textView32.setTextSize(1, 13.0f);
+        textView32.setGravity(19);
+        textView32.setTypeface(AndroidUtilities.bold());
+        textView32.setTextColor(-1);
+        if (starGift != null) {
+        }
+        frameLayout22.addView(textView32, LayoutHelper.createFrame(-1, -1.0f, 3, 11.0f, 0.0f, 11.0f, 0.0f));
+        TextView textView42 = new TextView(context);
+        this.soldTextView2 = textView42;
+        textView42.setTextSize(1, 13.0f);
+        textView42.setGravity(21);
+        textView42.setTypeface(AndroidUtilities.bold());
+        textView42.setTextColor(-1);
+        if (starGift != null) {
+        }
+        frameLayout22.addView(textView42, LayoutHelper.createFrame(-1, -1.0f, 5, 11.0f, 0.0f, 11.0f, 0.0f));
+        ButtonWithCounterView buttonWithCounterView2 = new ButtonWithCounterView(context, this.resourcesProvider);
+        this.button = buttonWithCounterView2;
+        if (starGift != null) {
+        }
+        buttonWithCounterView2.setText(formatString, false);
+        linearLayout2.addView(buttonWithCounterView2, LayoutHelper.createLinear(-1, 48, 119, 10, 10, 10, 10));
+        buttonWithCounterView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Gifts.SendGiftSheet$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
-            public final void onClick(View view3) {
-                SendGiftSheet.this.lambda$new$1(starGift, view3);
+            public final void onClick(View view32) {
+                SendGiftSheet.this.lambda$new$1(starGift, view32);
             }
         });
-        LinearLayoutManager linearLayoutManager = this.layoutManager;
+        LinearLayoutManager linearLayoutManager22 = this.layoutManager;
         this.reverseLayout = true;
-        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager22.setReverseLayout(true);
         this.adapter.update(false);
         this.layoutManager.scrollToPositionWithOffset(this.adapter.getItemCount(), AndroidUtilities.dp(200.0f));
+    }
+
+    public SendGiftSheet(Context context, int i, GiftPremiumBottomSheet$GiftTier giftPremiumBottomSheet$GiftTier, long j, Runnable runnable) {
+        this(context, i, null, giftPremiumBottomSheet$GiftTier, j, runnable);
     }
 
     private void buyPremiumTier() {
@@ -484,6 +731,12 @@ public class SendGiftSheet extends BottomSheetWithRecyclerListView {
         if (messageAction instanceof TLRPC.TL_messageActionStarGift) {
             return ((TLRPC.TL_messageActionStarGift) messageAction).message;
         }
+        if (messageAction instanceof TLRPC.TL_messageActionGiftCode) {
+            return ((TLRPC.TL_messageActionGiftCode) messageAction).message;
+        }
+        if (messageAction instanceof TLRPC.TL_messageActionGiftPremium) {
+            return ((TLRPC.TL_messageActionGiftPremium) messageAction).message;
+        }
         return null;
     }
 
@@ -563,6 +816,11 @@ public class SendGiftSheet extends BottomSheetWithRecyclerListView {
             }
             AndroidUtilities.hideKeyboard(this.messageEdit);
             dismiss();
+        } else if ("STARGIFT_USAGE_LIMITED".equalsIgnoreCase(str)) {
+            AndroidUtilities.hideKeyboard(this.messageEdit);
+            dismiss();
+            StarsController.getInstance(this.currentAccount).makeStarGiftSoldOut(this.starGift);
+            return;
         }
         this.button.setLoading(false);
     }

@@ -526,7 +526,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
             if (value == 1) {
                 i3 = 60;
             } else if (value == 2) {
-                i3 = NotificationCenter.storiesReadUpdated;
+                i3 = NotificationCenter.onReceivedChannelDifference;
             } else if (value == 3) {
                 i3 = 3600;
             } else if (value == 4) {
@@ -1200,7 +1200,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
         CustomPhoneKeyboardView customPhoneKeyboardView = new CustomPhoneKeyboardView(context);
         this.keyboardView = customPhoneKeyboardView;
         customPhoneKeyboardView.setVisibility(isCustomKeyboardVisible() ? 0 : 8);
-        sizeNotifierFrameLayout.addView(this.keyboardView, LayoutHelper.createLinear(-1, (int) NotificationCenter.closeOtherAppActivities));
+        sizeNotifierFrameLayout.addView(this.keyboardView, LayoutHelper.createLinear(-1, (int) NotificationCenter.invalidateMotionBackground));
         int i5 = this.type;
         if (i5 == 0) {
             this.actionBar.setTitle(LocaleController.getString(R.string.Passcode));

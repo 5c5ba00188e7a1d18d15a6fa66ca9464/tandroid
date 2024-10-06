@@ -18,7 +18,10 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.Emoji;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.AnimatedEmojiSpan;
 /* loaded from: classes3.dex */
 public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
     private int activeTextColorKey;
@@ -250,6 +253,7 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
 
     public void addTextTab(final int i, CharSequence charSequence, SparseArray sparseArray) {
         TextView textView;
+        CharSequence replaceEmoji;
         int i2 = this.tabCount;
         this.tabCount = i2 + 1;
         if (i2 == 0 && this.selectedTabId == -1) {
@@ -269,7 +273,7 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
             textView = null;
         }
         if (textView == null) {
-            textView = new TextView(getContext()) { // from class: org.telegram.ui.Components.ScrollSlidingTextTabStrip.3
+            textView = new AnimatedEmojiSpan.TextViewEmojis(getContext()) { // from class: org.telegram.ui.Components.ScrollSlidingTextTabStrip.3
                 @Override // android.view.View
                 public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
                     super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
@@ -289,9 +293,10 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
                     ScrollSlidingTextTabStrip.this.lambda$addTextTab$0(i, view);
                 }
             });
+            NotificationCenter.listenEmojiLoading(textView);
         }
-        textView.setText(charSequence);
-        int ceil = ((int) Math.ceil(textView.getPaint().measureText(charSequence, 0, charSequence.length()))) + textView.getPaddingLeft() + textView.getPaddingRight();
+        textView.setText(Emoji.replaceEmoji(charSequence, textView.getPaint().getFontMetricsInt(), false));
+        int ceil = ((int) Math.ceil(textView.getPaint().measureText(replaceEmoji, 0, replaceEmoji.length()))) + textView.getPaddingLeft() + textView.getPaddingRight();
         this.tabsContainer.addView(textView, LayoutHelper.createLinear(0, -1));
         this.allTextWidth += ceil;
         this.positionToWidth.put(i2, ceil);

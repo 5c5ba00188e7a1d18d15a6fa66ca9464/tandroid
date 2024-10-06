@@ -746,7 +746,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             addView(this.percentsTextView, LayoutHelper.createFrame(-1, 32.0f, 49, 0.0f, 176.0f, 0.0f, 0.0f));
             ProgressView progressView = new ProgressView(context);
             this.progressView = progressView;
-            addView(progressView, LayoutHelper.createFrame(NotificationCenter.goingToPreviewTheme, 5.0f, 49, 0.0f, 226.0f, 0.0f, 0.0f));
+            addView(progressView, LayoutHelper.createFrame(NotificationCenter.needSetDayNightTheme, 5.0f, 49, 0.0f, 226.0f, 0.0f, 0.0f));
             TextView textView = new TextView(context);
             this.title = textView;
             textView.setGravity(1);
@@ -761,7 +761,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             this.subtitle.setTextColor(Theme.getColor(i));
             this.subtitle.setTextSize(1, 14.0f);
             this.subtitle.setText(LocaleController.getString(R.string.ClearingCacheDescription));
-            addView(this.subtitle, LayoutHelper.createFrame(NotificationCenter.goingToPreviewTheme, -2.0f, 49, 0.0f, 289.0f, 0.0f, 0.0f));
+            addView(this.subtitle, LayoutHelper.createFrame(NotificationCenter.needSetDayNightTheme, -2.0f, 49, 0.0f, 289.0f, 0.0f, 0.0f));
             setProgress(0.0f);
         }
 

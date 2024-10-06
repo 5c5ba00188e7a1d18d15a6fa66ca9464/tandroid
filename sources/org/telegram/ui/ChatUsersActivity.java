@@ -2326,7 +2326,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 public final void run() {
                     ChatUsersActivity.this.lambda$createMenuForParticipant$13(user, j4);
                 }
-            }).setMinWidth(NotificationCenter.storiesSendAsUpdate).show();
+            }).setMinWidth(190).show();
             return true;
         }
         final long j5 = j;
@@ -2376,7 +2376,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 };
             }
             makeOptions.setScrimViewBackground(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundWhite)));
-            makeOptions.setMinWidth(NotificationCenter.storiesSendAsUpdate);
+            makeOptions.setMinWidth(190);
             z3 = makeOptions.getItemsCount() <= 0;
             if (z && z3) {
                 makeOptions.show();
@@ -2402,7 +2402,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         };
         makeOptions.add(i2, (CharSequence) string, true, runnable);
         makeOptions.setScrimViewBackground(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundWhite)));
-        makeOptions.setMinWidth(NotificationCenter.storiesSendAsUpdate);
+        makeOptions.setMinWidth(190);
         if (makeOptions.getItemsCount() <= 0) {
         }
         if (z) {
@@ -2671,7 +2671,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             return 60;
         }
         if (i == 4) {
-            return NotificationCenter.storiesReadUpdated;
+            return NotificationCenter.onReceivedChannelDifference;
         }
         if (i == 5) {
             return 900;

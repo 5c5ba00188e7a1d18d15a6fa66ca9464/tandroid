@@ -775,7 +775,7 @@ public abstract class TranscribeButton {
         }
         canvas.save();
         canvas.translate(this.bounds.centerX() + AndroidUtilities.dp(-13.0f), this.bounds.centerY() + AndroidUtilities.dp(-13.0f));
-        canvas.saveLayerAlpha(0.0f, 0.0f, AndroidUtilities.dp(26.0f), AndroidUtilities.dp(26.0f), NotificationCenter.messagePlayingSpeedChanged, 31);
+        canvas.saveLayerAlpha(0.0f, 0.0f, AndroidUtilities.dp(26.0f), AndroidUtilities.dp(26.0f), NotificationCenter.closeSearchByActiveAction, 31);
         if (this.isOpen) {
             this.inIconDrawable.setAlpha((int) (this.inIconDrawableAlpha * f));
             rLottieDrawable = this.inIconDrawable;

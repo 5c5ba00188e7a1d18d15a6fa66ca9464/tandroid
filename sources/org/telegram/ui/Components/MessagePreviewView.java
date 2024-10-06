@@ -2055,7 +2055,7 @@ public abstract class MessagePreviewView extends FrameLayout {
                 recyclerListView = this.chatListView;
                 computeVerticalScrollRange = recyclerListView.computeVerticalScrollRange() - (this.chatListView.computeVerticalScrollOffset() + this.chatListView.computeVerticalScrollExtent());
             }
-            recyclerListView.smoothScrollBy(0, computeVerticalScrollRange, NotificationCenter.newLocationAvailable, ChatListItemAnimator.DEFAULT_INTERPOLATOR);
+            recyclerListView.smoothScrollBy(0, computeVerticalScrollRange, NotificationCenter.liveLocationsChanged, ChatListItemAnimator.DEFAULT_INTERPOLATOR);
         }
 
         /* JADX INFO: Access modifiers changed from: private */

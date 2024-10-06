@@ -219,7 +219,7 @@ public final class BulletinFactory {
         String string;
         BulletinFactory$$ExternalSyntheticLambda0 bulletinFactory$$ExternalSyntheticLambda0;
         final Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(context, null, i3, i4);
-        int i5 = NotificationCenter.storiesReadUpdated;
+        int i5 = NotificationCenter.onReceivedChannelDifference;
         if (i > 1) {
             Object[] objArr = new Object[0];
             replaceTags = AndroidUtilities.replaceTags(i2 <= 1 ? LocaleController.formatPluralString("FwdMessageToManyChats", i, objArr) : LocaleController.formatPluralString("FwdMessagesToManyChats", i, objArr));
@@ -263,7 +263,7 @@ public final class BulletinFactory {
         SpannableStringBuilder replaceTags;
         String formatString;
         final Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(context, null, i3, i4);
-        int i5 = NotificationCenter.storiesReadUpdated;
+        int i5 = NotificationCenter.onReceivedChannelDifference;
         if (i > 1) {
             replaceTags = AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToChats", R.string.InvLinkToChats, LocaleController.formatPluralString("Chats", i, new Object[0])));
             lottieLayout.setAnimation(R.raw.forward, 30, 30, new String[0]);

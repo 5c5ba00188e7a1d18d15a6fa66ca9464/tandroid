@@ -2501,7 +2501,7 @@ public class MessagesController extends BaseController implements NotificationCe
         this.giveawayBoostsPerPremium = this.mainPreferences.getLong("giveaway_boosts_per_premium", 4L);
         this.boostsPerSentGift = this.mainPreferences.getLong("boosts_per_sent_gift", 3L);
         this.giveawayPeriodMax = this.mainPreferences.getLong("giveaway_period_max", 7L);
-        this.stealthModePast = this.mainPreferences.getInt("stories_stealth_past_period", NotificationCenter.storiesReadUpdated);
+        this.stealthModePast = this.mainPreferences.getInt("stories_stealth_past_period", NotificationCenter.onReceivedChannelDifference);
         this.stealthModeCooldown = this.mainPreferences.getInt("stories_stealth_cooldown_period", 3600);
         boolean z = ConnectionsManager.native_isTestBackend(this.currentAccount) != 0;
         this.chatlistInvitesLimitDefault = this.mainPreferences.getInt("chatlistInvitesLimitDefault", 3);
@@ -2512,7 +2512,7 @@ public class MessagesController extends BaseController implements NotificationCe
         this.storiesSuggestedReactionsLimitPremium = this.mainPreferences.getInt("storiesSuggestedReactionsLimitPremium", 5);
         this.storiesSentWeeklyLimitPremium = this.mainPreferences.getInt("storiesSentWeeklyLimitPremium", 70);
         this.storiesSentMonthlyLimitDefault = this.mainPreferences.getInt("storiesSentMonthlyLimitDefault", 30);
-        this.storiesSentMonthlyLimitPremium = this.mainPreferences.getInt("storiesSentMonthlyLimitPremium", NotificationCenter.storiesReadUpdated);
+        this.storiesSentMonthlyLimitPremium = this.mainPreferences.getInt("storiesSentMonthlyLimitPremium", NotificationCenter.onReceivedChannelDifference);
         this.channelBgIconLevelMin = this.mainPreferences.getInt("channelBgIconLevelMin", 1);
         this.channelProfileIconLevelMin = this.mainPreferences.getInt("channelProfileIconLevelMin", 1);
         this.channelEmojiStatusLevelMin = this.mainPreferences.getInt("channelEmojiStatusLevelMin", 1);
@@ -2529,7 +2529,7 @@ public class MessagesController extends BaseController implements NotificationCe
         this.chatlistInvitesLimitPremium = this.mainPreferences.getInt("chatlistInvitesLimitPremium", z ? 5 : 20);
         this.chatlistJoinedLimitDefault = this.mainPreferences.getInt("chatlistJoinedLimitDefault", 2);
         this.chatlistJoinedLimitPremium = this.mainPreferences.getInt("chatlistJoinedLimitPremium", z ? 5 : 20);
-        this.stargiftsMessageLengthMax = this.mainPreferences.getInt("stargiftsMessageLengthMax", NotificationCenter.messagePlayingSpeedChanged);
+        this.stargiftsMessageLengthMax = this.mainPreferences.getInt("stargiftsMessageLengthMax", NotificationCenter.closeSearchByActiveAction);
         this.storiesPosting = this.mainPreferences.getString("storiesPosting", "enabled");
         this.storiesEntities = this.mainPreferences.getString("storiesEntities", "premium");
         this.storiesExportNopublicLink = this.mainPreferences.getBoolean("storiesExportNopublicLink", false);
@@ -2541,7 +2541,7 @@ public class MessagesController extends BaseController implements NotificationCe
         int i4 = this.mainPreferences.getInt("transcribeAudioTrialWeeklyNumber", BuildVars.DEBUG_PRIVATE_VERSION ? 2 : 0);
         this.transcribeAudioTrialWeeklyNumber = i4;
         this.transcribeAudioTrialCurrentNumber = this.mainPreferences.getInt("transcribeAudioTrialCurrentNumber", i4);
-        this.transcribeAudioTrialDurationMax = this.mainPreferences.getInt("transcribeAudioTrialDurationMax", NotificationCenter.storiesReadUpdated);
+        this.transcribeAudioTrialDurationMax = this.mainPreferences.getInt("transcribeAudioTrialDurationMax", NotificationCenter.onReceivedChannelDifference);
         this.transcribeAudioTrialCooldownUntil = this.mainPreferences.getInt("transcribeAudioTrialCooldownUntil", 0);
         this.recommendedChannelsLimitDefault = this.mainPreferences.getInt("recommendedChannelsLimitDefault", 10);
         this.recommendedChannelsLimitPremium = this.mainPreferences.getInt("recommendedChannelsLimitPremium", 100);
@@ -8826,7 +8826,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     i9++;
                     tL_jsonObject4 = tL_jsonObject;
                     size = i12;
-                case 158:
+                case NotificationCenter.audioDidSent /* 158 */:
                     TLRPC.JSONValue jSONValue174 = tL_jsonObjectValue.value;
                     if (jSONValue174 instanceof TLRPC.TL_jsonNumber) {
                         double d92 = ((TLRPC.TL_jsonNumber) jSONValue174).value;
@@ -8855,7 +8855,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     i9++;
                     tL_jsonObject4 = tL_jsonObject;
                     size = i12;
-                case NotificationCenter.audioRecordTooShort /* 159 */:
+                case 159:
                     hashSet = new HashSet<>();
                     TLRPC.JSONValue jSONValue175 = tL_jsonObjectValue.value;
                     if (jSONValue175 instanceof TLRPC.TL_jsonArray) {
@@ -22072,7 +22072,7 @@ public class MessagesController extends BaseController implements NotificationCe
     public void addFilter(DialogFilter dialogFilter, boolean z) {
         if (z) {
             int size = this.dialogFilters.size();
-            int i = NotificationCenter.closeSearchByActiveAction;
+            int i = NotificationCenter.playerDidStartPlaying;
             for (int i2 = 0; i2 < size; i2++) {
                 i = Math.min(i, this.dialogFilters.get(i2).order);
             }
@@ -27996,7 +27996,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     messageObject.scheduled = i11 == 1;
                     arrayList.add(messageObject);
                     if (z) {
-                        if ((message5.legacy && message5.layer < 189) || ((MessageObject.getMedia(message5) instanceof TLRPC.TL_messageMediaUnsupported) && MessageObject.getMedia(message5).bytes != null && (MessageObject.getMedia(message5).bytes.length == 0 || ((MessageObject.getMedia(message5).bytes.length == 1 && MessageObject.getMedia(message5).bytes[0] < 189) || (MessageObject.getMedia(message5).bytes.length == 4 && Utilities.bytesToInt(MessageObject.getMedia(message5).bytes) < 189))))) {
+                        if ((message5.legacy && message5.layer < 190) || ((MessageObject.getMedia(message5) instanceof TLRPC.TL_messageMediaUnsupported) && MessageObject.getMedia(message5).bytes != null && (MessageObject.getMedia(message5).bytes.length == 0 || ((MessageObject.getMedia(message5).bytes.length == 1 && MessageObject.getMedia(message5).bytes[0] < 190) || (MessageObject.getMedia(message5).bytes.length == 4 && Utilities.bytesToInt(MessageObject.getMedia(message5).bytes) < 190))))) {
                             arrayList2.add(Integer.valueOf(message5.id));
                         }
                         if (MessageObject.getMedia(message5) instanceof TLRPC.TL_messageMediaWebPage) {

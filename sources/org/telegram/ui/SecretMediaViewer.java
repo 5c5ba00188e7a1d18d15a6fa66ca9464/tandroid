@@ -927,7 +927,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     }
 
     private void animateTo(float f, float f2, float f3, boolean z) {
-        animateTo(f, f2, f3, z, NotificationCenter.newLocationAvailable);
+        animateTo(f, f2, f3, z, NotificationCenter.liveLocationsChanged);
     }
 
     private void animateTo(float f, float f2, float f3, boolean z, int i) {
@@ -1300,7 +1300,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             }
             if (this.photoAnimationInProgress != 3) {
                 if (this.scale != 1.0f || f9 == -1.0f || this.zoomAnimation) {
-                    this.photoBackgroundDrawable.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
+                    this.photoBackgroundDrawable.setAlpha(NotificationCenter.closeSearchByActiveAction);
                 } else {
                     float containerViewHeight = getContainerViewHeight() / 4.0f;
                     this.photoBackgroundDrawable.setAlpha((int) Math.max(127.0f, (1.0f - (Math.min(Math.abs(f9), containerViewHeight) / containerViewHeight)) * 255.0f));
@@ -2638,7 +2638,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         ObjectAnimator ofFloat = ObjectAnimator.ofFloat(actionBar, property, 0.0f, 1.0f);
         ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(this.captionScrollView, property, 0.0f, 1.0f);
         ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(this.secretHint, property, 0.0f, 1.0f);
-        ObjectAnimator ofInt = ObjectAnimator.ofInt(this.photoBackgroundDrawable, AnimationProperties.COLOR_DRAWABLE_ALPHA, 0, NotificationCenter.messagePlayingSpeedChanged);
+        ObjectAnimator ofInt = ObjectAnimator.ofInt(this.photoBackgroundDrawable, AnimationProperties.COLOR_DRAWABLE_ALPHA, 0, NotificationCenter.closeSearchByActiveAction);
         ObjectAnimator ofFloat4 = ObjectAnimator.ofFloat(this, this.ANIMATION_VALUE, 0.0f, 1.0f);
         VideoPlayerControlFrameLayout videoPlayerControlFrameLayout = this.seekbarContainer;
         Property property2 = videoPlayerControlFrameLayout.SEEKBAR_ALPHA;

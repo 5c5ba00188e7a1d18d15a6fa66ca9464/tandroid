@@ -128,7 +128,7 @@ public class Emoji {
                 canvas.restore();
             }
             if (z) {
-                getDrawable().setAlpha(NotificationCenter.messagePlayingSpeedChanged);
+                getDrawable().setAlpha(NotificationCenter.closeSearchByActiveAction);
             }
         }
 

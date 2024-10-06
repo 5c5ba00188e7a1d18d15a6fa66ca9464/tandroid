@@ -19,7 +19,7 @@ public class SearchStateDrawable extends Drawable {
     private Paint paint;
     private boolean progressStartedWithOverTo;
     private boolean wereNotWaitingForProgressToEnd;
-    private int alpha = NotificationCenter.messagePlayingSpeedChanged;
+    private int alpha = NotificationCenter.closeSearchByActiveAction;
     private Path path = new Path();
     private RectF progressRect = new RectF();
     private final float progressRadius = 0.25f;
@@ -284,7 +284,7 @@ public class SearchStateDrawable extends Drawable {
     public void setColor(int i) {
         this.paint.setColor(i);
         this.alpha = this.paint.getAlpha();
-        this.paint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
+        this.paint.setAlpha(NotificationCenter.closeSearchByActiveAction);
     }
 
     @Override // android.graphics.drawable.Drawable

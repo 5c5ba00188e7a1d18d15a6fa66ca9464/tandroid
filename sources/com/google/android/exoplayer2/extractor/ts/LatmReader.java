@@ -194,7 +194,7 @@ public final class LatmReader implements ElementaryStreamReader {
             if (i != 0) {
                 if (i == 1) {
                     int readUnsignedByte = parsableByteArray.readUnsignedByte();
-                    if ((readUnsignedByte & NotificationCenter.wallpapersDidLoad) == 224) {
+                    if ((readUnsignedByte & NotificationCenter.pushMessagesUpdated) == 224) {
                         this.secondHeaderByte = readUnsignedByte;
                         this.state = 2;
                     } else if (readUnsignedByte != 86) {

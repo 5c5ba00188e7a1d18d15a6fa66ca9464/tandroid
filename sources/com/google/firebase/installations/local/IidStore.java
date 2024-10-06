@@ -51,7 +51,7 @@ public class IidStore {
     private static String getIdFromPublicKey(PublicKey publicKey) {
         try {
             byte[] digest = MessageDigest.getInstance("SHA1").digest(publicKey.getEncoded());
-            digest[0] = (byte) (((digest[0] & 15) + 112) & NotificationCenter.messagePlayingSpeedChanged);
+            digest[0] = (byte) (((digest[0] & 15) + 112) & NotificationCenter.closeSearchByActiveAction);
             return Base64.encodeToString(digest, 0, 8, 11);
         } catch (NoSuchAlgorithmException unused) {
             Log.w("ContentValues", "Unexpected error, device missing required algorithms");

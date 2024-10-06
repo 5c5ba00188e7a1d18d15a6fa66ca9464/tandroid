@@ -462,7 +462,7 @@ public class AnimatedEmojiDrawable extends Drawable {
             AnimatedFloat animatedFloat = new AnimatedFloat((View) null, 300L, CubicBezierInterpolator.EASE_OUT);
             this.changeProgress = animatedFloat;
             this.drawables = new Drawable[2];
-            this.alpha = NotificationCenter.messagePlayingSpeedChanged;
+            this.alpha = NotificationCenter.closeSearchByActiveAction;
             this.parentView = view;
             animatedFloat.setParent(view);
             this.size = i;
@@ -820,7 +820,7 @@ public class AnimatedEmojiDrawable extends Drawable {
 
     /* loaded from: classes3.dex */
     public static class WrapSizeDrawable extends Drawable {
-        private int alpha = NotificationCenter.messagePlayingSpeedChanged;
+        private int alpha = NotificationCenter.closeSearchByActiveAction;
         private Drawable drawable;
         int height;
         int width;

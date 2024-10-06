@@ -2948,7 +2948,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         if (!arrayList2.isEmpty()) {
             arrayList = arrayList2;
         }
-        return Build.MANUFACTURER.equalsIgnoreCase("Xiaomi") ? CameraController.chooseOptimalSize(arrayList, 640, 480, this.aspectRatio, false) : CameraController.chooseOptimalSize(arrayList, 480, NotificationCenter.onDatabaseOpened, this.aspectRatio, false);
+        return Build.MANUFACTURER.equalsIgnoreCase("Xiaomi") ? CameraController.chooseOptimalSize(arrayList, 640, 480, this.aspectRatio, false) : CameraController.chooseOptimalSize(arrayList, 480, NotificationCenter.dialogsUnreadReactionsCounterChanged, this.aspectRatio, false);
     }
 
     public void createCamera(final int i, final SurfaceTexture surfaceTexture) {
@@ -4202,7 +4202,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(imageViewInvertable, property, z ? 1.0f : 0.0f);
         ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(this.flashButton, property, z ? 1.0f : 0.0f);
         ObjectAnimator ofFloat4 = ObjectAnimator.ofFloat(this.muteImageView, property, 0.0f);
-        ObjectAnimator ofInt = ObjectAnimator.ofInt(this.paint, AnimationProperties.PAINT_ALPHA, z ? NotificationCenter.messagePlayingSpeedChanged : 0);
+        ObjectAnimator ofInt = ObjectAnimator.ofInt(this.paint, AnimationProperties.PAINT_ALPHA, z ? NotificationCenter.closeSearchByActiveAction : 0);
         ObjectAnimator ofFloat5 = ObjectAnimator.ofFloat(this.cameraContainer, property, z ? 1.0f : 0.0f);
         InstantViewCameraContainer instantViewCameraContainer = this.cameraContainer;
         Property property2 = View.SCALE_X;

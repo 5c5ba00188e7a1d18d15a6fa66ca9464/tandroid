@@ -50,7 +50,7 @@ public class SnowflakesEffect {
             }
             SnowflakesEffect snowflakesEffect = SnowflakesEffect.this;
             if (snowflakesEffect.particleBitmap == null) {
-                snowflakesEffect.particleThinPaint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
+                snowflakesEffect.particleThinPaint.setAlpha(NotificationCenter.closeSearchByActiveAction);
                 SnowflakesEffect.this.particleBitmap = Bitmap.createBitmap(AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), Bitmap.Config.ARGB_8888);
                 Canvas canvas2 = new Canvas(SnowflakesEffect.this.particleBitmap);
                 float dpf2 = AndroidUtilities.dpf2(2.0f) * 2.0f;
@@ -187,7 +187,7 @@ public class SnowflakesEffect {
             ((Particle) this.particles.get(i)).draw(canvas);
         }
         int i2 = this.viewType;
-        int i3 = i2 == 0 ? 100 : NotificationCenter.storiesReadUpdated;
+        int i3 = i2 == 0 ? 100 : NotificationCenter.onReceivedChannelDifference;
         int i4 = i2 == 0 ? 1 : 10;
         if (this.particles.size() < i3) {
             for (int i5 = 0; i5 < i4; i5++) {

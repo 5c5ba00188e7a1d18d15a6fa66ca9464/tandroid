@@ -1216,7 +1216,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         this.progressLayout.addView(textView, LayoutHelper.createLinear(-2, -2, 1, 0, 0, 0, 10));
         this.progressLayout.addView(textView2, LayoutHelper.createLinear(-2, -2, 1));
         this.progressLayout.setAlpha(0.0f);
-        frameLayout2.addView(this.progressLayout, LayoutHelper.createFrame(NotificationCenter.goingToPreviewTheme, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
+        frameLayout2.addView(this.progressLayout, LayoutHelper.createFrame(NotificationCenter.needSetDayNightTheme, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
         RecyclerListView recyclerListView = new RecyclerListView(context, getResourceProvider());
         this.listView = recyclerListView;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, false);

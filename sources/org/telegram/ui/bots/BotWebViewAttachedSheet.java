@@ -663,7 +663,7 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
                 canvas.saveLayerAlpha(BotWebViewAttachedSheet.this.actionBar.getX(), BotWebViewAttachedSheet.this.actionBar.getY() + rectF2.top, BotWebViewAttachedSheet.this.actionBar.getX() + BotWebViewAttachedSheet.this.actionBar.getWidth(), BotWebViewAttachedSheet.this.actionBar.getY() + rectF2.top + BotWebViewAttachedSheet.this.actionBar.getHeight() + BotWebViewAttachedSheet.this.actionBarShadow.getIntrinsicHeight(), (int) (f2 * 255.0f * BotWebViewAttachedSheet.this.actionBarTransitionProgress), 31);
                 canvas.translate(BotWebViewAttachedSheet.this.actionBar.getX(), BotWebViewAttachedSheet.this.actionBar.getY() + rectF2.top);
                 BotWebViewAttachedSheet.this.actionBar.draw(canvas);
-                BotWebViewAttachedSheet.this.actionBarShadow.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
+                BotWebViewAttachedSheet.this.actionBarShadow.setAlpha(NotificationCenter.closeSearchByActiveAction);
                 BotWebViewAttachedSheet.this.actionBarShadow.setBounds(0, BotWebViewAttachedSheet.this.actionBar.getHeight(), BotWebViewAttachedSheet.this.actionBar.getWidth(), BotWebViewAttachedSheet.this.actionBar.getHeight() + BotWebViewAttachedSheet.this.actionBarShadow.getIntrinsicHeight());
                 BotWebViewAttachedSheet.this.actionBarShadow.draw(canvas);
                 canvas.restore();

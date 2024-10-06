@@ -3112,7 +3112,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         themedDrawable.setAlpha((int) (value3 * 255.0f));
                         themedDrawable.setBounds((int) (measuredWidth - ((themedDrawable.getIntrinsicWidth() / 2) * f3)), (int) (top - ((themedDrawable.getIntrinsicHeight() / 2) * f3)), (int) (measuredWidth + ((themedDrawable.getIntrinsicWidth() / 2) * f3)), (int) (top + ((themedDrawable.getIntrinsicHeight() / 2) * f3)));
                         themedDrawable.draw(canvas);
-                        themedDrawable.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
+                        themedDrawable.setAlpha(NotificationCenter.closeSearchByActiveAction);
                         this.outlineActionBackgroundDarkenPaint.setColor(color);
                         paint.setColor(color);
                     }
@@ -3159,7 +3159,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             themedDrawable2.setAlpha((int) (value3 * 255.0f));
             themedDrawable2.setBounds((int) (measuredWidth - ((themedDrawable2.getIntrinsicWidth() / 2) * f3)), (int) (top - ((themedDrawable2.getIntrinsicHeight() / 2) * f3)), (int) (measuredWidth + ((themedDrawable2.getIntrinsicWidth() / 2) * f3)), (int) (top + ((themedDrawable2.getIntrinsicHeight() / 2) * f3)));
             themedDrawable2.draw(canvas);
-            themedDrawable2.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
+            themedDrawable2.setAlpha(NotificationCenter.closeSearchByActiveAction);
             this.outlineActionBackgroundDarkenPaint.setColor(color);
             paint.setColor(color);
         }
@@ -3317,7 +3317,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         private void updateSkeletonColors() {
             boolean z = ColorUtils.calculateLuminance(getThemedColor(Theme.key_windowBackgroundWhite)) <= 0.699999988079071d;
             int i = Theme.key_listSelector;
-            int blendARGB = ColorUtils.blendARGB(getThemedColor(i), Color.argb(z ? 33 : 3, (int) NotificationCenter.messagePlayingSpeedChanged, (int) NotificationCenter.messagePlayingSpeedChanged, (int) NotificationCenter.messagePlayingSpeedChanged), z ? 0.9f : 0.5f);
+            int blendARGB = ColorUtils.blendARGB(getThemedColor(i), Color.argb(z ? 33 : 3, (int) NotificationCenter.closeSearchByActiveAction, (int) NotificationCenter.closeSearchByActiveAction, (int) NotificationCenter.closeSearchByActiveAction), z ? 0.9f : 0.5f);
             int alphaComponent = ColorUtils.setAlphaComponent(getThemedColor(i), z ? 24 : ChatActivity.SKELETON_LIGHT_OVERLAY_ALPHA);
             if (ChatActivity.this.skeletonColor1 == alphaComponent && ChatActivity.this.skeletonColor0 == blendARGB) {
                 return;
@@ -3331,7 +3331,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             ChatActivity chatActivity3 = ChatActivity.this;
             chatActivity3.skeletonTotalTranslation = (-chatActivity3.skeletonGradientWidth) * 2;
             ChatActivity.this.skeletonPaint.setShader(ChatActivity.this.skeletonGradient);
-            int argb = Color.argb(z ? 43 : 96, (int) NotificationCenter.messagePlayingSpeedChanged, (int) NotificationCenter.messagePlayingSpeedChanged, (int) NotificationCenter.messagePlayingSpeedChanged);
+            int argb = Color.argb(z ? 43 : 96, (int) NotificationCenter.closeSearchByActiveAction, (int) NotificationCenter.closeSearchByActiveAction, (int) NotificationCenter.closeSearchByActiveAction);
             ChatActivity.this.skeletonOutlineGradient = new LinearGradient(0.0f, 0.0f, ChatActivity.this.skeletonGradientWidth, 0.0f, new int[]{0, argb, argb, 0}, new float[]{0.0f, 0.4f, 0.6f, 1.0f}, tileMode);
             ChatActivity.this.skeletonOutlinePaint.setShader(ChatActivity.this.skeletonOutlineGradient);
         }
@@ -9580,7 +9580,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 int y = ((int) view.getY()) - AndroidUtilities.dp(2.0f);
                                 canvas.save();
                                 canvas.scale(ChatActivity.this.videoPlayerContainer.getScaleX(), ChatActivity.this.videoPlayerContainer.getScaleY(), view.getX(), view.getY());
-                                Theme.chat_roundVideoShadow.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
+                                Theme.chat_roundVideoShadow.setAlpha(NotificationCenter.closeSearchByActiveAction);
                                 Theme.chat_roundVideoShadow.setBounds(x, y, AndroidUtilities.roundPlayingMessageSize + x + AndroidUtilities.dp(6.0f), AndroidUtilities.roundPlayingMessageSize + y + AndroidUtilities.dp(6.0f));
                                 Theme.chat_roundVideoShadow.draw(canvas);
                                 canvas.restore();
@@ -12620,7 +12620,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 ChatActivity.ChatMessageCellDelegate.this.lambda$didPressReaction$14(arrayList2, view);
                             }
                         });
-                        frameLayout.addView(messageContainsEmojiButton, LayoutHelper.createFrame(NotificationCenter.goingToPreviewTheme, -2.0f));
+                        frameLayout.addView(messageContainsEmojiButton, LayoutHelper.createFrame(NotificationCenter.needSetDayNightTheme, -2.0f));
                         z2 = true;
                         ChatActivity.this.scrimPopupWindow = new ActionBarPopupWindow(frameLayout, -2, -2) { // from class: org.telegram.ui.ChatActivity.ChatMessageCellDelegate.6
                             @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow, android.widget.PopupWindow
@@ -12739,7 +12739,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         public final void onProfileSelected(ReactedUsersListView reactedUsersListView, long j2, TLRPC.MessagePeerReaction messagePeerReaction) {
                             ChatActivity.ChatMessageCellDelegate.this.lambda$didPressReaction$13(chatMessageCell, reactedUsersListView, j2, messagePeerReaction);
                         }
-                    }), LayoutHelper.createFrame(NotificationCenter.goingToPreviewTheme, -2.0f));
+                    }), LayoutHelper.createFrame(NotificationCenter.needSetDayNightTheme, -2.0f));
                 }
                 z2 = false;
                 ChatActivity.this.scrimPopupWindow = new ActionBarPopupWindow(frameLayout, -2, -2) { // from class: org.telegram.ui.ChatActivity.ChatMessageCellDelegate.6
@@ -14767,11 +14767,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         f2 = -0.06f;
                     }
                     AndroidUtilities.adjustBrightnessColorMatrix(colorMatrix, f2);
-                    paint.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
+                    paint.setAlpha(NotificationCenter.closeSearchByActiveAction);
                     paint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
                     paint.setShader(this.serviceShaderSource);
                     paint.setFilterBitmap(true);
-                    paint2.setAlpha(NotificationCenter.messagePlayingSpeedChanged);
+                    paint2.setAlpha(NotificationCenter.closeSearchByActiveAction);
                     ColorMatrix colorMatrix2 = new ColorMatrix(colorMatrix);
                     AndroidUtilities.adjustSaturationColorMatrix(colorMatrix2, 0.26f);
                     AndroidUtilities.multiplyBrightnessColorMatrix(colorMatrix2, 0.92f);
@@ -16802,7 +16802,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
         TLRPC.User user = this.currentUser;
         if (user == null || !user.self) {
-            int abs = editingMessageObject.canEditMessageAnytime(this.currentChat) ? 360 : (getMessagesController().maxEditTime + NotificationCenter.storiesReadUpdated) - Math.abs(getConnectionsManager().getCurrentTime() - editingMessageObject.messageOwner.date);
+            int abs = editingMessageObject.canEditMessageAnytime(this.currentChat) ? 360 : (getMessagesController().maxEditTime + NotificationCenter.onReceivedChannelDifference) - Math.abs(getConnectionsManager().getCurrentTime() - editingMessageObject.messageOwner.date);
             if (abs <= 0) {
                 this.chatActivityEnterView.onEditTimeExpired();
                 this.replyObjectTextView.setText(LocaleController.formatString("TimeToEditExpired", R.string.TimeToEditExpired, new Object[0]));
@@ -18947,7 +18947,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                                                     reactedHeaderView = reactedHeaderView3;
                                                                                     i18 = 44;
                                                                                 }
-                                                                                containerLinerLayout2.setLayoutParams(new FrameLayout.LayoutParams(dp, AndroidUtilities.dp(i18 + NotificationCenter.storiesReadUpdated) + (r5 ^ 1)));
+                                                                                containerLinerLayout2.setLayoutParams(new FrameLayout.LayoutParams(dp, AndroidUtilities.dp(i18 + NotificationCenter.onReceivedChannelDifference) + (r5 ^ 1)));
                                                                                 ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem((Context) getParentActivity(), true, false, (Theme.ResourcesProvider) this.themeDelegate);
                                                                                 actionBarMenuSubItem.setItemHeight(44);
                                                                                 actionBarMenuSubItem.setTextAndIcon(LocaleController.getString(R.string.Back), R.drawable.msg_arrow_back);
@@ -19143,7 +19143,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                                             int dp3 = AndroidUtilities.dp(200.0f);
                                                                             if (r5 == 0) {
                                                                             }
-                                                                            containerLinerLayout22.setLayoutParams(new FrameLayout.LayoutParams(dp3, AndroidUtilities.dp(i18 + NotificationCenter.storiesReadUpdated) + (r5 ^ 1)));
+                                                                            containerLinerLayout22.setLayoutParams(new FrameLayout.LayoutParams(dp3, AndroidUtilities.dp(i18 + NotificationCenter.onReceivedChannelDifference) + (r5 ^ 1)));
                                                                             ActionBarMenuSubItem actionBarMenuSubItem2 = new ActionBarMenuSubItem((Context) getParentActivity(), true, false, (Theme.ResourcesProvider) this.themeDelegate);
                                                                             actionBarMenuSubItem2.setItemHeight(44);
                                                                             actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString(R.string.Back), R.drawable.msg_arrow_back);
@@ -37780,7 +37780,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         }
                                         if (charSequence != null) {
                                             if (charSequence instanceof Spannable) {
-                                                MediaDataController.addTextStyleRuns(messageObject, (Spannable) charSequence, (int) NotificationCenter.onEmojiInteractionsReceived);
+                                                MediaDataController.addTextStyleRuns(messageObject, (Spannable) charSequence, (int) NotificationCenter.onDatabaseMigration);
                                             }
                                             simpleTextView.setText(AnimatedEmojiSpan.cloneSpans(charSequence));
                                         }

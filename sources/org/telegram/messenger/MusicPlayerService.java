@@ -765,7 +765,7 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
                     this.remoteControlClient = remoteControlClient;
                     this.audioManager.registerRemoteControlClient(remoteControlClient);
                 }
-                this.remoteControlClient.setTransportControlFlags(189);
+                this.remoteControlClient.setTransportControlFlags(NotificationCenter.storiesLimitUpdate);
             } catch (Exception e2) {
                 FileLog.e(e2);
             }

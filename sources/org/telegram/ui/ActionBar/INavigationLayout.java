@@ -47,7 +47,7 @@ public interface INavigationLayout {
         }
 
         public static void $default$drawHeaderShadow(INavigationLayout iNavigationLayout, Canvas canvas, int i) {
-            iNavigationLayout.drawHeaderShadow(canvas, NotificationCenter.messagePlayingSpeedChanged, i);
+            iNavigationLayout.drawHeaderShadow(canvas, NotificationCenter.closeSearchByActiveAction, i);
         }
 
         public static BaseFragment $default$getBackgroundFragment(INavigationLayout iNavigationLayout) {

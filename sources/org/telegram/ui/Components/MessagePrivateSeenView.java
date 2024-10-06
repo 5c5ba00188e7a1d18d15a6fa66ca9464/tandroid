@@ -331,7 +331,7 @@ public class MessagePrivateSeenView extends FrameLayout {
             simpleTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2, resourcesProvider));
             simpleTextView.setText(" " + LocaleController.getString(R.string.PremiumOr) + " ");
             simpleTextView.setTextSize(14);
-            linearLayout.addView(simpleTextView, LayoutHelper.createLinear((int) NotificationCenter.onDatabaseOpened, -2, 1, 12, 17, 12, 17));
+            linearLayout.addView(simpleTextView, LayoutHelper.createLinear((int) NotificationCenter.dialogsUnreadReactionsCounterChanged, -2, 1, 12, 17, 12, 17));
             TextView textView3 = new TextView(context);
             textView3.setTypeface(AndroidUtilities.bold());
             textView3.setGravity(17);
