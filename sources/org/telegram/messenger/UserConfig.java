@@ -174,6 +174,7 @@ public class UserConfig extends BaseController {
     public /* synthetic */ void lambda$checkPremiumSelf$2(TLRPC.User user) {
         getMessagesController().updatePremium(user.premium);
         NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.currentUserPremiumStatusChanged, new Object[0]);
+        getMediaDataController().loadPremiumPromo(true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

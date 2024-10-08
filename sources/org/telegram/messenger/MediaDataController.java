@@ -4837,11 +4837,6 @@ public class MediaDataController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x004a  */
-    /* JADX WARN: Removed duplicated region for block: B:34:? A[RETURN, SYNTHETIC] */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public /* synthetic */ void lambda$loadPremiumPromo$7() {
         TLRPC.TL_help_premiumPromo tL_help_premiumPromo;
         SQLiteCursor sQLiteCursor;
@@ -4882,8 +4877,7 @@ public class MediaDataController extends BaseController {
                 sQLiteCursor.dispose();
                 tL_help_premiumPromo = tL_help_premiumPromo2;
             }
-            if (tL_help_premiumPromo == null) {
-            }
+            processLoadedPremiumPromo(tL_help_premiumPromo, i, true);
         } catch (Throwable th2) {
             th = th2;
             sQLiteCursor2 = sQLiteCursor;
@@ -4894,9 +4888,7 @@ public class MediaDataController extends BaseController {
         }
         sQLiteCursor.dispose();
         tL_help_premiumPromo = tL_help_premiumPromo2;
-        if (tL_help_premiumPromo == null) {
-            processLoadedPremiumPromo(tL_help_premiumPromo, i, true);
-        }
+        processLoadedPremiumPromo(tL_help_premiumPromo, i, true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -9010,10 +9002,12 @@ public class MediaDataController extends BaseController {
     }
 
     public void checkPremiumPromo() {
-        if (this.isLoadingPremiumPromo || Math.abs((System.currentTimeMillis() / 1000) - this.premiumPromoUpdateDate) < 3600) {
+        if (this.isLoadingPremiumPromo) {
             return;
         }
-        loadPremiumPromo(true);
+        if (this.premiumPromo == null || Math.abs((System.currentTimeMillis() / 1000) - this.premiumPromoUpdateDate) >= 3600) {
+            loadPremiumPromo(true);
+        }
     }
 
     public void checkReactions() {
@@ -12200,20 +12194,26 @@ public class MediaDataController extends BaseController {
     }
 
     public void processLoadedPremiumPromo(TLRPC.TL_help_premiumPromo tL_help_premiumPromo, int i, boolean z) {
-        this.premiumPromo = tL_help_premiumPromo;
-        this.premiumPromoUpdateDate = i;
-        getMessagesController().putUsers(tL_help_premiumPromo.users, z);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda234
-            @Override // java.lang.Runnable
-            public final void run() {
-                MediaDataController.this.lambda$processLoadedPremiumPromo$9();
-            }
-        });
-        if (!z) {
-            putPremiumPromoToCache(tL_help_premiumPromo, i);
-        } else if (Math.abs((System.currentTimeMillis() / 1000) - i) >= 86400 || BuildVars.DEBUG_PRIVATE_VERSION) {
-            loadPremiumPromo(false);
+        if (tL_help_premiumPromo != null) {
+            this.premiumPromo = tL_help_premiumPromo;
+            this.premiumPromoUpdateDate = i;
+            getMessagesController().putUsers(tL_help_premiumPromo.users, z);
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda234
+                @Override // java.lang.Runnable
+                public final void run() {
+                    MediaDataController.this.lambda$processLoadedPremiumPromo$9();
+                }
+            });
         }
+        if (z) {
+            if (tL_help_premiumPromo == null || Math.abs((System.currentTimeMillis() / 1000) - i) >= 86400) {
+                loadPremiumPromo(false);
+                return;
+            }
+        } else if (tL_help_premiumPromo != null) {
+            putPremiumPromoToCache(tL_help_premiumPromo, i);
+        }
+        this.isLoadingPremiumPromo = false;
     }
 
     public void processLoadedReactions(List<TLRPC.TL_availableReaction> list, int i, int i2, boolean z) {

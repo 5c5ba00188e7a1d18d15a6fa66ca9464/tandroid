@@ -96,16 +96,16 @@ public class SendGiftSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x015a  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x015d  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0254  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0256  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x02c6  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0307  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0378  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x03b1  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x03dc  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x03ed  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x019f  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x01a2  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x0299  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x029b  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x030c  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x034d  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x03be  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x03f8  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0424  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0435  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -259,7 +259,14 @@ public class SendGiftSheet extends BottomSheetWithRecyclerListView {
             tL_messageActionGiftCode.months = giftPremiumBottomSheet$GiftTier.getMonths();
             tL_messageActionGiftCode.flags = 4 | tL_messageActionGiftCode.flags;
             tL_messageActionGiftCode.currency = giftPremiumBottomSheet$GiftTier.getCurrency();
-            tL_messageActionGiftCode.amount = giftPremiumBottomSheet$GiftTier.getPrice();
+            long price = giftPremiumBottomSheet$GiftTier.getPrice();
+            tL_messageActionGiftCode.amount = price;
+            if (giftPremiumBottomSheet$GiftTier.googlePlayProductDetails != null) {
+                double d = price;
+                double pow = Math.pow(10.0d, BillingController.getInstance().getCurrencyExp(tL_messageActionGiftCode.currency) - 6);
+                Double.isNaN(d);
+                tL_messageActionGiftCode.amount = (long) (d * pow);
+            }
             tL_messageActionGiftCode.flags |= 16;
             tL_messageActionGiftCode.message = new TLRPC.TL_textWithEntities();
             this.action = tL_messageActionGiftCode;
@@ -458,7 +465,14 @@ public class SendGiftSheet extends BottomSheetWithRecyclerListView {
             TLRPC.TL_messageActionGiftPremium tL_messageActionGiftPremium2 = new TLRPC.TL_messageActionGiftPremium();
             tL_messageActionGiftPremium2.months = giftPremiumBottomSheet$GiftTier.getMonths();
             tL_messageActionGiftPremium2.currency = giftPremiumBottomSheet$GiftTier.getCurrency();
-            tL_messageActionGiftPremium2.amount = giftPremiumBottomSheet$GiftTier.getPrice();
+            long price2 = giftPremiumBottomSheet$GiftTier.getPrice();
+            tL_messageActionGiftPremium2.amount = price2;
+            if (giftPremiumBottomSheet$GiftTier.googlePlayProductDetails != null) {
+                double d2 = price2;
+                double pow2 = Math.pow(10.0d, BillingController.getInstance().getCurrencyExp(tL_messageActionGiftPremium2.currency) - 6);
+                Double.isNaN(d2);
+                tL_messageActionGiftPremium2.amount = (long) (d2 * pow2);
+            }
             tL_messageActionGiftPremium2.flags |= 2;
             tL_messageActionGiftPremium2.message = new TLRPC.TL_textWithEntities();
             tL_messageActionGiftPremium = tL_messageActionGiftPremium2;

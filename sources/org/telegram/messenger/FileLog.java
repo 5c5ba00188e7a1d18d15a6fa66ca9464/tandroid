@@ -488,6 +488,16 @@ public class FileLog {
                 OutputStreamWriter outputStreamWriter2 = getInstance().streamWriter;
                 outputStreamWriter2.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: \tat " + stackTrace[i] + "\n");
             }
+            Throwable cause = th.getCause();
+            if (cause != null) {
+                OutputStreamWriter outputStreamWriter3 = getInstance().streamWriter;
+                outputStreamWriter3.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: Caused by " + cause + "\n");
+                StackTraceElement[] stackTrace2 = cause.getStackTrace();
+                for (int i2 = 0; i2 < stackTrace2.length; i2++) {
+                    OutputStreamWriter outputStreamWriter4 = getInstance().streamWriter;
+                    outputStreamWriter4.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: \tat " + stackTrace2[i2] + "\n");
+                }
+            }
             getInstance().streamWriter.flush();
         } catch (Exception e) {
             e.printStackTrace();
@@ -503,6 +513,16 @@ public class FileLog {
             for (int i = 0; i < stackTrace.length; i++) {
                 OutputStreamWriter outputStreamWriter2 = getInstance().streamWriter;
                 outputStreamWriter2.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " FATAL/tmessages: \tat " + stackTrace[i] + "\n");
+            }
+            Throwable cause = th.getCause();
+            if (cause != null) {
+                OutputStreamWriter outputStreamWriter3 = getInstance().streamWriter;
+                outputStreamWriter3.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: Caused by " + cause + "\n");
+                StackTraceElement[] stackTrace2 = cause.getStackTrace();
+                for (int i2 = 0; i2 < stackTrace2.length; i2++) {
+                    OutputStreamWriter outputStreamWriter4 = getInstance().streamWriter;
+                    outputStreamWriter4.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: \tat " + stackTrace2[i2] + "\n");
+                }
             }
             getInstance().streamWriter.flush();
         } catch (Exception e) {
